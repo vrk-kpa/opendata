@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-10-29 12:43+0000\n"
+"POT-Creation-Date: 2019-11-06 11:31+0000\n"
 "PO-Revision-Date: 2018-10-17 06:12+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
@@ -19,17 +19,17 @@ msgstr ""
 "Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Feed"
-msgstr "Feed"
+msgid "Save"
+msgstr "Save"
+
+msgid "Next"
+msgstr "Next"
 
 msgid "Pages"
 msgstr "Pages"
 
 msgid "delete"
 msgstr "delete"
-
-msgid "more"
-msgstr "more"
 
 msgid "Create a new user account."
 msgstr "Create a new user account."
@@ -46,9 +46,6 @@ msgstr "Suffix"
 msgid "Approve"
 msgstr "Approve"
 
-msgid "Forms"
-msgstr "Forms"
-
 msgid "Moderated content"
 msgstr "Moderated content"
 
@@ -61,8 +58,8 @@ msgstr "Groups"
 msgid "Group"
 msgstr "Group"
 
-msgid "Type"
-msgstr "Type"
+msgid "user"
+msgstr "user"
 
 msgid "Replies"
 msgstr "Replies"
@@ -160,9 +157,6 @@ msgstr "File path"
 msgid "Release notes"
 msgstr "Release notes"
 
-msgid "File"
-msgstr "File"
-
 msgid "Links"
 msgstr "Links"
 
@@ -196,8 +190,11 @@ msgstr "- None -"
 msgid "Country"
 msgstr "Country"
 
-msgid "Username"
-msgstr "Username"
+msgid "The configuration options have been saved."
+msgstr "The configuration options have been saved."
+
+msgid "Content"
+msgstr "Content"
 
 msgid "Center"
 msgstr "Centre"
@@ -271,6 +268,9 @@ msgstr "header"
 msgid "Session opened for %name."
 msgstr "Session opened for %name."
 
+msgid "Home"
+msgstr "Home"
+
 msgid "Image settings"
 msgstr "Image settings"
 
@@ -292,8 +292,8 @@ msgstr "Blank"
 msgid "Tags"
 msgstr "Tags"
 
-msgid "Language"
-msgstr "Language"
+msgid "Operations"
+msgstr "Operations"
 
 msgid "On"
 msgstr "On"
@@ -301,8 +301,8 @@ msgstr "On"
 msgid "Body"
 msgstr "Body"
 
-msgid "List"
-msgstr "List"
+msgid "Language"
+msgstr "Language"
 
 msgid "Comments"
 msgstr "Comments"
@@ -322,8 +322,8 @@ msgstr "Register"
 msgid "Taxonomy term"
 msgstr "Taxonomy term"
 
-msgid "Content"
-msgstr "Content"
+msgid "Feed"
+msgstr "Feed"
 
 msgid "Action"
 msgstr "Action"
@@ -334,11 +334,11 @@ msgstr "Subject"
 msgid "Description"
 msgstr "Description"
 
-msgid "Preview"
-msgstr "Preview"
-
 msgid "More"
 msgstr "More"
+
+msgid "Reset"
+msgstr "Reset"
 
 msgid "Date"
 msgstr "Date"
@@ -352,44 +352,50 @@ msgstr "No log messages available."
 msgid "Name"
 msgstr "Name"
 
-msgid "Use count"
-msgstr "Use count"
-
-msgid "Sending mail to: @to"
-msgstr "Sending mail to: @to"
-
-msgid "Attachment could not be found or accessed."
-msgstr "Attachment could not be found or accessed."
-
-msgid "user"
-msgstr "user"
-
-msgid "Label"
-msgstr "Label"
+msgid "Size"
+msgstr "Size"
 
 msgid "Submit"
 msgstr "Submit"
 
-msgid "Advanced options"
-msgstr "Advanced options"
+msgid "Use count"
+msgstr "Use count"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "more"
+msgstr "more"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "File"
+msgstr "File"
+
+msgid "Username"
+msgstr "Username"
+
+msgid "List"
+msgstr "List"
+
+msgid "Preview"
+msgstr "Preview"
+
+msgid "Label"
+msgstr "Label"
+
+msgid "Weight"
+msgstr "Weight"
 
 msgid "Search"
 msgstr "Search"
 
-msgid "Taxonomy"
-msgstr "Taxonomy"
-
 msgid "Development"
 msgstr "Development"
 
-msgid "SMTP Authentication Support"
-msgstr "SMTP Authentication Support"
-
-msgid "User interface"
-msgstr "User interface"
-
-msgid "The configuration options have been saved."
-msgstr "The configuration options have been saved."
+msgid "Forms"
+msgstr "Forms"
 
 msgid "Password"
 msgstr "Password"
@@ -424,26 +430,38 @@ msgstr "Download"
 msgid "Edit"
 msgstr "Edit"
 
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Taxonomy"
+msgstr "Taxonomy"
+
+msgid "User interface"
+msgstr "User interface"
+
 msgid "Go to next page"
 msgstr "Go to next page"
-
-msgid "Home"
-msgstr "Home"
 
 msgid "not verified"
 msgstr "not verified"
 
-msgid "Link"
-msgstr "Link"
-
-msgid "Cancel"
-msgstr "Cancel"
-
-msgid "Next"
-msgstr "Next"
-
 msgid "closed"
 msgstr "closed"
+
+msgid "Sunday"
+msgstr "Sunday"
+
+msgid "Monday"
+msgstr "Monday"
+
+msgid "Tuesday"
+msgstr "Tuesday"
+
+msgid "Friday"
+msgstr "Friday"
+
+msgid "Saturday"
+msgstr "Saturday"
 
 msgid "Core"
 msgstr "Core"
@@ -463,8 +481,14 @@ msgstr "Artist"
 msgid "Add new"
 msgstr "Add new"
 
+msgid "Time"
+msgstr "Time"
+
 msgid "Access"
 msgstr "Access"
+
+msgid "View"
+msgstr "View"
 
 msgid "Length"
 msgstr "Length"
@@ -477,9 +501,6 @@ msgstr "History"
 
 msgid "hidden"
 msgstr "hidden"
-
-msgid "All"
-msgstr "All"
 
 msgid "File extensions"
 msgstr "File extensions"
@@ -577,9 +598,6 @@ msgstr "Statistics"
 msgid "Advanced search"
 msgstr "Advanced search"
 
-msgid "You are not authorized to access this page."
-msgstr "You are not authorized to access this page."
-
 msgid "Unknown"
 msgstr "Unknown"
 
@@ -610,8 +628,11 @@ msgstr "Database type"
 msgid "action"
 msgstr "action"
 
-msgid "Attachment"
-msgstr "Attachment"
+msgid "Continue"
+msgstr "Continue"
+
+msgid "Small"
+msgstr "Small"
 
 msgid "Error"
 msgstr "Error"
@@ -664,6 +685,9 @@ msgstr "term"
 msgid "Expanded"
 msgstr "Expanded"
 
+msgid "Parent item"
+msgstr "Parent item"
+
 msgid "Add child page"
 msgstr "Add child page"
 
@@ -682,11 +706,11 @@ msgstr "Remove from outline"
 msgid "Unknown export format."
 msgstr "Unknown export format."
 
+msgid "Done"
+msgstr "Done"
+
 msgid "Last post"
 msgstr "Last post"
-
-msgid "Access denied"
-msgstr "Access denied"
 
 msgid "Year"
 msgstr "Year"
@@ -694,8 +718,11 @@ msgstr "Year"
 msgid "Area"
 msgstr "Area"
 
-msgid "Active"
-msgstr "Active"
+msgid "User"
+msgstr "User"
+
+msgid "Created"
+msgstr "Created"
 
 msgid "Override title"
 msgstr "Override title"
@@ -705,13 +732,6 @@ msgstr "CSS class"
 
 msgid "Add view"
 msgstr "Add view"
-
-msgid ""
-"A user is considered online for this long after they have last viewed a "
-"page."
-msgstr ""
-"A user is considered online for this long after they have last viewed a "
-"page."
 
 msgid "Pager ID"
 msgstr "Pager ID"
@@ -761,8 +781,8 @@ msgstr "Module"
 msgid "Host"
 msgstr "Host"
 
-msgid "Menu"
-msgstr "Menu"
+msgid "Options"
+msgstr "Options"
 
 msgid "Off"
 msgstr "Off"
@@ -776,41 +796,44 @@ msgstr "RSS"
 msgid "Teaser"
 msgstr "Teaser"
 
-msgid "Date format"
-msgstr "Date format"
+msgid "Updated"
+msgstr "Updated"
 
-msgid "Content type"
-msgstr "Content type"
+msgid "All"
+msgstr "All"
 
 msgid "Icon"
 msgstr "Icon"
 
-msgid "file"
-msgstr "file"
+msgid "Menu"
+msgstr "Menu"
 
-msgid "User"
-msgstr "User"
+msgid "Filename"
+msgstr "Filename"
+
+msgid "Wednesday"
+msgstr "Wednesday"
 
 msgid "Archive"
 msgstr "Archive"
 
-msgid "Updated"
-msgstr "Updated"
+msgid "Content type"
+msgstr "Content type"
 
-msgid "Form ID"
-msgstr "Form ID"
+msgid "Attachment"
+msgstr "Attachment"
 
-msgid "Options"
-msgstr "Options"
+msgid "Active"
+msgstr "Active"
+
+msgid "Date format"
+msgstr "Date format"
+
+msgid "Page"
+msgstr "Page"
 
 msgid "Components"
 msgstr "Components"
-
-msgid "Views"
-msgstr "Views"
-
-msgid "Manage"
-msgstr "Manage"
 
 msgid "Contact"
 msgstr "Contact"
@@ -824,63 +847,42 @@ msgstr "Add"
 msgid "Create"
 msgstr "Create"
 
+msgid "Manage"
+msgstr "Manage"
+
 msgid "Configure"
 msgstr "Configure"
-
-msgid "PHP"
-msgstr "PHP"
-
-msgid "Breadcrumb"
-msgstr "Breadcrumb"
 
 msgid "1 hour"
 msgid_plural "@count hours"
 msgstr[0] "1 hour"
 msgstr[1] "@count hours"
 
+msgid "Thursday"
+msgstr "Thursday"
+
+msgid "Views"
+msgstr "Views"
+
+msgid "Breadcrumb"
+msgstr "Breadcrumb"
+
+msgid "Add content"
+msgstr "Add content"
+
 msgid "1 day"
 msgid_plural "@count days"
 msgstr[0] "1 day"
 msgstr[1] "@count days"
 
-msgid "Add content"
-msgstr "Add content"
+msgid "PHP"
+msgstr "PHP"
 
-msgid "Parent item"
-msgstr "Parent item"
+msgid "You are not authorized to access this page."
+msgstr "You are not authorized to access this page."
 
-msgid "Time"
-msgstr "Time"
-
-msgid "View"
-msgstr "View"
-
-msgid "Tuesday"
-msgstr "Tuesday"
-
-msgid "Done"
-msgstr "Done"
-
-msgid "Sunday"
-msgstr "Sunday"
-
-msgid "Monday"
-msgstr "Monday"
-
-msgid "Wednesday"
-msgstr "Wednesday"
-
-msgid "Thursday"
-msgstr "Thursday"
-
-msgid "Friday"
-msgstr "Friday"
-
-msgid "Saturday"
-msgstr "Saturday"
-
-msgid "Continue"
-msgstr "Continue"
+msgid "Access denied"
+msgstr "Access denied"
 
 msgid "PostgreSQL"
 msgstr "PostgreSQL"
@@ -893,9 +895,6 @@ msgstr "Never"
 
 msgid "Check manually"
 msgstr "Check manually"
-
-msgid "Up to date"
-msgstr "Up to date"
 
 msgid "Update available"
 msgstr "Update available"
@@ -957,9 +956,6 @@ msgstr "Hostname"
 msgid "Score"
 msgstr "Score"
 
-msgid "Last access"
-msgstr "Last access"
-
 msgid "Signature"
 msgstr "Signature"
 
@@ -975,11 +971,20 @@ msgstr "Locale"
 msgid "Title field label"
 msgstr "Title field label"
 
-msgid "From"
-msgstr "From"
+msgid "Up to date"
+msgstr "Up to date"
+
+msgid "Sticky at top of lists"
+msgstr "Sticky at top of lists"
+
+msgid "Revisions"
+msgstr "Revisions"
 
 msgid "Log message"
 msgstr "Log message"
+
+msgid "URL alias"
+msgstr "URL alias"
 
 msgid "File MIME type"
 msgstr "File MIME type"
@@ -998,9 +1003,6 @@ msgstr "User role"
 
 msgid "Role name"
 msgstr "Role name"
-
-msgid "Time zone"
-msgstr "Time zone"
 
 msgid "Field name"
 msgstr "Field name"
@@ -1059,8 +1061,8 @@ msgstr "Original image"
 msgid "Link to URL"
 msgstr "Link to URL"
 
-msgid "Last update"
-msgstr "Last update"
+msgid ", "
+msgstr ", "
 
 msgid "Search settings"
 msgstr "Search settings"
@@ -1107,6 +1109,9 @@ msgstr "%time ago"
 msgid "%time left"
 msgstr "%time left"
 
+msgid "Authored by"
+msgstr "Authored by"
+
 msgid "Processor"
 msgstr "Processor"
 
@@ -1152,6 +1157,9 @@ msgstr "Sortable"
 msgid "standard"
 msgstr "standard"
 
+msgid "Caching"
+msgstr "Caching"
+
 msgid "Month"
 msgstr "Month"
 
@@ -1163,6 +1171,9 @@ msgstr "Widget"
 
 msgid "Last reply"
 msgstr "Last reply"
+
+msgid "Prev"
+msgstr "Prev"
 
 msgid "Domain"
 msgstr "Domain"
@@ -1178,9 +1189,6 @@ msgstr "Current"
 
 msgid "State"
 msgstr "State"
-
-msgid "Revision ID"
-msgstr "Revision ID"
 
 msgid "Filter by"
 msgstr "Filter by"
@@ -1218,8 +1226,8 @@ msgstr "Egypt"
 msgid "Namibia"
 msgstr "Namibia"
 
-msgid "Roles"
-msgstr "Roles"
+msgid "To"
+msgstr "To"
 
 msgid "Comment"
 msgstr "Comment"
@@ -1230,29 +1238,41 @@ msgstr "Plain text"
 msgid "Footer"
 msgstr "Footer"
 
-msgid "Initializing."
-msgstr "Initializing."
+msgid "Last access"
+msgstr "Last access"
 
-msgid "Fields"
-msgstr "Fields"
+msgid "Revision ID"
+msgstr "Revision ID"
 
-msgid "Starting configuration update"
-msgstr "Starting configuration update"
+msgid "From"
+msgstr "From"
 
 msgid "Severity"
 msgstr "Severity"
 
-msgid "Advanced"
-msgstr "Advanced"
+msgid "Published"
+msgstr "Published"
 
-msgid "Nodes"
-msgstr "Nodes"
+msgid "Last update"
+msgstr "Last update"
+
+msgid "Roles"
+msgstr "Roles"
+
+msgid "Vocabulary"
+msgstr "Vocabulary"
+
+msgid "Fields"
+msgstr "Fields"
 
 msgid "Filter"
 msgstr "Filter"
 
-msgid ", "
-msgstr ", "
+msgid "Desc"
+msgstr "Desc"
+
+msgid "Advanced"
+msgstr "Advanced"
 
 msgid "General"
 msgstr "General"
@@ -1269,29 +1289,14 @@ msgstr "System"
 msgid "Available updates"
 msgstr "Available updates"
 
+msgid "Time zone"
+msgstr "Time zone"
+
 msgid "Drupal core update status"
 msgstr "Drupal core update status"
 
-msgid "Caching"
-msgstr "Caching"
-
-msgid "Authored by"
-msgstr "Authored by"
-
-msgid "URL alias"
-msgstr "URL alias"
-
-msgid "Sticky at top of lists"
-msgstr "Sticky at top of lists"
-
-msgid "Revisions"
-msgstr "Revisions"
-
 msgid "Source string"
 msgstr "Source string"
-
-msgid "Prev"
-msgstr "Prev"
 
 msgid "Israel"
 msgstr "Israel"
@@ -1343,6 +1348,24 @@ msgstr "Day"
 
 msgid "Table"
 msgstr "Table"
+
+msgid "Mon"
+msgstr "Mon"
+
+msgid "Tue"
+msgstr "Tue"
+
+msgid "Fri"
+msgstr "Fri"
+
+msgid "Sat"
+msgstr "Sat"
+
+msgid "Sun"
+msgstr "Sun"
+
+msgid "May"
+msgstr "May"
 
 msgid "am"
 msgstr "am"
@@ -1437,8 +1460,8 @@ msgstr "Not installed"
 msgid "Referrer"
 msgstr "Referrer"
 
-msgid "Custom block type"
-msgstr "Custom block type"
+msgid "Large"
+msgstr "Large"
 
 msgid "Default front page"
 msgstr "Default front page"
@@ -1470,8 +1493,8 @@ msgstr "Provider"
 msgid "Save and edit"
 msgstr "Save and edit"
 
-msgid "Tracker"
-msgstr "Tracker"
+msgid "Icons"
+msgstr "Icons"
 
 msgid "Edit view"
 msgstr "Edit view"
@@ -1541,6 +1564,9 @@ msgstr "Anonymous users"
 
 msgid "Found"
 msgstr "Found"
+
+msgid "Clear cache"
+msgstr "Clear cache"
 
 msgid "fields"
 msgstr "fields"
@@ -1682,8 +1708,8 @@ msgstr "Bouvet Island"
 msgid "Brunei"
 msgstr "Brunei"
 
-msgid "Users"
-msgstr "Users"
+msgid "Down"
+msgstr "Down"
 
 msgid "Anonymous"
 msgstr "Anonymous"
@@ -1691,24 +1717,35 @@ msgstr "Anonymous"
 msgid "Full"
 msgstr "Full"
 
-msgid "Role"
-msgstr "Role"
+msgid "Tracker"
+msgstr "Tracker"
 
 msgid "Recent comments"
 msgstr "Recent comments"
 
+msgid "Users"
+msgstr "Users"
+
+msgid "Role"
+msgstr "Role"
+
 msgid "Sort Criteria"
 msgstr "Sort Criteria"
 
-msgctxt "View entity type"
-msgid "View"
-msgstr "View"
+msgid "Wed"
+msgstr "Wed"
 
 msgid "Thu"
 msgstr "Thu"
 
-msgid "Close"
-msgstr "Close"
+msgid "Uninstall"
+msgstr "Uninstall"
+
+msgid "Log in"
+msgstr "Log in"
+
+msgid "Install"
+msgstr "Install"
 
 msgid "Appearance"
 msgstr "Appearance"
@@ -1716,38 +1753,8 @@ msgstr "Appearance"
 msgid "Configuration"
 msgstr "Configuration"
 
-msgid "Log in"
-msgstr "Log in"
-
-msgid "Tue"
-msgstr "Tue"
-
-msgid "Uninstall"
-msgstr "Uninstall"
-
-msgid "Install"
-msgstr "Install"
-
-msgid "Clear cache"
-msgstr "Clear cache"
-
-msgid "May"
-msgstr "May"
-
-msgid "Sun"
-msgstr "Sun"
-
-msgid "Mon"
-msgstr "Mon"
-
-msgid "Wed"
-msgstr "Wed"
-
-msgid "Fri"
-msgstr "Fri"
-
-msgid "Sat"
-msgstr "Sat"
+msgid "Close"
+msgstr "Close"
 
 msgid "Bulgaria"
 msgstr "Bulgaria"
@@ -2238,9 +2245,6 @@ msgstr "Zimbabwe"
 msgid "Identity"
 msgstr "Identity"
 
-msgid "Modified"
-msgstr "Modified"
-
 msgid "Database username"
 msgstr "Database username"
 
@@ -2261,6 +2265,15 @@ msgstr "Regular expression"
 
 msgid "Size of textfield"
 msgstr "Size of textfield"
+
+msgid "Authoring information"
+msgstr "Authoring information"
+
+msgid "Authored on"
+msgstr "Authored on"
+
+msgid "Leave blank for %anonymous."
+msgstr "Leave blank for %anonymous."
 
 msgid "Hidden"
 msgstr "Hidden"
@@ -2298,8 +2311,8 @@ msgstr "Site language"
 msgid "Change"
 msgstr "Change"
 
-msgid "Vocabulary"
-msgstr "Vocabulary"
+msgid "Log out"
+msgstr "Log out"
 
 msgid "Spanish"
 msgstr "Spanish"
@@ -2423,6 +2436,9 @@ msgstr "Allowed values list"
 msgid "Textfield size"
 msgstr "Textfield size"
 
+msgid "Today"
+msgstr "Today"
+
 msgid "Activity"
 msgstr "Activity"
 
@@ -2434,6 +2450,9 @@ msgstr "Delete menu"
 
 msgid "Publishing options"
 msgstr "Publishing options"
+
+msgid "Create new revision"
+msgstr "Create new revision"
 
 msgid "Lists"
 msgstr "Lists"
@@ -2450,9 +2469,6 @@ msgstr "Minimum width"
 msgid "Query"
 msgstr "Query"
 
-msgid "Locale settings"
-msgstr "Locale settings"
-
 msgid "Search fields"
 msgstr "Search fields"
 
@@ -2464,6 +2480,39 @@ msgstr "Block name"
 
 msgid "How many content items to display in \"day\" list."
 msgstr "How many content items to display in \"day\" list."
+
+msgid "Jan"
+msgstr "Jan"
+
+msgid "Feb"
+msgstr "Feb"
+
+msgid "Mar"
+msgstr "Mar"
+
+msgid "Apr"
+msgstr "Apr"
+
+msgid "Jun"
+msgstr "Jun"
+
+msgid "Jul"
+msgstr "Jul"
+
+msgid "Aug"
+msgstr "Aug"
+
+msgid "Sep"
+msgstr "Sep"
+
+msgid "Oct"
+msgstr "Oct"
+
+msgid "Nov"
+msgstr "Nov"
+
+msgid "Dec"
+msgstr "Dec"
 
 msgid "Hour"
 msgstr "Hour"
@@ -2503,9 +2552,6 @@ msgstr "Randomize"
 
 msgid "Link label"
 msgstr "Link label"
-
-msgid "Member for"
-msgstr "Member for"
 
 msgid "AND"
 msgstr "AND"
@@ -2552,6 +2598,27 @@ msgstr "Number of most recent views to display"
 msgid "characters"
 msgstr "characters"
 
+msgid "Su"
+msgstr "Su"
+
+msgid "Mo"
+msgstr "Mo"
+
+msgid "Tu"
+msgstr "Tu"
+
+msgid "We"
+msgstr "We"
+
+msgid "Th"
+msgstr "Th"
+
+msgid "Fr"
+msgstr "Fr"
+
+msgid "Sa"
+msgstr "Sa"
+
 msgid "First day of week"
 msgstr "First day of week"
 
@@ -2573,23 +2640,29 @@ msgstr "Right"
 msgid "next ›"
 msgstr "next ›"
 
+msgid "Front page"
+msgstr "Front page"
+
 msgid "Buttons"
 msgstr "Buttons"
 
-msgid "‹ previous"
-msgstr "‹ previous"
+msgid "Entity"
+msgstr "Entity"
 
 msgid "Languages"
 msgstr "Languages"
 
-msgid "Front page"
-msgstr "Front page"
+msgid "Member for"
+msgstr "Member for"
 
-msgid "Log out"
-msgstr "Log out"
+msgid "Workflow"
+msgstr "Workflow"
 
-msgid "View user profile."
-msgstr "View user profile."
+msgid "Modified"
+msgstr "Modified"
+
+msgid "Locale settings"
+msgstr "Locale settings"
 
 msgid "Show"
 msgstr "Show"
@@ -2597,83 +2670,17 @@ msgstr "Show"
 msgid "author"
 msgstr "author"
 
-msgid "Create new revision"
-msgstr "Create new revision"
+msgid "View user profile."
+msgstr "View user profile."
 
-msgid "Select all rows in this table"
-msgstr "Select all rows in this table"
-
-msgid "Leave blank for %anonymous."
-msgstr "Leave blank for %anonymous."
-
-msgid "Authored on"
-msgstr "Authored on"
-
-msgid "Authoring information"
-msgstr "Authoring information"
+msgid "Deselect all rows in this table"
+msgstr "Deselect all rows in this table"
 
 msgid "Extend"
 msgstr "Extend"
 
-msgid "Today"
-msgstr "Today"
-
-msgid "Jan"
-msgstr "Jan"
-
-msgid "Feb"
-msgstr "Feb"
-
-msgid "Mar"
-msgstr "Mar"
-
-msgid "Apr"
-msgstr "Apr"
-
-msgid "Jun"
-msgstr "Jun"
-
-msgid "Jul"
-msgstr "Jul"
-
-msgid "Aug"
-msgstr "Aug"
-
-msgid "Sep"
-msgstr "Sep"
-
-msgid "Oct"
-msgstr "Oct"
-
-msgid "Nov"
-msgstr "Nov"
-
-msgid "Dec"
-msgstr "Dec"
-
-msgid "Su"
-msgstr "Su"
-
-msgid "Mo"
-msgstr "Mo"
-
-msgid "Tu"
-msgstr "Tu"
-
-msgid "We"
-msgstr "We"
-
-msgid "Fr"
-msgstr "Fr"
-
-msgid "Sa"
-msgstr "Sa"
-
-msgid "Next ›"
-msgstr "Next ›"
-
-msgid "Create new account"
-msgstr "Create new account"
+msgid "Solid"
+msgstr "Solid"
 
 msgid "Seconds"
 msgstr "Seconds"
@@ -2713,6 +2720,9 @@ msgstr "or"
 
 msgid "Getting Started"
 msgstr "Getting Started"
+
+msgid "Aggregate JavaScript files"
+msgstr "Aggregate JavaScript files"
 
 msgid "Convert"
 msgstr "Convert"
@@ -2862,6 +2872,9 @@ msgstr "Not published"
 msgid "File settings"
 msgstr "File settings"
 
+msgid "Menu settings"
+msgstr "Menu settings"
+
 msgid "Color scheme"
 msgstr "Color scheme"
 
@@ -2961,9 +2974,6 @@ msgstr "JPEG quality"
 msgid "%"
 msgstr "%"
 
-msgid "Custom menu link"
-msgstr "Custom menu link"
-
 msgid "Content options"
 msgstr "Content options"
 
@@ -2972,6 +2982,9 @@ msgstr "Last changed"
 
 msgid "not published"
 msgstr "not published"
+
+msgid "Loading..."
+msgstr "Loading..."
 
 msgid "Protected"
 msgstr "Protected"
@@ -2988,14 +3001,11 @@ msgstr "Default options"
 msgid "Ok"
 msgstr "Ok"
 
-msgid "Contact settings"
-msgstr "Contact settings"
-
 msgid "Ban"
 msgstr "Ban"
 
-msgid "‹ Previous"
-msgstr "‹ Previous"
+msgid "Light"
+msgstr "Light"
 
 msgid "Processing"
 msgstr "Processing"
@@ -3033,17 +3043,17 @@ msgstr "Image crop"
 msgid "@message"
 msgstr "@message"
 
-msgid "Glossary"
-msgstr "Glossary"
+msgid "‹ Previous"
+msgstr "‹ Previous"
 
-msgid "People"
-msgstr "People"
+msgid "Next ›"
+msgstr "Next ›"
 
 msgid "Anonymous user"
 msgstr "Anonymous user"
 
-msgid "Blocked"
-msgstr "Blocked"
+msgid "Contact settings"
+msgstr "Contact settings"
 
 msgid "Published comments"
 msgstr "Published comments"
@@ -3051,11 +3061,20 @@ msgstr "Published comments"
 msgid "Author Name"
 msgstr "Author Name"
 
+msgid "Unpublished"
+msgstr "Unpublished"
+
+msgid "Glossary"
+msgstr "Glossary"
+
+msgid "People"
+msgstr "People"
+
+msgid "Blocked"
+msgstr "Blocked"
+
 msgid "Output format"
 msgstr "Output format"
-
-msgid "Token"
-msgstr "Token"
 
 msgid "Reset password"
 msgstr "Reset password"
@@ -3066,23 +3085,20 @@ msgstr "Cron"
 msgid "Shortcuts"
 msgstr "Shortcuts"
 
-msgid "Menu settings"
-msgstr "Menu settings"
-
-msgid "Aggregate JavaScript files"
-msgstr "Aggregate JavaScript files"
-
 msgid "Next page"
 msgstr "Next page"
 
-msgid "Loading..."
-msgstr "Loading..."
+msgid "Create new account"
+msgstr "Create new account"
 
 msgid "Changed"
 msgstr "Changed"
 
 msgid "Enabled modules"
 msgstr "Enabled modules"
+
+msgid "Animation"
+msgstr "Animation"
 
 msgid "Not translated"
 msgstr "Not translated"
@@ -3231,9 +3247,6 @@ msgstr "Trimmed"
 
 msgid "Text area"
 msgstr "Text area"
-
-msgid "Apply"
-msgstr "Apply"
 
 msgid "Add a new field"
 msgstr "Add a new field"
@@ -3398,14 +3411,19 @@ msgstr "Copyright"
 msgid "Not present"
 msgstr "Not present"
 
-msgid "Small"
-msgstr "Small"
+msgid "Local"
+msgstr "Local"
 
 msgid "Source code"
 msgstr "Source code"
 
 msgid "Contact link"
 msgstr "Contact link"
+
+msgid "1 second"
+msgid_plural "@count seconds"
+msgstr[0] "1 second"
+msgstr[1] "@count seconds"
 
 msgid "Edit container"
 msgstr "Edit container"
@@ -3422,6 +3440,9 @@ msgstr "Indent"
 msgid "Outdent"
 msgstr "Outdent"
 
+msgid "Unlink"
+msgstr "Unlink"
+
 msgid "Thread"
 msgstr "Thread"
 
@@ -3431,14 +3452,17 @@ msgstr "Reply"
 msgid "Hot topic threshold"
 msgstr "Hot topic threshold"
 
-msgid "Permission"
-msgstr "Permission"
+msgid "Unpublish"
+msgstr "Unpublish"
 
-msgid "Large"
-msgstr "Large"
+msgid "Apply"
+msgstr "Apply"
 
 msgid "Block description"
 msgstr "Block description"
+
+msgid "Used in"
+msgstr "Used in"
 
 msgid "Language code"
 msgstr "Language code"
@@ -3446,11 +3470,8 @@ msgstr "Language code"
 msgid "Translation"
 msgstr "Translation"
 
-msgid "Translation language"
-msgstr "Translation language"
-
-msgid "Unpublish"
-msgstr "Unpublish"
+msgid "Permission"
+msgstr "Permission"
 
 msgid "Copy"
 msgstr "Copy"
@@ -3458,10 +3479,8 @@ msgstr "Copy"
 msgid "Global"
 msgstr "Global"
 
-msgid "1 second"
-msgid_plural "@count seconds"
-msgstr[0] "1 second"
-msgstr[1] "@count seconds"
+msgid "Add another item"
+msgstr "Add another item"
 
 msgid ""
 "Configure what block content appears in your site's sidebars and other "
@@ -3472,12 +3491,6 @@ msgstr ""
 
 msgid "Edit profile"
 msgstr "Edit profile"
-
-msgid "Unlink"
-msgstr "Unlink"
-
-msgid "Add another item"
-msgstr "Add another item"
 
 msgid "Hide"
 msgstr "Hide"
@@ -3527,6 +3540,9 @@ msgstr "New forum topics"
 msgid "@type: deleted %title revision %revision."
 msgstr "@type: deleted %title revision %revision."
 
+msgid "Page not found"
+msgstr "Page not found"
+
 msgid "More help"
 msgstr "More help"
 
@@ -3539,8 +3555,8 @@ msgstr "Account blocked"
 msgid "Expand"
 msgstr "Expand"
 
-msgid "Taxonomy vocabulary"
-msgstr "Taxonomy vocabulary"
+msgid "Variants"
+msgstr "Variants"
 
 msgid "Change layout"
 msgstr "Change layout"
@@ -3686,6 +3702,9 @@ msgstr "HTTP authentication"
 msgid "Attach to"
 msgstr "Attach to"
 
+msgid "Libraries"
+msgstr "Libraries"
+
 msgid "Context"
 msgstr "Context"
 
@@ -3713,6 +3732,11 @@ msgid "1 week"
 msgid_plural "@count weeks"
 msgstr[0] "1 week"
 msgstr[1] "@count weeks"
+
+msgid "1 min"
+msgid_plural "@count min"
+msgstr[0] "1 min"
+msgstr[1] "@count min"
 
 msgid "1 sec"
 msgid_plural "@count sec"
@@ -3851,8 +3875,8 @@ msgstr ""
 msgid "Display the depth of the comment if it is threaded."
 msgstr "Display the depth of the comment if it is threaded."
 
-msgid "My account"
-msgstr "My account"
+msgid "Taxonomy vocabulary"
+msgstr "Taxonomy vocabulary"
 
 msgid "No comments available."
 msgstr "No comments available."
@@ -3863,17 +3887,11 @@ msgstr "last »"
 msgid "Extension"
 msgstr "Extension"
 
-msgid "Icons"
-msgstr "Icons"
+msgid "Account settings"
+msgstr "Account settings"
 
-msgid "Down"
-msgstr "Down"
-
-msgid "Solid"
-msgstr "Solid"
-
-msgid "Light"
-msgstr "Light"
+msgid "Token"
+msgstr "Token"
 
 msgid "Machine name"
 msgstr "Machine name"
@@ -3881,16 +3899,11 @@ msgstr "Machine name"
 msgid "Offset"
 msgstr "Offset"
 
-msgid "Page not found"
-msgstr "Page not found"
+msgid "My account"
+msgstr "My account"
 
 msgid "GD library"
 msgstr "GD library"
-
-msgid "1 min"
-msgid_plural "@count min"
-msgstr[0] "1 min"
-msgstr[1] "@count min"
 
 msgid ""
 "Your version of Drupal has been revoked and is no longer available for "
@@ -4175,9 +4188,6 @@ msgstr "Indexes"
 msgid "Cardinality"
 msgstr "Cardinality"
 
-msgid "Animation"
-msgstr "Animation"
-
 msgid "There is 1 item left to index."
 msgid_plural "There are @count items left to index."
 msgstr[0] "There is 1 item left to index."
@@ -4204,8 +4214,8 @@ msgstr "Action type"
 msgid "Display a message to the user"
 msgstr "Display a message to the user"
 
-msgid "Local"
-msgstr "Local"
+msgid "Content ID"
+msgstr "Content ID"
 
 msgid "Unpublish comment containing keyword(s)"
 msgstr "Unpublish comment containing keyword(s)"
@@ -4247,6 +4257,9 @@ msgstr "Synchronize"
 msgid "Set as default"
 msgstr "Set as default"
 
+msgid "Not promoted"
+msgstr "Not promoted"
+
 msgid "Not sticky"
 msgstr "Not sticky"
 
@@ -4268,8 +4281,14 @@ msgstr "Skip to main content"
 msgid "Publish content"
 msgstr "Publish content"
 
+msgid "Fid"
+msgstr "Fid"
+
 msgid "Reports"
 msgstr "Reports"
+
+msgid "sort by @s"
+msgstr "sort by @s"
 
 msgid "Web server"
 msgstr "Web server"
@@ -4279,12 +4298,6 @@ msgstr "Compress layout by hiding descriptions."
 
 msgid "Hide descriptions"
 msgstr "Hide descriptions"
-
-msgid "sort by @s"
-msgstr "sort by @s"
-
-msgid "Not promoted"
-msgstr "Not promoted"
 
 msgid ""
 "Sort by the threaded order. This will keep child comments together with "
@@ -4329,6 +4342,9 @@ msgstr "View settings"
 msgid "Week @week"
 msgstr "Week @week"
 
+msgid "mm/dd/yy"
+msgstr "mm/dd/yy"
+
 msgid "Delete view"
 msgstr "Delete view"
 
@@ -4358,6 +4374,9 @@ msgstr "Crop"
 
 msgid "Not enabled"
 msgstr "Not enabled"
+
+msgid "Insert Image"
+msgstr "Insert Image"
 
 msgid ""
 "Instructions to present to the user below this field on the editing form.<br"
@@ -4417,9 +4436,6 @@ msgstr "Manage your site's book outlines."
 msgid "For security reasons, your upload has been renamed to %filename."
 msgstr "For security reasons, your upload has been renamed to %filename."
 
-msgid "Variants"
-msgstr "Variants"
-
 msgid "vocabulary"
 msgstr "vocabulary"
 
@@ -4444,8 +4460,8 @@ msgstr "No vocabularies available."
 msgid "original"
 msgstr "original"
 
-msgid "Libraries"
-msgstr "Libraries"
+msgid "custom block"
+msgstr "custom block"
 
 msgid "Starting level"
 msgstr "Starting level"
@@ -4503,9 +4519,6 @@ msgstr "Current state"
 msgid "The date the node was last updated."
 msgstr "The date the node was last updated."
 
-msgid "Direction"
-msgstr "Direction"
-
 msgid "Drupal core"
 msgstr "Drupal core"
 
@@ -4536,8 +4549,8 @@ msgstr "Confirm password"
 msgid "button"
 msgstr "button"
 
-msgid "Save"
-msgstr "Save"
+msgid "comment"
+msgstr "comment"
 
 msgid "Default display order"
 msgstr "Default display order"
@@ -4574,9 +4587,6 @@ msgstr "Tristan da Cunha"
 
 msgid "Role ID."
 msgstr "Role ID."
-
-msgid "Run cron"
-msgstr "Run cron"
 
 msgid "Run updates"
 msgstr "Run updates"
@@ -4630,6 +4640,12 @@ msgstr "New set"
 msgid "No link"
 msgstr "No link"
 
+msgid "Add Link"
+msgstr "Add Link"
+
+msgid "Edit Link"
+msgstr "Edit Link"
+
 msgid "outdated"
 msgstr "outdated"
 
@@ -4666,11 +4682,11 @@ msgstr "User account"
 msgid "Block type"
 msgstr "Block type"
 
+msgid "Entity type"
+msgstr "Entity type"
+
 msgid "Translate"
 msgstr "Translate"
-
-msgid "Manage tagging, categorization, and classification of your content."
-msgstr "Manage tagging, categorization, and classification of your content."
 
 msgid "Admin menu"
 msgstr "Admin menu"
@@ -4678,17 +4694,11 @@ msgstr "Admin menu"
 msgid "Tour"
 msgstr "Tour"
 
-msgid "Insert Image"
-msgstr "Insert Image"
+msgid "Run cron"
+msgstr "Run cron"
 
-msgid "Edit Link"
-msgstr "Edit Link"
-
-msgid "mm/dd/yy"
-msgstr "mm/dd/yy"
-
-msgid "Add Link"
-msgstr "Add Link"
+msgid "Direction"
+msgstr "Direction"
 
 msgid "Save translations"
 msgstr "Save translations"
@@ -4729,8 +4739,8 @@ msgstr "Timor-Leste"
 msgid "Åland Islands"
 msgstr "Åland Islands"
 
-msgid "Form mode"
-msgstr "Form mode"
+msgid "file"
+msgstr "file"
 
 msgid "Properties"
 msgstr "Properties"
@@ -4767,16 +4777,6 @@ msgstr "Bundle"
 msgid "Decimal point"
 msgstr "Decimal point"
 
-msgid "Frontpage"
-msgstr "Home"
-
-msgid ""
-"The %dependency library, which the %library library depends on, is not "
-"installed."
-msgstr ""
-"The %dependency library, which the %library library depends on, is not "
-"installed."
-
 msgid "Configuration name"
 msgstr "Configuration name"
 
@@ -4791,6 +4791,9 @@ msgstr "Book outline"
 
 msgid "This will be the top-level page in this book."
 msgstr "This will be the top-level page in this book."
+
+msgid "Revision information"
+msgstr "Revision information"
 
 msgid "Notify user of new account"
 msgstr "Notify user of new account"
@@ -4887,8 +4890,8 @@ msgstr "List links"
 msgid "Text settings"
 msgstr "Text settings"
 
-msgid "custom block"
-msgstr "custom block"
+msgid "Enter your @s username."
+msgstr "Enter your @s username."
 
 msgid "Ends with"
 msgstr "Ends with"
@@ -4902,9 +4905,6 @@ msgid ""
 msgstr ""
 "Comment: unauthorized comment submitted or comment submitted to a closed "
 "post %subject."
-
-msgid "comment"
-msgstr "comment"
 
 msgid "Link this field to its user"
 msgstr "Link this field to its user"
@@ -4952,6 +4952,9 @@ msgstr "The MIME type of the file."
 
 msgid "@type %title has been created."
 msgstr "@type %title has been created."
+
+msgid "@type %title has been updated."
+msgstr "@type %title has been updated."
 
 msgid "The post could not be saved."
 msgstr "The post could not be saved."
@@ -5069,8 +5072,8 @@ msgstr "The comment body."
 msgid "Default argument"
 msgstr "Default argument"
 
-msgid "File system"
-msgstr "File system"
+msgid "Form mode"
+msgstr "Form mode"
 
 msgid "Secondary tabs"
 msgstr "Secondary tabs"
@@ -5087,23 +5090,29 @@ msgstr "Search index"
 msgid "Posted in"
 msgstr "Posted in"
 
+msgid "Temporary"
+msgstr "Temporary"
+
+msgid "Permanent"
+msgstr "Permanent"
+
+msgid "Upload date"
+msgstr "Upload date"
+
 msgid "No files available."
 msgstr "No files available."
+
+msgid "Frontpage"
+msgstr "Home"
+
+msgid "File system"
+msgstr "File system"
 
 msgid "Status report"
 msgstr "Status report"
 
-msgid "Enter your @s username."
-msgstr "Enter your @s username."
-
 msgid "PHP extensions"
 msgstr "PHP extensions"
-
-msgid "Revision information"
-msgstr "Revision information"
-
-msgid "@type %title has been updated."
-msgstr "@type %title has been updated."
 
 msgid "Add language"
 msgstr "Add language"
@@ -5159,8 +5168,26 @@ msgstr "Not in book"
 msgid "New book"
 msgstr "New book"
 
+msgid "By @name on @date"
+msgstr "By @name on @date"
+
+msgid "By @name"
+msgstr "By @name"
+
+msgid "Not in menu"
+msgstr "Not in menu"
+
+msgid "Alias: @alias"
+msgstr "Alias: @alias"
+
+msgid "No alias"
+msgstr "No alias"
+
 msgid "Source language"
 msgstr "Source language"
+
+msgid "Current date"
+msgstr "Current date"
 
 msgid "An error has occurred."
 msgstr "An error has occurred."
@@ -5203,6 +5230,9 @@ msgstr "Filter log messages"
 
 msgid "You must select something to filter by."
 msgstr "You must select something to filter by."
+
+msgid "New revision"
+msgstr "New revision"
 
 msgid "Callback"
 msgstr "Callback"
@@ -5461,29 +5491,8 @@ msgstr "Limit list to selected items"
 msgid "Delete the selected comments"
 msgstr "Delete the selected comments"
 
-msgid "Current date"
-msgstr "Current date"
-
 msgid "- Any -"
 msgstr "- Any -"
-
-msgid "Alias: @alias"
-msgstr "Alias: @alias"
-
-msgid "New revision"
-msgstr "New revision"
-
-msgid "By @name on @date"
-msgstr "By @name on @date"
-
-msgid "By @name"
-msgstr "By @name"
-
-msgid "No alias"
-msgstr "No alias"
-
-msgid "Not in menu"
-msgstr "Not in menu"
 
 msgid ""
 "If checked, the only items presented to the user will be the ones selected "
@@ -6488,12 +6497,6 @@ msgstr ""
 " sorted by default, if any. You may control column order and field labels in"
 " the fields section."
 
-msgid "content item"
-msgstr "content item"
-
-msgid "Machine-readable name"
-msgstr "Machine-readable name"
-
 msgid "Parent link ID"
 msgstr "Parent link ID"
 
@@ -6512,8 +6515,8 @@ msgstr "Cron run completed."
 msgid "Visitors"
 msgstr "Visitors"
 
-msgid "custom menu link"
-msgstr "custom menu link"
+msgid "‹‹"
+msgstr "‹‹"
 
 msgid "Allow multiple values"
 msgstr "Allow multiple values"
@@ -6533,14 +6536,17 @@ msgstr "Indexing throttle"
 msgid "Administration menu"
 msgstr "Administration menu"
 
+msgid "››"
+msgstr "››"
+
+msgid "- All -"
+msgstr "- All -"
+
 msgid "A boolean indicating whether this translation needs to be updated."
 msgstr "A boolean indicating whether this translation needs to be updated."
 
 msgid "Publishing status"
 msgstr "Publishing status"
-
-msgid "Edit language"
-msgstr "Edit language"
 
 msgid "External links only"
 msgstr "External links only"
@@ -6559,6 +6565,9 @@ msgstr "Block Content"
 
 msgid "Blue Lagoon (default)"
 msgstr "Blue Lagoon (default)"
+
+msgid "The requested page could not be found."
+msgstr "The requested page could not be found."
 
 msgid "Standard deviation"
 msgstr "Standard deviation"
@@ -6581,8 +6590,8 @@ msgstr "Select an installation profile"
 msgid "Choose language"
 msgstr "Choose language"
 
-msgid "Contact form"
-msgstr "Contact form"
+msgid "content item"
+msgstr "content item"
 
 msgid "No profiles available"
 msgstr "No profiles available"
@@ -6641,20 +6650,8 @@ msgstr ""
 "Define the image quality for JPEG manipulations. Ranges from 0 to 100. "
 "Higher values mean better image quality but bigger files."
 
-msgid "Right to left"
-msgstr "Right to left"
-
-msgid "Left to right"
-msgstr "Left to right"
-
 msgid "Add custom language"
 msgstr "Add custom language"
-
-msgid "Save language"
-msgstr "Save language"
-
-msgid "Direction that text in this language is presented."
-msgstr "Direction that text in this language is presented."
 
 msgid "Languages not yet added"
 msgstr "Languages not yet added"
@@ -6826,26 +6823,35 @@ msgstr "Re-order book pages and change titles"
 msgid "Book page"
 msgstr "Book page"
 
-msgid "Who's new"
-msgstr "Who's new"
+msgid "Contact form"
+msgstr "Contact form"
 
 msgid "Language name"
 msgstr "Language name"
 
-msgid "Publish"
-msgstr "Publish"
-
-msgid "Update notifications"
-msgstr "Update notifications"
+msgid "Who's new"
+msgstr "Who's new"
 
 msgid "Unicode library"
 msgstr "Unicode library"
 
-msgid "String contains"
-msgstr "String contains"
+msgid "Edit language"
+msgstr "Edit language"
 
 msgid "Drag to re-order"
 msgstr "Drag to re-order"
+
+msgid "Left to right"
+msgstr "Left to right"
+
+msgid "Direction that text in this language is presented."
+msgstr "Direction that text in this language is presented."
+
+msgid "Save language"
+msgstr "Save language"
+
+msgid "String contains"
+msgstr "String contains"
 
 msgid "Both translated and untranslated strings"
 msgstr "Both translated and untranslated strings"
@@ -6873,8 +6879,8 @@ msgstr "Allows users to comment on and discuss published content."
 msgid "Example: 'website feedback' or 'product information'."
 msgstr "Example: 'website feedback' or 'product information'."
 
-msgid "Pathauto pattern"
-msgstr "Pathauto pattern"
+msgid "taxonomy term"
+msgstr "taxonomy term"
 
 msgid "Enables the use of both personal and site-wide contact forms."
 msgstr "Enables the use of both personal and site-wide contact forms."
@@ -6884,6 +6890,9 @@ msgstr "Logs and records system events to the database."
 
 msgid "No roles may use this format"
 msgstr "No roles may use this format"
+
+msgid "Allowed HTML tags: @tags"
+msgstr "Allowed HTML tags: @tags"
 
 msgid "Anchors are used to make links to other pages."
 msgstr "Anchors are used to make links to other pages."
@@ -7031,6 +7040,9 @@ msgstr "Quotation mark"
 
 msgid "Character Description"
 msgstr "Character Description"
+
+msgid "Lines and paragraphs break automatically."
+msgstr "Lines and paragraphs break automatically."
 
 msgid "Compose tips"
 msgstr "Compose tips"
@@ -7188,12 +7200,6 @@ msgstr "View 'access denied' errors (403s)."
 msgid "View 'page not found' errors (404s)."
 msgstr "View 'page not found' errors (404s)."
 
-msgid "Allowed HTML tags: @tags"
-msgstr "Allowed HTML tags: @tags"
-
-msgid "Lines and paragraphs break automatically."
-msgstr "Lines and paragraphs break automatically."
-
 msgid "Number of items to index per cron run"
 msgstr "Number of items to index per cron run"
 
@@ -7307,6 +7313,9 @@ msgstr "Default 403 (access denied) page"
 msgid "Default 404 (not found) page"
 msgstr "Default 404 (not found) page"
 
+msgid "Caches cleared."
+msgstr "Caches cleared."
+
 msgid "Select an image processing toolkit"
 msgstr "Select an image processing toolkit"
 
@@ -7350,6 +7359,9 @@ msgstr ""
 "The <em>Powered by Drupal</em> block is an optional link to the home page of"
 " the Drupal project. While there is absolutely no requirement that sites "
 "feature this link, it may be used to show support for Drupal."
+
+msgid "custom menu link"
+msgstr "custom menu link"
 
 msgid "Compact mode"
 msgstr "Compact mode"
@@ -7483,9 +7495,6 @@ msgstr ""
 " which may or may not have the same name, and might include multiple modules"
 " or themes within it."
 
-msgid "Module and theme update status"
-msgstr "Module and theme update status"
-
 msgid ""
 "There are security updates available for one or more of your modules or "
 "themes. To ensure the security of your server, you should update "
@@ -7507,9 +7516,6 @@ msgstr ""
 msgid "%name has been deleted."
 msgstr "%name has been deleted."
 
-msgid "Image toolkit"
-msgstr "Image toolkit"
-
 msgid "RSS publishing"
 msgstr "RSS publishing"
 
@@ -7519,6 +7525,9 @@ msgid ""
 msgstr ""
 "Get a status report about available updates for your installed modules and "
 "themes."
+
+msgid "Module and theme update status"
+msgstr "Module and theme update status"
 
 msgid "Access to update.php"
 msgstr "Access to update.php"
@@ -7531,9 +7540,6 @@ msgstr "Cron maintenance tasks"
 
 msgid "PHP memory limit"
 msgstr "PHP memory limit"
-
-msgid "Caches cleared."
-msgstr "Caches cleared."
 
 msgid "You must enter a username."
 msgstr "You must enter a username."
@@ -7684,12 +7690,6 @@ msgstr "All messages"
 msgid "Serialized"
 msgstr "Serialized"
 
-msgid "Text format"
-msgstr "Text format"
-
-msgid "Who's online"
-msgstr "Who's online"
-
 msgid "Discard changes"
 msgstr "Discard changes"
 
@@ -7810,12 +7810,8 @@ msgstr "Unsigned"
 msgid "Number of pages"
 msgstr "Number of pages"
 
-msgid ""
-"The version %dependency_version of the %dependency library is not compatible"
-" with the %library library."
-msgstr ""
-"The version %dependency_version of the %dependency library is not compatible"
-" with the %library library."
+msgid "Publish"
+msgstr "Publish"
 
 msgid "The weight of this term in relation to other terms."
 msgstr "The weight of this term in relation to other terms."
@@ -7885,8 +7881,8 @@ msgstr "Show links"
 msgid "Lock"
 msgstr "Lock"
 
-msgid "Regional settings"
-msgstr "Regional settings"
+msgid "« First"
+msgstr "« First"
 
 msgid "Limited"
 msgstr "Limited"
@@ -7906,8 +7902,8 @@ msgstr "Drupal 6"
 msgid "Drupal 7"
 msgstr "Drupal 7"
 
-msgid "Enter the password that accompanies your username."
-msgstr "Enter the password that accompanies your username."
+msgid "Regional settings"
+msgstr "Regional settings"
 
 msgid "Your virtual face or picture."
 msgstr "Your virtual face or picture."
@@ -7918,14 +7914,23 @@ msgstr "Delete content"
 msgid "Author name"
 msgstr "Author name"
 
-msgid "Upload progress"
-msgstr "Upload progress"
+msgid "Text format"
+msgstr "Text format"
+
+msgid "Last »"
+msgstr "Last »"
+
+msgid "Who's online"
+msgstr "Who's online"
+
+msgid "@size MB"
+msgstr "@size MB"
 
 msgid "Sort ascending"
 msgstr "Sort ascending"
 
-msgid "@size MB"
-msgstr "@size MB"
+msgid "Upload progress"
+msgstr "Upload progress"
 
 msgid "Show description"
 msgstr "Show description"
@@ -8066,9 +8071,6 @@ msgstr "Delete items"
 msgid "Fetcher"
 msgstr "Fetcher"
 
-msgid "The %library library could not be found."
-msgstr "The %library library could not be found."
-
 msgid "This permission is inherited from the authenticated user role."
 msgstr "This permission is inherited from the authenticated user role."
 
@@ -8173,8 +8175,8 @@ msgstr "Do not display fields, labels or markup for fields that are empty."
 msgid "Title of the feed."
 msgstr "Title of the feed."
 
-msgid "Structure"
-msgstr "Structure"
+msgid "Pathauto pattern"
+msgstr "Pathauto pattern"
 
 msgid "Language select"
 msgstr "Language select"
@@ -8245,6 +8247,9 @@ msgstr "Render"
 msgid "Image scale"
 msgstr "Image scale"
 
+msgid "No revision"
+msgstr "No revision"
+
 msgid "Requires a title"
 msgstr "Requires a title"
 
@@ -8293,8 +8298,11 @@ msgstr "The formatted content of the comment itself."
 msgid "The URL of the comment."
 msgstr "The URL of the comment."
 
-msgid "No revision"
-msgstr "No revision"
+msgid "Structure"
+msgstr "Structure"
+
+msgid "Published status"
+msgstr "Published status"
 
 msgid "The URL of the comment's edit page."
 msgstr "The URL of the comment's edit page."
@@ -8430,9 +8438,6 @@ msgstr "Field types"
 msgid "Time zone settings"
 msgstr "Time zone settings"
 
-msgid "The version of the %library library could not be detected."
-msgstr "The version of the %library library could not be detected."
-
 msgid "Content Moderation"
 msgstr "Content Moderation"
 
@@ -8564,6 +8569,9 @@ msgstr "%module module uninstalled."
 msgid "Saint Barthélemy"
 msgstr "Saint Barthélemy"
 
+msgid "No strings available."
+msgstr "No strings available."
+
 msgid "JavaScript translation file %file.js was lost."
 msgstr "JavaScript translation file %file.js was lost."
 
@@ -8584,11 +8592,8 @@ msgstr ""
 msgid "Unable to create %directory due to the following: %reason"
 msgstr "Unable to create %directory due to the following: %reason"
 
-msgid "No strings available."
-msgstr "No strings available."
-
-msgid "HTTP Result Code: !status"
-msgstr "HTTP Result Code: !status"
+msgid "New comment count"
+msgstr "New comment count"
 
 msgid "An AJAX HTTP request terminated abnormally."
 msgstr "An AJAX HTTP request terminated abnormally."
@@ -8602,14 +8607,17 @@ msgstr "Path: !uri"
 msgid "StatusText: !statusText"
 msgstr "StatusText: !statusText"
 
+msgid "An AJAX HTTP error occurred."
+msgstr "An AJAX HTTP error occurred."
+
 msgid "Status message"
 msgstr "Status message"
 
 msgid "(active tab)"
 msgstr "(active tab)"
 
-msgid "An AJAX HTTP error occurred."
-msgstr "An AJAX HTTP error occurred."
+msgid "HTTP Result Code: !status"
+msgstr "HTTP Result Code: !status"
 
 msgid "Upload an OPML file containing a list of feeds to be imported."
 msgstr "Upload an OPML file containing a list of feeds to be imported."
@@ -8993,6 +9001,12 @@ msgstr "Text area with a summary"
 msgid "Leave blank to use trimmed value of full text as the summary."
 msgstr "Leave blank to use trimmed value of full text as the summary."
 
+msgid "Hide summary"
+msgstr "Hide summary"
+
+msgid "Edit summary"
+msgstr "Edit summary"
+
 msgid "Edit field settings."
 msgstr "Edit field settings."
 
@@ -9257,12 +9271,6 @@ msgstr "Control forum hierarchy settings."
 
 msgid "Forum navigation vocabulary"
 msgstr "Forum navigation vocabulary"
-
-msgid "Hide summary"
-msgstr "Hide summary"
-
-msgid "Edit summary"
-msgstr "Edit summary"
 
 msgid "Follow these steps to set up and start using your website:"
 msgstr "Follow these steps to set up and start using your website:"
@@ -9552,41 +9560,6 @@ msgstr "URL language detection configuration"
 msgid "Session language detection configuration"
 msgstr "Session language detection configuration"
 
-msgid "The text to be used for this link in the menu."
-msgstr "The text to be used for this link in the menu."
-
-msgid "Menu links that are not enabled will not be listed in any menu."
-msgstr "Menu links that are not enabled will not be listed in any menu."
-
-msgid ""
-"If selected and this menu link has children, the menu will always appear "
-"expanded."
-msgstr ""
-"If selected and this menu link has children, the menu will always appear "
-"expanded."
-
-msgid "Parent link"
-msgstr "Parent link"
-
-msgid "Add to shortcuts"
-msgstr "Add to shortcuts"
-
-msgid "Image styles"
-msgstr "Image styles"
-
-msgid ""
-"Configure styles that can be used for resizing or adjusting images on "
-"display."
-msgstr ""
-"Configure styles that can be used for resizing or adjusting images on "
-"display."
-
-msgid "Add effect"
-msgstr "Add effect"
-
-msgid "Detection and selection"
-msgstr "Detection and selection"
-
 msgctxt "Long month name"
 msgid "January"
 msgstr "January"
@@ -9624,12 +9597,47 @@ msgid "September"
 msgstr "September"
 
 msgctxt "Long month name"
+msgid "December"
+msgstr "December"
+
+msgid "The text to be used for this link in the menu."
+msgstr "The text to be used for this link in the menu."
+
+msgid "Menu links that are not enabled will not be listed in any menu."
+msgstr "Menu links that are not enabled will not be listed in any menu."
+
+msgid ""
+"If selected and this menu link has children, the menu will always appear "
+"expanded."
+msgstr ""
+"If selected and this menu link has children, the menu will always appear "
+"expanded."
+
+msgid "Parent link"
+msgstr "Parent link"
+
+msgid "Add to shortcuts"
+msgstr "Add to shortcuts"
+
+msgid "Add effect"
+msgstr "Add effect"
+
+msgid "Image styles"
+msgstr "Image styles"
+
+msgid ""
+"Configure styles that can be used for resizing or adjusting images on "
+"display."
+msgstr ""
+"Configure styles that can be used for resizing or adjusting images on "
+"display."
+
+msgctxt "Long month name"
 msgid "November"
 msgstr "November"
 
-msgctxt "Long month name"
-msgid "December"
-msgstr "December"
+msgid "Detection and selection"
+msgstr "Detection and selection"
 
 msgid "Filter translatable strings"
 msgstr "Filter translatable strings"
@@ -9664,6 +9672,9 @@ msgstr "Managing menus"
 
 msgid "Administer menus and menu items"
 msgstr "Administer menus and menu items"
+
+msgid "Provide a menu link"
+msgstr "Provide a menu link"
 
 msgid "Available menus"
 msgstr "Available menus"
@@ -9736,6 +9747,9 @@ msgid_plural "Are you sure you want to delete these items?"
 msgstr[0] "Are you sure you want to delete this item?"
 msgstr[1] "Are you sure you want to delete these items?"
 
+msgid "<em>Edit @type</em> @title"
+msgstr "<em>Edit @type</em> @title"
+
 msgid "Tokens related to individual content items, or \"nodes\"."
 msgstr "Tokens related to individual content items, or \"nodes\"."
 
@@ -9800,9 +9814,11 @@ msgstr ""
 "each view mode."
 
 msgid ""
-"The installed version %version of the %library library is not supported."
+"The %dependency library, which the %library library depends on, is not "
+"installed."
 msgstr ""
-"The installed version %version of the %library library is not supported."
+"The %dependency library, which the %library library depends on, is not "
+"installed."
 
 msgid "Administer content types"
 msgstr "Administer content types"
@@ -9950,9 +9966,6 @@ msgstr "Displaying shortcuts"
 msgid "Administer shortcuts"
 msgstr "Administer shortcuts"
 
-msgid "Add to %shortcut_set shortcuts"
-msgstr "Add to %shortcut_set shortcuts"
-
 msgid "Make content unsticky"
 msgstr "Make content unsticky"
 
@@ -9970,12 +9983,6 @@ msgstr "Find and manage content."
 
 msgid "Recent content"
 msgstr "Recent content"
-
-msgid "Provide a menu link"
-msgstr "Provide a menu link"
-
-msgid "<em>Edit @type</em> @title"
-msgstr "<em>Edit @type</em> @title"
 
 msgid "Remove from shortcuts"
 msgstr "Remove from shortcuts"
@@ -10148,6 +10155,12 @@ msgstr ""
 msgid "Errors and warnings"
 msgstr "Errors and warnings"
 
+msgid "Clear all caches"
+msgstr "Clear all caches"
+
+msgid "Bandwidth optimization"
+msgstr "Bandwidth optimization"
+
 msgid "Public file system path"
 msgstr "Public file system path"
 
@@ -10300,12 +10313,6 @@ msgstr ""
 msgid "Edit shortcuts"
 msgstr "Edit shortcuts"
 
-msgid "Clear all caches"
-msgstr "Clear all caches"
-
-msgid "Bandwidth optimization"
-msgstr "Bandwidth optimization"
-
 msgid "Remove from %shortcut_set shortcuts"
 msgstr "Remove from %shortcut_set shortcuts"
 
@@ -10317,13 +10324,6 @@ msgstr ""
 "The connection will be created between your web server and the machine "
 "hosting the web server files. In the vast majority of cases, this will be "
 "the same machine, and \"localhost\" is correct."
-
-msgid ""
-"Select the desired local time and time zone. Dates and times throughout this"
-" site will be displayed using this time zone."
-msgstr ""
-"Select the desired local time and time zone. Dates and times throughout this"
-" site will be displayed using this time zone."
 
 msgid "The directory %directory does not exist and could not be created."
 msgstr "The directory %directory does not exist and could not be created."
@@ -10625,11 +10625,11 @@ msgstr ""
 msgid "Registration and cancellation"
 msgstr "Registration and cancellation"
 
-msgid "No people available."
-msgstr "No people available."
-
 msgid "Logging and errors"
 msgstr "Logging and errors"
+
+msgid "No people available."
+msgstr "No people available."
 
 msgid "Regional and language"
 msgstr "Regional and language"
@@ -10830,11 +10830,15 @@ msgstr "Confirm account cancellation"
 msgid "Minimal"
 msgstr "Minimal"
 
-msgid "Image style"
-msgstr "Image style"
+msgid ""
+"The version %dependency_version of the %dependency library is not compatible"
+" with the %library library."
+msgstr ""
+"The version %dependency_version of the %dependency library is not compatible"
+" with the %library library."
 
-msgid "Find and manage people interacting with your site."
-msgstr "Find and manage people interacting with your site."
+msgid "Contact forms"
+msgstr "Contact forms"
 
 msgid "Install with commonly used features pre-configured."
 msgstr "Install with commonly used features pre-configured."
@@ -10969,8 +10973,8 @@ msgstr "Exposed sorts label"
 msgid "Select any filter and click on Apply to see results"
 msgstr "Select any filter and click on Apply to see results"
 
-msgid "The %variant variant of the %library library could not be found."
-msgstr "The %variant variant of the %library library could not be found."
+msgid "Image style"
+msgstr "Image style"
 
 msgid "Use tags to group articles on similar topics into categories."
 msgstr "Use tags to group articles on similar topics into categories."
@@ -10978,11 +10982,8 @@ msgstr "Use tags to group articles on similar topics into categories."
 msgid "An administrator created an account for you at [site:name]"
 msgstr "An administrator created an account for you at [site:name]"
 
-msgid "Previous"
-msgstr "Previous"
-
-msgid "Contact forms"
-msgstr "Contact forms"
+msgid "Find and manage people interacting with your site."
+msgstr "Find and manage people interacting with your site."
 
 msgid "Text on demand"
 msgstr "Text on demand"
@@ -11114,6 +11115,9 @@ msgstr "View media"
 
 msgid "Remove block"
 msgstr "Remove block"
+
+msgid "all languages"
+msgstr "all languages"
 
 msgid "%module module installed."
 msgstr "%module module installed."
@@ -11290,6 +11294,13 @@ msgstr ""
 msgid "Syslog format"
 msgstr "Syslog format"
 
+msgid ""
+"External resources can be optimized automatically, which can reduce both the"
+" size and number of requests made to your website."
+msgstr ""
+"External resources can be optimized automatically, which can reduce both the"
+" size and number of requests made to your website."
+
 msgid "A date in 'time-since' format. (%date)"
 msgstr "A date in 'time-since' format. (%date)"
 
@@ -11299,8 +11310,8 @@ msgstr "The location of the file relative to Drupal root."
 msgid "Your modules have been downloaded and updated."
 msgstr "Your modules have been downloaded and updated."
 
-msgid "Allows version-dependent and shared usage of external libraries."
-msgstr "Allows version-dependent and shared usage of external libraries."
+msgid "The %library library could not be found."
+msgstr "The %library library could not be found."
 
 msgid "Filter modules"
 msgstr "Filter modules"
@@ -11317,11 +11328,11 @@ msgstr "Main background"
 msgid "Sidebar background"
 msgstr "Sidebar background"
 
-msgid "Assets"
-msgstr ""
+msgid "The version of the %library library could not be detected."
+msgstr "The version of the %library library could not be detected."
 
-msgid "Configure user accounts."
-msgstr "Configure user accounts."
+msgid "Add and modify shortcut sets."
+msgstr "Add and modify shortcut sets."
 
 msgid "Overview of fields on all entity types."
 msgstr "Overview of fields on all entity types."
@@ -11329,21 +11340,11 @@ msgstr "Overview of fields on all entity types."
 msgid "GD library PNG support"
 msgstr "GD library PNG support"
 
-msgid "all languages"
-msgstr "all languages"
-
 msgid "Translation update status"
 msgstr "Translation update status"
 
 msgid "Collapse"
 msgstr "Collapse"
-
-msgid ""
-"The selected file %filename cannot be uploaded. Only files with the "
-"following extensions are allowed: %extensions."
-msgstr ""
-"The selected file %filename cannot be uploaded. Only files with the "
-"following extensions are allowed: %extensions."
 
 msgid "Sidebar borders"
 msgstr "Sidebar borders"
@@ -11553,8 +11554,8 @@ msgstr "Exit block region demonstration"
 msgid "Database log messages to keep"
 msgstr "Database log messages to keep"
 
-msgid "Comment type"
-msgstr "Comment type"
+msgid "UUID"
+msgstr "UUID"
 
 msgid ""
 "Define a string that should be suffixed to the value, like ' m', ' kb/s'. "
@@ -11607,6 +11608,9 @@ msgstr "Linked to content"
 
 msgid "Linked to file"
 msgstr "Linked to file"
+
+msgid "Shown when hovering over the menu link."
+msgstr "Shown when hovering over the menu link."
 
 msgid ""
 "Format: %time. The date format is YYYY-MM-DD and %timezone is the time zone "
@@ -11685,6 +11689,9 @@ msgstr "Text Formats"
 msgid "Disable text format"
 msgstr "Disable text format"
 
+msgid "Comment type"
+msgstr "Comment type"
+
 msgid "Bulk update"
 msgstr "Bulk update"
 
@@ -11694,20 +11701,14 @@ msgstr "Search page"
 msgid "View mode"
 msgstr "View mode"
 
-msgid "Local path"
-msgstr ""
+msgid "Subscribe to @title"
+msgstr "Subscribe to @title"
 
 msgid "Back to site"
 msgstr "Back to site"
 
-msgid "Subscribe to @title"
-msgstr "Subscribe to @title"
-
 msgid "Configuration files"
 msgstr "Configuration files"
-
-msgid "Shown when hovering over the menu link."
-msgstr "Shown when hovering over the menu link."
 
 msgid "Show row weights"
 msgstr "Show row weights"
@@ -11739,8 +11740,8 @@ msgstr "Install new module"
 msgid "Install new theme"
 msgstr "Install new theme"
 
-msgid "Hash"
-msgstr "Hash"
+msgid "Previous"
+msgstr "Previous"
 
 msgid "Nothing"
 msgstr "Nothing"
@@ -12000,8 +12001,8 @@ msgstr ""
 msgid "The entity type."
 msgstr "The entity type."
 
-msgid "Administer settings."
-msgstr "Administer settings."
+msgid "Information"
+msgstr "Information"
 
 msgid "Center left"
 msgstr "Centre left"
@@ -12060,14 +12061,17 @@ msgstr "Specify validation criteria"
 msgid "Representative sort order"
 msgstr "Representative sort order"
 
-msgid "Manage user accounts, roles, and permissions."
-msgstr "Manage user accounts, roles, and permissions."
+msgid "Hash"
+msgstr "Hash"
 
-msgid "Asc"
-msgstr "Asc"
+msgid "Administer settings."
+msgstr "Administer settings."
 
-msgid "View reports, updates, and errors."
-msgstr "View reports, updates, and errors."
+msgid "Changed date"
+msgstr "Changed date"
+
+msgid "Reference for usage, configuration, and modules."
+msgstr "Reference for usage, configuration, and modules."
 
 msgid "Database system version"
 msgstr "Database system version"
@@ -12755,8 +12759,8 @@ msgstr "Show the SQL query"
 msgid "Show performance statistics"
 msgstr "Show performance statistics"
 
-msgid "Directory @path was created"
-msgstr ""
+msgid "Add required context"
+msgstr "Add required context"
 
 msgid "Display"
 msgid_plural "Displays"
@@ -13671,8 +13675,8 @@ msgstr "Whether the user is active or blocked."
 msgid "Views query"
 msgstr "Views query"
 
-msgid "Information"
-msgstr "Information"
+msgid "Finish"
+msgstr "Finish"
 
 msgid ""
 "The throbber display does not show the status of uploads but takes up less "
@@ -13865,8 +13869,8 @@ msgstr "Date in the form of YYYY."
 msgid "Date in the form of MM (01 - 12)."
 msgstr "Date in the form of MM (01 - 12)."
 
-msgid "Add required context"
-msgstr "Add required context"
+msgid "@description"
+msgstr "@description"
 
 msgid "Full HTML"
 msgstr "Full HTML"
@@ -14166,6 +14170,12 @@ msgstr "Easy"
 msgid "Breakpoint"
 msgstr "Breakpoint"
 
+msgid "Needs to be updated"
+msgstr "Needs to be updated"
+
+msgid "Does not need to be updated"
+msgstr "Does not need to be updated"
+
 msgid "Edit comment @subject"
 msgstr "Edit comment @subject"
 
@@ -14219,12 +14229,6 @@ msgstr "Views plugins"
 
 msgid "Translation for @language"
 msgstr "Translation for @language"
-
-msgid "Needs to be updated"
-msgstr "Needs to be updated"
-
-msgid "Does not need to be updated"
-msgstr "Does not need to be updated"
 
 msgid "Last page"
 msgstr "Last page"
@@ -14803,12 +14807,6 @@ msgstr "No language available. The export will only contain source strings."
 msgid "@count disallowed HTML string(s) in files: @files."
 msgstr "@count disallowed HTML string(s) in files: @files."
 
-msgid "The strings have been saved."
-msgstr "The strings have been saved."
-
-msgid "In Context"
-msgstr "In Context"
-
 msgid "First plural form"
 msgid_plural "@count. plural form"
 msgstr[0] "First plural form"
@@ -14830,8 +14828,8 @@ msgstr ""
 "Removed JavaScript translation file for the language %language because no "
 "translations currently exist for that language."
 
-msgid "Finish"
-msgstr "Finish"
+msgid "Chaos tool suite"
+msgstr "Chaos tool suite"
 
 msgid ""
 "Import of string \"%string\" was skipped because of disallowed or malformed "
@@ -14869,11 +14867,11 @@ msgstr ""
 "Query tagged for node access but there is no node table, specify the "
 "base_table using meta data."
 
+msgid "Briefly describe the changes you have made."
+msgstr "Briefly describe the changes you have made."
+
 msgid "@name format: @date"
 msgstr "@name format: @date"
-
-msgid "@translated/@total (@ratio%)"
-msgstr "@translated/@total (@ratio%)"
 
 msgid "Interface translation"
 msgstr "Interface translation"
@@ -14889,6 +14887,9 @@ msgstr "Customized translation"
 
 msgid "Translation type"
 msgstr "Translation type"
+
+msgid "In Context"
+msgstr "In Context"
 
 msgid "Include non-customized translations"
 msgstr "Include non-customized translations"
@@ -15192,6 +15193,12 @@ msgstr[1] "@count removed"
 msgid "Synchronize configuration"
 msgstr "Synchronize configuration"
 
+msgid "Flag other translations as outdated"
+msgstr "Flag other translations as outdated"
+
+msgid "Do not flag other translations as outdated"
+msgstr "Do not flag other translations as outdated"
+
 msgid ""
 "Provides an image formatter and breakpoint mappings to output responsive "
 "images using the HTML5 picture tag."
@@ -15226,12 +15233,6 @@ msgstr "View profile"
 msgid "Site's default language (@lang_name)"
 msgstr "Site's default language (@lang_name)"
 
-msgid "Flag other translations as outdated"
-msgstr "Flag other translations as outdated"
-
-msgid "Do not flag other translations as outdated"
-msgstr "Do not flag other translations as outdated"
-
 msgid "Access @method on %label resource"
 msgstr "Access @method on %label resource"
 
@@ -15263,6 +15264,17 @@ msgstr "Create %language translation of %title"
 
 msgid "Source language: @language"
 msgstr "Source language: @language"
+
+msgid ""
+"If you made a significant change, which means the other translations should "
+"be updated, you can flag all translations of this content as outdated. This "
+"will not change any other property of them, like whether they are published "
+"or not."
+msgstr ""
+"If you made a significant change, which means the other translations should "
+"be updated, you can flag all translations of this content as outdated. This "
+"will not change any other property of them, like whether they are published "
+"or not."
 
 msgid ""
 "When this option is checked, this translation needs to be updated. Uncheck "
@@ -15737,6 +15749,9 @@ msgstr "The %field date is required."
 msgid "The %field date is invalid."
 msgstr "The %field date is invalid."
 
+msgid "Format: %format. Leave blank to use the time of form submission."
+msgstr "Format: %format. Leave blank to use the time of form submission."
+
 msgid ""
 "Choose a format for displaying the date. Be sure to set a format appropriate"
 " for the field, i.e. omitting time for a field that only has a date."
@@ -15866,6 +15881,9 @@ msgstr "Name of the file with no path components."
 msgid "The URI to access the file (either local or remote)."
 msgstr "The URI to access the file (either local or remote)."
 
+msgid "The time that the node was created."
+msgstr "The time that the node was created."
+
 msgid "Detect if tar is part of the extension"
 msgstr "Detect if tar is part of the extension"
 
@@ -15897,12 +15915,6 @@ msgstr "The user ID of the author of the current revision."
 
 msgid "Displaying link text"
 msgstr "Displaying link text"
-
-msgid "The time that the node was created."
-msgstr "The time that the node was created."
-
-msgid "Format: %format. Leave blank to use the time of form submission."
-msgstr "Format: %format. Leave blank to use the time of form submission."
 
 msgid "1 new post<span class=\"visually-hidden\"> in topic %title</span>"
 msgid_plural ""
@@ -16007,6 +16019,9 @@ msgstr[1] ""
 
 msgid "Updating configuration translations"
 msgstr "Updating configuration translations"
+
+msgid "Checked translation for %project."
+msgstr "Checked translation for %project."
 
 msgid "Error updating configuration translations"
 msgstr "Error updating configuration translations"
@@ -16171,6 +16186,9 @@ msgstr "%type_name: Revert revisions"
 msgid "%type_name: Delete revisions"
 msgstr "%type_name: Delete revisions"
 
+msgid "Promotion options"
+msgstr "Promotion options"
+
 msgid "Read more<span class=\"visually-hidden\"> about @title</span>"
 msgstr "Read more<span class=\"visually-hidden\"> about @title</span>"
 
@@ -16183,14 +16201,23 @@ msgstr "The time that the node was last edited."
 msgid "The time that the current revision was created."
 msgstr "The time that the current revision was created."
 
-msgid "Checked translation for %project."
-msgstr "Checked translation for %project."
-
 msgid "Downloaded translation for %project."
 msgstr "Downloaded translation for %project."
 
 msgid "Imported translation for %project."
 msgstr "Imported translation for %project."
+
+msgid "Pager offset"
+msgstr "Pager offset"
+
+msgid "The name of the menu."
+msgstr "The name of the menu."
+
+msgid "Tokens"
+msgstr "Tokens"
+
+msgid "Available tokens"
+msgstr "Available tokens"
 
 msgid "Importing translation file: %filename (@percent%)."
 msgstr "Importing translation file: %filename (@percent%)."
@@ -16199,27 +16226,11 @@ msgid "Translations imported."
 msgstr "Translations imported."
 
 msgid ""
-"One translation string was skipped because of disallowed or malformed HTML. "
-"See the log for details."
-msgid_plural ""
-"@count translation strings were skipped because of disallowed or malformed "
-"HTML. See the log for details."
-msgstr[0] ""
-"One translation string was skipped because of disallowed or malformed HTML. "
-"See the log for details."
-msgstr[1] ""
-"@count translation strings were skipped because of disallowed or malformed "
-"HTML. See the log for details."
-
-msgid ""
 "The configuration was successfully updated. There are %number configuration "
 "objects updated."
 msgstr ""
 "The configuration was successfully updated. There are %number configuration "
 "objects updated."
-
-msgid "Promotion options"
-msgstr "Promotion options"
 
 msgid "Source string (@language)"
 msgstr "Source string (@language)"
@@ -16315,9 +16326,6 @@ msgstr "Any data"
 
 msgid "An entity field containing a UUID."
 msgstr "An entity field containing a UUID."
-
-msgid "@zone"
-msgstr "@zone"
 
 msgid "Failed to fetch file due to error \"%error\""
 msgstr "Failed to fetch file due to error \"%error\""
@@ -16569,8 +16577,11 @@ msgstr "Toolbar items"
 msgid "Edit user account"
 msgstr "Edit user account"
 
-msgid "!tour_item of !total"
-msgstr "!tour_item of !total"
+msgid "Update this item"
+msgstr "Update this item"
+
+msgid "@zone"
+msgstr "@zone"
 
 msgid "End tour"
 msgstr "End tour"
@@ -16719,6 +16730,9 @@ msgstr "Language of labels and other textual elements in this view."
 
 msgid "No displays available."
 msgstr "No displays available."
+
+msgid "Last saved"
+msgstr "Last saved"
 
 msgid "Not saved yet"
 msgstr "Not saved yet"
@@ -16932,9 +16946,6 @@ msgstr "Using simple actions"
 msgid "Shortcut set"
 msgstr "Shortcut set"
 
-msgid "Last saved"
-msgstr "Last saved"
-
 msgid "Creating and configuring advanced actions"
 msgstr "Creating and configuring advanced actions"
 
@@ -16977,6 +16988,9 @@ msgstr "Uploads disabled"
 
 msgid "Uploads enabled, max size: @size @dimensions"
 msgstr "Uploads enabled, max size: @size @dimensions"
+
+msgid "Edit Image"
+msgstr "Edit Image"
 
 msgid "Drupal link"
 msgstr "Drupal link"
@@ -17263,9 +17277,6 @@ msgstr "Manage custom view modes."
 msgid "Configure what displays are available for your content and forms."
 msgstr "Configure what displays are available for your content and forms."
 
-msgid "Edit Image"
-msgstr "Edit Image"
-
 msgid ""
 "You must add some additional fields to this display before using this field."
 " These fields may be marked as <em>Exclude from display</em> if you prefer. "
@@ -17466,6 +17477,9 @@ msgstr ""
 "Hide the block if there is no result and no empty text and no header/footer "
 "which is shown on empty result"
 
+msgid "Enter caption here"
+msgstr "Enter caption here"
+
 msgid "Drupal image caption widget"
 msgstr "Drupal image caption widget"
 
@@ -17590,9 +17604,6 @@ msgid_plural "Maximum @count files."
 msgstr[0] "One file only."
 msgstr[1] "Maximum @count files."
 
-msgid "Enter caption here"
-msgstr "Enter caption here"
-
 msgid "Adding attributes to links"
 msgstr "Adding attributes to links"
 
@@ -17701,9 +17712,6 @@ msgstr "PHP date format"
 msgid "@group: @title"
 msgstr "@group: @title"
 
-msgid "@description"
-msgstr "@description"
-
 msgid "Media types"
 msgstr "Media types"
 
@@ -17722,9 +17730,6 @@ msgstr "Reset your password"
 
 msgid "Number of new comments"
 msgstr "Number of new comments"
-
-msgid "Chaos tool suite"
-msgstr "Chaos tool suite"
 
 msgid "Button divider"
 msgstr "Button divider"
@@ -17818,12 +17823,6 @@ msgstr "Enter block, theme or category"
 msgid "Enter a part of the block, theme or category to filter by."
 msgstr "Enter a part of the block, theme or category to filter by."
 
-msgid "Translations for %label"
-msgstr "Translations for %label"
-
-msgid "@language (original)"
-msgstr "@language (original)"
-
 msgid "Enter label"
 msgstr "Enter label"
 
@@ -17844,6 +17843,9 @@ msgstr "(Empty)"
 
 msgid "Feed channel"
 msgstr "Feed channel"
+
+msgid "About text formats"
+msgstr "About text formats"
 
 msgid "The image style %name has been flushed."
 msgstr "The image style %name has been flushed."
@@ -17926,8 +17928,11 @@ msgstr "File usage"
 msgid "Translate the configuration."
 msgstr "Translate the configuration."
 
-msgid "About text formats"
-msgstr "About text formats"
+msgid "@language (original)"
+msgstr "@language (original)"
+
+msgid "Translations for %label"
+msgstr "Translations for %label"
 
 msgid "At least one format must be defined for resource @id"
 msgstr "At least one format must be defined for resource @id"
@@ -18025,6 +18030,13 @@ msgstr "The timestamp that the file was last changed."
 
 msgid "Language based on a selected language."
 msgstr "Language based on a selected language."
+
+msgid ""
+"Menu links with lower weights are displayed before links with higher "
+"weights."
+msgstr ""
+"Menu links with lower weights are displayed before links with higher "
+"weights."
 
 msgid "The name of the user role."
 msgstr "The name of the user role."
@@ -18149,6 +18161,18 @@ msgctxt "Validation"
 msgid "Comment author name"
 msgstr "Comment author name"
 
+msgid ""
+"Changing the text format to %text_format will permanently remove content "
+"that is not allowed in that text format.<br><br>Save your changes before "
+"switching the text format to avoid losing data."
+msgstr ""
+"Changing the text format to %text_format will permanently remove content "
+"that is not allowed in that text format.<br><br>Save your changes before "
+"switching the text format to avoid losing data."
+
+msgid "Change text format?"
+msgstr "Change text format?"
+
 msgid "Entity view display"
 msgstr "Entity view display"
 
@@ -18249,9 +18273,6 @@ msgstr "Administer responsive images"
 msgid "Return to site content"
 msgstr "Return to site content"
 
-msgid "Change text format?"
-msgstr "Change text format?"
-
 msgid ""
 "Defined on the Appearance or Theme Settings page. You do not have the "
 "appropriate permissions to change the site logo."
@@ -18273,9 +18294,6 @@ msgid ""
 "Choose which branding elements you want to show in this block instance."
 msgstr ""
 "Choose which branding elements you want to show in this block instance."
-
-msgid "Pager offset"
-msgstr "Pager offset"
 
 msgid "Rendering language"
 msgstr "Rendering language"
@@ -18311,6 +18329,9 @@ msgstr "The news items from %site have been deleted."
 msgid "A brief description of your block."
 msgstr "A brief description of your block."
 
+msgid "no caching"
+msgstr "no caching"
+
 msgid "Completed @current step of @total."
 msgstr "Completed @current step of @total."
 
@@ -18331,6 +18352,9 @@ msgstr "Translating individual strings"
 
 msgid "Format ID."
 msgstr "Format ID."
+
+msgid "(this translation)"
+msgstr "(this translation)"
 
 msgid "(all translations)"
 msgstr "(all translations)"
@@ -18613,17 +18637,8 @@ msgstr "Palette settings"
 msgid "Last comment date"
 msgstr "Last comment date"
 
-msgid "no caching"
-msgstr "no caching"
-
-msgid "(this translation)"
-msgstr "(this translation)"
-
 msgid "Entity options"
 msgstr "Entity options"
-
-msgid "Translate @type_name"
-msgstr "Translate @type_name"
 
 msgid "Personal contact form enabled by default"
 msgstr "Personal contact form enabled by default"
@@ -18919,6 +18934,9 @@ msgstr "Logging settings"
 
 msgid "CSS performance settings"
 msgstr "CSS performance settings"
+
+msgid "Aggregate CSS files"
+msgstr "Aggregate CSS files"
 
 msgid "Compress CSS files"
 msgstr "Compress CSS files"
@@ -19421,6 +19439,9 @@ msgctxt "Abbreviated 1 letter weekday Saturday"
 msgid "S"
 msgstr "S"
 
+msgid "Web page addresses and email addresses turn into links automatically."
+msgstr "Web page addresses and email addresses turn into links automatically."
+
 msgid "Configuring content languages"
 msgstr "Configuring content languages"
 
@@ -19471,17 +19492,6 @@ msgstr "%email is not a valid email address."
 
 msgid "%emails are not valid email addresses."
 msgstr "%emails are not valid email addresses."
-
-msgid ""
-"A valid email address. All emails from the system will be sent to this "
-"address. The email address is not made public and will only be used if you "
-"wish to receive a new password or wish to receive certain news or "
-"notifications by email."
-msgstr ""
-"A valid email address. All emails from the system will be sent to this "
-"address. The email address is not made public and will only be used if you "
-"wish to receive a new password or wish to receive certain news or "
-"notifications by email."
 
 msgid "This account's preferred language for emails."
 msgstr "This account's preferred language for emails."
@@ -19759,9 +19769,6 @@ msgstr "Allows commenting on content"
 
 msgid "Manage form and displays settings of comments."
 msgstr "Manage form and displays settings of comments."
-
-msgid "Web page addresses and email addresses turn into links automatically."
-msgstr "Web page addresses and email addresses turn into links automatically."
 
 msgid "%num_indexed of %num_total indexed"
 msgstr "%num_indexed of %num_total indexed"
@@ -20100,14 +20107,14 @@ msgstr "Recipient username"
 msgid "Content language of view row"
 msgstr "Content language of view row"
 
+msgid "Install and set as default"
+msgstr "Install and set as default"
+
 msgid "Create and manage contact forms."
 msgstr "Create and manage contact forms."
 
 msgid "Site administration toolbar"
 msgstr "Site administration toolbar"
-
-msgid "Install and set as default"
-msgstr "Install and set as default"
 
 msgid "Allowed types: @extensions."
 msgstr "Allowed types: @extensions."
@@ -20198,9 +20205,6 @@ msgstr "Classy"
 
 msgid "Select a @context value:"
 msgstr "Select a @context value:"
-
-msgid "The name of the menu."
-msgstr "The name of the menu."
 
 msgid "Configuration entity dependencies"
 msgstr "Configuration entity dependencies"
@@ -20413,6 +20417,9 @@ msgstr "An entity field containing a password value."
 msgid "Selected default language no longer exists."
 msgstr "Selected default language no longer exists."
 
+msgid "The username of the content author."
+msgstr "The username of the content author."
+
 msgid "Defining responsive image styles"
 msgstr "Defining responsive image styles"
 
@@ -20464,8 +20471,12 @@ msgstr "Select a responsive image style."
 msgid "The target entity"
 msgstr "The target entity"
 
-msgid "The username of the content author."
-msgstr "The username of the content author."
+msgid ""
+"Change site name, email address, slogan, default front page, and error "
+"pages."
+msgstr ""
+"Change site name, email address, slogan, default front page, and error "
+"pages."
 
 msgid "Original language of content in view row"
 msgstr "Original language of content in view row"
@@ -20685,8 +20696,11 @@ msgstr "Run database updates"
 msgid "The weight of the role."
 msgstr "The weight of the role."
 
-msgid "Primary admin actions"
-msgstr "Primary admin actions"
+msgid "No tokens available."
+msgstr "No tokens available."
+
+msgid "Import and export your configuration."
+msgstr "Import and export your configuration."
 
 msgid ""
 "Security warning: Couldn't write .htaccess file. Please create a .htaccess "
@@ -20752,11 +20766,11 @@ msgstr ""
 msgid "contact form"
 msgstr "contact form"
 
-msgid "Tokens"
-msgstr "Tokens"
+msgid "Interface text"
+msgstr "Interface text"
 
-msgid "Import and export your configuration."
-msgstr "Import and export your configuration."
+msgid "Primary admin actions"
+msgstr "Primary admin actions"
 
 msgid "Basic block"
 msgstr "Basic block"
@@ -20803,14 +20817,11 @@ msgstr "Cancel the selected user account(s)"
 msgid "Unblock the selected user(s)"
 msgstr "Unblock the selected user(s)"
 
-msgid "Entity/field definitions"
-msgstr "Entity/field definitions"
-
-msgid "Interface text"
-msgstr "Interface text"
-
 msgid "@local-task-title@active"
 msgstr "@local-task-title@active"
+
+msgid "Entity/field definitions"
+msgstr "Entity/field definitions"
 
 msgid ""
 "The %language translation file could not be downloaded. <a "
@@ -20891,6 +20902,12 @@ msgstr "Updating @module"
 
 msgid "Post updating @module"
 msgstr "Post updating @module"
+
+msgid "Date (e.g. @format)"
+msgstr "Date (e.g. @format)"
+
+msgid "Time (e.g. @format)"
+msgstr "Time (e.g. @format)"
 
 msgid "@uri"
 msgstr "@uri"
@@ -21149,12 +21166,6 @@ msgstr "Add section"
 msgid "@size limit."
 msgstr "@size limit."
 
-msgid "Date (e.g. @format)"
-msgstr "Date (e.g. @format)"
-
-msgid "Time (e.g. @format)"
-msgstr "Time (e.g. @format)"
-
 msgid ""
 "For more information, see the <a href=\":views\">online documentation for "
 "the Views module</a>."
@@ -21203,11 +21214,13 @@ msgstr[1] ""
 "is temporarily blocked. Try again later or <a href=\":url\">request a new "
 "password</a>."
 
-msgid "Missing dependency: unzip. Install it before using this command."
+msgid ""
+"The installed version %version of the %library library is not supported."
 msgstr ""
+"The installed version %version of the %library library is not supported."
 
-msgid "All content promoted to the front page."
-msgstr "All content promoted to the front page."
+msgid "The %variant variant of the %library library could not be found."
+msgstr "The %variant variant of the %library library could not be found."
 
 msgid "Delete %label"
 msgstr "Delete %label"
@@ -21230,8 +21243,8 @@ msgstr "Narrow"
 msgid "Config override test"
 msgstr "Config override test"
 
-msgid "Name or email contains"
-msgstr "Name or email contains"
+msgid "Allows version-dependent and shared usage of external libraries."
+msgstr "Allows version-dependent and shared usage of external libraries."
 
 msgid "This entity (%type: %label) cannot be referenced."
 msgstr "This entity (%type: %label) cannot be referenced."
@@ -21244,6 +21257,9 @@ msgstr "Starting configuration import."
 
 msgid "Configuration import has encountered an error."
 msgstr "Configuration import has encountered an error."
+
+msgid "Authored on @date"
+msgstr "Authored on @date"
 
 msgid "Add @entity-type"
 msgstr "Add @entity-type"
@@ -21323,8 +21339,8 @@ msgstr ""
 msgid "Bundle assigned to the auto-created entities."
 msgstr "Bundle assigned to the auto-created entities."
 
-msgid "A list of new users"
-msgstr "A list of new users"
+msgid "Basic site settings"
+msgstr "Basic site settings"
 
 msgid "Administrative task links"
 msgstr "Administrative task links"
@@ -21337,6 +21353,15 @@ msgstr "Site section links"
 
 msgid "All content, by month."
 msgstr "All content, by month."
+
+msgid "All content promoted to the front page."
+msgstr "All content promoted to the front page."
+
+msgid "Name or email contains"
+msgstr "Name or email contains"
+
+msgid "A list of new users"
+msgstr "A list of new users"
 
 msgid "Who's online block"
 msgstr "Who's online block"
@@ -21403,18 +21428,6 @@ msgstr "Sort actions"
 msgid "Add, rearrange or remove sorting rules."
 msgstr "Add, rearrange or remove sorting rules."
 
-msgid "Lists registered library information."
-msgstr ""
-
-msgid ""
-"Downloads a registered library into the libraries directory for the active site.\n"
-"\n"
-"See libraries-list for a list of registered libraries."
-msgstr ""
-
-msgid "Basic site settings"
-msgstr "Basic site settings"
-
 msgid ""
 "Create and manage fields, forms, and display settings for your content."
 msgstr ""
@@ -21430,12 +21443,6 @@ msgstr ""
 "Select and configure text editors, and how content is filtered when "
 "displayed."
 
-msgid "Add custom URLs to existing paths."
-msgstr "Add custom URLs to existing paths."
-
-msgid "Configure site search, metadata, and search engine optimization."
-msgstr "Configure site search, metadata, and search engine optimization."
-
 msgid "Configure caching and bandwidth optimization."
 msgstr "Configure caching and bandwidth optimization."
 
@@ -21447,6 +21454,12 @@ msgstr "Take the site offline for updates and other maintenance tasks."
 
 msgid "Configure and use development tools."
 msgstr "Configure and use development tools."
+
+msgid "Add custom URLs to existing paths."
+msgstr "Add custom URLs to existing paths."
+
+msgid "Configure site search, metadata, and search engine optimization."
+msgstr "Configure site search, metadata, and search engine optimization."
 
 msgid "Configure the location of uploaded files and how they are accessed."
 msgstr "Configure the location of uploaded files and how they are accessed."
@@ -21476,9 +21489,6 @@ msgid ""
 msgstr ""
 "Configure the site description, the number of items per feed, and whether "
 "feeds should be titles/teasers/full-text."
-
-msgid "Authored on @date"
-msgstr "Authored on @date"
 
 msgid ""
 "The specified file %file could not be moved/copied because no file by that "
@@ -21581,6 +21591,13 @@ msgstr ""
 "Path to redirect the user to after submission of this form. For example, "
 "type \"/about\" to redirect to that page. Use a relative path with a slash "
 "in front."
+
+msgid ""
+"Specify an alternative path by which this data can be accessed. For example,"
+" type \"/about\" when writing an about page."
+msgstr ""
+"Specify an alternative path by which this data can be accessed. For example,"
+" type \"/about\" when writing an about page."
 
 msgid ""
 "Control default display settings for your site, across all themes. Use "
@@ -22075,8 +22092,8 @@ msgid ""
 msgstr ""
 "An entity with this UUID already exists but the machine name does not match."
 
-msgid "taxonomy term"
-msgstr "taxonomy term"
+msgid "Assets"
+msgstr ""
 
 msgid "Enter a part of the field or @bundle to filter by."
 msgstr "Enter a part of the field or @bundle to filter by."
@@ -22164,8 +22181,8 @@ msgstr ""
 "An entity field containing a UNIX timestamp of when the entity has been "
 "created."
 
-msgid "Available tokens"
-msgstr "Available tokens"
+msgid "Revision user"
+msgstr "Revision user"
 
 msgid "An entity field for storing a serialized array of values."
 msgstr "An entity field for storing a serialized array of values."
@@ -22227,17 +22244,6 @@ msgstr "Book traversal links for"
 
 msgid "Administer comment types and settings"
 msgstr "Administer comment types and settings"
-
-msgid ""
-"Allow other users to contact you via a personal contact form which keeps "
-"your email address hidden. Note that some privileged users such as site "
-"administrators are still able to contact you even if you choose to disable "
-"this feature."
-msgstr ""
-"Allow other users to contact you via a personal contact form which keeps "
-"your email address hidden. Note that some privileged users such as site "
-"administrators are still able to contact you even if you choose to disable "
-"this feature."
 
 msgid "%sender-name (@sender-from) sent %recipient-name an email."
 msgstr "%sender-name (@sender-from) sent %recipient-name an email."
@@ -22791,6 +22797,12 @@ msgstr "Comment_forum"
 msgid "Default comment field"
 msgstr "Default comment field"
 
+msgid "Local path"
+msgstr ""
+
+msgid "The callback URL is not local and not trusted: !url"
+msgstr "The callback URL is not local and not trusted: !url"
+
 msgid "Overridden block the selected user(s)"
 msgstr "Overridden block the selected user(s)"
 
@@ -22810,9 +22822,6 @@ msgstr ""
 
 msgid "Boolean indicating whether the node is published."
 msgstr "Boolean indicating whether the node is published."
-
-msgid "CustomMessage: !customMessage"
-msgstr "CustomMessage: !customMessage"
 
 msgid "Medium (220×220)"
 msgstr "Medium (220×220)"
@@ -22842,11 +22851,8 @@ msgctxt "PHP date format"
 msgid "l, F j, Y - H:i"
 msgstr "l, F j, Y - H:i"
 
-msgid "The response failed verification so will not be processed."
-msgstr "The response failed verification so will not be processed."
-
-msgid "The callback URL is not local and not trusted: !url"
-msgstr "The callback URL is not local and not trusted: !url"
+msgid "CustomMessage: !customMessage"
+msgstr "CustomMessage: !customMessage"
 
 msgid ""
 "Your MySQL server and PHP MySQL driver must support utf8mb4 character "
@@ -23295,7 +23301,7 @@ msgid "By breaking this lock, any unsaved changes made by @user will be lost."
 msgstr ""
 "By breaking this lock, any unsaved changes made by @user will be lost."
 
-msgid "A existing Colorbox plugin was overwritten at @path"
+msgid "Directory @path was created"
 msgstr ""
 
 msgid ""
@@ -23359,7 +23365,7 @@ msgstr "Exporting and importing views"
 msgid "Stable"
 msgstr "Stable"
 
-msgid "Colorbox plugin has been downloaded to @path"
+msgid "Missing dependency: unzip. Install it before using this command."
 msgstr ""
 
 msgid ""
@@ -23372,7 +23378,7 @@ msgstr ""
 msgid "The %entity_type entity type needs to be installed."
 msgstr "The %entity_type entity type needs to be installed."
 
-msgid "Drush was unable to download the Colorbox plugin to @path"
+msgid "Lists registered library information."
 msgstr ""
 
 msgid "Account cancellation request for [user:display-name] at [site:name]"
@@ -23485,6 +23491,21 @@ msgstr ""
 msgid "Account details for [user:display-name] at [site:name] (canceled)"
 msgstr "Account details for [user:display-name] at [site:name] (canceled)"
 
+msgid ""
+"Downloads a registered library into the libraries directory for the active site.\n"
+"\n"
+"See libraries-list for a list of registered libraries."
+msgstr ""
+
+msgid "A existing Colorbox plugin was overwritten at @path"
+msgstr ""
+
+msgid "Colorbox plugin has been downloaded to @path"
+msgstr ""
+
+msgid "Drush was unable to download the Colorbox plugin to @path"
+msgstr ""
+
 msgid "Provides access to asset library files."
 msgstr ""
 
@@ -23492,25 +23513,6 @@ msgid "Library definitions"
 msgstr ""
 
 msgid "Provides access to library definition files."
-msgstr ""
-
-msgid "PHP library files"
-msgstr ""
-
-msgid "Provides access to PHP library files."
-msgstr ""
-
-msgid "@label (@name:@column)"
-msgstr "@label (@name:@column)"
-
-msgid "@type language selected for page"
-msgstr "@type language selected for page"
-
-msgid ""
-"The following external libraries could not successfully be registered with "
-"Drupal core: @libs. See earlier log entries for more details. Once these "
-"issues are addressed please be sure to clear your Drupal library cache to "
-"ensure external library detection is run again."
 msgstr ""
 
 msgid "The language code."
@@ -23522,8 +23524,8 @@ msgstr "Aggregator RSS feed"
 msgid "Aggregator sources"
 msgstr "Aggregator sources"
 
-msgid "Welcome to [site:name]"
-msgstr "Welcome to [site:name]"
+msgid "PHP library files"
+msgstr ""
 
 msgid "Fallback sort expose settings"
 msgstr "Fallback sort expose settings"
@@ -23618,8 +23620,8 @@ msgstr ""
 " additional form where you can provide the name, code, and direction of the "
 "language.</p>"
 
-msgid "All content, by letter."
-msgstr "All content, by letter."
+msgid "Provides access to PHP library files."
+msgstr ""
 
 msgid "Editing languages"
 msgstr "Editing languages"
@@ -23756,6 +23758,12 @@ msgstr "Find and manage content"
 msgid "Recent content."
 msgstr "Recent content."
 
+msgid "Welcome to [site:name]"
+msgstr "Welcome to [site:name]"
+
+msgid "All content, by letter."
+msgstr "All content, by letter."
+
 msgid "Content belonging to a certain taxonomy term."
 msgstr "Content belonging to a certain taxonomy term."
 
@@ -23804,6 +23812,13 @@ msgstr ""
 msgid "Show a preview of the view output."
 msgstr "Show a preview of the view output."
 
+msgid ""
+"The following external libraries could not successfully be registered with "
+"Drupal core: @libs. See earlier log entries for more details. Once these "
+"issues are addressed please be sure to clear your Drupal library cache to "
+"ensure external library detection is run again."
+msgstr ""
+
 msgid "Libraries API settings"
 msgstr ""
 
@@ -23811,15 +23826,6 @@ msgid "Library definition settings"
 msgstr ""
 
 msgid "Enable remote fetching of library definitions"
-msgstr ""
-
-msgid "A list of remote library registry URLs"
-msgstr ""
-
-msgid "The URL of a remote library registry"
-msgstr ""
-
-msgid "URI locator configuration"
 msgstr ""
 
 msgid "The %entity_type entity type needs to be updated."
@@ -23885,8 +23891,8 @@ msgstr ""
 msgid "This identifier has illegal characters."
 msgstr "This identifier has illegal characters."
 
-msgid "@type_label bundle"
-msgstr "@type_label bundle"
+msgid "A list of remote library registry URLs"
+msgstr ""
 
 msgid "Add a new @entity_type."
 msgstr "Add a new @entity_type."
@@ -23958,18 +23964,10 @@ msgid ""
 msgstr ""
 "Minimal profile for running a test when dependencies are listed but missing."
 
-msgid ""
-"No front page content has been created yet.<br/>Follow the <a "
-"target=\"_blank\" "
-"href=\"https://www.drupal.org/docs/user_guide/en/index.html\">User Guide</a>"
-" to start building your site."
+msgid "The URL of a remote library registry"
 msgstr ""
-"No front page content has been created yet.<br/>Follow the <a "
-"target=\"_blank\" "
-"href=\"https://www.drupal.org/docs/user_guide/en/index.html\">User Guide</a>"
-" to start building your site."
 
-msgid "The locator URI"
+msgid "URI locator configuration"
 msgstr ""
 
 msgid "The field ID."
@@ -24079,8 +24077,8 @@ msgstr ""
 msgid "Umami Recipes Banner"
 msgstr ""
 
-msgid "About"
-msgstr "About"
+msgid "@type_label bundle"
+msgstr "@type_label bundle"
 
 msgid "Comments published"
 msgstr "Comments published"
@@ -24129,6 +24127,23 @@ msgstr ""
 "href=\"[site:url]admin/config/regional/language\">Languages page</a>, in "
 "order to use this page."
 
+msgid ""
+"No front page content has been created yet.<br/>Follow the <a "
+"target=\"_blank\" "
+"href=\"https://www.drupal.org/docs/user_guide/en/index.html\">User Guide</a>"
+" to start building your site."
+msgstr ""
+"No front page content has been created yet.<br/>Follow the <a "
+"target=\"_blank\" "
+"href=\"https://www.drupal.org/docs/user_guide/en/index.html\">User Guide</a>"
+" to start building your site."
+
+msgid "The locator URI"
+msgstr ""
+
+msgid "About"
+msgstr "About"
+
 msgid "Accept"
 msgstr "Accept"
 
@@ -24145,14 +24160,8 @@ msgstr[1] ""
 "@count translation files imported. %number translations were added, %update "
 "translations were updated and %delete translations were removed."
 
-msgid "No tokens available."
-msgstr "No tokens available."
-
-msgid "Click a token to insert it into the field you've last clicked."
-msgstr "Click a token to insert it into the field you've last clicked."
-
-msgid "Select and configure themes."
-msgstr "Select and configure themes."
+msgid "Duplicate Pathauto pattern"
+msgstr ""
 
 msgid "Umami disclaimer"
 msgstr ""
@@ -24379,6 +24388,9 @@ msgstr "Default comments"
 msgid "Promoted to front page"
 msgstr "Promoted to front page"
 
+msgid "Image"
+msgstr "Image"
+
 msgid ""
 "Use <em>articles</em> for time-sensitive content like news, press releases "
 "or blog posts."
@@ -24460,28 +24472,25 @@ msgstr "Taxonomy term page"
 msgid "Compact"
 msgstr "Compact"
 
-msgid "Block"
-msgstr "Block"
-
-msgid "User account menu"
-msgstr "User account menu"
-
 msgid ""
 "Settings on <a href=\"@url_settings\">Home &raquo; Admin &raquo; Config "
 "&raquo; System &raquo; SMTP</a> or <a "
 "href=\"@url_settings\">@url_settings</a>"
 msgstr ""
 
+msgid "Block"
+msgstr "Block"
+
+msgid "User account menu"
+msgstr "User account menu"
+
+msgid "Click a token to insert it into the field you've last clicked."
+msgstr "Click a token to insert it into the field you've last clicked."
+
 msgid ""
 "Provides a user interface for the Token API and some missing core tokens."
 msgstr ""
 "Provides a user interface for the Token API and some missing core tokens."
-
-msgid "Insert this token into your form"
-msgstr "Insert this token into your form"
-
-msgid "Image"
-msgstr "Image"
 
 msgid ""
 "[user:display-name],\n"
@@ -24601,19 +24610,15 @@ msgid "Custom block library"
 msgstr "Custom block library"
 
 msgid ""
-"<p>To reorder the languages on your site, use the drag icons next to each "
-"language.</p><p>The order shown here is the display order for language lists"
-" on the site such as in the language switcher blocks provided by the "
-"Interface Translation and Content Translation modules.</p><p>When you are "
-"done with reordering the languages, click the \"Save configuration\" button "
-"for the changes to take effect.</p>"
+"<p>You can change the default language of the site by choosing one of your "
+"configured languages as default. The site will use the default language in "
+"situations where no choice is made but a language should be set, for example"
+" as the language of the displayed interface.</p>"
 msgstr ""
-"<p>To reorder the languages on your site, use the drag icons next to each "
-"language.</p><p>The order shown here is the display order for language lists"
-" on the site such as in the language switcher blocks provided by the "
-"Interface Translation and Content Translation modules.</p><p>When you are "
-"done with reordering the languages, click the \"Save configuration\" button "
-"for the changes to take effect.</p>"
+"<p>You can change the default language of the site by choosing one of your "
+"configured languages as default. The site will use the default language in "
+"situations where no choice is made but a language should be set, for example"
+" as the language of the displayed interface.</p>"
 
 msgid "There are no custom blocks available."
 msgstr "There are no custom blocks available."
@@ -24621,19 +24626,11 @@ msgstr "There are no custom blocks available."
 msgid "Find and manage comments."
 msgstr "Find and manage comments."
 
-msgid ""
-"<p>You can change the default language of the site by choosing one of your "
-"configured languages as default. The site will use the default language in "
-"situations where no choice is made but a language should be set, for example"
-" as the language of the displayed interface.</p>"
-msgstr ""
-"<p>You can change the default language of the site by choosing one of your "
-"configured languages as default. The site will use the default language in "
-"situations where no choice is made but a language should be set, for example"
-" as the language of the displayed interface.</p>"
+msgid "User interface translation"
+msgstr "User interface translation"
 
-msgid "Status"
-msgstr "Status"
+msgid "Starting configuration update"
+msgstr "Starting configuration update"
 
 msgid "The approved comments listing."
 msgstr "The approved comments listing."
@@ -24647,55 +24644,26 @@ msgstr "Watchdog"
 msgid "Recent log messages"
 msgstr "Recent log messages"
 
-msgid "User interface translation"
-msgstr "User interface translation"
+msgid "Translation language"
+msgstr "Translation language"
 
 msgid "Files"
 msgstr "Files"
 
-msgid "Published"
-msgstr "Published"
+msgid "Custom block type"
+msgstr "Custom block type"
 
-msgid "Fid"
-msgstr "Fid"
+msgctxt "View entity type"
+msgid "View"
+msgstr "View"
 
 msgid "MIME type"
 msgstr "MIME type"
-
-msgid "Size"
-msgstr "Size"
-
-msgid "Operations"
-msgstr "Operations"
-
-msgid "Temporary"
-msgstr "Temporary"
-
-msgid "Permanent"
-msgstr "Permanent"
-
-msgid "Upload date"
-msgstr "Upload date"
-
-msgid "Changed date"
-msgstr "Changed date"
-
-msgid "Used in"
-msgstr "Used in"
 
 msgid "1 place"
 msgid_plural "@count places"
 msgstr[0] "1 place"
 msgstr[1] "@count places"
-
-msgid "Filename"
-msgstr "Filename"
-
-msgid "Entity"
-msgstr "Entity"
-
-msgid "Entity type"
-msgstr "Entity type"
 
 msgid "Registering module"
 msgstr "Registering module"
@@ -24744,35 +24712,29 @@ msgstr "Language direction"
 msgid "Adding languages"
 msgstr "Adding languages"
 
-msgid "No content available."
-msgstr "No content available."
+msgid ""
+"<p>To reorder the languages on your site, use the drag icons next to each "
+"language.</p><p>The order shown here is the display order for language lists"
+" on the site such as in the language switcher blocks provided by the "
+"Interface Translation and Content Translation modules.</p><p>When you are "
+"done with reordering the languages, click the \"Save configuration\" button "
+"for the changes to take effect.</p>"
+msgstr ""
+"<p>To reorder the languages on your site, use the drag icons next to each "
+"language.</p><p>The order shown here is the display order for language lists"
+" on the site such as in the language switcher blocks provided by the "
+"Interface Translation and Content Translation modules.</p><p>When you are "
+"done with reordering the languages, click the \"Save configuration\" button "
+"for the changes to take effect.</p>"
+
+msgid "Custom menu link"
+msgstr "Custom menu link"
 
 msgid "Monthly archive"
 msgstr "Monthly archive"
 
-msgid "‹‹"
-msgstr "‹‹"
-
-msgid "Leave blank if your SMTP server does not require authentication."
-msgstr "Leave blank if your SMTP server does not require authentication."
-
-msgid "SMTP Username."
-msgstr "SMTP Username."
-
-msgid "Page"
-msgstr "Page"
-
 msgid "E-mail from name"
 msgstr "E-mail from name"
-
-msgid "E-mail options"
-msgstr "E-mail options"
-
-msgid "Unpublished"
-msgstr "Unpublished"
-
-msgid "Published status"
-msgstr "Published status"
 
 msgid "E-mail from address"
 msgstr "E-mail from address"
@@ -24786,6 +24748,9 @@ msgstr "Enable debugging"
 msgid "Use SSL"
 msgstr "Use SSL"
 
+msgid "No content available."
+msgstr "No content available."
+
 msgid "Install options"
 msgstr "Install options"
 
@@ -24797,6 +24762,12 @@ msgstr "SMTP server settings"
 
 msgid "The address of your outgoing SMTP server."
 msgstr "The address of your outgoing SMTP server."
+
+msgid "Title"
+msgstr "Title"
+
+msgid "Author"
+msgstr "Author"
 
 msgid ""
 "The address of your outgoing SMTP backup server. If the primary server can't"
@@ -24811,6 +24782,12 @@ msgstr "SMTP port"
 msgid "Use TLS"
 msgstr "Use TLS"
 
+msgid "SMTP Authentication Support"
+msgstr "SMTP Authentication Support"
+
+msgid "Manage user accounts, roles, and permissions."
+msgstr "Manage user accounts, roles, and permissions."
+
 msgid ""
 "This allows connection to an SMTP server that requires SSL encryption such "
 "as Gmail."
@@ -24818,14 +24795,30 @@ msgstr ""
 "This allows connection to an SMTP server that requires SSL encryption such "
 "as Gmail."
 
-msgid "Title"
-msgstr "Title"
+msgid "Items per page"
+msgstr "Items per page"
 
-msgid "Author"
-msgstr "Author"
+msgid ""
+"A user is considered online for this long after they have last viewed a "
+"page."
+msgstr ""
+"A user is considered online for this long after they have last viewed a "
+"page."
+
+msgid "Initializing."
+msgstr "Initializing."
 
 msgid "Use encrypted protocol"
 msgstr "Use encrypted protocol"
+
+msgid "Leave blank if your SMTP server does not require authentication."
+msgstr "Leave blank if your SMTP server does not require authentication."
+
+msgid "SMTP Username."
+msgstr "SMTP Username."
+
+msgid "E-mail options"
+msgstr "E-mail options"
 
 msgid "Turn this module on or off"
 msgstr "Turn this module on or off"
@@ -24836,12 +24829,6 @@ msgstr "SMTP server"
 msgid "SMTP backup server"
 msgstr "SMTP backup server"
 
-msgid "››"
-msgstr "››"
-
-msgid "« First"
-msgstr "« First"
-
 msgid "The e-mail address that all e-mails will be from."
 msgstr "The e-mail address that all e-mails will be from."
 
@@ -24850,15 +24837,6 @@ msgstr "Send test e-mail"
 
 msgid "E-mail address to send a test e-mail to"
 msgstr "E-mail address to send a test e-mail to"
-
-msgid "Last »"
-msgstr "Last »"
-
-msgid "Items per page"
-msgstr "Items per page"
-
-msgid "Desc"
-msgstr "Desc"
 
 msgid "Type in an address to have a test e-mail sent there."
 msgstr "Type in an address to have a test e-mail sent there."
@@ -24878,6 +24856,15 @@ msgstr "You must enter an SMTP port number."
 
 msgid "The provided from e-mail address is not valid."
 msgstr "The provided from e-mail address is not valid."
+
+msgid "Sending mail to: @to"
+msgstr "Sending mail to: @to"
+
+msgid "Attachment could not be found or accessed."
+msgstr "Attachment could not be found or accessed."
+
+msgid "Insert this token into your form"
+msgstr "Insert this token into your form"
 
 msgid "First click a text field to insert your tokens into."
 msgstr "First click a text field to insert your tokens into."
@@ -25152,6 +25139,12 @@ msgid ""
 "documentation</a>."
 msgstr ""
 
+msgid "See <a href=\":pathauto-help\">Pathauto help</a> for details."
+msgstr ""
+
+msgid "Choose the action to perform."
+msgstr ""
+
 msgid "format"
 msgstr "format"
 
@@ -25259,6 +25252,9 @@ msgstr ""
 
 msgid "Delete aliases"
 msgstr "Delete aliases"
+
+msgid "Automatic alias"
+msgstr "Automatic alias"
 
 msgid ""
 "Character used to separate words in titles. This will replace any spaces and"
@@ -25471,6 +25467,9 @@ msgstr "Greater-than sign"
 msgid "Backslash"
 msgstr "Backslash"
 
+msgid "Generate automatic URL alias"
+msgstr "Generate automatic URL alias"
+
 msgid "Uncheck this to create a custom alias below."
 msgstr "Uncheck this to create a custom alias below."
 
@@ -25508,12 +25507,6 @@ msgstr ""
 msgid "All of your %label path aliases have been deleted."
 msgstr ""
 
-msgid "Automatic alias"
-msgstr "Automatic alias"
-
-msgid "See <a href=\":pathauto-help\">Pathauto help</a> for details."
-msgstr ""
-
 msgid ""
 "Maximum length of aliases to generate. 100 is the recommended length. @max "
 "is the maximum possible length."
@@ -25532,6 +25525,11 @@ msgstr ""
 msgid ""
 "Considering installing the <a href=\":url\">Redirect module</a> to get "
 "redirects when your aliases change."
+msgstr ""
+
+msgid ""
+"Uncheck this to create a custom alias below. <a "
+"href=\"@admin_link\">Configure URL alias patterns.</a>"
 msgstr ""
 
 msgid "Selection condition"
@@ -25770,12 +25768,6 @@ msgstr ""
 msgid "Pattern %label saved."
 msgstr ""
 
-msgid "Duplicate Pathauto pattern"
-msgstr ""
-
-msgid "Choose the action to perform."
-msgstr ""
-
 msgid ""
 "Choose the alias type(s). Separate multiple choices with commas, e.g. "
 "\"1,2,4\", or choose \"0\" for all types."
@@ -25933,6 +25925,9 @@ msgstr ""
 
 msgid "CAPTCHA is a trademark of Carnegie Mellon University."
 msgstr "CAPTCHA is a trademark of Carnegie Mellon University."
+
+msgid "CAPTCHA"
+msgstr "CAPTCHA"
 
 msgid "Enabled challenge"
 msgstr "Enabled challenge"
@@ -26119,9 +26114,6 @@ msgstr ""
 
 msgid "Default CAPTCHA validation"
 msgstr "Default CAPTCHA validation"
-
-msgid "Opt-in or out of tracking"
-msgstr "Opt-in or out of tracking"
 
 msgid ""
 "Define how the response should be processed by default. Note that the "
@@ -26380,12 +26372,6 @@ msgstr "« first"
 msgid "With selection"
 msgstr "With selection"
 
-msgid "Created"
-msgstr "Created"
-
-msgid "To"
-msgstr "To"
-
 msgid "Status code"
 msgstr "Status code"
 
@@ -26472,24 +26458,6 @@ msgstr ""
 msgid "The redirect has been saved."
 msgstr "The redirect has been saved."
 
-msgid "Reset"
-msgstr "Reset"
-
-msgid "Sort by"
-msgstr "Sort by"
-
-msgid "- All -"
-msgstr "- All -"
-
-msgid "URL redirects"
-msgstr "URL redirects"
-
-msgid "Message type"
-msgstr "Message type"
-
-msgid "Redirect users from one URL to another."
-msgstr "Redirect users from one URL to another."
-
 msgid "No URL redirects available."
 msgstr "No URL redirects available."
 
@@ -26505,6 +26473,24 @@ msgstr "How many URL redirects would you like to generate?"
 
 msgid "Delete all URL redirects before generating new URL redirects."
 msgstr "Delete all URL redirects before generating new URL redirects."
+
+msgid "Sort by"
+msgstr "Sort by"
+
+msgid "Asc"
+msgstr "Asc"
+
+msgid "Redirect users from one URL to another."
+msgstr "Redirect users from one URL to another."
+
+msgid "‹ previous"
+msgstr "‹ previous"
+
+msgid "Opt-in or out of tracking"
+msgstr "Opt-in or out of tracking"
+
+msgid "Track translation sets as one unit"
+msgstr "Track translation sets as one unit"
 
 msgid ""
 "The source path %path is likely a valid path. It is preferred to <a href"
@@ -26759,8 +26745,8 @@ msgstr ""
 "Changing the tracker of an existing index will lead to reindexing of all "
 "items."
 
-msgid "Downloads"
-msgstr "Downloads"
+msgid "Message type"
+msgstr "Message type"
 
 msgid ""
 "The search server that the index should use for indexing and searching. If "
@@ -26780,6 +26766,9 @@ msgid ""
 msgstr ""
 "Optionally, enter a description to explain the function of the index in more"
 " detail. This will only be displayed in the admin user interface."
+
+msgid "Advanced options"
+msgstr "Advanced options"
 
 msgid ""
 "These options allow more detailed configuration of index behavior, but can "
@@ -26816,6 +26805,9 @@ msgstr "Processor order"
 msgid "Datasources"
 msgstr "Datasources"
 
+msgid "Downloads"
+msgstr "Downloads"
+
 msgid "Privacy"
 msgstr "Privacy"
 
@@ -26827,6 +26819,15 @@ msgstr "Create field"
 
 msgid "Domains"
 msgstr "Domains"
+
+msgid "@module (<span class=\"admin-enabled\">enabled</span>)"
+msgstr "@module (<span class=\"admin-enabled\">enabled</span>)"
+
+msgid "Add tracking to specific pages"
+msgstr "Add tracking to specific pages"
+
+msgid "Add tracking for specific roles"
+msgstr "Add tracking for specific roles"
 
 msgid "Redirect ID"
 msgstr "Redirect ID"
@@ -27162,18 +27163,6 @@ msgstr "Displaying results @start - @end of @total"
 msgid "Module %module granted %permission permission to authenticated users."
 msgstr "Module %module granted %permission permission to authenticated users."
 
-msgid "@module (<span class=\"admin-enabled\">enabled</span>)"
-msgstr "@module (<span class=\"admin-enabled\">enabled</span>)"
-
-msgid "Add tracking to specific pages"
-msgstr "Add tracking to specific pages"
-
-msgid "Add tracking for specific roles"
-msgstr "Add tracking for specific roles"
-
-msgid "Track translation sets as one unit"
-msgstr "Track translation sets as one unit"
-
 msgid ""
 "When a node is part of a translation set, record statistics for the "
 "originating node instead. This allows for a translation set to be treated as"
@@ -27478,18 +27467,6 @@ msgstr "Search and Advertising"
 msgid "Metric"
 msgstr "Metric"
 
-msgid "User role names"
-msgstr "User role names"
-
-msgid "User role ids"
-msgstr "User role ids"
-
-msgid "Google Analytics"
-msgstr "Google Analytics"
-
-msgid "Google Analytics module"
-msgstr "Google Analytics module"
-
 msgid ""
 "To adjust global defaults, go to admin/config/search/metatag. If you need to"
 " set meta tags for a specific entity, edit its bundle and add the Metatag "
@@ -27505,22 +27482,20 @@ msgstr "Metatag defaults"
 msgid "403 access denied"
 msgstr "403 access denied"
 
-msgid ""
-"If you enter a positive value, Honeypot will require that all protected "
-"forms take at least that many seconds long to fill out. Most forms take at "
-"least 5-10 seconds to complete (if you're a human), so setting this to a "
-"value < 5 will help protect against spam bots. Set to 0 to disable."
-msgstr ""
-"If you enter a positive value, Honeypot will require that all protected "
-"forms take at least that many seconds long to fill out. Most forms take at "
-"least 5-10 seconds to complete (if you're a human), so setting this to a "
-"value < 5 will help protect against spam bots. Set to 0 to disable."
+msgid "[site:url]"
+msgstr "[site:url]"
+
+msgid "User role names"
+msgstr "User role names"
+
+msgid "Google Analytics"
+msgstr "Google Analytics"
+
+msgid "Google Analytics module"
+msgstr "Google Analytics module"
 
 msgid "404 page not found"
 msgstr "404 page not found"
-
-msgid "[site:url]"
-msgstr "[site:url]"
 
 msgid "[current-page:url]"
 msgstr "[current-page:url]"
@@ -27717,6 +27692,17 @@ msgstr ""
 msgid "Honeypot Time Limit"
 msgstr "Honeypot Time Limit"
 
+msgid ""
+"If you enter a positive value, Honeypot will require that all protected "
+"forms take at least that many seconds long to fill out. Most forms take at "
+"least 5-10 seconds to complete (if you're a human), so setting this to a "
+"value < 5 will help protect against spam bots. Set to 0 to disable."
+msgstr ""
+"If you enter a positive value, Honeypot will require that all protected "
+"forms take at least that many seconds long to fill out. Most forms take at "
+"least 5-10 seconds to complete (if you're a human), so setting this to a "
+"value < 5 will help protect against spam bots. Set to 0 to disable."
+
 msgid "Honeypot form-specific settings"
 msgstr "Honeypot form-specific settings"
 
@@ -27831,9 +27817,6 @@ msgid ""
 " the Honeypot time limit is not set to 0.</strong>"
 msgstr ""
 
-msgid "Email address"
-msgstr "Email address"
-
 msgid ""
 "<strong>Page caching will be disabled if there is a form protected by time "
 "limit on the page.</strong>"
@@ -27847,6 +27830,9 @@ msgstr ""
 
 msgid "Unprotected form"
 msgstr ""
+
+msgid "Medium format"
+msgstr "Medium format"
 
 msgid ""
 "The name of the Honeypot form field. It's usually most effective to use a "
@@ -27908,6 +27894,10 @@ msgstr "Footer_en"
 msgid "Footer links (en)"
 msgstr "Footer links (en)"
 
+msgctxt "Long month name"
+msgid "October"
+msgstr "October"
+
 msgid "1 minute"
 msgid_plural "@count minutes"
 msgstr[0] "1 minute"
@@ -27925,14 +27915,8 @@ msgstr "Shortcut link"
 msgid "Custom block ID"
 msgstr "Custom block ID"
 
-msgid "UUID"
-msgstr "UUID"
-
 msgid "Revision create time"
 msgstr "Revision create time"
-
-msgid "Revision user"
-msgstr "Revision user"
 
 msgid "Revision log message"
 msgstr "Revision log message"
@@ -27945,6 +27929,9 @@ msgstr "Default revision"
 
 msgid "Revision translation affected"
 msgstr "Revision translation affected"
+
+msgid "Form ID"
+msgstr "Form ID"
 
 msgid "The sender's name"
 msgstr "The sender's name"
@@ -27973,9 +27960,6 @@ msgstr "Index ID"
 msgid "Task data"
 msgstr "Task data"
 
-msgid "Weight"
-msgstr "Weight"
-
 msgid "Path"
 msgstr "Path"
 
@@ -27990,6 +27974,9 @@ msgstr "Menu link title"
 
 msgid "Menu name"
 msgstr "Menu name"
+
+msgid "Link"
+msgstr "Link"
 
 msgid "External"
 msgstr "External"
@@ -28024,6 +28011,9 @@ msgstr "Image with image style"
 msgid "Menus"
 msgstr "Menus"
 
+msgid "Nodes"
+msgstr "Nodes"
+
 msgid "Site information"
 msgstr "Site information"
 
@@ -28051,14 +28041,8 @@ msgstr "Translation source node"
 msgid "Comment count"
 msgstr "Comment count"
 
-msgid "New comment count"
-msgstr "New comment count"
-
 msgid "Menu link"
 msgstr "Menu link"
-
-msgid "Content ID"
-msgstr "Content ID"
 
 msgid "Summary"
 msgstr "Summary"
@@ -28074,6 +28058,9 @@ msgstr "Date created"
 
 msgid "Date changed"
 msgstr "Date changed"
+
+msgid "Machine-readable name"
+msgstr "Machine-readable name"
 
 msgid "Node count"
 msgstr "Node count"
@@ -28119,6 +28106,9 @@ msgstr "Account cancellation URL"
 
 msgid "One-time login URL"
 msgstr "One-time login URL"
+
+msgid "User role ids"
+msgstr "User role ids"
 
 msgid "Deprecated: User Name"
 msgstr "Deprecated: User Name"
@@ -28210,6 +28200,9 @@ msgstr "Comment ID"
 msgid "IP Address"
 msgstr "IP Address"
 
+msgid "Email address"
+msgstr "Email address"
+
 msgid "Home page"
 msgstr "Home page"
 
@@ -28227,9 +28220,6 @@ msgstr "Login page"
 
 msgid "Short format"
 msgstr "Short format"
-
-msgid "Medium format"
-msgstr "Medium format"
 
 msgid "Long format"
 msgstr "Long format"
@@ -28302,6 +28292,9 @@ msgstr "Also known as:"
 
 msgid "@label (@name)"
 msgstr "@label (@name)"
+
+msgid "@label (@name:@column)"
+msgstr "@label (@name:@column)"
 
 msgid "Main navigation (en)"
 msgstr "Main navigation (en)"
@@ -28400,9 +28393,6 @@ msgid "This will also remove 1 placed block instance."
 msgid_plural "This will also remove @count placed block instances."
 msgstr[0] "This will also remove 1 placed block instance."
 msgstr[1] "This will also remove @count placed block instances."
-
-msgid "Upload requirements"
-msgstr "Upload requirements"
 
 msgid "Deleted 1 comment."
 msgid_plural "Deleted @count comments."
@@ -28545,52 +28535,6 @@ msgstr "Showcase gallery"
 msgid "Release date"
 msgstr "Release date"
 
-msgid "Popovers"
-msgstr "Popovers"
-
-msgid "Finnish"
-msgstr "Finnish"
-
-msgid "Swedish"
-msgstr "Swedish"
-
-msgid "Tooltips"
-msgstr "Tooltips"
-
-msgid "Modals"
-msgstr "Modals"
-
-msgid "Advanced Cache"
-msgstr "Advanced Cache"
-
-msgid "Custom URLs"
-msgstr "Custom URLs"
-
-msgid "Navbar"
-msgstr "Navbar"
-
-msgid "Region Wells"
-msgstr "Region Wells"
-
-msgid "Images"
-msgstr "Images"
-
-msgid "Tables"
-msgstr "Tables"
-
-msgid "Container"
-msgstr "Container"
-
-msgid "Etusivu"
-msgstr "Etusivu"
-
-msgctxt "x organizations"
-msgid "Organizations"
-msgstr "Publishers"
-
-msgid "News and articles"
-msgstr "News"
-
 msgid "Organisaatiot"
 msgstr "Organisaatiot"
 
@@ -28605,6 +28549,55 @@ msgstr "Profiili"
 
 msgid "Kirjaudu ulos"
 msgstr "Kirjaudu ulos"
+
+msgid "Handles migrations"
+msgstr "Handles migrations"
+
+msgid "Custom URLs"
+msgstr "Custom URLs"
+
+msgid "Finnish"
+msgstr "Finnish"
+
+msgid "Swedish"
+msgstr "Swedish"
+
+msgid "Popovers"
+msgstr "Popovers"
+
+msgid "Tooltips"
+msgstr "Tooltips"
+
+msgid "Modals"
+msgstr "Modals"
+
+msgid "Navbar"
+msgstr "Navbar"
+
+msgid "Region Wells"
+msgstr "Region Wells"
+
+msgid "Etusivu"
+msgstr "Etusivu"
+
+msgid "Images"
+msgstr "Images"
+
+msgid "Container"
+msgstr "Container"
+
+msgctxt "x organizations"
+msgid "Organizations"
+msgstr "Publishers"
+
+msgid "Upload requirements"
+msgstr "Upload requirements"
+
+msgid "Africa/Windhoek"
+msgstr ""
+
+msgid "America/Adak"
+msgstr ""
 
 msgid ""
 "Avoindata.fi service offers over 1000 interesting data sets available for "
@@ -28800,153 +28793,6 @@ msgstr ""
 "Allows users to stage content or preview a full site by using multiple "
 "workspaces on a single site."
 
-msgid "Search API"
-msgstr "Search API"
-
-msgid "Metatag"
-msgstr "Metatag"
-
-msgid "CAPTCHA module settings"
-msgstr "CAPTCHA module settings"
-
-msgid "Administer how and where CAPTCHA is used."
-msgstr "Administer how and where CAPTCHA is used."
-
-msgid "Controls settings for the module Easy Breadcrumb"
-msgstr "Controls settings for the module Easy Breadcrumb"
-
-msgid "Configure Metatag defaults."
-msgstr "Configure Metatag defaults."
-
-msgid "Create and configure search indexes and servers."
-msgstr "Create and configure search indexes and servers."
-
-msgid "Provides configuration options for the Disqus comment system."
-msgstr "Provides configuration options for the Disqus comment system."
-
-msgid "Logout"
-msgstr "Logout"
-
-msgid "Tuottajat"
-msgstr "Tuottajat"
-
-msgid "Käyttösovellukset"
-msgstr "Käyttösovellukset"
-
-msgid "Ajankohtaista"
-msgstr "Ajankohtaista"
-
-msgid "Opas"
-msgstr "Opas"
-
-msgid "Tapahtumakalenteri"
-msgstr "Tapahtumakalenteri"
-
-msgid "Lisää"
-msgstr "Lisää"
-
-msgid "Service provided by Population Register Centre"
-msgstr "Service provided by Population Register Centre"
-
-msgid "Follow us"
-msgstr "Follow us"
-
-msgid "Avoindata.fi"
-msgstr "Avoindata.fi"
-
-msgid "Interface translation export"
-msgstr "Interface translation export"
-
-msgid "Go to page @key"
-msgstr "Go to page @key"
-
-msgctxt "x applications"
-msgid "Applications"
-msgstr "Showcases"
-
-msgid "Show all"
-msgstr "Show all"
-
-msgid "Datasets"
-msgstr "Datasets"
-
-msgid "Applications"
-msgstr "Showcases"
-
-msgid "Organizations"
-msgstr "Publishers"
-
-msgid "Open data categories"
-msgstr "Open data categories"
-
-msgctxt "new datasets"
-msgid "New"
-msgstr "New"
-
-msgctxt "popular datasets"
-msgid "Popular"
-msgstr "Popular"
-
-msgid "More recently modified datasets"
-msgstr "More recently modified datasets"
-
-msgid "More new data sets"
-msgstr "More new data sets"
-
-msgid "More popular datasets"
-msgstr "More popular datasets"
-
-msgid "Show all applications"
-msgstr "Show all showcases"
-
-msgid "Newsfeed"
-msgstr "Newsfeed"
-
-msgid "All News"
-msgstr "All News"
-
-msgid "Events"
-msgstr "Events"
-
-msgid "All Events"
-msgstr "All Events"
-
-msgid "Register new account"
-msgstr "Register new account"
-
-msgid "Download feature"
-msgstr "Download feature"
-
-msgid "Add and configure"
-msgstr "Add and configure"
-
-msgid "Save and add"
-msgstr "Save and add"
-
-msgid "Update style"
-msgstr "Update style"
-
-msgid "Write"
-msgstr "Write"
-
-msgid "Restore"
-msgstr "Restore"
-
-msgid "Random number generation"
-msgstr "Random number generation"
-
-msgid "Font Awesome 5"
-msgstr "Font Awesome 5"
-
-msgid "Trusted Host Settings"
-msgstr "Trusted Host Settings"
-
-msgid "Tray @action."
-msgstr "Tray @action."
-
-msgid "Tray \"@tray\" @action."
-msgstr "Tray \"@tray\" @action."
-
 msgid "Applicationsasd"
 msgstr "Applicationsasd"
 
@@ -28978,8 +28824,137 @@ msgstr "Provides a simple link field type."
 msgid "Drush support for direct upgrades from older Drupal versions."
 msgstr "Drush support for direct upgrades from older Drupal versions."
 
-msgid "Handles migrations"
-msgstr "Handles migrations"
+msgid "Service provided by Population Register Centre"
+msgstr "Service provided by Population Register Centre"
+
+msgid "Käyttösovellukset"
+msgstr "Käyttösovellukset"
+
+msgid "Ajankohtaista"
+msgstr "Ajankohtaista"
+
+msgid "Lisää"
+msgstr "Lisää"
+
+msgid "Tapahtumakalenteri"
+msgstr "Tapahtumakalenteri"
+
+msgid "Avoindata.fi"
+msgstr "Avoindata.fi"
+
+msgid "Follow us"
+msgstr "Follow us"
+
+msgctxt "x applications"
+msgid "Applications"
+msgstr "Showcases"
+
+msgid "Show all"
+msgstr "Show all"
+
+msgid "Datasets"
+msgstr "Datasets"
+
+msgid "Applications"
+msgstr "Showcases"
+
+msgid "Organizations"
+msgstr "Publishers"
+
+msgid "Open data categories"
+msgstr "Open data categories"
+
+msgid "Register new account"
+msgstr "Register new account"
+
+msgid "Download feature"
+msgstr "Download feature"
+
+msgid "Add and configure"
+msgstr "Add and configure"
+
+msgid "Save and add"
+msgstr "Save and add"
+
+msgid "Update style"
+msgstr "Update style"
+
+msgid "Restore"
+msgstr "Restore"
+
+msgctxt "new datasets"
+msgid "New"
+msgstr "New"
+
+msgctxt "popular datasets"
+msgid "Popular"
+msgstr "Popular"
+
+msgid "More recently modified datasets"
+msgstr "More recently modified datasets"
+
+msgid "More new data sets"
+msgstr "More new data sets"
+
+msgid "More popular datasets"
+msgstr "More popular datasets"
+
+msgid "Newsfeed"
+msgstr "Newsfeed"
+
+msgid "All News"
+msgstr "All News"
+
+msgid "Events"
+msgstr "Events"
+
+msgid "All Events"
+msgstr "All Events"
+
+msgid "Search API"
+msgstr "Search API"
+
+msgid "Metatag"
+msgstr "Metatag"
+
+msgid "CAPTCHA module settings"
+msgstr "CAPTCHA module settings"
+
+msgid "Administer how and where CAPTCHA is used."
+msgstr "Administer how and where CAPTCHA is used."
+
+msgid "Configure Metatag defaults."
+msgstr "Configure Metatag defaults."
+
+msgid "Create and configure search indexes and servers."
+msgstr "Create and configure search indexes and servers."
+
+msgid "Provides configuration options for the Disqus comment system."
+msgstr "Provides configuration options for the Disqus comment system."
+
+msgid "Logout"
+msgstr "Logout"
+
+msgid "Tray @action."
+msgstr "Tray @action."
+
+msgid "Interface translation export"
+msgstr "Interface translation export"
+
+msgid "Random number generation"
+msgstr "Random number generation"
+
+msgid "Font Awesome 5"
+msgstr "Font Awesome 5"
+
+msgid "Trusted Host Settings"
+msgstr "Trusted Host Settings"
+
+msgid "Go to page @key"
+msgstr "Go to page @key"
+
+msgid "Tray \"@tray\" @action."
+msgstr "Tray \"@tray\" @action."
 
 msgid "Contains migrations from older Drupal versions."
 msgstr "Contains migrations from older Drupal versions."
@@ -29219,47 +29194,126 @@ msgstr ""
 "module again for performance reasons. The provided configuration will not be"
 " removed."
 
-msgid "Updated default configuration."
-msgstr "Updated default configuration."
+msgid ""
+"Regularly review and install <a href=\":updates\">available updates</a> to "
+"maintain a secure and current site. Always run the <a href=\":update-"
+"php\">update script</a> each time a module is updated."
+msgstr ""
+"Regularly review and install <a href=\":updates\">available updates</a> to "
+"maintain a secure and current site. Always run the <a href=\":update-"
+"php\">update script</a> each time a module is updated."
+
+msgid "Configure page caching strategy with APE."
+msgstr "Configure page caching strategy with APE."
+
+msgid ""
+"Drupal provides an <a href=\":module_enable\">Internal Page Cache module</a>"
+" that is recommended for small to medium-sized websites."
+msgstr ""
+"Drupal provides an <a href=\":module_enable\">Internal Page Cache module</a>"
+" that is recommended for small to medium-sized websites."
 
 msgid "CDN (Content Delivery Network)"
 msgstr "CDN (Content Delivery Network)"
 
-msgid "Easy Breadcrumb"
-msgstr "Easy Breadcrumb"
+msgid "JavaScript"
+msgstr "JavaScript"
 
-msgid ""
-"Allow for site emails to be sent through an SMTP server of your choice."
-msgstr ""
-"Allow for site emails to be sent through an SMTP server of your choice."
+msgid "All Finnish open data from one place."
+msgstr "All Finnish open data from one place."
 
 msgid "Tietoaineistot"
 msgstr "Tietoaineistot"
 
-msgid "All Finnish open data from one place."
-msgstr "All Finnish open data from one place."
+msgctxt "x datasets"
+msgid "Datasets"
+msgstr "Datasets"
+
+msgid "Type what are you searching for"
+msgstr "Type what are you searching for"
+
+msgid "Rebuild"
+msgstr "Rebuild"
 
 msgctxt "recently modified datasets"
 msgid "Recently modified"
 msgstr "Recently modified"
 
+msgid "Expand all"
+msgstr ""
+
 msgid "News"
 msgstr "News"
 
+msgid "Disqus"
+msgstr "Disqus"
+
+msgid "Easy Breadcrumb"
+msgstr "Easy Breadcrumb"
+
+msgid "Font Awesome Settings"
+msgstr "Font Awesome Settings"
+
 msgid ""
-"Regularly review and install <a href=\":updates\">available updates</a> to "
-"maintain a secure and current site. Always run the <a href=\":update-"
-"php\">update script</a> each time a module is updated."
+"Allow for site emails to be sent through an SMTP server of your choice."
 msgstr ""
-"Regularly review and install <a href=\":updates\">available updates</a> to "
-"maintain a secure and current site. Always run the <a href=\":update-"
-"php\">update script</a> each time a module is updated."
+"Allow for site emails to be sent through an SMTP server of your choice."
+
+msgid "Global settings for the display of Font Awesome icons."
+msgstr "Global settings for the display of Font Awesome icons."
+
+msgid "Close all"
+msgstr ""
 
 msgid "Updating translations for JavaScript and default configuration."
 msgstr "Updating translations for JavaScript and default configuration."
 
-msgid "JavaScript"
-msgstr "JavaScript"
+msgid "Updated default configuration."
+msgstr "Updated default configuration."
+
+msgid ""
+"One translation string was skipped because of disallowed or malformed HTML. "
+"See the log for details."
+msgid_plural ""
+"@count translation strings were skipped because of disallowed or malformed "
+"HTML. See the log for details."
+msgstr[0] ""
+"One translation string was skipped because of disallowed or malformed HTML. "
+"See the log for details."
+msgstr[1] ""
+"@count translation strings were skipped because of disallowed or malformed "
+"HTML. See the log for details."
+
+msgid "Links related to Devel module."
+msgstr ""
+
+msgid "Advanced Cache"
+msgstr "Advanced Cache"
+
+msgid "Tables"
+msgstr "Tables"
+
+msgid "Tuottajat"
+msgstr "Tuottajat"
+
+msgid "Opas"
+msgstr "Opas"
+
+msgid ""
+"Central Open Data distribution platform for datasets released by finnish "
+"individuals, companies and public organizations."
+msgstr ""
+"All Finnish open data in one place.\n"
+"Opendata.fi is a service for publishing and utilising open data for everyone."
+
+msgid "Enter the password that accompanies your username."
+msgstr "Enter the password that accompanies your username."
+
+msgid "Write"
+msgstr "Write"
+
+msgid "Show all applications"
+msgstr "Show all showcases"
 
 msgid "Date value"
 msgstr "Date value"
@@ -29270,8 +29324,8 @@ msgstr "Comment types"
 msgid "Form modes"
 msgstr "Form modes"
 
-msgid "Disqus"
-msgstr "Disqus"
+msgid "Image toolkit"
+msgstr "Image toolkit"
 
 msgid "Maintenance mode"
 msgstr "Maintenance mode"
@@ -29279,23 +29333,20 @@ msgstr "Maintenance mode"
 msgid "Configuration synchronization"
 msgstr "Configuration synchronization"
 
+msgid "Devel settings"
+msgstr ""
+
 msgid "Date and time formats"
 msgstr "Date and time formats"
 
-msgid "Workflow"
-msgstr "Workflow"
+msgid "URL redirects"
+msgstr "URL redirects"
 
 msgid "Text formats and editors"
 msgstr "Text formats and editors"
 
-msgid "Font Awesome Settings"
-msgstr "Font Awesome Settings"
-
 msgid "Honeypot configuration"
 msgstr "Honeypot configuration"
-
-msgid "Account settings"
-msgstr "Account settings"
 
 msgid "Top 'page not found' errors"
 msgstr "Top 'page not found' errors"
@@ -29312,15 +29363,14 @@ msgstr "List and edit site comments and the comment approval queue."
 msgid "Manage custom form modes."
 msgstr "Manage custom form modes."
 
+msgid "Manage tagging, categorization, and classification of your content."
+msgstr "Manage tagging, categorization, and classification of your content."
+
 msgid "Administer blocks, content types, menus, etc."
 msgstr "Administer blocks, content types, menus, etc."
 
-msgid ""
-"Change site name, email address, slogan, default front page, and error "
-"pages."
-msgstr ""
-"Change site name, email address, slogan, default front page, and error "
-"pages."
+msgid "Select and configure themes."
+msgstr "Select and configure themes."
 
 msgid ""
 "Configure tracking behavior to get insights into your website traffic and "
@@ -29342,11 +29392,11 @@ msgstr ""
 "Configure default user account settings, including fields, registration "
 "requirements, and email messages."
 
-msgid "Add and modify shortcut sets."
-msgstr "Add and modify shortcut sets."
+msgid "Configure user accounts."
+msgstr "Configure user accounts."
 
-msgid "Global settings for the display of Font Awesome icons."
-msgstr "Global settings for the display of Font Awesome icons."
+msgid "Controls settings for the module Easy Breadcrumb"
+msgstr "Controls settings for the module Easy Breadcrumb"
 
 msgid ""
 "Configure Honeypot spam prevention and the forms on which Honeypot will be "
@@ -29354,6 +29404,11 @@ msgid ""
 msgstr ""
 "Configure Honeypot spam prevention and the forms on which Honeypot will be "
 "used."
+
+msgid ""
+"Helper functions, pages, and blocks to assist Drupal developers. The devel "
+"blocks can be managed via the block administration page."
+msgstr ""
 
 msgid ""
 "Choose which image toolkit to use if you have installed optional toolkits."
@@ -29370,80 +29425,1394 @@ msgstr ""
 msgid "Overview of plugins used in all views."
 msgstr "Overview of plugins used in all views."
 
-msgid "Reference for usage, configuration, and modules."
-msgstr "Reference for usage, configuration, and modules."
+msgid "View reports, updates, and errors."
+msgstr "View reports, updates, and errors."
 
-msgid ""
-"Central Open Data distribution platform for datasets released by finnish "
-"individuals, companies and public organizations."
-msgstr ""
-"All Finnish open data in one place.\n"
-"Opendata.fi is a service for publishing and utilising open data for everyone."
-
-msgid "Add URL redirect"
+msgid "Development menu"
 msgstr ""
 
-msgctxt "Long month name"
-msgid "October"
-msgstr "October"
-
-msgid "Th"
-msgstr "Th"
-
-msgctxt "x datasets"
-msgid "Datasets"
-msgstr "Datasets"
-
-msgid "Type what are you searching for"
-msgstr "Type what are you searching for"
-
-msgid "The requested page could not be found."
-msgstr "The requested page could not be found."
-
-msgid "Rebuild"
-msgstr "Rebuild"
-
-msgid "PHP OPcode caching"
-msgstr "PHP OPcode caching"
-
-msgid ""
-"External resources can be optimized automatically, which can reduce both the"
-" size and number of requests made to your website."
-msgstr ""
-"External resources can be optimized automatically, which can reduce both the"
-" size and number of requests made to your website."
-
-msgid "Configure page caching strategy with APE."
-msgstr "Configure page caching strategy with APE."
-
-msgid ""
-"Most CAPTCHA methods will disable the caching of pages that contain a "
-"CAPTCHA element. Check the different implementations to know more about how "
-"it affects caching."
-msgstr ""
-
-msgid ""
-"Drupal provides an <a href=\":module_enable\">Internal Page Cache module</a>"
-" that is recommended for small to medium-sized websites."
-msgstr ""
-"Drupal provides an <a href=\":module_enable\">Internal Page Cache module</a>"
-" that is recommended for small to medium-sized websites."
-
-msgid "CAPTCHA"
-msgstr "CAPTCHA"
-
-msgid "Aggregate CSS files"
-msgstr "Aggregate CSS files"
-
-msgid ""
-"Reorder the configured languages to set their order in the language switcher"
-" block and, when editing content, in the list of selectable languages. This "
-"ordering does not impact <a href=\":detection\">detection and selection</a>."
+msgid "Devel"
 msgstr ""
 
 msgid "Horizontal orientation"
 msgstr "Horizontal orientation"
 
+msgid "@label"
+msgstr "@label"
+
+msgid "Config editor"
+msgstr ""
+
+msgid "Reinstall Modules"
+msgstr ""
+
+msgid "Rebuild Menu"
+msgstr ""
+
+msgid "State editor"
+msgstr ""
+
+msgid "Theme registry"
+msgstr ""
+
+msgid "Entity Info"
+msgstr ""
+
+msgid "Field Info"
+msgstr ""
+
+msgid "PHPinfo()"
+msgstr ""
+
+msgid "View Session"
+msgstr ""
+
+msgid "Element Info"
+msgstr ""
+
+msgid "Cache clear"
+msgstr ""
+
+msgid "Container Info"
+msgstr ""
+
+msgid "Routes Info"
+msgstr ""
+
+msgid "Current route info"
+msgstr ""
+
+msgid "Events Info"
+msgstr ""
+
+msgid "Edit configuration."
+msgstr ""
+
+msgid "Edit state system values."
+msgstr ""
+
+msgid "Africa/Abidjan"
+msgstr ""
+
+msgid "Africa/Accra"
+msgstr ""
+
+msgid "Africa/Addis Ababa"
+msgstr ""
+
+msgid "Africa/Algiers"
+msgstr ""
+
+msgid "Africa/Asmara"
+msgstr ""
+
+msgid "Africa/Bamako"
+msgstr ""
+
+msgid "Africa/Bangui"
+msgstr ""
+
+msgid "Africa/Banjul"
+msgstr ""
+
+msgid "Africa/Bissau"
+msgstr ""
+
+msgid "Africa/Blantyre"
+msgstr ""
+
+msgid "Africa/Brazzaville"
+msgstr ""
+
+msgid "Africa/Bujumbura"
+msgstr ""
+
+msgid "Africa/Cairo"
+msgstr ""
+
+msgid "Africa/Casablanca"
+msgstr ""
+
+msgid "Africa/Ceuta"
+msgstr ""
+
+msgid "Africa/Conakry"
+msgstr ""
+
+msgid "Africa/Dakar"
+msgstr ""
+
+msgid "Africa/Dar es Salaam"
+msgstr ""
+
+msgid "Africa/Djibouti"
+msgstr ""
+
+msgid "Africa/Douala"
+msgstr ""
+
+msgid "Africa/El Aaiun"
+msgstr ""
+
+msgid "Africa/Freetown"
+msgstr ""
+
+msgid "Africa/Gaborone"
+msgstr ""
+
+msgid "Africa/Harare"
+msgstr ""
+
+msgid "Africa/Johannesburg"
+msgstr ""
+
+msgid "Africa/Juba"
+msgstr ""
+
+msgid "Africa/Kampala"
+msgstr ""
+
+msgid "Africa/Khartoum"
+msgstr ""
+
+msgid "Africa/Kigali"
+msgstr ""
+
+msgid "Africa/Kinshasa"
+msgstr ""
+
+msgid "Africa/Lagos"
+msgstr ""
+
+msgid "Africa/Libreville"
+msgstr ""
+
+msgid "Africa/Lome"
+msgstr ""
+
+msgid "Africa/Luanda"
+msgstr ""
+
+msgid "Africa/Lubumbashi"
+msgstr ""
+
+msgid "Africa/Lusaka"
+msgstr ""
+
+msgid "Africa/Malabo"
+msgstr ""
+
+msgid "Africa/Maputo"
+msgstr ""
+
+msgid "Africa/Maseru"
+msgstr ""
+
+msgid "Africa/Mbabane"
+msgstr ""
+
+msgid "Africa/Mogadishu"
+msgstr ""
+
+msgid "Africa/Monrovia"
+msgstr ""
+
+msgid "Africa/Nairobi"
+msgstr ""
+
+msgid "Africa/Ndjamena"
+msgstr ""
+
+msgid "Africa/Niamey"
+msgstr ""
+
+msgid "Africa/Nouakchott"
+msgstr ""
+
+msgid "Africa/Ouagadougou"
+msgstr ""
+
+msgid "Africa/Porto-Novo"
+msgstr ""
+
+msgid "Africa/Sao Tome"
+msgstr ""
+
+msgid "Africa/Tripoli"
+msgstr ""
+
+msgid "Africa/Tunis"
+msgstr ""
+
+msgid "America/Anchorage"
+msgstr ""
+
+msgid "America/Anguilla"
+msgstr ""
+
+msgid "America/Antigua"
+msgstr ""
+
+msgid "America/Araguaina"
+msgstr ""
+
+msgid "America/Argentina/Buenos Aires"
+msgstr ""
+
+msgid "America/Argentina/Catamarca"
+msgstr ""
+
+msgid "America/Argentina/Cordoba"
+msgstr ""
+
+msgid "America/Argentina/Jujuy"
+msgstr ""
+
+msgid "America/Argentina/La Rioja"
+msgstr ""
+
+msgid "America/Argentina/Mendoza"
+msgstr ""
+
+msgid "America/Argentina/Rio Gallegos"
+msgstr ""
+
+msgid "America/Argentina/Salta"
+msgstr ""
+
+msgid "America/Argentina/San Juan"
+msgstr ""
+
+msgid "America/Argentina/San Luis"
+msgstr ""
+
+msgid "America/Argentina/Tucuman"
+msgstr ""
+
+msgid "America/Argentina/Ushuaia"
+msgstr ""
+
+msgid "America/Aruba"
+msgstr ""
+
+msgid "America/Asuncion"
+msgstr ""
+
+msgid "America/Atikokan"
+msgstr ""
+
+msgid "America/Bahia"
+msgstr ""
+
+msgid "America/Bahia Banderas"
+msgstr ""
+
+msgid "America/Barbados"
+msgstr ""
+
+msgid "America/Belem"
+msgstr ""
+
+msgid "America/Belize"
+msgstr ""
+
+msgid "America/Blanc-Sablon"
+msgstr ""
+
+msgid "America/Boa Vista"
+msgstr ""
+
+msgid "America/Bogota"
+msgstr ""
+
+msgid "America/Boise"
+msgstr ""
+
+msgid "America/Cambridge Bay"
+msgstr ""
+
+msgid "America/Campo Grande"
+msgstr ""
+
+msgid "America/Cancun"
+msgstr ""
+
+msgid "America/Caracas"
+msgstr ""
+
+msgid "America/Cayenne"
+msgstr ""
+
+msgid "America/Cayman"
+msgstr ""
+
+msgid "America/Chicago"
+msgstr ""
+
+msgid "America/Chihuahua"
+msgstr ""
+
+msgid "America/Costa Rica"
+msgstr ""
+
+msgid "America/Creston"
+msgstr ""
+
+msgid "America/Cuiaba"
+msgstr ""
+
+msgid "America/Curacao"
+msgstr ""
+
+msgid "America/Danmarkshavn"
+msgstr ""
+
+msgid "America/Dawson"
+msgstr ""
+
+msgid "America/Dawson Creek"
+msgstr ""
+
+msgid "America/Denver"
+msgstr ""
+
+msgid "America/Detroit"
+msgstr ""
+
+msgid "America/Dominica"
+msgstr ""
+
+msgid "America/Edmonton"
+msgstr ""
+
+msgid "America/Eirunepe"
+msgstr ""
+
+msgid "America/El Salvador"
+msgstr ""
+
+msgid "America/Fort Nelson"
+msgstr ""
+
+msgid "America/Fortaleza"
+msgstr ""
+
+msgid "America/Glace Bay"
+msgstr ""
+
+msgid "America/Godthab"
+msgstr ""
+
+msgid "America/Goose Bay"
+msgstr ""
+
+msgid "America/Grand Turk"
+msgstr ""
+
+msgid "America/Grenada"
+msgstr ""
+
+msgid "America/Guadeloupe"
+msgstr ""
+
+msgid "America/Guatemala"
+msgstr ""
+
+msgid "America/Guayaquil"
+msgstr ""
+
+msgid "America/Guyana"
+msgstr ""
+
+msgid "America/Halifax"
+msgstr ""
+
+msgid "America/Havana"
+msgstr ""
+
+msgid "America/Hermosillo"
+msgstr ""
+
+msgid "America/Indiana/Indianapolis"
+msgstr ""
+
+msgid "America/Indiana/Knox"
+msgstr ""
+
+msgid "America/Indiana/Marengo"
+msgstr ""
+
+msgid "America/Indiana/Petersburg"
+msgstr ""
+
+msgid "America/Indiana/Tell City"
+msgstr ""
+
+msgid "America/Indiana/Vevay"
+msgstr ""
+
+msgid "America/Indiana/Vincennes"
+msgstr ""
+
+msgid "America/Indiana/Winamac"
+msgstr ""
+
+msgid "America/Inuvik"
+msgstr ""
+
+msgid "America/Iqaluit"
+msgstr ""
+
+msgid "America/Jamaica"
+msgstr ""
+
+msgid "America/Juneau"
+msgstr ""
+
+msgid "America/Kentucky/Louisville"
+msgstr ""
+
+msgid "America/Kentucky/Monticello"
+msgstr ""
+
+msgid "America/Kralendijk"
+msgstr ""
+
+msgid "America/La Paz"
+msgstr ""
+
+msgid "America/Lima"
+msgstr ""
+
+msgid "America/Los Angeles"
+msgstr ""
+
+msgid "America/Lower Princes"
+msgstr ""
+
+msgid "America/Maceio"
+msgstr ""
+
+msgid "America/Managua"
+msgstr ""
+
+msgid "America/Manaus"
+msgstr ""
+
+msgid "America/Marigot"
+msgstr ""
+
+msgid "America/Martinique"
+msgstr ""
+
+msgid "America/Matamoros"
+msgstr ""
+
+msgid "America/Mazatlan"
+msgstr ""
+
+msgid "America/Menominee"
+msgstr ""
+
+msgid "America/Merida"
+msgstr ""
+
+msgid "America/Metlakatla"
+msgstr ""
+
+msgid "America/Mexico City"
+msgstr ""
+
+msgid "America/Miquelon"
+msgstr ""
+
+msgid "America/Moncton"
+msgstr ""
+
+msgid "America/Monterrey"
+msgstr ""
+
+msgid "America/Montevideo"
+msgstr ""
+
+msgid "America/Montserrat"
+msgstr ""
+
+msgid "America/Nassau"
+msgstr ""
+
+msgid "America/New York"
+msgstr ""
+
+msgid "America/Nipigon"
+msgstr ""
+
+msgid "America/Nome"
+msgstr ""
+
+msgid "America/Noronha"
+msgstr ""
+
+msgid "America/North Dakota/Beulah"
+msgstr ""
+
+msgid "America/North Dakota/Center"
+msgstr ""
+
+msgid "America/North Dakota/New Salem"
+msgstr ""
+
+msgid "America/Ojinaga"
+msgstr ""
+
+msgid "America/Panama"
+msgstr ""
+
+msgid "America/Pangnirtung"
+msgstr ""
+
+msgid "America/Paramaribo"
+msgstr ""
+
+msgid "America/Phoenix"
+msgstr ""
+
+msgid "America/Port of Spain"
+msgstr ""
+
+msgid "America/Port-au-Prince"
+msgstr ""
+
+msgid "America/Porto Velho"
+msgstr ""
+
+msgid "America/Puerto Rico"
+msgstr ""
+
+msgid "America/Punta Arenas"
+msgstr ""
+
+msgid "America/Rainy River"
+msgstr ""
+
+msgid "America/Rankin Inlet"
+msgstr ""
+
+msgid "America/Recife"
+msgstr ""
+
+msgid "America/Regina"
+msgstr ""
+
+msgid "America/Resolute"
+msgstr ""
+
+msgid "America/Rio Branco"
+msgstr ""
+
+msgid "America/Santarem"
+msgstr ""
+
+msgid "America/Santiago"
+msgstr ""
+
+msgid "America/Santo Domingo"
+msgstr ""
+
+msgid "America/Sao Paulo"
+msgstr ""
+
+msgid "America/Scoresbysund"
+msgstr ""
+
+msgid "America/Sitka"
+msgstr ""
+
+msgid "America/St Barthelemy"
+msgstr ""
+
+msgid "America/St Johns"
+msgstr ""
+
+msgid "America/St Kitts"
+msgstr ""
+
+msgid "America/St Lucia"
+msgstr ""
+
+msgid "America/St Thomas"
+msgstr ""
+
+msgid "America/St Vincent"
+msgstr ""
+
+msgid "America/Swift Current"
+msgstr ""
+
+msgid "America/Tegucigalpa"
+msgstr ""
+
+msgid "America/Thule"
+msgstr ""
+
+msgid "America/Thunder Bay"
+msgstr ""
+
+msgid "America/Tijuana"
+msgstr ""
+
+msgid "America/Toronto"
+msgstr ""
+
+msgid "America/Tortola"
+msgstr ""
+
+msgid "America/Vancouver"
+msgstr ""
+
+msgid "America/Whitehorse"
+msgstr ""
+
+msgid "America/Winnipeg"
+msgstr ""
+
+msgid "America/Yakutat"
+msgstr ""
+
+msgid "America/Yellowknife"
+msgstr ""
+
+msgid "Antarctica/Casey"
+msgstr ""
+
+msgid "Antarctica/Davis"
+msgstr ""
+
+msgid "Antarctica/DumontDUrville"
+msgstr ""
+
+msgid "Antarctica/Macquarie"
+msgstr ""
+
+msgid "Antarctica/Mawson"
+msgstr ""
+
+msgid "Antarctica/McMurdo"
+msgstr ""
+
+msgid "Antarctica/Palmer"
+msgstr ""
+
+msgid "Antarctica/Rothera"
+msgstr ""
+
+msgid "Antarctica/Syowa"
+msgstr ""
+
+msgid "Antarctica/Troll"
+msgstr ""
+
+msgid "Antarctica/Vostok"
+msgstr ""
+
+msgid "Arctic/Longyearbyen"
+msgstr ""
+
+msgid "Asia/Aden"
+msgstr ""
+
+msgid "Asia/Almaty"
+msgstr ""
+
+msgid "Asia/Amman"
+msgstr ""
+
+msgid "Asia/Anadyr"
+msgstr ""
+
+msgid "Asia/Aqtau"
+msgstr ""
+
+msgid "Asia/Aqtobe"
+msgstr ""
+
+msgid "Asia/Ashgabat"
+msgstr ""
+
+msgid "Asia/Atyrau"
+msgstr ""
+
+msgid "Asia/Baghdad"
+msgstr ""
+
+msgid "Asia/Bahrain"
+msgstr ""
+
+msgid "Asia/Baku"
+msgstr ""
+
+msgid "Asia/Bangkok"
+msgstr ""
+
+msgid "Asia/Barnaul"
+msgstr ""
+
+msgid "Asia/Beirut"
+msgstr ""
+
+msgid "Asia/Bishkek"
+msgstr ""
+
+msgid "Asia/Brunei"
+msgstr ""
+
+msgid "Asia/Chita"
+msgstr ""
+
+msgid "Asia/Choibalsan"
+msgstr ""
+
+msgid "Asia/Colombo"
+msgstr ""
+
+msgid "Asia/Damascus"
+msgstr ""
+
+msgid "Asia/Dhaka"
+msgstr ""
+
+msgid "Asia/Dili"
+msgstr ""
+
+msgid "Asia/Dubai"
+msgstr ""
+
+msgid "Asia/Dushanbe"
+msgstr ""
+
+msgid "Asia/Famagusta"
+msgstr ""
+
+msgid "Asia/Gaza"
+msgstr ""
+
+msgid "Asia/Hebron"
+msgstr ""
+
+msgid "Asia/Ho Chi Minh"
+msgstr ""
+
+msgid "Asia/Hong Kong"
+msgstr ""
+
+msgid "Asia/Hovd"
+msgstr ""
+
+msgid "Asia/Irkutsk"
+msgstr ""
+
+msgid "Asia/Jakarta"
+msgstr ""
+
+msgid "Asia/Jayapura"
+msgstr ""
+
+msgid "Asia/Jerusalem"
+msgstr ""
+
+msgid "Asia/Kabul"
+msgstr ""
+
+msgid "Asia/Kamchatka"
+msgstr ""
+
+msgid "Asia/Karachi"
+msgstr ""
+
+msgid "Asia/Kathmandu"
+msgstr ""
+
+msgid "Asia/Khandyga"
+msgstr ""
+
+msgid "Asia/Kolkata"
+msgstr ""
+
+msgid "Asia/Krasnoyarsk"
+msgstr ""
+
+msgid "Asia/Kuala Lumpur"
+msgstr ""
+
+msgid "Asia/Kuching"
+msgstr ""
+
+msgid "Asia/Kuwait"
+msgstr ""
+
+msgid "Asia/Macau"
+msgstr ""
+
+msgid "Asia/Magadan"
+msgstr ""
+
+msgid "Asia/Makassar"
+msgstr ""
+
+msgid "Asia/Manila"
+msgstr ""
+
+msgid "Asia/Muscat"
+msgstr ""
+
+msgid "Asia/Nicosia"
+msgstr ""
+
+msgid "Asia/Novokuznetsk"
+msgstr ""
+
+msgid "Asia/Novosibirsk"
+msgstr ""
+
+msgid "Asia/Omsk"
+msgstr ""
+
+msgid "Asia/Oral"
+msgstr ""
+
+msgid "Asia/Phnom Penh"
+msgstr ""
+
+msgid "Asia/Pontianak"
+msgstr ""
+
+msgid "Asia/Pyongyang"
+msgstr ""
+
+msgid "Asia/Qatar"
+msgstr ""
+
+msgid "Asia/Qostanay"
+msgstr ""
+
+msgid "Asia/Qyzylorda"
+msgstr ""
+
+msgid "Asia/Riyadh"
+msgstr ""
+
+msgid "Asia/Sakhalin"
+msgstr ""
+
+msgid "Asia/Samarkand"
+msgstr ""
+
+msgid "Asia/Seoul"
+msgstr ""
+
+msgid "Asia/Shanghai"
+msgstr ""
+
+msgid "Asia/Singapore"
+msgstr ""
+
+msgid "Asia/Srednekolymsk"
+msgstr ""
+
+msgid "Asia/Taipei"
+msgstr ""
+
+msgid "Asia/Tashkent"
+msgstr ""
+
+msgid "Asia/Tbilisi"
+msgstr ""
+
+msgid "Asia/Tehran"
+msgstr ""
+
+msgid "Asia/Thimphu"
+msgstr ""
+
+msgid "Asia/Tokyo"
+msgstr ""
+
+msgid "Asia/Tomsk"
+msgstr ""
+
+msgid "Asia/Ulaanbaatar"
+msgstr ""
+
+msgid "Asia/Urumqi"
+msgstr ""
+
+msgid "Asia/Ust-Nera"
+msgstr ""
+
+msgid "Asia/Vientiane"
+msgstr ""
+
+msgid "Asia/Vladivostok"
+msgstr ""
+
+msgid "Asia/Yakutsk"
+msgstr ""
+
+msgid "Asia/Yangon"
+msgstr ""
+
+msgid "Asia/Yekaterinburg"
+msgstr ""
+
+msgid "Asia/Yerevan"
+msgstr ""
+
+msgid "Atlantic/Azores"
+msgstr ""
+
+msgid "Atlantic/Bermuda"
+msgstr ""
+
+msgid "Atlantic/Canary"
+msgstr ""
+
+msgid "Atlantic/Cape Verde"
+msgstr ""
+
+msgid "Atlantic/Faroe"
+msgstr ""
+
+msgid "Atlantic/Madeira"
+msgstr ""
+
+msgid "Atlantic/Reykjavik"
+msgstr ""
+
+msgid "Atlantic/South Georgia"
+msgstr ""
+
+msgid "Atlantic/St Helena"
+msgstr ""
+
+msgid "Atlantic/Stanley"
+msgstr ""
+
+msgid "Australia/Adelaide"
+msgstr ""
+
+msgid "Australia/Brisbane"
+msgstr ""
+
+msgid "Australia/Broken Hill"
+msgstr ""
+
+msgid "Australia/Currie"
+msgstr ""
+
+msgid "Australia/Darwin"
+msgstr ""
+
+msgid "Australia/Eucla"
+msgstr ""
+
+msgid "Australia/Hobart"
+msgstr ""
+
+msgid "Australia/Lindeman"
+msgstr ""
+
+msgid "Australia/Lord Howe"
+msgstr ""
+
+msgid "Australia/Melbourne"
+msgstr ""
+
+msgid "Australia/Perth"
+msgstr ""
+
+msgid "Australia/Sydney"
+msgstr ""
+
+msgid "Europe/Amsterdam"
+msgstr ""
+
+msgid "Europe/Andorra"
+msgstr ""
+
+msgid "Europe/Astrakhan"
+msgstr ""
+
+msgid "Europe/Athens"
+msgstr ""
+
+msgid "Europe/Belgrade"
+msgstr ""
+
+msgid "Europe/Berlin"
+msgstr ""
+
+msgid "Europe/Bratislava"
+msgstr ""
+
+msgid "Europe/Brussels"
+msgstr ""
+
+msgid "Europe/Bucharest"
+msgstr ""
+
+msgid "Europe/Budapest"
+msgstr ""
+
+msgid "Europe/Busingen"
+msgstr ""
+
+msgid "Europe/Chisinau"
+msgstr ""
+
+msgid "Europe/Copenhagen"
+msgstr ""
+
+msgid "Europe/Dublin"
+msgstr ""
+
+msgid "Europe/Gibraltar"
+msgstr ""
+
+msgid "Europe/Guernsey"
+msgstr ""
+
+msgid "Europe/Helsinki"
+msgstr ""
+
+msgid "Europe/Isle of Man"
+msgstr ""
+
+msgid "Europe/Istanbul"
+msgstr ""
+
+msgid "Europe/Jersey"
+msgstr ""
+
+msgid "Europe/Kaliningrad"
+msgstr ""
+
+msgid "Europe/Kiev"
+msgstr ""
+
+msgid "Europe/Kirov"
+msgstr ""
+
+msgid "Europe/Lisbon"
+msgstr ""
+
+msgid "Europe/Ljubljana"
+msgstr ""
+
+msgid "Europe/London"
+msgstr ""
+
+msgid "Europe/Luxembourg"
+msgstr ""
+
+msgid "Europe/Madrid"
+msgstr ""
+
+msgid "Europe/Malta"
+msgstr ""
+
+msgid "Europe/Mariehamn"
+msgstr ""
+
+msgid "Europe/Minsk"
+msgstr ""
+
+msgid "Europe/Monaco"
+msgstr ""
+
+msgid "Europe/Moscow"
+msgstr ""
+
+msgid "Europe/Oslo"
+msgstr ""
+
+msgid "Europe/Paris"
+msgstr ""
+
+msgid "Europe/Podgorica"
+msgstr ""
+
+msgid "Europe/Prague"
+msgstr ""
+
+msgid "Europe/Riga"
+msgstr ""
+
+msgid "Europe/Rome"
+msgstr ""
+
+msgid "Europe/Samara"
+msgstr ""
+
+msgid "Europe/San Marino"
+msgstr ""
+
+msgid "Europe/Sarajevo"
+msgstr ""
+
+msgid "Europe/Saratov"
+msgstr ""
+
+msgid "Europe/Simferopol"
+msgstr ""
+
+msgid "Europe/Skopje"
+msgstr ""
+
+msgid "Europe/Sofia"
+msgstr ""
+
+msgid "Europe/Stockholm"
+msgstr ""
+
+msgid "Europe/Tallinn"
+msgstr ""
+
+msgid "Europe/Tirane"
+msgstr ""
+
+msgid "Europe/Ulyanovsk"
+msgstr ""
+
+msgid "Europe/Uzhgorod"
+msgstr ""
+
+msgid "Europe/Vaduz"
+msgstr ""
+
+msgid "Europe/Vatican"
+msgstr ""
+
+msgid "Europe/Vienna"
+msgstr ""
+
+msgid "Europe/Vilnius"
+msgstr ""
+
+msgid "Europe/Volgograd"
+msgstr ""
+
+msgid "Europe/Warsaw"
+msgstr ""
+
+msgid "Europe/Zagreb"
+msgstr ""
+
+msgid "Europe/Zaporozhye"
+msgstr ""
+
+msgid "Europe/Zurich"
+msgstr ""
+
+msgid "Indian/Antananarivo"
+msgstr ""
+
+msgid "Indian/Chagos"
+msgstr ""
+
+msgid "Indian/Christmas"
+msgstr ""
+
+msgid "Indian/Cocos"
+msgstr ""
+
+msgid "Indian/Comoro"
+msgstr ""
+
+msgid "Indian/Kerguelen"
+msgstr ""
+
+msgid "Indian/Mahe"
+msgstr ""
+
+msgid "Indian/Maldives"
+msgstr ""
+
+msgid "Indian/Mauritius"
+msgstr ""
+
+msgid "Indian/Mayotte"
+msgstr ""
+
+msgid "Indian/Reunion"
+msgstr ""
+
+msgid "Pacific/Apia"
+msgstr ""
+
+msgid "Pacific/Auckland"
+msgstr ""
+
+msgid "Pacific/Bougainville"
+msgstr ""
+
+msgid "Pacific/Chatham"
+msgstr ""
+
+msgid "Pacific/Chuuk"
+msgstr ""
+
+msgid "Pacific/Easter"
+msgstr ""
+
+msgid "Pacific/Efate"
+msgstr ""
+
+msgid "Pacific/Enderbury"
+msgstr ""
+
+msgid "Pacific/Fakaofo"
+msgstr ""
+
+msgid "Pacific/Fiji"
+msgstr ""
+
+msgid "Pacific/Funafuti"
+msgstr ""
+
+msgid "Pacific/Galapagos"
+msgstr ""
+
+msgid "Pacific/Gambier"
+msgstr ""
+
+msgid "Pacific/Guadalcanal"
+msgstr ""
+
+msgid "Pacific/Guam"
+msgstr ""
+
+msgid "Pacific/Honolulu"
+msgstr ""
+
+msgid "Pacific/Kiritimati"
+msgstr ""
+
+msgid "Pacific/Kosrae"
+msgstr ""
+
+msgid "Pacific/Kwajalein"
+msgstr ""
+
+msgid "Pacific/Majuro"
+msgstr ""
+
+msgid "Pacific/Marquesas"
+msgstr ""
+
+msgid "Pacific/Midway"
+msgstr ""
+
+msgid "Pacific/Nauru"
+msgstr ""
+
+msgid "Pacific/Niue"
+msgstr ""
+
+msgid "Pacific/Norfolk"
+msgstr ""
+
+msgid "Pacific/Noumea"
+msgstr ""
+
+msgid "Pacific/Pago Pago"
+msgstr ""
+
+msgid "Pacific/Palau"
+msgstr ""
+
+msgid "Pacific/Pitcairn"
+msgstr ""
+
+msgid "Pacific/Pohnpei"
+msgstr ""
+
+msgid "Pacific/Port Moresby"
+msgstr ""
+
+msgid "Pacific/Rarotonga"
+msgstr ""
+
+msgid "Pacific/Saipan"
+msgstr ""
+
+msgid "Pacific/Tahiti"
+msgstr ""
+
+msgid "Pacific/Tarawa"
+msgstr ""
+
+msgid "Pacific/Tongatapu"
+msgstr ""
+
+msgid "Pacific/Wake"
+msgstr ""
+
+msgid "Pacific/Wallis"
+msgstr ""
+
+msgid "UTC"
+msgstr ""
+
+msgid ""
+"A valid email address. All emails from the system will be sent to this "
+"address. The email address is not made public and will only be used if you "
+"wish to receive a new password or wish to receive certain news or "
+"notifications by email."
+msgstr ""
+"A valid email address. All emails from the system will be sent to this "
+"address. The email address is not made public and will only be used if you "
+"wish to receive a new password or wish to receive certain news or "
+"notifications by email."
+
+msgid ""
+"Must be purely lowercase alphanumeric (ascii) characters and these symbols: "
+"-_"
+msgstr ""
+
+msgid ""
+"Allow other users to contact you via a personal contact form which keeps "
+"your email address hidden. Note that some privileged users such as site "
+"administrators are still able to contact you even if you choose to disable "
+"this feature."
+msgstr ""
+"Allow other users to contact you via a personal contact form which keeps "
+"your email address hidden. Note that some privileged users such as site "
+"administrators are still able to contact you even if you choose to disable "
+"this feature."
+
+msgid ""
+"Select the desired local time and time zone. Dates and times throughout this"
+" site will be displayed using this time zone."
+msgstr ""
+"Select the desired local time and time zone. Dates and times throughout this"
+" site will be displayed using this time zone."
+
+msgid "!tour_item of !total"
+msgstr "!tour_item of !total"
+
+msgctxt "datasetlist offer data heading"
+msgid "Open your data"
+msgstr ""
+
+msgctxt "datasetlist offer data paragraph"
+msgid ""
+"Does your organization produce data that could benefit or interest others? "
+"We offer guidance and a distribution channel for your datasets."
+msgstr ""
+
+msgid "Cache cleared."
+msgstr ""
+
 msgid ""
 "Show table cells that were hidden to make the table fit within a small "
 "screen."
@@ -29451,18 +30820,15 @@ msgstr ""
 "Show table cells that were hidden to make the table fit within a small "
 "screen."
 
+msgid "@type language selected for page"
+msgstr "@type language selected for page"
+
 msgid ""
 "The toolbar cannot be set to a horizontal orientation when it is locked."
 msgstr ""
 "The toolbar cannot be set to a horizontal orientation when it is locked."
 
-msgid "Aloittelijan tietopaketti"
-msgstr ""
-
-msgid "Datan käyttäjälle"
-msgstr ""
-
-msgid "View the discussion thread."
+msgid "Register as a publisher"
 msgstr ""
 
 msgid "Julkaistu"
@@ -29471,102 +30837,74 @@ msgstr ""
 msgid "Julkaisematon"
 msgstr ""
 
-msgid "Update this item"
-msgstr "Update this item"
-
 msgid "Sisältö"
 msgstr ""
 
-msgid "@label"
-msgstr "@label"
+msgid "Select all rows in this table"
+msgstr "Select all rows in this table"
 
 msgid "List additional actions"
 msgstr "List additional actions"
 
-msgid "Deselect all rows in this table"
-msgstr "Deselect all rows in this table"
-
-msgid "Briefly describe the changes you have made."
-msgstr "Briefly describe the changes you have made."
-
-msgid "Beginner's guide"
-msgstr ""
-
-msgid "Data user's guide"
-msgstr ""
-
-msgid "Nybörjares guide"
-msgstr ""
-
-msgid "Data användares guide"
-msgstr ""
+msgid "The response failed verification so will not be processed."
+msgstr "The response failed verification so will not be processed."
 
 msgid ""
-"Menu links with lower weights are displayed before links with higher "
-"weights."
+"The selected file %filename cannot be uploaded. Only files with the "
+"following extensions are allowed: %extensions."
 msgstr ""
-"Menu links with lower weights are displayed before links with higher "
-"weights."
+"The selected file %filename cannot be uploaded. Only files with the "
+"following extensions are allowed: %extensions."
 
-msgid "Disqus Comments"
-msgstr ""
-
-msgid "Users can post comments using <a href=\":disqus\">Disqus</a>."
+msgid "Register to be publisher"
 msgstr ""
 
-msgid "Disqus identifier"
+msgid "Become publisher"
 msgstr ""
 
-msgid ""
-"Unique identifier of the Disqus thread. \"[entity-type]/[entity-id]\" is "
-"used if not set. Changing this might cause comments to disappear. Use "
-"extreme caution!"
+msgctxt "datasetlist offer data register"
+msgid "Become publisher"
 msgstr ""
 
-msgid ""
-"If you made a significant change, which means the other translations should "
-"be updated, you can flag all translations of this content as outdated. This "
-"will not change any other property of them, like whether they are published "
-"or not."
-msgstr ""
-"If you made a significant change, which means the other translations should "
-"be updated, you can flag all translations of this content as outdated. This "
-"will not change any other property of them, like whether they are published "
-"or not."
-
-msgid "Generate automatic URL alias"
-msgstr "Generate automatic URL alias"
-
-msgid ""
-"Uncheck this to create a custom alias below. <a "
-"href=\"@admin_link\">Configure URL alias patterns.</a>"
+msgid "Publishers"
 msgstr ""
 
-msgid ""
-"Specify an alternative path by which this data can be accessed. For example,"
-" type \"/about\" when writing an about page."
-msgstr ""
-"Specify an alternative path by which this data can be accessed. For example,"
-" type \"/about\" when writing an about page."
+msgid "News and articles"
+msgstr "News"
 
-msgid ""
-"Changing the text format to %text_format will permanently remove content "
-"that is not allowed in that text format.<br><br>Save your changes before "
-"switching the text format to avoid losing data."
-msgstr ""
-"Changing the text format to %text_format will permanently remove content "
-"that is not allowed in that text format.<br><br>Save your changes before "
-"switching the text format to avoid losing data."
-
-msgid "Rich Text Editor, !label field"
+msgid "Guide"
 msgstr ""
 
-msgid "Expand all"
+msgid "Calendar of events"
 msgstr ""
+
+msgid "More options"
+msgstr ""
+
+msgid "Update notifications"
+msgstr "Update notifications"
+
+msgid "PHP OPcode caching"
+msgstr "PHP OPcode caching"
+
+msgid "Devel module enabled"
+msgstr ""
+
+msgid "Add to %shortcut_set shortcuts"
+msgstr "Add to %shortcut_set shortcuts"
+
+msgid "@translated/@total (@ratio%)"
+msgstr "@translated/@total (@ratio%)"
 
 msgid ""
 "This page also provides an overview of how much of the site's interface has "
 "been translated for each configured language."
+msgstr ""
+
+msgid ""
+"Reorder the configured languages to set their order in the language switcher"
+" block and, when editing content, in the list of selectable languages. This "
+"ordering does not impact <a href=\":detection\">detection and selection</a>."
 msgstr ""
 
 msgid ""
@@ -29583,6 +30921,12 @@ msgid ""
 "Interface text can be customized in the <a href=\":translate\">user "
 "interface translation</a> page."
 msgstr ""
+
+msgid "Translate @type_name"
+msgstr "Translate @type_name"
+
+msgid "Right to left"
+msgstr "Right to left"
 
 msgid "Leave blank to show all strings. The search is case sensitive."
 msgstr "Leave blank to show all strings. The search is case sensitive."
@@ -29604,8 +30948,8 @@ msgstr ""
 " translation editor.) Searches may be limited to strings in a specific "
 "language."
 
-msgid "Close all"
-msgstr ""
+msgid "The strings have been saved."
+msgstr "The strings have been saved."
 
 msgid "Source text only, no translations"
 msgstr "Source text only, no translations"
