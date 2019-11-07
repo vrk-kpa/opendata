@@ -22,3 +22,7 @@ def _translations():
     _("Updated before")
     _("Updated after")
     _("Search datasets")
+    _("Show more options")
+    _("Show less options")
+    _("Not selected")
+    _("Are you sure you want to clear all filters?")

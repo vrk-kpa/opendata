@@ -52,11 +52,14 @@ class YtpAdvancedSearchController(base.BaseController):
                     if res:
                         search_query_filters.append(res)
 
+        sort_string = request.POST.get('sort', 'metadata_created desc')
+
         data_dict = {
             'q': q,
             'rows': limit,
             'start': (page - 1) * limit,
-            'extras': {}
+            'extras': {},
+            'sort': sort_string
         }
 
         if search_query_filters:
@@ -68,8 +71,9 @@ class YtpAdvancedSearchController(base.BaseController):
         json_query = json.dumps({k: v for k, v in params_to_dict(request.POST).items() if k != 'page'
                                  and type(v) is list and len(v[0]) > 0})
 
-        filters = {k: v for k, v in params_to_dict(request.POST).items() if k != 'search_target'
-                   and k != 'search_query' and k != 'page' and type(v) is list and len(v[0]) > 0}
+        filters = {k: v for k, v in params_to_dict(request.POST).items() if k != 'search_target' and k != 'search_query'
+                   and k != 'page' and k != 'released-before' and k != 'released-after' and k != 'updated-before'
+                   and k != 'updated-after' and k != 'sort' and type(v) is list and len(v[0]) > 0}
 
         for key, value in filters.iteritems():
             if u'all' in value:
@@ -84,8 +88,9 @@ class YtpAdvancedSearchController(base.BaseController):
             # NOTE: Can this cause security issues? Returning POST request params back to the client
             "last_query": params_to_dict(request.POST),
             "json_query": json_query,
-            "filters": filters
-        }
+            "filters": filters,
+            "sort_string": sort_string
+            }
         c.advanced_search['last_query']['page'] = page
 
         return render('advanced_search/index.html')
