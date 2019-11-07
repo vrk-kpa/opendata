@@ -1,51 +1,51 @@
 // @todo these should be their own CSS files and only included when
 // specific Drupal libraries are used.
-@import "component/alert";
-@import "component/ajax";
-@import "component/field";
-@import "component/file";
-@import "component/filter";
-@import "component/form";
-@import "component/icon";
-@import "component/navbar";
-@import "component/node";
-@import "component/panel";
-@import "component/progress-bar";
-@import "component/table-drag";
-@import "component/tabs";
-@import "component/toolbar";
+@import 'component/alert';
+@import 'component/ajax';
+@import 'component/field';
+@import 'component/file';
+@import 'component/filter';
+@import 'component/form';
+@import 'component/icon';
+@import 'component/navbar';
+@import 'component/node';
+@import 'component/panel';
+@import 'component/progress-bar';
+@import 'component/table-drag';
+@import 'component/tabs';
+@import 'component/toolbar';
 
 // jQuery UI style overrides.
-@import "jquery-ui/autocomplete";
+@import 'jquery-ui/autocomplete';
 
-@common-path: "../../../src/";
-@common-less: "@{common-path}/less";
+@common-path: '../../../src/';
+@common-less: '@{common-path}/less';
 
 // FontAwesome
-@import "@{common-path}/vendor/@fortawesome/fontawesome/less/fontawesome";
-@import "@{common-path}/vendor/@fortawesome/fontawesome/less/solid.less";
-@import "@{common-path}/vendor/@fortawesome/fontawesome/less/regular.less";
-@import "@{common-path}/vendor/@fortawesome/fontawesome/less/brands.less";
-@fa-font-path: "../fonts";
+@import '@{common-path}/vendor/@fortawesome/fontawesome/less/fontawesome';
+@import '@{common-path}/vendor/@fortawesome/fontawesome/less/solid.less';
+@import '@{common-path}/vendor/@fortawesome/fontawesome/less/regular.less';
+@import '@{common-path}/vendor/@fortawesome/fontawesome/less/brands.less';
+@fa-font-path: '../fonts';
 
 // Avoindata common variables
-@import "@{common-less}/variables";
-@import "@{common-less}/utility";
-@import "@{common-less}/common";
+@import '@{common-less}/variables';
+@import '@{common-less}/utility';
+@import '@{common-less}/common';
 
 // Avoindata components
-@import "@{common-less}/navbars";
+@import '@{common-less}/navbars';
 // TODO: This could only import the needed styles for drupal and not all
-@import "@{common-less}/components/all";
+@import '@{common-less}/components/all';
 
 // New layout menu styles
-@import "menu.less";
+@import 'menu.less';
 
 // Guide styles
-@import "guide.less";
+@import 'guide.less';
 
 // Avoindata custom element styles (ckeditor plugins)
-@import "custom-elements.less";
+@import 'custom-elements.less';
 
 body,
 html {
@@ -140,7 +140,7 @@ p:last-child,
   color: @popularTextColor;
 
   &::before {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     top: 0;
@@ -434,6 +434,7 @@ p:last-child,
   background-color: #f7f7f8;
 
   .avoindata-datasetlist-container {
+    background-color: #fff;
     max-width: @opendata-container-max-width;
     float: none;
     display: block;
@@ -483,7 +484,6 @@ p:last-child,
       margin-left: 0;
       margin-right: 0;
       padding-top: 40px;
-      background-color: #fff;
       overflow: auto;
 
       table {
@@ -539,9 +539,49 @@ p:last-child,
           height: 150px;
           width: 100%;
           position: absolute;
-          background-image: linear-gradient(rgba(255, 255, 255, 0) 0%, white 75%);
+          background-image:
+            linear-gradient(
+              rgba(255, 255, 255, 0) 0%,
+              white 75%
+            );
           bottom: 0;
         }
+      }
+    }
+
+    hr.avoindata-expander {
+      margin: 0 25px;
+      border-top: 1px solid rgb(206, 210, 213);
+    }
+
+    .avoindata-datasetlist-offer-data {
+      .login-link {
+        width: 120px;
+        height: 40px;
+        margin: 44px 50px 16px auto;
+        background: #2a6ebb;
+        line-height: 20px;
+        padding: 9px 19px;
+
+        a {
+          color: #fff;
+        }
+      }
+
+      .register-link {
+        line-height: 20px;
+        font-family: @font-family-sans-serif;
+        font-size: 16px;
+        font-weight: normal;
+        margin-right: 50px;
+        margin-left: auto;
+      }
+
+      p {
+        font-family: @font-family-sans-serif;
+        font-size: 18px;
+        font-weight: normal;
+        color: @new-layout-primary-text-color;
       }
     }
   }
@@ -926,15 +966,15 @@ p:last-child,
   }
 
   .tag-list-item::before {
-    content: ", ";
+    content: ', ';
   }
 
   .tag-list-item:first-child::before {
-    content: "";
+    content: '';
   }
   // First element is an icon
   .tag-list-item:nth-child(2)::before {
-    content: "";
+    content: '';
   }
 
   .article-date {
@@ -1137,14 +1177,19 @@ p:last-child,
         }
 
         .avoindata-event-item-summary-container::after {
-          content: "";
+          content: '';
           text-align: right;
           position: absolute;
           bottom: 0;
           right: 0;
           width: 70%;
           height: 20px;
-          background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
+          background:
+            linear-gradient(
+              to right,
+              rgba(255, 255, 255, 0),
+              rgba(255, 255, 255, 1) 50%
+            );
         }
       }
     }
@@ -1309,7 +1354,7 @@ p:last-child,
     }
 
     + li::before {
-      content: "@{breadcrumb-separator}\00a0";
+      content: '@{breadcrumb-separator}\00a0';
       padding: 0 5px;
       color: @breadcrumb-color;
     }

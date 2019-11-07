@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2019-10-29 12:43+0000\n"
+"POT-Creation-Date: 2019-11-06 11:31+0000\n"
 "PO-Revision-Date: 2018-10-17 06:12+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -19,17 +19,17 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Feed"
-msgstr "Innehållsflöde"
+msgid "Save"
+msgstr "Spara"
+
+msgid "Next"
+msgstr "Nästa"
 
 msgid "Pages"
 msgstr "Sidor"
 
 msgid "delete"
 msgstr "radera"
-
-msgid "more"
-msgstr "mer"
 
 msgid "Create a new user account."
 msgstr "Skapa ett nytt användarkonto"
@@ -46,9 +46,6 @@ msgstr "Suffix"
 msgid "Approve"
 msgstr "Godkänn"
 
-msgid "Forms"
-msgstr "Formulär"
-
 msgid "Moderated content"
 msgstr "Modererat innehåll"
 
@@ -61,8 +58,8 @@ msgstr "Grupper"
 msgid "Group"
 msgstr "Grupp"
 
-msgid "Type"
-msgstr "Typ"
+msgid "user"
+msgstr "användare"
 
 msgid "Replies"
 msgstr "Svar"
@@ -160,9 +157,6 @@ msgstr "Filsökväg"
 msgid "Release notes"
 msgstr "Anteckningar om utgåvan"
 
-msgid "File"
-msgstr "Fil"
-
 msgid "Links"
 msgstr "Länkar"
 
@@ -196,8 +190,11 @@ msgstr "- Ingen -"
 msgid "Country"
 msgstr "Land"
 
-msgid "Username"
-msgstr "Användarnamn"
+msgid "The configuration options have been saved."
+msgstr "Inställningarna har sparats."
+
+msgid "Content"
+msgstr "Innehåll"
 
 msgid "Center"
 msgstr "Centrerad"
@@ -273,6 +270,9 @@ msgstr "sidhuvud"
 msgid "Session opened for %name."
 msgstr "Session startad för %name."
 
+msgid "Home"
+msgstr "Hem"
+
 msgid "Image settings"
 msgstr "Bildinställningar"
 
@@ -294,8 +294,8 @@ msgstr "Tomt"
 msgid "Tags"
 msgstr "Nyckelord"
 
-msgid "Language"
-msgstr "Språk"
+msgid "Operations"
+msgstr "Funktioner"
 
 msgid "On"
 msgstr "På"
@@ -303,8 +303,8 @@ msgstr "På"
 msgid "Body"
 msgstr "Brödtext"
 
-msgid "List"
-msgstr "Lista"
+msgid "Language"
+msgstr "Språk"
 
 msgid "Comments"
 msgstr "Kommentarer"
@@ -324,8 +324,8 @@ msgstr "Registrera"
 msgid "Taxonomy term"
 msgstr "Taxonomiterm"
 
-msgid "Content"
-msgstr "Innehåll"
+msgid "Feed"
+msgstr "Innehållsflöde"
 
 msgid "Action"
 msgstr "Åtgärd"
@@ -336,11 +336,11 @@ msgstr "Ämne"
 msgid "Description"
 msgstr "Beskrivning"
 
-msgid "Preview"
-msgstr "Förhandsgranska"
-
 msgid "More"
 msgstr "Mer"
+
+msgid "Reset"
+msgstr "Återställ"
 
 msgid "Date"
 msgstr "Datum"
@@ -354,44 +354,50 @@ msgstr "Inga loggmeddelanden tillgängliga."
 msgid "Name"
 msgstr "Namn"
 
-msgid "Use count"
-msgstr "Antal använd"
-
-msgid "Sending mail to: @to"
-msgstr "Skickar e-post till: @to"
-
-msgid "Attachment could not be found or accessed."
-msgstr "Bilaga kunde inte hittas eller nås."
-
-msgid "user"
-msgstr "användare"
-
-msgid "Label"
-msgstr "Etikett"
+msgid "Size"
+msgstr "Storlek"
 
 msgid "Submit"
 msgstr "Skicka"
 
-msgid "Advanced options"
-msgstr "Fler alternativ"
+msgid "Use count"
+msgstr "Antal använd"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "more"
+msgstr "mer"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "File"
+msgstr "Fil"
+
+msgid "Username"
+msgstr "Användarnamn"
+
+msgid "List"
+msgstr "Lista"
+
+msgid "Preview"
+msgstr "Förhandsgranska"
+
+msgid "Label"
+msgstr "Etikett"
+
+msgid "Weight"
+msgstr "Vikt"
 
 msgid "Search"
 msgstr "Sök"
 
-msgid "Taxonomy"
-msgstr "Taxonomi"
-
 msgid "Development"
 msgstr "Utveckling"
 
-msgid "SMTP Authentication Support"
-msgstr "Verifiering av SMTP"
-
-msgid "User interface"
-msgstr "Användargränssnitt"
-
-msgid "The configuration options have been saved."
-msgstr "Inställningarna har sparats."
+msgid "Forms"
+msgstr "Formulär"
 
 msgid "Password"
 msgstr "Lösenord"
@@ -426,26 +432,38 @@ msgstr "Ladda ned"
 msgid "Edit"
 msgstr "Redigera"
 
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "Taxonomy"
+msgstr "Taxonomi"
+
+msgid "User interface"
+msgstr "Användargränssnitt"
+
 msgid "Go to next page"
 msgstr "Gå till nästa sida"
-
-msgid "Home"
-msgstr "Hem"
 
 msgid "not verified"
 msgstr "ej verifierad"
 
-msgid "Link"
-msgstr "Länk"
-
-msgid "Cancel"
-msgstr "Avbryt"
-
-msgid "Next"
-msgstr "Nästa"
-
 msgid "closed"
 msgstr "stängd"
+
+msgid "Sunday"
+msgstr "söndag"
+
+msgid "Monday"
+msgstr "måndag"
+
+msgid "Tuesday"
+msgstr "tisdag"
+
+msgid "Friday"
+msgstr "fredag"
+
+msgid "Saturday"
+msgstr "lördag"
 
 msgid "Core"
 msgstr "Kärna"
@@ -465,8 +483,14 @@ msgstr "Artist"
 msgid "Add new"
 msgstr "Lägg till ny"
 
+msgid "Time"
+msgstr "Tid"
+
 msgid "Access"
 msgstr "Åtkomst"
+
+msgid "View"
+msgstr "Visa"
 
 msgid "Length"
 msgstr "Längd"
@@ -479,9 +503,6 @@ msgstr "Historik"
 
 msgid "hidden"
 msgstr "dold"
-
-msgid "All"
-msgstr "Alla"
 
 msgid "File extensions"
 msgstr "Filändelse"
@@ -579,9 +600,6 @@ msgstr "Statistik"
 msgid "Advanced search"
 msgstr "Avancerad sökning"
 
-msgid "You are not authorized to access this page."
-msgstr "Du har inte behörighet till denna sida."
-
 msgid "Unknown"
 msgstr "Okänd"
 
@@ -612,8 +630,11 @@ msgstr "Typ av databas"
 msgid "action"
 msgstr "åtgärd"
 
-msgid "Attachment"
-msgstr "Bilaga"
+msgid "Continue"
+msgstr "Fortsätt"
+
+msgid "Small"
+msgstr "Liten"
 
 msgid "Error"
 msgstr "Fel"
@@ -666,6 +687,9 @@ msgstr "term"
 msgid "Expanded"
 msgstr "Utfällt"
 
+msgid "Parent item"
+msgstr "Ovanliggande val"
+
 msgid "Add child page"
 msgstr "Lägg till underliggande sida"
 
@@ -684,11 +708,11 @@ msgstr "Radera från bokdispositionen"
 msgid "Unknown export format."
 msgstr "Okänt exporteringsformat."
 
+msgid "Done"
+msgstr "Färdig"
+
 msgid "Last post"
 msgstr "Senaste inlägg"
-
-msgid "Access denied"
-msgstr "Åtkomst nekad"
 
 msgid "Year"
 msgstr "År"
@@ -696,8 +720,11 @@ msgstr "År"
 msgid "Area"
 msgstr "Område"
 
-msgid "Active"
-msgstr "Aktiv"
+msgid "User"
+msgstr "Användare"
+
+msgid "Created"
+msgstr "Skapad"
 
 msgid "Override title"
 msgstr "Åsidosätt titel"
@@ -707,13 +734,6 @@ msgstr "CSS-klass"
 
 msgid "Add view"
 msgstr "Lägg till vy"
-
-msgid ""
-"A user is considered online for this long after they have last viewed a "
-"page."
-msgstr ""
-"En användare anses vara inloggad så här länge efter att de senast tittat på "
-"en sida."
 
 msgid "Pager ID"
 msgstr "Pager-ID"
@@ -763,8 +783,8 @@ msgstr "Modul"
 msgid "Host"
 msgstr "Värd"
 
-msgid "Menu"
-msgstr "Meny"
+msgid "Options"
+msgstr "Alternativ"
 
 msgid "Off"
 msgstr "Av"
@@ -778,41 +798,44 @@ msgstr "RSS"
 msgid "Teaser"
 msgstr "Ingress"
 
-msgid "Date format"
-msgstr "Datumformat"
+msgid "Updated"
+msgstr "Uppdaterad"
 
-msgid "Content type"
-msgstr "Innehållstyp"
+msgid "All"
+msgstr "Alla"
 
 msgid "Icon"
 msgstr "Ikon"
 
-msgid "file"
-msgstr "fil"
+msgid "Menu"
+msgstr "Meny"
 
-msgid "User"
-msgstr "Användare"
+msgid "Filename"
+msgstr "Filnamn"
+
+msgid "Wednesday"
+msgstr "onsdag"
 
 msgid "Archive"
 msgstr "Arkiv"
 
-msgid "Updated"
-msgstr "Uppdaterad"
+msgid "Content type"
+msgstr "Innehållstyp"
 
-msgid "Form ID"
-msgstr "ID för formulär"
+msgid "Attachment"
+msgstr "Bilaga"
 
-msgid "Options"
-msgstr "Alternativ"
+msgid "Active"
+msgstr "Aktiv"
+
+msgid "Date format"
+msgstr "Datumformat"
+
+msgid "Page"
+msgstr "Sida"
 
 msgid "Components"
 msgstr "Komponenter"
-
-msgid "Views"
-msgstr "Vyer"
-
-msgid "Manage"
-msgstr "Hantera"
 
 msgid "Contact"
 msgstr "Kontakta oss"
@@ -826,63 +849,42 @@ msgstr "Lägg till"
 msgid "Create"
 msgstr "Skapa"
 
+msgid "Manage"
+msgstr "Hantera"
+
 msgid "Configure"
 msgstr "Konfigurera"
-
-msgid "PHP"
-msgstr "PHP"
-
-msgid "Breadcrumb"
-msgstr "Länkstig"
 
 msgid "1 hour"
 msgid_plural "@count hours"
 msgstr[0] "1 timme"
 msgstr[1] "@count timmar"
 
+msgid "Thursday"
+msgstr "torsdag"
+
+msgid "Views"
+msgstr "Vyer"
+
+msgid "Breadcrumb"
+msgstr "Länkstig"
+
+msgid "Add content"
+msgstr "Lägg till innehåll"
+
 msgid "1 day"
 msgid_plural "@count days"
 msgstr[0] "1 dag"
 msgstr[1] "@count dagar"
 
-msgid "Add content"
-msgstr "Lägg till innehåll"
+msgid "PHP"
+msgstr "PHP"
 
-msgid "Parent item"
-msgstr "Ovanliggande val"
+msgid "You are not authorized to access this page."
+msgstr "Du har inte behörighet till denna sida."
 
-msgid "Time"
-msgstr "Tid"
-
-msgid "View"
-msgstr "Visa"
-
-msgid "Tuesday"
-msgstr "tisdag"
-
-msgid "Done"
-msgstr "Färdig"
-
-msgid "Sunday"
-msgstr "söndag"
-
-msgid "Monday"
-msgstr "måndag"
-
-msgid "Wednesday"
-msgstr "onsdag"
-
-msgid "Thursday"
-msgstr "torsdag"
-
-msgid "Friday"
-msgstr "fredag"
-
-msgid "Saturday"
-msgstr "lördag"
-
-msgid "Continue"
-msgstr "Fortsätt"
+msgid "Access denied"
+msgstr "Åtkomst nekad"
 
 msgid "PostgreSQL"
 msgstr "PostgreSQL"
@@ -895,9 +897,6 @@ msgstr "Aldrig"
 
 msgid "Check manually"
 msgstr "Kontrollera manuellt"
-
-msgid "Up to date"
-msgstr "Aktuell"
 
 msgid "Update available"
 msgstr "Uppdatering tillgänglig"
@@ -959,9 +958,6 @@ msgstr "Värdnamn"
 msgid "Score"
 msgstr "Poäng"
 
-msgid "Last access"
-msgstr "Senast åtkomst"
-
 msgid "Signature"
 msgstr "Signatur"
 
@@ -977,11 +973,20 @@ msgstr "Språkanpassning"
 msgid "Title field label"
 msgstr "Etikett på titelfält"
 
-msgid "From"
-msgstr "Från"
+msgid "Up to date"
+msgstr "Aktuell"
+
+msgid "Sticky at top of lists"
+msgstr "Alltid överst i listan"
+
+msgid "Revisions"
+msgstr "Versioner"
 
 msgid "Log message"
 msgstr "Loggmeddelande"
+
+msgid "URL alias"
+msgstr "URL-alias"
 
 msgid "File MIME type"
 msgstr "Typ av MIME för filen"
@@ -1000,9 +1005,6 @@ msgstr "Användarroll"
 
 msgid "Role name"
 msgstr "Rollnamn"
-
-msgid "Time zone"
-msgstr "Tidszon"
 
 msgid "Field name"
 msgstr "Fältnamn"
@@ -1061,8 +1063,8 @@ msgstr "Originalbild"
 msgid "Link to URL"
 msgstr "Link to URL"
 
-msgid "Last update"
-msgstr "Senaste uppdatering"
+msgid ", "
+msgstr ", "
 
 msgid "Search settings"
 msgstr "Inställningar för sökning"
@@ -1109,6 +1111,9 @@ msgstr "%time sedan"
 msgid "%time left"
 msgstr "%time återstår"
 
+msgid "Authored by"
+msgstr "Författad av"
+
 msgid "Processor"
 msgstr "Processor"
 
@@ -1154,6 +1159,9 @@ msgstr "Sorteringsbar"
 msgid "standard"
 msgstr "standard"
 
+msgid "Caching"
+msgstr "Cachning"
+
 msgid "Month"
 msgstr "Månad"
 
@@ -1165,6 +1173,9 @@ msgstr "Widget"
 
 msgid "Last reply"
 msgstr "Senaste svar"
+
+msgid "Prev"
+msgstr "Föreg"
 
 msgid "Domain"
 msgstr "Domän"
@@ -1180,9 +1191,6 @@ msgstr "Nuvarande"
 
 msgid "State"
 msgstr "Läge"
-
-msgid "Revision ID"
-msgstr "Versions-ID"
 
 msgid "Filter by"
 msgstr "Filtrera på"
@@ -1220,8 +1228,8 @@ msgstr "Egypten"
 msgid "Namibia"
 msgstr "Namibia"
 
-msgid "Roles"
-msgstr "Roller"
+msgid "To"
+msgstr "Till"
 
 msgid "Comment"
 msgstr "Kommentar"
@@ -1232,29 +1240,41 @@ msgstr "Ren text"
 msgid "Footer"
 msgstr "Sidfot"
 
-msgid "Initializing."
-msgstr "Initierar."
+msgid "Last access"
+msgstr "Senast åtkomst"
 
-msgid "Fields"
-msgstr "Fält"
+msgid "Revision ID"
+msgstr "Versions-ID"
 
-msgid "Starting configuration update"
-msgstr "Startar uppdatering av konfiguration"
+msgid "From"
+msgstr "Från"
 
 msgid "Severity"
 msgstr "Grad"
 
-msgid "Advanced"
-msgstr "Utökad"
+msgid "Published"
+msgstr "Publicerad"
 
-msgid "Nodes"
-msgstr "Noder"
+msgid "Last update"
+msgstr "Senaste uppdatering"
+
+msgid "Roles"
+msgstr "Roller"
+
+msgid "Vocabulary"
+msgstr "Vokabulär"
+
+msgid "Fields"
+msgstr "Fält"
 
 msgid "Filter"
 msgstr "Filtrera"
 
-msgid ", "
-msgstr ", "
+msgid "Desc"
+msgstr "Fallande"
+
+msgid "Advanced"
+msgstr "Utökad"
 
 msgid "General"
 msgstr "Allmän"
@@ -1271,29 +1291,14 @@ msgstr "System"
 msgid "Available updates"
 msgstr "Tillgängliga uppdateringar"
 
+msgid "Time zone"
+msgstr "Tidszon"
+
 msgid "Drupal core update status"
 msgstr "Uppdateringsstatus för Drupals kärna"
 
-msgid "Caching"
-msgstr "Cachning"
-
-msgid "Authored by"
-msgstr "Författad av"
-
-msgid "URL alias"
-msgstr "URL-alias"
-
-msgid "Sticky at top of lists"
-msgstr "Alltid överst i listan"
-
-msgid "Revisions"
-msgstr "Versioner"
-
 msgid "Source string"
 msgstr "Källsträng"
-
-msgid "Prev"
-msgstr "Föreg"
 
 msgid "Israel"
 msgstr "Israel"
@@ -1345,6 +1350,24 @@ msgstr "Dag"
 
 msgid "Table"
 msgstr "Tabell"
+
+msgid "Mon"
+msgstr "mån"
+
+msgid "Tue"
+msgstr "tis"
+
+msgid "Fri"
+msgstr "fre"
+
+msgid "Sat"
+msgstr "lör"
+
+msgid "Sun"
+msgstr "sön"
+
+msgid "May"
+msgstr "maj"
 
 msgid "am"
 msgstr "fm"
@@ -1439,8 +1462,8 @@ msgstr "Inte installerad."
 msgid "Referrer"
 msgstr "Hänvisad från"
 
-msgid "Custom block type"
-msgstr "Anpassad blocktyp"
+msgid "Large"
+msgstr "Stor"
 
 msgid "Default front page"
 msgstr "Förvald startsida"
@@ -1472,8 +1495,8 @@ msgstr "Leverantör"
 msgid "Save and edit"
 msgstr "Spara och redigera"
 
-msgid "Tracker"
-msgstr "Spårare"
+msgid "Icons"
+msgstr "Ikoner"
 
 msgid "Edit view"
 msgstr "Redigera vy"
@@ -1543,6 +1566,9 @@ msgstr "Anonyma användare"
 
 msgid "Found"
 msgstr "Hittad"
+
+msgid "Clear cache"
+msgstr "Töm cache"
 
 msgid "fields"
 msgstr "fält"
@@ -1684,8 +1710,8 @@ msgstr "Bouvetön"
 msgid "Brunei"
 msgstr "Brunei"
 
-msgid "Users"
-msgstr "Användare"
+msgid "Down"
+msgstr "Ned"
 
 msgid "Anonymous"
 msgstr "Gäst"
@@ -1693,24 +1719,35 @@ msgstr "Gäst"
 msgid "Full"
 msgstr "Fullständig"
 
-msgid "Role"
-msgstr "Roll"
+msgid "Tracker"
+msgstr "Spårare"
 
 msgid "Recent comments"
 msgstr "Senaste kommentarer"
 
+msgid "Users"
+msgstr "Användare"
+
+msgid "Role"
+msgstr "Roll"
+
 msgid "Sort Criteria"
 msgstr "Sortera kriterium"
 
-msgctxt "View entity type"
-msgid "View"
-msgstr "View"
+msgid "Wed"
+msgstr "ons"
 
 msgid "Thu"
 msgstr "tors"
 
-msgid "Close"
-msgstr "Stäng"
+msgid "Uninstall"
+msgstr "Avinstallera"
+
+msgid "Log in"
+msgstr "Logga in"
+
+msgid "Install"
+msgstr "Installera"
 
 msgid "Appearance"
 msgstr "Utseende"
@@ -1718,38 +1755,8 @@ msgstr "Utseende"
 msgid "Configuration"
 msgstr "Konfiguration"
 
-msgid "Log in"
-msgstr "Logga in"
-
-msgid "Tue"
-msgstr "tis"
-
-msgid "Uninstall"
-msgstr "Avinstallera"
-
-msgid "Install"
-msgstr "Installera"
-
-msgid "Clear cache"
-msgstr "Töm cache"
-
-msgid "May"
-msgstr "maj"
-
-msgid "Sun"
-msgstr "sön"
-
-msgid "Mon"
-msgstr "mån"
-
-msgid "Wed"
-msgstr "ons"
-
-msgid "Fri"
-msgstr "fre"
-
-msgid "Sat"
-msgstr "lör"
+msgid "Close"
+msgstr "Stäng"
 
 msgid "Bulgaria"
 msgstr "Bulgarien"
@@ -2240,9 +2247,6 @@ msgstr "Zimbabwe"
 msgid "Identity"
 msgstr "Identitet"
 
-msgid "Modified"
-msgstr "Modifierad"
-
 msgid "Database username"
 msgstr "Användarnamn för databasen"
 
@@ -2263,6 +2267,15 @@ msgstr "Reguljärt uttryck"
 
 msgid "Size of textfield"
 msgstr "Storlek på textfält"
+
+msgid "Authoring information"
+msgstr "Författarinformation"
+
+msgid "Authored on"
+msgstr "Författad"
+
+msgid "Leave blank for %anonymous."
+msgstr "Lämna detta tomt för %anonymous."
 
 msgid "Hidden"
 msgstr "Dold"
@@ -2300,8 +2313,8 @@ msgstr "Språk för webbplats"
 msgid "Change"
 msgstr "Ändra"
 
-msgid "Vocabulary"
-msgstr "Vokabulär"
+msgid "Log out"
+msgstr "Logga ut"
 
 msgid "Spanish"
 msgstr "Spanska"
@@ -2425,6 +2438,9 @@ msgstr "Lista med tillåtna värden"
 msgid "Textfield size"
 msgstr "Storlek på textfält"
 
+msgid "Today"
+msgstr "Idag"
+
 msgid "Activity"
 msgstr "Aktivitet"
 
@@ -2436,6 +2452,9 @@ msgstr "Radera meny"
 
 msgid "Publishing options"
 msgstr "Publiceringsalternativ"
+
+msgid "Create new revision"
+msgstr "Skapa ny version"
 
 msgid "Lists"
 msgstr "Listor"
@@ -2452,9 +2471,6 @@ msgstr "Minsta bredd"
 msgid "Query"
 msgstr "Databasfråga"
 
-msgid "Locale settings"
-msgstr "Platsinställningar"
-
 msgid "Search fields"
 msgstr "Sökfält"
 
@@ -2466,6 +2482,39 @@ msgstr "Blocknamn"
 
 msgid "How many content items to display in \"day\" list."
 msgstr "Antalet innehållsposter som skall visas under \"I dag\"."
+
+msgid "Jan"
+msgstr "jan"
+
+msgid "Feb"
+msgstr "feb"
+
+msgid "Mar"
+msgstr "mar"
+
+msgid "Apr"
+msgstr "apr"
+
+msgid "Jun"
+msgstr "jun"
+
+msgid "Jul"
+msgstr "jul"
+
+msgid "Aug"
+msgstr "aug"
+
+msgid "Sep"
+msgstr "sep"
+
+msgid "Oct"
+msgstr "okt"
+
+msgid "Nov"
+msgstr "nov"
+
+msgid "Dec"
+msgstr "dec"
 
 msgid "Hour"
 msgstr "Timma"
@@ -2505,9 +2554,6 @@ msgstr "Slumpa"
 
 msgid "Link label"
 msgstr "Länkens etikett"
-
-msgid "Member for"
-msgstr "Medlem i"
 
 msgid "AND"
 msgstr "OCH"
@@ -2554,6 +2600,27 @@ msgstr "Hur många av de senaste sidvisningarna som skall visas"
 msgid "characters"
 msgstr "tecken"
 
+msgid "Su"
+msgstr "sön"
+
+msgid "Mo"
+msgstr "mån"
+
+msgid "Tu"
+msgstr "tis"
+
+msgid "We"
+msgstr "ons"
+
+msgid "Th"
+msgstr "tor"
+
+msgid "Fr"
+msgstr "fre"
+
+msgid "Sa"
+msgstr "lör"
+
 msgid "First day of week"
 msgstr "Första dagen i veckan"
 
@@ -2575,23 +2642,29 @@ msgstr "Höger"
 msgid "next ›"
 msgstr "nästa ›"
 
+msgid "Front page"
+msgstr "Startsida"
+
 msgid "Buttons"
 msgstr "Knappar"
 
-msgid "‹ previous"
-msgstr "‹ föregående"
+msgid "Entity"
+msgstr "Objekt"
 
 msgid "Languages"
 msgstr "Språk"
 
-msgid "Front page"
-msgstr "Startsida"
+msgid "Member for"
+msgstr "Medlem i"
 
-msgid "Log out"
-msgstr "Logga ut"
+msgid "Workflow"
+msgstr "Arbetsflöde"
 
-msgid "View user profile."
-msgstr "Visa användarprofil."
+msgid "Modified"
+msgstr "Modifierad"
+
+msgid "Locale settings"
+msgstr "Platsinställningar"
 
 msgid "Show"
 msgstr "Visa"
@@ -2599,83 +2672,17 @@ msgstr "Visa"
 msgid "author"
 msgstr "författare"
 
-msgid "Create new revision"
-msgstr "Skapa ny version"
+msgid "View user profile."
+msgstr "Visa användarprofil."
 
-msgid "Select all rows in this table"
-msgstr "Markera alla rader i tabellen"
-
-msgid "Leave blank for %anonymous."
-msgstr "Lämna detta tomt för %anonymous."
-
-msgid "Authored on"
-msgstr "Författad"
-
-msgid "Authoring information"
-msgstr "Författarinformation"
+msgid "Deselect all rows in this table"
+msgstr "Avmarkera alla rader i tabellen"
 
 msgid "Extend"
 msgstr "Utöka"
 
-msgid "Today"
-msgstr "Idag"
-
-msgid "Jan"
-msgstr "jan"
-
-msgid "Feb"
-msgstr "feb"
-
-msgid "Mar"
-msgstr "mar"
-
-msgid "Apr"
-msgstr "apr"
-
-msgid "Jun"
-msgstr "jun"
-
-msgid "Jul"
-msgstr "jul"
-
-msgid "Aug"
-msgstr "aug"
-
-msgid "Sep"
-msgstr "sep"
-
-msgid "Oct"
-msgstr "okt"
-
-msgid "Nov"
-msgstr "nov"
-
-msgid "Dec"
-msgstr "dec"
-
-msgid "Su"
-msgstr "sön"
-
-msgid "Mo"
-msgstr "mån"
-
-msgid "Tu"
-msgstr "tis"
-
-msgid "We"
-msgstr "ons"
-
-msgid "Fr"
-msgstr "fre"
-
-msgid "Sa"
-msgstr "lör"
-
-msgid "Next ›"
-msgstr "Nästa ›"
-
-msgid "Create new account"
-msgstr "Skapa nytt konto"
+msgid "Solid"
+msgstr "Solid"
 
 msgid "Seconds"
 msgstr "Sekunder"
@@ -2715,6 +2722,9 @@ msgstr "eller"
 
 msgid "Getting Started"
 msgstr "Komma igång"
+
+msgid "Aggregate JavaScript files"
+msgstr "Samla ihop filer av typ JavaScript"
 
 msgid "Convert"
 msgstr "Konvertera"
@@ -2864,6 +2874,9 @@ msgstr "Inte publicerad"
 msgid "File settings"
 msgstr "Inställningar för filer"
 
+msgid "Menu settings"
+msgstr "Inställningar för meny"
+
 msgid "Color scheme"
 msgstr "Färgschema"
 
@@ -2964,9 +2977,6 @@ msgstr "Kvalitet för JPEG"
 msgid "%"
 msgstr "%"
 
-msgid "Custom menu link"
-msgstr "Custom menu link"
-
 msgid "Content options"
 msgstr "Alternativ för innehåll"
 
@@ -2975,6 +2985,9 @@ msgstr "Senast ändrad"
 
 msgid "not published"
 msgstr "ej publicerad"
+
+msgid "Loading..."
+msgstr "Laddar..."
 
 msgid "Protected"
 msgstr "Skyddad"
@@ -2991,14 +3004,11 @@ msgstr "Standardval"
 msgid "Ok"
 msgstr "Ok"
 
-msgid "Contact settings"
-msgstr "Kontaktinställningar"
-
 msgid "Ban"
 msgstr "Spärra"
 
-msgid "‹ Previous"
-msgstr "‹ Föregående"
+msgid "Light"
+msgstr "Light"
 
 msgid "Processing"
 msgstr "Bearbetar"
@@ -3036,17 +3046,17 @@ msgstr "Bildbeskärning"
 msgid "@message"
 msgstr "@message"
 
-msgid "Glossary"
-msgstr "Ordlista"
+msgid "‹ Previous"
+msgstr "‹ Föregående"
 
-msgid "People"
-msgstr "Personer"
+msgid "Next ›"
+msgstr "Nästa ›"
 
 msgid "Anonymous user"
 msgstr "Anonym användare"
 
-msgid "Blocked"
-msgstr "Spärrad"
+msgid "Contact settings"
+msgstr "Kontaktinställningar"
 
 msgid "Published comments"
 msgstr "Publicerade kommentarer"
@@ -3054,11 +3064,20 @@ msgstr "Publicerade kommentarer"
 msgid "Author Name"
 msgstr "Författarnamn"
 
+msgid "Unpublished"
+msgstr "Ej publicerad"
+
+msgid "Glossary"
+msgstr "Ordlista"
+
+msgid "People"
+msgstr "Personer"
+
+msgid "Blocked"
+msgstr "Spärrad"
+
 msgid "Output format"
 msgstr "Utmatningsformat"
-
-msgid "Token"
-msgstr "Ersättningstecken"
 
 msgid "Reset password"
 msgstr "Glömt ditt lösenord?"
@@ -3069,23 +3088,20 @@ msgstr "Schemalagda aktiviteter"
 msgid "Shortcuts"
 msgstr "Genvägar"
 
-msgid "Menu settings"
-msgstr "Inställningar för meny"
-
-msgid "Aggregate JavaScript files"
-msgstr "Samla ihop filer av typ JavaScript"
-
 msgid "Next page"
 msgstr "Nästa sida"
 
-msgid "Loading..."
-msgstr "Laddar..."
+msgid "Create new account"
+msgstr "Skapa nytt konto"
 
 msgid "Changed"
 msgstr "Ändrad"
 
 msgid "Enabled modules"
 msgstr "Aktiverade moduler"
+
+msgid "Animation"
+msgstr "Animering"
 
 msgid "Not translated"
 msgstr "Ej översatt"
@@ -3235,9 +3251,6 @@ msgstr "Nedkortad"
 
 msgid "Text area"
 msgstr "Textfält"
-
-msgid "Apply"
-msgstr "Verkställ"
 
 msgid "Add a new field"
 msgstr "Lägg till ett nytt fält"
@@ -3402,14 +3415,19 @@ msgstr "Copyright"
 msgid "Not present"
 msgstr "Finns ej"
 
-msgid "Small"
-msgstr "Liten"
+msgid "Local"
+msgstr "Lokal"
 
 msgid "Source code"
 msgstr "Källkod"
 
 msgid "Contact link"
 msgstr "Kontaktlänk"
+
+msgid "1 second"
+msgid_plural "@count seconds"
+msgstr[0] "1 second"
+msgstr[1] "@count seconds"
 
 msgid "Edit container"
 msgstr "Redigera forumgrupp"
@@ -3426,6 +3444,9 @@ msgstr "Indentera"
 msgid "Outdent"
 msgstr "Minska indrag"
 
+msgid "Unlink"
+msgstr "Ta bort länk"
+
 msgid "Thread"
 msgstr "Tråd"
 
@@ -3435,14 +3456,17 @@ msgstr "Besvara"
 msgid "Hot topic threshold"
 msgstr "Tröskelvärde för hett ämne"
 
-msgid "Permission"
-msgstr "Behörighet"
+msgid "Unpublish"
+msgstr "Avpublicera"
 
-msgid "Large"
-msgstr "Stor"
+msgid "Apply"
+msgstr "Verkställ"
 
 msgid "Block description"
 msgstr "Blockbeskrivning"
+
+msgid "Used in"
+msgstr "Används i"
 
 msgid "Language code"
 msgstr "Språkkod"
@@ -3450,11 +3474,8 @@ msgstr "Språkkod"
 msgid "Translation"
 msgstr "Översättning"
 
-msgid "Translation language"
-msgstr "Översättningsspråk"
-
-msgid "Unpublish"
-msgstr "Avpublicera"
+msgid "Permission"
+msgstr "Behörighet"
 
 msgid "Copy"
 msgstr "Kopiera"
@@ -3462,10 +3483,8 @@ msgstr "Kopiera"
 msgid "Global"
 msgstr "Globalt"
 
-msgid "1 second"
-msgid_plural "@count seconds"
-msgstr[0] "1 second"
-msgstr[1] "@count seconds"
+msgid "Add another item"
+msgstr "Lägg till ytterligare alternativ"
 
 msgid ""
 "Configure what block content appears in your site's sidebars and other "
@@ -3476,12 +3495,6 @@ msgstr ""
 
 msgid "Edit profile"
 msgstr "Redigera profil"
-
-msgid "Unlink"
-msgstr "Ta bort länk"
-
-msgid "Add another item"
-msgstr "Lägg till ytterligare alternativ"
 
 msgid "Hide"
 msgstr "Dölj"
@@ -3532,6 +3545,9 @@ msgstr "Nya diskussionsämnen"
 msgid "@type: deleted %title revision %revision."
 msgstr "@type: raderade version %revision av %title."
 
+msgid "Page not found"
+msgstr "Sidan hittades inte"
+
 msgid "More help"
 msgstr "Mer hjälp"
 
@@ -3544,8 +3560,8 @@ msgstr "Konto spärrat"
 msgid "Expand"
 msgstr "Fäll ut"
 
-msgid "Taxonomy vocabulary"
-msgstr "Vokabulär för taxonomi"
+msgid "Variants"
+msgstr "Varianter"
 
 msgid "Change layout"
 msgstr "Ändra layout"
@@ -3693,6 +3709,9 @@ msgstr "HTTP autentisiering"
 msgid "Attach to"
 msgstr "Bifoga till"
 
+msgid "Libraries"
+msgstr "Bibliotek"
+
 msgid "Context"
 msgstr "Sammanhang"
 
@@ -3720,6 +3739,11 @@ msgid "1 week"
 msgid_plural "@count weeks"
 msgstr[0] "1 vecka"
 msgstr[1] "@count veckor"
+
+msgid "1 min"
+msgid_plural "@count min"
+msgstr[0] "1 min"
+msgstr[1] "@count minuter"
 
 msgid "1 sec"
 msgid_plural "@count sec"
@@ -3859,8 +3883,8 @@ msgstr ""
 msgid "Display the depth of the comment if it is threaded."
 msgstr "Visa djupet på kommentaren om den är trådad."
 
-msgid "My account"
-msgstr "Mitt konto"
+msgid "Taxonomy vocabulary"
+msgstr "Vokabulär för taxonomi"
 
 msgid "No comments available."
 msgstr "Inga kommentarer tillgängliga."
@@ -3871,17 +3895,11 @@ msgstr "sista »"
 msgid "Extension"
 msgstr "Filändelse"
 
-msgid "Icons"
-msgstr "Ikoner"
+msgid "Account settings"
+msgstr "Kontoinställningar"
 
-msgid "Down"
-msgstr "Ned"
-
-msgid "Solid"
-msgstr "Solid"
-
-msgid "Light"
-msgstr "Light"
+msgid "Token"
+msgstr "Ersättningstecken"
 
 msgid "Machine name"
 msgstr "Maskinläsbart namn"
@@ -3889,16 +3907,11 @@ msgstr "Maskinläsbart namn"
 msgid "Offset"
 msgstr "Kompensera"
 
-msgid "Page not found"
-msgstr "Sidan hittades inte"
+msgid "My account"
+msgstr "Mitt konto"
 
 msgid "GD library"
 msgstr "GD-biblioteket"
-
-msgid "1 min"
-msgid_plural "@count min"
-msgstr[0] "1 min"
-msgstr[1] "@count minuter"
 
 msgid ""
 "Your version of Drupal has been revoked and is no longer available for "
@@ -4183,9 +4196,6 @@ msgstr "Index"
 msgid "Cardinality"
 msgstr "Huvudsaklig"
 
-msgid "Animation"
-msgstr "Animering"
-
 msgid "There is 1 item left to index."
 msgid_plural "There are @count items left to index."
 msgstr[0] "Det finns 1 post kvar att indexera."
@@ -4212,8 +4222,8 @@ msgstr "Typ av åtgärd"
 msgid "Display a message to the user"
 msgstr "Visa ett meddelande för användaren"
 
-msgid "Local"
-msgstr "Lokal"
+msgid "Content ID"
+msgstr "ID-nummer för innehåll"
 
 msgid "Unpublish comment containing keyword(s)"
 msgstr "Avpublicera kommentarer som innehåller nyckelord(en)"
@@ -4255,6 +4265,9 @@ msgstr "Synkronisera"
 msgid "Set as default"
 msgstr "Ställ in som förvalt"
 
+msgid "Not promoted"
+msgstr "Visas inte på startsidan"
+
 msgid "Not sticky"
 msgstr "Ej klistrad"
 
@@ -4276,8 +4289,14 @@ msgstr "Hoppa till huvudinnehåll"
 msgid "Publish content"
 msgstr "Publicera innehåll"
 
+msgid "Fid"
+msgstr "Fid"
+
 msgid "Reports"
 msgstr "Rapporter"
+
+msgid "sort by @s"
+msgstr "Sortera efter @s"
 
 msgid "Web server"
 msgstr "Webbserver"
@@ -4287,12 +4306,6 @@ msgstr "Komprimera utformning genom att dölja beskrivningar."
 
 msgid "Hide descriptions"
 msgstr "Dölj beskrivningar"
-
-msgid "sort by @s"
-msgstr "Sortera efter @s"
-
-msgid "Not promoted"
-msgstr "Visas inte på startsidan"
 
 msgid ""
 "Sort by the threaded order. This will keep child comments together with "
@@ -4337,6 +4350,9 @@ msgstr "Inställningar för vy"
 msgid "Week @week"
 msgstr "Vecka @week"
 
+msgid "mm/dd/yy"
+msgstr "yy-mm-dd"
+
 msgid "Delete view"
 msgstr "Ta bort vy"
 
@@ -4366,6 +4382,9 @@ msgstr "Beskär"
 
 msgid "Not enabled"
 msgstr "Ej aktiverat"
+
+msgid "Insert Image"
+msgstr "Infoga bild"
 
 msgid ""
 "Instructions to present to the user below this field on the editing form.<br"
@@ -4425,9 +4444,6 @@ msgstr "Hantera webbplatsens bokdispositioner."
 msgid "For security reasons, your upload has been renamed to %filename."
 msgstr "Din uppladdade fil har döpts om till %filename av säkerhetsskäl."
 
-msgid "Variants"
-msgstr "Varianter"
-
 msgid "vocabulary"
 msgstr "vocabulary"
 
@@ -4452,8 +4468,8 @@ msgstr "Inga vokabulärer tillgängliga."
 msgid "original"
 msgstr "ursprunglig"
 
-msgid "Libraries"
-msgstr "Bibliotek"
+msgid "custom block"
+msgstr "custom block"
 
 msgid "Starting level"
 msgstr "Startnivå"
@@ -4511,9 +4527,6 @@ msgstr "Current state"
 msgid "The date the node was last updated."
 msgstr "Datum då noden senast uppdaterades."
 
-msgid "Direction"
-msgstr "Riktning"
-
 msgid "Drupal core"
 msgstr "Drupals kärna"
 
@@ -4544,8 +4557,8 @@ msgstr "Bekräfta lösenord"
 msgid "button"
 msgstr "knapp"
 
-msgid "Save"
-msgstr "Spara"
+msgid "comment"
+msgstr "kommentar"
 
 msgid "Default display order"
 msgstr "Förvald visningsordning"
@@ -4582,9 +4595,6 @@ msgstr "Tristan da Cunha"
 
 msgid "Role ID."
 msgstr "ID-nummer för roll."
-
-msgid "Run cron"
-msgstr "Kör schemalagda aktiviteter"
 
 msgid "Run updates"
 msgstr "Kör uppdateringar"
@@ -4638,6 +4648,12 @@ msgstr "Ny uppsättning"
 msgid "No link"
 msgstr "Ingen länk"
 
+msgid "Add Link"
+msgstr "Lägg till länk"
+
+msgid "Edit Link"
+msgstr "Redigera länk"
+
 msgid "outdated"
 msgstr "föråldrad"
 
@@ -4674,12 +4690,11 @@ msgstr "Användarkonto"
 msgid "Block type"
 msgstr "Typ av block"
 
+msgid "Entity type"
+msgstr "Objektstyp"
+
 msgid "Translate"
 msgstr "Översätt"
-
-msgid "Manage tagging, categorization, and classification of your content."
-msgstr ""
-"Hantera etikettering, kategorisering och klassificering av ditt innehåll."
 
 msgid "Admin menu"
 msgstr "Administratörsmeny"
@@ -4687,17 +4702,11 @@ msgstr "Administratörsmeny"
 msgid "Tour"
 msgstr "Rundtur"
 
-msgid "Insert Image"
-msgstr "Infoga bild"
+msgid "Run cron"
+msgstr "Kör schemalagda aktiviteter"
 
-msgid "Edit Link"
-msgstr "Redigera länk"
-
-msgid "mm/dd/yy"
-msgstr "yy-mm-dd"
-
-msgid "Add Link"
-msgstr "Lägg till länk"
+msgid "Direction"
+msgstr "Riktning"
 
 msgid "Save translations"
 msgstr "Spara översättningar"
@@ -4738,8 +4747,8 @@ msgstr "Östtimor"
 msgid "Åland Islands"
 msgstr "Åland"
 
-msgid "Form mode"
-msgstr "Formulärläge"
+msgid "file"
+msgstr "fil"
 
 msgid "Properties"
 msgstr "Egenskaper"
@@ -4776,16 +4785,6 @@ msgstr "Hopsamling"
 msgid "Decimal point"
 msgstr "Decimalkomma"
 
-msgid "Frontpage"
-msgstr "Startsida"
-
-msgid ""
-"The %dependency library, which the %library library depends on, is not "
-"installed."
-msgstr ""
-"Biblioteket %dependency som biblioteket %library behöver är inte "
-"installerat."
-
 msgid "Configuration name"
 msgstr "Namn på konfiguration"
 
@@ -4800,6 +4799,9 @@ msgstr "Bokdisposition"
 
 msgid "This will be the top-level page in this book."
 msgstr "Denna sida kommer att bli huvudsidan på den översta nivån i boken."
+
+msgid "Revision information"
+msgstr "Information om versionshantering"
 
 msgid "Notify user of new account"
 msgstr "Skicka meddelande om det nya kontot till användaren"
@@ -4899,8 +4901,8 @@ msgstr "Visa länkar"
 msgid "Text settings"
 msgstr "Textinställningar"
 
-msgid "custom block"
-msgstr "custom block"
+msgid "Enter your @s username."
+msgstr "Ange ditt användarnamn på @s."
 
 msgid "Ends with"
 msgstr "Slutar med"
@@ -4914,9 +4916,6 @@ msgid ""
 msgstr ""
 "Kommentar: obehörig kommentar skickad eller kommentar skickad till stängt "
 "inlägg %subject."
-
-msgid "comment"
-msgstr "kommentar"
 
 msgid "Link this field to its user"
 msgstr "Länka detta fält till dess användare"
@@ -4964,6 +4963,9 @@ msgstr "Typ av MIME för filen."
 
 msgid "@type %title has been created."
 msgstr "%title (@type) har skapats."
+
+msgid "@type %title has been updated."
+msgstr "%title (@type) har uppdaterats."
 
 msgid "The post could not be saved."
 msgstr "Inlägget kunde inte sparas."
@@ -5082,8 +5084,8 @@ msgstr "Kommentarens brödtext."
 msgid "Default argument"
 msgstr "Förvalt argument"
 
-msgid "File system"
-msgstr "Filsystem"
+msgid "Form mode"
+msgstr "Formulärläge"
 
 msgid "Secondary tabs"
 msgstr "Sekundära flikar"
@@ -5100,23 +5102,29 @@ msgstr "Sökindex"
 msgid "Posted in"
 msgstr "Inlagt i"
 
+msgid "Temporary"
+msgstr "Temporär"
+
+msgid "Permanent"
+msgstr "Permanent"
+
+msgid "Upload date"
+msgstr "Datum för uppladdning"
+
 msgid "No files available."
 msgstr "Inga filer tillgängliga."
+
+msgid "Frontpage"
+msgstr "Startsida"
+
+msgid "File system"
+msgstr "Filsystem"
 
 msgid "Status report"
 msgstr "Statusrapport"
 
-msgid "Enter your @s username."
-msgstr "Ange ditt användarnamn på @s."
-
 msgid "PHP extensions"
 msgstr "PHP-tillägg"
-
-msgid "Revision information"
-msgstr "Information om versionshantering"
-
-msgid "@type %title has been updated."
-msgstr "%title (@type) har uppdaterats."
 
 msgid "Add language"
 msgstr "Lägg till språk"
@@ -5172,8 +5180,26 @@ msgstr "Ej i bok"
 msgid "New book"
 msgstr "Ny bok"
 
+msgid "By @name on @date"
+msgstr "Av @name @date"
+
+msgid "By @name"
+msgstr "Av @name"
+
+msgid "Not in menu"
+msgstr "Ej i meny"
+
+msgid "Alias: @alias"
+msgstr "Alias: @alias"
+
+msgid "No alias"
+msgstr "Inga alias"
+
 msgid "Source language"
 msgstr "Källspråk"
+
+msgid "Current date"
+msgstr "Nuvarande datum"
 
 msgid "An error has occurred."
 msgstr "Ett fel har uppstått."
@@ -5216,6 +5242,9 @@ msgstr "Filtrera logg efter meddelandetyp"
 
 msgid "You must select something to filter by."
 msgstr "Du måste välja något att filtrera på."
+
+msgid "New revision"
+msgstr "Ny version"
 
 msgid "Callback"
 msgstr "Återanrop"
@@ -5478,29 +5507,8 @@ msgstr "Begränsa listan till valda alternativ"
 msgid "Delete the selected comments"
 msgstr "Radera de valda kommentarerna"
 
-msgid "Current date"
-msgstr "Nuvarande datum"
-
 msgid "- Any -"
 msgstr "- Alla -"
-
-msgid "Alias: @alias"
-msgstr "Alias: @alias"
-
-msgid "New revision"
-msgstr "Ny version"
-
-msgid "By @name on @date"
-msgstr "Av @name @date"
-
-msgid "By @name"
-msgstr "Av @name"
-
-msgid "No alias"
-msgstr "Inga alias"
-
-msgid "Not in menu"
-msgstr "Ej i meny"
 
 msgid ""
 "If checked, the only items presented to the user will be the ones selected "
@@ -6522,12 +6530,6 @@ msgstr ""
 "skall sorteras som standard (om så ska ske). Du kan styra ordningen på "
 "kolumner och fältnamn i fältsektionen."
 
-msgid "content item"
-msgstr "content item"
-
-msgid "Machine-readable name"
-msgstr "Maskinläsbart namn"
-
 msgid "Parent link ID"
 msgstr "Ovanliggande ID för länk"
 
@@ -6546,8 +6548,8 @@ msgstr "Körning av schemalagda aktiviteter färdig."
 msgid "Visitors"
 msgstr "Besökare"
 
-msgid "custom menu link"
-msgstr "custom menu link"
+msgid "‹‹"
+msgstr "‹‹"
 
 msgid "Allow multiple values"
 msgstr "Tillåt flera värden"
@@ -6567,6 +6569,12 @@ msgstr "Indexeringsbegränsning"
 msgid "Administration menu"
 msgstr "Administrationsmeny"
 
+msgid "››"
+msgstr "››"
+
+msgid "- All -"
+msgstr "- Alla -"
+
 msgid "A boolean indicating whether this translation needs to be updated."
 msgstr ""
 "En boolesk som indikerar huruvida denna översättning behöver uppdateras "
@@ -6574,9 +6582,6 @@ msgstr ""
 
 msgid "Publishing status"
 msgstr "Status för publicering"
-
-msgid "Edit language"
-msgstr "Redigera språk"
 
 msgid "External links only"
 msgstr "Enbart externa länkar"
@@ -6595,6 +6600,9 @@ msgstr "Innehåll i block"
 
 msgid "Blue Lagoon (default)"
 msgstr "Blå lagun (förvald)"
+
+msgid "The requested page could not be found."
+msgstr "Den valda sidan kunde inte hittas."
 
 msgid "Standard deviation"
 msgstr "Förvald avvikelse"
@@ -6617,8 +6625,8 @@ msgstr "Välj en installationsprofil"
 msgid "Choose language"
 msgstr "Välj språk"
 
-msgid "Contact form"
-msgstr "Kontaktformulär"
+msgid "content item"
+msgstr "content item"
 
 msgid "No profiles available"
 msgstr "Inga profiler tillgängliga"
@@ -6677,20 +6685,8 @@ msgstr ""
 "Ange bildkvaliteten för JPEG-manipulationer. Kvaliteten anges som ett värde "
 "mellan 0 och 100. Högre värden betyder bättre bildkvalitet men större filer."
 
-msgid "Right to left"
-msgstr "Höger till vänster"
-
-msgid "Left to right"
-msgstr "Vänster till höger"
-
 msgid "Add custom language"
 msgstr "Lägg till anpassat språk"
-
-msgid "Save language"
-msgstr "Spara språk"
-
-msgid "Direction that text in this language is presented."
-msgstr "Skrivriktning som text på detta språk presenteras i."
 
 msgid "Languages not yet added"
 msgstr "Språken är ännu inte tillagda."
@@ -6865,26 +6861,35 @@ msgstr "Omorganisera boksidor och ändra titlar"
 msgid "Book page"
 msgstr "Boksida"
 
-msgid "Who's new"
-msgstr "Vilka är nya?"
+msgid "Contact form"
+msgstr "Kontaktformulär"
 
 msgid "Language name"
 msgstr "Namn på språk"
 
-msgid "Publish"
-msgstr "Publicera"
-
-msgid "Update notifications"
-msgstr "Meddelanden om uppdateringar"
+msgid "Who's new"
+msgstr "Vilka är nya?"
 
 msgid "Unicode library"
 msgstr "Unicode-bibliotek"
 
-msgid "String contains"
-msgstr "Textsträng innehåller"
+msgid "Edit language"
+msgstr "Redigera språk"
 
 msgid "Drag to re-order"
 msgstr "Drag för att ordna om"
+
+msgid "Left to right"
+msgstr "Vänster till höger"
+
+msgid "Direction that text in this language is presented."
+msgstr "Skrivriktning som text på detta språk presenteras i."
+
+msgid "Save language"
+msgstr "Spara språk"
+
+msgid "String contains"
+msgstr "Textsträng innehåller"
 
 msgid "Both translated and untranslated strings"
 msgstr "Både översatta och ej översatta textsträngar"
@@ -6912,8 +6917,8 @@ msgstr "Låter användare kommentera och diskutera publicerat innehåll."
 msgid "Example: 'website feedback' or 'product information'."
 msgstr "Exempel: \"feedback\" eller \"produktinformation\"."
 
-msgid "Pathauto pattern"
-msgstr "Pathauto pattern"
+msgid "taxonomy term"
+msgstr "taxonomiterm"
 
 msgid "Enables the use of both personal and site-wide contact forms."
 msgstr ""
@@ -6924,6 +6929,9 @@ msgstr "Loggar och registrerar systemhändelser till databasen."
 
 msgid "No roles may use this format"
 msgstr "Inga roller får använda detta format"
+
+msgid "Allowed HTML tags: @tags"
+msgstr "Tillåtna HTML-taggar: @tags"
 
 msgid "Anchors are used to make links to other pages."
 msgstr "Ankare används för att skapa länkar till andra sidor."
@@ -7072,6 +7080,9 @@ msgstr "Citationstecken"
 
 msgid "Character Description"
 msgstr "Teckenbeskrivning"
+
+msgid "Lines and paragraphs break automatically."
+msgstr "Rader och stycken bryts automatiskt."
 
 msgid "Compose tips"
 msgstr "Skrivtips"
@@ -7230,12 +7241,6 @@ msgstr "Visa felmeddelanden: \"åtkomst nekad\" (403)."
 msgid "View 'page not found' errors (404s)."
 msgstr "Visa felmeddelanden: \"sidan hittades inte\" (404)."
 
-msgid "Allowed HTML tags: @tags"
-msgstr "Tillåtna HTML-taggar: @tags"
-
-msgid "Lines and paragraphs break automatically."
-msgstr "Rader och stycken bryts automatiskt."
-
 msgid "Number of items to index per cron run"
 msgstr "Antalet poster som skall indexeras per schemalagd körning"
 
@@ -7349,6 +7354,9 @@ msgstr "Standardsida för 403 (åtkomst nekad)"
 msgid "Default 404 (not found) page"
 msgstr "Standardsida för 404 (hittades inte)"
 
+msgid "Caches cleared."
+msgstr "Cacheutrymmen rensade."
+
 msgid "Select an image processing toolkit"
 msgstr "Välj ett bildhanteringsverktyg"
 
@@ -7392,6 +7400,9 @@ msgstr ""
 "Blocket <em>Drivs av Drupal</em> är en valfri länk till hemsidan för Drupal-"
 "projektet. Det är absolut inget krav att webbplatsen visar den här länken, "
 "men den kan användas för att visa sitt stöd för Drupal."
+
+msgid "custom menu link"
+msgstr "custom menu link"
 
 msgid "Compact mode"
 msgstr "Komprimerat läge"
@@ -7526,9 +7537,6 @@ msgstr ""
 " which may or may not have the same name, and might include multiple modules"
 " or themes within it."
 
-msgid "Module and theme update status"
-msgstr "Modulers och temans uppdateringsstatus"
-
 msgid ""
 "There are security updates available for one or more of your modules or "
 "themes. To ensure the security of your server, you should update "
@@ -7550,9 +7558,6 @@ msgstr ""
 msgid "%name has been deleted."
 msgstr "%name har raderats."
 
-msgid "Image toolkit"
-msgstr "Bildhanteringsverktyg"
-
 msgid "RSS publishing"
 msgstr "RSS-publicering"
 
@@ -7562,6 +7567,9 @@ msgid ""
 msgstr ""
 "Visa en statusrapport över tillgängliga uppdateringar för dina installerade "
 "moduler och teman."
+
+msgid "Module and theme update status"
+msgstr "Modulers och temans uppdateringsstatus"
 
 msgid "Access to update.php"
 msgstr "Åtkomst till update.php"
@@ -7574,9 +7582,6 @@ msgstr "Underhållsuppgifter för schemalagda aktiviter"
 
 msgid "PHP memory limit"
 msgstr "Minnesgräns för PHP"
-
-msgid "Caches cleared."
-msgstr "Cacheutrymmen rensade."
 
 msgid "You must enter a username."
 msgstr "Du måste ange ett användarnamn."
@@ -7727,12 +7732,6 @@ msgstr "Alla meddelanden"
 msgid "Serialized"
 msgstr "Seriell"
 
-msgid "Text format"
-msgstr "Textformat"
-
-msgid "Who's online"
-msgstr "Vilka är inloggade"
-
 msgid "Discard changes"
 msgstr "Ignorera ändringar"
 
@@ -7853,12 +7852,8 @@ msgstr "Ej signerad"
 msgid "Number of pages"
 msgstr "Antal sidor"
 
-msgid ""
-"The version %dependency_version of the %dependency library is not compatible"
-" with the %library library."
-msgstr ""
-"Version %dependency_version för biblioteket %dependency är inte kompatibel "
-"med biblioteket %library."
+msgid "Publish"
+msgstr "Publicera"
 
 msgid "The weight of this term in relation to other terms."
 msgstr "Vikten på den här termen i relation till andra."
@@ -7928,8 +7923,8 @@ msgstr "Visa länkar"
 msgid "Lock"
 msgstr "Lås"
 
-msgid "Regional settings"
-msgstr "Lokala inställningar"
+msgid "« First"
+msgstr "« Första"
 
 msgid "Limited"
 msgstr "Begränsad"
@@ -7949,8 +7944,8 @@ msgstr "Drupal 6"
 msgid "Drupal 7"
 msgstr "Drupal 7"
 
-msgid "Enter the password that accompanies your username."
-msgstr "Ange lösenordet för ditt konto."
+msgid "Regional settings"
+msgstr "Lokala inställningar"
 
 msgid "Your virtual face or picture."
 msgstr "Ditt virtuella ansikte eller bild."
@@ -7961,14 +7956,23 @@ msgstr "Radera innehåll"
 msgid "Author name"
 msgstr "Författarnamn"
 
-msgid "Upload progress"
-msgstr "Uppladdningsförlopp"
+msgid "Text format"
+msgstr "Textformat"
+
+msgid "Last »"
+msgstr "Sista »"
+
+msgid "Who's online"
+msgstr "Vilka är inloggade"
+
+msgid "@size MB"
+msgstr "@size MB"
 
 msgid "Sort ascending"
 msgstr "Sortera stigande"
 
-msgid "@size MB"
-msgstr "@size MB"
+msgid "Upload progress"
+msgstr "Uppladdningsförlopp"
 
 msgid "Show description"
 msgstr "Visa beskrivning"
@@ -8110,9 +8114,6 @@ msgstr "Radera objekt"
 msgid "Fetcher"
 msgstr "Inhämtare"
 
-msgid "The %library library could not be found."
-msgstr "Biblioteket %library kunde inte hittas."
-
 msgid "This permission is inherited from the authenticated user role."
 msgstr "Denna behörighet ärvs från rollen verifierad användare."
 
@@ -8216,8 +8217,8 @@ msgstr "Visa inte fält, etiketter eller uppmärkning för fält som är tomma."
 msgid "Title of the feed."
 msgstr "Titel på innehållsflödet."
 
-msgid "Structure"
-msgstr "Struktur"
+msgid "Pathauto pattern"
+msgstr "Pathauto pattern"
 
 msgid "Language select"
 msgstr "Språkval"
@@ -8291,6 +8292,9 @@ msgstr "Generera"
 msgid "Image scale"
 msgstr "Bildskala"
 
+msgid "No revision"
+msgstr "Inga versioner"
+
 msgid "Requires a title"
 msgstr "Kräver en titel"
 
@@ -8339,8 +8343,11 @@ msgstr "Det formatterade innehållet för själva kommentaren."
 msgid "The URL of the comment."
 msgstr "URL:en för kommentaren."
 
-msgid "No revision"
-msgstr "Inga versioner"
+msgid "Structure"
+msgstr "Struktur"
+
+msgid "Published status"
+msgstr "Status för publicering"
 
 msgid "The URL of the comment's edit page."
 msgstr "URL:en för kommentarens redigeringssida."
@@ -8475,9 +8482,6 @@ msgstr "Fälttyper"
 
 msgid "Time zone settings"
 msgstr "Inställningar för tidszon"
-
-msgid "The version of the %library library could not be detected."
-msgstr "Versionen av biblioteket %library  kunde inte hittas."
 
 msgid "Content Moderation"
 msgstr "Moderering av innehåll"
@@ -8615,6 +8619,9 @@ msgstr "Modulen %module avinstallerades."
 msgid "Saint Barthélemy"
 msgstr "Saint-Barthélemy"
 
+msgid "No strings available."
+msgstr "Inga strängar tillgängliga."
+
 msgid "JavaScript translation file %file.js was lost."
 msgstr "Översättningsfil för JavaScript %file.js förlorades."
 
@@ -8636,11 +8643,8 @@ msgstr ""
 msgid "Unable to create %directory due to the following: %reason"
 msgstr "Kunde inte skapa %directory på grund av följande: %reason"
 
-msgid "No strings available."
-msgstr "Inga strängar tillgängliga."
-
-msgid "HTTP Result Code: !status"
-msgstr "Resultatkod för HTTP: !status"
+msgid "New comment count"
+msgstr "Antal nya kommentarer"
 
 msgid "An AJAX HTTP request terminated abnormally."
 msgstr "Ett AJAX HTTP-anrop avslutades oväntat."
@@ -8654,14 +8658,17 @@ msgstr "Sökväg: !uri"
 msgid "StatusText: !statusText"
 msgstr "Statustext: !statusText"
 
+msgid "An AJAX HTTP error occurred."
+msgstr "Ett AJAX HTTP-fel inträffade"
+
 msgid "Status message"
 msgstr "Statusmeddelande"
 
 msgid "(active tab)"
 msgstr "(aktiv flik)"
 
-msgid "An AJAX HTTP error occurred."
-msgstr "Ett AJAX HTTP-fel inträffade"
+msgid "HTTP Result Code: !status"
+msgstr "Resultatkod för HTTP: !status"
 
 msgid "Upload an OPML file containing a list of feeds to be imported."
 msgstr ""
@@ -9060,6 +9067,12 @@ msgstr ""
 "Lämna tomt för att använda nedkortat värde för fullständig text som "
 "sammanfattning."
 
+msgid "Hide summary"
+msgstr "Dölj sammanfattning"
+
+msgid "Edit summary"
+msgstr "Redigera sammanfattning"
+
 msgid "Edit field settings."
 msgstr "Inställningar för redigering av fält."
 
@@ -9336,12 +9349,6 @@ msgstr "Kontrollera inställningar för forumhierarkier."
 
 msgid "Forum navigation vocabulary"
 msgstr "Vokabulär för forumnavigation"
-
-msgid "Hide summary"
-msgstr "Dölj sammanfattning"
-
-msgid "Edit summary"
-msgstr "Redigera sammanfattning"
 
 msgid "Follow these steps to set up and start using your website:"
 msgstr "Följ dessa steg för att ställa in och börja använda din webbplats:"
@@ -9633,41 +9640,6 @@ msgstr "Inställningar för språkidentifiering via URL"
 msgid "Session language detection configuration"
 msgstr "Inställningar för språkidentifiering via session"
 
-msgid "The text to be used for this link in the menu."
-msgstr "Texten som skall användas för denna länken i menyn."
-
-msgid "Menu links that are not enabled will not be listed in any menu."
-msgstr "Menylänkar som inte är aktiverade kommer inte att visas i någon meny."
-
-msgid ""
-"If selected and this menu link has children, the menu will always appear "
-"expanded."
-msgstr ""
-"Om detta väljs och det finns underliggande menylänkar kommer det alltid att "
-"vara utfällt."
-
-msgid "Parent link"
-msgstr "Ovanliggande länk"
-
-msgid "Add to shortcuts"
-msgstr "Lägg till genvägar"
-
-msgid "Image styles"
-msgstr "Bildstilar"
-
-msgid ""
-"Configure styles that can be used for resizing or adjusting images on "
-"display."
-msgstr ""
-"Konfigurera stilar som kan användas för att ändra storlek eller anpassa "
-"bilder vid visning."
-
-msgid "Add effect"
-msgstr "Lägg till effekt"
-
-msgid "Detection and selection"
-msgstr "Avkänning och val"
-
 msgctxt "Long month name"
 msgid "January"
 msgstr "januari"
@@ -9705,12 +9677,47 @@ msgid "September"
 msgstr "september"
 
 msgctxt "Long month name"
+msgid "December"
+msgstr "december"
+
+msgid "The text to be used for this link in the menu."
+msgstr "Texten som skall användas för denna länken i menyn."
+
+msgid "Menu links that are not enabled will not be listed in any menu."
+msgstr "Menylänkar som inte är aktiverade kommer inte att visas i någon meny."
+
+msgid ""
+"If selected and this menu link has children, the menu will always appear "
+"expanded."
+msgstr ""
+"Om detta väljs och det finns underliggande menylänkar kommer det alltid att "
+"vara utfällt."
+
+msgid "Parent link"
+msgstr "Ovanliggande länk"
+
+msgid "Add to shortcuts"
+msgstr "Lägg till genvägar"
+
+msgid "Add effect"
+msgstr "Lägg till effekt"
+
+msgid "Image styles"
+msgstr "Bildstilar"
+
+msgid ""
+"Configure styles that can be used for resizing or adjusting images on "
+"display."
+msgstr ""
+"Konfigurera stilar som kan användas för att ändra storlek eller anpassa "
+"bilder vid visning."
+
+msgctxt "Long month name"
 msgid "November"
 msgstr "november"
 
-msgctxt "Long month name"
-msgid "December"
-msgstr "december"
+msgid "Detection and selection"
+msgstr "Avkänning och val"
 
 msgid "Filter translatable strings"
 msgstr "Filtrera översättningsbara strängar"
@@ -9747,6 +9754,9 @@ msgstr "Hantering av menyer"
 
 msgid "Administer menus and menu items"
 msgstr "Administer menus and menu items"
+
+msgid "Provide a menu link"
+msgstr "Ange en menylänk"
 
 msgid "Available menus"
 msgstr "Tillgängliga menyer"
@@ -9820,6 +9830,9 @@ msgid_plural "Are you sure you want to delete these items?"
 msgstr[0] "Är du säker på att du vill ta bort detta inlägg?"
 msgstr[1] "Är du säker på att du vill ta bort dessa inlägg?"
 
+msgid "<em>Edit @type</em> @title"
+msgstr "<em>Redigera @type</em> @title"
+
 msgid "Tokens related to individual content items, or \"nodes\"."
 msgstr ""
 "Ersättningstecken relaterade till individuella innehållsposter, eller "
@@ -9887,9 +9900,11 @@ msgstr ""
 "visningsläge."
 
 msgid ""
-"The installed version %version of the %library library is not supported."
+"The %dependency library, which the %library library depends on, is not "
+"installed."
 msgstr ""
-"Den installerade versionen %version för biblioteket %library stöds inte."
+"Biblioteket %dependency som biblioteket %library behöver är inte "
+"installerat."
 
 msgid "Administer content types"
 msgstr "Administrera innehållstyper"
@@ -10038,9 +10053,6 @@ msgstr "Visar genvägar"
 msgid "Administer shortcuts"
 msgstr "Administrera genvägar"
 
-msgid "Add to %shortcut_set shortcuts"
-msgstr "Bifoga till genvägar i %shortcut_set"
-
 msgid "Make content unsticky"
 msgstr "Ta bort visning överst i listor"
 
@@ -10058,12 +10070,6 @@ msgstr "Hitta och hantera innehåll."
 
 msgid "Recent content"
 msgstr "Nyligen uppdaterat innehåll"
-
-msgid "Provide a menu link"
-msgstr "Ange en menylänk"
-
-msgid "<em>Edit @type</em> @title"
-msgstr "<em>Redigera @type</em> @title"
 
 msgid "Remove from shortcuts"
 msgstr "Ta bort från genvägar"
@@ -10241,6 +10247,12 @@ msgstr ""
 msgid "Errors and warnings"
 msgstr "Felmeddelanden och varningar"
 
+msgid "Clear all caches"
+msgstr "Töm all cache"
+
+msgid "Bandwidth optimization"
+msgstr "Bandbreddsoptimering"
+
 msgid "Public file system path"
 msgstr "Systemsökväg för offentliga filer"
 
@@ -10398,12 +10410,6 @@ msgstr ""
 msgid "Edit shortcuts"
 msgstr "Redigera genvägar"
 
-msgid "Clear all caches"
-msgstr "Töm all cache"
-
-msgid "Bandwidth optimization"
-msgstr "Bandbreddsoptimering"
-
 msgid "Remove from %shortcut_set shortcuts"
 msgstr "Ta bort från genvägar i %shortcut_set"
 
@@ -10415,13 +10421,6 @@ msgstr ""
 "Anslutningen kommer att skapas mellan din webbserver och maskinen som är "
 "värd för webbserverns filer. För det mesta är detta samma maskin och "
 "\"localhost\" är korrekt."
-
-msgid ""
-"Select the desired local time and time zone. Dates and times throughout this"
-" site will be displayed using this time zone."
-msgstr ""
-"Välj den önskade lokala tiden och tidszonen. Datum och tid kommer att visas "
-"i denna tidszon på hela webbplatsen."
 
 msgid "The directory %directory does not exist and could not be created."
 msgstr "Katalogen %directory finns inte och kunde inte skapas."
@@ -10735,11 +10734,11 @@ msgstr ""
 msgid "Registration and cancellation"
 msgstr "Registrering och borttagning"
 
-msgid "No people available."
-msgstr "Inga personer tillgängliga."
-
 msgid "Logging and errors"
 msgstr "Loggar och felmeddelanden"
+
+msgid "No people available."
+msgstr "Inga personer tillgängliga."
 
 msgid "Regional and language"
 msgstr "Lokalt och språk"
@@ -10941,11 +10940,15 @@ msgstr "Bekräfta borttagning av konto"
 msgid "Minimal"
 msgstr "Minimal"
 
-msgid "Image style"
-msgstr "Stilmall för bild"
+msgid ""
+"The version %dependency_version of the %dependency library is not compatible"
+" with the %library library."
+msgstr ""
+"Version %dependency_version för biblioteket %dependency är inte kompatibel "
+"med biblioteket %library."
 
-msgid "Find and manage people interacting with your site."
-msgstr "Hitta och hantera personer som använder din webbplats."
+msgid "Contact forms"
+msgstr "Kontaktformulär"
 
 msgid "Install with commonly used features pre-configured."
 msgstr "Installera med vanligt använda funktioner förinställda."
@@ -11081,8 +11084,8 @@ msgstr "Exponerad sorteringsetikett"
 msgid "Select any filter and click on Apply to see results"
 msgstr "Välj valfritt filter och klicka på applicera för att se resultaten."
 
-msgid "The %variant variant of the %library library could not be found."
-msgstr "Varianten %variant för biblioteket %library kunde inte hittas."
+msgid "Image style"
+msgstr "Stilmall för bild"
 
 msgid "Use tags to group articles on similar topics into categories."
 msgstr ""
@@ -11092,11 +11095,8 @@ msgstr ""
 msgid "An administrator created an account for you at [site:name]"
 msgstr "En administratör har skapat ett konto åt dig på [site:name]"
 
-msgid "Previous"
-msgstr "Föregående"
-
-msgid "Contact forms"
-msgstr "Kontaktformulär"
+msgid "Find and manage people interacting with your site."
+msgstr "Hitta och hantera personer som använder din webbplats."
 
 msgid "Text on demand"
 msgstr "Text på begäran"
@@ -11229,6 +11229,9 @@ msgstr "View media"
 
 msgid "Remove block"
 msgstr "Ta bort block"
+
+msgid "all languages"
+msgstr "alla språk"
 
 msgid "%module module installed."
 msgstr "Modulen %module installerades."
@@ -11414,6 +11417,13 @@ msgstr ""
 msgid "Syslog format"
 msgstr "Format på Syslog"
 
+msgid ""
+"External resources can be optimized automatically, which can reduce both the"
+" size and number of requests made to your website."
+msgstr ""
+"Externa resurser kan optimeras automatiskt, vilket kan minska både storlek "
+"och antal förfrågningar till din webbplats."
+
 msgid "A date in 'time-since' format. (%date)"
 msgstr "Ett datum i formatet \"tid sedan\". (%date)"
 
@@ -11423,8 +11433,8 @@ msgstr "Filens plats relativ till Drupals rot."
 msgid "Your modules have been downloaded and updated."
 msgstr "Dina moduler har laddats ned och uppdaterats."
 
-msgid "Allows version-dependent and shared usage of external libraries."
-msgstr "Tillåter versionsberoende och delade användning av externa bibliotek."
+msgid "The %library library could not be found."
+msgstr "Biblioteket %library kunde inte hittas."
 
 msgid "Filter modules"
 msgstr "Filtreringsmoduler"
@@ -11441,11 +11451,11 @@ msgstr "Huvudbakgrund"
 msgid "Sidebar background"
 msgstr "Bakgrund för sidospalt"
 
-msgid "Assets"
-msgstr ""
+msgid "The version of the %library library could not be detected."
+msgstr "Versionen av biblioteket %library  kunde inte hittas."
 
-msgid "Configure user accounts."
-msgstr "Konfigurera användarkonton."
+msgid "Add and modify shortcut sets."
+msgstr "Lägg till och modifiera genvägsuppsättningar."
 
 msgid "Overview of fields on all entity types."
 msgstr "Fältöversikt för alla objektstyper."
@@ -11453,21 +11463,11 @@ msgstr "Fältöversikt för alla objektstyper."
 msgid "GD library PNG support"
 msgstr "Stöd för PNG i GD-biblioteket"
 
-msgid "all languages"
-msgstr "alla språk"
-
 msgid "Translation update status"
 msgstr "Status för uppdatering av översättningar"
 
 msgid "Collapse"
 msgstr "Fäll in"
-
-msgid ""
-"The selected file %filename cannot be uploaded. Only files with the "
-"following extensions are allowed: %extensions."
-msgstr ""
-"Den valda filen %filename kan inte laddas upp. Endast filer med följande "
-"ändelser är tillåtna: %extensions."
 
 msgid "Sidebar borders"
 msgstr "Kant för sidospalt"
@@ -11677,8 +11677,8 @@ msgstr "Avsluta visning av blockregioner"
 msgid "Database log messages to keep"
 msgstr "Loggmeddelanden som skall sparas"
 
-msgid "Comment type"
-msgstr "Typ av kommentar"
+msgid "UUID"
+msgstr "UUID"
 
 msgid ""
 "Define a string that should be suffixed to the value, like ' m', ' kb/s'. "
@@ -11732,6 +11732,9 @@ msgstr "Länkat till innehåll"
 
 msgid "Linked to file"
 msgstr "Länkat till fil"
+
+msgid "Shown when hovering over the menu link."
+msgstr "Visas när man för musmarkören över menylänken."
 
 msgid ""
 "Format: %time. The date format is YYYY-MM-DD and %timezone is the time zone "
@@ -11810,6 +11813,9 @@ msgstr "Textformat"
 msgid "Disable text format"
 msgstr "Inaktivera textformat"
 
+msgid "Comment type"
+msgstr "Typ av kommentar"
+
 msgid "Bulk update"
 msgstr "Massuppdatera"
 
@@ -11819,20 +11825,14 @@ msgstr "Söksida"
 msgid "View mode"
 msgstr "Visningsläge"
 
-msgid "Local path"
-msgstr ""
+msgid "Subscribe to @title"
+msgstr "Prenumerera på @title"
 
 msgid "Back to site"
 msgstr "Tillbaka till webbplats"
 
-msgid "Subscribe to @title"
-msgstr "Prenumerera på @title"
-
 msgid "Configuration files"
 msgstr "Konfigurationsfiler"
-
-msgid "Shown when hovering over the menu link."
-msgstr "Visas när man för musmarkören över menylänken."
 
 msgid "Show row weights"
 msgstr "Visa radernas vikt"
@@ -11864,8 +11864,8 @@ msgstr "Installera en ny modul"
 msgid "Install new theme"
 msgstr "Installera ett nytt tema"
 
-msgid "Hash"
-msgstr "Hash"
+msgid "Previous"
+msgstr "Föregående"
 
 msgid "Nothing"
 msgstr "Inget"
@@ -12131,8 +12131,8 @@ msgstr ""
 msgid "The entity type."
 msgstr "Objektstypen."
 
-msgid "Administer settings."
-msgstr "Administrera inställningar."
+msgid "Information"
+msgstr "Information"
 
 msgid "Center left"
 msgstr "Vänster - centrerad"
@@ -12192,14 +12192,17 @@ msgstr "Ange kriterier för validering"
 msgid "Representative sort order"
 msgstr "Representativ sorteringsordning"
 
-msgid "Manage user accounts, roles, and permissions."
-msgstr "Hantera användarkonton, roller och behörigheter."
+msgid "Hash"
+msgstr "Hash"
 
-msgid "Asc"
-msgstr "Stigande"
+msgid "Administer settings."
+msgstr "Administrera inställningar."
 
-msgid "View reports, updates, and errors."
-msgstr "Visa rapporter, uppdateringar och felmeddelanden."
+msgid "Changed date"
+msgstr "Datum för ändring"
+
+msgid "Reference for usage, configuration, and modules."
+msgstr "Referens för användande, inställningar och moduler."
 
 msgid "Database system version"
 msgstr "Version av databassystem"
@@ -12901,8 +12904,8 @@ msgstr "Visa databasfrågan för SQL"
 msgid "Show performance statistics"
 msgstr "Visa statistik för prestanda"
 
-msgid "Directory @path was created"
-msgstr ""
+msgid "Add required context"
+msgstr "Add required context"
 
 msgid "Display"
 msgid_plural "Displays"
@@ -13834,8 +13837,8 @@ msgstr "Huruvida användaren är aktiv eller spärrad."
 msgid "Views query"
 msgstr "Databasfråga för vy"
 
-msgid "Information"
-msgstr "Information"
+msgid "Finish"
+msgstr "Slutför"
 
 msgid ""
 "The throbber display does not show the status of uploads but takes up less "
@@ -14033,8 +14036,8 @@ msgstr "Datum på formen ÅÅÅÅ."
 msgid "Date in the form of MM (01 - 12)."
 msgstr "Datum på formen MM (01-12)."
 
-msgid "Add required context"
-msgstr "Add required context"
+msgid "@description"
+msgstr "@description"
 
 msgid "Full HTML"
 msgstr "Fullständig HTML"
@@ -14336,6 +14339,12 @@ msgstr "Easy"
 msgid "Breakpoint"
 msgstr "Brytpunkt"
 
+msgid "Needs to be updated"
+msgstr "Behöver uppdateras"
+
+msgid "Does not need to be updated"
+msgstr "Behöver inte uppdateras"
+
 msgid "Edit comment @subject"
 msgstr "Redigera kommentar @subject"
 
@@ -14390,12 +14399,6 @@ msgstr "Insticksprogram i Views"
 
 msgid "Translation for @language"
 msgstr "Översättning för @language"
-
-msgid "Needs to be updated"
-msgstr "Behöver uppdateras"
-
-msgid "Does not need to be updated"
-msgstr "Behöver inte uppdateras"
 
 msgid "Last page"
 msgstr "Sista sidan"
@@ -14987,12 +14990,6 @@ msgstr ""
 msgid "@count disallowed HTML string(s) in files: @files."
 msgstr "@count otillåtna HTML-sträng(ar) i filer: @files."
 
-msgid "The strings have been saved."
-msgstr "Strängarna har sparats."
-
-msgid "In Context"
-msgstr "I sammanhang"
-
 msgid "First plural form"
 msgid_plural "@count. plural form"
 msgstr[0] "First plural form"
@@ -15014,8 +15011,8 @@ msgstr ""
 "Removed JavaScript translation file for the language %language because no "
 "translations currently exist for that language."
 
-msgid "Finish"
-msgstr "Slutför"
+msgid "Chaos tool suite"
+msgstr "Chaos tool suite"
 
 msgid ""
 "Import of string \"%string\" was skipped because of disallowed or malformed "
@@ -15053,11 +15050,11 @@ msgstr ""
 "Query tagged for node access but there is no node table, specify the "
 "base_table using meta data."
 
+msgid "Briefly describe the changes you have made."
+msgstr "Beskriv kortfattat de ändringar du har gjort."
+
 msgid "@name format: @date"
 msgstr "@name format: @date"
-
-msgid "@translated/@total (@ratio%)"
-msgstr "@translated/@total (@ratio%)"
 
 msgid "Interface translation"
 msgstr "Översättning av gränssnitt"
@@ -15073,6 +15070,9 @@ msgstr "Customized translation"
 
 msgid "Translation type"
 msgstr "Typ av översättning"
+
+msgid "In Context"
+msgstr "I sammanhang"
 
 msgid "Include non-customized translations"
 msgstr "Inkludera ej anpassade översättningar"
@@ -15381,6 +15381,12 @@ msgstr[1] "@count borttagna"
 msgid "Synchronize configuration"
 msgstr "Synkronisera konfiguration"
 
+msgid "Flag other translations as outdated"
+msgstr "Märk andra översättningar som föråldrade"
+
+msgid "Do not flag other translations as outdated"
+msgstr "Märk inte andra översättningar som föråldrade"
+
 msgid ""
 "Provides an image formatter and breakpoint mappings to output responsive "
 "images using the HTML5 picture tag."
@@ -15416,12 +15422,6 @@ msgstr "Visa profil"
 msgid "Site's default language (@lang_name)"
 msgstr "Webbplatsens förvalda språk (@lang_name)"
 
-msgid "Flag other translations as outdated"
-msgstr "Märk andra översättningar som föråldrade"
-
-msgid "Do not flag other translations as outdated"
-msgstr "Märk inte andra översättningar som föråldrade"
-
 msgid "Access @method on %label resource"
 msgstr "Åtkomst till @method på resurs %label"
 
@@ -15453,6 +15453,17 @@ msgstr "Skapa %language översättning för %title"
 
 msgid "Source language: @language"
 msgstr "Källspråk: @language"
+
+msgid ""
+"If you made a significant change, which means the other translations should "
+"be updated, you can flag all translations of this content as outdated. This "
+"will not change any other property of them, like whether they are published "
+"or not."
+msgstr ""
+"If you made a significant change, which means the other translations should "
+"be updated, you can flag all translations of this content as outdated. This "
+"will not change any other property of them, like whether they are published "
+"or not."
 
 msgid ""
 "When this option is checked, this translation needs to be updated. Uncheck "
@@ -15930,6 +15941,11 @@ msgstr "Datumet %field är obligatoriskt."
 msgid "The %field date is invalid."
 msgstr "Datumet %field är ogiltigt."
 
+msgid "Format: %format. Leave blank to use the time of form submission."
+msgstr ""
+"Format: %format. Lämna tomt för att använda tiden när formuläret skickades "
+"in."
+
 msgid ""
 "Choose a format for displaying the date. Be sure to set a format appropriate"
 " for the field, i.e. omitting time for a field that only has a date."
@@ -16061,6 +16077,9 @@ msgid "The URI to access the file (either local or remote)."
 msgstr ""
 "URI för att få åtkomst till filen (antingen lokalt eller fjärranslutet)."
 
+msgid "The time that the node was created."
+msgstr "The time that the node was created."
+
 msgid "Detect if tar is part of the extension"
 msgstr "Detect if tar is part of the extension"
 
@@ -16092,14 +16111,6 @@ msgstr "Användar-ID till författaren av den aktuella versionen."
 
 msgid "Displaying link text"
 msgstr "Visar länktext"
-
-msgid "The time that the node was created."
-msgstr "The time that the node was created."
-
-msgid "Format: %format. Leave blank to use the time of form submission."
-msgstr ""
-"Format: %format. Lämna tomt för att använda tiden när formuläret skickades "
-"in."
 
 msgid "1 new post<span class=\"visually-hidden\"> in topic %title</span>"
 msgid_plural ""
@@ -16203,6 +16214,9 @@ msgstr[1] ""
 
 msgid "Updating configuration translations"
 msgstr "Uppdaterar översättningar för konfiguration"
+
+msgid "Checked translation for %project."
+msgstr "Kontrollerade översättning för %project."
 
 msgid "Error updating configuration translations"
 msgstr "Fel vid uppdatering av översättningar för konfiguration"
@@ -16372,6 +16386,9 @@ msgstr "%type_name: Återställ versioner"
 msgid "%type_name: Delete revisions"
 msgstr "%type_name: Radera versioner"
 
+msgid "Promotion options"
+msgstr "Alternativ för lansering"
+
 msgid "Read more<span class=\"visually-hidden\"> about @title</span>"
 msgstr "Läs mer<span class=\"visually-hidden\"> om @title</span>"
 
@@ -16384,14 +16401,23 @@ msgstr "The time that the node was last edited."
 msgid "The time that the current revision was created."
 msgstr "Tidpunkten då den aktuella versionen skapades."
 
-msgid "Checked translation for %project."
-msgstr "Kontrollerade översättning för %project."
-
 msgid "Downloaded translation for %project."
 msgstr "Laddade ned översättning för %project."
 
 msgid "Imported translation for %project."
 msgstr "Importerade översättning för %project."
+
+msgid "Pager offset"
+msgstr "Pager offset"
+
+msgid "The name of the menu."
+msgstr "Menyns namn."
+
+msgid "Tokens"
+msgstr "Ersättningstecken"
+
+msgid "Available tokens"
+msgstr "Tillgängliga ersättningstecken"
 
 msgid "Importing translation file: %filename (@percent%)."
 msgstr "Importerar översättningsfil: %filename (@percent%)."
@@ -16400,27 +16426,11 @@ msgid "Translations imported."
 msgstr "Översättning importerad"
 
 msgid ""
-"One translation string was skipped because of disallowed or malformed HTML. "
-"See the log for details."
-msgid_plural ""
-"@count translation strings were skipped because of disallowed or malformed "
-"HTML. See the log for details."
-msgstr[0] ""
-"En översättningssträng hoppades över på grund av ej tillåten eller felaktig "
-"HTML. Se loggen för mer information."
-msgstr[1] ""
-"@count översättningssträngar hoppades över på grund av ej tillåten eller "
-"felaktig HTML. Se loggen för mer information."
-
-msgid ""
 "The configuration was successfully updated. There are %number configuration "
 "objects updated."
 msgstr ""
 "Konfigurationen uppdaterades utan problem. Det finns %number uppdaterade "
 "konfigurationsobjekt."
-
-msgid "Promotion options"
-msgstr "Alternativ för lansering"
 
 msgid "Source string (@language)"
 msgstr "Källsträng (@language)"
@@ -16516,9 +16526,6 @@ msgstr "All data"
 
 msgid "An entity field containing a UUID."
 msgstr "Ett objektsfält som innehåller en UUID."
-
-msgid "@zone"
-msgstr "@zone"
 
 msgid "Failed to fetch file due to error \"%error\""
 msgstr "Failed to fetch file due to error \"%error\""
@@ -16772,8 +16779,11 @@ msgstr "Objekt på verktygsrad"
 msgid "Edit user account"
 msgstr "Redigera användarkonto"
 
-msgid "!tour_item of !total"
-msgstr "!tour_item av !total"
+msgid "Update this item"
+msgstr "Uppdatera detta objekt"
+
+msgid "@zone"
+msgstr "@zone"
 
 msgid "End tour"
 msgstr "Avsluta rundtur"
@@ -16924,6 +16934,9 @@ msgstr "Språk på etiketter och andra textelement i denna vy."
 
 msgid "No displays available."
 msgstr "Inga visningar tillgängliga."
+
+msgid "Last saved"
+msgstr "Senast sparad"
 
 msgid "Not saved yet"
 msgstr "Inte sparad ännu"
@@ -17138,9 +17151,6 @@ msgstr "Användande av enkla åtgärder"
 msgid "Shortcut set"
 msgstr "Genväg inställd"
 
-msgid "Last saved"
-msgstr "Senast sparad"
-
 msgid "Creating and configuring advanced actions"
 msgstr "Skapande och och konfigurerande av utökade åtgärder"
 
@@ -17183,6 +17193,9 @@ msgstr "Uppladdningar inaktiverad"
 
 msgid "Uploads enabled, max size: @size @dimensions"
 msgstr "Uppladdningar aktiverad, största storlek: @size @dimensions"
+
+msgid "Edit Image"
+msgstr "Redigera bild"
 
 msgid "Drupal link"
 msgstr "Länk för Drupal"
@@ -17468,9 +17481,6 @@ msgstr ""
 "Konfigurera vilka visningar som finns tillgängliga för ditt innehåll och "
 "formulär."
 
-msgid "Edit Image"
-msgstr "Redigera bild"
-
 msgid ""
 "You must add some additional fields to this display before using this field."
 " These fields may be marked as <em>Exclude from display</em> if you prefer. "
@@ -17677,6 +17687,9 @@ msgstr ""
 "Dölj blocket om det inte finns något resultat och ingen tom text och inget "
 "sidhuvud/sidfot som visas vid tomt resultat"
 
+msgid "Enter caption here"
+msgstr "Ange här en bildtext"
+
 msgid "Drupal image caption widget"
 msgstr "Gränssnittskomponenten för bildtext i Drupal"
 
@@ -17802,9 +17815,6 @@ msgid_plural "Maximum @count files."
 msgstr[0] "Enbart en fil."
 msgstr[1] "Som mest @count filer."
 
-msgid "Enter caption here"
-msgstr "Ange här en bildtext"
-
 msgid "Adding attributes to links"
 msgstr "Lägger til attribut till länkar"
 
@@ -17915,9 +17925,6 @@ msgstr "Datumformat för PHP"
 msgid "@group: @title"
 msgstr "@group: @title"
 
-msgid "@description"
-msgstr "@description"
-
 msgid "Media types"
 msgstr "Media types"
 
@@ -17936,9 +17943,6 @@ msgstr "Återställ ditt lösenord"
 
 msgid "Number of new comments"
 msgstr "Number of new comments"
-
-msgid "Chaos tool suite"
-msgstr "Chaos tool suite"
 
 msgid "Button divider"
 msgstr "Button divider"
@@ -18038,12 +18042,6 @@ msgstr "Ange block, tema eller kategori"
 msgid "Enter a part of the block, theme or category to filter by."
 msgstr "Ange en del av blocket, tema eller katagori att filtrera på."
 
-msgid "Translations for %label"
-msgstr "Översättningar för %label"
-
-msgid "@language (original)"
-msgstr "@language (ursprungligt)"
-
 msgid "Enter label"
 msgstr "Ange etikett"
 
@@ -18064,6 +18062,9 @@ msgstr "(Tom)"
 
 msgid "Feed channel"
 msgstr "Feed channel"
+
+msgid "About text formats"
+msgstr "Om textformat"
 
 msgid "The image style %name has been flushed."
 msgstr "The image style %name has been flushed."
@@ -18146,8 +18147,11 @@ msgstr "Filanvändning"
 msgid "Translate the configuration."
 msgstr "Översätta konfigurationen."
 
-msgid "About text formats"
-msgstr "Om textformat"
+msgid "@language (original)"
+msgstr "@language (ursprungligt)"
+
+msgid "Translations for %label"
+msgstr "Översättningar för %label"
 
 msgid "At least one format must be defined for resource @id"
 msgstr "Åtminstone ett format måste vara definierat för källa @id"
@@ -18245,6 +18249,13 @@ msgstr "The timestamp that the file was last changed."
 
 msgid "Language based on a selected language."
 msgstr "Language based on a selected language."
+
+msgid ""
+"Menu links with lower weights are displayed before links with higher "
+"weights."
+msgstr ""
+"Menu links with lower weights are displayed before links with higher "
+"weights."
 
 msgid "The name of the user role."
 msgstr "The name of the user role."
@@ -18370,6 +18381,18 @@ msgctxt "Validation"
 msgid "Comment author name"
 msgstr "Comment author name"
 
+msgid ""
+"Changing the text format to %text_format will permanently remove content "
+"that is not allowed in that text format.<br><br>Save your changes before "
+"switching the text format to avoid losing data."
+msgstr ""
+"Changing the text format to %text_format will permanently remove content "
+"that is not allowed in that text format.<br><br>Save your changes before "
+"switching the text format to avoid losing data."
+
+msgid "Change text format?"
+msgstr "Change text format?"
+
 msgid "Entity view display"
 msgstr "Visning av vyobjekt"
 
@@ -18470,9 +18493,6 @@ msgstr "Administer responsive images"
 msgid "Return to site content"
 msgstr "Återgå till webbplatsens innehåll"
 
-msgid "Change text format?"
-msgstr "Change text format?"
-
 msgid ""
 "Defined on the Appearance or Theme Settings page. You do not have the "
 "appropriate permissions to change the site logo."
@@ -18494,9 +18514,6 @@ msgid ""
 "Choose which branding elements you want to show in this block instance."
 msgstr ""
 "Choose which branding elements you want to show in this block instance."
-
-msgid "Pager offset"
-msgstr "Pager offset"
 
 msgid "Rendering language"
 msgstr "Rendering language"
@@ -18532,6 +18549,9 @@ msgstr "The news items from %site have been deleted."
 msgid "A brief description of your block."
 msgstr "En kort beskrivning av ditt block."
 
+msgid "no caching"
+msgstr "ingen cachning"
+
 msgid "Completed @current step of @total."
 msgstr "Slutfört steg @current av @total."
 
@@ -18552,6 +18572,9 @@ msgstr "Translating individual strings"
 
 msgid "Format ID."
 msgstr "Format ID."
+
+msgid "(this translation)"
+msgstr "(this translation)"
 
 msgid "(all translations)"
 msgstr "(all translations)"
@@ -18834,17 +18857,8 @@ msgstr "Palette settings"
 msgid "Last comment date"
 msgstr "Last comment date"
 
-msgid "no caching"
-msgstr "ingen cachning"
-
-msgid "(this translation)"
-msgstr "(this translation)"
-
 msgid "Entity options"
 msgstr "Alternativ för objekt"
-
-msgid "Translate @type_name"
-msgstr "Translate @type_name"
 
 msgid "Personal contact form enabled by default"
 msgstr "Personal contact form enabled by default"
@@ -19145,6 +19159,9 @@ msgstr "Logging settings"
 
 msgid "CSS performance settings"
 msgstr "CSS performance settings"
+
+msgid "Aggregate CSS files"
+msgstr "Aggregate CSS files"
 
 msgid "Compress CSS files"
 msgstr "Compress CSS files"
@@ -19649,6 +19666,9 @@ msgctxt "Abbreviated 1 letter weekday Saturday"
 msgid "S"
 msgstr "L"
 
+msgid "Web page addresses and email addresses turn into links automatically."
+msgstr "Webbadresser och e-postadresser görs automatiskt om till länkar."
+
 msgid "Configuring content languages"
 msgstr "Configuring content languages"
 
@@ -19699,17 +19719,6 @@ msgstr "%email är inte en giltig e-postadress."
 
 msgid "%emails are not valid email addresses."
 msgstr "%emails are not valid email addresses."
-
-msgid ""
-"A valid email address. All emails from the system will be sent to this "
-"address. The email address is not made public and will only be used if you "
-"wish to receive a new password or wish to receive certain news or "
-"notifications by email."
-msgstr ""
-"En giltig e-postadress. All e-post från systemet kommer skickas till denna "
-"adress. E-postadressen kommer inte synas offentligt och kommer enbart "
-"användas när du vill ta emot ett nytt lösenord, vissa nyheter eller "
-"meddelanden via e-post."
 
 msgid "This account's preferred language for emails."
 msgstr "Det här kontots föredragna språk för e-post."
@@ -19988,9 +19997,6 @@ msgstr "Tillåter kommentering på innehåll"
 
 msgid "Manage form and displays settings of comments."
 msgstr "Hantera formulär och visar inställningar för kommentarer."
-
-msgid "Web page addresses and email addresses turn into links automatically."
-msgstr "Webbadresser och e-postadresser görs automatiskt om till länkar."
 
 msgid "%num_indexed of %num_total indexed"
 msgstr "%num_indexed of %num_total indexed"
@@ -20331,14 +20337,14 @@ msgstr "Mottagarens användarnamn"
 msgid "Content language of view row"
 msgstr "Språk för innehåll på vyrad"
 
+msgid "Install and set as default"
+msgstr "Installera och ställ in som förvalt"
+
 msgid "Create and manage contact forms."
 msgstr "Skapa och hantera kontaktformulär."
 
 msgid "Site administration toolbar"
 msgstr "Site administration toolbar"
-
-msgid "Install and set as default"
-msgstr "Installera och ställ in som förvalt"
 
 msgid "Allowed types: @extensions."
 msgstr "Tillåtna filtyper: @extensions."
@@ -20429,9 +20435,6 @@ msgstr "Classy"
 
 msgid "Select a @context value:"
 msgstr "Välj ett värde för @context:"
-
-msgid "The name of the menu."
-msgstr "Menyns namn."
 
 msgid "Configuration entity dependencies"
 msgstr "Konfigurerar objektsberoenden"
@@ -20644,6 +20647,9 @@ msgstr "Ett objektsfält som innehåller ett lösenordsvärde."
 msgid "Selected default language no longer exists."
 msgstr "Selected default language no longer exists."
 
+msgid "The username of the content author."
+msgstr "Användarnamnet för innehållets författare."
+
 msgid "Defining responsive image styles"
 msgstr "Defining responsive image styles"
 
@@ -20695,8 +20701,12 @@ msgstr "Select a responsive image style."
 msgid "The target entity"
 msgstr "The target entity"
 
-msgid "The username of the content author."
-msgstr "Användarnamnet för innehållets författare."
+msgid ""
+"Change site name, email address, slogan, default front page, and error "
+"pages."
+msgstr ""
+"Ändra webbplatsens namn, e-postadress, slogan, förvald startsida  samt sidor"
+" för felmeddelanden."
 
 msgid "Original language of content in view row"
 msgstr "Ursprungligt språk för innehåll på vyrad"
@@ -20918,8 +20928,11 @@ msgstr "Run database updates"
 msgid "The weight of the role."
 msgstr "The weight of the role."
 
-msgid "Primary admin actions"
-msgstr "Primary admin actions"
+msgid "No tokens available."
+msgstr "Inga ersättningstecken tillgängliga."
+
+msgid "Import and export your configuration."
+msgstr "Importera och exportera din konfigurering."
 
 msgid ""
 "Security warning: Couldn't write .htaccess file. Please create a .htaccess "
@@ -20985,11 +20998,11 @@ msgstr ""
 msgid "contact form"
 msgstr "kontaktformulär"
 
-msgid "Tokens"
-msgstr "Ersättningstecken"
+msgid "Interface text"
+msgstr "Gränssnittstext"
 
-msgid "Import and export your configuration."
-msgstr "Importera och exportera din konfigurering."
+msgid "Primary admin actions"
+msgstr "Primary admin actions"
 
 msgid "Basic block"
 msgstr "Grundläggande block"
@@ -21036,14 +21049,11 @@ msgstr "Radera de valda användarkontona"
 msgid "Unblock the selected user(s)"
 msgstr "Återaktivera vald(a) användare"
 
-msgid "Entity/field definitions"
-msgstr "Entity/field definitions"
-
-msgid "Interface text"
-msgstr "Gränssnittstext"
-
 msgid "@local-task-title@active"
 msgstr "@local-task-title@active"
+
+msgid "Entity/field definitions"
+msgstr "Entity/field definitions"
 
 msgid ""
 "The %language translation file could not be downloaded. <a "
@@ -21122,6 +21132,12 @@ msgstr "Uppdaterar @module"
 
 msgid "Post updating @module"
 msgstr "Senarelägg uppdatering av @module"
+
+msgid "Date (e.g. @format)"
+msgstr "Datum (t.ex. @format)"
+
+msgid "Time (e.g. @format)"
+msgstr "Tid (t.ex. @format)"
 
 msgid "@uri"
 msgstr "@uri"
@@ -21382,12 +21398,6 @@ msgstr "Lägg till sektion"
 msgid "@size limit."
 msgstr "Begränsning @size."
 
-msgid "Date (e.g. @format)"
-msgstr "Datum (t.ex. @format)"
-
-msgid "Time (e.g. @format)"
-msgstr "Tid (t.ex. @format)"
-
 msgid ""
 "For more information, see the <a href=\":views\">online documentation for "
 "the Views module</a>."
@@ -21436,11 +21446,13 @@ msgstr[1] ""
 "is temporarily blocked. Try again later or <a href=\":url\">request a new "
 "password</a>."
 
-msgid "Missing dependency: unzip. Install it before using this command."
+msgid ""
+"The installed version %version of the %library library is not supported."
 msgstr ""
+"Den installerade versionen %version för biblioteket %library stöds inte."
 
-msgid "All content promoted to the front page."
-msgstr "Allt innehåll som visas på startsidan."
+msgid "The %variant variant of the %library library could not be found."
+msgstr "Varianten %variant för biblioteket %library kunde inte hittas."
 
 msgid "Delete %label"
 msgstr "Radera %label"
@@ -21463,8 +21475,8 @@ msgstr "Smal"
 msgid "Config override test"
 msgstr "Åsidosättande av testkonfiguration"
 
-msgid "Name or email contains"
-msgstr "Namn eller e-post innehåller"
+msgid "Allows version-dependent and shared usage of external libraries."
+msgstr "Tillåter versionsberoende och delade användning av externa bibliotek."
 
 msgid "This entity (%type: %label) cannot be referenced."
 msgstr "Detta objekt (%type: %label) kan inte refereras."
@@ -21477,6 +21489,9 @@ msgstr "Påbörjar konfigurationsimport."
 
 msgid "Configuration import has encountered an error."
 msgstr "Konfigurationsimporten har stött på ett fel."
+
+msgid "Authored on @date"
+msgstr "Authored on @date"
 
 msgid "Add @entity-type"
 msgstr "Lägg till @entity-type"
@@ -21557,8 +21572,8 @@ msgstr ""
 msgid "Bundle assigned to the auto-created entities."
 msgstr "Hopsamling som är tilldelad till de automatiskt skapade objekten."
 
-msgid "A list of new users"
-msgstr "En lista på nya användare"
+msgid "Basic site settings"
+msgstr "Grundläggande inställningar för webbplats"
 
 msgid "Administrative task links"
 msgstr "Länkar för administrativa uppgifter"
@@ -21571,6 +21586,15 @@ msgstr "Länkar för sektion i webbplats"
 
 msgid "All content, by month."
 msgstr "Allt innehåll, månadsvis."
+
+msgid "All content promoted to the front page."
+msgstr "Allt innehåll som visas på startsidan."
+
+msgid "Name or email contains"
+msgstr "Namn eller e-post innehåller"
+
+msgid "A list of new users"
+msgstr "En lista på nya användare"
 
 msgid "Who's online block"
 msgstr "Block för vilka som är inloggade"
@@ -21637,18 +21661,6 @@ msgstr "Sortera åtgärder"
 msgid "Add, rearrange or remove sorting rules."
 msgstr "Lägg till, ordna om eller ta bort sorteringsregler."
 
-msgid "Lists registered library information."
-msgstr ""
-
-msgid ""
-"Downloads a registered library into the libraries directory for the active site.\n"
-"\n"
-"See libraries-list for a list of registered libraries."
-msgstr ""
-
-msgid "Basic site settings"
-msgstr "Grundläggande inställningar för webbplats"
-
 msgid ""
 "Create and manage fields, forms, and display settings for your content."
 msgstr ""
@@ -21664,12 +21676,6 @@ msgstr ""
 "Välj och konfigurera textredigerare och hur innehåll filtreras när det "
 "visas."
 
-msgid "Add custom URLs to existing paths."
-msgstr "Lägg till anpassade URL:er till befintliga sökvägar."
-
-msgid "Configure site search, metadata, and search engine optimization."
-msgstr "Configure site search, metadata, and search engine optimization."
-
 msgid "Configure caching and bandwidth optimization."
 msgstr "Konfigurera cachning och bandbreddsoptimering."
 
@@ -21681,6 +21687,12 @@ msgstr "Koppla ned webbplatsen för uppdateringar och annat underhåll."
 
 msgid "Configure and use development tools."
 msgstr "Configure and use development tools."
+
+msgid "Add custom URLs to existing paths."
+msgstr "Lägg till anpassade URL:er till befintliga sökvägar."
+
+msgid "Configure site search, metadata, and search engine optimization."
+msgstr "Configure site search, metadata, and search engine optimization."
 
 msgid "Configure the location of uploaded files and how they are accessed."
 msgstr "Konfigurera platsen för uppladdade filer och åtkomsten till dem."
@@ -21710,9 +21722,6 @@ msgid ""
 msgstr ""
 "Ställ in beskrivning av webbplatsen, antal poster per nyhetsflöde och "
 "huruvida flöden skall vara titlar/ingresser/fullständiga texter."
-
-msgid "Authored on @date"
-msgstr "Authored on @date"
 
 msgid ""
 "The specified file %file could not be moved/copied because no file by that "
@@ -21817,6 +21826,13 @@ msgstr ""
 "Path to redirect the user to after submission of this form. For example, "
 "type \"/about\" to redirect to that page. Use a relative path with a slash "
 "in front."
+
+msgid ""
+"Specify an alternative path by which this data can be accessed. For example,"
+" type \"/about\" when writing an about page."
+msgstr ""
+"Ange en alternativ sökväg där dessa data kan nås. Skriv till exempel \"/om\""
+" när du skriver en sida \"om webbplatsen\"."
 
 msgid ""
 "Control default display settings for your site, across all themes. Use "
@@ -22315,8 +22331,8 @@ msgstr ""
 "Ett objekt med detta UUID finns redan men det maskinläsbara namnet stämmer "
 "inte överens."
 
-msgid "taxonomy term"
-msgstr "taxonomiterm"
+msgid "Assets"
+msgstr ""
 
 msgid "Enter a part of the field or @bundle to filter by."
 msgstr "Ange en del av fältet eller @bundle att filtrera på."
@@ -22407,8 +22423,8 @@ msgstr ""
 "Ett objektsfält som innehåller en UNIX-tidsstämpel för när objektet "
 "skapades."
 
-msgid "Available tokens"
-msgstr "Tillgängliga ersättningstecken"
+msgid "Revision user"
+msgstr "Användare för version"
 
 msgid "An entity field for storing a serialized array of values."
 msgstr "Ett objektsfält för att lagra en seriell lista (array) av värden."
@@ -22471,17 +22487,6 @@ msgstr "Genomkorsande boklänkar för"
 
 msgid "Administer comment types and settings"
 msgstr "Administrera kommentarstyper och inställningar"
-
-msgid ""
-"Allow other users to contact you via a personal contact form which keeps "
-"your email address hidden. Note that some privileged users such as site "
-"administrators are still able to contact you even if you choose to disable "
-"this feature."
-msgstr ""
-"Tillåter andra användare att kontakta dig via ett personligt kontaktformulär"
-" som döljer din e-postadress. Observera att vissa privilegierade användare "
-"som administratörer kan fortfarande kontakta dig även om du väljer att "
-"stänga av denna funktion."
 
 msgid "%sender-name (@sender-from) sent %recipient-name an email."
 msgstr ""
@@ -23053,6 +23058,12 @@ msgstr "Comment_forum"
 msgid "Default comment field"
 msgstr "Förvalt kommentarsfält"
 
+msgid "Local path"
+msgstr ""
+
+msgid "The callback URL is not local and not trusted: !url"
+msgstr "URL för återanrop är inte lokalt och ej betrott: !url"
+
 msgid "Overridden block the selected user(s)"
 msgstr "Åsidosatta block för vald(a) användare"
 
@@ -23073,9 +23084,6 @@ msgstr ""
 
 msgid "Boolean indicating whether the node is published."
 msgstr "Boolesk som indikerar huruvida en nod är publicerad eller ej."
-
-msgid "CustomMessage: !customMessage"
-msgstr "Anpassat meddelande: !customMessage"
 
 msgid "Medium (220×220)"
 msgstr "Mellan (220×220)"
@@ -23105,11 +23113,8 @@ msgctxt "PHP date format"
 msgid "l, F j, Y - H:i"
 msgstr "l, F j, Y - H:i"
 
-msgid "The response failed verification so will not be processed."
-msgstr "Gensvaret misslyckades med verifiering så det kommer inte behandlas."
-
-msgid "The callback URL is not local and not trusted: !url"
-msgstr "URL för återanrop är inte lokalt och ej betrott: !url"
+msgid "CustomMessage: !customMessage"
+msgstr "Anpassat meddelande: !customMessage"
 
 msgid ""
 "Your MySQL server and PHP MySQL driver must support utf8mb4 character "
@@ -23561,7 +23566,7 @@ msgstr ""
 "Genom att bryta detta lås kommer ej sparade ändringar gjorda av @user "
 "försvinna."
 
-msgid "A existing Colorbox plugin was overwritten at @path"
+msgid "Directory @path was created"
 msgstr ""
 
 msgid ""
@@ -23625,7 +23630,7 @@ msgstr "Export och import av vyer"
 msgid "Stable"
 msgstr "Stabil"
 
-msgid "Colorbox plugin has been downloaded to @path"
+msgid "Missing dependency: unzip. Install it before using this command."
 msgstr ""
 
 msgid ""
@@ -23638,7 +23643,7 @@ msgstr ""
 msgid "The %entity_type entity type needs to be installed."
 msgstr "Objektet av typ %entity_type måste installeras."
 
-msgid "Drush was unable to download the Colorbox plugin to @path"
+msgid "Lists registered library information."
 msgstr ""
 
 msgid "Account cancellation request for [user:display-name] at [site:name]"
@@ -23751,6 +23756,21 @@ msgstr ""
 msgid "Account details for [user:display-name] at [site:name] (canceled)"
 msgstr "Kontouppgifter för [user:display-name] på [site:name] (borttagen)"
 
+msgid ""
+"Downloads a registered library into the libraries directory for the active site.\n"
+"\n"
+"See libraries-list for a list of registered libraries."
+msgstr ""
+
+msgid "A existing Colorbox plugin was overwritten at @path"
+msgstr ""
+
+msgid "Colorbox plugin has been downloaded to @path"
+msgstr ""
+
+msgid "Drush was unable to download the Colorbox plugin to @path"
+msgstr ""
+
 msgid "Provides access to asset library files."
 msgstr ""
 
@@ -23758,25 +23778,6 @@ msgid "Library definitions"
 msgstr ""
 
 msgid "Provides access to library definition files."
-msgstr ""
-
-msgid "PHP library files"
-msgstr ""
-
-msgid "Provides access to PHP library files."
-msgstr ""
-
-msgid "@label (@name:@column)"
-msgstr "@label (@name:@column)"
-
-msgid "@type language selected for page"
-msgstr "Språk @type valt för sida"
-
-msgid ""
-"The following external libraries could not successfully be registered with "
-"Drupal core: @libs. See earlier log entries for more details. Once these "
-"issues are addressed please be sure to clear your Drupal library cache to "
-"ensure external library detection is run again."
 msgstr ""
 
 msgid "The language code."
@@ -23788,8 +23789,8 @@ msgstr "RSS-flöder för nyhetssamlare"
 msgid "Aggregator sources"
 msgstr "Källor för nyhetssamlare"
 
-msgid "Welcome to [site:name]"
-msgstr "Välkommen till [site:name]"
+msgid "PHP library files"
+msgstr ""
 
 msgid "Fallback sort expose settings"
 msgstr "Exponerade inställningar för resersortering"
@@ -23890,8 +23891,8 @@ msgstr ""
 "språk.</p><p>När du lägger till ett anpassat språk får du ytterligare ett "
 "formulär där du kan ange namn, kod och riktning för språket.</p>"
 
-msgid "All content, by letter."
-msgstr "All innehåll, i bokstavsordning."
+msgid "Provides access to PHP library files."
+msgstr ""
 
 msgid "Editing languages"
 msgstr "Redigerar språk"
@@ -24030,6 +24031,12 @@ msgstr "Hitta och hantera innehåll"
 msgid "Recent content."
 msgstr "Nytt innehåll."
 
+msgid "Welcome to [site:name]"
+msgstr "Välkommen till [site:name]"
+
+msgid "All content, by letter."
+msgstr "All innehåll, i bokstavsordning."
+
 msgid "Content belonging to a certain taxonomy term."
 msgstr "Innehåll som hör till en viss taxonomiterm."
 
@@ -24079,6 +24086,13 @@ msgstr ""
 msgid "Show a preview of the view output."
 msgstr "Visa en förhandsgranskning från vyns utmatning."
 
+msgid ""
+"The following external libraries could not successfully be registered with "
+"Drupal core: @libs. See earlier log entries for more details. Once these "
+"issues are addressed please be sure to clear your Drupal library cache to "
+"ensure external library detection is run again."
+msgstr ""
+
 msgid "Libraries API settings"
 msgstr ""
 
@@ -24086,15 +24100,6 @@ msgid "Library definition settings"
 msgstr ""
 
 msgid "Enable remote fetching of library definitions"
-msgstr ""
-
-msgid "A list of remote library registry URLs"
-msgstr ""
-
-msgid "The URL of a remote library registry"
-msgstr ""
-
-msgid "URI locator configuration"
 msgstr ""
 
 msgid "The %entity_type entity type needs to be updated."
@@ -24158,8 +24163,8 @@ msgstr ""
 msgid "This identifier has illegal characters."
 msgstr "Denna identifierare har ogiltiga tecken."
 
-msgid "@type_label bundle"
-msgstr "bundle @type_label"
+msgid "A list of remote library registry URLs"
+msgstr ""
 
 msgid "Add a new @entity_type."
 msgstr "Lägg till en ny @entity_type."
@@ -24231,18 +24236,10 @@ msgid ""
 "Minimal profile for running a test when dependencies are listed but missing."
 msgstr "Minimal profil för att köra tester när beroenden listats men saknas."
 
-msgid ""
-"No front page content has been created yet.<br/>Follow the <a "
-"target=\"_blank\" "
-"href=\"https://www.drupal.org/docs/user_guide/en/index.html\">User Guide</a>"
-" to start building your site."
+msgid "The URL of a remote library registry"
 msgstr ""
-"Inget innehåll för framsidan har skapats ännu.<br />Följ <a "
-"target=\"_blank\" "
-"href=\"https://www.drupal.org/docs/user_guide/en/index.html\">användarguiden</a>"
-" för att börja bygga din webbplats."
 
-msgid "The locator URI"
+msgid "URI locator configuration"
 msgstr ""
 
 msgid "The field ID."
@@ -24352,8 +24349,8 @@ msgstr ""
 msgid "Umami Recipes Banner"
 msgstr ""
 
-msgid "About"
-msgstr "Om"
+msgid "@type_label bundle"
+msgstr "bundle @type_label"
 
 msgid "Comments published"
 msgstr "Kommentarer publicerade"
@@ -24402,6 +24399,23 @@ msgstr ""
 "href=\"[site:url]admin/config/regional/language\">Språk</a> för att kunna "
 "använda denna sida."
 
+msgid ""
+"No front page content has been created yet.<br/>Follow the <a "
+"target=\"_blank\" "
+"href=\"https://www.drupal.org/docs/user_guide/en/index.html\">User Guide</a>"
+" to start building your site."
+msgstr ""
+"Inget innehåll för framsidan har skapats ännu.<br />Följ <a "
+"target=\"_blank\" "
+"href=\"https://www.drupal.org/docs/user_guide/en/index.html\">användarguiden</a>"
+" för att börja bygga din webbplats."
+
+msgid "The locator URI"
+msgstr ""
+
+msgid "About"
+msgstr "Om"
+
 msgid "Accept"
 msgstr "Accepterar"
 
@@ -24418,16 +24432,8 @@ msgstr[1] ""
 "@count översättningsfiler importerades. %number översättningar lades till, "
 "%update översättningar uppdaterades och %delete översättningar togs bort."
 
-msgid "No tokens available."
-msgstr "Inga ersättningstecken tillgängliga."
-
-msgid "Click a token to insert it into the field you've last clicked."
+msgid "Duplicate Pathauto pattern"
 msgstr ""
-"Klicka på ett ersättningstecken för att infoga det i det fält du senaste "
-"klickade på."
-
-msgid "Select and configure themes."
-msgstr "Välj och konfigurera teman."
 
 msgid "Umami disclaimer"
 msgstr ""
@@ -24654,6 +24660,9 @@ msgstr "Standardkommentarer"
 msgid "Promoted to front page"
 msgstr "Visas på startsidan"
 
+msgid "Image"
+msgstr "Bild"
+
 msgid ""
 "Use <em>articles</em> for time-sensitive content like news, press releases "
 "or blog posts."
@@ -24735,29 +24744,28 @@ msgstr "Sida för taxonomitermer"
 msgid "Compact"
 msgstr "Kompakt"
 
-msgid "Block"
-msgstr "Block"
-
-msgid "User account menu"
-msgstr "Meny för användarkonto"
-
 msgid ""
 "Settings on <a href=\"@url_settings\">Home &raquo; Admin &raquo; Config "
 "&raquo; System &raquo; SMTP</a> or <a "
 "href=\"@url_settings\">@url_settings</a>"
 msgstr ""
 
+msgid "Block"
+msgstr "Block"
+
+msgid "User account menu"
+msgstr "Meny för användarkonto"
+
+msgid "Click a token to insert it into the field you've last clicked."
+msgstr ""
+"Klicka på ett ersättningstecken för att infoga det i det fält du senaste "
+"klickade på."
+
 msgid ""
 "Provides a user interface for the Token API and some missing core tokens."
 msgstr ""
 "Tillhandahåller ett användargränssnitt till Token API och några saknade "
 "ersättningstecken från kärnan."
-
-msgid "Insert this token into your form"
-msgstr "Infoga detta ersättningstecken i ditt formulär"
-
-msgid "Image"
-msgstr "Bild"
 
 msgid ""
 "[user:display-name],\n"
@@ -24877,28 +24885,6 @@ msgid "Custom block library"
 msgstr "Bibliotek med anpassade block"
 
 msgid ""
-"<p>To reorder the languages on your site, use the drag icons next to each "
-"language.</p><p>The order shown here is the display order for language lists"
-" on the site such as in the language switcher blocks provided by the "
-"Interface Translation and Content Translation modules.</p><p>When you are "
-"done with reordering the languages, click the \"Save configuration\" button "
-"for the changes to take effect.</p>"
-msgstr ""
-"<p>Använd dragikoner bredvid varje språk för att ändra om ordningen på "
-"språken för webbplatsen.</p><p>Ordning som visas här är visningsordningen "
-"för språklistor på webbplatsen såsom i de språkbytarblock som tillhandahålls"
-" av modulerna Översättning av gränssnitt och Översättning av "
-"innehåll.</p><p>Klicka på knappen \"Spara konfiguration\" för att "
-"ändringarna ska träda i kraft när du är klar med att ändra ordningen på "
-"språken.</p>"
-
-msgid "There are no custom blocks available."
-msgstr "There are no custom blocks available."
-
-msgid "Find and manage comments."
-msgstr "Find and manage comments."
-
-msgid ""
 "<p>You can change the default language of the site by choosing one of your "
 "configured languages as default. The site will use the default language in "
 "situations where no choice is made but a language should be set, for example"
@@ -24909,8 +24895,17 @@ msgstr ""
 "i situationer där inget val görs men ett språk bör ställas in, till exempel "
 "som språket för det visade gränssnittet.</p>"
 
-msgid "Status"
-msgstr "Status"
+msgid "There are no custom blocks available."
+msgstr "There are no custom blocks available."
+
+msgid "Find and manage comments."
+msgstr "Find and manage comments."
+
+msgid "User interface translation"
+msgstr "Översättning av användargränssnitt"
+
+msgid "Starting configuration update"
+msgstr "Startar uppdatering av konfiguration"
 
 msgid "The approved comments listing."
 msgstr "The approved comments listing."
@@ -24924,55 +24919,26 @@ msgstr "Övervakning"
 msgid "Recent log messages"
 msgstr "Senaste loggmeddelanden"
 
-msgid "User interface translation"
-msgstr "Översättning av användargränssnitt"
+msgid "Translation language"
+msgstr "Översättningsspråk"
 
 msgid "Files"
 msgstr "Filer"
 
-msgid "Published"
-msgstr "Publicerad"
+msgid "Custom block type"
+msgstr "Anpassad blocktyp"
 
-msgid "Fid"
-msgstr "Fid"
+msgctxt "View entity type"
+msgid "View"
+msgstr "View"
 
 msgid "MIME type"
 msgstr "Typ av MIME"
-
-msgid "Size"
-msgstr "Storlek"
-
-msgid "Operations"
-msgstr "Funktioner"
-
-msgid "Temporary"
-msgstr "Temporär"
-
-msgid "Permanent"
-msgstr "Permanent"
-
-msgid "Upload date"
-msgstr "Datum för uppladdning"
-
-msgid "Changed date"
-msgstr "Datum för ändring"
-
-msgid "Used in"
-msgstr "Används i"
 
 msgid "1 place"
 msgid_plural "@count places"
 msgstr[0] "1 place"
 msgstr[1] "@count places"
-
-msgid "Filename"
-msgstr "Filnamn"
-
-msgid "Entity"
-msgstr "Objekt"
-
-msgid "Entity type"
-msgstr "Objektstyp"
 
 msgid "Registering module"
 msgstr "Registrerar modul"
@@ -25021,35 +24987,30 @@ msgstr "Riktning på språk"
 msgid "Adding languages"
 msgstr "Adding languages"
 
-msgid "No content available."
-msgstr "Inget innehåll tillgängligt."
+msgid ""
+"<p>To reorder the languages on your site, use the drag icons next to each "
+"language.</p><p>The order shown here is the display order for language lists"
+" on the site such as in the language switcher blocks provided by the "
+"Interface Translation and Content Translation modules.</p><p>When you are "
+"done with reordering the languages, click the \"Save configuration\" button "
+"for the changes to take effect.</p>"
+msgstr ""
+"<p>Använd dragikoner bredvid varje språk för att ändra om ordningen på "
+"språken för webbplatsen.</p><p>Ordning som visas här är visningsordningen "
+"för språklistor på webbplatsen såsom i de språkbytarblock som tillhandahålls"
+" av modulerna Översättning av gränssnitt och Översättning av "
+"innehåll.</p><p>Klicka på knappen \"Spara konfiguration\" för att "
+"ändringarna ska träda i kraft när du är klar med att ändra ordningen på "
+"språken.</p>"
+
+msgid "Custom menu link"
+msgstr "Custom menu link"
 
 msgid "Monthly archive"
 msgstr "Månatligt arkiv"
 
-msgid "‹‹"
-msgstr "‹‹"
-
-msgid "Leave blank if your SMTP server does not require authentication."
-msgstr "Lämna detta blankt om din SMTP-server inte kräver verifiering."
-
-msgid "SMTP Username."
-msgstr "Användarnamn för SMTP"
-
-msgid "Page"
-msgstr "Sida"
-
 msgid "E-mail from name"
 msgstr "Namn för utgående e-post"
-
-msgid "E-mail options"
-msgstr "Alternativ för E-post"
-
-msgid "Unpublished"
-msgstr "Ej publicerad"
-
-msgid "Published status"
-msgstr "Status för publicering"
 
 msgid "E-mail from address"
 msgstr "Adress för utgående e-post"
@@ -25063,6 +25024,9 @@ msgstr "Aktivera felkodsavsökning"
 msgid "Use SSL"
 msgstr "Används SSL"
 
+msgid "No content available."
+msgstr "Inget innehåll tillgängligt."
+
 msgid "Install options"
 msgstr "Alternativ för inställningar"
 
@@ -25075,6 +25039,12 @@ msgstr "Inställningar för SMTP-server"
 
 msgid "The address of your outgoing SMTP server."
 msgstr "Adressen för din utgående SMTP-server."
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Author"
+msgstr "Författare"
 
 msgid ""
 "The address of your outgoing SMTP backup server. If the primary server can't"
@@ -25090,6 +25060,12 @@ msgstr "Port för SMTP"
 msgid "Use TLS"
 msgstr "Använd TLS"
 
+msgid "SMTP Authentication Support"
+msgstr "Verifiering av SMTP"
+
+msgid "Manage user accounts, roles, and permissions."
+msgstr "Hantera användarkonton, roller och behörigheter."
+
 msgid ""
 "This allows connection to an SMTP server that requires SSL encryption such "
 "as Gmail."
@@ -25097,14 +25073,30 @@ msgstr ""
 "Detta möjliggör anslutning till en SMTP-server som kräver SSL-kryptering "
 "såsom Gmail."
 
-msgid "Title"
-msgstr "Titel"
+msgid "Items per page"
+msgstr "Inlägg per sida"
 
-msgid "Author"
-msgstr "Författare"
+msgid ""
+"A user is considered online for this long after they have last viewed a "
+"page."
+msgstr ""
+"En användare anses vara inloggad så här länge efter att de senast tittat på "
+"en sida."
+
+msgid "Initializing."
+msgstr "Initierar."
 
 msgid "Use encrypted protocol"
 msgstr "Använd krypterat protokoll"
+
+msgid "Leave blank if your SMTP server does not require authentication."
+msgstr "Lämna detta blankt om din SMTP-server inte kräver verifiering."
+
+msgid "SMTP Username."
+msgstr "Användarnamn för SMTP"
+
+msgid "E-mail options"
+msgstr "Alternativ för E-post"
 
 msgid "Turn this module on or off"
 msgstr "Sätt på eller stäng av den här modulen"
@@ -25115,12 +25107,6 @@ msgstr "SMTP-server"
 msgid "SMTP backup server"
 msgstr "Backupserver för SMTP"
 
-msgid "››"
-msgstr "››"
-
-msgid "« First"
-msgstr "« Första"
-
 msgid "The e-mail address that all e-mails will be from."
 msgstr "E-postadressen som all e-post skall vara från."
 
@@ -25129,15 +25115,6 @@ msgstr "Skicka testmeddelande"
 
 msgid "E-mail address to send a test e-mail to"
 msgstr "E-postadress att skicka ett testmeddelande till"
-
-msgid "Last »"
-msgstr "Sista »"
-
-msgid "Items per page"
-msgstr "Inlägg per sida"
-
-msgid "Desc"
-msgstr "Fallande"
 
 msgid "Type in an address to have a test e-mail sent there."
 msgstr "Skriv in en e-postadress som ett testmeddelande skall skickas till."
@@ -25157,6 +25134,15 @@ msgstr "Du måste ange portnummer för SMTP."
 
 msgid "The provided from e-mail address is not valid."
 msgstr "Den angivna e-postadressen \"från\" är inte giltig."
+
+msgid "Sending mail to: @to"
+msgstr "Skickar e-post till: @to"
+
+msgid "Attachment could not be found or accessed."
+msgstr "Bilaga kunde inte hittas eller nås."
+
+msgid "Insert this token into your form"
+msgstr "Infoga detta ersättningstecken i ditt formulär"
 
 msgid "First click a text field to insert your tokens into."
 msgstr "Klicka först på ett textfält att infoga dina ersättningstecken i."
@@ -25431,6 +25417,12 @@ msgid ""
 "documentation</a>."
 msgstr ""
 
+msgid "See <a href=\":pathauto-help\">Pathauto help</a> for details."
+msgstr ""
+
+msgid "Choose the action to perform."
+msgstr ""
+
 msgid "format"
 msgstr "format"
 
@@ -25538,6 +25530,9 @@ msgstr ""
 
 msgid "Delete aliases"
 msgstr "Radera alias"
+
+msgid "Automatic alias"
+msgstr "Automatiskt alias"
 
 msgid ""
 "Character used to separate words in titles. This will replace any spaces and"
@@ -25750,6 +25745,9 @@ msgstr "Tecken för större än"
 msgid "Backslash"
 msgstr "Omvänt snedstreck"
 
+msgid "Generate automatic URL alias"
+msgstr "Generera automatiska URL-alias"
+
 msgid "Uncheck this to create a custom alias below."
 msgstr "Avmarkera detta för att skapa ett anpassat alias nedan."
 
@@ -25787,12 +25785,6 @@ msgstr ""
 msgid "All of your %label path aliases have been deleted."
 msgstr ""
 
-msgid "Automatic alias"
-msgstr "Automatiskt alias"
-
-msgid "See <a href=\":pathauto-help\">Pathauto help</a> for details."
-msgstr ""
-
 msgid ""
 "Maximum length of aliases to generate. 100 is the recommended length. @max "
 "is the maximum possible length."
@@ -25811,6 +25803,11 @@ msgstr ""
 msgid ""
 "Considering installing the <a href=\":url\">Redirect module</a> to get "
 "redirects when your aliases change."
+msgstr ""
+
+msgid ""
+"Uncheck this to create a custom alias below. <a "
+"href=\"@admin_link\">Configure URL alias patterns.</a>"
 msgstr ""
 
 msgid "Selection condition"
@@ -26049,12 +26046,6 @@ msgstr ""
 msgid "Pattern %label saved."
 msgstr ""
 
-msgid "Duplicate Pathauto pattern"
-msgstr ""
-
-msgid "Choose the action to perform."
-msgstr ""
-
 msgid ""
 "Choose the alias type(s). Separate multiple choices with commas, e.g. "
 "\"1,2,4\", or choose \"0\" for all types."
@@ -26211,6 +26202,9 @@ msgstr ""
 
 msgid "CAPTCHA is a trademark of Carnegie Mellon University."
 msgstr "CAPTCHA är ett varumärke som tillhör Carnegie Mellon University."
+
+msgid "CAPTCHA"
+msgstr "CAPTCHA"
 
 msgid "Enabled challenge"
 msgstr "Aktiverade utmaning"
@@ -26400,9 +26394,6 @@ msgstr ""
 
 msgid "Default CAPTCHA validation"
 msgstr "Förval bekräftelse av CAPTCHA"
-
-msgid "Opt-in or out of tracking"
-msgstr "Opt-in or out of tracking"
 
 msgid ""
 "Define how the response should be processed by default. Note that the "
@@ -26665,12 +26656,6 @@ msgstr "« första"
 msgid "With selection"
 msgstr "Med urval"
 
-msgid "Created"
-msgstr "Skapad"
-
-msgid "To"
-msgstr "Till"
-
 msgid "Status code"
 msgstr "Statuskod"
 
@@ -26757,24 +26742,6 @@ msgstr ""
 msgid "The redirect has been saved."
 msgstr "The redirect has been saved."
 
-msgid "Reset"
-msgstr "Återställ"
-
-msgid "Sort by"
-msgstr "Sortera efter"
-
-msgid "- All -"
-msgstr "- Alla -"
-
-msgid "URL redirects"
-msgstr "URL redirects"
-
-msgid "Message type"
-msgstr "Meddelandetyp"
-
-msgid "Redirect users from one URL to another."
-msgstr "Redirect users from one URL to another."
-
 msgid "No URL redirects available."
 msgstr "No URL redirects available."
 
@@ -26790,6 +26757,24 @@ msgstr "How many URL redirects would you like to generate?"
 
 msgid "Delete all URL redirects before generating new URL redirects."
 msgstr "Delete all URL redirects before generating new URL redirects."
+
+msgid "Sort by"
+msgstr "Sortera efter"
+
+msgid "Asc"
+msgstr "Stigande"
+
+msgid "Redirect users from one URL to another."
+msgstr "Redirect users from one URL to another."
+
+msgid "‹ previous"
+msgstr "‹ föregående"
+
+msgid "Opt-in or out of tracking"
+msgstr "Opt-in or out of tracking"
+
+msgid "Track translation sets as one unit"
+msgstr "Spåra uppsättningar av översättningar som en enhet."
 
 msgid ""
 "The source path %path is likely a valid path. It is preferred to <a href"
@@ -27044,8 +27029,8 @@ msgstr ""
 "Changing the tracker of an existing index will lead to reindexing of all "
 "items."
 
-msgid "Downloads"
-msgstr "Nedladdningar"
+msgid "Message type"
+msgstr "Meddelandetyp"
 
 msgid ""
 "The search server that the index should use for indexing and searching. If "
@@ -27065,6 +27050,9 @@ msgid ""
 msgstr ""
 "Optionally, enter a description to explain the function of the index in more"
 " detail. This will only be displayed in the admin user interface."
+
+msgid "Advanced options"
+msgstr "Fler alternativ"
 
 msgid ""
 "These options allow more detailed configuration of index behavior, but can "
@@ -27101,6 +27089,9 @@ msgstr "Processor order"
 msgid "Datasources"
 msgstr "Datasources"
 
+msgid "Downloads"
+msgstr "Nedladdningar"
+
 msgid "Privacy"
 msgstr "Privacy"
 
@@ -27112,6 +27103,15 @@ msgstr "Skapa fält"
 
 msgid "Domains"
 msgstr "Domäner"
+
+msgid "@module (<span class=\"admin-enabled\">enabled</span>)"
+msgstr "@module (<span class=\"admin-enabled\">aktiverad</span>)"
+
+msgid "Add tracking to specific pages"
+msgstr "Lägg till spårning till specifika sidor"
+
+msgid "Add tracking for specific roles"
+msgstr "Lägg till spårning för specifika roller"
 
 msgid "Redirect ID"
 msgstr "Redirect ID"
@@ -27446,18 +27446,6 @@ msgstr "Displaying results @start - @end of @total"
 msgid "Module %module granted %permission permission to authenticated users."
 msgstr "Module %module granted %permission permission to authenticated users."
 
-msgid "@module (<span class=\"admin-enabled\">enabled</span>)"
-msgstr "@module (<span class=\"admin-enabled\">aktiverad</span>)"
-
-msgid "Add tracking to specific pages"
-msgstr "Lägg till spårning till specifika sidor"
-
-msgid "Add tracking for specific roles"
-msgstr "Lägg till spårning för specifika roller"
-
-msgid "Track translation sets as one unit"
-msgstr "Spåra uppsättningar av översättningar som en enhet."
-
 msgid ""
 "When a node is part of a translation set, record statistics for the "
 "originating node instead. This allows for a translation set to be treated as"
@@ -27764,18 +27752,6 @@ msgstr "Search and Advertising"
 msgid "Metric"
 msgstr "Metriskt"
 
-msgid "User role names"
-msgstr "User role names"
-
-msgid "User role ids"
-msgstr "User role ids"
-
-msgid "Google Analytics"
-msgstr "Google Analytics"
-
-msgid "Google Analytics module"
-msgstr "Modulen Google Analytics"
-
 msgid ""
 "To adjust global defaults, go to admin/config/search/metatag. If you need to"
 " set meta tags for a specific entity, edit its bundle and add the Metatag "
@@ -27791,23 +27767,20 @@ msgstr "Metatag defaults"
 msgid "403 access denied"
 msgstr "403 access denied"
 
-msgid ""
-"If you enter a positive value, Honeypot will require that all protected "
-"forms take at least that many seconds long to fill out. Most forms take at "
-"least 5-10 seconds to complete (if you're a human), so setting this to a "
-"value < 5 will help protect against spam bots. Set to 0 to disable."
-msgstr ""
-"Om du anger ett positivt värde kräver Honeypot att alla skyddade formulär "
-"tar minst så många sekunder att fylla i. De flesta formulär tar minst 5-10 "
-"sekunder att slutföra (om du är en människa), så att sätta detta till ett "
-"värde <5 hjälper till att skydda mot spamrobotar. Ställ in detta 0 för att "
-"inaktivera."
+msgid "[site:url]"
+msgstr "[site:url]"
+
+msgid "User role names"
+msgstr "User role names"
+
+msgid "Google Analytics"
+msgstr "Google Analytics"
+
+msgid "Google Analytics module"
+msgstr "Modulen Google Analytics"
 
 msgid "404 page not found"
 msgstr "404 page not found"
-
-msgid "[site:url]"
-msgstr "[site:url]"
 
 msgid "[current-page:url]"
 msgstr "[current-page:url]"
@@ -28005,6 +27978,18 @@ msgstr ""
 msgid "Honeypot Time Limit"
 msgstr "Tidsbegränsning för Honepot"
 
+msgid ""
+"If you enter a positive value, Honeypot will require that all protected "
+"forms take at least that many seconds long to fill out. Most forms take at "
+"least 5-10 seconds to complete (if you're a human), so setting this to a "
+"value < 5 will help protect against spam bots. Set to 0 to disable."
+msgstr ""
+"Om du anger ett positivt värde kräver Honeypot att alla skyddade formulär "
+"tar minst så många sekunder att fylla i. De flesta formulär tar minst 5-10 "
+"sekunder att slutföra (om du är en människa), så att sätta detta till ett "
+"värde <5 hjälper till att skydda mot spamrobotar. Ställ in detta 0 för att "
+"inaktivera."
+
 msgid "Honeypot form-specific settings"
 msgstr "Inställningar för specifika formulär i Honepot"
 
@@ -28120,9 +28105,6 @@ msgid ""
 " the Honeypot time limit is not set to 0.</strong>"
 msgstr ""
 
-msgid "Email address"
-msgstr "E-postadress"
-
 msgid ""
 "<strong>Page caching will be disabled if there is a form protected by time "
 "limit on the page.</strong>"
@@ -28136,6 +28118,9 @@ msgstr ""
 
 msgid "Unprotected form"
 msgstr ""
+
+msgid "Medium format"
+msgstr "Mellanlångt format"
 
 msgid ""
 "The name of the Honeypot form field. It's usually most effective to use a "
@@ -28197,6 +28182,10 @@ msgstr "Footer_en"
 msgid "Footer links (en)"
 msgstr "Footer links (en)"
 
+msgctxt "Long month name"
+msgid "October"
+msgstr "oktober"
+
 msgid "1 minute"
 msgid_plural "@count minutes"
 msgstr[0] "1 minut"
@@ -28214,14 +28203,8 @@ msgstr "Shortcut link"
 msgid "Custom block ID"
 msgstr "Custom block ID"
 
-msgid "UUID"
-msgstr "UUID"
-
 msgid "Revision create time"
 msgstr "Tid för skapande av version"
-
-msgid "Revision user"
-msgstr "Användare för version"
 
 msgid "Revision log message"
 msgstr "Loggmeddelande för versionshantering"
@@ -28234,6 +28217,9 @@ msgstr "Förvald version"
 
 msgid "Revision translation affected"
 msgstr "Översatt version berörd"
+
+msgid "Form ID"
+msgstr "ID för formulär"
 
 msgid "The sender's name"
 msgstr "The sender's name"
@@ -28262,9 +28248,6 @@ msgstr "Index ID"
 msgid "Task data"
 msgstr "Task data"
 
-msgid "Weight"
-msgstr "Vikt"
-
 msgid "Path"
 msgstr "Sökväg"
 
@@ -28279,6 +28262,9 @@ msgstr "Titel på menylänken"
 
 msgid "Menu name"
 msgstr "Menynamn"
+
+msgid "Link"
+msgstr "Länk"
 
 msgid "External"
 msgstr "Extern"
@@ -28313,6 +28299,9 @@ msgstr "Bild med bildstil"
 msgid "Menus"
 msgstr "Menyer"
 
+msgid "Nodes"
+msgstr "Noder"
+
 msgid "Site information"
 msgstr "Information om webbplatsen"
 
@@ -28340,14 +28329,8 @@ msgstr "Översättningens källnod"
 msgid "Comment count"
 msgstr "Antal kommentarer"
 
-msgid "New comment count"
-msgstr "Antal nya kommentarer"
-
 msgid "Menu link"
 msgstr "Menylänk"
-
-msgid "Content ID"
-msgstr "ID-nummer för innehåll"
 
 msgid "Summary"
 msgstr "Sammanfattning"
@@ -28363,6 +28346,9 @@ msgstr "Datum för skapande"
 
 msgid "Date changed"
 msgstr "Ändrad datum"
+
+msgid "Machine-readable name"
+msgstr "Maskinläsbart namn"
 
 msgid "Node count"
 msgstr "Antal noder"
@@ -28408,6 +28394,9 @@ msgstr "URL för avbrytande av konto"
 
 msgid "One-time login URL"
 msgstr "URL för engångsinloggning"
+
+msgid "User role ids"
+msgstr "User role ids"
 
 msgid "Deprecated: User Name"
 msgstr "Deprecated: User Name"
@@ -28499,6 +28488,9 @@ msgstr "Kommentarens ID"
 msgid "IP Address"
 msgstr "IP-adress"
 
+msgid "Email address"
+msgstr "E-postadress"
+
 msgid "Home page"
 msgstr "Hemsida"
 
@@ -28516,9 +28508,6 @@ msgstr "Inloggningssida"
 
 msgid "Short format"
 msgstr "Kort format"
-
-msgid "Medium format"
-msgstr "Mellanlångt format"
 
 msgid "Long format"
 msgstr "Långt format"
@@ -28591,6 +28580,9 @@ msgstr "Also known as:"
 
 msgid "@label (@name)"
 msgstr "@label (@name)"
+
+msgid "@label (@name:@column)"
+msgstr "@label (@name:@column)"
 
 msgid "Main navigation (en)"
 msgstr "Main navigation (en)"
@@ -28689,9 +28681,6 @@ msgid "This will also remove 1 placed block instance."
 msgid_plural "This will also remove @count placed block instances."
 msgstr[0] "This will also remove 1 placed block instance."
 msgstr[1] "This will also remove @count placed block instances."
-
-msgid "Upload requirements"
-msgstr "Upload requirements"
 
 msgid "Deleted 1 comment."
 msgid_plural "Deleted @count comments."
@@ -28834,52 +28823,6 @@ msgstr "Application gallery"
 msgid "Release date"
 msgstr "Release date"
 
-msgid "Popovers"
-msgstr "Popovers"
-
-msgid "Finnish"
-msgstr "Finnish"
-
-msgid "Swedish"
-msgstr "Swedish"
-
-msgid "Tooltips"
-msgstr "Tooltips"
-
-msgid "Modals"
-msgstr "Modals"
-
-msgid "Advanced Cache"
-msgstr "Advanced Cache"
-
-msgid "Custom URLs"
-msgstr "Custom URLs"
-
-msgid "Navbar"
-msgstr "Navbar"
-
-msgid "Region Wells"
-msgstr "Region Wells"
-
-msgid "Images"
-msgstr "Images"
-
-msgid "Tables"
-msgstr "Tables"
-
-msgid "Container"
-msgstr "Container"
-
-msgid "Etusivu"
-msgstr "Etusivu"
-
-msgctxt "x organizations"
-msgid "Organizations"
-msgstr "Organisationer"
-
-msgid "News and articles"
-msgstr "Aktuellt"
-
 msgid "Organisaatiot"
 msgstr "Organisaatiot"
 
@@ -28894,6 +28837,55 @@ msgstr "Profiili"
 
 msgid "Kirjaudu ulos"
 msgstr "Kirjaudu ulos"
+
+msgid "Handles migrations"
+msgstr "Handles migrations"
+
+msgid "Custom URLs"
+msgstr "Custom URLs"
+
+msgid "Finnish"
+msgstr "Finnish"
+
+msgid "Swedish"
+msgstr "Swedish"
+
+msgid "Popovers"
+msgstr "Popovers"
+
+msgid "Tooltips"
+msgstr "Tooltips"
+
+msgid "Modals"
+msgstr "Modals"
+
+msgid "Navbar"
+msgstr "Navbar"
+
+msgid "Region Wells"
+msgstr "Region Wells"
+
+msgid "Etusivu"
+msgstr "Etusivu"
+
+msgid "Images"
+msgstr "Images"
+
+msgid "Container"
+msgstr "Container"
+
+msgctxt "x organizations"
+msgid "Organizations"
+msgstr "Organisationer"
+
+msgid "Upload requirements"
+msgstr "Upload requirements"
+
+msgid "Africa/Windhoek"
+msgstr ""
+
+msgid "America/Adak"
+msgstr ""
 
 msgid ""
 "Avoindata.fi service offers over 1000 interesting data sets available for "
@@ -29089,153 +29081,6 @@ msgstr ""
 "Allows users to stage content or preview a full site by using multiple "
 "workspaces on a single site."
 
-msgid "Search API"
-msgstr "Search API"
-
-msgid "Metatag"
-msgstr "Metatag"
-
-msgid "CAPTCHA module settings"
-msgstr "CAPTCHA module settings"
-
-msgid "Administer how and where CAPTCHA is used."
-msgstr "Administer how and where CAPTCHA is used."
-
-msgid "Controls settings for the module Easy Breadcrumb"
-msgstr "Controls settings for the module Easy Breadcrumb"
-
-msgid "Configure Metatag defaults."
-msgstr "Configure Metatag defaults."
-
-msgid "Create and configure search indexes and servers."
-msgstr "Create and configure search indexes and servers."
-
-msgid "Provides configuration options for the Disqus comment system."
-msgstr "Provides configuration options for the Disqus comment system."
-
-msgid "Logout"
-msgstr "Logout"
-
-msgid "Tuottajat"
-msgstr "Tuottajat"
-
-msgid "Käyttösovellukset"
-msgstr "Käyttösovellukset"
-
-msgid "Ajankohtaista"
-msgstr "Ajankohtaista"
-
-msgid "Opas"
-msgstr "Opas"
-
-msgid "Tapahtumakalenteri"
-msgstr "Tapahtumakalenteri"
-
-msgid "Lisää"
-msgstr "Lisää"
-
-msgid "Service provided by Population Register Centre"
-msgstr "Service provided by Population Register Centre"
-
-msgid "Follow us"
-msgstr "Följ oss"
-
-msgid "Avoindata.fi"
-msgstr "Avoindata.fi"
-
-msgid "Interface translation export"
-msgstr "Interface translation export"
-
-msgid "Go to page @key"
-msgstr "Go to page @key"
-
-msgctxt "x applications"
-msgid "Applications"
-msgstr "Applications"
-
-msgid "Show all"
-msgstr "Show all"
-
-msgid "Datasets"
-msgstr "Datasets"
-
-msgid "Applications"
-msgstr "Applications"
-
-msgid "Organizations"
-msgstr "Organisationer"
-
-msgid "Open data categories"
-msgstr "Öppna data kategorier"
-
-msgctxt "new datasets"
-msgid "New"
-msgstr "New"
-
-msgctxt "popular datasets"
-msgid "Popular"
-msgstr "Popular"
-
-msgid "More recently modified datasets"
-msgstr "More recently modified datasets"
-
-msgid "More new data sets"
-msgstr "More new data sets"
-
-msgid "More popular datasets"
-msgstr "More popular datasets"
-
-msgid "Show all applications"
-msgstr "Show all applications"
-
-msgid "Newsfeed"
-msgstr "Newsfeed"
-
-msgid "All News"
-msgstr "All News"
-
-msgid "Events"
-msgstr "Events"
-
-msgid "All Events"
-msgstr "All Events"
-
-msgid "Register new account"
-msgstr "Registrera ett nytt konto"
-
-msgid "Download feature"
-msgstr "Download feature"
-
-msgid "Add and configure"
-msgstr "Add and configure"
-
-msgid "Save and add"
-msgstr "Save and add"
-
-msgid "Update style"
-msgstr "Update style"
-
-msgid "Write"
-msgstr "Write"
-
-msgid "Restore"
-msgstr "Restore"
-
-msgid "Random number generation"
-msgstr "Random number generation"
-
-msgid "Font Awesome 5"
-msgstr "Font Awesome 5"
-
-msgid "Trusted Host Settings"
-msgstr "Trusted Host Settings"
-
-msgid "Tray @action."
-msgstr "Tray @action."
-
-msgid "Tray \"@tray\" @action."
-msgstr "Tray \"@tray\" @action."
-
 msgid "Applicationsasd"
 msgstr "Applicationsasd"
 
@@ -29267,8 +29112,137 @@ msgstr "Provides a simple link field type."
 msgid "Drush support for direct upgrades from older Drupal versions."
 msgstr "Drush support for direct upgrades from older Drupal versions."
 
-msgid "Handles migrations"
-msgstr "Handles migrations"
+msgid "Service provided by Population Register Centre"
+msgstr "Service provided by Population Register Centre"
+
+msgid "Käyttösovellukset"
+msgstr "Käyttösovellukset"
+
+msgid "Ajankohtaista"
+msgstr "Ajankohtaista"
+
+msgid "Lisää"
+msgstr "Lisää"
+
+msgid "Tapahtumakalenteri"
+msgstr "Tapahtumakalenteri"
+
+msgid "Avoindata.fi"
+msgstr "Avoindata.fi"
+
+msgid "Follow us"
+msgstr "Följ oss"
+
+msgctxt "x applications"
+msgid "Applications"
+msgstr "Applications"
+
+msgid "Show all"
+msgstr "Show all"
+
+msgid "Datasets"
+msgstr "Datasets"
+
+msgid "Applications"
+msgstr "Applications"
+
+msgid "Organizations"
+msgstr "Organisationer"
+
+msgid "Open data categories"
+msgstr "Öppna data kategorier"
+
+msgid "Register new account"
+msgstr "Registrera ett nytt konto"
+
+msgid "Download feature"
+msgstr "Download feature"
+
+msgid "Add and configure"
+msgstr "Add and configure"
+
+msgid "Save and add"
+msgstr "Save and add"
+
+msgid "Update style"
+msgstr "Update style"
+
+msgid "Restore"
+msgstr "Restore"
+
+msgctxt "new datasets"
+msgid "New"
+msgstr "New"
+
+msgctxt "popular datasets"
+msgid "Popular"
+msgstr "Popular"
+
+msgid "More recently modified datasets"
+msgstr "More recently modified datasets"
+
+msgid "More new data sets"
+msgstr "More new data sets"
+
+msgid "More popular datasets"
+msgstr "More popular datasets"
+
+msgid "Newsfeed"
+msgstr "Newsfeed"
+
+msgid "All News"
+msgstr "All News"
+
+msgid "Events"
+msgstr "Events"
+
+msgid "All Events"
+msgstr "All Events"
+
+msgid "Search API"
+msgstr "Search API"
+
+msgid "Metatag"
+msgstr "Metatag"
+
+msgid "CAPTCHA module settings"
+msgstr "CAPTCHA module settings"
+
+msgid "Administer how and where CAPTCHA is used."
+msgstr "Administer how and where CAPTCHA is used."
+
+msgid "Configure Metatag defaults."
+msgstr "Configure Metatag defaults."
+
+msgid "Create and configure search indexes and servers."
+msgstr "Create and configure search indexes and servers."
+
+msgid "Provides configuration options for the Disqus comment system."
+msgstr "Provides configuration options for the Disqus comment system."
+
+msgid "Logout"
+msgstr "Logout"
+
+msgid "Tray @action."
+msgstr "Tray @action."
+
+msgid "Interface translation export"
+msgstr "Interface translation export"
+
+msgid "Random number generation"
+msgstr "Random number generation"
+
+msgid "Font Awesome 5"
+msgstr "Font Awesome 5"
+
+msgid "Trusted Host Settings"
+msgstr "Trusted Host Settings"
+
+msgid "Go to page @key"
+msgstr "Go to page @key"
+
+msgid "Tray \"@tray\" @action."
+msgstr "Tray \"@tray\" @action."
 
 msgid "Contains migrations from older Drupal versions."
 msgstr "Contains migrations from older Drupal versions."
@@ -29508,47 +29482,126 @@ msgstr ""
 "module again for performance reasons. The provided configuration will not be"
 " removed."
 
-msgid "Updated default configuration."
-msgstr "Updated default configuration."
+msgid ""
+"Regularly review and install <a href=\":updates\">available updates</a> to "
+"maintain a secure and current site. Always run the <a href=\":update-"
+"php\">update script</a> each time a module is updated."
+msgstr ""
+"Regularly review and install <a href=\":updates\">available updates</a> to "
+"maintain a secure and current site. Always run the <a href=\":update-"
+"php\">update script</a> each time a module is updated."
+
+msgid "Configure page caching strategy with APE."
+msgstr "Configure page caching strategy with APE."
+
+msgid ""
+"Drupal provides an <a href=\":module_enable\">Internal Page Cache module</a>"
+" that is recommended for small to medium-sized websites."
+msgstr ""
+"Drupal provides an <a href=\":module_enable\">Internal Page Cache module</a>"
+" that is recommended for small to medium-sized websites."
 
 msgid "CDN (Content Delivery Network)"
 msgstr "CDN (Content Delivery Network)"
 
-msgid "Easy Breadcrumb"
-msgstr "Easy Breadcrumb"
+msgid "JavaScript"
+msgstr "JavaScript"
 
-msgid ""
-"Allow for site emails to be sent through an SMTP server of your choice."
-msgstr ""
-"Allow for site emails to be sent through an SMTP server of your choice."
+msgid "All Finnish open data from one place."
+msgstr "All Finnish open data from one place."
 
 msgid "Tietoaineistot"
 msgstr "Tietoaineistot"
 
-msgid "All Finnish open data from one place."
-msgstr "All Finnish open data from one place."
+msgctxt "x datasets"
+msgid "Datasets"
+msgstr "Datasets"
+
+msgid "Type what are you searching for"
+msgstr "Type what are you searching for"
+
+msgid "Rebuild"
+msgstr "Rebuild"
 
 msgctxt "recently modified datasets"
 msgid "Recently modified"
 msgstr "Recently modified"
 
+msgid "Expand all"
+msgstr ""
+
 msgid "News"
 msgstr "News"
 
+msgid "Disqus"
+msgstr "Disqus"
+
+msgid "Easy Breadcrumb"
+msgstr "Easy Breadcrumb"
+
+msgid "Font Awesome Settings"
+msgstr "Font Awesome Settings"
+
 msgid ""
-"Regularly review and install <a href=\":updates\">available updates</a> to "
-"maintain a secure and current site. Always run the <a href=\":update-"
-"php\">update script</a> each time a module is updated."
+"Allow for site emails to be sent through an SMTP server of your choice."
 msgstr ""
-"Regularly review and install <a href=\":updates\">available updates</a> to "
-"maintain a secure and current site. Always run the <a href=\":update-"
-"php\">update script</a> each time a module is updated."
+"Allow for site emails to be sent through an SMTP server of your choice."
+
+msgid "Global settings for the display of Font Awesome icons."
+msgstr "Global settings for the display of Font Awesome icons."
+
+msgid "Close all"
+msgstr ""
 
 msgid "Updating translations for JavaScript and default configuration."
 msgstr "Updating translations for JavaScript and default configuration."
 
-msgid "JavaScript"
-msgstr "JavaScript"
+msgid "Updated default configuration."
+msgstr "Updated default configuration."
+
+msgid ""
+"One translation string was skipped because of disallowed or malformed HTML. "
+"See the log for details."
+msgid_plural ""
+"@count translation strings were skipped because of disallowed or malformed "
+"HTML. See the log for details."
+msgstr[0] ""
+"En översättningssträng hoppades över på grund av ej tillåten eller felaktig "
+"HTML. Se loggen för mer information."
+msgstr[1] ""
+"@count översättningssträngar hoppades över på grund av ej tillåten eller "
+"felaktig HTML. Se loggen för mer information."
+
+msgid "Links related to Devel module."
+msgstr ""
+
+msgid "Advanced Cache"
+msgstr "Advanced Cache"
+
+msgid "Tables"
+msgstr "Tables"
+
+msgid "Tuottajat"
+msgstr "Tuottajat"
+
+msgid "Opas"
+msgstr "Opas"
+
+msgid ""
+"Central Open Data distribution platform for datasets released by finnish "
+"individuals, companies and public organizations."
+msgstr ""
+"Central Open Data distribution platform for datasets released by finnish "
+"individuals, companies and public organizations."
+
+msgid "Enter the password that accompanies your username."
+msgstr "Ange lösenordet för ditt konto."
+
+msgid "Write"
+msgstr "Write"
+
+msgid "Show all applications"
+msgstr "Show all applications"
 
 msgid "Date value"
 msgstr "Datumvärde"
@@ -29559,8 +29612,8 @@ msgstr "Kommentarstyper"
 msgid "Form modes"
 msgstr "Form modes"
 
-msgid "Disqus"
-msgstr "Disqus"
+msgid "Image toolkit"
+msgstr "Bildhanteringsverktyg"
 
 msgid "Maintenance mode"
 msgstr "Underhållsläge"
@@ -29568,23 +29621,20 @@ msgstr "Underhållsläge"
 msgid "Configuration synchronization"
 msgstr "Configuration synchronization"
 
+msgid "Devel settings"
+msgstr ""
+
 msgid "Date and time formats"
 msgstr "Format för datum och tid"
 
-msgid "Workflow"
-msgstr "Arbetsflöde"
+msgid "URL redirects"
+msgstr "URL redirects"
 
 msgid "Text formats and editors"
 msgstr "Textformat och redigerare"
 
-msgid "Font Awesome Settings"
-msgstr "Font Awesome Settings"
-
 msgid "Honeypot configuration"
 msgstr "Konfiguration av Honeypot"
-
-msgid "Account settings"
-msgstr "Kontoinställningar"
 
 msgid "Top 'page not found' errors"
 msgstr "Vanligaste felmeddelanden: \"sidan hittades inte\""
@@ -29603,15 +29653,15 @@ msgstr ""
 msgid "Manage custom form modes."
 msgstr "Hantera anpassade formulärslägen."
 
+msgid "Manage tagging, categorization, and classification of your content."
+msgstr ""
+"Hantera etikettering, kategorisering och klassificering av ditt innehåll."
+
 msgid "Administer blocks, content types, menus, etc."
 msgstr "Administrera block, innehållstyper, menyer, etcetera."
 
-msgid ""
-"Change site name, email address, slogan, default front page, and error "
-"pages."
-msgstr ""
-"Ändra webbplatsens namn, e-postadress, slogan, förvald startsida  samt sidor"
-" för felmeddelanden."
+msgid "Select and configure themes."
+msgstr "Välj och konfigurera teman."
 
 msgid ""
 "Configure tracking behavior to get insights into your website traffic and "
@@ -29635,11 +29685,11 @@ msgstr ""
 "Konfigurera inställningar för förvalt konto, inklusive fält, krav vid "
 "registrering och e-postmeddelanden."
 
-msgid "Add and modify shortcut sets."
-msgstr "Lägg till och modifiera genvägsuppsättningar."
+msgid "Configure user accounts."
+msgstr "Konfigurera användarkonton."
 
-msgid "Global settings for the display of Font Awesome icons."
-msgstr "Global settings for the display of Font Awesome icons."
+msgid "Controls settings for the module Easy Breadcrumb"
+msgstr "Controls settings for the module Easy Breadcrumb"
 
 msgid ""
 "Configure Honeypot spam prevention and the forms on which Honeypot will be "
@@ -29647,6 +29697,11 @@ msgid ""
 msgstr ""
 "Konfigurera spamförebyggande för Honeypot och de formulär som Honeypot "
 "kommer att användas på."
+
+msgid ""
+"Helper functions, pages, and blocks to assist Drupal developers. The devel "
+"blocks can be managed via the block administration page."
+msgstr ""
 
 msgid ""
 "Choose which image toolkit to use if you have installed optional toolkits."
@@ -29664,79 +29719,1393 @@ msgstr ""
 msgid "Overview of plugins used in all views."
 msgstr "Översikt av insticksprogram som används i alla vyer."
 
-msgid "Reference for usage, configuration, and modules."
-msgstr "Referens för användande, inställningar och moduler."
+msgid "View reports, updates, and errors."
+msgstr "Visa rapporter, uppdateringar och felmeddelanden."
 
-msgid ""
-"Central Open Data distribution platform for datasets released by finnish "
-"individuals, companies and public organizations."
-msgstr ""
-"Central Open Data distribution platform for datasets released by finnish "
-"individuals, companies and public organizations."
-
-msgid "Add URL redirect"
+msgid "Development menu"
 msgstr ""
 
-msgctxt "Long month name"
-msgid "October"
-msgstr "oktober"
-
-msgid "Th"
-msgstr "tor"
-
-msgctxt "x datasets"
-msgid "Datasets"
-msgstr "Datasets"
-
-msgid "Type what are you searching for"
-msgstr "Type what are you searching for"
-
-msgid "The requested page could not be found."
-msgstr "Den valda sidan kunde inte hittas."
-
-msgid "Rebuild"
-msgstr "Rebuild"
-
-msgid "PHP OPcode caching"
-msgstr "Cachning av PHP OPcode"
-
-msgid ""
-"External resources can be optimized automatically, which can reduce both the"
-" size and number of requests made to your website."
-msgstr ""
-"Externa resurser kan optimeras automatiskt, vilket kan minska både storlek "
-"och antal förfrågningar till din webbplats."
-
-msgid "Configure page caching strategy with APE."
-msgstr "Configure page caching strategy with APE."
-
-msgid ""
-"Most CAPTCHA methods will disable the caching of pages that contain a "
-"CAPTCHA element. Check the different implementations to know more about how "
-"it affects caching."
-msgstr ""
-
-msgid ""
-"Drupal provides an <a href=\":module_enable\">Internal Page Cache module</a>"
-" that is recommended for small to medium-sized websites."
-msgstr ""
-"Drupal provides an <a href=\":module_enable\">Internal Page Cache module</a>"
-" that is recommended for small to medium-sized websites."
-
-msgid "CAPTCHA"
-msgstr "CAPTCHA"
-
-msgid "Aggregate CSS files"
-msgstr "Aggregate CSS files"
-
-msgid ""
-"Reorder the configured languages to set their order in the language switcher"
-" block and, when editing content, in the list of selectable languages. This "
-"ordering does not impact <a href=\":detection\">detection and selection</a>."
+msgid "Devel"
 msgstr ""
 
 msgid "Horizontal orientation"
 msgstr "Horisontell orientering"
+
+msgid "@label"
+msgstr "@label"
+
+msgid "Config editor"
+msgstr ""
+
+msgid "Reinstall Modules"
+msgstr ""
+
+msgid "Rebuild Menu"
+msgstr ""
+
+msgid "State editor"
+msgstr ""
+
+msgid "Theme registry"
+msgstr ""
+
+msgid "Entity Info"
+msgstr ""
+
+msgid "Field Info"
+msgstr ""
+
+msgid "PHPinfo()"
+msgstr ""
+
+msgid "View Session"
+msgstr ""
+
+msgid "Element Info"
+msgstr ""
+
+msgid "Cache clear"
+msgstr ""
+
+msgid "Container Info"
+msgstr ""
+
+msgid "Routes Info"
+msgstr ""
+
+msgid "Current route info"
+msgstr ""
+
+msgid "Events Info"
+msgstr ""
+
+msgid "Edit configuration."
+msgstr ""
+
+msgid "Edit state system values."
+msgstr ""
+
+msgid "Africa/Abidjan"
+msgstr ""
+
+msgid "Africa/Accra"
+msgstr ""
+
+msgid "Africa/Addis Ababa"
+msgstr ""
+
+msgid "Africa/Algiers"
+msgstr ""
+
+msgid "Africa/Asmara"
+msgstr ""
+
+msgid "Africa/Bamako"
+msgstr ""
+
+msgid "Africa/Bangui"
+msgstr ""
+
+msgid "Africa/Banjul"
+msgstr ""
+
+msgid "Africa/Bissau"
+msgstr ""
+
+msgid "Africa/Blantyre"
+msgstr ""
+
+msgid "Africa/Brazzaville"
+msgstr ""
+
+msgid "Africa/Bujumbura"
+msgstr ""
+
+msgid "Africa/Cairo"
+msgstr ""
+
+msgid "Africa/Casablanca"
+msgstr ""
+
+msgid "Africa/Ceuta"
+msgstr ""
+
+msgid "Africa/Conakry"
+msgstr ""
+
+msgid "Africa/Dakar"
+msgstr ""
+
+msgid "Africa/Dar es Salaam"
+msgstr ""
+
+msgid "Africa/Djibouti"
+msgstr ""
+
+msgid "Africa/Douala"
+msgstr ""
+
+msgid "Africa/El Aaiun"
+msgstr ""
+
+msgid "Africa/Freetown"
+msgstr ""
+
+msgid "Africa/Gaborone"
+msgstr ""
+
+msgid "Africa/Harare"
+msgstr ""
+
+msgid "Africa/Johannesburg"
+msgstr ""
+
+msgid "Africa/Juba"
+msgstr ""
+
+msgid "Africa/Kampala"
+msgstr ""
+
+msgid "Africa/Khartoum"
+msgstr ""
+
+msgid "Africa/Kigali"
+msgstr ""
+
+msgid "Africa/Kinshasa"
+msgstr ""
+
+msgid "Africa/Lagos"
+msgstr ""
+
+msgid "Africa/Libreville"
+msgstr ""
+
+msgid "Africa/Lome"
+msgstr ""
+
+msgid "Africa/Luanda"
+msgstr ""
+
+msgid "Africa/Lubumbashi"
+msgstr ""
+
+msgid "Africa/Lusaka"
+msgstr ""
+
+msgid "Africa/Malabo"
+msgstr ""
+
+msgid "Africa/Maputo"
+msgstr ""
+
+msgid "Africa/Maseru"
+msgstr ""
+
+msgid "Africa/Mbabane"
+msgstr ""
+
+msgid "Africa/Mogadishu"
+msgstr ""
+
+msgid "Africa/Monrovia"
+msgstr ""
+
+msgid "Africa/Nairobi"
+msgstr ""
+
+msgid "Africa/Ndjamena"
+msgstr ""
+
+msgid "Africa/Niamey"
+msgstr ""
+
+msgid "Africa/Nouakchott"
+msgstr ""
+
+msgid "Africa/Ouagadougou"
+msgstr ""
+
+msgid "Africa/Porto-Novo"
+msgstr ""
+
+msgid "Africa/Sao Tome"
+msgstr ""
+
+msgid "Africa/Tripoli"
+msgstr ""
+
+msgid "Africa/Tunis"
+msgstr ""
+
+msgid "America/Anchorage"
+msgstr ""
+
+msgid "America/Anguilla"
+msgstr ""
+
+msgid "America/Antigua"
+msgstr ""
+
+msgid "America/Araguaina"
+msgstr ""
+
+msgid "America/Argentina/Buenos Aires"
+msgstr ""
+
+msgid "America/Argentina/Catamarca"
+msgstr ""
+
+msgid "America/Argentina/Cordoba"
+msgstr ""
+
+msgid "America/Argentina/Jujuy"
+msgstr ""
+
+msgid "America/Argentina/La Rioja"
+msgstr ""
+
+msgid "America/Argentina/Mendoza"
+msgstr ""
+
+msgid "America/Argentina/Rio Gallegos"
+msgstr ""
+
+msgid "America/Argentina/Salta"
+msgstr ""
+
+msgid "America/Argentina/San Juan"
+msgstr ""
+
+msgid "America/Argentina/San Luis"
+msgstr ""
+
+msgid "America/Argentina/Tucuman"
+msgstr ""
+
+msgid "America/Argentina/Ushuaia"
+msgstr ""
+
+msgid "America/Aruba"
+msgstr ""
+
+msgid "America/Asuncion"
+msgstr ""
+
+msgid "America/Atikokan"
+msgstr ""
+
+msgid "America/Bahia"
+msgstr ""
+
+msgid "America/Bahia Banderas"
+msgstr ""
+
+msgid "America/Barbados"
+msgstr ""
+
+msgid "America/Belem"
+msgstr ""
+
+msgid "America/Belize"
+msgstr ""
+
+msgid "America/Blanc-Sablon"
+msgstr ""
+
+msgid "America/Boa Vista"
+msgstr ""
+
+msgid "America/Bogota"
+msgstr ""
+
+msgid "America/Boise"
+msgstr ""
+
+msgid "America/Cambridge Bay"
+msgstr ""
+
+msgid "America/Campo Grande"
+msgstr ""
+
+msgid "America/Cancun"
+msgstr ""
+
+msgid "America/Caracas"
+msgstr ""
+
+msgid "America/Cayenne"
+msgstr ""
+
+msgid "America/Cayman"
+msgstr ""
+
+msgid "America/Chicago"
+msgstr ""
+
+msgid "America/Chihuahua"
+msgstr ""
+
+msgid "America/Costa Rica"
+msgstr ""
+
+msgid "America/Creston"
+msgstr ""
+
+msgid "America/Cuiaba"
+msgstr ""
+
+msgid "America/Curacao"
+msgstr ""
+
+msgid "America/Danmarkshavn"
+msgstr ""
+
+msgid "America/Dawson"
+msgstr ""
+
+msgid "America/Dawson Creek"
+msgstr ""
+
+msgid "America/Denver"
+msgstr ""
+
+msgid "America/Detroit"
+msgstr ""
+
+msgid "America/Dominica"
+msgstr ""
+
+msgid "America/Edmonton"
+msgstr ""
+
+msgid "America/Eirunepe"
+msgstr ""
+
+msgid "America/El Salvador"
+msgstr ""
+
+msgid "America/Fort Nelson"
+msgstr ""
+
+msgid "America/Fortaleza"
+msgstr ""
+
+msgid "America/Glace Bay"
+msgstr ""
+
+msgid "America/Godthab"
+msgstr ""
+
+msgid "America/Goose Bay"
+msgstr ""
+
+msgid "America/Grand Turk"
+msgstr ""
+
+msgid "America/Grenada"
+msgstr ""
+
+msgid "America/Guadeloupe"
+msgstr ""
+
+msgid "America/Guatemala"
+msgstr ""
+
+msgid "America/Guayaquil"
+msgstr ""
+
+msgid "America/Guyana"
+msgstr ""
+
+msgid "America/Halifax"
+msgstr ""
+
+msgid "America/Havana"
+msgstr ""
+
+msgid "America/Hermosillo"
+msgstr ""
+
+msgid "America/Indiana/Indianapolis"
+msgstr ""
+
+msgid "America/Indiana/Knox"
+msgstr ""
+
+msgid "America/Indiana/Marengo"
+msgstr ""
+
+msgid "America/Indiana/Petersburg"
+msgstr ""
+
+msgid "America/Indiana/Tell City"
+msgstr ""
+
+msgid "America/Indiana/Vevay"
+msgstr ""
+
+msgid "America/Indiana/Vincennes"
+msgstr ""
+
+msgid "America/Indiana/Winamac"
+msgstr ""
+
+msgid "America/Inuvik"
+msgstr ""
+
+msgid "America/Iqaluit"
+msgstr ""
+
+msgid "America/Jamaica"
+msgstr ""
+
+msgid "America/Juneau"
+msgstr ""
+
+msgid "America/Kentucky/Louisville"
+msgstr ""
+
+msgid "America/Kentucky/Monticello"
+msgstr ""
+
+msgid "America/Kralendijk"
+msgstr ""
+
+msgid "America/La Paz"
+msgstr ""
+
+msgid "America/Lima"
+msgstr ""
+
+msgid "America/Los Angeles"
+msgstr ""
+
+msgid "America/Lower Princes"
+msgstr ""
+
+msgid "America/Maceio"
+msgstr ""
+
+msgid "America/Managua"
+msgstr ""
+
+msgid "America/Manaus"
+msgstr ""
+
+msgid "America/Marigot"
+msgstr ""
+
+msgid "America/Martinique"
+msgstr ""
+
+msgid "America/Matamoros"
+msgstr ""
+
+msgid "America/Mazatlan"
+msgstr ""
+
+msgid "America/Menominee"
+msgstr ""
+
+msgid "America/Merida"
+msgstr ""
+
+msgid "America/Metlakatla"
+msgstr ""
+
+msgid "America/Mexico City"
+msgstr ""
+
+msgid "America/Miquelon"
+msgstr ""
+
+msgid "America/Moncton"
+msgstr ""
+
+msgid "America/Monterrey"
+msgstr ""
+
+msgid "America/Montevideo"
+msgstr ""
+
+msgid "America/Montserrat"
+msgstr ""
+
+msgid "America/Nassau"
+msgstr ""
+
+msgid "America/New York"
+msgstr ""
+
+msgid "America/Nipigon"
+msgstr ""
+
+msgid "America/Nome"
+msgstr ""
+
+msgid "America/Noronha"
+msgstr ""
+
+msgid "America/North Dakota/Beulah"
+msgstr ""
+
+msgid "America/North Dakota/Center"
+msgstr ""
+
+msgid "America/North Dakota/New Salem"
+msgstr ""
+
+msgid "America/Ojinaga"
+msgstr ""
+
+msgid "America/Panama"
+msgstr ""
+
+msgid "America/Pangnirtung"
+msgstr ""
+
+msgid "America/Paramaribo"
+msgstr ""
+
+msgid "America/Phoenix"
+msgstr ""
+
+msgid "America/Port of Spain"
+msgstr ""
+
+msgid "America/Port-au-Prince"
+msgstr ""
+
+msgid "America/Porto Velho"
+msgstr ""
+
+msgid "America/Puerto Rico"
+msgstr ""
+
+msgid "America/Punta Arenas"
+msgstr ""
+
+msgid "America/Rainy River"
+msgstr ""
+
+msgid "America/Rankin Inlet"
+msgstr ""
+
+msgid "America/Recife"
+msgstr ""
+
+msgid "America/Regina"
+msgstr ""
+
+msgid "America/Resolute"
+msgstr ""
+
+msgid "America/Rio Branco"
+msgstr ""
+
+msgid "America/Santarem"
+msgstr ""
+
+msgid "America/Santiago"
+msgstr ""
+
+msgid "America/Santo Domingo"
+msgstr ""
+
+msgid "America/Sao Paulo"
+msgstr ""
+
+msgid "America/Scoresbysund"
+msgstr ""
+
+msgid "America/Sitka"
+msgstr ""
+
+msgid "America/St Barthelemy"
+msgstr ""
+
+msgid "America/St Johns"
+msgstr ""
+
+msgid "America/St Kitts"
+msgstr ""
+
+msgid "America/St Lucia"
+msgstr ""
+
+msgid "America/St Thomas"
+msgstr ""
+
+msgid "America/St Vincent"
+msgstr ""
+
+msgid "America/Swift Current"
+msgstr ""
+
+msgid "America/Tegucigalpa"
+msgstr ""
+
+msgid "America/Thule"
+msgstr ""
+
+msgid "America/Thunder Bay"
+msgstr ""
+
+msgid "America/Tijuana"
+msgstr ""
+
+msgid "America/Toronto"
+msgstr ""
+
+msgid "America/Tortola"
+msgstr ""
+
+msgid "America/Vancouver"
+msgstr ""
+
+msgid "America/Whitehorse"
+msgstr ""
+
+msgid "America/Winnipeg"
+msgstr ""
+
+msgid "America/Yakutat"
+msgstr ""
+
+msgid "America/Yellowknife"
+msgstr ""
+
+msgid "Antarctica/Casey"
+msgstr ""
+
+msgid "Antarctica/Davis"
+msgstr ""
+
+msgid "Antarctica/DumontDUrville"
+msgstr ""
+
+msgid "Antarctica/Macquarie"
+msgstr ""
+
+msgid "Antarctica/Mawson"
+msgstr ""
+
+msgid "Antarctica/McMurdo"
+msgstr ""
+
+msgid "Antarctica/Palmer"
+msgstr ""
+
+msgid "Antarctica/Rothera"
+msgstr ""
+
+msgid "Antarctica/Syowa"
+msgstr ""
+
+msgid "Antarctica/Troll"
+msgstr ""
+
+msgid "Antarctica/Vostok"
+msgstr ""
+
+msgid "Arctic/Longyearbyen"
+msgstr ""
+
+msgid "Asia/Aden"
+msgstr ""
+
+msgid "Asia/Almaty"
+msgstr ""
+
+msgid "Asia/Amman"
+msgstr ""
+
+msgid "Asia/Anadyr"
+msgstr ""
+
+msgid "Asia/Aqtau"
+msgstr ""
+
+msgid "Asia/Aqtobe"
+msgstr ""
+
+msgid "Asia/Ashgabat"
+msgstr ""
+
+msgid "Asia/Atyrau"
+msgstr ""
+
+msgid "Asia/Baghdad"
+msgstr ""
+
+msgid "Asia/Bahrain"
+msgstr ""
+
+msgid "Asia/Baku"
+msgstr ""
+
+msgid "Asia/Bangkok"
+msgstr ""
+
+msgid "Asia/Barnaul"
+msgstr ""
+
+msgid "Asia/Beirut"
+msgstr ""
+
+msgid "Asia/Bishkek"
+msgstr ""
+
+msgid "Asia/Brunei"
+msgstr ""
+
+msgid "Asia/Chita"
+msgstr ""
+
+msgid "Asia/Choibalsan"
+msgstr ""
+
+msgid "Asia/Colombo"
+msgstr ""
+
+msgid "Asia/Damascus"
+msgstr ""
+
+msgid "Asia/Dhaka"
+msgstr ""
+
+msgid "Asia/Dili"
+msgstr ""
+
+msgid "Asia/Dubai"
+msgstr ""
+
+msgid "Asia/Dushanbe"
+msgstr ""
+
+msgid "Asia/Famagusta"
+msgstr ""
+
+msgid "Asia/Gaza"
+msgstr ""
+
+msgid "Asia/Hebron"
+msgstr ""
+
+msgid "Asia/Ho Chi Minh"
+msgstr ""
+
+msgid "Asia/Hong Kong"
+msgstr ""
+
+msgid "Asia/Hovd"
+msgstr ""
+
+msgid "Asia/Irkutsk"
+msgstr ""
+
+msgid "Asia/Jakarta"
+msgstr ""
+
+msgid "Asia/Jayapura"
+msgstr ""
+
+msgid "Asia/Jerusalem"
+msgstr ""
+
+msgid "Asia/Kabul"
+msgstr ""
+
+msgid "Asia/Kamchatka"
+msgstr ""
+
+msgid "Asia/Karachi"
+msgstr ""
+
+msgid "Asia/Kathmandu"
+msgstr ""
+
+msgid "Asia/Khandyga"
+msgstr ""
+
+msgid "Asia/Kolkata"
+msgstr ""
+
+msgid "Asia/Krasnoyarsk"
+msgstr ""
+
+msgid "Asia/Kuala Lumpur"
+msgstr ""
+
+msgid "Asia/Kuching"
+msgstr ""
+
+msgid "Asia/Kuwait"
+msgstr ""
+
+msgid "Asia/Macau"
+msgstr ""
+
+msgid "Asia/Magadan"
+msgstr ""
+
+msgid "Asia/Makassar"
+msgstr ""
+
+msgid "Asia/Manila"
+msgstr ""
+
+msgid "Asia/Muscat"
+msgstr ""
+
+msgid "Asia/Nicosia"
+msgstr ""
+
+msgid "Asia/Novokuznetsk"
+msgstr ""
+
+msgid "Asia/Novosibirsk"
+msgstr ""
+
+msgid "Asia/Omsk"
+msgstr ""
+
+msgid "Asia/Oral"
+msgstr ""
+
+msgid "Asia/Phnom Penh"
+msgstr ""
+
+msgid "Asia/Pontianak"
+msgstr ""
+
+msgid "Asia/Pyongyang"
+msgstr ""
+
+msgid "Asia/Qatar"
+msgstr ""
+
+msgid "Asia/Qostanay"
+msgstr ""
+
+msgid "Asia/Qyzylorda"
+msgstr ""
+
+msgid "Asia/Riyadh"
+msgstr ""
+
+msgid "Asia/Sakhalin"
+msgstr ""
+
+msgid "Asia/Samarkand"
+msgstr ""
+
+msgid "Asia/Seoul"
+msgstr ""
+
+msgid "Asia/Shanghai"
+msgstr ""
+
+msgid "Asia/Singapore"
+msgstr ""
+
+msgid "Asia/Srednekolymsk"
+msgstr ""
+
+msgid "Asia/Taipei"
+msgstr ""
+
+msgid "Asia/Tashkent"
+msgstr ""
+
+msgid "Asia/Tbilisi"
+msgstr ""
+
+msgid "Asia/Tehran"
+msgstr ""
+
+msgid "Asia/Thimphu"
+msgstr ""
+
+msgid "Asia/Tokyo"
+msgstr ""
+
+msgid "Asia/Tomsk"
+msgstr ""
+
+msgid "Asia/Ulaanbaatar"
+msgstr ""
+
+msgid "Asia/Urumqi"
+msgstr ""
+
+msgid "Asia/Ust-Nera"
+msgstr ""
+
+msgid "Asia/Vientiane"
+msgstr ""
+
+msgid "Asia/Vladivostok"
+msgstr ""
+
+msgid "Asia/Yakutsk"
+msgstr ""
+
+msgid "Asia/Yangon"
+msgstr ""
+
+msgid "Asia/Yekaterinburg"
+msgstr ""
+
+msgid "Asia/Yerevan"
+msgstr ""
+
+msgid "Atlantic/Azores"
+msgstr ""
+
+msgid "Atlantic/Bermuda"
+msgstr ""
+
+msgid "Atlantic/Canary"
+msgstr ""
+
+msgid "Atlantic/Cape Verde"
+msgstr ""
+
+msgid "Atlantic/Faroe"
+msgstr ""
+
+msgid "Atlantic/Madeira"
+msgstr ""
+
+msgid "Atlantic/Reykjavik"
+msgstr ""
+
+msgid "Atlantic/South Georgia"
+msgstr ""
+
+msgid "Atlantic/St Helena"
+msgstr ""
+
+msgid "Atlantic/Stanley"
+msgstr ""
+
+msgid "Australia/Adelaide"
+msgstr ""
+
+msgid "Australia/Brisbane"
+msgstr ""
+
+msgid "Australia/Broken Hill"
+msgstr ""
+
+msgid "Australia/Currie"
+msgstr ""
+
+msgid "Australia/Darwin"
+msgstr ""
+
+msgid "Australia/Eucla"
+msgstr ""
+
+msgid "Australia/Hobart"
+msgstr ""
+
+msgid "Australia/Lindeman"
+msgstr ""
+
+msgid "Australia/Lord Howe"
+msgstr ""
+
+msgid "Australia/Melbourne"
+msgstr ""
+
+msgid "Australia/Perth"
+msgstr ""
+
+msgid "Australia/Sydney"
+msgstr ""
+
+msgid "Europe/Amsterdam"
+msgstr ""
+
+msgid "Europe/Andorra"
+msgstr ""
+
+msgid "Europe/Astrakhan"
+msgstr ""
+
+msgid "Europe/Athens"
+msgstr ""
+
+msgid "Europe/Belgrade"
+msgstr ""
+
+msgid "Europe/Berlin"
+msgstr ""
+
+msgid "Europe/Bratislava"
+msgstr ""
+
+msgid "Europe/Brussels"
+msgstr ""
+
+msgid "Europe/Bucharest"
+msgstr ""
+
+msgid "Europe/Budapest"
+msgstr ""
+
+msgid "Europe/Busingen"
+msgstr ""
+
+msgid "Europe/Chisinau"
+msgstr ""
+
+msgid "Europe/Copenhagen"
+msgstr ""
+
+msgid "Europe/Dublin"
+msgstr ""
+
+msgid "Europe/Gibraltar"
+msgstr ""
+
+msgid "Europe/Guernsey"
+msgstr ""
+
+msgid "Europe/Helsinki"
+msgstr ""
+
+msgid "Europe/Isle of Man"
+msgstr ""
+
+msgid "Europe/Istanbul"
+msgstr ""
+
+msgid "Europe/Jersey"
+msgstr ""
+
+msgid "Europe/Kaliningrad"
+msgstr ""
+
+msgid "Europe/Kiev"
+msgstr ""
+
+msgid "Europe/Kirov"
+msgstr ""
+
+msgid "Europe/Lisbon"
+msgstr ""
+
+msgid "Europe/Ljubljana"
+msgstr ""
+
+msgid "Europe/London"
+msgstr ""
+
+msgid "Europe/Luxembourg"
+msgstr ""
+
+msgid "Europe/Madrid"
+msgstr ""
+
+msgid "Europe/Malta"
+msgstr ""
+
+msgid "Europe/Mariehamn"
+msgstr ""
+
+msgid "Europe/Minsk"
+msgstr ""
+
+msgid "Europe/Monaco"
+msgstr ""
+
+msgid "Europe/Moscow"
+msgstr ""
+
+msgid "Europe/Oslo"
+msgstr ""
+
+msgid "Europe/Paris"
+msgstr ""
+
+msgid "Europe/Podgorica"
+msgstr ""
+
+msgid "Europe/Prague"
+msgstr ""
+
+msgid "Europe/Riga"
+msgstr ""
+
+msgid "Europe/Rome"
+msgstr ""
+
+msgid "Europe/Samara"
+msgstr ""
+
+msgid "Europe/San Marino"
+msgstr ""
+
+msgid "Europe/Sarajevo"
+msgstr ""
+
+msgid "Europe/Saratov"
+msgstr ""
+
+msgid "Europe/Simferopol"
+msgstr ""
+
+msgid "Europe/Skopje"
+msgstr ""
+
+msgid "Europe/Sofia"
+msgstr ""
+
+msgid "Europe/Stockholm"
+msgstr ""
+
+msgid "Europe/Tallinn"
+msgstr ""
+
+msgid "Europe/Tirane"
+msgstr ""
+
+msgid "Europe/Ulyanovsk"
+msgstr ""
+
+msgid "Europe/Uzhgorod"
+msgstr ""
+
+msgid "Europe/Vaduz"
+msgstr ""
+
+msgid "Europe/Vatican"
+msgstr ""
+
+msgid "Europe/Vienna"
+msgstr ""
+
+msgid "Europe/Vilnius"
+msgstr ""
+
+msgid "Europe/Volgograd"
+msgstr ""
+
+msgid "Europe/Warsaw"
+msgstr ""
+
+msgid "Europe/Zagreb"
+msgstr ""
+
+msgid "Europe/Zaporozhye"
+msgstr ""
+
+msgid "Europe/Zurich"
+msgstr ""
+
+msgid "Indian/Antananarivo"
+msgstr ""
+
+msgid "Indian/Chagos"
+msgstr ""
+
+msgid "Indian/Christmas"
+msgstr ""
+
+msgid "Indian/Cocos"
+msgstr ""
+
+msgid "Indian/Comoro"
+msgstr ""
+
+msgid "Indian/Kerguelen"
+msgstr ""
+
+msgid "Indian/Mahe"
+msgstr ""
+
+msgid "Indian/Maldives"
+msgstr ""
+
+msgid "Indian/Mauritius"
+msgstr ""
+
+msgid "Indian/Mayotte"
+msgstr ""
+
+msgid "Indian/Reunion"
+msgstr ""
+
+msgid "Pacific/Apia"
+msgstr ""
+
+msgid "Pacific/Auckland"
+msgstr ""
+
+msgid "Pacific/Bougainville"
+msgstr ""
+
+msgid "Pacific/Chatham"
+msgstr ""
+
+msgid "Pacific/Chuuk"
+msgstr ""
+
+msgid "Pacific/Easter"
+msgstr ""
+
+msgid "Pacific/Efate"
+msgstr ""
+
+msgid "Pacific/Enderbury"
+msgstr ""
+
+msgid "Pacific/Fakaofo"
+msgstr ""
+
+msgid "Pacific/Fiji"
+msgstr ""
+
+msgid "Pacific/Funafuti"
+msgstr ""
+
+msgid "Pacific/Galapagos"
+msgstr ""
+
+msgid "Pacific/Gambier"
+msgstr ""
+
+msgid "Pacific/Guadalcanal"
+msgstr ""
+
+msgid "Pacific/Guam"
+msgstr ""
+
+msgid "Pacific/Honolulu"
+msgstr ""
+
+msgid "Pacific/Kiritimati"
+msgstr ""
+
+msgid "Pacific/Kosrae"
+msgstr ""
+
+msgid "Pacific/Kwajalein"
+msgstr ""
+
+msgid "Pacific/Majuro"
+msgstr ""
+
+msgid "Pacific/Marquesas"
+msgstr ""
+
+msgid "Pacific/Midway"
+msgstr ""
+
+msgid "Pacific/Nauru"
+msgstr ""
+
+msgid "Pacific/Niue"
+msgstr ""
+
+msgid "Pacific/Norfolk"
+msgstr ""
+
+msgid "Pacific/Noumea"
+msgstr ""
+
+msgid "Pacific/Pago Pago"
+msgstr ""
+
+msgid "Pacific/Palau"
+msgstr ""
+
+msgid "Pacific/Pitcairn"
+msgstr ""
+
+msgid "Pacific/Pohnpei"
+msgstr ""
+
+msgid "Pacific/Port Moresby"
+msgstr ""
+
+msgid "Pacific/Rarotonga"
+msgstr ""
+
+msgid "Pacific/Saipan"
+msgstr ""
+
+msgid "Pacific/Tahiti"
+msgstr ""
+
+msgid "Pacific/Tarawa"
+msgstr ""
+
+msgid "Pacific/Tongatapu"
+msgstr ""
+
+msgid "Pacific/Wake"
+msgstr ""
+
+msgid "Pacific/Wallis"
+msgstr ""
+
+msgid "UTC"
+msgstr ""
+
+msgid ""
+"A valid email address. All emails from the system will be sent to this "
+"address. The email address is not made public and will only be used if you "
+"wish to receive a new password or wish to receive certain news or "
+"notifications by email."
+msgstr ""
+"En giltig e-postadress. All e-post från systemet kommer skickas till denna "
+"adress. E-postadressen kommer inte synas offentligt och kommer enbart "
+"användas när du vill ta emot ett nytt lösenord, vissa nyheter eller "
+"meddelanden via e-post."
+
+msgid ""
+"Must be purely lowercase alphanumeric (ascii) characters and these symbols: "
+"-_"
+msgstr ""
+
+msgid ""
+"Allow other users to contact you via a personal contact form which keeps "
+"your email address hidden. Note that some privileged users such as site "
+"administrators are still able to contact you even if you choose to disable "
+"this feature."
+msgstr ""
+"Tillåter andra användare att kontakta dig via ett personligt kontaktformulär"
+" som döljer din e-postadress. Observera att vissa privilegierade användare "
+"som administratörer kan fortfarande kontakta dig även om du väljer att "
+"stänga av denna funktion."
+
+msgid ""
+"Select the desired local time and time zone. Dates and times throughout this"
+" site will be displayed using this time zone."
+msgstr ""
+"Välj den önskade lokala tiden och tidszonen. Datum och tid kommer att visas "
+"i denna tidszon på hela webbplatsen."
+
+msgid "!tour_item of !total"
+msgstr "!tour_item av !total"
+
+msgctxt "datasetlist offer data heading"
+msgid "Open your data"
+msgstr ""
+
+msgctxt "datasetlist offer data paragraph"
+msgid ""
+"Does your organization produce data that could benefit or interest others? "
+"We offer guidance and a distribution channel for your datasets."
+msgstr ""
+
+msgid "Cache cleared."
+msgstr ""
 
 msgid ""
 "Show table cells that were hidden to make the table fit within a small "
@@ -29745,19 +31114,16 @@ msgstr ""
 "Visa tabellceller som var dolda för att anpassa tabellen inom en liten "
 "skärm."
 
+msgid "@type language selected for page"
+msgstr "Språk @type valt för sida"
+
 msgid ""
 "The toolbar cannot be set to a horizontal orientation when it is locked."
 msgstr ""
 "Verktygsraden kan inte vara inställd till en horisontell orientering när den"
 " är låst."
 
-msgid "Aloittelijan tietopaketti"
-msgstr ""
-
-msgid "Datan käyttäjälle"
-msgstr ""
-
-msgid "View the discussion thread."
+msgid "Register as a publisher"
 msgstr ""
 
 msgid "Julkaistu"
@@ -29766,102 +31132,74 @@ msgstr ""
 msgid "Julkaisematon"
 msgstr ""
 
-msgid "Update this item"
-msgstr "Uppdatera detta objekt"
-
 msgid "Sisältö"
 msgstr ""
 
-msgid "@label"
-msgstr "@label"
+msgid "Select all rows in this table"
+msgstr "Markera alla rader i tabellen"
 
 msgid "List additional actions"
 msgstr "Visa fler åtgärder"
 
-msgid "Deselect all rows in this table"
-msgstr "Avmarkera alla rader i tabellen"
-
-msgid "Briefly describe the changes you have made."
-msgstr "Beskriv kortfattat de ändringar du har gjort."
-
-msgid "Beginner's guide"
-msgstr ""
-
-msgid "Data user's guide"
-msgstr ""
-
-msgid "Nybörjares guide"
-msgstr ""
-
-msgid "Data användares guide"
-msgstr ""
+msgid "The response failed verification so will not be processed."
+msgstr "Gensvaret misslyckades med verifiering så det kommer inte behandlas."
 
 msgid ""
-"Menu links with lower weights are displayed before links with higher "
-"weights."
+"The selected file %filename cannot be uploaded. Only files with the "
+"following extensions are allowed: %extensions."
 msgstr ""
-"Menu links with lower weights are displayed before links with higher "
-"weights."
+"Den valda filen %filename kan inte laddas upp. Endast filer med följande "
+"ändelser är tillåtna: %extensions."
 
-msgid "Disqus Comments"
-msgstr ""
-
-msgid "Users can post comments using <a href=\":disqus\">Disqus</a>."
+msgid "Register to be publisher"
 msgstr ""
 
-msgid "Disqus identifier"
+msgid "Become publisher"
 msgstr ""
 
-msgid ""
-"Unique identifier of the Disqus thread. \"[entity-type]/[entity-id]\" is "
-"used if not set. Changing this might cause comments to disappear. Use "
-"extreme caution!"
+msgctxt "datasetlist offer data register"
+msgid "Become publisher"
 msgstr ""
 
-msgid ""
-"If you made a significant change, which means the other translations should "
-"be updated, you can flag all translations of this content as outdated. This "
-"will not change any other property of them, like whether they are published "
-"or not."
-msgstr ""
-"If you made a significant change, which means the other translations should "
-"be updated, you can flag all translations of this content as outdated. This "
-"will not change any other property of them, like whether they are published "
-"or not."
-
-msgid "Generate automatic URL alias"
-msgstr "Generera automatiska URL-alias"
-
-msgid ""
-"Uncheck this to create a custom alias below. <a "
-"href=\"@admin_link\">Configure URL alias patterns.</a>"
+msgid "Publishers"
 msgstr ""
 
-msgid ""
-"Specify an alternative path by which this data can be accessed. For example,"
-" type \"/about\" when writing an about page."
-msgstr ""
-"Ange en alternativ sökväg där dessa data kan nås. Skriv till exempel \"/om\""
-" när du skriver en sida \"om webbplatsen\"."
+msgid "News and articles"
+msgstr "Aktuellt"
 
-msgid ""
-"Changing the text format to %text_format will permanently remove content "
-"that is not allowed in that text format.<br><br>Save your changes before "
-"switching the text format to avoid losing data."
-msgstr ""
-"Changing the text format to %text_format will permanently remove content "
-"that is not allowed in that text format.<br><br>Save your changes before "
-"switching the text format to avoid losing data."
-
-msgid "Rich Text Editor, !label field"
+msgid "Guide"
 msgstr ""
 
-msgid "Expand all"
+msgid "Calendar of events"
 msgstr ""
+
+msgid "More options"
+msgstr ""
+
+msgid "Update notifications"
+msgstr "Meddelanden om uppdateringar"
+
+msgid "PHP OPcode caching"
+msgstr "Cachning av PHP OPcode"
+
+msgid "Devel module enabled"
+msgstr ""
+
+msgid "Add to %shortcut_set shortcuts"
+msgstr "Bifoga till genvägar i %shortcut_set"
+
+msgid "@translated/@total (@ratio%)"
+msgstr "@translated/@total (@ratio%)"
 
 msgid ""
 "This page also provides an overview of how much of the site's interface has "
 "been translated for each configured language."
+msgstr ""
+
+msgid ""
+"Reorder the configured languages to set their order in the language switcher"
+" block and, when editing content, in the list of selectable languages. This "
+"ordering does not impact <a href=\":detection\">detection and selection</a>."
 msgstr ""
 
 msgid ""
@@ -29878,6 +31216,12 @@ msgid ""
 "Interface text can be customized in the <a href=\":translate\">user "
 "interface translation</a> page."
 msgstr ""
+
+msgid "Translate @type_name"
+msgstr "Translate @type_name"
+
+msgid "Right to left"
+msgstr "Höger till vänster"
 
 msgid "Leave blank to show all strings. The search is case sensitive."
 msgstr ""
@@ -29901,8 +31245,8 @@ msgstr ""
 " translation editor.) Searches may be limited to strings in a specific "
 "language."
 
-msgid "Close all"
-msgstr ""
+msgid "The strings have been saved."
+msgstr "Strängarna har sparats."
 
 msgid "Source text only, no translations"
 msgstr "Enbart källtext, inga översättningar"
