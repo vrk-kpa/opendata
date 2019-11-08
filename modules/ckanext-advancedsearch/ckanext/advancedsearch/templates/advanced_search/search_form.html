@@ -1,22 +1,15 @@
+
+{% resource 'advancedsearch/javascript/avoindata-utils.js' %}
 {%- set prev_query = c.advanced_search.last_query -%}
 
 <aside class="secondary col-sm-4 search-options">
   <div id="search-options-header">{{_("Filter search")}}</div>
   <div id="search-options-content">
     <div>
-      <h4>{{_('Features')}}</h4>
-      <div>
-        {% snippet 'advanced_search/display_field.html', field=input_fields.publisher, prev_query=prev_query %}
-      </div>
-      <div>
-        {% snippet 'advanced_search/display_field.html', field=input_fields.category, prev_query=prev_query %}
-      </div>
-      <div>
-        {% snippet 'advanced_search/display_field.html', field=input_fields.license, prev_query=prev_query %}
-      </div>
-      <div>
-        {% snippet 'advanced_search/display_field.html', field=input_fields.format, prev_query=prev_query %}
-      </div>
+      {% snippet 'advanced_search/display_field.html', field=input_fields.publisher, prev_query=prev_query %}
+    </div>
+    <div>
+      {% snippet 'advanced_search/display_field.html', field=input_fields.category, prev_query=prev_query %}
     </div>
     <div>
       {% snippet 'advanced_search/display_field.html', field=input_fields.released, prev_query=prev_query %}
@@ -24,6 +17,17 @@
     <div>
       {% snippet 'advanced_search/display_field.html', field=input_fields.updated, prev_query=prev_query %}
     </div>
+    <hr class="avoindata-divider">
+    <a class="more-options-link" data-expanded="true" data-target="#search-options-extras" data-module="avoindata-utils"><span id="more-options-link-text">{{_("Show less options")}}</span>
+    &nbsp;&nbsp;
+    <i class="fas fa-angle-up"></i></a>
+    <div id="search-options-extras" class="collapse in">
+      <div>
+        {% snippet 'advanced_search/display_field.html', field=input_fields.license, prev_query=prev_query %}
+      </div>
+      <div>
+        {% snippet 'advanced_search/display_field.html', field=input_fields.format, prev_query=prev_query %}
+      </div>
+    </div>
   </div>
-
 </aside>

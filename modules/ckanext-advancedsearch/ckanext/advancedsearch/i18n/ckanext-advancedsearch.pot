@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-10-29 07:39+0000\n"
+"POT-Creation-Date: 2019-11-06 13:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,8 +32,8 @@ msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:19
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:38
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:71
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:77
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:72
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:78
 #: ckanext/advancedsearch/translations.py:11
 msgid "All"
 msgstr ""
@@ -90,44 +90,99 @@ msgstr ""
 msgid "Search datasets"
 msgstr ""
 
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:23
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:28
+#: ckanext/advancedsearch/translations.py:25
+msgid "Show more options"
+msgstr ""
+
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:33
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:38
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:21
+#: ckanext/advancedsearch/translations.py:26
+msgid "Show less options"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:43
+#: ckanext/advancedsearch/translations.py:27
+msgid "Not selected"
+msgstr ""
+
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:46
+#: ckanext/advancedsearch/translations.py:28
+msgid "Are you sure you want to clear all filters?"
+msgstr ""
+
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:16
+msgid "Clear all"
+msgstr ""
+
 #: ckanext/advancedsearch/templates/advanced_search/index.html:11
 #: ckanext/advancedsearch/templates/advanced_search/index.html:42
 #: ckanext/advancedsearch/templates/advanced_search/index.html:43
-#: ckanext/advancedsearch/templates/advanced_search/index.html:58
+#: ckanext/advancedsearch/templates/advanced_search/index.html:57
 msgid "Advanced search"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:75
+#: ckanext/advancedsearch/templates/advanced_search/index.html:74
 msgid "Filters"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:78
-msgid "AND"
+msgid "and"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:83
-msgid "OR"
+msgid "or"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:95
+msgid "Relevance"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:96
+msgid "Name Ascending"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:97
+msgid "Name Descending"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:98
+msgid "Last Modified"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:99
+msgid "Date Created Ascending"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:100
+msgid "Date Created Descending"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:101
+msgid "Source"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:102
+msgid "Popular"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:106
 msgid "Found {count} datasets"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:4
+#: ckanext/advancedsearch/templates/advanced_search/index.html:109
+msgid "Sorting"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:6
 msgid "Filter search"
-msgstr ""
-
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:7
-msgid "Features"
-msgstr ""
-
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
-msgid "Choose"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:20
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:35
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:43
 msgid "selected"
 msgstr ""
 

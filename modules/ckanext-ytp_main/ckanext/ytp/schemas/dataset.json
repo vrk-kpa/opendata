@@ -102,14 +102,13 @@
     {
       "field_name": "maintainer_email",
       "label": "Maintainer email",
-      "form_placeholder": "joe@example.com",
+      "form_placeholder": "eg. joe@example.com",
       "form_attrs": {
         "class": "form-control"
       },
       "display_property": "dc:contributor",
       "display_snippet": "email.html",
       "validators": "not_empty email_validator",
-      "display_email_name_field": "maintainer",
       "required": true
     },
     {

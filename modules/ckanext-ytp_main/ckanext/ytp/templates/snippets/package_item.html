@@ -13,7 +13,7 @@ Example:
   {% snippet 'snippets/package_item.html', package=c.datasets[0] %}
 
 #}
-{% set truncate = truncate or 400 %}
+{% set truncate = truncate or 220 %}
 {% set truncate_title = truncate_title or 120 %}
 {% set title = h.extra_translation(package, 'title', fallback=package.name) %}
 {% set notes = h.markdown_extract(h.extra_translation(package, 'notes', markdown=False), extract_length=truncate) %}
