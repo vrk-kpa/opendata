@@ -4,8 +4,7 @@
     "commit": "{{env `CIRCLE_SHA1` }}",
     "build": "{{env `CIRCLE_BUILD_NUM` }}",
     "packer_instance_profile": "{{env `AWS_PACKER_EC2_INSTANCE_PROFILE` }}",
-    "aws_production_account_id": "{{env `AWS_PRODUCTION_ACCOUNT_ID` }}",
-    "aws_ami_encryption_key_id": "{{env `AWS_AMI_ENCRYPTION_ID` }}"
+    "aws_production_account_id": "{{env `AWS_PRODUCTION_ACCOUNT_ID` }}"
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -30,11 +29,6 @@
     "snapshot_users": [
       "{{ user `aws_production_account_id` }}"
     ],
-    "launch_block_device_mappings": [{
-        "device_name": "/dev/sda1",
-        "encrypted": true,
-        "kms_key_id": "{{ user `aws_ami_encryption_key_id` }}"
-    }],
     "iam_instance_profile": "{{ user `packer_instance_profile` }}",
     "run_tags": {
       "Branch": "{{ user `branch` }}",
