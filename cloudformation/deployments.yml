@@ -8,11 +8,6 @@ Parameters:
   ProdEnvironmentName:
     Description: Name of the deployment target environment for production deployments (infratest, beta, prod)
     Type: 'AWS::SSM::Parameter::Value<String>'
-    Default: /prod/web/environment_name
-  AmiCmkArn:
-    Type: 'AWS::SSM::Parameter::Value<String>'
-    Default: /build/ami_cmk_arn
-
 
 Resources:
   DeploymentRole:
@@ -130,13 +125,3 @@ Resources:
                 Resource:
                   - "arn:aws:s3:::avoindata-clamav-scan"
                   - "arn:aws:s3:::avoindata-clamav-scan/*"
-              - Effect: Allow
-                Action:
-                  - "kms:DescribeKey"
-                  - "kms:Encrypt"
-                  - "kms:Decrypt"
-                  - "kms:ReEncrypt*"
-                  - "kms:GenerateDataKey"
-                  - "kms:GenerateDataKeyWithoutPlaintext"
-                  - "kms:CreateGrant"
-                Resource: !Ref AmiCmkArn
