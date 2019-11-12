@@ -33,13 +33,13 @@ class YtpAdvancedSearchController(base.BaseController):
         q = ''
         main_query_field = schema['main_query_field']
 
+        options = {}
+
         if request.method == 'POST':
             # Use the field labelled as the main_query to build the value for q
             # TODO: Handle no main_query_field provided
             main_query_helper = query_helper(schema['input_fields'].get(main_query_field))
             q = main_query_helper(main_query_field, request.POST, schema['input_fields'], context)
-
-            options = {}
 
             # Iterate through all fields in schema except the main_query_field
             # and process every field with the provided query_helper
