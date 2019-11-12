@@ -10,6 +10,7 @@ from ckan.logic import get_action
 
 log = logging.getLogger(__name__)
 
+
 class YtpAdvancedSearchController(base.BaseController):
     def search(self):
         from ckan import model
