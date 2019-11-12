@@ -63,7 +63,6 @@ class YtpAdvancedSearchController(base.BaseController):
                     if res:
                         search_query_filters.append(res)
 
-
         sort_string = request.POST.get('sort', 'metadata_created desc')
 
         data_dict = {
