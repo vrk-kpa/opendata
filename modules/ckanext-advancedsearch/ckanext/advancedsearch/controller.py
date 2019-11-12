@@ -3,19 +3,19 @@ import math
 import json
 
 import ckan.lib.base as base
-from helpers import advancedsearch_schema, query_helper
+from helpers import advancedsearch_schema, query_helper, field_options
 from ckan.common import c, request
 from ckan.lib.base import render
 from ckan.logic import get_action
 
 log = logging.getLogger(__name__)
 
-
 class YtpAdvancedSearchController(base.BaseController):
     def search(self):
         from ckan import model
 
         schema = advancedsearch_schema()
+
         context = {
             'model': model,
             'session': model.Session,
@@ -38,6 +38,8 @@ class YtpAdvancedSearchController(base.BaseController):
             main_query_helper = query_helper(schema['input_fields'].get(main_query_field))
             q = main_query_helper(main_query_field, request.POST, schema['input_fields'], context)
 
+            options = {}
+
             # Iterate through all fields in schema except the main_query_field
             # and process every field with the provided query_helper
             for key, val in schema['input_fields'].iteritems():
@@ -51,6 +53,15 @@ class YtpAdvancedSearchController(base.BaseController):
                     res = query_helper_function(key, request.POST, schema['input_fields'], context)
                     if res:
                         search_query_filters.append(res)
+
+                # Make a list of field options
+                options[key] = field_options(val)
+
+                """ options_helper = val.get('options_helper', None)
+
+                if options_helper:
+                    options = [options_helper]
+                    print(options) """
 
         sort_string = request.POST.get('sort', 'metadata_created desc')
 
@@ -89,7 +100,8 @@ class YtpAdvancedSearchController(base.BaseController):
             "last_query": params_to_dict(request.POST),
             "json_query": json_query,
             "filters": filters,
-            "sort_string": sort_string
+            "sort_string": sort_string,
+            "field_options": options
             }
         c.advanced_search['last_query']['page'] = page
 
