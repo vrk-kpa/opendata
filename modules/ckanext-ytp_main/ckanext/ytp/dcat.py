@@ -1,6 +1,6 @@
 from rdflib import URIRef, BNode, Literal
 from rdflib.namespace import RDF, XSD
-from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS
+from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX
 from ckanext.dcat.utils import resource_uri
 from ckan.plugins import toolkit as p
 
@@ -11,7 +11,8 @@ namespaces = {
     'foaf': FOAF,
     'skos': SKOS,
     'adms': ADMS,
-    'xsd': XSD
+    'xsd': XSD,
+    'spdx': SPDX
 }
 
 
@@ -24,13 +25,13 @@ class AvoindataDCATAPProfile(RDFProfile):
         Recommended:  dcat:contactPoint, dcat:distribution, dcat:keyword
                       dct:publisher, dcat:theme
         Optional: dcat:landingPage, dct:spatial, dct:accuralPeriodicity, dct:type,
-                  dct:identifier, dct:temporal, dct:issued
+                  dct:identifier, dct:temporal, dct:issued, dct:rights
 
     Supported distribution fields:
         Mandatory: dct:accessUrl
         Recommended: dct:description
         Optional: dct:title, dct:downloadUrl, adms:status, dct:license, dct:format,
-                  dcat:byteSize
+                  dcat:byteSize, dcat:temporalResolution, spdx:checksum
     '''
 
     #
@@ -85,6 +86,11 @@ class AvoindataDCATAPProfile(RDFProfile):
             for description in descriptions:
                 g.add((distribution, DCT.description, Literal(description)))
 
+            # dct:rights
+            rights_statements = (n for n in set(dataset_dict.get('copyright_notice_translated').values()) if n)
+            for rights_statement in rights_statements:
+                g.add((distribution, DCT.rights, Literal(rights_statement)))
+
             # dcat:accessUrl
             g.add((distribution, DCAT.accessUrl, URIRef(resource_uri(resource_dict))))
 
@@ -119,6 +125,18 @@ class AvoindataDCATAPProfile(RDFProfile):
 
             if file_size:
                 g.add((distribution, DCAT.byteSize, Literal(file_size)))
+
+            # spdx:checksum
+            checksum = resource_dict.get('sha256')
+
+            if checksum:
+                g.add((distribution, SPDX.checksum, Literal(checksum)))
+
+            # dcat:temporalResolution
+            temporal_granularities = set(t for lang in resource_dict.get('temporal_granularity').values() for t in lang if t)
+
+            for temporal_granularity in temporal_granularities:
+                g.add((distribution, DCAT.temporalResolution, Literal(temporal_granularity)))
 
         # dcat:keyword
         keywords = set(
