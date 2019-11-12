@@ -35,6 +35,14 @@ class YtpAdvancedSearchController(base.BaseController):
 
         options = {}
 
+        for key, val in schema['input_fields'].iteritems():
+            # Skip field used for main query
+            if key == main_query_field:
+                continue
+
+            # Make a list of field options
+            options[key] = field_options(val)
+
         if request.method == 'POST':
             # Use the field labelled as the main_query to build the value for q
             # TODO: Handle no main_query_field provided
@@ -55,14 +63,6 @@ class YtpAdvancedSearchController(base.BaseController):
                     if res:
                         search_query_filters.append(res)
 
-                # Make a list of field options
-                options[key] = field_options(val)
-
-                """ options_helper = val.get('options_helper', None)
-
-                if options_helper:
-                    options = [options_helper]
-                    print(options) """
 
         sort_string = request.POST.get('sort', 'metadata_created desc')
 
