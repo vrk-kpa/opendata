@@ -86,7 +86,7 @@
   }
 
   label::after {
-    content: '';
+    content: "";
   }
 }
 
@@ -166,7 +166,7 @@
   line-height: 28px;
   color: @new-layout-primary-text-color;
 
-  span:last-of-type {
+  span.avoindata-pill:last-of-type {
     margin-right: 10px;
   }
 }
@@ -214,15 +214,22 @@
   border-radius: 14px;
   height: 28px;
   max-width: 290px;
-  vertical-align: middle;
-  text-align: center;
+
+  .truncate-text {
+    max-width: 255px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+  }
 
   i {
     opacity: 0.8;
     font-size: 12px;
     padding-left: 8px;
     padding-right: 2px;
+    line-height: 28px;
     cursor: pointer;
+    vertical-align: top;
   }
 }
 
