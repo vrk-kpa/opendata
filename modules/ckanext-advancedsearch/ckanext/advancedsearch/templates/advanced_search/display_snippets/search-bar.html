@@ -2,7 +2,7 @@
 {% set field_name = field.field_name %}
 {% set placeholder = field.display_options.placeholder %}
 
-<div class="d-flex">
+<div>
     <!-- Populate input with prev query value -->
     {% set value_or_blank = h.value_or_blank(prev_query, field_name) %}
     {% if value_or_blank %}
@@ -10,9 +10,9 @@
     {% endif %}
 
     {% if label %}
-        <label class="ytp-input-label ytp-inline" for="advanced-search-keywords">{{_(label)}}</label>
+        <label class="ytp-input-label" for="advanced-search-keywords">{{_(label)}}</label>
     {% endif %}
-    <div class="flex-1 ytp-input-with-icon">
+    <div class="ytp-input-with-icon">
         <input
             id="advanced-search-keywords"
             type="text"
