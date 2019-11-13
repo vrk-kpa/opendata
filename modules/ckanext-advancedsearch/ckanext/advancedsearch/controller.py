@@ -89,11 +89,13 @@ class YtpAdvancedSearchController(base.BaseController):
         for key, value in filters.iteritems():
             if u'all' in value:
                 filters[key] = [{'value': u'all', 'label': u'All'}]
+                continue
             if options and options[key]:
                 options_list = []
                 for option in value:
-                    x = next(x for x in options[key] if x.get('value') == option)
-                    options_list.append(x)
+                    x = next((x for x in options[key] if x.get('value') == option), None)
+                    if x:
+                        options_list.append(x)
                 filters[key] = options_list
 
         c.advanced_search = {
