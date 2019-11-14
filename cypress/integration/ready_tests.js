@@ -97,17 +97,16 @@ it('Käyttäjä tarkastelee tietosisältöjä', function() {
         cy.visit('/data/fi/dataset')
         cy.get('a[href="/data/fi/dataset/new"]').click();
         
-        // const timestamp = cy.clock()
-        const dataset_name = 'test_dataset' + 'timestamp';
-        // const dataset_name = 'test_dataset'+ (url_Alpha_Numeric());
-        // const dataset_name = 'Helsinki'); // + (url_Alpha_Numeric());
-        // const dataset_name = 'Espoo'); // + (url_Alpha_Numeric());
-        // const dataset_name = 'Vantaa'); // + (url_Alpha_Numeric());
-        // const dataset_name = 'Turku'), // + (url_Alpha_Numeric());
-        // const dataset_name = 'Tampere'); // + (url_Alpha_Numeric());
-        // const dataset_name = 'Hämeenlinna'); // + (url_Alpha_Numeric());
-        // const dataset_name = 'Lahti'); //+ (url_Alpha_Numeric());
-        // const dataset_name = 'Kotka'); //+ (url_Alpha_Numeric());
+        
+        const dataset_name = 'test_dataset'+ (url_Alpha_Numeric());
+        // const dataset_name = 'Helsinki');
+        // const dataset_name = 'Espoo');
+        // const dataset_name = 'Vantaa');
+        // const dataset_name = 'Turku');
+        // const dataset_name = 'Tampere');
+        // const dataset_name = 'Hämeenlinna');
+        // const dataset_name = 'Lahti');
+        // const dataset_name = 'Kotka');
         cy.create_new_dataset(dataset_name);
    
     
