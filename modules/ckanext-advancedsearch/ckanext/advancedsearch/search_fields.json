@@ -12,7 +12,7 @@
     "dataset_type": {
       "field_name": "dataset_type",
       "label": "Search target",
-      "options": [{"value": "dataset", "label": "Dataset"}, {"value": "showcase", "label": "Showcase"}],
+      "options_helper": "advanced_dataset_types_options",
       "query_helper": "advanced_multiselect_query()",
       "display_snippet": "multiselect.html",
       "display_options": {
