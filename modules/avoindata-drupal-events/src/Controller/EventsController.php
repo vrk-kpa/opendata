@@ -31,7 +31,7 @@ class EventsController extends ControllerBase {
     $currentDateTime->setTimezone(new \DateTimezone(DATETIME_STORAGE_TIMEZONE));
     $formattedcurrentDateTime = $currentDateTime->format(DATETIME_DATETIME_STORAGE_FORMAT);
 
-    $sort = $request->query->get('sort');
+    $sort = $request->query->get('sort') ?: 'asc';
     $searchterm = $request->query->get('search');
     $showpast = $request->query->get('past');
 
