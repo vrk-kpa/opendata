@@ -99,15 +99,7 @@ it('Käyttäjä tarkastelee tietosisältöjä', function() {
         
         
         const dataset_name = 'test_dataset'+ (url_Alpha_Numeric());
-        // const dataset_name = 'Helsinki');
-        // const dataset_name = 'Espoo');
-        // const dataset_name = 'Vantaa');
-        // const dataset_name = 'Turku');
-        // const dataset_name = 'Tampere');
-        // const dataset_name = 'Hämeenlinna');
-        // const dataset_name = 'Lahti');
-        // const dataset_name = 'Kotka');
-        cy.create_new_dataset(dataset_name);
+           cy.create_new_dataset(dataset_name);
    
     
         const dataset_form_data = {
