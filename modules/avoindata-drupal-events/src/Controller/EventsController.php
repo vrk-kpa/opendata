@@ -52,12 +52,12 @@ class EventsController extends ControllerBase {
     if (empty($showpast) or (!empty($showpast) and strcmp($showpast, 'false') == 0)) {
       $emptyOrNotPastTitles = $eventNodeIdsTitleQuery
         ->orConditionGroup()
-          ->notExists('field_end_date')
-          ->condition('field_end_date', $formattedcurrentDateTime, '>=');
+        ->notExists('field_end_date')
+        ->condition('field_end_date', $formattedcurrentDateTime, '>=');
       $emptyOrNotPastBodies = $eventNodeIdsBodyQuery
         ->orConditionGroup()
-          ->notExists('field_end_date')
-          ->condition('field_end_date', $formattedcurrentDateTime, '>=');
+        ->notExists('field_end_date')
+        ->condition('field_end_date', $formattedcurrentDateTime, '>=');
 
       $eventNodeIdsTitleQuery = $eventNodeIdsTitleQuery->condition($emptyOrNotPastTitles);
       $eventNodeIdsBodyQuery = $eventNodeIdsBodyQuery->condition($emptyOrNotPastBodies);
