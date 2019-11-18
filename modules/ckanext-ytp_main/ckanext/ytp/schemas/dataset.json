@@ -252,12 +252,13 @@
       "required": true
     },
     {
-      "field_name": "file_size",
+      "field_name": "size",
       "form_attrs": {
         "class": "form-control"
       },
       "label": "Size",
-      "description": "Size of the added resouce file in bytes. Will be automatically filled when the file is uploaded."
+      "description": "Size of the added resouce file in bytes. Will be automatically filled when the file is uploaded.",
+      "validators": "ignore_missing int_validator"
     },
     {
       "field_name": "format",
