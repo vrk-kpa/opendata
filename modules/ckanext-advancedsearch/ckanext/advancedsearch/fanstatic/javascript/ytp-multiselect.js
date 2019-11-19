@@ -12,10 +12,6 @@ ckan.module("ytp-multiselect", function($) {
       $.proxyAll(this, /_make/);
       $.proxy(this, /checkboxes/);
 
-      document.addEventListener('focusin', (e) => {
-        this.el.removeClass('expanded');
-      });
-
       // Collapse all multiselect dropdowns when clicking anywhere except within the current multiselect dropdown
       $(document).click(function(e) {
         // Check if click was triggered on or within .ytp-multiselect element
@@ -34,7 +30,19 @@ ckan.module("ytp-multiselect", function($) {
       // Add dropdown toggle event to main button
       this.el
         .find(".ytp-multiselect-toggle")
-        .on("click", () => this._onToggleMultiSelect(this.el));
+        .on("click", (e) => {
+          if (this.el.hasClass("expanded")) {
+            $(".ytp-multiselect.expanded").removeClass("expanded");
+            this.el.addClass("expanded");
+          } else {
+            $(".ytp-multiselect.expanded").removeClass("expanded");
+          }
+          if (changes) {
+            $(".advanced-search-form").submit();
+          }
+          this._onToggleMultiSelect(this.el);
+        });
+
 
       // Find all inputs with id's starting with {name}-checkbox
       // and add a click event to them

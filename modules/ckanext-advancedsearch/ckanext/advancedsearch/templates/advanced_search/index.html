@@ -82,7 +82,7 @@
                         {% if loop.index > 1 %}
                           <span class="avoindata-filter-group-or">{{_('or')}}</span>
                         {% endif %}
-                        <span class="avoindata-pill badge badge-pill" data-module="clear-filter" data-query="{{c.advanced_search.json_query}}" data-key="{{key}}" data-value="{{value}}">{{_(value)}}<i class="fal fa-times"></i>
+                        <span class="avoindata-pill badge badge-pill" data-module="clear-filter" data-query="{{c.advanced_search.json_query}}" data-key="{{key}}" data-value="{{value.value}}"><span class="truncate-text">{{_(value.label)}}</span><i class="fal fa-times"></i>
                         </span>
                       {% endfor %}
                     {% endfor %}
