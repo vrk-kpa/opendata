@@ -50,10 +50,17 @@ class EventsController extends ControllerBase {
     }
 
     if (empty($showpast) or (!empty($showpast) and strcmp($showpast, 'false') == 0)) {
-      $eventNodeIdsTitleQuery = $eventNodeIdsTitleQuery
-        ->condition('field_start_date', $formattedcurrentDateTime, '>=');
-      $eventNodeIdsBodyQuery = $eventNodeIdsBodyQuery
-        ->condition('field_start_date', $formattedcurrentDateTime, '>=');
+      $emptyOrNotPastTitles = $eventNodeIdsTitleQuery
+        ->orConditionGroup()
+        ->notExists('field_end_date')
+        ->condition('field_end_date', $formattedcurrentDateTime, '>=');
+      $emptyOrNotPastBodies = $eventNodeIdsBodyQuery
+        ->orConditionGroup()
+        ->notExists('field_end_date')
+        ->condition('field_end_date', $formattedcurrentDateTime, '>=');
+
+      $eventNodeIdsTitleQuery = $eventNodeIdsTitleQuery->condition($emptyOrNotPastTitles);
+      $eventNodeIdsBodyQuery = $eventNodeIdsBodyQuery->condition($emptyOrNotPastBodies);
     }
 
     $eventNodeIdsTitle = $eventNodeIdsTitleQuery
