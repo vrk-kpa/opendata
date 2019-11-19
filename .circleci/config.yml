@@ -88,7 +88,7 @@ jobs:
             - v1-dependencies-
 
       - run:
-          command: composer install -n --prefer-dist
+          command: php -d memory_limit=-1 /usr/local/bin/composer install -n --prefer-dist
           working_directory: ~/project/ansible/roles/drupal/files/drupal8/
 
       - run:

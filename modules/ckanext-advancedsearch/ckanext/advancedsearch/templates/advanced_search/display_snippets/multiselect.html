@@ -1,6 +1,5 @@
 {% set label = field.label %}
 {% set name = field.field_name %}
-{% set options = h.field_options(field) %}
 {% set allow_select_all = field.display_options.allow_select_all %}
 {% set prev_selected = h.value_or_blank(prev_query, name) %}
 
@@ -9,7 +8,6 @@
 {% endif %}
 
 {% resource 'advancedsearch/javascript/ytp-multiselect.js' %}
-
 
 <div
     class="ytp-multiselect ytp-multiselect-{{name}} mb-3"
