@@ -2092,7 +2092,7 @@ msgstr "Tuottajahierarkia"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:4
 msgid "Showcases"
-msgstr ""
+msgstr "Sovellukset"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:5
 msgid "Showcase submit"

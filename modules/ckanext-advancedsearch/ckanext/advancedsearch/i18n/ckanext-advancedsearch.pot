@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-06 13:01+0000\n"
+"POT-Creation-Date: 2019-11-13 11:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,10 +30,10 @@ msgstr ""
 msgid "Search target"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:19
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:38
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:72
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:78
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:17
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:36
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:70
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:76
 #: ckanext/advancedsearch/translations.py:11
 msgid "All"
 msgstr ""
@@ -98,13 +98,13 @@ msgstr ""
 
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:33
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:38
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:21
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:25
 #: ckanext/advancedsearch/translations.py:26
 msgid "Show less options"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:43
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:41
 #: ckanext/advancedsearch/translations.py:27
 msgid "Not selected"
 msgstr ""
@@ -112,6 +112,14 @@ msgstr ""
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:46
 #: ckanext/advancedsearch/translations.py:28
 msgid "Are you sure you want to clear all filters?"
+msgstr ""
+
+#: ckanext/advancedsearch/translations.py:29
+msgid "Datasets"
+msgstr ""
+
+#: ckanext/advancedsearch/translations.py:30
+msgid "Showcases"
 msgstr ""
 
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:16
@@ -177,12 +185,12 @@ msgstr ""
 msgid "Sorting"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:6
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:7
 msgid "Filter search"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:20
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:35
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:18
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:33
 msgid "selected"
 msgstr ""
 

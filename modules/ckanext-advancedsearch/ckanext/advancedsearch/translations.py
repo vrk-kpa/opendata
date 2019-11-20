@@ -26,3 +26,5 @@ def _translations():
     _("Show less options")
     _("Not selected")
     _("Are you sure you want to clear all filters?")
+    _("Datasets")
+    _("Showcases")

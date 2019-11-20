@@ -9,6 +9,16 @@
         "placeholder": "Search datasets"
       }
     },
+    "dataset_type": {
+      "field_name": "dataset_type",
+      "label": "Search target",
+      "options_helper": "advanced_dataset_types_options",
+      "query_helper": "advanced_multiselect_query()",
+      "display_snippet": "multiselect.html",
+      "display_options": {
+        "allow_select_all": true
+      }
+    },
     "category": {
       "field_name": "category",
       "label": "Category",

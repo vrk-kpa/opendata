@@ -1,5 +1,6 @@
 from ckan.plugins.toolkit import get_action, check_access, c
 from ckan import model
+from ckan.common import _
 
 # TODO: Should not be cross dependant to ckanext.ytp
 # This is specific to ytp
@@ -112,6 +113,12 @@ def advanced_license_options(field=None):
     licenses = get_action('license_list')(context)
 
     return make_options(licenses)
+
+
+def advanced_dataset_types_options(field=None):
+    dataset_types = [{"value": "dataset", "label": _("Datasets")}, {"value": "showcase", "label": _("Showcases")}]
+
+    return make_options(dataset_types, value="value", label="label")
 
 
 def advanced_format_options(field=None):
