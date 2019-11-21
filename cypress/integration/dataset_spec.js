@@ -68,7 +68,11 @@ describe('Dataset tests', function() {
       .then(function (href) {
         cy.request(href).its('status')
           .should('eq', 200)
-    })
+    });
+
+    // File size should be calculated automatically
+    cy.get('dt').contains('Tiedostokoko').next()
+      .should('have.text', '4123652');
   });
 
   it('Create a dataset with all fields', function() {
