@@ -1,11 +1,35 @@
 # Avoindata.fi DCAT-AP extension
 
+## Vocabularies
+
+Prefix | URI
+-------|----
+adms | http://www.w3.org/ns/adms#
+dcat | http://www.w3.org/ns/dcat#
+dcatap | http://data.europa.eu/r5r/
+dct | http://purl.org/dc/terms/
+foaf | http://xmlns.com/foaf/0.1/
+locn | http://www.w3.org/ns/locn#
+owl | http://www.w3.org/2002/07/owl#
+odrl | http://www.w3.org/ns/odrl/2/
+rdfs | http://www.w3.org/2000/01/rdf-schema#
+schema | http://schema.org/
+skos | http://www.w3.org/2004/02/skos/core#
+spdx | http://spdx.org/rdf/terms#
+xsd | http://www.w3.org/2001/XMLSchema#
+vann | http://purl.org/vocab/vann/
+voaf | http://purl.org/vocommons/voaf#
+vcard | http://www.w3.org/2006/vcard/ns#
+
+
 ## Classes
 
 
-### adfi:Catalog
+### Catalogue [adfi:Catalog]
 
 #### Properties
+
+
 ##### Mandatory
 Term | Range | Cardinality | Comment
 -----|-------|-------------|--------
@@ -13,7 +37,7 @@ dcat:dataset | dcat:Dataset | 1..n | This property links the Catalogue with a Da
 dct:description | rdfs:Literal | 1..n | This property contains a free-text account of the Catalogue. This property can be repeated for parallel language versions of the description. For further information on multilingual issues, please refer to section 8.
 dct:publisher | foaf:Agent | 1..1 | This property refers to an entity (organisation) responsible for making the Catalogue available.
 dct:title | rdfs:Literal | 1..n | This property contains a name given to the Catalogue. This property can be repeated for parallel language versions of the name.
-
+ 
 
 ##### Recommended
 Term | Range | Cardinality | Comment
@@ -25,7 +49,7 @@ dct:issued | rdfs:Literal typed as xsd:date or xsd:dateTime | 0..1 | This proper
 dct:spatial | dct:Location | 0..n | This property refers to a geographical area covered by the Catalogue.
 dcat:themeTaxonomy | skos:ConceptScheme | 0..n | This property refers to a knowledge organization system used to classify the Catalogue's Datasets.
 dct:modified | rdfs:Literal typed as xsd:date or xsd:dateTime | 0..1 | This property contains the most recent date on which the Catalogue was modified.
-
+ 
 
 ##### Optional
 Term | Range | Cardinality | Comment
@@ -37,17 +61,20 @@ dct:rights | dct:RightsStatement | 0..1 | This property refers to a statement th
 dcat:service | dcat:DataService | 0..n | This property refers to a site or end-point that is listed in the catalog.
 dcat:catalog | dcat:Catalog | 0..n | This property refers to a catalog whose contents are of interest in the context of this catalog
 dct:creator | foaf:Agent | 0..1 | This property refers to the  entity primarily responsible for producing the catalogue
+ 
+ 
 
-
-### adfi:Dataset
+### Dataset [adfi:Dataset]
 
 #### Properties
+
+
 ##### Mandatory
 Term | Range | Cardinality | Comment
 -----|-------|-------------|--------
 dct:description | rdfs:Literal | 1..n | This property contains a free-text account of the Dataset. This property can be repeated for parallel language versions of the description.
 dct:title | rdfs:Literal | 1..n | This property contains a name given to the Dataset. This property can be repeated for parallel language versions of the name.
-
+ 
 
 ##### Recommended
 Term | Range | Cardinality | Comment
@@ -59,7 +86,7 @@ dct:publisher | foaf:Agent | 0..1 | This property refers to an entity (organisat
 dct:spatial | dct:Location | 0..n | This property refers to a geographic region that is covered by the Dataset.
 dct:temporal | dct:PeriodOfTime | 0..n | This property refers to a temporal period that the Dataset covers.
 dcat:theme, subproperty of dct:subject | skos:Concept | 0..n | This property refers to a category of the Dataset. A Dataset may be associated with multiple themes.
-
+ 
 
 ##### Optional
 Term | Range | Cardinality | Comment
@@ -90,16 +117,19 @@ dct:modified | rdfs:Literal typed as xsd:date or xsd:dateTime | 0..1 | This prop
 owl:versionInfo | rdfs:Literal | 0..1 | This property contains a version number or other version designation of the Dataset.
 adms:versionNotes | rdfs:Literal | 0..n | This property contains a description of the differences between this version and a previous version of the Dataset. This property can be repeated for parallel language versions of the version notes.
 prov:wasGeneratedBy | prov:Activity | 0..n | This property refers to an activity that generated, or provides the business context for, the creation of the dataset.
+ 
+ 
 
-
-### adfi:Distribution
+### Distribution [adfi:Distribution]
 
 #### Properties
+
+
 ##### Mandatory
 Term | Range | Cardinality | Comment
 -----|-------|-------------|--------
 dcat:accessURL | rdfs:Resource | 1..n | This property contains a URL that gives access to a Distribution of the Dataset. The resource at the access URL may contain information about how to get the Dataset.
-
+ 
 
 ##### Recommended
 Term | Range | Cardinality | Comment
@@ -108,7 +138,7 @@ dcatap:availability | skos:Concept | 0..1 | This property indicates how long it 
 dct:description | rdfs:Literal | 0..n | This property contains a free-text account of the Distribution. This property can be repeated for parallel language versions of the description.
 dct:format | dct:MediaTypeOrExtent | 0..1 | This property refers to the file format of the Distribution.
 dct:license | dct:LicenseDocument | 0..1 | This property refers to the licence under which the Distribution is made available.
-
+ 
 
 ##### Optional
 Term | Range | Cardinality | Comment
@@ -129,19 +159,23 @@ dct:rights | dct:RightsStatement | 0..1 | This property refers to a statement th
 dcat:spatialResolutionInMeters | xsd:decimal | 0..n | This property refers to the  minimum spatial separation resolvable in a dataset distribution, measured in meters.
 adms:status | skos:Concept | 0..1 | This property refers to the maturity of the Distribution. It MUST take one of the values Completed, Deprecated, Under Development, Withdrawn.
 dcat:temporalResolution | xsd:duration | 0..n | This property refers to the minimum time period resolvable in the dataset distribution.
+**dct:temporal** | dct:PeriodOfTime | 0..n | This property refers to a temporal period that the Distribution covers.
 dct:title | rdfs:Literal | 0..n | This property contains a name given to the Distribution. This property can be repeated for parallel language versions of the description.
 dct:modified | rdfs:Literal typed as xsd:date or xsd:dateTime | 0..1 | This property contains the most recent date on which the Distribution was changed or modified.
+ 
+ 
 
-
-### adfi:CatalogueRecord
+### Catalogue Record [adfi:CatalogueRecord]
 
 #### Properties
+
+
 ##### Mandatory
 Term | Range | Cardinality | Comment
 -----|-------|-------------|--------
 foaf:primaryTopic | dcat:Dataset or dcat:Dataservice or dcat:Catalog | 1..1 | This property links the Catalogue Record to the Dataset, Data service or Catalog described in the record.
 dct:modified | rdfs:Literal typed as xsd:date or xsd:dateTime | 1..1 | This property contains the most recent date on which the Catalogue entry was changed or modified.
-
+ 
 
 ##### Recommended
 Term | Range | Cardinality | Comment
@@ -149,7 +183,7 @@ Term | Range | Cardinality | Comment
 dct:conformsTo | dct:Standard | 0..1 | This property refers to an Application Profile that the Dataset’s metadata conforms to
 adms:status | skos:Concept | 0..1 | This property refers to the type of the latest revision of a Dataset's entry in the Catalogue.
 dct:issued | rdfs:Literal typed as xsd:date or xsd:dateTime | 0..1 | This property contains the date on which the description of the Dataset was included in the Catalogue.
-
+ 
 
 ##### Optional
 Term | Range | Cardinality | Comment
@@ -158,24 +192,27 @@ dct:description | rdfs:Literal | 0..n | This property contains a free-text accou
 dct:language | dct:LinguisticSystem | 0..n | This property refers to a language used in the textual metadata describing titles, descriptions, etc. of the Dataset. This property can be repeated if the metadata is provided in multiple languages.
 dct:source | dcat:CatalogRecord | 0..1 | This property refers to the original metadata that was used in creating metadata for the Dataset
 dct:title | rdfs:Literal | 0..n | This property contains a name given to the Catalogue Record. This property can be repeated for parallel language versions of the name.
+ 
+ 
 
-
-### adfi:DataService
+### Data Service [adfi:DataService]
 
 #### Properties
+
+
 ##### Mandatory
 Term | Range | Cardinality | Comment
 -----|-------|-------------|--------
 dcat:endpointURL | rdfs:Resource | 1..n | The root location or primary endpoint of the service (an IRI).
 dct:title | rdfs:Literal | 1..n | This property contains a name given to the Data Service. This property can be repeated for parallel language versions of the name.
-
+ 
 
 ##### Recommended
 Term | Range | Cardinality | Comment
 -----|-------|-------------|--------
 dcat:endpointDescription | rdfs:Resource | 0..n | This property contains a  description of the services available via the end-points, including their operations, parameters etc.The property gives specific details of the actual endpoint instances, while dct:conformsTo is used to indicate the general standard or specification that the endpoints implement.
 dcat:servesDataset | dcat:Dataset | 0..n | This property refers to a collection of data that this data service can distribute.
-
+ 
 
 ##### Optional
 Term | Range | Cardinality | Comment
@@ -183,5 +220,6 @@ Term | Range | Cardinality | Comment
 dct:accessRights | dct:RightsStatement | 0..1 | This property MAY include information regarding access or restrictions based on privacy, security, or other policies.
 dct:description | rdfs:Literal | 0..n | This property contains a free-text account of the Data Service. This property can be repeated for parallel language versions of the description.
 dct:license | dct:LicenseDocument | 0..1 | This property contains  the licence under which the Data service is made available.
-
-
+ 
+ 
+ 

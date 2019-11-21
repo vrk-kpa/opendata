@@ -1,3 +1,36 @@
+vocabularies:
+  - prefix: adms
+    uri: "http://www.w3.org/ns/adms#"
+  - prefix: dcat
+    uri: "http://www.w3.org/ns/dcat#"
+  - prefix: dcatap
+    uri: "http://data.europa.eu/r5r/"
+  - prefix: dct
+    uri: "http://purl.org/dc/terms/"
+  - prefix: foaf
+    uri: "http://xmlns.com/foaf/0.1/"
+  - prefix: locn
+    uri: "http://www.w3.org/ns/locn#"
+  - prefix: owl
+    uri: "http://www.w3.org/2002/07/owl#"
+  - prefix: odrl
+    uri: "http://www.w3.org/ns/odrl/2/"
+  - prefix: rdfs
+    uri: "http://www.w3.org/2000/01/rdf-schema#"
+  - prefix: schema
+    uri: "http://schema.org/"
+  - prefix: skos
+    uri: "http://www.w3.org/2004/02/skos/core#"
+  - prefix: spdx
+    uri: "http://spdx.org/rdf/terms#"
+  - prefix: xsd
+    uri: "http://www.w3.org/2001/XMLSchema#"
+  - prefix: vann
+    uri: "http://purl.org/vocab/vann/"
+  - prefix: voaf
+    uri: "http://purl.org/vocommons/voaf#"
+  - prefix: vcard
+    uri: "http://www.w3.org/2006/vcard/ns#"
 classes:
   - title: Catalogue
     term: adfi:Catalog
@@ -468,6 +501,13 @@ classes:
           description: This property refers to the minimum time period resolvable in the dataset distribution.
           min: 0
           max: n
+        - name: temporal coverage
+          term: dct:temporal
+          range: dct:PeriodOfTime
+          description: This property refers to a temporal period that the Distribution covers.
+          min: 0
+          max: n
+          extension: True
         - name: title
           term: dct:title
           range: rdfs:Literal

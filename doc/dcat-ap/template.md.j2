@@ -1,29 +1,27 @@
 # Avoindata.fi DCAT-AP extension
 
+## Vocabularies
+
+Prefix | URI
+-------|----
+{% for vocabulary in vocabularies -%}
+{{ vocabulary.prefix }} | {{ vocabulary.uri }}
+{% endfor %}
+
 ## Classes
 
 {% for class in classes %}
-### {{ class.term }}
+### {{ class.title }} [{{ class.term }}]
 
 #### Properties
-##### Mandatory
-Term | Range | Cardinality | Comment
------|-------|-------------|--------
-{% for property in class.properties.mandatory -%}
-{{ property.term }} | {{ property.range }} | {{ property.min }}..{{ property.max }} | {{ property.description }}
-{% endfor %}
 
-##### Recommended
+{% for level in ['mandatory', 'recommended', 'optional'] %}
+##### {{ level | title }}
 Term | Range | Cardinality | Comment
 -----|-------|-------------|--------
-{% for property in class.properties.recommended -%}
-{{ property.term }} | {{ property.range }} | {{ property.min }}..{{ property.max }} | {{ property.description }}
-{% endfor %}
-
-##### Optional
-Term | Range | Cardinality | Comment
------|-------|-------------|--------
-{% for property in class.properties.optional -%}
-{{ property.term }} | {{ property.range }} | {{ property.min }}..{{ property.max }} | {{ property.description }}
-{% endfor %}
-{% endfor %}
+{% for property in class.properties[level] -%}
+  {% if property.extension %}**{{ property.term }}** {% else %}{{ property.term }} {% endif -%}
+  | {{ property.range }} | {{ property.min }}..{{ property.max }} | {{ property.description }}
+{% endfor %} {# property #}
+{% endfor %} {# level #}
+{% endfor %} {# class #}
