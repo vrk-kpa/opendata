@@ -194,6 +194,20 @@ def advanced_search_and_target_query(keywords_field, target_field):
     return query_helper
 
 
+def advanced_search_query(keywords_field):
+    def query_helper(key, all_params, schema, context):
+        phrase = None
+        if keywords_field in all_params:
+            phrase = all_params.getone(keywords_field)
+
+        # Exit early
+        if not phrase:
+            return '*:*'
+
+        return phrase
+    return query_helper
+
+
 def advanced_daterange_query(custom_key=None):
     def query_helper(key, all_params, schema, context):
         before = ''

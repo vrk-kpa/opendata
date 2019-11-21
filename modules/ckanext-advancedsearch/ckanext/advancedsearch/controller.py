@@ -70,7 +70,9 @@ class YtpAdvancedSearchController(base.BaseController):
             'rows': limit,
             'start': (page - 1) * limit,
             'extras': {},
-            'sort': sort_string
+            'sort': sort_string,
+            'defType': 'edismax',
+            'mm': 0
         }
 
         if search_query_filters:
