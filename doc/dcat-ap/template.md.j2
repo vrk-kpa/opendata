@@ -1,0 +1,29 @@
+# Avoindata.fi DCAT-AP extension
+
+## Classes
+
+{% for class in classes %}
+### {{ class.term }}
+
+#### Properties
+##### Mandatory
+Term | Range | Cardinality | Comment
+-----|-------|-------------|--------
+{% for property in class.properties.mandatory -%}
+{{ property.term }} | {{ property.range }} | {{ property.min }}..{{ property.max }} | {{ property.description }}
+{% endfor %}
+
+##### Recommended
+Term | Range | Cardinality | Comment
+-----|-------|-------------|--------
+{% for property in class.properties.recommended -%}
+{{ property.term }} | {{ property.range }} | {{ property.min }}..{{ property.max }} | {{ property.description }}
+{% endfor %}
+
+##### Optional
+Term | Range | Cardinality | Comment
+-----|-------|-------------|--------
+{% for property in class.properties.optional -%}
+{{ property.term }} | {{ property.range }} | {{ property.min }}..{{ property.max }} | {{ property.description }}
+{% endfor %}
+{% endfor %}
