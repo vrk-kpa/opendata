@@ -1035,7 +1035,9 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
             cookies = {}
             for domain in domains:
-                domain_hash = hashlib.sha256(domain).hexdigest()[:32]
+                # Split domain from : and expect first part to be hostname and second part be port.
+                # Here we ignore the port as drupal seems to ignore the port when generating cookiename hashes
+                domain_hash = hashlib.sha256(domain.split(':')[0]).hexdigest()[:32]
                 cookienames = (template % domain_hash for template in ('SESS%s', 'SSESS%s'))
                 named_cookies = ((name, p.toolkit.request.cookies.get(name)) for name in cookienames)
                 for cookiename, cookie in named_cookies:

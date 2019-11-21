@@ -158,7 +158,7 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((distribution, DCT['format'], media_type))
 
             # dcat:byteSize
-            file_size = resource_dict.get('file_size')
+            file_size = resource_dict.get('size')
 
             if file_size:
                 g.add((distribution, DCAT.byteSize, Literal(file_size, datatype=XSD.decimal)))

@@ -3,7 +3,7 @@ import math
 import json
 
 import ckan.lib.base as base
-from helpers import advancedsearch_schema, query_helper
+from helpers import advancedsearch_schema, query_helper, field_options
 from ckan.common import c, request
 from ckan.lib.base import render
 from ckan.logic import get_action
@@ -16,6 +16,7 @@ class YtpAdvancedSearchController(base.BaseController):
         from ckan import model
 
         schema = advancedsearch_schema()
+
         context = {
             'model': model,
             'session': model.Session,
@@ -31,6 +32,16 @@ class YtpAdvancedSearchController(base.BaseController):
         search_query_filters = []
         q = ''
         main_query_field = schema['main_query_field']
+
+        options = {}
+
+        for key, val in schema['input_fields'].iteritems():
+            # Skip field used for main query
+            if key == main_query_field:
+                continue
+
+            # Make a list of field options
+            options[key] = field_options(val)
 
         if request.method == 'POST':
             # Use the field labelled as the main_query to build the value for q
@@ -77,7 +88,15 @@ class YtpAdvancedSearchController(base.BaseController):
 
         for key, value in filters.iteritems():
             if u'all' in value:
-                filters[key] = [u'all']
+                filters[key] = [{'value': u'all', 'label': u'All'}]
+                continue
+            if options and options[key]:
+                options_list = []
+                for option in value:
+                    x = next((x for x in options[key] if x.get('value') == option), None)
+                    if x:
+                        options_list.append(x)
+                filters[key] = options_list
 
         c.advanced_search = {
             "item_count": query['count'],
@@ -89,7 +108,8 @@ class YtpAdvancedSearchController(base.BaseController):
             "last_query": params_to_dict(request.POST),
             "json_query": json_query,
             "filters": filters,
-            "sort_string": sort_string
+            "sort_string": sort_string,
+            "field_options": options
             }
         c.advanced_search['last_query']['page'] = page
 
