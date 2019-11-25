@@ -1,9 +1,11 @@
 import json
-from rdflib import URIRef, BNode, Literal
+from rdflib import URIRef, BNode, Literal, Namespace
 from rdflib.namespace import RDF, XSD
 from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX
 from ckanext.dcat.utils import resource_uri
 from ckan.plugins import toolkit as p
+
+ADFI = Namespace('http://avoindata.fi/ns#')
 
 namespaces = {
     'dct': DCT,
@@ -13,7 +15,8 @@ namespaces = {
     'skos': SKOS,
     'adms': ADMS,
     'xsd': XSD,
-    'spdx': SPDX
+    'spdx': SPDX,
+    'adfi': ADFI
 }
 
 
@@ -57,7 +60,7 @@ class AvoindataDCATAPProfile(RDFProfile):
 
         for prefix, namespace in namespaces.iteritems():
             g.bind(prefix, namespace)
-        g.add((dataset_ref, RDF.type, DCAT.Dataset))
+        g.add((dataset_ref, RDF.type, ADFI.Dataset))
 
         # dct:title
         titles = set(t for t in get_dict(dataset_dict, 'title_translated').values() if t)
@@ -93,7 +96,7 @@ class AvoindataDCATAPProfile(RDFProfile):
         for resource_dict in dataset_dict.get('resources', []):
             resource_dict = as_dict(resource_dict)
             distribution = BNode()
-            g.add((distribution, RDF.type, DCAT.Distribution))
+            g.add((distribution, RDF.type, ADFI.Distribution))
             g.add((dataset_ref, DCAT.distribution, distribution))
 
             # dct:title
@@ -172,6 +175,19 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((checksum, SPDX.checksumValue, Literal(checksum_value)))
                 g.add((checksum, SPDX.algorithm, SPDX.checksumAlgorithm_sha1))
                 g.add((distribution, SPDX.checksum, checksum))
+
+            # dct:temporal
+            temporal_coverage_from = resource_dict.get('temporal_coverage_from')
+            temporal_coverage_to = resource_dict.get('temporal_coverage_to')
+
+            if temporal_coverage_from or temporal_coverage_to:
+                period = BNode()
+                g.add((distribution, DCT.temporal, period))
+                g.add((period, RDF.type, DCT.PeriodOfTime))
+                if temporal_coverage_from:
+                    g.add((period, DCAT.startDate, Literal(temporal_coverage_from)))
+                if temporal_coverage_to:
+                    g.add((period, DCAT.endDate, Literal(temporal_coverage_to)))
 
             # dcat:temporalResolution
             temporal_granularities = set(t for lang in get_dict(resource_dict, 'temporal_granularity').values()
@@ -281,7 +297,7 @@ class AvoindataDCATAPProfile(RDFProfile):
         for prefix, namespace in namespaces.iteritems():
             g.bind(prefix, namespace)
 
-        g.add((catalog_ref, RDF.type, DCAT.Catalog))
+        g.add((catalog_ref, RDF.type, ADFI.Catalog))
 
         # Basic fields
         title = p.config.get('ckan.site_title', '')
@@ -291,16 +307,13 @@ class AvoindataDCATAPProfile(RDFProfile):
         g.add((catalog_ref, DCT.description, Literal(description)))
 
         homepage = URIRef(p.config.get('ckan.site_url', ''))
-        g.add((homepage, RDF.type, FOAF.Document))
         g.add((catalog_ref, FOAF.homepage, homepage))
 
         language = p.config.get('ckan.locale_default', 'en')
         linguistic_system = URIRef('http://id.loc.gov/vocabulary/iso639-1/%s' % language)
-        g.add((linguistic_system, RDF.type, DCT.LinguisticSystem))
         g.add((catalog_ref, DCT.language, linguistic_system))
 
         publisher = URIRef(p.config.get('ckan.site_url', ''))
-        g.add((publisher, RDF.type, FOAF.Agent))
         g.add((publisher, FOAF.name, Literal(p.config.get('ckan.site_title'))))
         g.add((catalog_ref, DCT.publisher, publisher))
 
