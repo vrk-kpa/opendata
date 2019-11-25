@@ -33,7 +33,8 @@ vocabularies:
     uri: "http://www.w3.org/2006/vcard/ns#"
 classes:
   - title: Catalogue
-    term: adfi:Catalog
+    description: A catalogue or repository that hosts the Datasets being described.
+    term: Catalog
     properties:
       mandatory:
         - name: dataset
@@ -148,7 +149,8 @@ classes:
           max: 1
 
   - title: Dataset
-    term: adfi:Dataset
+    description: A conceptual entity that represents the information published. 
+    term: Dataset
     properties:
       mandatory:
         - name: description
@@ -368,7 +370,8 @@ classes:
 
 
   - title: Distribution
-    term: adfi:Distribution
+    description: A physical embodiment of the Dataset in a particular format.
+    term: Distribution
     properties:
       mandatory:
         - name: access URL
@@ -522,7 +525,8 @@ classes:
           max: 1
 
   - title: Catalogue Record
-    term: adfi:CatalogueRecord
+    description: A description of a Dataset’s entry in the Catalogue. 
+    term: CatalogueRecord
     properties:
       mandatory:
         - name:           primary topic
@@ -586,7 +590,8 @@ classes:
 
 
   - title: Data Service
-    term: adfi:DataService
+    description: A collection of operations that provides access to one or more datasets or data processing functions.
+    term: DataService
     properties:
       mandatory:
         - name: endpoint URL 
@@ -635,6 +640,7 @@ classes:
           max: 1
 
 # - title: placeholder
+#   description: placeholder
 #   term: placeholder
 #   properties:
 #     mandatory: []
