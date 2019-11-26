@@ -160,6 +160,15 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((media_type, RDF.value, Literal(file_format)))
                 g.add((distribution, DCT['format'], media_type))
 
+            # dct:conformsTo
+            position_info = resource_dict.get('position_info')
+
+            if position_info:
+                standard = BNode()
+                g.add((standard, RDF.type, DCT.Standard))
+                g.add((standard, RDF.value, Literal(position_info)))
+                g.add((distribution, DCT.conformsTo, standard))
+
             # dcat:byteSize
             file_size = resource_dict.get('size')
 
