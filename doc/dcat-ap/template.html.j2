@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Avoindata.fi DCAT-AP extension</title>
+    <link rel="stylesheet" href="/resources/vendor/bootstrap.min.css">
+  </head>
+  <body class="container">
+    <h1>Avoindata.fi DCAT-AP extension</h1>
+
+    <h2>Vocabularies</h2>
+
+    <table class="table table-striped">
+      <thead>
+        <tr><th>Prefix</th><th>URI</th></tr>
+      </thead>
+      <tbody>
+      {% for vocabulary in vocabularies -%}
+        <tr><td>{{ vocabulary.prefix }}</td><td>{{ vocabulary.uri }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>Classes</h2>
+
+    {% for class in classes %}
+    <h3 id="{{ class.term }}">{{ class.term }}</h3>
+
+    <h4>{{ class.title }}</h4>
+
+    <p>{{ class.description }}</p>
+
+    <h4>Properties</h4>
+
+    {% for level in ['mandatory', 'recommended', 'optional'] %}
+    <table class="table table-striped">
+      <caption>{{ level | title }} properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      {% for property in class.properties[level] -%}
+        <tr>
+          <td>{% if property.extension %}<strong>{{ property.term }}</strong>{% else %}{{ property.term }} {% endif -%}</td>
+          <td>{{ property.range }}</td>
+          <td>{{ property.min }}..{{ property.max }}</td>
+          <td>{{ property.description }}</td>
+        </tr>
+      {% endfor %} {# property #}
+      </tbody>
+    </table>
+    {% endfor %} {# level #}
+    {% endfor %} {# class #}
+
+</body>
+</html>
+ 

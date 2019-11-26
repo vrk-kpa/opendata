@@ -1,0 +1,14 @@
+---
+
+- name: Ensure namespace path is present
+  file:
+    path: "/var/www/ns"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Copy namespace documentation
+  synchronize:
+    src: "files/index.html"
+    dest: "/var/www/ns"
