@@ -207,3 +207,10 @@ location ~* ^(?!/data|/resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
     expires {{ nginx_expires }};
     log_not_found off;
 }
+
+# RDF namespace
+
+location /ns {
+    alias /var/www/ns/;
+}
+

@@ -52,6 +52,8 @@
       tags: drupal
     - role: datapusher
       tags: datapusher
+    - role: dcatap
+      tags: dcatap
 
   post_tasks:
     - name: Remove maintenance mode
