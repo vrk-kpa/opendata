@@ -1,4 +1,4 @@
-//Oppaat hakuruutu (Flow muuttuu)
+// Quides page search with and without login to service
 describe('Quides search functionality', function() {
     // TODO: Haku tehdään sekä kirjautuneena että ilman sitä
     // TODO: Haun Teko
@@ -8,8 +8,8 @@ describe('Quides search functionality', function() {
     it('Opens frontpage!', function () {
       cy.visit("/");
       cy.visit("/fi/artikkelit");
-
     })
+
     it('Hae', function () {
       cy.get('#avoindata-articles-search-input').click();
       cy.get('#avoindata-articles-search-input').type('helsinki');
@@ -24,9 +24,11 @@ describe('Quides search functionality', function() {
         cy.visit("/");
         cy.visit("/fi/artikkelit");
     })
+
     it('Hae', function () {
         cy.get('#avoindata-articles-search-input').click();
         cy.get('#avoindata-articles-search-input').type('helsinki');
         cy.get('#avoindata-articles-search-btn').click();
         //cy.visit('http://vagrant.avoindata.fi:9000/data/fi/dataset?q=helsinki')
     })
+  

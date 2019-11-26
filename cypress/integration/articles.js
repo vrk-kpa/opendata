@@ -1,4 +1,4 @@
-//Artikkelit sivun hakuruutu (Flow muuttuu)
+//Articles page search without login to service
 describe('Articles search functionality', function() {
     // TODO: Haku tehdään sekä kirjautuneena että ilman sitä
     // TODO: Haun Teko
@@ -7,7 +7,7 @@ describe('Articles search functionality', function() {
     //it('Articles search basic', function() {
       it('Opens articles page!', function () {
         cy.visit("/");
-        // Artikkelit 
+        // Articles page 
         cy.visit("/fi/artikkelit");
       })
       it('Hae', function () {
@@ -21,7 +21,7 @@ describe('Articles search functionality', function() {
     it('Opens articles page!', function () {
         cy.login_post_request('test-publisher', 'test-publisher');
         cy.visit("/");
-        // Artikkelit 
+        // Articles page 
         cy.visit("/fi/artikkelit");
     })
     it('Hae', function () {
