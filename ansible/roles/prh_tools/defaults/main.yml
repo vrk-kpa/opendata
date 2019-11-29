@@ -1,0 +1,4 @@
+---
+# defaults file for prh_tools
+
+prh_virtual_environment: /usr/lib/ckan/prh_tools

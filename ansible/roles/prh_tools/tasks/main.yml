@@ -1,0 +1,9 @@
+---
+# tasks file for prh_tools
+
+- name: Install PRH tools
+  pip:
+    name: "git+https://github.com/Mygee/Avoindata.fi-Python-Tools.git@master#egg=Avoindata.fi-Python-Tools"
+    virtualenv: "{{ prh_virtual_environment }}"
+    virtualenv_python: "python3"
+    editable: yes
