@@ -51,3 +51,4 @@ ckan_log_files:
   - "{{ ckan_log_path }}/ckan_test.log"
 
 ckan_sentry_integration_enabled: false
+ckan_notifications_to_maintainers_enabled: true

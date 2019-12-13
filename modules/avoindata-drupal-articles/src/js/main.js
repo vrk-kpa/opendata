@@ -1,3 +1,7 @@
+/**
+ * @file
+ */
+
 import queryString from 'query-string';
 document.addEventListener('readystatechange', event => {
   if (event.target.readyState === 'interactive') {
@@ -9,7 +13,7 @@ document.addEventListener('readystatechange', event => {
 
     if (categories) {
       Array.from(categories).forEach(categoryParam => {
-        const relatedCategoryElem = document.querySelector(`.avoindata-article-category-filter[data-tagid="${categoryParam}"]`);
+        const relatedCategoryElem = document.querySelector(`.avoindata - article - category - filter[data - tagid = "${categoryParam}"]`);
         if (relatedCategoryElem) {
           relatedCategoryElem.classList.add('active');
         }
@@ -27,7 +31,7 @@ function addArticleSearchClickListeners() {
 
 function addArticleCategoryClickListeners() {
   const categoryListWrapper = document.getElementsByClassName('avoindata-article-category-filter-wrapper');
-  if (categoryListWrapper[0]){
+  if (categoryListWrapper[0]) {
     const categoryFilters = categoryListWrapper[0].querySelectorAll('.avoindata-article-category-filter');
     Array.from(categoryFilters).forEach(element => {
       element.onclick = searchArticlesApplyFilter;
@@ -46,7 +50,8 @@ function searchArticlesApplyFilter(event) {
     const targetElem = event.target;
     if (targetElem.classList.contains('active')) {
       targetElem.classList.remove('active');
-    } else {
+    }
+else {
       targetElem.classList.add('active');
     }
   }
@@ -57,7 +62,7 @@ function searchArticlesSubmit() {
   const searchInput = document.getElementById('avoindata-articles-search-input');
   const categoryFilterIds = [];
   const categoryFilters = document.querySelectorAll('.avoindata-article-category-filter.active');
-  
+
   Array.from(categoryFilters).forEach(elem => {
     if (elem.dataset.tagid) {
       categoryFilterIds.push(elem.dataset.tagid);
@@ -71,7 +76,8 @@ function searchArticlesSubmit() {
 
   if (queryParams.length > 0) {
     window.location.replace(window.location.origin + '/' + searchInput.dataset.searchLanguage + '/articles?' + queryParams);
-  } else {
+  }
+else {
     window.location.replace(window.location.origin + '/' + searchInput.dataset.searchLanguage + '/articles');
   }
 }
