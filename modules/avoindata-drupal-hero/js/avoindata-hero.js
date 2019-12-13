@@ -1,3 +1,7 @@
+/**
+ * @file
+ */
+
 'use strict';
 document.addEventListener('readystatechange', function () {
   if (document.readyState === 'complete') {
@@ -18,8 +22,8 @@ function dropdownToggle() {
   const selectedValue = this.getAttribute('data-value');
   dropdown.querySelector('span').innerHTML = this.textContent;
   dropdown.setAttribute('data-value', selectedValue);
-  
-  if(allowedFilters.indexOf(selectedValue > -1)) {
+
+  if (allowedFilters.indexOf(selectedValue > -1)) {
     document.querySelector('.input-hero-search-filter').value = selectedValue;
   }
 }
