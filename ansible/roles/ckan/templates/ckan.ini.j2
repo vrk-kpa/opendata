@@ -120,6 +120,8 @@ ckanext-archiver.max_content_length = 50000000
 ckanext-archiver.cache_url_root = {{ ckan_extension_archiver_cache_protocol }}://{{ item.hostname }}/resource_cache/
 ckanext-archiver.user_agent_string = {{ item.hostname }} archiver
 ckanext-archiver.archive_cloud = True
+ckanext-archiver.send_notification_emails_to_maintainers = {{ ckan_notifications_to_maintainers_enabled }}
+
 
 ckanext.sixodp_showcasesubmit.creating_user_username = {{ ckan_admin.username }}
 ckanext.sixodp_showcasesubmit.recaptcha_sitekey = {{ ckan_recaptcha_public_key }}

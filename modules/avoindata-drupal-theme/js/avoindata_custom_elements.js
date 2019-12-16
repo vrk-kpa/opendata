@@ -1,3 +1,7 @@
+/**
+ * @file
+ */
+
 'use strict';
 
 (function ($, Drupal) {
@@ -10,7 +14,7 @@
         // Apply the avoindataExpanderBehavior effect to the elements only once.
         $('.avoindata-expander-header', this).on('click', toggleAvoindataExpander);
 
-        // Add 'expand all' link above the first expander if there's more than one expander
+        // Add 'expand all' link above the first expander if there's more than one expander.
         if (index === 0 && $('.avoindata-expander').length > 1) {
           $('<div class="clearfix"><a id="toggle-all-avoindata-expanders-link" class="pull-right" data-expanded="false">' + openText + '</a></div>').insertBefore(this);
           $('#toggle-all-avoindata-expanders-link').on('click', toggleAllAvoindataExpanders);
@@ -25,7 +29,8 @@
       $('.avoindata-expander-content', this.parentElement).collapse('hide');
       $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-down').addClass('fa-angle-up');
       $(this.parentElement).removeClass('open');
-    } else if (!$(this.parentElement).hasClass('open') && !$(this).siblings().hasClass('collapsing')) {
+    }
+else if (!$(this.parentElement).hasClass('open') && !$(this).siblings().hasClass('collapsing')) {
       $('.avoindata-expander-content', this.parentElement).collapse('show');
       $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-up').addClass('fa-angle-down');
       $(this.parentElement).addClass('open');
@@ -47,7 +52,8 @@
       $('.avoindata-expander .icon-wrapper > i').addClass('fa-angle-down').removeClass('fa-angle-up');
       $('#toggle-all-avoindata-expanders-link').data('expanded', false);
       $('#toggle-all-avoindata-expanders-link').text(openText);
-    } else {
+    }
+else {
       $('.avoindata-expander-content').collapse('show');
       $('.avoindata-expander').addClass('open');
       $('.avoindata-expander .icon-wrapper > i').removeClass('fa-angle-down').addClass('fa-angle-up');

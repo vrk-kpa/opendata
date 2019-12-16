@@ -1,6 +1,6 @@
 describe('Category tests', function () {
   beforeEach(function () {
-    cy.reset_db();
+  cy.reset_db();
   });
 
   it('Add dataset to category during dataset creation', function () {
