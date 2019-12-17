@@ -54,8 +54,6 @@
       tags: datapusher
     - role: dcatap
       tags: dcatap
-    - role: prh_tools
-      tags: prh_tools
 
   post_tasks:
     - name: Remove maintenance mode

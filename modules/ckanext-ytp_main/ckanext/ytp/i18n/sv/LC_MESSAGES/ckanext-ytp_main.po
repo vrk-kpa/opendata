@@ -3,20 +3,29 @@
 # This file is distributed under the same license as the ckanext-ytp_main
 # project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
-#
-#. extracted from /vagrant/test/sv/LC_MESSAGES/ckanext-ytp_main.csv
+# 
+# Translators:
+# Pentti Laitinen, 2018
+# Teemu Erkkola <teemu.erkkola@iki.fi>, 2018
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
+# 
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2019-11-01 10:09+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2018-03-08 13:35+0000\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
+"Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.3.4\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ckanext/ytp/auth.py:17 ckanext/ytp/auth.py:31
 msgid "Only the owner can update a related item"
@@ -320,7 +329,8 @@ msgstr "Användarkontots inställningar"
 msgid "Delete Account"
 msgstr "Radera användarkonto"
 
-#: ckanext/ytp/menu.py:145 ckanext/ytp/templates/organization/admin_list.html:4
+#: ckanext/ytp/menu.py:145
+#: ckanext/ytp/templates/organization/admin_list.html:4
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:17
 #: ckanext/ytp/templates/organization/user_list.html:4
 #: ckanext/ytp/templates/user/dashboard_datasets.html:4
@@ -328,7 +338,8 @@ msgstr "Radera användarkonto"
 msgid "Users"
 msgstr "Användare"
 
-#: ckanext/ytp/menu.py:155 ckanext/ytp/templates/organization/admin_list.html:31
+#: ckanext/ytp/menu.py:155
+#: ckanext/ytp/templates/organization/admin_list.html:31
 #: ckanext/ytp/templates/organization/index.html:9
 #: ckanext/ytp/templates/organization/organization_not_found.html:6
 #: ckanext/ytp/templates/organization/user_list.html:31
@@ -394,7 +405,8 @@ msgstr "Filtyp"
 msgid "Source"
 msgstr "Källa"
 
-#: ckanext/ytp/plugin.py:312 ckanext/ytp/templates/package/resource_read.html:168
+#: ckanext/ytp/plugin.py:312
+#: ckanext/ytp/templates/package/resource_read.html:168
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:72
 #: ckanext/ytp/templates/snippets/license.html:21
 msgid "License"
@@ -487,11 +499,13 @@ msgstr "Webbadress"
 msgid "Title"
 msgstr "Namn"
 
-#: ckanext/ytp/templates/macros/ytp_layout.html:29 ckanext/ytp/translations.py:32
+#: ckanext/ytp/templates/macros/ytp_layout.html:29
+#: ckanext/ytp/translations.py:32
 msgid "Image URL"
 msgstr "Bildens webbadress"
 
-#: ckanext/ytp/templates/macros/ytp_layout.html:30 ckanext/ytp/translations.py:33
+#: ckanext/ytp/templates/macros/ytp_layout.html:30
+#: ckanext/ytp/translations.py:33
 msgid "Image"
 msgstr "Logotyp eller bild"
 
@@ -510,8 +524,8 @@ msgstr ""
 #: ckanext/ytp/translations.py:41
 msgid ""
 "A short and descriptive title for the dataset. Do not utilize dates in the "
-"title but instead add multiple time-specific resources to the dataset in the "
-"next stage."
+"title but instead add multiple time-specific resources to the dataset in the"
+" next stage."
 msgstr ""
 
 #: ckanext/ytp/translations.py:43
@@ -531,8 +545,8 @@ msgstr ""
 #: ckanext/ytp/translations.py:46
 msgid ""
 "An universal, compact and easy to understand description of the added "
-"dataset. Use as confining terms as possible to assist the user to understand "
-"what types of data, meters and dimensions the dataset contains."
+"dataset. Use as confining terms as possible to assist the user to understand"
+" what types of data, meters and dimensions the dataset contains."
 msgstr ""
 
 #: ckanext/ytp/translations.py:48
@@ -599,7 +613,8 @@ msgstr ""
 msgid "eg. 2 weeks"
 msgstr ""
 
-#: ckanext/ytp/templates/user/edit_user_form.html:13 ckanext/ytp/translations.py:64
+#: ckanext/ytp/templates/user/edit_user_form.html:13
+#: ckanext/ytp/translations.py:64
 msgid "eg. joe@example.com"
 msgstr "t.ex. joe@example.com"
 
@@ -816,7 +831,8 @@ msgstr "Applikationer"
 msgid "Add to group"
 msgstr "Lägg till kategorin"
 
-#: ckanext/ytp/templates/package/group_list.html:8 ckanext/ytp/translations.py:125
+#: ckanext/ytp/templates/package/group_list.html:8
+#: ckanext/ytp/translations.py:125
 msgid "There are no groups associated with this dataset"
 msgstr "Det finns inga kategorier kopplade till detta dataset"
 
@@ -824,7 +840,8 @@ msgstr "Det finns inga kategorier kopplade till detta dataset"
 msgid "Remove dataset from this group"
 msgstr "Ta bort dataset från denna kategori"
 
-#: ckanext/ytp/templates/package/group_list.html:29 ckanext/ytp/translations.py:127
+#: ckanext/ytp/templates/package/group_list.html:29
+#: ckanext/ytp/translations.py:127
 msgid "Associate this group with this dataset"
 msgstr "Koppla denna kategori till detta dataset"
 
@@ -924,7 +941,8 @@ msgid "Broken links"
 msgstr ""
 
 #: ckanext/ytp/translations.py:155
-msgid "Dataset resource URLs that are found to result in errors when resolved."
+msgid ""
+"Dataset resource URLs that are found to result in errors when resolved."
 msgstr ""
 
 #: ckanext/ytp/translations.py:156
@@ -947,7 +965,9 @@ msgid "Datasets that have deprecated"
 msgstr ""
 
 #: ckanext/ytp/translations.py:161
-msgid "Google analytics showing most audience locations (bot traffic is filtered out)"
+msgid ""
+"Google analytics showing most audience locations (bot traffic is filtered "
+"out)"
 msgstr ""
 
 #: ckanext/ytp/translations.py:162
@@ -971,7 +991,8 @@ msgid "Most popular organizations"
 msgstr ""
 
 #: ckanext/ytp/translations.py:167
-msgid "Google analytics showing most popular organizations by visited datasets"
+msgid ""
+"Google analytics showing most popular organizations by visited datasets"
 msgstr ""
 
 #: ckanext/ytp/translations.py:168
@@ -1003,7 +1024,9 @@ msgid "No jobs yet"
 msgstr ""
 
 #: ckanext/ytp/translations.py:177
-msgid "The dataset amount of the organization is shown beside the organization name."
+msgid ""
+"The dataset amount of the organization is shown beside the organization "
+"name."
 msgstr ""
 
 #: ckanext/ytp/translations.py:178
@@ -1135,8 +1158,8 @@ msgstr "Existerande användare"
 #: ckanext/ytp/templates/organization/member_new.html:19
 msgid "If you wish to add an existing user, search for their username below."
 msgstr ""
-"Om du vill lägga till en existerande användare, sök efter deras användarnamn "
-"nedan."
+"Om du vill lägga till en existerande användare, sök efter deras användarnamn"
+" nedan."
 
 #: ckanext/ytp/templates/group/member_new.html:39
 #: ckanext/ytp/templates/group/member_new.html:43
@@ -1350,13 +1373,14 @@ msgid "What are Publishers?"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:8
-msgid " A publisher is an organisation that has opened their data for public use. "
+msgid ""
+" A publisher is an organisation that has opened their data for public use. "
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:12
 msgid ""
-" A publisher can be a public administration organisation or a private sector "
-"company, but also an association, an individual or anything in between. "
+" A publisher can be a public administration organisation or a private sector"
+" company, but also an association, an individual or anything in between. "
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:16
@@ -1380,8 +1404,8 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/group_list.html:26
 msgid ""
-"Categories to which the dataset is mainly related to. Choose one category or "
-"multiple accurate categories."
+"Categories to which the dataset is mainly related to. Choose one category or"
+" multiple accurate categories."
 msgstr ""
 
 #: ckanext/ytp/templates/package/new_package_form.html:14
@@ -1467,9 +1491,9 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:138
 msgid ""
-"If a view requires the DataStore, the DataStore plugin may not be enabled, or"
-" the data may not have been pushed to the DataStore, or the DataStore hasn't "
-"finished processing the data yet"
+"If a view requires the DataStore, the DataStore plugin may not be enabled, "
+"or the data may not have been pushed to the DataStore, or the DataStore "
+"hasn't finished processing the data yet"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:155
@@ -1543,14 +1567,14 @@ msgstr "Lägg till dataset"
 
 #: ckanext/ytp/templates/package/search.html:35
 msgid ""
-"The Opendata.fi service does not have an organization where you can upload a "
-"data set."
+"The Opendata.fi service does not have an organization where you can upload a"
+" data set."
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:36
 msgid ""
-"Ask your employer's open data administrator to add your user account in your "
-"organization. If your employer's organization has not been created yet on "
+"Ask your employer's open data administrator to add your user account in your"
+" organization. If your employer's organization has not been created yet on "
 "Opendata.fi, ask the service administration to create it before you can "
 "continue. Alternatively, you can also ask the data to be published as a "
 "private individual."
@@ -1726,11 +1750,11 @@ msgid ""
 "related or neighboring rights to <a href=\"%(content_url)s\" > <span "
 "property=\"dct:title\">%(content_title)s</span></a>. "
 msgstr ""
-"I enlighet med vad som är tillåtet enligt lag, avstår <a rel=\"dct:"
-"publisher\" href=\"%(creator_url)s\" > <span property=\"dct:title\""
-">%(creator)s</span></a> från alla rättigheter och närstående rättigheter "
-"till <a href=\"%(content_url)s\" > <span property=\"dct:title\""
-">%(content_title)s</span></a>."
+"I enlighet med vad som är tillåtet enligt lag, avstår <a "
+"rel=\"dct:publisher\" href=\"%(creator_url)s\" > <span "
+"property=\"dct:title\">%(creator)s</span></a> från alla rättigheter och "
+"närstående rättigheter till <a href=\"%(content_url)s\" > <span "
+"property=\"dct:title\">%(content_title)s</span></a>."
 
 #: ckanext/ytp/templates/package/snippets/license_rdf.html:31
 msgid "https://creativecommons.org/licenses/by/4.0/"
@@ -1739,11 +1763,11 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/license_rdf.html:36
 #, python-format
 msgid ""
-" <span xmlns:dct=\"https://purl.org/dc/terms/\"  \t"
-"href=\"https://purl.org/dc/dcmitype/Dataset\"  \tproperty=\"dct:title\" "
+" <span xmlns:dct=\"https://purl.org/dc/terms/\"  "
+"\thref=\"https://purl.org/dc/dcmitype/Dataset\"  \tproperty=\"dct:title\" "
 "rel=\"dct:type\"> <a xmlns:cc=\"https://creativecommons.org/ns#\" "
-"href=\"%(attribution_url)s\" property=\"cc:attributionName\"  \t"
-"rel=\"cc:attributionURL\">%(content_title)s</a></span> by <a  "
+"href=\"%(attribution_url)s\" property=\"cc:attributionName\"  "
+"\trel=\"cc:attributionURL\">%(content_title)s</a></span> by <a  "
 "href=\"%(creator_url)s\" >%(creator)s</a> is licensed under a <a "
 "rel=\"license\" href=\"https://creativecommons.org/licenses/by/4.0/\"> "
 "Creative Commons Attribution 4.0 International License</a>. "
@@ -1790,8 +1814,8 @@ msgid ""
 " <p class=\"empty\">Do you know apps based on this dataset? Add them by "
 "logging in. "
 msgstr ""
-"<p class=\"empty\">Vet du applikationer baserade på detta dataset? Lägg till "
-"dem genom att logga in."
+"<p class=\"empty\">Vet du applikationer baserade på detta dataset? Lägg till"
+" dem genom att logga in."
 
 #: ckanext/ytp/templates/package/snippets/resource_item.html:22
 msgid "No description for this resource"
@@ -1884,8 +1908,8 @@ msgstr "Feedback"
 
 #: ckanext/ytp/templates/package/snippets/send_feedback.html:12
 msgid ""
-" <p class=\"empty\">Not possible to send feedback on this dataset since there"
-" is no valid maintainer.</p> "
+" <p class=\"empty\">Not possible to send feedback on this dataset since "
+"there is no valid maintainer.</p> "
 msgstr ""
 "<p class=\"empty\">Det går inte att skicka feedback på detta dataset "
 "eftersom ingen uppräthåller datasetet.</p>"
@@ -2057,10 +2081,10 @@ msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:99
 msgid ""
-" Type in separately every platform that the showcase supports. First type the"
-" name of the platform and press enter to select it. You can remove platforms "
-"by clicking the remove icon before the platform name or remove the last one "
-"with backspace. "
+" Type in separately every platform that the showcase supports. First type "
+"the name of the platform and press enter to select it. You can remove "
+"platforms by clicking the remove icon before the platform name or remove the"
+" last one with backspace. "
 msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:109
@@ -2105,8 +2129,8 @@ msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:194
 msgid ""
-" Upload or provide a link to an icon image file. This image will be shown as "
-"the icon for the showcase. "
+" Upload or provide a link to an icon image file. This image will be shown as"
+" the icon for the showcase. "
 msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:209
@@ -2229,7 +2253,8 @@ msgid " Please try another search or change search facets. "
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:118
-msgid " <strong>There was an error while searching.</strong> Please try again. "
+msgid ""
+" <strong>There was an error while searching.</strong> Please try again. "
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:59
@@ -2237,7 +2262,8 @@ msgid "Toggle menu"
 msgstr "Meny"
 
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:90
-msgid " <p class=\"extra\">Please try another search or change search facets.</p> "
+msgid ""
+" <p class=\"extra\">Please try another search or change search facets.</p> "
 msgstr ""
 "<p class=\"extra\">Försök en annan sökning eller ändra på dina "
 "sökkriterier.</p>"
@@ -2253,104 +2279,8 @@ msgstr ""
 #: ckanext/ytp/templates/snippets/search_result_text.html:17
 msgid "{number} dataset found for \"{query}\""
 msgid_plural "{number} datasets found for \"{query}\""
-msgstr[0] {
-n
-u
-m
-b
-e
-r
-}
- 
-d
-a
-t
-a
-s
-e
-t
- 
-h
-i
-t
-t
-a
-d
-e
-s
- 
-f
-ö
-r
- 
-s
-ö
-k
-t
-e
-r
-m
-e
-n
- 
-"
-{
-q
-u
-e
-r
-y
-}
-"
-msgstr[1] {
-n
-u
-m
-b
-e
-r
-}
- 
-d
-a
-t
-a
-s
-e
-t
- 
-h
-i
-t
-t
-a
-d
-e
-s
- 
-f
-ö
-r
- 
-s
-ö
-k
-t
-e
-r
-m
-e
-n
- 
-"
-{
-q
-u
-e
-r
-y
-}
-"
+msgstr[0] "{number} dataset hittades för söktermen \"{query}\""
+msgstr[1] "{number} dataset hittades för söktermen \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:18
 msgid "No datasets found for \"{query}\""
@@ -2359,56 +2289,8 @@ msgstr "Inga dataset hittades med söktermen \"{query}\""
 #: ckanext/ytp/templates/snippets/search_result_text.html:19
 msgid "{number} dataset found"
 msgid_plural "{number} datasets found"
-msgstr[0] {
-n
-u
-m
-b
-e
-r
-}
- 
-d
-a
-t
-a
-s
-e
-t
- 
-h
-i
-t
-t
-a
-d
-e
-s
-msgstr[1] {
-n
-u
-m
-b
-e
-r
-}
- 
-d
-a
-t
-a
-s
-e
-t
- 
-h
-i
-t
-t
-a
-d
-e
-s
+msgstr[0] "{number} dataset hittades"
+msgstr[1] "{number} dataset hittades"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:20
 msgid "No datasets found"
@@ -2417,105 +2299,8 @@ msgstr "Inga dataset hittades"
 #: ckanext/ytp/templates/snippets/search_result_text.html:23
 msgid "{number} group found for \"{query}\""
 msgid_plural "{number} groups found for \"{query}\""
-msgstr[0] {
-n
-u
-m
-b
-e
-r
-}
- 
-g
-r
-u
-p
-p
- 
-h
-i
-t
-t
-a
-d
-e
-s
- 
-f
-ö
-r
- 
-s
-ö
-k
-t
-e
-r
-m
-e
-n
- 
-"
-{
-q
-u
-e
-r
-y
-}
-"
-msgstr[1] {
-n
-u
-m
-b
-e
-r
-}
- 
-k
-a
-t
-e
-g
-o
-r
-i
-e
-r
- 
-h
-i
-t
-t
-a
-d
-e
-s
- 
-f
-ö
-r
- 
-s
-ö
-k
-t
-e
-r
-m
-e
-n
- 
-"
-{
-q
-u
-e
-r
-y
-}
-"
+msgstr[0] "{number} grupp hittades för söktermen \"{query}\""
+msgstr[1] "{number} kategorier hittades för söktermen \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:24
 msgid "No groups found for \"{query}\""
@@ -2524,57 +2309,8 @@ msgstr "Inga kategorier hittades med söktermen \"{query}\""
 #: ckanext/ytp/templates/snippets/search_result_text.html:25
 msgid "{number} group found"
 msgid_plural "{number} groups found"
-msgstr[0] {
-n
-u
-m
-b
-e
-r
-}
- 
-g
-r
-u
-p
-p
- 
-h
-i
-t
-t
-a
-d
-e
-s
-msgstr[1] {
-n
-u
-m
-b
-e
-r
-}
- 
-k
-a
-t
-e
-g
-o
-r
-i
-e
-r
- 
-h
-i
-t
-t
-a
-d
-e
-s
+msgstr[0] "{number} grupp hittades"
+msgstr[1] "{number} kategorier hittades"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:26
 msgid "No groups found"
@@ -2583,88 +2319,8 @@ msgstr "Inga kategorier hittades"
 #: ckanext/ytp/templates/snippets/search_result_text.html:29
 msgid "{number} organization found for \"{query}\""
 msgid_plural "{number} organizations found for \"{query}\""
-msgstr[0] {
-n
-u
-m
-b
-e
-r
-}
- 
-o
-r
-g
-a
-n
-i
-s
-a
-t
-i
-o
-n
- 
-m
-a
-t
-c
-h
-a
-d
-e
- 
-"
-{
-q
-u
-e
-r
-y
-}
-"
-msgstr[1] {
-n
-u
-m
-b
-e
-r
-}
- 
-o
-r
-g
-a
-n
-i
-s
-a
-t
-i
-o
-n
-e
-r
- 
-m
-a
-t
-c
-h
-a
-d
-e
- 
-"
-{
-q
-u
-e
-r
-y
-}
-"
+msgstr[0] "{number} organisation matchade \"{query}\""
+msgstr[1] "{number} organisationer matchade \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:30
 msgid "No organizations found for \"{query}\""
@@ -2673,68 +2329,8 @@ msgstr "Inga organisationer matchade \"{query}\""
 #: ckanext/ytp/templates/snippets/search_result_text.html:31
 msgid "{number} organization found"
 msgid_plural "{number} organizations found"
-msgstr[0] {
-n
-u
-m
-b
-e
-r
-}
- 
-o
-r
-g
-a
-n
-i
-s
-a
-t
-i
-o
-n
- 
-h
-i
-t
-t
-a
-d
-e
-s
-msgstr[1] {
-n
-u
-m
-b
-e
-r
-}
- 
-o
-r
-g
-a
-n
-i
-s
-a
-t
-i
-o
-n
-e
-r
- 
-h
-i
-t
-t
-a
-d
-e
-s
+msgstr[0] "{number} organisation hittades"
+msgstr[1] "{number} organisationer hittades"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:32
 msgid "No organizations found"
