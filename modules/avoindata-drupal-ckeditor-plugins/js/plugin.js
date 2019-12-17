@@ -1,7 +1,6 @@
 /**
  * @file
  * Plugin to insert avoindata expander elements.
- *
  */
 
 (function () {
@@ -14,13 +13,13 @@
 
     // The plugin initialization logic goes inside this method.
     init: function (editor) {
-      editor.addContentsCss( this.path + '../css/style.css' );
+      editor.addContentsCss(this.path + '../css/style.css');
 
       // Allow any attributes.
       editor.config.allowedContent = true;
       CKEDITOR.dtd.$removeEmpty.i = 0;
 
-      editor.widgets.add( 'avoindata_expander', {
+      editor.widgets.add('avoindata_expander', {
         template:
           '<div class="avoindata-expander">' +
             '<div class="avoindata-expander-header">' +
@@ -41,8 +40,8 @@
 
         requiredContent: 'div(avoindata-expander) h2(avoindata-expander-title) div(avoindata-expander-content)',
 
-        upcast: function( element ) {
-            return element.name == 'div' && element.hasClass( 'avoindata-expander' );
+        upcast: function (element) {
+            return element.name == 'div' && element.hasClass('avoindata-expander');
         }
       });
 
@@ -66,21 +65,18 @@
 
     // The plugin initialization logic goes inside this method.
     init: function (editor) {
-      editor.addContentsCss( this.path + '../css/style.css' );
+      editor.addContentsCss(this.path + '../css/style.css');
 
       // Allow any attributes.
       editor.config.allowedContent = true;
       CKEDITOR.dtd.$removeEmpty.i = 0;
 
-      editor.widgets.add( 'avoindata_note', {
+      editor.widgets.add('avoindata_note', {
         template:
-          '<div class="avoindata-note">' +
-            '<div class="avoindata-note-header">' +
+          '<div class="avoindata-note"><div class="avoindata-note-header">' +
               '<img class="avoindata-note-header-image" src="/resources/images/avoindata-note-icon.svg"/>' +
-              '<h2 class="avoindata-note-title">Title</h2>' +
-            '</div>' +
-            '<div class="avoindata-note-content">Content</div>' +
-          '</div>',
+              '<h2 class="avoindata-note-title">Title</h2></div>' +
+            '<div class="avoindata-note-content">Content</div></div>',
 
         editables: {
           title: {
@@ -93,8 +89,8 @@
 
         requiredContent: 'div(avoindata-note) h2(avoindata-note-title) div(avoindata-note-content)',
 
-        upcast: function( element ) {
-            return element.name == 'div' && element.hasClass( 'avoindata-note' );
+        upcast: function (element) {
+            return element.name == 'div' && element.hasClass('avoindata-note');
         }
       });
 
@@ -118,18 +114,17 @@
 
     // The plugin initialization logic goes inside this method.
     init: function (editor) {
-      editor.addContentsCss( this.path + '../css/style.css' );
+      editor.addContentsCss(this.path + '../css/style.css');
 
       // Allow any attributes.
       editor.config.allowedContent = true;
       CKEDITOR.dtd.$removeEmpty.i = 0;
 
-      editor.widgets.add( 'avoindata_hint', {
+      editor.widgets.add('avoindata_hint', {
         template:
           '<div class="avoindata-hint">' +
             '<img class="avoindata-hint-image" src="/resources/images/avoindata-hint-icon.svg"/>' +
-            '<div class="avoindata-hint-content">Content</div>' +
-          '</div>',
+            '<div class="avoindata-hint-content">Content</div></div>',
 
         editables: {
           content: {
@@ -139,8 +134,8 @@
 
         requiredContent: 'div(avoindata-hint) div(avoindata-hint-content)',
 
-        upcast: function( element ) {
-            return element.name == 'div' && element.hasClass( 'avoindata-hint' );
+        upcast: function (element) {
+            return element.name == 'div' && element.hasClass('avoindata-hint');
         }
       });
 

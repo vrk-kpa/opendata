@@ -300,3 +300,42 @@ Cypress.Commands.add('create_category', function (category_name) {
   cy.get('button[name="save"]').click();
 
 });
+
+
+// for iframe...
+Cypress.Commands.add(
+  'iframeLoaded',
+  { prevSubject: 'element' },
+  ($iframe) => {
+    const contentWindow = $iframe.prop('contentWindow')
+    return new Promise(resolve => {
+      if (
+        contentWindow &&
+        contentWindow.document.readyState === 'complete'
+      ) {
+        resolve(contentWindow)
+      } else {
+        $iframe.on('load', () => {
+          resolve(contentWindow)
+        })
+      }
+    })
+  })
+
+Cypress.Commands.add(
+  'getInDocument',
+  { prevSubject: 'document' },
+  (document, selector) => Cypress.$(selector, document)
+)
+
+
+// generate random end to new data - ei toimi näin täältä - pitää muokata - jos asetettu testitapaukseen toimii
+function url_Alpha_Numeric() {
+  var text = "";
+  var possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 10; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
