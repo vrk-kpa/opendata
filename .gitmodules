@@ -68,3 +68,6 @@
 [submodule "modules/ckanext-apis"]
 	path = modules/ckanext-apis
 	url = https://github.com/vrk-kpa/ckanext-apis.git
+[submodule "modules/ckanext-prh_tools"]
+	path = modules/ckanext-prh_tools
+	url = https://github.com/Mygee/Avoindata.fi-Python-Tools
