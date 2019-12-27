@@ -27,12 +27,12 @@
   function toggleAvoindataExpander() {
     if ($(this.parentElement).hasClass('open') && !$(this).siblings().hasClass('collapsing')) {
       $('.avoindata-expander-content', this.parentElement).collapse('hide');
-      $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-down').addClass('fa-angle-up');
+      $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-up').addClass('fa-angle-down');
       $(this.parentElement).removeClass('open');
     }
-else if (!$(this.parentElement).hasClass('open') && !$(this).siblings().hasClass('collapsing')) {
+    else if (!$(this.parentElement).hasClass('open') && !$(this).siblings().hasClass('collapsing')) {
       $('.avoindata-expander-content', this.parentElement).collapse('show');
-      $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-up').addClass('fa-angle-down');
+      $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-down').addClass('fa-angle-up');
       $(this.parentElement).addClass('open');
     }
     if (!$('.avoindata-expander').hasClass('open')) {
