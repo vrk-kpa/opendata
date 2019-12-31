@@ -37,9 +37,11 @@ class EventsController extends ControllerBase {
 
     $eventNodeIdsTitleQuery = \Drupal::entityQuery('node')
       ->condition('type', 'avoindata_event')
+      ->condition('status', 1)
       ->condition('langcode', $lang);
     $eventNodeIdsBodyQuery = \Drupal::entityQuery('node')
       ->condition('type', 'avoindata_event')
+      ->condition('status', 1)
       ->condition('langcode', $lang);
 
     if (!empty($searchterm)) {
