@@ -31,7 +31,7 @@ Please file [issues at Github](https://github.com/vrk-kpa/ytp/issues).
 
 ### Copying and License
 
-This material is copyright (c) 2013-2019 Population Register Centre, Finland.
+This material is copyright (c) 2013-2020 Digital and Population Data Services Agency, Finland.
 
 CKAN extensions and Drupal components are licensed under the GNU Affero General Public License (AGPL) v3.0
 whose full text may be found at: http://www.fsf.org/licensing/licenses/agpl-3.0.html
