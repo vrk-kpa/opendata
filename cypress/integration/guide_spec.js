@@ -1,10 +1,10 @@
 // Quides page search with and without login to service
-describe('Quides search functionality', function() {
+describe('Guides search functionality', function() {
     // TODO: Haku tehdään sekä kirjautuneena että ilman sitä
     // TODO: Haun Teko
   
     // Without login
-    //it('Quides search basic', function() {
+    //it('Guides search basic', function() {
     it('Opens frontpage!', function () {
       cy.visit("/");
       cy.visit("/fi/artikkelit");
