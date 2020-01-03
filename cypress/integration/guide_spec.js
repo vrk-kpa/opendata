@@ -10,7 +10,7 @@ describe('Guides search functionality', function() {
       cy.visit("/fi/artikkelit");
     })
 
-    it('Hae', function () {
+    it('Search', function () {
       cy.get('#avoindata-articles-search-input').click();
       cy.get('#avoindata-articles-search-input').type('helsinki');
       cy.get('#avoindata-articles-search-btn').click();
@@ -25,7 +25,7 @@ describe('Guides search functionality', function() {
         cy.visit("/fi/artikkelit");
     })
 
-    it('Hae', function () {
+    it('Search', function () {
         cy.get('#avoindata-articles-search-input').click();
         cy.get('#avoindata-articles-search-input').type('helsinki');
         cy.get('#avoindata-articles-search-btn').click();
