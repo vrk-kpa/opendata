@@ -130,6 +130,7 @@
     - ape
     - honeypot
     - registration_validation
+    - protected_submissions
   when: item not in drupal_enabled_modules.stdout
   tags:
     - skip_ansible_lint
@@ -263,6 +264,7 @@
     - { src: language.entity.en.yml.j2, dest: language.entity.en.yml }
     - { src: language.entity.fi.yml.j2, dest: language.entity.fi.yml }
     - { src: language.entity.sv.yml.j2, dest: language.entity.sv.yml }
+    - { src: protected_submissions.settings.yml.j2, dest: protected_submissions.settings.yml }
 
 - name: Import drupal settings
   shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/site_config"
