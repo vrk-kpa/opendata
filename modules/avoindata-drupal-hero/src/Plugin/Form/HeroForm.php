@@ -27,6 +27,7 @@ class HeroForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
     $form['searchfilter'] = [
       '#type' => 'textfield',
