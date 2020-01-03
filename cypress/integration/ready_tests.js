@@ -113,6 +113,58 @@ it('Käyttäjä tarkastelee tietosisältöjä', function() {
          cy.logout();  
     })
 
+// 22. Käyttäjä luo uuden sisältösivun
+it('Käyttäjä luo uuden sisältösivun', function() {
+  cy.visit('/')
+  cy.login('test-publisher', 'test-publisher');
+  cy.login_post_request('test-publisher', 'test-publisher');
+  cy.visit('/')
+  cy.visit('/fi/admin/content')
+  cy.visit('/fi/node/add')
+  // Lisätään uusi uutinen
+  cy.contains('Avoindata Article').click();
+  //cy.visit('/fi/node/add/avoindata_article')
+
+  const news_name = 'news_test';
+  const news_form_data = {
+   "#edit-title-0-value": 'news_name',                                      // uutisen nimi
+   '#id=editlangcode-0-value': 'Kielivalinta',                              // Kielivalinta
+   '#cke_wysiwyg_frame cke_reset': 'tähän tulee juttua {enter}',            // Uutinen
+   '#field-maintainer': '',                                                    // Liitetiedosto
+   '#edit-field-tags-target-id': 'Helsinki, Turku, Tampere, Hämeenlinna'       // Tagit
+  };
+
+  // Title field
+  cy.get('#edit-title-0-value').click({force:true}).type(news_name)
+
+  // Lanquage id=editlangcode-0-value //select[@id='edit-langcode-0-value']
+  cy.get('#edit-langcode-0-value').select('fi', {force: true})
+
+  // Body - input text here   //iframe[@class='cke_wysiwyg_frame cke_reset']
+  //cy.get('a[href="fi/node/add/avoindata_article"]').click
+  
+  // Image  //input[@id='edit-field-image-0-upload']
+  // cy.get('#edit-field-image-0-upload').then(function(subject){
+  // cy.fixture("FL_insurance_sample.csv", 'base64')
+  // .then(Cypress.Blob.base64StringToBlob)
+  // .then(function(blob){
+  //  const el = subject[0];
+  //   const testFile = new File([blob],"FL_insurance_sample.csv", {type: 'CSV'} );
+  //   const dataTranfer = new DataTransfer();
+  //   dataTranfer.items.add(testFile);
+  //   el.files = dataTranfer.files;
+  //  cy.wrap(subject).trigger('change', { force: true });
+    
+
+  // Tags   //input[@id='edit-field-tags-target-id']
+  cy.get('#edit-field-tags-target-id').click({force: true}).type('test')
+  
+  // Save
+  cy.contains('Tallenna').click()
+    
+  cy.visit('/')
+  cy.logout();    
+})
 
 // 38. Käyttäjä selaa tapahtumia
 it('Käyttäjä selaa tapahtumia', function() {
