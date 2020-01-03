@@ -102,6 +102,7 @@ ckan_extensions:
   - ckanext-rating
   - ckanext-forcetranslation
   - ckanext-apis
+  - ckanext-prh_tools
 
 ckan_extensions_with_translations:
   - ckanext-ytp_request
@@ -300,3 +301,5 @@ ckan_sentry_integration_enabled: true
 ckan_sentry_dsn: ''
 ckan_sentry_pip_packages:
   - sentry-sdk[flask]==0.10.0
+
+ckan_notifications_to_maintainers_enabled: false

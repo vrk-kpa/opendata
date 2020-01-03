@@ -12,7 +12,7 @@
   margin-bottom: 50px;
 }
 
-.search-options {
+#advanced-search-options {
   margin-bottom: 280px;
 }
 
@@ -264,5 +264,39 @@
 
   &:hover {
     color: @new-layout-secondary-text-color;
+  }
+}
+
+select.avoindata-order-by {
+  padding-right: 25px;
+  height: auto;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+.select-wrapper {
+  margin-left: -10px;
+}
+
+.select-wrapper::before {
+  position: relative;
+  font-size: 16px;
+  font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+  top: 0;
+  left: 230px;
+  content: "\f0d7";
+  font-weight: 900;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+@media only screen and (max-width: 768px) {
+  .select-wrapper::before {
+    top: 38px;
+    left: 162px;
   }
 }
