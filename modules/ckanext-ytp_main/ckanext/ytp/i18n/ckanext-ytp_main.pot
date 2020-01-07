@@ -1,15 +1,15 @@
 # Translations template for ckanext-ytp_main.
-# Copyright (C) 2019 ORGANIZATION
+# Copyright (C) 2020 ORGANIZATION
 # This file is distributed under the same license as the ckanext-ytp_main
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-01 10:09+0000\n"
+"POT-Creation-Date: 2020-01-07 08:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1008,7 +1008,11 @@ msgstr ""
 msgid "None - top level"
 msgstr ""
 
-#: ckanext/ytp/translations.py:182
+#: ckanext/ytp/translations.py:180
+msgid "Parent organization"
+msgstr ""
+
+#: ckanext/ytp/translations.py:183
 msgid "Organization cannot be deleted while it still has datasets"
 msgstr ""
 
