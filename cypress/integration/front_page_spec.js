@@ -48,3 +48,14 @@ describe('Login page', function(){
     cy.logout();
   })
 });
+
+describe('Test contact page', function () {
+  it('Sending feedback should succeed', function () {
+    cy.visit('/contact');
+    cy.get('#edit-name').type("Some name");
+    cy.get('#edit-mail').type('foo@example.com');
+    cy.get('#edit-subject-0-value').type('Some subject');
+    cy.get('#edit-message-0-value').type('Some content for feedback');
+    cy.get('#edit-submit').click();
+  })
+});
