@@ -48,3 +48,36 @@ describe('Login page', function(){
     cy.logout();
   })
 });
+
+describe('Test contact page', function () {
+  it('Sending feedback should succeed', function () {
+    cy.visit('/contact');
+    cy.get('#edit-name').type("Some name");
+    cy.get('#edit-mail').type('foo@example.com');
+    cy.get('#edit-subject-0-value').type('Some subject');
+    cy.get('#edit-message-0-value').type('Some content for feedback');
+    cy.get('#edit-submit').click();
+    cy.get('.messages__wrapper').contains('Your message has been sent.')
+  })
+
+  it('Sending feedback containing site url should succeed', function () {
+    cy.visit('/contact');
+    cy.get('#edit-name').type("Some name");
+    cy.get('#edit-mail').type('foo@example.com');
+    cy.get('#edit-subject-0-value').type('Some subject');
+    cy.get('#edit-message-0-value').type('This content contains url to site https://www.avoindata.fi');
+    cy.get('#edit-submit').click();
+    cy.get('.messages__wrapper').contains('Your message has been sent.')
+  })
+
+  it('Sending feedback containing external url should fail', function () {
+    cy.visit('/contact');
+    cy.get('#edit-name').type("Some name");
+    cy.get('#edit-mail').type('foo@example.com');
+    cy.get('#edit-subject-0-value').type('Some subject');
+    cy.get('#edit-message-0-value').type('This content contains url to external site http://example.com');
+    cy.get('#edit-submit').click();
+    cy.get('.messages__wrapper').contains('It looks like your post contains spam content. If you believe otherwise, please contact us.')
+  })
+
+});
