@@ -271,7 +271,7 @@
     - { src: captcha.settings.yml.j2, dest: captcha.settings.yml }
     - { src: captcha.captcha_point.user_register_form.yml.j2, dest: captcha.captcha_point.user_register_form.yml }
     - { src: captcha.captcha_point.contact_message_event_form.yml.j2, dest: captcha.captcha_point.contact_message_event_form.yml}
-    - { src: captcha.captcha_point.contact_message_feedback_form.yml.j2, dest: captcha.captcha_point.contact_message_feedback_form.yml.j2}
+    - { src: captcha.captcha_point.contact_message_feedback_form.yml.j2, dest: captcha.captcha_point.contact_message_feedback_form.yml}
     - { src: recaptcha.settings.yml.j2, dest: recaptcha.settings.yml }
   when: drupal_captcha_enabled
 
