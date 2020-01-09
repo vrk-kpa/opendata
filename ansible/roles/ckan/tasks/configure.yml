@@ -136,6 +136,12 @@
   tags:
     - supervisor
 
+- name: Copy prh systemd configuration
+  copy:
+    src: prh.service
+    dest: /etc/systemd/system/prh.service
+  notify: Reload systemd
+
 - include: cron.yml
   tags:
     - cron

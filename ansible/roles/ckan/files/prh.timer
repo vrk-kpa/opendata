@@ -1,0 +1,8 @@
+[Unit]
+Description=Run prh service at midnight
+
+[Timer]
+OnCalendar=*-*-* 0:00:00
+
+[Install]
+WantedBy=timers.target
