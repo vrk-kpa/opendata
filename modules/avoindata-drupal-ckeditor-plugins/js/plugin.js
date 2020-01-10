@@ -149,4 +149,52 @@
       });
     }
   });
+
+  // Register the plugin within the editor.
+  CKEDITOR.plugins.add('avoindata_example', {
+    requires: 'widget',
+
+    // Register the icons.
+    icons: 'avoindata_example',
+
+    // The plugin initialization logic goes inside this method.
+    init: function (editor) {
+      editor.addContentsCss(this.path + '../css/style.css');
+
+      // Allow any attributes.
+      editor.config.allowedContent = true;
+      CKEDITOR.dtd.$removeEmpty.i = 0;
+
+      editor.widgets.add('avoindata_example', {
+        template:
+          '<div class="avoindata-example"><div class="avoindata-example-header">' +
+              '<h2 class="avoindata-example-title">Title</h2></div>' +
+            '<div class="avoindata-example-content">Content</div></div>',
+
+        editables: {
+          title: {
+              selector: '.avoindata-example-title'
+          },
+          content: {
+              selector: '.avoindata-example-content'
+          }
+        },
+
+        requiredContent: 'div(avoindata-example) h2(avoindata-example-title) div(avoindata-example-content)',
+
+        upcast: function (element) {
+            return element.name == 'div' && element.hasClass('avoindata-example');
+        }
+      });
+
+      // Create a toolbar button that executes the above command.
+      editor.ui.addButton('avoindata_example', {
+        // The command to execute on click.
+        command: 'avoindata_example',
+
+        // The path to the icon.
+        icon: this.path + '../icons/avoindata_example.png'
+      });
+    }
+  });
 })();
