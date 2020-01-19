@@ -1,4 +1,4 @@
-@import '../variables';
+@import "../variables";
 
 // ------------------
 // Main layout styles
@@ -11,7 +11,7 @@ body {
   min-height: 100vh;
 }
 
-[role='main'] {
+[role="main"] {
   background: transparent;
   padding-top: 0;
 }
@@ -85,4 +85,48 @@ body {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
+}
+
+.container-page-wrapper {
+  background-color: #fafafa;
+}
+
+.page-container {
+  background-color: #fff;
+  border: 1px solid @suomi-depthLight13;
+  padding: 0 20px 60px 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+
+  span.control-required {
+    float: right;
+    color: black;
+    padding-left: 3px;
+  }
+
+  .select2-container .select2-choices .select2-search-field input,
+  input,
+  select {
+    border-radius: 0;
+    border-color: @suomi-depthLight13;
+    padding: 6px 10px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 24px;
+  }
+
+  .select2-container .select2-choice,
+  .select2-container .select2-choices {
+    border-radius: 0;
+  }
+
+  .input-prepend input,
+  .controls input {
+    border: 1px solid @suomi-depthLight13;
+  }
+}
+
+.primary .module-content {
+  padding-top: 0;
 }

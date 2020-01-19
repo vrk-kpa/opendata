@@ -1,9 +1,9 @@
 // Form specific overrides
-@common-path: '../..';
-@common-less: '@{common-path}/less';
+@common-path: "../..";
+@common-less: "@{common-path}/less";
 
-@import '@{common-less}/variables.less';
-@import '@{common-less}/mixins/mixins.less';
+@import "@{common-less}/variables.less";
+@import "@{common-less}/mixins/mixins.less";
 
 @input-border-radius: 2px;
 @input-border-color: @suomi-depthLight13;
@@ -168,7 +168,7 @@ fieldset.checkboxes {
   max-width: max-content;
   font-weight: normal;
 
-  [type='checkbox'] {
+  [type="checkbox"] {
     display: none;
 
     & + .custom-checkbox {
@@ -182,8 +182,8 @@ fieldset.checkboxes {
     }
 
     &:checked + .custom-checkbox::before {
-      content: '\f00c';
-      font-family: 'Font Awesome 5 Pro', sans-serif;
+      content: "\f00c";
+      font-family: "Font Awesome 5 Pro", sans-serif;
       font-weight: 500;
       vertical-align: middle;
       display: inline-block;
@@ -272,7 +272,7 @@ fieldset.checkboxes {
       content: none;
     }
 
-    [type='checkbox'] {
+    [type="checkbox"] {
       & + .custom-checkbox {
         border: 1px solid @input-border-color;
         border-radius: 2px;
@@ -335,8 +335,8 @@ fieldset.checkboxes {
 
 .ytp-search-bar {
   &::before {
-    content: '\f002';
-    font-family: 'Font Awesome Pro', sans-serif;
+    content: "\f002";
+    font-family: "Font Awesome Pro", sans-serif;
     font-weight: 300;
   }
 }
@@ -362,11 +362,11 @@ fieldset.checkboxes {
   }
 
   // Checked button style
-  input[type='radio']:checked ~ .custom-radio {
+  input[type="radio"]:checked ~ .custom-radio {
     border: 1px solid @suomi-highlightBase;
 
     &::after {
-      content: '';
+      content: "";
       display: block;
       background-color: @suomi-highlightBase;
       height: 8px;
@@ -376,7 +376,7 @@ fieldset.checkboxes {
   }
 
   // Focused button style
-  input[type='radio']:focus ~ .custom-radio {
+  input[type="radio"]:focus ~ .custom-radio {
     box-shadow: 0 0 2px 1px @suomi-highlightBase;
   }
 
@@ -422,4 +422,66 @@ fieldset.checkboxes {
       display: none;
     }
   }
+}
+
+.ytp-group-title {
+  margin-top: 40px;
+  margin-bottom: 20px;
+
+  &:first-of-type {
+    margin-top: 20px;
+  }
+}
+
+.ytp-group-description {
+  font-family: @font-family-sans-serif;
+  font-weight: normal;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.ytp-group-divider {
+  width: 100%;
+  height: 1px;
+  background: rgb(200, 205, 208);
+  border-radius: 0;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.page-description {
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 27px;
+}
+
+.no-editor-info {
+  .editor-info-block {
+    display: none;
+  }
+
+  .editor textarea {
+    border-radius: 0;
+    border-color: @suomi-depthLight13;
+    border-bottom: 1px solid @suomi-depthLight13;
+    padding: 6px 10px;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 24px;
+  }
+
+  span.error-block {
+    margin-top: -6px;
+  }
+}
+
+.label-on-top.form-group {
+  display: block;
+}
+
+label.control-label {
+  font-size: 16px;
+  font-family: @font-family-sans-serif-semibold;
+  font-weight: 600;
+  line-height: 24px;
 }

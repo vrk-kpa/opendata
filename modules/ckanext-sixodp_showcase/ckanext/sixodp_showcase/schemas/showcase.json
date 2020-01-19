@@ -10,7 +10,9 @@
       "preset": "title",
       "form_placeholder":"eg. A descriptive title",
       "description": "A short and descriptive title for the showcase.",
-      "required": true
+      "required": true,
+      "group_title": "Showcase title",
+      "group_description": "* Required field"
     },
     {
       "field_name": "name",
@@ -19,6 +21,33 @@
       "form_placeholder": "eg. my-dataset",
       "description": "An URL-address which refers to the dataset. The automatically filled option derived from the title is the best option in most cases.",
       "required": true
+    },
+    {
+      "field_name": "notes_translated",
+      "label": "Description",
+      "preset": "fluent_core_markdown_translated",
+      "form_placeholder": "eg. A detailed description",
+      "form_languages": ["fi", "sv", "en"],
+      "only_default_lang_required": true,
+      "description": "",
+      "group_title": "Showcase description",
+      "group_description": "An universal, compact and easy to understand description of the showcase."
+    },
+    {
+      "field_name": "keywords",
+      "label": "Tags",
+      "form_placeholder":"eg. traffic",
+      "form_languages": ["fi", "sv", "en"],
+      "preset": "fluent_vocabulary_with_autocomplete",
+      "validators": "fluent_tags create_fluent_tags(keywords)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=keywords"
+      },
+      "description": "",
+      "group_title": "Keywords and categories",
+      "group_description": "Keywords or tags through which users are able to find this showcase easily through the search page or other showcases which have the same tag. Please pick at least one finnish keyword."
     },
     {
       "field_name": "category",
@@ -34,6 +63,14 @@
       "description": "Category which represents showcase."
     },
     {
+      "field_name": "private",
+      "label": "Visibility",
+      "form_snippet": "private.html",
+      "display_snippet": null,
+      "validators": "boolean_validator set_private_if_not_admin_or_showcase_admin",
+      "group_title": "Additional showcase information"
+    },
+    {
       "field_name": "platform",
       "label": "Platform",
       "form_placeholder":"eg. android",
@@ -45,38 +82,6 @@
         "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=platform"
       },
       "description": "Platforms of the showcase."
-    },
-    {
-      "field_name": "keywords",
-      "label": "Tags",
-      "form_placeholder":"eg. traffic",
-      "form_languages": ["fi", "en", "sv"],
-      "preset": "fluent_vocabulary_with_autocomplete",
-      "validators": "fluent_tags create_fluent_tags(keywords)",
-      "form_attrs": {
-        "data-module": "autocomplete",
-        "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=keywords"
-      },
-      "description": "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag."
-    },
-    {
-      "field_name": "owner_org",
-      "validators": "ignore",
-      "display_snippet": null,
-      "form_snippet": null
-    },
-    {
-      "field_name": "author",
-      "label": "Author",
-      "form_placeholder": "Joe Bloggs",
-      "required": true
-    },
-    {
-      "field_name": "author_website",
-      "label": "Author Website",
-      "form_placeholder": "http://www.example.com",
-      "display_snippet": "link.html"
     },
     {
       "field_name": "application_website",
@@ -95,30 +100,16 @@
       "validators": "repeating_text"
     },
     {
-      "field_name": "notes_translated",
-      "label": "Description",
-      "preset": "fluent_core_markdown_translated",
-      "form_placeholder": "eg. A detailed description",
-      "form_languages": ["fi", "en", "sv"],
-      "description": "An universal, compact and easy to understand description of the added resource.",
-      "only_default_lang_required": true
+      "field_name": "author",
+      "label": "Author",
+      "form_placeholder": "Joe Bloggs",
+      "required": true
     },
     {
-      "field_name": "featured",
-      "label": "Featured",
-      "preset": "select",
-      "choices":[
-        {
-          "value": "false",
-          "label": "No"
-        },
-        {
-          "value": "true",
-          "label": "Yes"
-        }
-      ],
-      "required": true,
-      "validators": "boolean_validator"
+      "field_name": "author_website",
+      "label": "Author Website",
+      "form_placeholder": "http://www.example.com",
+      "display_snippet": "link.html"
     },
     {
       "field_name": "icon",
@@ -127,7 +118,10 @@
       "form_placeholder": "http://example.com/my-camel-photo.jpg",
       "upload_field": "icon_upload",
       "upload_clear": "clear_icon_upload",
-      "upload_label": "Icon"
+      "upload_label": "Icon",
+      "description": "Icon will be shown at the top of the showcase page",
+      "group_title": "Showcase images",
+      "group_description": "Images will be shown on the showcase page. You can upload images from your computer or link to an URL."
     },
     {
       "field_name": "featured_image",
@@ -137,7 +131,7 @@
       "upload_field": "featured_image_upload",
       "upload_clear": "clear_featured_image_upload",
       "upload_label": "Featured Image",
-      "description": "Image size xx times xx."
+      "description": "Featured image will be shown on the card in showcase list page."
     },
     {
       "field_name": "image_1",
@@ -167,6 +161,23 @@
       "upload_label": "Image 3"
     },
     {
+      "field_name": "featured",
+      "label": "Featured",
+      "preset": "select",
+      "choices":[
+        {
+          "value": "false",
+          "label": "No"
+        },
+        {
+          "value": "true",
+          "label": "Yes"
+        }
+      ],
+      "required": true,
+      "validators": "boolean_validator"
+    },
+    {
       "field_name": "archived",
       "label": "Archived",
       "preset": "select",
@@ -184,11 +195,10 @@
       "validators": "boolean_validator"
     },
     {
-      "field_name": "private",
-      "label": "Visibility",
-      "form_snippet": "private.html",
+      "field_name": "owner_org",
+      "validators": "ignore",
       "display_snippet": null,
-      "validators": "boolean_validator set_private_if_not_admin_or_showcase_admin"
+      "form_snippet": null
     }
   ]
 }
