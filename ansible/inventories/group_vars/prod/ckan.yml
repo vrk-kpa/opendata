@@ -49,3 +49,4 @@ ckan_sentry_dsn: "{{ secret_ckan_sentry_dsn }}"
 
 ckan_harvester_status_email_recipients: "{{ secret_ckan_harvester_status_email_recipients }}"
 ckan_notifications_to_maintainers_enabled: true
+ckan_prh_crawler_enabled: true

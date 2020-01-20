@@ -136,11 +136,22 @@
   tags:
     - supervisor
 
-- name: Copy prh systemd configuration
-  copy:
-    src: prh.service
-    dest: /etc/systemd/system/prh.service
-  notify: Reload systemd
+- block:
+  - name: Copy prh systemd configuration
+    copy:
+      src: "{{ item }}"
+      dest: "/etc/systemd/system/{{ item }}"
+    with_items:
+      - prh.service
+      - prh.timer
+    notify: Reload systemd
+
+  - name: Enable prh timer
+    systemd:
+      name: prh.timer
+      enabled: yes
+      state: started
+  when: ckan_prh_crawler_enabled
 
 - include: cron.yml
   tags:
