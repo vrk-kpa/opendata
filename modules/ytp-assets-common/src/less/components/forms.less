@@ -496,3 +496,58 @@ label.control-label {
     margin-bottom: 0;
   }
 }
+
+.radios {
+  display: block;
+  position: relative;
+
+  input[type="radio"] {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .check {
+    border: 1px solid #a5adb1;
+    border-radius: 100%;
+    margin-right: 8px;
+    height: 18px;
+    width: 18px;
+    z-index: 5;
+    transition: border 0.25s linear;
+    display: inline-flex;
+    place-content: center;
+    align-self: center;
+  }
+
+  .check::before {
+    display: flex;
+    align-self: center;
+    content: "";
+    border-radius: 100%;
+    height: 8px;
+    width: 8px;
+    transition: background 0.25s linear;
+  }
+
+  input[type="radio"]:checked ~ .check {
+    border: 1px solid #2a6ebb;
+  }
+
+  input[type="radio"]:checked ~ .check::before {
+    background: #2a6ebb;
+  }
+
+  label {
+    font-size: 16px;
+    font-weight: normal;
+    margin-right: 20px;
+    z-index: 9;
+    cursor: pointer;
+    transition: all 0.25s linear;
+    display: inline-flex;
+  }
+
+  label::after {
+    content: "";
+  }
+}

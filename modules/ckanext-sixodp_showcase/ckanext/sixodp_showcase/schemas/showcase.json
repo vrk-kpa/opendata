@@ -8,7 +8,7 @@
       "field_name": "title",
       "label": "Title",
       "preset": "title",
-      "form_placeholder":"eg. A descriptive title",
+      "form_placeholder": "eg. A descriptive title",
       "description": "A short and descriptive title for the showcase.",
       "required": true,
       "group_title": "Showcase title",
@@ -36,7 +36,7 @@
     {
       "field_name": "keywords",
       "label": "Tags",
-      "form_placeholder":"eg. traffic",
+      "form_placeholder": "eg. traffic",
       "form_languages": ["fi", "sv", "en"],
       "preset": "fluent_vocabulary_with_autocomplete",
       "validators": "fluent_tags create_fluent_tags(keywords)",
@@ -52,7 +52,7 @@
     {
       "field_name": "category",
       "label": "Category",
-      "form_placeholder":"eg. visualization",
+      "form_placeholder": "eg. visualization",
       "preset": "fluent_vocabulary_with_autocomplete",
       "validators": "fluent_tags create_fluent_tags(category)",
       "form_attrs": {
@@ -65,15 +65,25 @@
     {
       "field_name": "private",
       "label": "Visibility",
-      "form_snippet": "private.html",
-      "display_snippet": null,
+      "preset": "select",
+      "form_snippet": "radio.html",
+      "choices": [
+        {
+          "label": "Public",
+          "value": "Public"
+        },
+        {
+          "label": "Private",
+          "value": "Private"
+        }
+      ],
       "validators": "boolean_validator set_private_if_not_admin_or_showcase_admin",
       "group_title": "Additional showcase information"
     },
     {
       "field_name": "platform",
       "label": "Platform",
-      "form_placeholder":"eg. android",
+      "form_placeholder": "eg. android",
       "preset": "vocabulary_with_autocomplete",
       "validators": "convert_to_list create_tags(platform)",
       "form_attrs": {
@@ -164,7 +174,7 @@
       "field_name": "featured",
       "label": "Featured",
       "preset": "select",
-      "choices":[
+      "choices": [
         {
           "value": "false",
           "label": "No"
@@ -181,7 +191,7 @@
       "field_name": "archived",
       "label": "Archived",
       "preset": "select",
-      "choices":[
+      "choices": [
         {
           "value": "false",
           "label": "No"
