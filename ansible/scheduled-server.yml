@@ -27,6 +27,8 @@
       tags: ckan
     - role: datapusher
       tags: datapusher
+    - role: prh_tools
+      tags: prh_tools
 
   post_tasks:
     - import_role:

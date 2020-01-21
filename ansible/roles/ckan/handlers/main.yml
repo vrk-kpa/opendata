@@ -9,7 +9,3 @@
     state: restarted
   with_flattened:
     - "{{ ckan_supervisor_services }}"
-
-- name: Reload systemd
-  systemd:
-    daemon_reload: yes

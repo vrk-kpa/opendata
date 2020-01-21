@@ -303,4 +303,3 @@ ckan_sentry_pip_packages:
   - sentry-sdk[flask]==0.10.0
 
 ckan_notifications_to_maintainers_enabled: false
-ckan_prh_crawler_enabled: false
