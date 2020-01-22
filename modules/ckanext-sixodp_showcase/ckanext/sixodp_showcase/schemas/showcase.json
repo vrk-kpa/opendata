@@ -70,13 +70,14 @@
       "choices": [
         {
           "label": "Public",
-          "value": "Public"
+          "value": "false"
         },
         {
           "label": "Private",
-          "value": "Private"
+          "value": "true"
         }
       ],
+      "default_value": "false",
       "validators": "boolean_validator set_private_if_not_admin_or_showcase_admin",
       "group_title": "Additional showcase information"
     },
@@ -174,6 +175,7 @@
       "field_name": "featured",
       "label": "Featured",
       "preset": "select",
+      "form_snippet": "radio.html",
       "choices": [
         {
           "value": "false",
@@ -184,6 +186,7 @@
           "label": "Yes"
         }
       ],
+      "default_value": "false",
       "required": true,
       "validators": "boolean_validator"
     },
@@ -191,6 +194,7 @@
       "field_name": "archived",
       "label": "Archived",
       "preset": "select",
+      "form_snippet": "radio.html",
       "choices": [
         {
           "value": "false",
@@ -201,6 +205,7 @@
           "label": "Yes"
         }
       ],
+      "default_value": "false",
       "required": true,
       "validators": "boolean_validator"
     },
