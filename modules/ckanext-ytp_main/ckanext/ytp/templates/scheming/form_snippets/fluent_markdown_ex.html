@@ -4,7 +4,7 @@
     {% call form.markdown(
       field.field_name + '-' + lang,
       id='field-' + field.field_name + '-' + lang,
-      label=field.label + ' ' + lang,
+      label=_(field.label) + ' ' + _(lang),
       placeholder=h.scheming_language_text(field.form_placeholder, lang),
       value=data[field.field_name + '-' + lang]
           or data.get(field.field_name, {})[lang],

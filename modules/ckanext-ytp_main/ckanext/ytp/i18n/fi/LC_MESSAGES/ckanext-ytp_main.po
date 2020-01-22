@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-07 08:35+0000\n"
+"POT-Creation-Date: 2020-01-22 13:47+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -1050,6 +1050,7 @@ msgstr ""
 "Organisaatiot, joilla ei ole tietoaineistoja näkyvät listauksessa ainoastaan"
 " hakutoimintoa käyttämällä."
 
+#: ckanext/ytp/templates/scheming/form_snippets/org_hierarchy.html:6
 #: ckanext/ytp/translations.py:179
 msgid "None - top level"
 msgstr "Ei mitään"
@@ -1061,6 +1062,79 @@ msgstr "Yläorganisaatio"
 #: ckanext/ytp/translations.py:183
 msgid "Organization cannot be deleted while it still has datasets"
 msgstr "Organisaatiota ei voida poistaa, koska sillä on tietoaineistoja"
+
+#: ckanext/ytp/translations.py:187
+msgid "fi"
+msgstr "suomeksi"
+
+#: ckanext/ytp/translations.py:188
+msgid "en"
+msgstr "englanniksi"
+
+#: ckanext/ytp/translations.py:189
+msgid "sv"
+msgstr "ruotsiksi"
+
+#: ckanext/ytp/translations.py:191
+msgid "Showcase title"
+msgstr "Sovelluksen nimi"
+
+#: ckanext/ytp/translations.py:192
+msgid "* Required field"
+msgstr "* Pakollinen kenttä"
+
+#: ckanext/ytp/translations.py:194
+msgid "Showcase description"
+msgstr "Sovelluksen kuvaus"
+
+#: ckanext/ytp/translations.py:195
+msgid ""
+"An universal, compact and easy to understand description of the showcase."
+msgstr "Yleinen, tiivis ja helppotajuinen kuvaus sovelluksesta."
+
+#: ckanext/ytp/translations.py:197
+msgid "Keywords and categories"
+msgstr "Avainsanat ja kategoriat"
+
+#: ckanext/ytp/translations.py:198
+msgid ""
+"Keywords or tags through which users are able to find this showcase easily "
+"through the search page or other showcases which have the same tag. Please "
+"pick at least one finnish keyword."
+msgstr ""
+"Avainsanojen avulla käyttäjä löytää tämän sovelluksen tai vastaavia "
+"sovelluksia helposti hakusivun kautta. Valitse vähintään yksi suomenkielinen"
+" avainsana."
+
+#: ckanext/ytp/translations.py:200
+msgid "Additional showcase information"
+msgstr "Sovelluksen muut tiedot"
+
+#: ckanext/ytp/translations.py:202
+msgid "Application developer"
+msgstr "Sovelluksen kehittäjä"
+
+#: ckanext/ytp/translations.py:204
+msgid ""
+"Images will be shown on the showcase page. You can upload images from your "
+"computer or link to an URL."
+msgstr ""
+"Kuvat tullaan esittämään sovelluksen esittelysivulla. Voit ladata tiedostot "
+"tietokoneelta tai lisätä linkin kuvaan."
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:188
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:189
+#: ckanext/ytp/translations.py:206
+msgid "Icon"
+msgstr "Kuvake"
+
+#: ckanext/ytp/translations.py:208
+msgid "Yes"
+msgstr "Kyllä"
+
+#: ckanext/ytp/translations.py:209
+msgid "No"
+msgstr "Ei"
 
 #: ckanext/ytp/validators.py:66
 msgid "Missing value"
@@ -2136,7 +2210,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:84
 msgid "Platform"
-msgstr "Alusta"
+msgstr "Käyttöympäristö (alusta)"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:85
 msgid "e.g. android"
@@ -2193,11 +2267,6 @@ msgstr "Kuva 2"
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:173
 msgid "Image 3"
 msgstr "Kuva 3"
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:188
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:189
-msgid "Icon"
-msgstr "Icon"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:194
 msgid ""
