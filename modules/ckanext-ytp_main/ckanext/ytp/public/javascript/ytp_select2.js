@@ -1,6 +1,6 @@
 $(window).on("load", function() {
   $('input[data-module="autocomplete"]').each(function(index, element) {
-    if ($(element).select2("data") && $(element).select2("data").length > 0) {
+    if (Array.isArray($(element).select2("data")) && $(element).select2("data").length > 0) {
       $(element).select2("data")
         .forEach(function(tag) {
           tag.container = element.id;
