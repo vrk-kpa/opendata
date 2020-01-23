@@ -551,3 +551,54 @@ label.control-label {
     content: "";
   }
 }
+
+@button-text: {
+  font-family: @font-family-sans-serif-semibold;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  line-height: 20px;
+  color: @suomi-highlightBase;
+};
+
+.add-input-button {
+  @button-text();
+
+  appearance: none;
+  border: 1px solid @suomi-highlightBase;
+  padding: 12px 30px;
+  background: white;
+  border-radius: 2px;
+  margin-top: 20px;
+
+  i {
+    margin-right: 8px;
+  }
+}
+
+.removable-input-container {
+  margin-top: 20px;
+
+  input {
+    width: 90%;
+    display: inline-block;
+  }
+
+  button {
+    float: right;
+  }
+}
+
+.remove-input-button {
+  @button-text();
+
+  appearance: none;
+  height: 40px;
+  padding: 12px 15px;
+  background: white;
+  border: none;
+
+  i {
+    margin-right: 8px;
+  }
+}

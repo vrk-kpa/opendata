@@ -135,18 +135,22 @@
     {
       "field_name": "application_website",
       "label": "Application Website",
-      "form_placeholder": "http://www.example.com",
+      "form_placeholder": "Type in application website",
       "display_snippet": "link.html"
     },
     {
       "field_name": "store_urls",
       "preset": "repeating_text",
       "label": "Links to stores",
+      "form_placeholder": "Type in url",
       "form_blanks": 1,
       "display_snippet": "repeating_link.html",
       "form_snippet": "repeating.html",
-      "description": "Links to stores",
-      "validators": "repeating_text"
+      "description": "",
+      "validators": "repeating_text",
+      "form_attrs": {
+        "data-module": "ytp_main_input_multiple"
+      }
     },
     {
       "field_name": "author",
