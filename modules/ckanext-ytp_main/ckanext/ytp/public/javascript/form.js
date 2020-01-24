@@ -61,7 +61,7 @@ ckan.module("ytp_main_input_multiple", function($) {
           }
           // We are adding the 'add link' after the listContainer
           var addLink = $(
-            '<button type="button" class="suomifi-button-secondary"><i class="fa fa-globe"></i>' +
+            '<button type="button" class="add-input-button suomifi-button-secondary"><i class="fa fa-globe"></i>' +
               addLinkText +
               "</button>"
           );
