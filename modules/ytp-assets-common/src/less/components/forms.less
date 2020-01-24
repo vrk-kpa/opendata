@@ -552,28 +552,20 @@ label.control-label {
   }
 }
 
-@button-text: {
-  font-family: @font-family-sans-serif-semibold;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  line-height: 20px;
-  color: @suomi-highlightBase;
-};
+.suomifi-button-primary {
+  @suomifi-button-primary();
+}
 
-.add-input-button {
-  @button-text();
+.suomifi-button-secondary {
+  @suomifi-button-secondary();
+}
 
-  appearance: none;
-  border: 1px solid @suomi-highlightBase;
-  padding: 12px 30px;
-  background: white;
-  border-radius: 2px;
+.suomifi-button-secondary-noborder {
+  @suomifi-button-secondary-noborder();
+}
+
+div.multiple-values ~ button.suomifi-button-secondary {
   margin-top: 20px;
-
-  i {
-    margin-right: 8px;
-  }
 }
 
 .removable-input-container {
@@ -589,16 +581,28 @@ label.control-label {
   }
 }
 
-.remove-input-button {
-  @button-text();
+.disclaimer {
+  margin-left: 45%;
+  width: 55%;
+  padding-top: 40px;
+  color: rgb(95, 104, 109);
+  font-size: 14px;
+  font-family: @font-family-sans-serif;
+  font-weight: normal;
+  line-height: 18px;
+}
 
-  appearance: none;
-  height: 40px;
-  padding: 12px 15px;
-  background: white;
-  border: none;
+.page-container {
+  .form-actions {
+    flex-direction: row;
+    justify-content: start;
 
-  i {
-    margin-right: 8px;
+    .suomifi-button-primary {
+      margin-left: auto;
+    }
+
+    .suomifi-button-secondary {
+      margin-right: 20px;
+    }
   }
 }

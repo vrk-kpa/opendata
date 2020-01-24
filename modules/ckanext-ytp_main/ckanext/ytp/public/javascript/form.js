@@ -61,7 +61,7 @@ ckan.module("ytp_main_input_multiple", function($) {
           }
           // We are adding the 'add link' after the listContainer
           var addLink = $(
-            '<button type="button" class="add-input-button"><i class="fa fa-globe"></i>' +
+            '<button type="button" class="suomifi-button-secondary"><i class="fa fa-globe"></i>' +
               addLinkText +
               "</button>"
           );
@@ -109,7 +109,7 @@ ckan.module("ytp_main_input_multiple", function($) {
       var removeLinkText = this._("Remove");
       // The remove link with the icon
       var removeLink = $(
-        '<button type="button" class="remove-input-button"><i class="far fa-trash"></i>' +
+        '<button type="button" class="suomifi-button-secondary-noborder"><i class="far fa-trash"></i>' +
           removeLinkText +
           "</button>"
       );
