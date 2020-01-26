@@ -594,3 +594,61 @@ label.control-label {
     }
   }
 }
+
+#content > .wrapper.ckanext-showcase-edit-wrapper {
+  padding: 0 15px;
+
+  > .primary {
+    float: none;
+  }
+}
+
+.suomifi-page-header {
+  border: 1px solid #c9cdcf;
+  border-radius: 3px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 0;
+  background-color: #fff;
+  padding: 35px 25px 20px;
+
+  h1 {
+    margin-top: 0;
+  }
+
+  .content_action a {
+    float: right;
+  }
+
+  .nav {
+    li {
+      display: inline-block;
+      margin-right: 60px;
+
+      a {
+        padding: 10px 5px;
+        color: @new-layout-primary-text-color;
+        font-family: @font-family-sans-serif;
+        font-size: 18px;
+        font-weight: normal;
+        line-height: 27px;
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: none;
+        background-color: transparent;
+      }
+
+      &.active a {
+        font-family: @font-family-sans-serif-semibold;
+        border-bottom: 4px solid @suomi-highlightBase;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.suomifi-page-header ~ .page-container {
+  margin-top: 0;
+}
