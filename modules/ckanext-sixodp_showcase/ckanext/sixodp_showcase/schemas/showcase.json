@@ -142,7 +142,7 @@
       "field_name": "store_urls",
       "preset": "repeating_text",
       "label": "Links to stores",
-      "form_placeholder": "Type in url",
+      "form_placeholder": "Type in URL",
       "form_blanks": 1,
       "display_snippet": "repeating_link.html",
       "form_snippet": "repeating.html",

@@ -195,7 +195,8 @@ def _translations():
     _("An universal, compact and easy to understand description of the showcase.")
 
     _("Keywords and categories")
-    _("Keywords or tags through which users are able to find this showcase easily through the search page or other showcases which have the same tag. Please pick at least one finnish keyword.")
+    _("Keywords or tags through which users are able to find this showcase easily through the search page or other showcases \
+       which have the same tag. Please pick at least one finnish keyword.")
 
     _("Additional showcase information")
 
@@ -207,6 +208,9 @@ def _translations():
 
     _("Yes")
     _("No")
+
+    _("Type in application website")
+    _("Type in URL")
 
 
 def facet_translations():

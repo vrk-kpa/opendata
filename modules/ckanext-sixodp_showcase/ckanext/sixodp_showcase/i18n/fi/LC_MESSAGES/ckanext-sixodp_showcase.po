@@ -1,24 +1,25 @@
 # Translations template for ckanext-sixodp_showcase.
-# Copyright (C) 2019 ORGANIZATION
+# Copyright (C) 2020 ORGANIZATION
 # This file is distributed under the same license as the ckanext-sixodp_showcase
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 # 
 # Translators:
 # Pentti Laitinen, 2018
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2018
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
-# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
+# Meeri Hakala <meeri.hakala@vrk.fi>, 2019
+# Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-09-23 11:01+0000\n"
+"POT-Creation-Date: 2020-01-26 14:43+0000\n"
 "PO-Revision-Date: 2018-03-14 11:02+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2019\n"
+"Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -301,9 +302,9 @@ msgstr "Muokkaa"
 
 #: ckanext/sixodp_showcase/templates/showcase/edit_base.html:17
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:21
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:3
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:5
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:63
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:6
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:15
 msgid "Create Showcase"
 msgstr "Luo sovellus"
 
@@ -313,12 +314,12 @@ msgid "View showcase"
 msgstr "Näytä sovellus"
 
 #: ckanext/sixodp_showcase/templates/showcase/edit_base.html:36
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:40
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:41
 msgid "Edit showcase"
 msgstr "Muokkaa sovellusta"
 
 #: ckanext/sixodp_showcase/templates/showcase/edit_base.html:37
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:41
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:42
 msgid "Manage datasets"
 msgstr "Hallitse tietoaineistoja"
 
@@ -406,9 +407,13 @@ msgstr "Näytä sivu"
 msgid "Search showcases..."
 msgstr "Etsi käyttösovelluksia..."
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:8
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:10
 msgid "Create a Showcase"
 msgstr "Luo sovellus"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:11
+msgid "new-showcase-page-description"
+msgstr ""
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:15
 msgid "Title"
@@ -463,19 +468,31 @@ msgid "joe@example.com"
 msgstr "joe@example.com"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:58
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:11
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:10
 msgid "Are you sure you want to delete this showcase?"
 msgstr "Haluatko varmasti poistaa tämän sovelluksen?"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:59
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:11
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:10
 msgid "Delete"
 msgstr "Poista"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:63
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:6
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:15
 msgid "Update Showcase"
 msgstr "Päivitä sovellus"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:12
+msgid "Abort"
+msgstr "Keskeytä"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:20
+msgid ""
+"By submitting this form, you agree to release the <i>metadata</i> values "
+"that you enter into the form under the <a "
+"href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database "
+"License</a>."
+msgstr ""
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:47
 msgid "Archived"
@@ -495,7 +512,7 @@ msgstr "Käytetyt tietoaineistot"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:136
 msgid "There are no Datasets in this Showcase"
-msgstr "Sovellukseen ei liity tietoaineistoja"
+msgstr "Sovellukseen ei ole liitetty tietoaineistoja"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:151
 msgid " Links "
