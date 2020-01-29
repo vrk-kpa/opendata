@@ -652,3 +652,93 @@ label.control-label {
 .suomifi-page-header ~ .page-container {
   margin-top: 0;
 }
+
+td.selectable-row {
+  label {
+    display: flex;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 0;
+    line-height: 20px;
+  }
+
+  input[type="checkbox"].row-checkbox {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .check {
+    border: 1px solid #a5adb1;
+    margin-right: 8px;
+    height: 18px;
+    width: 18px;
+    z-index: 5;
+    transition: border 0.25s linear;
+    display: inline-flex;
+    place-content: center;
+    align-self: center;
+  }
+
+  .check::before {
+    display: flex;
+    align-self: center;
+    transition: background 0.25s linear;
+  }
+
+  input[type="checkbox"].row-checkbox:checked ~ .check {
+    border-color: @suomi-highlightBase;
+  }
+
+  input[type="checkbox"].row-checkbox:checked ~ .check::before {
+    color: @suomi-highlightBase;
+    content: "\f00c";
+    font-family: "Font Awesome 5 Pro", sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  label::after {
+    content: "";
+  }
+}
+
+.row-title {
+  display: inline-block;
+}
+
+.custom-table-header {
+  padding: 25px 20px 10px;
+  border: 1px solid @suomi-depthLight13;
+  border-bottom: none;
+
+  & ~ p.filter-list {
+    margin: 0;
+  }
+
+  #field-order-by-container label::after {
+    content: "";
+  }
+}
+
+.custom-table-header-title {
+  font-family: @font-family-sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 28px;
+  align-self: center;
+}
+
+.action-button-group {
+  border-left: 1px solid @suomi-depthLight13;
+  border-right: 1px solid @suomi-depthLight13;
+
+  & button {
+    margin-left: 20px;
+    margin-bottom: 10px;
+  }
+}
