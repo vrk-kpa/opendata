@@ -2,7 +2,7 @@ describe('Showcase tests', function() {
 
   beforeEach(function () {
     cy.reset_db();
-    
+
     // Login with test-publisher and visit ckan to create the user
     cy.login_post_request('test-publisher', 'test-publisher');
     cy.visit('/data/fi/dataset');
@@ -12,7 +12,7 @@ describe('Showcase tests', function() {
     cy.login_post_request('admin', 'administrator');
     cy.visit('/');
     // It's necessary to visit dataset page before ckan-admin so that the ckan user is created
-    cy.visit('/data/fi/dataset'); 
+    cy.visit('/data/fi/dataset');
     cy.visit('/data/ckan-admin');
     cy.get('a[href="/data/ckan-admin/showcase_admins"]').click();
     cy.get('#s2id_username').click();
@@ -94,7 +94,7 @@ describe('Showcase tests', function() {
     cy.approve_organization(organization_name);
     cy.logout();
     cy.login_post_request('test-publisher', 'test-publisher');
-    
+
     cy.visit(`/data/fi/organization/${organization_name}`)
 
     // Dataset linked to organization
@@ -108,15 +108,15 @@ describe('Showcase tests', function() {
     cy.get('nav a[href="/data/fi/dataset"]').click();
     // Dataset will be created with default resource_form_data
     const resource_form_data = null;
-    const showcase_name = "test-showcase"; 
+    const showcase_name = "test-showcase";
     cy.create_new_dataset("test dataset", dataset_form_data, resource_form_data, organization_name);
-    
+
     // Create a showcase with dataset
     cy.create_new_showcase(showcase_name);
     cy.get(`a[href="/data/fi/showcase/edit/${showcase_name}"]`).click();
     cy.get(`a[href="/data/fi/showcase/manage_datasets/${showcase_name}"]`).click();
     //There should be only one checkbox, because there is only one dataset
-    cy.get("tbody input[type=checkbox").check();
+    cy.get("tbody td").click();
     cy.get('button[name="bulk_action.showcase_add"]').click()
     //Remove button should exist after adding the dataset
     cy.get('button[name="bulk_action.showcase_remove"')
