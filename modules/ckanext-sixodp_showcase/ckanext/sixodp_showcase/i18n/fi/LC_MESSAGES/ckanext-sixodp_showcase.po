@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-26 14:43+0000\n"
+"POT-Creation-Date: 2020-01-29 13:45+0000\n"
 "PO-Revision-Date: 2018-03-14 11:02+0000\n"
 "Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -327,59 +327,59 @@ msgstr "Hallitse tietoaineistoja"
 msgid "Showcases - Manage datasets"
 msgstr "Sovellukset - Hallitse tietoaineistoja"
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:23
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:16
+msgid "Datasets in this showcase"
+msgstr "Tämän sovelluksen tietoaineistot"
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:41
+msgid "Remove from Showcase"
+msgstr "Poista sovelluksesta"
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:47
+msgid "This showcase has no datasets associated to it"
+msgstr "Tähän sovellukseen ei ole liitetty tietoaineistoja"
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:53
+msgid "Search and add datasets to a showcase"
+msgstr "Hae ja lisää tietoaineistoja sovellukselle"
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:63
 #: ckanext/sixodp_showcase/templates/showcase/search.html:12
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:32
 msgid "Relevance"
 msgstr "Relevanssi"
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:24
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:64
 #: ckanext/sixodp_showcase/templates/showcase/search.html:13
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:33
 msgid "Name Ascending"
 msgstr "Nimen mukaan nousevasti"
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:25
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:65
 #: ckanext/sixodp_showcase/templates/showcase/search.html:14
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:34
 msgid "Name Descending"
 msgstr "Nimen mukaan laskevasti"
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:26
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:66
 #: ckanext/sixodp_showcase/templates/showcase/search.html:15
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:35
 msgid "Last Modified"
 msgstr "Viimeksi muokattu"
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:27
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:67
 #: ckanext/sixodp_showcase/templates/showcase/search.html:16
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:31
 msgid "Popular"
 msgstr "Suositut"
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:35
-msgid "Datasets available to add to this showcase"
-msgstr "Tälle sovellukselle saatavilla olevat tietoaineistot"
-
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:50
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:76
 msgid "Add to Showcase"
 msgstr "Lisää sovellukseen"
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:87
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:108
 msgid "No datasets could be found"
 msgstr "Tietoaineistoja ei löytynyt"
-
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:95
-msgid "Datasets in this showcase"
-msgstr "Tämän sovelluksen tietoaineistot"
-
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:108
-msgid "Remove from Showcase"
-msgstr "Poista sovelluksesta"
-
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:139
-msgid "This showcase has no datasets associated to it"
-msgstr "Tähän sovellukseen ei ole liitetty tietoaineistoja"
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:6
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:97
