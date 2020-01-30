@@ -172,7 +172,7 @@
       "upload_field": "icon_upload",
       "upload_clear": "clear_icon_upload",
       "upload_label": "Icon",
-      "description": "Icon will be shown at the top of the showcase page",
+      "description": "Icon will be shown at the top of the showcase page.",
       "group_title": "Showcase images",
       "group_description": "Images will be shown on the showcase page. You can upload images from your computer or link to an URL."
     },

@@ -212,6 +212,9 @@ def _translations():
     _("Type in application website")
     _("Type in URL")
 
+    _("Icon will be shown at the top of the showcase page.")
+    _("Featured image will be shown on the cards in showcase list page.")
+
 
 def facet_translations():
     return ["Open Data", "Interoperability Tools", "External", "Internal"]
