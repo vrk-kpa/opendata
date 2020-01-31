@@ -1,5 +1,5 @@
 import ckan.model as model
-from ckan.common import json, _, g, request
+from ckan.common import g, request
 from ckan.logic import get_action
 from ckan.views.api import _finish_ok
 
