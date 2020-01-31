@@ -1,0 +1,19 @@
+---
+# tasks file for prh_tools
+
+- block:
+    - name: Copy prh systemd configuration
+      copy:
+        src: "{{ item }}"
+        dest: "/etc/systemd/system/{{ item }}"
+      with_items:
+        - prh.service
+        - prh.timer
+      notify: Reload systemd
+
+    - name: Enable prh timer
+      systemd:
+        name: prh.timer
+        enabled: yes
+        state: started
+  when: prh_crawler_enabled
