@@ -24,7 +24,7 @@
     "pump": "^3.0.0",
     "stylelint": "^10.0.1",
     "stylelint-config-standard": "^18.2.0",
-    "gulp-stylelint": "^9.0.0",
+    "gulp-stylelint": "^13.0.0",
     "extend": "^3.0.2"
   },
   "engines": {
