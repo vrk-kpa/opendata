@@ -2,6 +2,7 @@
 {% import 'scheming/macros/form.html' as scheming_form %}
 
 {% resource "ytp_common_js/ytp_form.js" %}
+{% resource "ytp_common_js/ytp_select2.js" %}
 
 <script>
   function onSubmit() {
@@ -16,6 +17,8 @@
     {{ message.text }}
   </div>
   {% endif %}
+    <h3 class="ytp-group-title">{{_("Showcase title")}}</h3>
+    <h5 class="ytp-group-description">{{_("* Required field")}}</h5>
       {% call form.input(
         'title',
         id='field-title',
@@ -29,7 +32,10 @@
         )
         %}
       {% endcall %}
+    <div class="ytp-group-divider"></div>
 
+    <h3 class="ytp-group-title">{{_("Showcase description")}}</h3>
+    <h5 class="ytp-group-description">{{_("An universal, compact and easy to understand description of the showcase.")}}</h5>
       {% snippet "scheming/form_snippets/fluent_markdown_ex.html", field={
         "field_name": "notes_translated",
         "label": "Description",
@@ -40,7 +46,68 @@
         "only_default_lang_required": true
       }, data=data, errors=errors %}
 
-      {% call form.input(
+    <div class="ytp-group-divider"></div>
+
+    <h3 class="ytp-group-title">{{_("Showcase information")}}</h3>
+
+    <div class="control-group control-medium">
+      <label class="control-label">{{ _('Datasets used in the application') }}</label>
+      <input id="dataset"
+        name="datasets"
+        placeholder="{{ _('Search for a dataset') }}"
+        value="{{ data['datasets'] if data['datasets'] | length > 0 }}"
+        class="control-full ytp-select2"
+        data-module="autocomplete"
+        data-module-source="/api/util/dataset/autocomplete?incomplete=?&package_type=dataset"
+        data-module-tags="true"
+        data-module-key="name"
+        data-module-label="title">
+    </div>
+
+    {% call form.input(
+      'platform',
+      id='field-platform',
+      label=_('Platform'),
+      placeholder=_('e.g. android'),
+      value=data['platform'],
+      error=errors['platform'],
+      classes=['control-full ytp-select2'],
+      attrs={
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=platform"
+      },
+      is_required=false
+      )
+    %}
+    {% endcall %}
+
+    {% call form.input(
+      'application_website',
+      id='field-application_website',
+      label=_('Application website'),
+      placeholder=_("Type in application website"),
+      value=data['application_website'],
+      error=errors['application_website'],
+      classes=['control-medium'],
+      attrs={'class': 'form-control'},
+      is_required=false
+      )
+    %}
+    {% endcall %}
+
+    {{ scheming_form.input_multiple(
+      'store_urls',
+      id='field-store_urls',
+      label=_('Store urls'),
+      value=data['store_urls'],
+      placeholder='',
+      error=errors['store_urls'],
+      attrs={'class': 'form-control', 'data-module': 'ytp_main_input_multiple'},
+      is_required=false,
+      classes=['control-medium']) }}
+
+    {% call form.input(
       'author',
       id='field-author',
       label=_('Name or organization of the author'),
@@ -51,230 +118,169 @@
       attrs={'class': 'form-control'},
       is_required=true
       )
-      %}
-      {% endcall %}
-      <div class="field-assistive-text">
-        {% trans %}
-          Can be a person's name or the name of the organization which has developed the showcase.
-        {% endtrans %}
-      </div>
+    %}
+    {% endcall %}
 
-      {% call form.input(
-      'application_website',
-      id='field-application_website',
-      label=_('Application website'),
+    {% call form.input(
+      'author_website',
+      id='field-author_website',
+      label=_('Author Website'),
+      placeholder='http://www.example.com',
+      value=data['author_website'],
+      error=errors['author_website'],
+      classes=['control-medium'],
+      attrs={'class': 'form-control'}
+      )
+    %}
+    {% endcall %}
+
+    <div class="ytp-group-divider"></div>
+
+    <h3 class="ytp-group-title">{{_("Submitter info")}}</h3>
+    <h5 class="ytp-group-description">{{_("Name or email of the submitter will not be published alongside the application. They can be used to contact the submitter in case additional information is required.")}}</h5>
+
+    {% call form.input(
+      'notifier',
+      id='notifier',
+      label=_('Name of the submitter'),
       placeholder='',
-      value=data['application_website'],
-      error=errors['application_website'],
+      value=data['notifier'],
+      error=errors['notifier'],
       classes=['control-medium'],
       attrs={'class': 'form-control'},
-      is_required=false
+      is_required=true
       )
-      %}
-      {% endcall %}
-      <div class="field-assistive-text">
-        {% trans %}
-          The original source url or a website dedicated for the showcase
-        {% endtrans %}
-      </div>
+    %}
+    {% endcall %}
 
-      {% call form.input(
-      'platform',
-      id='field-platform',
-      label=_('Platform'),
-      placeholder=_('e.g. android'),
-      value=data['platform'],
-      error=errors['platform'],
+    {% call form.input(
+      'notifier_email',
+      id='notifier_email',
+      label=_('Submitter email'),
+      placeholder='',
+      value=data['notifier_email'],
+      error=errors['notifier_email'],
       classes=['control-medium'],
-      attrs={
-        "data-module": "autocomplete",
-        "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=platform"
-      },
-      is_required=false
+      attrs={'class': 'form-control'},
+      is_required=true
       )
-      %}
-      {% endcall %}
-      <div class="field-assistive-text">
-        {% trans %}
-          Type in separately every platform that the showcase supports. First type the name of the platform and press
-          enter to select it. You can remove platforms by clicking the remove icon before the platform name or remove
-          the last one with backspace.
-        {% endtrans %}
-      </div>
+    %}
+    {% endcall %}
 
-      {{ scheming_form.input_multiple(
-        'store_urls',
-        id='field-store_urls',
-        label=_('Store urls'),
-        value=data['store_urls'],
-        placeholder='',
-        error=errors['store_urls'],
-        attrs={'class': 'form-control'},
-        is_required=false,
-        classes=['control-medium']) }}
-      <div class="field-assistive-text">
-        {% trans %}
-          Enter at least one url to the showcase in platform specific application stores (e.g. Apple App Store,
-          Google Play or Windows App Store)
-        {% endtrans %}
-      </div>
+    <div class="ytp-group-divider"></div>
 
-      <h2 class="h3">{{ _('Showcase images') }}</h2>
-      <p>
-        {% trans %}
-          Upload or provide a link for up to three images which will be presented in the showcase info page.
-        {% endtrans %}
-      </p>
+    <h3 class="ytp-group-title">{{_("Showcase images")}}</h3>
+    <h5 class="ytp-group-description">{{_("Images will be shown on the showcase page. You can upload images from your computer or link to an URL.")}}</h5>
 
-      {%- set is_upload = (data.url_type == 'upload') -%}
-      {{ form.image_upload(
-        data,
-        errors,
-        field_url='image_1',
-        field_upload='image_1_upload',
-        field_clear='clear_image_1_upload',
-        is_upload_enabled=true,
-        is_url=data['image_1'] and not is_upload,
-        is_upload=is_upload,
-        upload_label=_('Image 1'),
-        url_label=_('Image 1'),
-        placeholder=''
-        )
-      }}
+    {%- set is_upload = (data.url_type == 'upload') -%}
+    {{ form.image_upload(
+      data,
+      errors,
+      field_url='icon',
+      field_upload='icon_upload',
+      field_clear='clear_icon_upload',
+      is_upload_enabled=true,
+      is_url=data['icon'] and not is_upload,
+      is_upload=is_upload,
+      upload_label=_('Icon'),
+      url_label=_('Icon'),
+      placeholder=''
+      )
+    }}
+    <div class="field-assistive-text">
+      {% trans %}
+        Icon will be shown at the top of the showcase page
+      {% endtrans %}
+    </div>
 
-      {%- set is_upload = (data.url_type == 'upload') -%}
-      {{ form.image_upload(
-        data,
-        errors,
-        field_url='image_2',
-        field_upload='image_2_upload',
-        field_clear='clear_image_2_upload',
-        is_upload_enabled=true,
-        is_url=data['image_2'] and not is_upload,
-        is_upload=is_upload,
-        upload_label=_('Image 2'),
-        url_label=_('Image 2'),
-        placeholder=''
-        )
-      }}
+    {%- set is_upload = (data.url_type == 'upload') -%}
+    {{ form.image_upload(
+      data,
+      errors,
+      field_url='featured_image',
+      field_upload='featured_image_upload',
+      field_clear='clear_featured_image_upload',
+      is_upload_enabled=true,
+      is_url=data['featured_image'] and not is_upload,
+      is_upload=is_upload,
+      upload_label=_('Featured image'),
+      url_label=_('Featured image'),
+      placeholder=''
+      )
+    }}
+    <div class="field-assistive-text">
+      {% trans %}
+        Featured image will be shown on the cards in showcase list page.
+      {% endtrans %}
+    </div>
 
-      {%- set is_upload = (data.url_type == 'upload') -%}
-      {{ form.image_upload(
-        data,
-        errors,
-        field_url='image_3',
-        field_upload='image_3_upload',
-        field_clear='clear_image_3_upload',
-        is_upload_enabled=true,
-        is_url=data['image_3'] and not is_upload,
-        is_upload=is_upload,
-        upload_label=_('Image 3'),
-        url_label=_('Image 3'),
-        placeholder=''
-        )
-      }}
+    {%- set is_upload = (data.url_type == 'upload') -%}
+    {{ form.image_upload(
+      data,
+      errors,
+      field_url='image_1',
+      field_upload='image_1_upload',
+      field_clear='clear_image_1_upload',
+      is_upload_enabled=true,
+      is_url=data['image_1'] and not is_upload,
+      is_upload=is_upload,
+      upload_label=_('Image 1'),
+      url_label=_('Image 1'),
+      placeholder=''
+      )
+    }}
 
-      {%- set is_upload = (data.url_type == 'upload') -%}
-      {{ form.image_upload(
-        data,
-        errors,
-        field_url='icon',
-        field_upload='icon_upload',
-        field_clear='clear_icon_upload',
-        is_upload_enabled=true,
-        is_url=data['icon'] and not is_upload,
-        is_upload=is_upload,
-        upload_label=_('Icon'),
-        url_label=_('Icon'),
-        placeholder=''
-        )
-      }}
-      <div class="field-assistive-text">
-        {% trans %}
-          Upload or provide a link to an icon image file. This image will be shown as the icon for the showcase.
-        {% endtrans %}
-      </div>
+    {%- set is_upload = (data.url_type == 'upload') -%}
+    {{ form.image_upload(
+      data,
+      errors,
+      field_url='image_2',
+      field_upload='image_2_upload',
+      field_clear='clear_image_2_upload',
+      is_upload_enabled=true,
+      is_url=data['image_2'] and not is_upload,
+      is_upload=is_upload,
+      upload_label=_('Image 2'),
+      url_label=_('Image 2'),
+      placeholder=''
+      )
+    }}
 
-      {%- set is_upload = (data.url_type == 'upload') -%}
-      {{ form.image_upload(
-        data,
-        errors,
-        field_url='featured_image',
-        field_upload='featured_image_upload',
-        field_clear='clear_featured_image_upload',
-        is_upload_enabled=true,
-        is_url=data['featured_image'] and not is_upload,
-        is_upload=is_upload,
-        upload_label=_('Featured image'),
-        url_label=_('Featured image'),
-        placeholder=''
-        )
-      }}
-      <div class="field-assistive-text">
-        {% trans %}
-          Upload or provide a link to an image file which will be shown elsewhere in the site as an advert for the showcase.
-        {% endtrans %}
-      </div>
+    {%- set is_upload = (data.url_type == 'upload') -%}
+    {{ form.image_upload(
+      data,
+      errors,
+      field_url='image_3',
+      field_upload='image_3_upload',
+      field_clear='clear_image_3_upload',
+      is_upload_enabled=true,
+      is_url=data['image_3'] and not is_upload,
+      is_upload=is_upload,
+      upload_label=_('Image 3'),
+      url_label=_('Image 3'),
+      placeholder=''
+      )
+    }}
 
-      <h2 class="h3">{{ _('Related datasets') }}</h2>
-      <div class="control-group control-medium">
-        <label class="control-label">{{ _('Select one or multiple datasets') }}</label>
-        <input id="dataset"
-         type="text"
-         name="datasets"
-         placeholder="{{ _('Search for a dataset') }}"
-         value="{{ data['datasets'] if data['datasets'] | length > 0 }}"
-         class="control-medium"
-         data-module="autocomplete"
-         data-module-source="/api/util/dataset/autocomplete?incomplete=?&package_type=dataset"
-         data-module-tags="true"
-         data-module-key="name"
-         data-module-label="title">
-      </div>
-
-  <h2 class="h3">{{ _('Submitter info') }}</h2>
-
-      {% call form.input(
-        'notifier',
-        id='notifier',
-        label=_('Name of the submitter'),
-        placeholder='',
-        value=data['notifier'],
-        error=errors['notifier'],
-        classes=['control-medium'],
-        attrs={'class': 'form-control'},
-        is_required=true
-        )
-      %}
-      {% endcall %}
-
-      {% call form.input(
-        'notifier_email',
-        id='notifier_email',
-        label=_('Submitter email'),
-        placeholder='',
-        value=data['notifier_email'],
-        error=errors['notifier_email'],
-        classes=['control-medium'],
-        attrs={'class': 'form-control'},
-        is_required=true
-        )
-      %}
-      {% endcall %}
-
+    <div class="ytp-group-divider"></div>
       {% block form_actions %}
-
         <div class="form-actions">
-          <div id='recaptcha' class="g-recaptcha"
-               data-sitekey="{{ h.get_showcasesubmit_recaptcha_sitekey() }}"
-               data-callback="onSubmit"
-               data-size="invisible"></div>
-          <button class="btn btn-transparent--inverse"
-                  type="submit"
-                  name="save">
-            {% block save_button_text %}{{ _('Submit') }}{% endblock %}
-          </button>
+          {% block delete_button %}
+            <a class="btn suomifi-button-secondary-noborder" href="{% url_for controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search' %}">{{_("Abort")}}</a>
+          {% endblock %}
+          {% block save_button %}
+            <div id='recaptcha' class="g-recaptcha"
+              data-sitekey="{{ h.get_showcasesubmit_recaptcha_sitekey() }}"
+              data-callback="onSubmit"
+              data-size="invisible"></div>
+
+              <button class="btn suomifi-button-primary"
+                      type="submit"
+                      name="save">
+                {% block save_button_text %}{{ _('Send submission') }}{% endblock %}
+              </button>
+            </div>
+          {% endblock %}
         </div>
       {% endblock %}
 </form>
