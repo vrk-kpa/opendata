@@ -1,4 +1,4 @@
-{% import 'macros/form.html' as form %}
+{% import 'scheming/macros/form.html' as form %}
 
 {%- set values = data.get(field.field_name, [])
     + [''] * field.get('form_blanks', 3) -%}
@@ -12,6 +12,7 @@
     error=errors[field.field_name],
     classes=['control-full'],
     attrs=field.form_attrs if 'form_attrs' in field else {},
-    is_required=h.scheming_field_required(field)
+    is_required=h.scheming_field_required(field),
+    description=field.description
     ) }}
 {%- endfor -%}
