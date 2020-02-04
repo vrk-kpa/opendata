@@ -8,9 +8,11 @@
       "field_name": "title",
       "label": "Title",
       "preset": "title",
-      "form_placeholder":"eg. A descriptive title",
-      "description": "A short and descriptive title for the showcase.",
-      "required": true
+      "form_placeholder": "eg. A descriptive title",
+      "description": "",
+      "required": true,
+      "group_title": "Showcase title",
+      "group_description": "* Required field"
     },
     {
       "field_name": "name",
@@ -21,36 +23,21 @@
       "required": true
     },
     {
-      "field_name": "category",
-      "label": "Category",
-      "form_placeholder":"eg. visualization",
-      "preset": "fluent_vocabulary_with_autocomplete",
-      "validators": "fluent_tags create_fluent_tags(category)",
-      "form_attrs": {
-        "data-module": "autocomplete",
-        "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=category"
-      },
-      "description": "Category which represents showcase."
-    },
-    {
-      "field_name": "platform",
-      "label": "Platform",
-      "form_placeholder":"eg. android",
-      "preset": "vocabulary_with_autocomplete",
-      "validators": "convert_to_list create_tags(platform)",
-      "form_attrs": {
-        "data-module": "autocomplete",
-        "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=platform"
-      },
-      "description": "Platforms of the showcase."
+      "field_name": "notes_translated",
+      "label": "Description",
+      "preset": "fluent_core_markdown_translated",
+      "form_placeholder": "eg. A detailed description",
+      "form_languages": ["fi", "sv", "en"],
+      "only_default_lang_required": true,
+      "description": "",
+      "group_title": "Showcase description",
+      "group_description": "An universal, compact and easy to understand description of the showcase."
     },
     {
       "field_name": "keywords",
       "label": "Tags",
-      "form_placeholder":"eg. traffic",
-      "form_languages": ["fi", "en", "sv"],
+      "form_placeholder": "eg. traffic",
+      "form_languages": ["fi", "sv", "en"],
       "preset": "fluent_vocabulary_with_autocomplete",
       "validators": "fluent_tags create_fluent_tags(keywords)",
       "form_attrs": {
@@ -58,17 +45,116 @@
         "data-module-tags": "",
         "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=keywords"
       },
-      "description": "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag."
+      "description": "",
+      "group_title": "Keywords and categories",
+      "group_description": "Keywords or tags through which users are able to find this showcase easily through the search page or other showcases which have the same tag. Please pick at least one finnish keyword."
     },
     {
-      "field_name": "owner_org",
-      "validators": "ignore",
-      "display_snippet": null,
-      "form_snippet": null
+      "field_name": "category",
+      "label": "Category",
+      "form_placeholder": "eg. visualization",
+      "preset": "fluent_vocabulary_with_autocomplete",
+      "validators": "fluent_tags create_fluent_tags(category)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=category"
+      },
+      "description": ""
+    },
+    {
+      "field_name": "private",
+      "label": "Visibility",
+      "preset": "select",
+      "form_snippet": "radio.html",
+      "choices": [
+        {
+          "label": "Public",
+          "value": "false"
+        },
+        {
+          "label": "Private",
+          "value": "true"
+        }
+      ],
+      "default_value": "false",
+      "validators": "boolean_validator set_private_if_not_admin_or_showcase_admin",
+      "group_title": "Additional showcase information"
+    },
+    {
+      "field_name": "featured",
+      "label": "Featured",
+      "preset": "select",
+      "form_snippet": "radio.html",
+      "choices": [
+        {
+          "value": "false",
+          "label": "No"
+        },
+        {
+          "value": "true",
+          "label": "Yes"
+        }
+      ],
+      "default_value": "false",
+      "required": true,
+      "validators": "boolean_validator"
+    },
+    {
+      "field_name": "archived",
+      "label": "Archived",
+      "preset": "select",
+      "form_snippet": "radio.html",
+      "choices": [
+        {
+          "value": "false",
+          "label": "No"
+        },
+        {
+          "value": "true",
+          "label": "Yes"
+        }
+      ],
+      "default_value": "false",
+      "required": true,
+      "validators": "boolean_validator"
+    },
+    {
+      "field_name": "platform",
+      "label": "Platform",
+      "form_placeholder": "eg. android",
+      "preset": "vocabulary_with_autocomplete",
+      "validators": "convert_to_list create_tags(platform)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=platform"
+      },
+      "description": ""
+    },
+    {
+      "field_name": "application_website",
+      "label": "Application Website",
+      "form_placeholder": "Type in application website",
+      "display_snippet": "link.html"
+    },
+    {
+      "field_name": "store_urls",
+      "preset": "repeating_text",
+      "label": "Links to stores",
+      "form_placeholder": "Type in URL",
+      "form_blanks": 1,
+      "display_snippet": "repeating_link.html",
+      "form_snippet": "repeating.html",
+      "description": "",
+      "validators": "repeating_text",
+      "form_attrs": {
+        "data-module": "ytp_main_input_multiple"
+      }
     },
     {
       "field_name": "author",
-      "label": "Author",
+      "label": "Application developer",
       "form_placeholder": "Joe Bloggs",
       "required": true
     },
@@ -79,55 +165,22 @@
       "display_snippet": "link.html"
     },
     {
-      "field_name": "application_website",
-      "label": "Application Website",
-      "form_placeholder": "http://www.example.com",
-      "display_snippet": "link.html"
-    },
-    {
-      "field_name": "store_urls",
-      "preset": "repeating_text",
-      "label": "Links to stores",
-      "form_blanks": 1,
-      "display_snippet": "repeating_link.html",
-      "form_snippet": "repeating.html",
-      "description": "Links to stores",
-      "validators": "repeating_text"
-    },
-    {
-      "field_name": "notes_translated",
-      "label": "Description",
-      "preset": "fluent_core_markdown_translated",
-      "form_placeholder": "eg. A detailed description",
-      "form_languages": ["fi", "en", "sv"],
-      "description": "An universal, compact and easy to understand description of the added resource.",
-      "only_default_lang_required": true
-    },
-    {
-      "field_name": "featured",
-      "label": "Featured",
-      "preset": "select",
-      "choices":[
-        {
-          "value": "false",
-          "label": "No"
-        },
-        {
-          "value": "true",
-          "label": "Yes"
-        }
-      ],
-      "required": true,
-      "validators": "boolean_validator"
-    },
-    {
       "field_name": "icon",
       "label": "Icon",
       "preset": "showcase_url_upload",
       "form_placeholder": "http://example.com/my-camel-photo.jpg",
       "upload_field": "icon_upload",
       "upload_clear": "clear_icon_upload",
-      "upload_label": "Icon"
+      "upload_label": "Icon",
+      "description": "Icon will be shown at the top of the showcase page.",
+      "group_title": "Showcase images",
+      "group_description": "Images will be shown on the showcase page. You can upload images from your computer or link to an URL."
+    },
+    {
+      "field_name": "owner_org",
+      "validators": "ignore",
+      "display_snippet": null,
+      "form_snippet": null
     },
     {
       "field_name": "featured_image",
@@ -137,7 +190,7 @@
       "upload_field": "featured_image_upload",
       "upload_clear": "clear_featured_image_upload",
       "upload_label": "Featured Image",
-      "description": "Image size xx times xx."
+      "description": "Featured image will be shown on the cards in showcase list page."
     },
     {
       "field_name": "image_1",
@@ -165,30 +218,6 @@
       "upload_field": "image_3_upload",
       "upload_clear": "clear_image_3_upload",
       "upload_label": "Image 3"
-    },
-    {
-      "field_name": "archived",
-      "label": "Archived",
-      "preset": "select",
-      "choices":[
-        {
-          "value": "false",
-          "label": "No"
-        },
-        {
-          "value": "true",
-          "label": "Yes"
-        }
-      ],
-      "required": true,
-      "validators": "boolean_validator"
-    },
-    {
-      "field_name": "private",
-      "label": "Visibility",
-      "form_snippet": "private.html",
-      "display_snippet": null,
-      "validators": "boolean_validator set_private_if_not_admin_or_showcase_admin"
     }
   ]
 }

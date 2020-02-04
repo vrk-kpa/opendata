@@ -56,7 +56,7 @@
       "preset_name": "title_ex",
       "values": {
         "validators": "if_empty_same_as(name) unicode",
-        "form_snippet": "large_text_ex.html",
+        "form_snippet": "text_ex.html",
         "form_attrs": {
           "data-module": "slug-preview-target"
         }
@@ -180,7 +180,7 @@
       "preset_name": "showcase_url_upload",
       "values": {
         "validators": "ignore_missing unicode remove_whitespace",
-        "form_snippet": "upload.html",
+        "form_snippet": "upload_ex.html",
         "form_placeholder": "http://example.com/my-image.png",
         "upload_field": "upload",
         "upload_clear": "clear_upload",

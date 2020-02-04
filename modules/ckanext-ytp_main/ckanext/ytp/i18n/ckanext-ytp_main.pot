@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-07 08:35+0000\n"
+"POT-Creation-Date: 2020-01-29 13:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1004,6 +1004,7 @@ msgid ""
 "search functionality"
 msgstr ""
 
+#: ckanext/ytp/templates/scheming/form_snippets/org_hierarchy.html:6
 #: ckanext/ytp/translations.py:179
 msgid "None - top level"
 msgstr ""
@@ -1014,6 +1015,95 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:183
 msgid "Organization cannot be deleted while it still has datasets"
+msgstr ""
+
+#: ckanext/ytp/translations.py:187
+msgid "fi"
+msgstr ""
+
+#: ckanext/ytp/translations.py:188
+msgid "en"
+msgstr ""
+
+#: ckanext/ytp/translations.py:189
+msgid "sv"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:20
+#: ckanext/ytp/translations.py:191
+msgid "Showcase title"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:21
+#: ckanext/ytp/translations.py:192
+msgid "* Required field"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:37
+#: ckanext/ytp/translations.py:194
+msgid "Showcase description"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:38
+#: ckanext/ytp/translations.py:195
+msgid "An universal, compact and easy to understand description of the showcase."
+msgstr ""
+
+#: ckanext/ytp/translations.py:197
+msgid "Keywords and categories"
+msgstr ""
+
+#: ckanext/ytp/translations.py:198
+msgid ""
+"Keywords or tags through which users are able to find this showcase easily "
+"through the search page or other showcases        which have the same tag. "
+"Please pick at least one finnish keyword."
+msgstr ""
+
+#: ckanext/ytp/translations.py:201
+msgid "Additional showcase information"
+msgstr ""
+
+#: ckanext/ytp/translations.py:203
+msgid "Application developer"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:174
+#: ckanext/ytp/translations.py:205
+msgid ""
+"Images will be shown on the showcase page. You can upload images from your "
+"computer or link to an URL."
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:186
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:187
+#: ckanext/ytp/translations.py:207
+msgid "Icon"
+msgstr ""
+
+#: ckanext/ytp/translations.py:209
+msgid "Yes"
+msgstr ""
+
+#: ckanext/ytp/translations.py:210
+msgid "No"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:89
+#: ckanext/ytp/translations.py:212
+msgid "Type in application website"
+msgstr ""
+
+#: ckanext/ytp/translations.py:213
+msgid "Type in URL"
+msgstr ""
+
+#: ckanext/ytp/translations.py:215
+msgid "Icon will be shown at the top of the showcase page."
+msgstr ""
+
+#: ckanext/ytp/translations.py:216
+msgid "Featured image will be shown on the cards in showcase list page."
 msgstr ""
 
 #: ckanext/ytp/validators.py:66
@@ -1082,6 +1172,17 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#: ckanext/ytp/public/javascript/form.js:53
+msgid "Add link"
+msgstr ""
+
+#: ckanext/ytp/public/javascript/form.js:109
+#: ckanext/ytp/templates/snippets/search_form.html:98
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:90
+#: ckanext/ytp/templates/snippets/search_form_without_input.html:78
+msgid "Remove"
+msgstr ""
+
 #: ckanext/ytp/public/javascript/translations.js:4
 msgid "or"
 msgstr ""
@@ -1119,6 +1220,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/page.html:13
 #: ckanext/ytp/templates/snippets/search_form.html:80
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:72
 msgid "Hide search filters"
 msgstr ""
 
@@ -1295,8 +1397,8 @@ msgid "Search organizations..."
 msgstr ""
 
 #: ckanext/ytp/templates/organization/index.html:20
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:276
 #: ckanext/ytp/templates/snippets/search_form.html:18
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:17
 msgid "Submit"
 msgstr ""
 
@@ -1556,12 +1658,14 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:53
 #: ckanext/ytp/templates/snippets/search_form.html:35
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:30
 msgid "Name Ascending"
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:54
 #: ckanext/ytp/templates/snippets/search_form.html:35
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:30
 msgid "Name Descending"
 msgstr ""
@@ -1992,137 +2096,117 @@ msgstr ""
 msgid "Organization hierarchy"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:4
+#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:6
 msgid "Showcases"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:5
+#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:7
 msgid "Showcase submit"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:15
-msgid "New application"
+#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:13
+msgid "Submit a new application"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:20
+#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:15
 msgid ""
 " Inform us about an application, web page or visualization that you'be "
 "created with the form below and we will add it to application gallery. "
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:46
-msgid "Name or organization of the author"
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:51
+msgid "Showcase information"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:54
+msgid "Datasets used in the application"
 msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:57
-msgid ""
-" Can be a person's name or the name of the organization which has developed "
-"the showcase. "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:65
-msgid "Application website"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:76
-msgid " The original source url or a website dedicated for the showcase "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:84
-msgid "Platform"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:85
-msgid "e.g. android"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:99
-msgid ""
-" Type in separately every platform that the showcase supports. First type the"
-" name of the platform and press enter to select it. You can remove platforms "
-"by clicking the remove icon before the platform name or remove the last one "
-"with backspace. "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:109
-msgid "Store urls"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:117
-msgid ""
-" Enter at least one url to the showcase in platform specific application "
-"stores (e.g. Apple App Store, Google Play or Windows App Store) "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:123
-msgid "Showcase images"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:125
-msgid ""
-" Upload or provide a link for up to three images which will be presented in "
-"the showcase info page. "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:140
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:141
-msgid "Image 1"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:156
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:157
-msgid "Image 2"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:172
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:173
-msgid "Image 3"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:188
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:189
-msgid "Icon"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:194
-msgid ""
-" Upload or provide a link to an icon image file. This image will be shown as "
-"the icon for the showcase. "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:209
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:210
-msgid "Featured image"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:215
-msgid ""
-" Upload or provide a link to an image file which will be shown elsewhere in "
-"the site as an advert for the showcase. "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:220
-msgid "Related datasets"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:222
-msgid "Select one or multiple datasets"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:226
 msgid "Search for a dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:236
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:70
+msgid "Platform"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:71
+msgid "e.g. android"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:88
+msgid "Application website"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:102
+msgid "Store urls"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:113
+msgid "Name or organization of the author"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:127
+msgid "Author Website"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:139
 msgid "Submitter info"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:241
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:140
+msgid ""
+"Name or email of the submitter will not be published alongside the "
+"application. They can be used to contact the submitter in case additional "
+"information is required."
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:145
 msgid "Name of the submitter"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:255
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:159
 msgid "Submitter email"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:173
+msgid "Showcase images"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:192
+msgid " Icon will be shown at the top of the showcase page "
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:207
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:208
+msgid "Featured image"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:213
+msgid " Featured image will be shown on the cards in showcase list page. "
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:228
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:229
+msgid "Image 1"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:244
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:245
+msgid "Image 2"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:260
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:261
+msgid "Image 3"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:270
+msgid "Abort"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:279
+msgid "Send submission"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:6
@@ -2178,6 +2262,7 @@ msgid "Last Harvested"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:3
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:3
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:3
 msgid "Search datasets..."
 msgstr ""
@@ -2187,29 +2272,29 @@ msgid " Use advanced search "
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:58
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:50
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:36
 msgid "Order by"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:67
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:59
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:44
 msgid "Go"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:74
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:66
 msgid "Filter search"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:98
-#: ckanext/ytp/templates/snippets/search_form_without_input.html:78
-msgid "Remove"
-msgstr ""
-
 #: ckanext/ytp/templates/snippets/search_form.html:110
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:102
 msgid " Please try another search or change search facets. "
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:118
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:110
 msgid " <strong>There was an error while searching.</strong> Please try again. "
 msgstr ""
 
