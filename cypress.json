@@ -1,6 +1,7 @@
 {
   "baseUrl": "http://vagrant.avoindata.fi:9000",
   "projectId": "ssb2ut",
+  "numTestsKeptInMemory": 20,
   "env": {
     "resetDB": true,
     "cloudStorageEnabled": false,
