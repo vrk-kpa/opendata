@@ -279,7 +279,7 @@ jobs:
 
       - run:
           name: Run cypress tests
-          command: $(npm bin)/cypress run --record --key $CYPRESS_KEY --browser chrome
+          command: $(npm bin)/cypress run --record --key $CYPRESS_KEY --browser chrome --headless
 
         # Cleanup task to ensure that created instances will be terminated.
       - run:
