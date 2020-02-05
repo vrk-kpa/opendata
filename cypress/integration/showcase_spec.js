@@ -5,20 +5,20 @@ describe('Showcase tests', function() {
 
     // Login with test-publisher and visit ckan to create the user
     cy.login_post_request('test-publisher', 'test-publisher');
-    cy.visit('/data/fi/dataset');
-    cy.logout();
+    cy.request('/data/fi/dataset');
+    cy.logout_request();
 
     // Set showcase-admin rights for test-publisher
     cy.login_post_request('admin', 'administrator');
-    cy.visit('/');
-    // It's necessary to visit dataset page before ckan-admin so that the ckan user is created
-    cy.visit('/data/fi/dataset');
+
+    // It's necessary to request dataset page before ckan-admin so that the ckan user is created
+    cy.request('/data/fi/dataset');
     cy.visit('/data/ckan-admin');
     cy.get('a[href="/data/ckan-admin/showcase_admins"]').click();
     cy.get('#s2id_username').click();
     cy.get('#s2id_autogen1_search').type('test-publisher{enter}', {force: true});
     cy.get('button[name=submit]').click();
-    cy.logout();
+    cy.logout_request();
 
     // Login with test-publisher
     cy.login_post_request('test-publisher', 'test-publisher');
@@ -26,7 +26,7 @@ describe('Showcase tests', function() {
     // We're forcing the click since drupal toolbar obscures the link
     // and due to cypress-io/cypress#2302 the auto-scrolling does not work
     cy.get('nav a[href="/data/fi/showcase"]').click({force: true});
-  })
+  });
 
   it('Create a new minimal showcase, edit it and delete it', function() {
     const showcase_name = 'test_showcase';
@@ -68,14 +68,14 @@ describe('Showcase tests', function() {
   })
 
   it('Cannot create showcase if logged out', function() {
-    cy.logout();
+    cy.logout_request();
     cy.visit('/');
     cy.get('nav a[href="/data/fi/showcase"]').click();
     cy.get('a[href="/data/fi/showcase/new"]').should('not.exist');
   })
 
   it('Fill showcase form with anonymous user', function() {
-    cy.logout();
+    cy.logout_request();
     cy.visit('/');
     cy.get('nav a[href="/data/fi/showcase"]').click();
     cy.create_new_showcase_using_public_form("testisovellus");
@@ -88,11 +88,11 @@ describe('Showcase tests', function() {
     // Organization
     const organization_name = 'testi_organisaatio';
     cy.create_new_organization(organization_name);
-    cy.logout();
+    cy.logout_request();
     cy.login_post_request('admin', 'administrator');
     cy.visit('/');
     cy.approve_organization(organization_name);
-    cy.logout();
+    cy.logout_request();
     cy.login_post_request('test-publisher', 'test-publisher');
 
     cy.visit(`/data/fi/organization/${organization_name}`)

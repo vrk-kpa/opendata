@@ -35,7 +35,14 @@ Cypress.Commands.add('login_post_request', (username, password) => {
           form_id: 'user_login_form'
       }
   });
-})
+});
+
+Cypress.Commands.add('logout_request', (username, password) => {
+  cy.request({
+    method: 'GET',
+    url: '/user/logout'
+  });
+});
 
 Cypress.Commands.add('login', (username, password) => {
   cy.visit('/user/login');
