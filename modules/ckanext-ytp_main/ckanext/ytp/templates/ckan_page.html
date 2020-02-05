@@ -36,6 +36,9 @@
           {% endblock %}
 
           <div class="wrapper{% block wrapper_class %}{% endblock %}{% if self.secondary()|trim == '' %} no-nav{%else %} row row-offcanvas row-offcanvas-left{% endif %}">
+
+            {% block prelude %}
+            {% endblock %}
             {#
                 The pre_primary block can be used to add content to before the
                 rendering of the main content columns of the page.
