@@ -279,7 +279,7 @@ jobs:
 
       - run:
           name: Run cypress tests
-          command: $(npm bin)/cypress run --record --key $CYPRESS_KEY
+          command: $(npm bin)/cypress run --record --key $CYPRESS_KEY --browser chrome
 
         # Cleanup task to ensure that created instances will be terminated.
       - run:
@@ -621,6 +621,7 @@ jobs:
 
 
       - run:
+          name: Build lambdas
           name: Build lambdas
           command: |
             source ~/project/deploy/assume_role.sh > /dev/null 2>&1
