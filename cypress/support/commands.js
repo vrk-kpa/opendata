@@ -287,6 +287,32 @@ Cypress.Commands.add('delete_showcase', (showcase_name) => {
     });
 });
 
+Cypress.Commands.add('add_showcase_user', () => {
+  // Login with test-publisher and visit ckan to create the user
+  cy.login_post_request('test-publisher', 'test-publisher');
+  cy.request('/data/fi/dataset');
+  cy.logout_request();
+
+  // Set showcase-admin rights for test-publisher
+  cy.login_post_request('admin', 'administrator');
+
+  // It's necessary to request dataset page before ckan-admin so that the ckan user is created
+  cy.request('/data/fi/dataset');
+  cy.visit('/data/ckan-admin');
+  cy.get('a[href="/data/ckan-admin/showcase_admins"]').click();
+  cy.get('#s2id_username').click();
+  cy.get('#s2id_autogen1_search').type('test-publisher{enter}', {force: true});
+  cy.get('button[name=submit]').click();
+  cy.logout_request();
+
+  // Login with test-publisher
+  cy.login_post_request('test-publisher', 'test-publisher');
+
+  // We're forcing the click since drupal toolbar obscures the link
+  // and due to cypress-io/cypress#2302 the auto-scrolling does not work
+  cy.get('nav a[href="/data/fi/showcase"]').click({force: true});
+});
+
 Cypress.Commands.add('reset_db', () => {
     if (Cypress.env('resetDB') === true){
       cy.exec('npm run reset:db');

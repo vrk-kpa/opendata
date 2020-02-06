@@ -14,7 +14,8 @@ declare namespace Cypress {
     create_new_showcase(showcase_name: string, showcase_form_data: object): Chainable<any>
     create_new_showcase_using_public_form(showcase_name: string, showcase_form_data: object): Chainable<any>
     edit_showcase(showcase_name: string, showcase_form_data: object): Chainable<any>
-    delete_showcase(showcase_name: string): Chainable<any>
+    delete_showcase(showcase_name: string): Chainable<any>,
+    add_showcase_user(): Chainable<any>,
     reset_db(): Chainable<any>
     create_category(category_name: string): Chainable<any>
   }
