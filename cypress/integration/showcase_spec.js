@@ -38,13 +38,6 @@ describe('Showcase tests', function() {
     cy.create_new_showcase(showcase_name, showcase_form_data);
   });
 
-  it('Creating an empty showcase fails', function() {
-    cy.add_showcase_user();
-    cy.get('a[href="/data/fi/showcase/new"]').click();
-    cy.get('button[name=save]').click();
-    cy.get('.error-explanation');
-  });
-
   it('Cannot create showcase if logged out', function() {
     cy.visit('/');
     cy.get('nav a[href="/data/fi/showcase"]').click();
@@ -107,4 +100,12 @@ describe('Showcase tests', function() {
     cy.get(`a[href="/data/fi/showcase/${showcase_name}"]`).first().click();
     cy.edit_showcase(showcase_name);
   })
+
+  it('Creating an empty showcase fails', function() {
+    cy.add_showcase_user();
+    cy.get('a[href="/data/fi/showcase/new"]').click();
+    cy.get('button[name=save]').click();
+    cy.get('.error-explanation');
+  });
+  
 });
