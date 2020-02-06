@@ -276,15 +276,16 @@ Cypress.Commands.add('delete_showcase', (showcase_name) => {
   cy.get('.form-actions').contains('Poista')
     .should('have.attr', 'href')
     .then((href) => {
-         cy.visit(href)
+      cy.get('button[name=save]').click();
+      cy.visit(href);
+      cy.contains('Haluatko varmasti poistaa sovelluksen');
+      cy.get('body').find('.btn').contains('Vahvista').click();
+      cy.visit('/data/showcase');
+      cy.get('.search-input .search').type(showcase_name + '{enter}');
+      cy.get('.showcase-list').should('not.exist');
+      cy.contains("Sovelluksia ei löytynyt");
     });
-  cy.contains('Haluatko varmasti poistaa sovelluksen');
-  cy.get('body').find('.btn').contains('Vahvista').click();
-  cy.visit('/data/showcase');
-  cy.get('.search-input .search').type(showcase_name + '{enter}');
-  cy.get('.showcase-list').should('not.exist');
-  cy.contains("Sovelluksia ei löytynyt");
-})
+});
 
 Cypress.Commands.add('reset_db', () => {
     if (Cypress.env('resetDB') === true){
