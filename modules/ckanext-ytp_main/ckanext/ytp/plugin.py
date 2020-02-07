@@ -31,6 +31,7 @@ from paste.deploy.converters import asbool
 from webhelpers.html import escape
 from webhelpers.html.tags import link_to
 from sqlalchemy import and_, or_
+from sqlalchemy.sql.expression import false
 
 import auth
 import menu
@@ -772,21 +773,22 @@ def action_organization_tree_list(context, data_dict):
 
     # Fetch ids of all visible organizations filtered in maybe correct order
     ids_and_titles = (model.Session.query(model.Group.id, model.Group.title, model.GroupExtra.value)
-        .filter(model.Group.state == u'active')
-        .filter(model.Group.is_organization.is_(True))
-        .filter(model.Group.name.notin_(non_approved))
-        .join(model.GroupExtra, model.GroupExtra.group_id == model.Group.id)
-        .filter(model.GroupExtra.key == u'title_translated')
-        .order_by(model.Group.title))
+                      .filter(model.Group.state == u'active')
+                      .filter(model.Group.is_organization.is_(True))
+                      .filter(model.Group.name.notin_(non_approved))
+                      .join(model.GroupExtra, model.GroupExtra.group_id == model.Group.id)
+                      .filter(model.GroupExtra.key == u'title_translated')
+                      .order_by(model.Group.title))
 
     # Optionally handle getting only organizations with datasets
     if with_datasets:
-        ids_and_titles = (ids_and_titles
-            .outerjoin(model.Package, and_(model.Package.private == False,
-                                           or_(model.Package.owner_org == model.Group.name,
-                                               model.Package.owner_org == model.Group.id)))
-            .group_by(model.Group.id, model.Group.title, model.GroupExtra.value)
-            .having(sqlalchemy.func.count(model.Package.id) > 0))
+        ids_and_titles = (
+                ids_and_titles
+                .outerjoin(model.Package, and_(model.Package.private == false(),
+                                               or_(model.Package.owner_org == model.Group.name,
+                                                   model.Package.owner_org == model.Group.id)))
+                .group_by(model.Group.id, model.Group.title, model.GroupExtra.value)
+                .having(sqlalchemy.func.count(model.Package.id) > 0))
 
     ids_and_titles = list(ids_and_titles.all())
 
@@ -818,29 +820,30 @@ def action_organization_tree_list(context, data_dict):
     page_ids = global_results[(page - 1) * items_per_page:page * items_per_page]
 
     # Fetch details for organizations on current page
-    page_orgs = (model.Session.query(model.Group.id, model.Group.name, model.Group.title, 
-                 model.GroupExtra.value, sqlalchemy.func.count(model.Package.id),
-                 parent_group.name, parent_group.title, parent_extra.value,
-                 sqlalchemy.func.count(child_group.id))
-        .join(model.GroupExtra, model.GroupExtra.group_id == model.Group.id)
-        .outerjoin(model.Package, and_(model.Package.private == False,
-                                       or_(model.Package.owner_org == model.Group.name,
-                                           model.Package.owner_org == model.Group.id)))
-        .outerjoin(parent_member, and_(parent_member.group_id == model.Group.id,
-                                       parent_member.table_name == u'group'))
-        .outerjoin(parent_group, parent_group.id == parent_member.table_id)
-        .outerjoin(parent_extra, and_(parent_extra.group_id == parent_group.id,
-                                      parent_extra.key == u'title_translated'))
-        .outerjoin(child_member, and_(child_member.table_id == model.Group.id,
-                                      child_member.table_name == u'group'))
-        .outerjoin(child_group, child_group.id == child_member.group_id)
-        .filter(model.Group.id.in_(page_ids))
-        .filter(model.GroupExtra.state == u'active')
-        .filter(model.GroupExtra.key == u'title_translated')
-        .group_by(model.Group.id, model.Group.name,
-                  model.Group.title, model.GroupExtra.value,
-                  parent_group.name, parent_group.title, parent_extra.value)
-        .all())
+    page_orgs = (
+            model.Session.query(model.Group.id, model.Group.name, model.Group.title,
+                                model.GroupExtra.value, sqlalchemy.func.count(model.Package.id),
+                                parent_group.name, parent_group.title, parent_extra.value,
+                                sqlalchemy.func.count(child_group.id))
+            .join(model.GroupExtra, model.GroupExtra.group_id == model.Group.id)
+            .outerjoin(model.Package, and_(model.Package.private == false(),
+                                           or_(model.Package.owner_org == model.Group.name,
+                                               model.Package.owner_org == model.Group.id)))
+            .outerjoin(parent_member, and_(parent_member.group_id == model.Group.id,
+                                           parent_member.table_name == u'group'))
+            .outerjoin(parent_group, parent_group.id == parent_member.table_id)
+            .outerjoin(parent_extra, and_(parent_extra.group_id == parent_group.id,
+                                          parent_extra.key == u'title_translated'))
+            .outerjoin(child_member, and_(child_member.table_id == model.Group.id,
+                                          child_member.table_name == u'group'))
+            .outerjoin(child_group, child_group.id == child_member.group_id)
+            .filter(model.Group.id.in_(page_ids))
+            .filter(model.GroupExtra.state == u'active')
+            .filter(model.GroupExtra.key == u'title_translated')
+            .group_by(model.Group.id, model.Group.name,
+                      model.Group.title, model.GroupExtra.value,
+                      parent_group.name, parent_group.title, parent_extra.value)
+            .all())
 
     page_results_by_id = {gid: {
         'id': name, 'title': title, 'title_translated': json.loads(title_translated),
