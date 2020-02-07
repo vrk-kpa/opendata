@@ -94,7 +94,7 @@ describe('Showcase tests', function() {
     //cy.get(`a[href="/data/fi/showcase/manage_datasets/${showcase_name}"]`).click();
     cy.visit(`/data/fi/showcase/manage_datasets/${showcase_name}`)
     //There should be only one checkbox, because there is only one dataset
-    cy.get("tbody td").first().click();
+    cy.get("tbody td input").first().click();
     cy.get('button[name="bulk_action.showcase_add"]').click()
     //Remove button should exist after adding the dataset
     cy.get('button[name="bulk_action.showcase_remove"')

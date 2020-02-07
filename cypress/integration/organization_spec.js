@@ -39,7 +39,8 @@ describe("Organization tests", function() {
 
 
     cy.get('input[data-organization-filter]').type(organization_name);
-    cy.get('.organization-tree').find('.organization-list-item:visible').should('have.length', 0);
+    cy.get('.search-form button[type="submit"]').first().click();
+    cy.get('.organization-list').find('li').should('have.length', 0);
   })
 
   it('Creating an empty organization fails', function() {

@@ -73,7 +73,10 @@
         {{ c.page.pager(q=c.q, with_datasets=c.with_datasets, sort=c.sort_by_selected) }}
       {% endblock %}
     {% else %}
-      {% trans %}<p>No organizations found</p>{% endtrans %}
+      <ul class="no-bullet organization-list">
+      </ul>
+      <p>{% trans %}No organizations found{% endtrans %}</p>
+      
     {% endif %}
     </div>
 
