@@ -11,7 +11,7 @@ describe('Advanced search tests', () => {
         cy.create_category(category_name_1);
         cy.create_category(category_name_2);
 
-        cy.logout();
+        cy.logout_request();
 
         // User things
         cy.login_post_request('test-user', 'test-user');
