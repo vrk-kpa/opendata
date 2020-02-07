@@ -25,25 +25,25 @@
 {% block primary %}
   <div class="primary {% block ckanext_showcase_edit_span %}span9{% endblock %}">
     {% block primary_content %}
-      <article class="module">
+      <article>
         {% block page_header %}
-          <header class="module-content page-header">
+          <header class="suomifi-page-header">
             {% if self.content_action() | trim %}
               <div class="content_action">
                 {% block content_action %}
-                  {% link_for _('View showcase'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='read', id=pkg.name, class_='btn', icon='eye-open' %}
+                  {% link_for _('View showcase'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='read', id=pkg.name, class_='btn suomifi-button-secondary-noborder', icon='eye-open' %}
                 {% endblock %}
               </div>
             {% endif %}
-            <ul class="nav nav-tabs">
+            <h1>{{pkg.title}}</h1>
+            <ul class="nav">
               {% block content_primary_nav %}
-                {{ h.build_nav_icon('ckanext_showcase_edit', _('Edit showcase'), id=pkg.name) }}
-                {{ h.build_nav_icon('ckanext_showcase_manage_datasets', _('Manage datasets'), id=pkg.name) }}
+                {{ h.build_nav_icon('ckanext_showcase_edit', _('Edit showcase'), id=pkg.name, icon=None) }}
+                {{ h.build_nav_icon('ckanext_showcase_manage_datasets', _('Manage datasets'), id=pkg.name, icon=None) }}
               {% endblock %}
             </ul>
           </header>
         {% endblock %}
-        <div class="{% block ckanext_showcase_edit_module_content_class %}module-content{% endblock %}">
           {% if self.page_primary_action() | trim %}
             <div class="page_primary_action">
               {% block page_primary_action %}{% endblock %}
@@ -51,7 +51,6 @@
           {% endif %}
           {% block primary_content_inner %}
           {% endblock %}
-        </div>
       </article>
     {% endblock %}
   </div>
@@ -60,5 +59,3 @@
 {% block secondary %}
 
 {% endblock %}
-
-

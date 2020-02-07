@@ -12,7 +12,7 @@ describe('Category tests', function () {
     cy.create_category(category_name_1);
     cy.create_category(category_name_2);
 
-    cy.logout();
+    cy.logout_request();
 
     cy.login_post_request('test-user', 'test-user')
     const dataset_name = 'category_test';

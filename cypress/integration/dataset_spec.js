@@ -125,7 +125,7 @@ describe('Dataset tests', function() {
   })
 
   it('Cannot create dataset if logged out', function() {
-    cy.logout();
+    cy.logout_request();
     cy.visit('/');
     cy.get('nav a[href="/data/fi/dataset"]').click();
     cy.get('a[href="/data/fi/dataset/new"]').should('not.exist');
