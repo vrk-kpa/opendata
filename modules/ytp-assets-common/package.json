@@ -17,7 +17,7 @@
     "gulp-livereload": "~4.0.1",
     "gulp-npm-dist": "^1.0.2",
     "gulp-rename": "^1.4.0",
-    "gulp-sourcemaps": "^2.6.4",
+    "gulp-sourcemaps": "^2.6.5",
     "gulp-template": "^5.0.0",
     "gulp-uglify": "^3.0.1",
     "imagemin-jpegoptim": "^6.0.0",
