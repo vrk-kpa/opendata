@@ -87,11 +87,15 @@
       <h3 class="module-subheading">
         {{ _('Datasets') }}
       </h3>
-      <div class="module-section">
+      <div class="module-section suomifi-filter-links">
         {% if c.with_datasets %}
-        <a href="?q={{ c.q }}&sort={{ c.sort_by_selected }}">{{ _('Show organizations without datasets') }}</a>
+        <a href="{{ h.url_for(controller='organization', action='index', q=c.q, sort=c.sort_by_selected) }}">
+          {{ _('Show organizations without datasets') }}
+        </a>
         {% else %}
-        <a href="?q={{ c.q }}&sort={{ c.sort_by_selected }}&with_datasets=true">{{ _('Show only organizations with datasets') }}</a>
+        <a href="{{ h.url_for(controller='organization', action='index', q=c.q, sort=c.sort_by_selected, with_datasets=True) }}">
+          {{ _('Show only organizations with datasets') }}
+        </a>
         {% endif %}
       </div>
     </div>
