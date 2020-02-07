@@ -837,7 +837,7 @@ class YtpOrganizationController(OrganizationController):
 
         page = h.get_page_number(request.params) or 1
         items_per_page = 21
-        c.with_datasets = with_datasets = request.params.get('with_datasets') in ('true', '1', 'yes')
+        c.with_datasets = with_datasets = request.params.get('with_datasets', '').lower() in ('true', '1', 'yes')
 
         context = {'model': model, 'session': model.Session,
                    'user': c.user, 'for_view': True,
