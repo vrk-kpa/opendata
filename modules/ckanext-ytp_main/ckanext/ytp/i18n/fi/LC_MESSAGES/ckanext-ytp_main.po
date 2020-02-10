@@ -9,19 +9,19 @@
 # Teemu Leivo <teemu.leivo@gofore.com>, 2019
 # Aaron Hakala <aaron.hakala@gofore.com>, 2019
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
-# Teemu Erkkola <teemu.erkkola@iki.fi>, 2019
 # Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
 # Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020
+# Teemu Erkkola <teemu.erkkola@iki.fi>, 2020
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-29 13:48+0000\n"
+"POT-Creation-Date: 2020-02-10 08:03+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020\n"
+"Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2020\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1065,40 +1065,40 @@ msgstr "Organisaatiota ei voida poistaa, koska sillä on tietoaineistoja"
 
 #: ckanext/ytp/translations.py:187
 msgid "fi"
-msgstr "suomeksi"
+msgstr ""
 
 #: ckanext/ytp/translations.py:188
 msgid "en"
-msgstr "englanniksi"
+msgstr ""
 
 #: ckanext/ytp/translations.py:189
 msgid "sv"
-msgstr "ruotsiksi"
+msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:20
 #: ckanext/ytp/translations.py:191
 msgid "Showcase title"
-msgstr "Sovelluksen nimi"
+msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:21
 #: ckanext/ytp/translations.py:192
 msgid "* Required field"
-msgstr "* Pakollinen kenttä"
+msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:37
 #: ckanext/ytp/translations.py:194
 msgid "Showcase description"
-msgstr "Sovelluksen kuvaus"
+msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:38
 #: ckanext/ytp/translations.py:195
 msgid ""
 "An universal, compact and easy to understand description of the showcase."
-msgstr "Yleinen, tiivis ja helppotajuinen kuvaus sovelluksesta."
+msgstr ""
 
 #: ckanext/ytp/translations.py:197
 msgid "Keywords and categories"
-msgstr "Avainsanat ja kategoriat"
+msgstr ""
 
 #: ckanext/ytp/translations.py:198
 msgid ""
@@ -1106,17 +1106,14 @@ msgid ""
 "through the search page or other showcases        which have the same tag. "
 "Please pick at least one finnish keyword."
 msgstr ""
-"Avainsanojen avulla käyttäjä löytää tämän sovelluksen tai vastaavia "
-"sovelluksia helposti hakusivun kautta. Valitse vähintään yksi suomenkielinen"
-" avainsana."
 
 #: ckanext/ytp/translations.py:201
 msgid "Additional showcase information"
-msgstr "Sovelluksen muut tiedot"
+msgstr ""
 
 #: ckanext/ytp/translations.py:203
 msgid "Application developer"
-msgstr "Sovelluksen kehittäjä"
+msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:174
 #: ckanext/ytp/translations.py:205
@@ -1124,8 +1121,6 @@ msgid ""
 "Images will be shown on the showcase page. You can upload images from your "
 "computer or link to an URL."
 msgstr ""
-"Kuvat tullaan esittämään sovelluksen esittelysivulla. Voit ladata tiedostot "
-"tietokoneelta tai lisätä linkin kuvaan."
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:186
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:187
@@ -1135,28 +1130,28 @@ msgstr "Kuvake"
 
 #: ckanext/ytp/translations.py:209
 msgid "Yes"
-msgstr "Kyllä"
+msgstr ""
 
 #: ckanext/ytp/translations.py:210
 msgid "No"
-msgstr "Ei"
+msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:89
 #: ckanext/ytp/translations.py:212
 msgid "Type in application website"
-msgstr "Kirjoita sovelluksen verkkosivu"
+msgstr ""
 
 #: ckanext/ytp/translations.py:213
 msgid "Type in URL"
-msgstr "Kirjoita linkki"
+msgstr ""
 
 #: ckanext/ytp/translations.py:215
 msgid "Icon will be shown at the top of the showcase page."
-msgstr "Kuvake näytetään sovelluksen esittelysivun ylänurkassa."
+msgstr ""
 
 #: ckanext/ytp/translations.py:216
 msgid "Featured image will be shown on the cards in showcase list page."
-msgstr "Esittelykuva näytetään sovelluksen korttinäkymissä."
+msgstr ""
 
 #: ckanext/ytp/validators.py:66
 msgid "Missing value"
@@ -1226,7 +1221,7 @@ msgstr "Peruuta"
 
 #: ckanext/ytp/public/javascript/form.js:53
 msgid "Add link"
-msgstr "Lisää linkki"
+msgstr ""
 
 #: ckanext/ytp/public/javascript/form.js:109
 #: ckanext/ytp/templates/snippets/search_form.html:98
@@ -1886,6 +1881,10 @@ msgstr "Data-aineisto"
 msgid "Show change log"
 msgstr "Näytä muutoshistoria"
 
+#: ckanext/ytp/templates/package/snippets/dataset_showcase_list_embed.html:4
+msgid "Applications"
+msgstr "Käyttösovellukset"
+
 #: ckanext/ytp/templates/package/snippets/dataset_social.html:4
 msgid "Social"
 msgstr "Jaa sosiaalisessa mediassa"
@@ -2214,7 +2213,7 @@ msgstr "Ilmoita sovellus"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:13
 msgid "Submit a new application"
-msgstr "Ilmoita sovelluksesta"
+msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:15
 msgid ""
@@ -2226,11 +2225,11 @@ msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:51
 msgid "Showcase information"
-msgstr "Sovelluksen tiedot"
+msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:54
 msgid "Datasets used in the application"
-msgstr "Sovelluksessa käytetyt tietoaineistot"
+msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:57
 msgid "Search for a dataset"
@@ -2270,9 +2269,6 @@ msgid ""
 "application. They can be used to contact the submitter in case additional "
 "information is required."
 msgstr ""
-"Ilmoittajan nimeä eikä sähköpostiosoitettasi ei julkaista sovelluksen "
-"ilmoittamisen yhteydessä. Sitä käytetään tarvittaessa yhteydenottoon "
-"esimerkiksi lisätietojen osalta."
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:145
 msgid "Name of the submitter"
@@ -2288,7 +2284,7 @@ msgstr "Sovelluksen kuvat"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:192
 msgid " Icon will be shown at the top of the showcase page "
-msgstr "Kuvake näytetään sovelluksen esittelysivun ylänurkassa."
+msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:207
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:208
@@ -2297,7 +2293,7 @@ msgstr "Esittelykuva"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:213
 msgid " Featured image will be shown on the cards in showcase list page. "
-msgstr "Esittelykuva näytetään sovelluksen korttinäkymissä."
+msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:228
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:229
@@ -2316,11 +2312,11 @@ msgstr "Kuva 3"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:270
 msgid "Abort"
-msgstr "Keskeytä"
+msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:279
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:281
 msgid "Send submission"
-msgstr "Lähetä ilmoitus"
+msgstr ""
 
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:6
 msgid "Embed Data Viewer"
