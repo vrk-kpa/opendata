@@ -90,9 +90,8 @@ describe('Showcase tests', function() {
 
     // Create a showcase with dataset
     cy.create_new_showcase(showcase_name);
-    //cy.get(`a[href="/data/fi/showcase/edit/${showcase_name}"]`).click();
-    //cy.get(`a[href="/data/fi/showcase/manage_datasets/${showcase_name}"]`).click();
-    cy.visit(`/data/fi/showcase/manage_datasets/${showcase_name}`)
+    cy.get(`a[href="/data/fi/showcase/edit/${showcase_name}"]`).click();
+    cy.get(`a[href="/data/fi/showcase/manage_datasets/${showcase_name}"]`).click();
     //There should be only one checkbox, because there is only one dataset
     cy.get("tbody td input").first().click();
     cy.get('button[name="bulk_action.showcase_add"]').click()
