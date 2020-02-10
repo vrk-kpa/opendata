@@ -27,6 +27,7 @@ class HeroForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
     $form['searchfilter'] = [
       '#type' => 'textfield',
@@ -56,7 +57,7 @@ class HeroForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    if (strlen($form_state->getValue('search')) < 2) {
+    if (strlen($form_state->getValue('search')) <= 2) {
       $form_state->setErrorByName('search', $this->t('Query must be at least three characters long'));
     }
   }

@@ -1,23 +1,24 @@
 # Translations template for ckanext-ytp_main.
-# Copyright (C) 2019 ORGANIZATION
+# Copyright (C) 2020 ORGANIZATION
 # This file is distributed under the same license as the ckanext-ytp_main
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 # 
 # Translators:
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2019
-# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2019
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
 # Meeri Hakala <meeri.hakala@vrk.fi>, 2019
+# Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-09-13 10:46+0000\n"
+"POT-Creation-Date: 2020-01-29 13:48+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Meeri Hakala <meeri.hakala@vrk.fi>, 2019\n"
+"Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -258,11 +259,11 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:92 ckanext/ytp/plugin.py:357
+#: ckanext/ytp/helpers.py:92 ckanext/ytp/plugin.py:363
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:575
+#: ckanext/ytp/helpers.py:576
 msgid "-"
 msgstr ""
 
@@ -359,25 +360,25 @@ msgstr ""
 msgid "Publish Data"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:298 ckanext/ytp/translations.py:39
+#: ckanext/ytp/plugin.py:304 ckanext/ytp/translations.py:39
 msgid "International benchmarks"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:299 ckanext/ytp/plugin.py:313
+#: ckanext/ytp/plugin.py:305 ckanext/ytp/plugin.py:319
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 msgid "Collection Type"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:300
+#: ckanext/ytp/plugin.py:306
 msgid "Popular tags"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:301 ckanext/ytp/plugin.py:315
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:51
+#: ckanext/ytp/plugin.py:307 ckanext/ytp/plugin.py:321
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:48
 msgid "Content Type"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:302
+#: ckanext/ytp/plugin.py:308
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:22
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
@@ -386,29 +387,29 @@ msgstr ""
 msgid "Organization"
 msgstr "Publisher"
 
-#: ckanext/ytp/plugin.py:303 ckanext/ytp/plugin.py:316
+#: ckanext/ytp/plugin.py:309 ckanext/ytp/plugin.py:322
 #: ckanext/ytp/translations.py:35
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:305 ckanext/ytp/templates/package/search.html:58
-#: ckanext/ytp/templates/package/snippets/additional_info.html:15
+#: ckanext/ytp/plugin.py:311 ckanext/ytp/templates/package/search.html:58
+#: ckanext/ytp/templates/package/snippets/additional_info.html:19
 msgid "Source"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:306
+#: ckanext/ytp/plugin.py:312
 #: ckanext/ytp/templates/package/resource_read.html:168
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:75
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:72
 #: ckanext/ytp/templates/snippets/license.html:21
 msgid "License"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:314
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:34
+#: ckanext/ytp/plugin.py:320
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:31
 msgid "Tags"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:357
+#: ckanext/ytp/plugin.py:363
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
 msgid "Additional Info"
 msgstr ""
@@ -474,9 +475,9 @@ msgid "Internal"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:162
-#: ckanext/ytp/templates/package/snippets/additional_info.html:71
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:227
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:241
+#: ckanext/ytp/templates/package/snippets/additional_info.html:75
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:224
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:238
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:8
 #: ckanext/ytp/translations.py:28
 msgid "Created"
@@ -609,412 +610,417 @@ msgstr ""
 msgid "eg. 2 weeks"
 msgstr ""
 
-#: ckanext/ytp/translations.py:65
-msgid "Copyright notice"
+#: ckanext/ytp/templates/user/edit_user_form.html:13
+#: ckanext/ytp/translations.py:64
+msgid "eg. joe@example.com"
 msgstr ""
 
 #: ckanext/ytp/translations.py:66
-msgid "Geographical coverage"
+msgid "Copyright notice"
 msgstr ""
 
 #: ckanext/ytp/translations.py:67
-msgid "Select the municipalities from which the dataset contains data."
+msgid "Geographical coverage"
 msgstr ""
 
 #: ckanext/ytp/translations.py:68
-msgid "Links to additional information"
+msgid "Select the municipalities from which the dataset contains data."
 msgstr ""
 
 #: ckanext/ytp/translations.py:69
-msgid "Links to additional information concerning the dataset."
+msgid "Links to additional information"
 msgstr ""
 
 #: ckanext/ytp/translations.py:70
-msgid "Update frequency"
+msgid "Links to additional information concerning the dataset."
 msgstr ""
 
 #: ckanext/ytp/translations.py:71
-msgid "A short description of how frequently the dataset will get updated."
+msgid "Update frequency"
 msgstr ""
 
 #: ckanext/ytp/translations.py:72
-msgid "Features"
+msgid "A short description of how frequently the dataset will get updated."
 msgstr ""
 
 #: ckanext/ytp/translations.py:73
-msgid "Members can only edit their own datasets"
+msgid "Features"
 msgstr ""
 
 #: ckanext/ytp/translations.py:74
+msgid "Members can only edit their own datasets"
+msgstr ""
+
+#: ckanext/ytp/translations.py:75
 msgid "Home page"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:66
-#: ckanext/ytp/translations.py:75
+#: ckanext/ytp/translations.py:76
 msgid "Maturity"
 msgstr ""
 
-#: ckanext/ytp/translations.py:76
+#: ckanext/ytp/translations.py:77
 msgid "Position coordinates"
 msgstr ""
 
-#: ckanext/ytp/translations.py:77
+#: ckanext/ytp/translations.py:78
 msgid "Time series start"
 msgstr ""
 
-#: ckanext/ytp/translations.py:78
+#: ckanext/ytp/translations.py:79
 msgid "Time series end"
 msgstr ""
 
-#: ckanext/ytp/translations.py:79
+#: ckanext/ytp/translations.py:80
 msgid "Time series precision"
 msgstr ""
 
-#: ckanext/ytp/translations.py:80
+#: ckanext/ytp/translations.py:81
 msgid "Temporal granularity"
 msgstr ""
 
-#: ckanext/ytp/translations.py:81
+#: ckanext/ytp/translations.py:82
 msgid "Temporal coverage from"
 msgstr ""
 
-#: ckanext/ytp/translations.py:82
+#: ckanext/ytp/translations.py:83
 msgid "Temporal coverage to"
 msgstr ""
 
-#: ckanext/ytp/translations.py:83
+#: ckanext/ytp/translations.py:84
 msgid "Showcase name"
 msgstr ""
 
-#: ckanext/ytp/translations.py:84
+#: ckanext/ytp/translations.py:85
 msgid "Categories"
 msgstr ""
 
-#: ckanext/ytp/translations.py:85
-msgid "Producer type"
-msgstr ""
-
 #: ckanext/ytp/translations.py:86
+msgid "Producer type"
+msgstr "Regional coverage / Producer type"
+
+#: ckanext/ytp/translations.py:87
 msgid "Public administration organization"
 msgstr ""
 
-#: ckanext/ytp/translations.py:89
+#: ckanext/ytp/translations.py:90
 msgid "public_administration_organization"
 msgstr "public administration organisation"
 
-#: ckanext/ytp/translations.py:90
+#: ckanext/ytp/translations.py:91
 msgid "personal_datasets"
 msgstr "personal datasets"
 
-#: ckanext/ytp/translations.py:91
+#: ckanext/ytp/translations.py:92
 msgid "State administration"
 msgstr ""
 
-#: ckanext/ytp/translations.py:92
+#: ckanext/ytp/translations.py:93
 msgid "Country"
 msgstr ""
 
-#: ckanext/ytp/translations.py:93
+#: ckanext/ytp/translations.py:94
 msgid "Region"
 msgstr ""
 
-#: ckanext/ytp/translations.py:94
+#: ckanext/ytp/translations.py:95
 msgid "Open Data"
 msgstr ""
 
-#: ckanext/ytp/translations.py:95
+#: ckanext/ytp/translations.py:96
 msgid "Interoperability Tools"
 msgstr ""
 
-#: ckanext/ytp/translations.py:96
+#: ckanext/ytp/translations.py:97
 msgid "Public service"
 msgstr ""
 
-#: ckanext/ytp/translations.py:97
+#: ckanext/ytp/translations.py:98
 msgid "Cities"
 msgstr ""
 
-#: ckanext/ytp/translations.py:98
+#: ckanext/ytp/translations.py:99
 msgid "Education - Research"
 msgstr ""
 
-#: ckanext/ytp/translations.py:99
+#: ckanext/ytp/translations.py:100
 msgid "Enterprise"
 msgstr ""
 
-#: ckanext/ytp/translations.py:100
+#: ckanext/ytp/translations.py:101
 msgid "Person"
 msgstr ""
 
-#: ckanext/ytp/translations.py:101
+#: ckanext/ytp/translations.py:102
 msgid "Society - Trust"
 msgstr ""
 
-#: ckanext/ytp/translations.py:102
+#: ckanext/ytp/translations.py:103
 msgid "active"
 msgstr ""
 
-#: ckanext/ytp/translations.py:103
+#: ckanext/ytp/translations.py:104
 msgid "deleted"
 msgstr ""
 
-#: ckanext/ytp/translations.py:104
+#: ckanext/ytp/translations.py:105
 msgid "draft"
 msgstr ""
 
-#: ckanext/ytp/translations.py:105
+#: ckanext/ytp/translations.py:106
 msgid "Current version"
 msgstr "Current version"
 
-#: ckanext/ytp/translations.py:106
+#: ckanext/ytp/translations.py:107
 msgid "Archived version"
 msgstr "Archived version"
 
-#: ckanext/ytp/translations.py:107
+#: ckanext/ytp/translations.py:108
 msgid "Draft version"
 msgstr "Draft"
 
-#: ckanext/ytp/translations.py:110
+#: ckanext/ytp/translations.py:111
 msgid "Log in"
 msgstr ""
 
-#: ckanext/ytp/translations.py:111
+#: ckanext/ytp/translations.py:112
 msgid "Log out"
 msgstr ""
 
-#: ckanext/ytp/translations.py:112
+#: ckanext/ytp/translations.py:113
 msgid "Publish Datasets"
 msgstr ""
 
-#: ckanext/ytp/translations.py:113
+#: ckanext/ytp/translations.py:114
 msgid "News"
 msgstr ""
 
-#: ckanext/ytp/translations.py:114
+#: ckanext/ytp/translations.py:115
 msgid "About us"
 msgstr ""
 
-#: ckanext/ytp/translations.py:115
+#: ckanext/ytp/translations.py:116
 msgid "Files"
 msgstr ""
 
-#: ckanext/ytp/translations.py:116
+#: ckanext/ytp/translations.py:117
 msgid "Guide to Open Data"
 msgstr ""
 
-#: ckanext/ytp/translations.py:117
+#: ckanext/ytp/translations.py:118
 msgid "User Info"
 msgstr ""
 
-#: ckanext/ytp/translations.py:118
+#: ckanext/ytp/translations.py:119
 msgid "Training"
 msgstr ""
 
-#: ckanext/ytp/translations.py:119
+#: ckanext/ytp/translations.py:120
 msgid "Dataset is available at http://www.syke.fi/avointieto"
 msgstr ""
 
-#: ckanext/ytp/translations.py:120
+#: ckanext/ytp/translations.py:121
 msgid "Apps"
 msgstr ""
 
-#: ckanext/ytp/translations.py:123
+#: ckanext/ytp/translations.py:124
 msgid "Add to group"
 msgstr "Add to category"
 
 #: ckanext/ytp/templates/package/group_list.html:8
-#: ckanext/ytp/translations.py:124
+#: ckanext/ytp/translations.py:125
 msgid "There are no groups associated with this dataset"
 msgstr "There are no categories associated with this dataset"
 
-#: ckanext/ytp/translations.py:125
+#: ckanext/ytp/translations.py:126
 msgid "Remove dataset from this group"
 msgstr "Remove dataset from this category"
 
 #: ckanext/ytp/templates/package/group_list.html:29
-#: ckanext/ytp/translations.py:126
+#: ckanext/ytp/translations.py:127
 msgid "Associate this group with this dataset"
 msgstr "Associate this category with this dataset"
 
-#: ckanext/ytp/translations.py:127
+#: ckanext/ytp/translations.py:128
 msgid "Add Group"
 msgstr "Add Category"
 
-#: ckanext/ytp/translations.py:128
+#: ckanext/ytp/translations.py:129
 msgid "There are currently no groups for this site"
 msgstr "There are currently no categories for this site"
 
-#: ckanext/ytp/translations.py:129
+#: ckanext/ytp/translations.py:130
 msgid "Search groups..."
 msgstr "Search categories..."
 
 #: ckanext/ytp/templates/group/index.html:4
 #: ckanext/ytp/templates/group/read_base.html:4
 #: ckanext/ytp/templates/package/group_list.html:3
-#: ckanext/ytp/templates/package/read.html:17 ckanext/ytp/translations.py:130
+#: ckanext/ytp/templates/package/read.html:17 ckanext/ytp/translations.py:131
 msgid "Groups"
 msgstr "Categories"
 
-#: ckanext/ytp/translations.py:131
+#: ckanext/ytp/translations.py:132
 msgid "A little information about my group..."
 msgstr "A little information about my category..."
 
-#: ckanext/ytp/translations.py:132
+#: ckanext/ytp/translations.py:133
 msgid "Create a Group"
 msgstr "Create a Category"
 
-#: ckanext/ytp/translations.py:133
+#: ckanext/ytp/translations.py:134
 msgid "Create Group"
 msgstr "Create Category"
 
-#: ckanext/ytp/translations.py:134
+#: ckanext/ytp/translations.py:135
 msgid "My Group"
 msgstr "My Category"
 
-#: ckanext/ytp/translations.py:137
+#: ckanext/ytp/translations.py:138
 msgid "Liikenne- ja viestintäministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:138
+#: ckanext/ytp/translations.py:139
 msgid "Maa- ja metsätalousministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:139
+#: ckanext/ytp/translations.py:140
 msgid "Oikeusministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:140
+#: ckanext/ytp/translations.py:141
 msgid "Opetus- ja kulttuuriministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:141
+#: ckanext/ytp/translations.py:142
 msgid "Puolustusministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:142
+#: ckanext/ytp/translations.py:143
 msgid "Sisäministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:143
+#: ckanext/ytp/translations.py:144
 msgid "Sosiaali- ja terveysministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:144
+#: ckanext/ytp/translations.py:145
 msgid "Työ- ja elinkeinoministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:145
+#: ckanext/ytp/translations.py:146
 msgid "Valtioneuvoston kanslia's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:146
+#: ckanext/ytp/translations.py:147
 msgid "Valtiovarainministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:147
+#: ckanext/ytp/translations.py:148
 msgid "Ympäristöministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:148
+#: ckanext/ytp/translations.py:149
 msgid "Ulkoministeriö's administrative branch"
 msgstr ""
 
-#: ckanext/ytp/translations.py:151
+#: ckanext/ytp/translations.py:152
 msgid "Administrative Branch Summary"
 msgstr ""
 
-#: ckanext/ytp/translations.py:152
+#: ckanext/ytp/translations.py:153
 msgid "Dataset statistics by administrative branch summary"
 msgstr ""
 
-#: ckanext/ytp/translations.py:153
+#: ckanext/ytp/translations.py:154
 msgid "Broken links"
 msgstr ""
 
-#: ckanext/ytp/translations.py:154
+#: ckanext/ytp/translations.py:155
 msgid ""
 "Dataset resource URLs that are found to result in errors when resolved."
 msgstr ""
 
-#: ckanext/ytp/translations.py:155
+#: ckanext/ytp/translations.py:156
 msgid "Openness (Five Stars)"
 msgstr ""
 
-#: ckanext/ytp/translations.py:156
+#: ckanext/ytp/translations.py:157
 msgid ""
 "Datasets graded on Tim Berners-Lee's Five Stars of Openness - openly "
 "licensed, openly accessible, structured, open format, URIs for entities, "
 "linked."
 msgstr ""
 
-#: ckanext/ytp/translations.py:158
+#: ckanext/ytp/translations.py:159
 msgid "Deprecated datasets"
 msgstr "Outdated datasets"
 
-#: ckanext/ytp/translations.py:159
+#: ckanext/ytp/translations.py:160
 msgid "Datasets that have deprecated"
 msgstr "Datasets that have expired"
 
-#: ckanext/ytp/translations.py:160
+#: ckanext/ytp/translations.py:161
 msgid ""
 "Google analytics showing most audience locations (bot traffic is filtered "
 "out)"
-msgstr ""
+msgstr "Audience locations by country (bot traffic is filtered out)"
 
-#: ckanext/ytp/translations.py:161
+#: ckanext/ytp/translations.py:162
 msgid "Least popular datasets"
 msgstr ""
 
-#: ckanext/ytp/translations.py:162
-msgid "Google analytics showing top datasets with least views"
-msgstr ""
-
 #: ckanext/ytp/translations.py:163
+msgid "Google analytics showing top datasets with least views"
+msgstr "Datasets with least views"
+
+#: ckanext/ytp/translations.py:164
 msgid "Most popular datasets"
 msgstr ""
 
-#: ckanext/ytp/translations.py:164
-msgid "Google analytics showing top datasets with most views"
-msgstr ""
-
 #: ckanext/ytp/translations.py:165
+msgid "Google analytics showing top datasets with most views"
+msgstr "Datasets with most views"
+
+#: ckanext/ytp/translations.py:166
 msgid "Most popular organizations"
 msgstr ""
 
-#: ckanext/ytp/translations.py:166
+#: ckanext/ytp/translations.py:167
 msgid ""
 "Google analytics showing most popular organizations by visited datasets"
-msgstr ""
+msgstr "Most popular organisations by dataset views"
 
-#: ckanext/ytp/translations.py:167
+#: ckanext/ytp/translations.py:168
 msgid "Most popular resources"
 msgstr ""
 
-#: ckanext/ytp/translations.py:168
-msgid "Google analytics showing most downloaded resources"
-msgstr ""
-
 #: ckanext/ytp/translations.py:169
+msgid "Google analytics showing most downloaded resources"
+msgstr "Most downloaded resources"
+
+#: ckanext/ytp/translations.py:170
 msgid "Most popular search terms"
 msgstr ""
 
-#: ckanext/ytp/translations.py:170
-msgid "Google analytics showing most popular search terms"
-msgstr ""
-
 #: ckanext/ytp/translations.py:171
+msgid "Google analytics showing most popular search terms"
+msgstr "Most popular search terms"
+
+#: ckanext/ytp/translations.py:172
 msgid "Harvester status"
 msgstr ""
 
-#: ckanext/ytp/translations.py:172
+#: ckanext/ytp/translations.py:173
 msgid "Harvester statuses"
 msgstr ""
 
-#: ckanext/ytp/translations.py:173
+#: ckanext/ytp/translations.py:174
 msgid "No jobs yet"
 msgstr ""
 
-#: ckanext/ytp/translations.py:176
+#: ckanext/ytp/translations.py:177
 msgid ""
 "The dataset amount of the organization is shown beside the organization "
 "name."
@@ -1022,7 +1028,7 @@ msgstr ""
 "The amount of datasets by each organisation is shown next to the "
 "organisation’s name."
 
-#: ckanext/ytp/translations.py:177
+#: ckanext/ytp/translations.py:178
 msgid ""
 "Organizations with no datasets are shown in this list only when using the "
 "search functionality"
@@ -1030,12 +1036,107 @@ msgstr ""
 "Organisations with no datasets are shown in this list only when using the "
 "search functionality"
 
-#: ckanext/ytp/translations.py:178
+#: ckanext/ytp/templates/scheming/form_snippets/org_hierarchy.html:6
+#: ckanext/ytp/translations.py:179
 msgid "None - top level"
 msgstr ""
 
-#: ckanext/ytp/translations.py:181
+#: ckanext/ytp/translations.py:180
+msgid "Parent organization"
+msgstr ""
+
+#: ckanext/ytp/translations.py:183
 msgid "Organization cannot be deleted while it still has datasets"
+msgstr ""
+
+#: ckanext/ytp/translations.py:187
+msgid "fi"
+msgstr "in finnish"
+
+#: ckanext/ytp/translations.py:188
+msgid "en"
+msgstr "in english"
+
+#: ckanext/ytp/translations.py:189
+msgid "sv"
+msgstr "in swedish"
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:20
+#: ckanext/ytp/translations.py:191
+msgid "Showcase title"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:21
+#: ckanext/ytp/translations.py:192
+msgid "* Required field"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:37
+#: ckanext/ytp/translations.py:194
+msgid "Showcase description"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:38
+#: ckanext/ytp/translations.py:195
+msgid ""
+"An universal, compact and easy to understand description of the showcase."
+msgstr ""
+
+#: ckanext/ytp/translations.py:197
+msgid "Keywords and categories"
+msgstr ""
+
+#: ckanext/ytp/translations.py:198
+msgid ""
+"Keywords or tags through which users are able to find this showcase easily "
+"through the search page or other showcases        which have the same tag. "
+"Please pick at least one finnish keyword."
+msgstr ""
+
+#: ckanext/ytp/translations.py:201
+msgid "Additional showcase information"
+msgstr ""
+
+#: ckanext/ytp/translations.py:203
+msgid "Application developer"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:174
+#: ckanext/ytp/translations.py:205
+msgid ""
+"Images will be shown on the showcase page. You can upload images from your "
+"computer or link to an URL."
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:186
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:187
+#: ckanext/ytp/translations.py:207
+msgid "Icon"
+msgstr ""
+
+#: ckanext/ytp/translations.py:209
+msgid "Yes"
+msgstr ""
+
+#: ckanext/ytp/translations.py:210
+msgid "No"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:89
+#: ckanext/ytp/translations.py:212
+msgid "Type in application website"
+msgstr ""
+
+#: ckanext/ytp/translations.py:213
+msgid "Type in URL"
+msgstr ""
+
+#: ckanext/ytp/translations.py:215
+msgid "Icon will be shown at the top of the showcase page."
+msgstr ""
+
+#: ckanext/ytp/translations.py:216
+msgid "Featured image will be shown on the cards in showcase list page."
 msgstr ""
 
 #: ckanext/ytp/validators.py:66
@@ -1104,6 +1205,17 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#: ckanext/ytp/public/javascript/form.js:53
+msgid "Add link"
+msgstr ""
+
+#: ckanext/ytp/public/javascript/form.js:109
+#: ckanext/ytp/templates/snippets/search_form.html:98
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:90
+#: ckanext/ytp/templates/snippets/search_form_without_input.html:78
+msgid "Remove"
+msgstr ""
+
 #: ckanext/ytp/public/javascript/translations.js:4
 msgid "or"
 msgstr ""
@@ -1143,6 +1255,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/page.html:13
 #: ckanext/ytp/templates/snippets/search_form.html:80
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:72
 msgid "Hide search filters"
 msgstr ""
 
@@ -1200,7 +1313,7 @@ msgstr ""
 #: ckanext/ytp/templates/group/snippets/info.html:16
 #: ckanext/ytp/templates/organization/bulk_process.html:54
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:9
-#: ckanext/ytp/templates/snippets/package_item.html:48
+#: ckanext/ytp/templates/snippets/package_item.html:58
 msgid "Deleted"
 msgstr ""
 
@@ -1292,7 +1405,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/bulk_process.html:52
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:7
-#: ckanext/ytp/templates/snippets/package_item.html:44
+#: ckanext/ytp/templates/snippets/package_item.html:54
 msgid "Draft"
 msgstr ""
 
@@ -1319,8 +1432,8 @@ msgid "Search organizations..."
 msgstr "Search publishers..."
 
 #: ckanext/ytp/templates/organization/index.html:20
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:276
 #: ckanext/ytp/templates/snippets/search_form.html:18
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:17
 msgid "Submit"
 msgstr ""
 
@@ -1526,27 +1639,27 @@ msgid "Technical extra information"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:249
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:163
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:160
 msgid "Stats"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:250
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:164
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:161
 msgid "Last 30 days, updated daily"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:253
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:171
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:168
 msgid "All time downloads:"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:269
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:187
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:184
 msgid "Year"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:269
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:187
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:184
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
 msgstr ""
@@ -1581,19 +1694,21 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:53
 #: ckanext/ytp/templates/snippets/search_form.html:35
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:30
 msgid "Name Ascending"
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:54
 #: ckanext/ytp/templates/snippets/search_form.html:35
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:30
 msgid "Name Descending"
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:55
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:226
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:238
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:223
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:235
 msgid "Last Modified"
 msgstr ""
 
@@ -1606,7 +1721,7 @@ msgid "Date Created Descending"
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:59
-#: ckanext/ytp/templates/snippets/package_item.html:33
+#: ckanext/ytp/templates/snippets/package_item.html:43
 #: ckanext/ytp/templates/snippets/popular.html:3
 msgid "Popular"
 msgstr ""
@@ -1633,64 +1748,64 @@ msgid ""
 "%(api_doc_link)s). "
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/additional_info.html:7
+#: ckanext/ytp/templates/package/snippets/additional_info.html:11
 msgid "Field"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/additional_info.html:8
+#: ckanext/ytp/templates/package/snippets/additional_info.html:12
 msgid "Value"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/additional_info.html:26
-#: ckanext/ytp/templates/package/snippets/additional_info.html:31
+#: ckanext/ytp/templates/package/snippets/additional_info.html:30
+#: ckanext/ytp/templates/package/snippets/additional_info.html:35
 msgid "Author"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/additional_info.html:38
-#: ckanext/ytp/templates/package/snippets/additional_info.html:43
+#: ckanext/ytp/templates/package/snippets/additional_info.html:42
+#: ckanext/ytp/templates/package/snippets/additional_info.html:47
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:7
 msgid "Maintainer"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/additional_info.html:50
+#: ckanext/ytp/templates/package/snippets/additional_info.html:54
 msgid "Version"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/additional_info.html:57
+#: ckanext/ytp/templates/package/snippets/additional_info.html:61
 #: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:32
 #: ckanext/ytp/templates/user/read_base.html:47
 msgid "State"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/additional_info.html:63
+#: ckanext/ytp/templates/package/snippets/additional_info.html:67
 msgid "Last Updated"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:67
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:64
 msgid "Content Link"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:109
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:106
 msgid "License Not Specified"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:117
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:114
 msgid "Rating"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:128
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:125
 msgid "Dataset Quality"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:131
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:128
 msgid "Resource Quality"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:143
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:140
 msgid "Metadata Quality"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:151
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:148
 msgid ""
 "Dataset's Resource Quality is the highest rating from the resources. It is "
 "automatically calculated and if it is zero, resources are unavailable or "
@@ -1698,33 +1813,33 @@ msgid ""
 "resource downloads, comments and translations into consideration."
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:169
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:166
 msgid "Downloads during year"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:170
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:167
 msgid "All time visits:"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:187
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:184
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
 msgid "Visits"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:223
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:220
 msgid "Change log"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:224
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:221
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:5
 msgid "Dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:234
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:231
 msgid "Resource"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:246
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:243
 msgid "Show change log"
 msgstr ""
 
@@ -1869,11 +1984,16 @@ msgstr ""
 msgid "Resources"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/resources_list2.html:17
+#: ckanext/ytp/templates/package/snippets/resources_list2.html:18
+#, python-format
+msgid " This dataset has no data, <a href=\"%(url)s\">why not add some?</a> "
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resources_list2.html:23
 #, python-format
 msgid ""
-" <p class=\"empty\">This dataset has no data, <a href=\"%(url)s\">why not "
-"add some?</a> "
+" This dataset has no data. <a href=\"mailto:%(maintainer_email)s\">Ask the "
+"dataset's maintainer to add data.</a> "
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/send_feedback.html:4
@@ -2012,19 +2132,19 @@ msgstr ""
 msgid "Organization hierarchy"
 msgstr "Publisher hierarchy"
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:4
+#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:6
 msgid "Showcases"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:5
+#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:7
 msgid "Showcase submit"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:15
-msgid "New application"
-msgstr "New showcase"
+#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:13
+msgid "Submit a new application"
+msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:20
+#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:15
 msgid ""
 " Inform us about an application, web page or visualization that you'be "
 "created with the form below and we will add it to application gallery. "
@@ -2032,121 +2152,99 @@ msgstr ""
 " Inform us about an application, web page or visualisation that you have "
 "created with the form below and we will add it to showcase gallery. "
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:46
-msgid "Name or organization of the author"
-msgstr "Name or organisation of the author"
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:51
+msgid "Showcase information"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:54
+msgid "Datasets used in the application"
+msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:57
-msgid ""
-" Can be a person's name or the name of the organization which has developed "
-"the showcase. "
-msgstr ""
-" Can be a person's name or the name of the organisation which has developed "
-"the showcase. "
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:65
-msgid "Application website"
-msgstr "Showcase website"
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:76
-msgid " The original source url or a website dedicated for the showcase "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:84
-msgid "Platform"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:85
-msgid "e.g. android"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:99
-msgid ""
-" Type in separately every platform that the showcase supports. First type "
-"the name of the platform and press enter to select it. You can remove "
-"platforms by clicking the remove icon before the platform name or remove the"
-" last one with backspace. "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:109
-msgid "Store urls"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:117
-msgid ""
-" Enter at least one url to the showcase in platform specific application "
-"stores (e.g. Apple App Store, Google Play or Windows App Store) "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:123
-msgid "Showcase images"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:125
-msgid ""
-" Upload or provide a link for up to three images which will be presented in "
-"the showcase info page. "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:140
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:141
-msgid "Image 1"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:156
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:157
-msgid "Image 2"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:172
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:173
-msgid "Image 3"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:188
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:189
-msgid "Icon"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:194
-msgid ""
-" Upload or provide a link to an icon image file. This image will be shown as"
-" the icon for the showcase. "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:209
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:210
-msgid "Featured image"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:215
-msgid ""
-" Upload or provide a link to an image file which will be shown elsewhere in "
-"the site as an advert for the showcase. "
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:220
-msgid "Related datasets"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:222
-msgid "Select one or multiple datasets"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:226
 msgid "Search for a dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:236
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:70
+msgid "Platform"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:71
+msgid "e.g. android"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:88
+msgid "Application website"
+msgstr "Showcase website"
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:102
+msgid "Store urls"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:113
+msgid "Name or organization of the author"
+msgstr "Name or organisation of the author"
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:127
+msgid "Author Website"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:139
 msgid "Submitter info"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:241
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:140
+msgid ""
+"Name or email of the submitter will not be published alongside the "
+"application. They can be used to contact the submitter in case additional "
+"information is required."
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:145
 msgid "Name of the submitter"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:255
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:159
 msgid "Submitter email"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:173
+msgid "Showcase images"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:192
+msgid " Icon will be shown at the top of the showcase page "
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:207
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:208
+msgid "Featured image"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:213
+msgid " Featured image will be shown on the cards in showcase list page. "
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:228
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:229
+msgid "Image 1"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:244
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:245
+msgid "Image 2"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:260
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:261
+msgid "Image 3"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:270
+msgid "Abort"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:279
+msgid "Send submission"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:6
@@ -2202,6 +2300,7 @@ msgid "Last Harvested"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:3
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:3
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:3
 msgid "Search datasets..."
 msgstr ""
@@ -2211,29 +2310,29 @@ msgid " Use advanced search "
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:58
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:50
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:36
 msgid "Order by"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:67
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:59
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:44
 msgid "Go"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:74
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:66
 msgid "Filter search"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:98
-#: ckanext/ytp/templates/snippets/search_form_without_input.html:78
-msgid "Remove"
-msgstr ""
-
 #: ckanext/ytp/templates/snippets/search_form.html:110
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:102
 msgid " Please try another search or change search facets. "
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/search_form.html:118
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:110
 msgid ""
 " <strong>There was an error while searching.</strong> Please try again. "
 msgstr ""
@@ -2340,10 +2439,6 @@ msgstr ""
 
 #: ckanext/ytp/templates/user/edit_user_form.html:10
 msgid "eg. Joe Bloggs"
-msgstr ""
-
-#: ckanext/ytp/templates/user/edit_user_form.html:13
-msgid "eg. joe@example.com"
 msgstr ""
 
 #: ckanext/ytp/templates/user/edit_user_form.html:15

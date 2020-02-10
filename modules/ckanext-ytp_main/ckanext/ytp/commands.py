@@ -231,7 +231,7 @@ def migrate_temporal_granularity(ctx, config, dryrun):
                     if isinstance(v, basestring) and len(v) > 0:
                         temporal_granularity[k] = [v]
                         changes = True
-                    elif isinstance(v, basestring) and len(v) is 0:
+                    elif isinstance(v, basestring) and len(v) != 0:
                         temporal_granularity.pop(k)
                         changes = True
                 resource_patches.append(resource)
@@ -404,7 +404,8 @@ def validate(ctx, config, verbose):
     load_config(config or ctx.obj['config'])
 
     no_errors = True
-
+    user = t.get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
+    context = {'model': model, 'session': model.Session, 'user': user['name'], 'ignore_auth': True}
     for package_dict in package_generator('*:*', 1000):
         if verbose:
             print "Validating %s" % package_dict['name']
@@ -423,7 +424,7 @@ def validate(ctx, config, verbose):
             package_plugin = lib_plugins.lookup_package_plugin(package_dict['type'])
 
         schema = package_plugin.update_package_schema()
-        context = {'ignore_auth': True}
+
         data, errors = lib_plugins.plugin_validate(
             package_plugin, context, package_dict, schema, 'package_update')
 

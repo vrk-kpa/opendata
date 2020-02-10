@@ -8,6 +8,14 @@
     value: "0"
   notify: restart php-fmp service
 
+- name: Set PHP upload_max_filesize
+  ini_file:
+    dest: "{{ php_fpm_ini_file }}"
+    section: PHP
+    option: upload_max_filesize
+    value: "10M"
+  notify: restart php-fmp service
+
 - name: Set socket to listen
   ini_file:
     dest: "{{ php_fpm_config_file }}"

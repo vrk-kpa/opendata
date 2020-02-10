@@ -1,0 +1,165 @@
+diff --git a/ckan/controllers/group.py b/ckan/controllers/group.py
+index 6aa3d1f77..e14172f77 100644
+--- a/ckan/controllers/group.py
++++ b/ckan/controllers/group.py
+@@ -324,6 +324,7 @@ class GroupController(base.BaseController):
+                 'q': q,
+                 'fq': fq,
+                 'include_private': True,
++                'include_drafts': True,
+                 'facet.field': facets.keys(),
+                 'rows': limit,
+                 'sort': sort_by,
+diff --git a/ckan/controllers/package.py b/ckan/controllers/package.py
+index fb28d93aa..7100fccea 100644
+--- a/ckan/controllers/package.py
++++ b/ckan/controllers/package.py
+@@ -282,6 +282,8 @@ class PackageController(base.BaseController):
+                 'extras': search_extras,
+                 'include_private': asbool(config.get(
+                     'ckan.search.default_include_private', True)),
++                'include_drafts': asbool(config.get(
++                    'ckan.search_default_include_drafts', True)),
+             }
+
+             query = get_action('package_search')(context, data_dict)
+diff --git a/ckan/tests/controllers/test_package.py b/ckan/tests/controllers/test_package.py
+index 162f9d416..a702419df 100644
+--- a/ckan/tests/controllers/test_package.py
++++ b/ckan/tests/controllers/test_package.py
+@@ -1608,6 +1608,109 @@ class TestSearch(helpers.FunctionalTestBase):
+                                                 '.dataset-heading a')
+         assert_equal([n.string for n in ds_titles], [])
+
++    def test_search_page_results_draft(self):
++        '''Draft datasets don't show up in dataset search results.'''
++        app = self._get_test_app()
++        org = factories.Organization()
++
++        factories.Dataset(name="dataset-one", title='Dataset One',
++                          owner_org=org['id'], state='draft')
++        factories.Dataset(name="dataset-two", title='Dataset Two')
++        factories.Dataset(name="dataset-three", title='Dataset Three')
++
++        search_url = url_for('dataset.search')
++        search_response = app.get(search_url)
++
++        search_response_html = BeautifulSoup(search_response.body)
++        ds_titles = search_response_html.select('.dataset-list '
++                                                '.dataset-item '
++                                                '.dataset-heading a')
++        ds_titles = [n.string for n in ds_titles]
++
++        assert_equal(len(ds_titles), 2)
++        assert_true('Dataset One' not in ds_titles)
++        assert_true('Dataset Two' in ds_titles)
++        assert_true('Dataset Three' in ds_titles)
++
++    def test_user_not_in_organization_cannot_search_draft_datasets(self):
++        app = helpers._get_test_app()
++        user = factories.User()
++        organization = factories.Organization()
++        dataset = factories.Dataset(
++            owner_org=organization['id'],
++            state='draft'
++        )
++        env = {'REMOTE_USER': user['name'].encode('ascii')}
++        search_url = url_for('dataset.search')
++        search_response = app.get(search_url, extra_environ=env)
++
++        search_response_html = BeautifulSoup(search_response.body)
++        ds_titles = search_response_html.select('.dataset-list '
++                                                '.dataset-item '
++                                                '.dataset-heading a')
++        assert_equal([n.string for n in ds_titles], [])
++
++    def test_user_in_organization_can_search_draft_datasets(self):
++        app = helpers._get_test_app()
++        user = factories.User()
++        organization = factories.Organization(
++            users=[{'name': user['id'], 'capacity': 'member'}])
++        dataset = factories.Dataset(
++            title='A private dataset',
++            owner_org=organization['id'],
++            state='draft'
++        )
++        env = {'REMOTE_USER': user['name'].encode('ascii')}
++        search_url = url_for('dataset.search')
++        search_response = app.get(search_url, extra_environ=env)
++
++        search_response_html = BeautifulSoup(search_response.body)
++        ds_titles = search_response_html.select('.dataset-list '
++                                                '.dataset-item '
++                                                '.dataset-heading a')
++        assert_equal([n.string for n in ds_titles], ['A private dataset'])
++
++    def test_user_in_different_organization_cannot_search_draft_datasets(self):
++        app = helpers._get_test_app()
++        user = factories.User()
++        org1 = factories.Organization(
++            users=[{'name': user['id'], 'capacity': 'member'}])
++        org2 = factories.Organization()
++        dataset = factories.Dataset(
++            title='A private dataset',
++            owner_org=org2['id'],
++            state='draft'
++        )
++        env = {'REMOTE_USER': user['name'].encode('ascii')}
++        search_url = url_for('dataset.search')
++        search_response = app.get(search_url, extra_environ=env)
++
++        search_response_html = BeautifulSoup(search_response.body)
++        ds_titles = search_response_html.select('.dataset-list '
++                                                '.dataset-item '
++                                                '.dataset-heading a')
++        assert_equal([n.string for n in ds_titles], [])
++
++    @helpers.change_config('ckan.search.default_include_drafts', 'false')
++    def test_search_default_include_drafts_false(self):
++        app = helpers._get_test_app()
++        user = factories.User()
++        organization = factories.Organization(
++            users=[{'name': user['id'], 'capacity': 'member'}])
++        dataset = factories.Dataset(
++            owner_org=organization['id'],
++            state='draft'
++        )
++        env = {'REMOTE_USER': user['name'].encode('ascii')}
++        search_url = url_for('dataset.search')
++        search_response = app.get(search_url, extra_environ=env)
++
++        search_response_html = BeautifulSoup(search_response.body)
++        ds_titles = search_response_html.select('.dataset-list '
++                                                '.dataset-item '
++                                                '.dataset-heading a')
++        assert_equal([n.string for n in ds_titles], [])
++
+     def test_sysadmin_can_search_private_datasets(self):
+         app = helpers._get_test_app()
+         user = factories.Sysadmin()
+diff --git a/doc/maintaining/configuration.rst b/doc/maintaining/configuration.rst
+index 75e668ddb..610d9fdb6 100644
+--- a/doc/maintaining/configuration.rst
++++ b/doc/maintaining/configuration.rst
+@@ -693,6 +693,21 @@ Controls whether the default search page (``/dataset``) should include
+ private datasets visible to the current user or only public datasets
+ visible to everyone.
+
++.. _ckan.search.default_include_drafts:
++
++ckan.search.default_include_drafts
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Example::
++
++ ckan.search.default_include_drafts = false
++
++Default value:  ``true``
++
++Controls whether the default search page (``/dataset``) should include
++draft datasets visible to the current user or only public datasets
++visible to everyone.
++
+ .. _search.facets.limit:
+
+ search.facets.limit

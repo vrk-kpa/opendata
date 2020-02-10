@@ -102,14 +102,13 @@
     {
       "field_name": "maintainer_email",
       "label": "Maintainer email",
-      "form_placeholder": "joe@example.com",
+      "form_placeholder": "eg. joe@example.com",
       "form_attrs": {
         "class": "form-control"
       },
       "display_property": "dc:contributor",
       "display_snippet": "email.html",
       "validators": "not_empty email_validator",
-      "display_email_name_field": "maintainer",
       "required": true
     },
     {
@@ -253,12 +252,13 @@
       "required": true
     },
     {
-      "field_name": "file_size",
+      "field_name": "size",
       "form_attrs": {
         "class": "form-control"
       },
       "label": "Size",
-      "description": "Size of the added resouce file in bytes. Will be automatically filled when the file is uploaded."
+      "description": "Size of the added resouce file in bytes. Will be automatically filled when the file is uploaded.",
+      "validators": "ignore_missing int_validator"
     },
     {
       "field_name": "format",

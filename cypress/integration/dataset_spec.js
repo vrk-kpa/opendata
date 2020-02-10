@@ -39,8 +39,6 @@ describe('Dataset tests', function() {
     const resource_form_data = {
       "#field-name_translated-fi": resource_name
     };
-
-
     cy.fill_form_fields(resource_form_data);
 
     cy.get('#field-image-upload').then(function(subject){
@@ -70,7 +68,11 @@ describe('Dataset tests', function() {
       .then(function (href) {
         cy.request(href).its('status')
           .should('eq', 200)
-    })
+    });
+
+    // File size should be calculated automatically
+    cy.get('dt').contains('Tiedostokoko').next()
+      .should('have.text', '4123652');
   });
 
   it('Create a dataset with all fields', function() {
@@ -106,9 +108,9 @@ describe('Dataset tests', function() {
       '#field-description_translated-en': 'test description',
       '#field-description_translated-sv': 'test beskrivning',
       '#field-position_info': '56.7 43.5',
-      'label[for=field-temporal_granularity-fi] ~ div .select2-choices input': 'test',
-      'label[for=field-temporal_granularity-en] ~ div .select2-choices input': 'test',
-      'label[for=field-temporal_granularity-sv] ~ div .select2-choices input': 'test',
+      'label[for=field-temporal_granularity-fi] ~ div .select2-choices input': 'test {enter}',
+      'label[for=field-temporal_granularity-en] ~ div .select2-choices input': 'test {enter}',
+      'label[for=field-temporal_granularity-sv] ~ div .select2-choices input': 'test {enter}',
       '#field-temporal_coverage_to': '2019-02-02',
       '#field-temporal_coverage_from': '2018-02-02'
     };
@@ -123,7 +125,7 @@ describe('Dataset tests', function() {
   })
 
   it('Cannot create dataset if logged out', function() {
-    cy.logout();
+    cy.logout_request();
     cy.visit('/');
     cy.get('nav a[href="/data/fi/dataset"]').click();
     cy.get('a[href="/data/fi/dataset/new"]').should('not.exist');

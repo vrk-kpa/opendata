@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-07-16 08:39+0000\n"
+"POT-Creation-Date: 2019-11-13 11:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,8 +30,10 @@ msgstr ""
 msgid "Search target"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:24
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:31
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:17
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:36
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:70
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:76
 #: ckanext/advancedsearch/translations.py:11
 msgid "All"
 msgstr ""
@@ -84,29 +86,137 @@ msgstr ""
 msgid "Updated after"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:10
-#: ckanext/advancedsearch/templates/advanced_search/index.html:11
-#: ckanext/advancedsearch/templates/advanced_search/index.html:17
-msgid "Advanced search"
+#: ckanext/advancedsearch/translations.py:24
+msgid "Search datasets"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:28
-msgid "Search results"
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:23
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:28
+#: ckanext/advancedsearch/translations.py:25
+msgid "Show more options"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:13
-msgid "Features"
-msgstr ""
-
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:41
-msgid "Search"
-msgstr ""
-
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:44
-msgid "Clear fields"
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:33
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:38
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:25
+#: ckanext/advancedsearch/translations.py:26
+msgid "Show less options"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
-msgid "Choose"
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:41
+#: ckanext/advancedsearch/translations.py:27
+msgid "Not selected"
+msgstr ""
+
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:46
+#: ckanext/advancedsearch/translations.py:28
+msgid "Are you sure you want to clear all filters?"
+msgstr ""
+
+#: ckanext/advancedsearch/translations.py:29
+msgid "Datasets"
+msgstr ""
+
+#: ckanext/advancedsearch/translations.py:30
+msgid "Showcases"
+msgstr ""
+
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:16
+msgid "Clear all"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:11
+#: ckanext/advancedsearch/templates/advanced_search/index.html:42
+#: ckanext/advancedsearch/templates/advanced_search/index.html:43
+#: ckanext/advancedsearch/templates/advanced_search/index.html:57
+msgid "Advanced search"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:74
+msgid "Filters"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:78
+msgid "and"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:83
+msgid "or"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:95
+msgid "Relevance"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:96
+msgid "Name Ascending"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:97
+msgid "Name Descending"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:98
+msgid "Last Modified"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:99
+msgid "Date Created Ascending"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:100
+msgid "Date Created Descending"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:101
+msgid "Source"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:102
+msgid "Popular"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:106
+msgid "Found {count} datasets"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:109
+msgid "Sorting"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:7
+msgid "Filter search"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:18
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:33
+msgid "selected"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:12
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:18
+msgid "Previous page"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:27
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:36
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:58
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:70
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:84
+msgid "Page number:"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:51
+msgid "Current page number:"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:83
+msgid "Last page"
+msgstr ""
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:92
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:98
+msgid "Next page"
 msgstr ""
 

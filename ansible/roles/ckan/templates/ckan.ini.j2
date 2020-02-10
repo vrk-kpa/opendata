@@ -85,6 +85,7 @@ ckan.feeds.authority_name =
 ckan.feeds.date = 2019-01-01
 ckan.feeds.author_name =
 ckan.feeds.author_link =
+ckan.search.show_all_types = False
 
 ckan.cors.origin_allow_all = True
 
@@ -103,7 +104,7 @@ smtp_server = {{ ckan_smtp_server_domain }}:{{ ckan_smtp_port }}
 
 smtp.mail_from = no-reply@{{ ckan_email_domain }}
 
-ckan.views.default_views = recline_grid_view
+ckan.views.default_views = recline_grid_view geo_view
 
 ckanext.ytp.drupal.connection = postgres://{{ ckan_postgres.users.drupal8.username }}:{{ ckan_postgres.users.drupal8.password }}@{{ item.db_server }}/{{ ckan_postgres.databases.drupal8.name }}
 
@@ -119,6 +120,8 @@ ckanext-archiver.max_content_length = 50000000
 ckanext-archiver.cache_url_root = {{ ckan_extension_archiver_cache_protocol }}://{{ item.hostname }}/resource_cache/
 ckanext-archiver.user_agent_string = {{ item.hostname }} archiver
 ckanext-archiver.archive_cloud = True
+ckanext-archiver.send_notification_emails_to_maintainers = {{ ckan_notifications_to_maintainers_enabled }}
+
 
 ckanext.sixodp_showcasesubmit.creating_user_username = {{ ckan_admin.username }}
 ckanext.sixodp_showcasesubmit.recaptcha_sitekey = {{ ckan_recaptcha_public_key }}
@@ -154,6 +157,9 @@ ckanext.forcetranslation.path = i18n
 ckanext.forcetranslation.domain = ckanext-ytp_main
 
 ckanext.dcat.rdf.profiles = avoindata_dcat_ap
+ckanext.dcat.translate_keys = False
+
+ckanext.geoview.ol_viewer.formats = wms wfs geojson
 
 # The email links for reminders will be prefixed with this site url
 ckanext.reminder.site_url = {{ ckan_site_protocol }}://{{ item.hostname }}/data

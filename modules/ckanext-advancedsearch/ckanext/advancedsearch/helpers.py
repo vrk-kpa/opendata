@@ -1,5 +1,6 @@
 from ckan.plugins.toolkit import get_action, check_access, c
 from ckan import model
+from ckan.common import _
 
 # TODO: Should not be cross dependant to ckanext.ytp
 # This is specific to ytp
@@ -114,6 +115,12 @@ def advanced_license_options(field=None):
     return make_options(licenses)
 
 
+def advanced_dataset_types_options(field=None):
+    dataset_types = [{"value": "dataset", "label": _("Datasets")}, {"value": "showcase", "label": _("Showcases")}]
+
+    return make_options(dataset_types, value="value", label="label")
+
+
 def advanced_format_options(field=None):
     context = {'model': model, 'session': model.Session}
 
@@ -184,6 +191,20 @@ def advanced_search_and_target_query(keywords_field, target_field):
             q = target + ':*' + '*'.join(phrase.split()) + '*'
 
         return q
+    return query_helper
+
+
+def advanced_search_query(keywords_field):
+    def query_helper(key, all_params, schema, context):
+        phrase = None
+        if keywords_field in all_params:
+            phrase = all_params.getone(keywords_field)
+
+        # Exit early
+        if not phrase:
+            return '*:*'
+
+        return phrase
     return query_helper
 
 

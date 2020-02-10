@@ -43,6 +43,87 @@
     line: "LC_ALL=en_US.utf8"
     regexp: "^LC_ALL=.*"
 
+
+# Swap file configuration
+
+- name: Enable zswap (insert)
+  lineinfile:
+    path: '{{ zswap_grubfile }}'
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="((?!.*?zswap\.enabled=[01]).*)"'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 zswap.enabled=1"'
+    backrefs: yes
+  notify:
+    - update-grub
+
+- name: Enable zswap (update)
+  lineinfile:
+    path: '{{ zswap_grubfile }}'
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="(.*?)zswap\.enabled=[01](.*?)"'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1zswap.enabled=1\2"'
+    backrefs: yes
+  notify:
+    - update-grub
+
+- name: Set max_pool_percent (insert)
+  lineinfile:
+    path: '{{ zswap_grubfile }}'
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="((?!.*?zswap\.max_pool_percent=[0-9]+).*)"'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 zswap.max_pool_percent={{ zswap_max_pool_percent }}"'
+    backrefs: yes
+  notify:
+    - update-grub
+
+- name: Set max_pool_percent (update)
+  lineinfile:
+    path: '{{ zswap_grubfile }}'
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="(.*?)zswap\.max_pool_percent=[0-9]+(.*?)"'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="\1zswap.max_pool_percent={{ zswap_max_pool_percent }}\2"'
+    backrefs: yes
+  notify:
+    - update-grub
+
+- name: Configure swap file swappiness and cache pressure
+  sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: "present"
+    reload: True
+  with_dict: "{{ swapfile_sysctl }}"
+
+- name: Create swap file
+  command: |
+    fallocate -l {{ ((swapfile_size) | int * 1024 * 1024) }} {{ swapfile_path }}
+  args:
+    creates: "{{ swapfile_path }}"
+  register: swapfile_register_create
+
+- name: Set swap file permissions
+  file:
+    path: "{{ swapfile_path }}"
+    state: "file"
+    owner: "root"
+    group: "root"
+    mode: "0600"
+  when: not ansible_check_mode
+
+- name: Initialize swap file
+  command: mkswap {{ swapfile_path }}
+  when: swapfile_register_create is changed
+
+- name: Enable swap file
+  command: swapon {{ swapfile_path }}
+  when: swapfile_register_create is changed
+
+- name: Manage swap file in /etc/fstab
+  mount:
+    src: "{{ swapfile_path }}"
+    name: "none"
+    fstype: "swap"
+    opts: "sw,nofail"
+    dump: "0"
+    passno: "0"
+    state: "present"
+
 - name: Import configuration tasks
   import_tasks: configure.yml
   tags:

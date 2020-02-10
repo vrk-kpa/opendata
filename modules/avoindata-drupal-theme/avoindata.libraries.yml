@@ -19,11 +19,11 @@ bootstrap-scripts:
     '/resources/vendor/bootstrap/js/transition.js': {preprocess: false, type: external}
 avoindata-custom-elements:
   js:
-    '/resources/scripts/avoindata_custom_elements.js': {preprocess: false, type: external}
+    'js/avoindata_custom_elements.js': {}
   dependencies:
-    - core/drupal
     - core/jquery
     - core/jquery.once
+    - core/drupal
 webfonts:
   css:
     header: true

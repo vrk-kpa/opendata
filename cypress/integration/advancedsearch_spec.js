@@ -11,7 +11,7 @@ describe('Advanced search tests', () => {
         cy.create_category(category_name_1);
         cy.create_category(category_name_2);
 
-        cy.logout();
+        cy.logout_request();
 
         // User things
         cy.login_post_request('test-user', 'test-user');
@@ -103,18 +103,6 @@ describe('Advanced search tests', () => {
         })
     })
 
-    describe('Test clearing fields', () => {
-        it('Fill query and clear', () => {
-            cy.get('#advanced-search-keywords').should('be.empty')
-            cy.fill_form_fields({
-                '#advanced-search-keywords': 'ok'
-            })
-            cy.get('#advanced-search-keywords').should('have.value', 'ok')
-            cy.get('button[name=clear]').click()
-            cy.get('#advanced-search-keywords').should('be.empty')
-        })
-    })
-
     describe('Test querying by string and target', () => {
         it('Searching with query "first"', () => {
             fill_and_submit({
@@ -141,15 +129,6 @@ describe('Advanced search tests', () => {
         it('Search with keyword', () => {
             fill_and_submit({
                 '#advanced-search-keywords': 'another'
-            })
-            cy.get('.dataset-list').children().should('have.length', 1)
-            cy.get('.dataset-heading').contains('second dataset')
-        })
-
-        it('Target description and search for unicorns', () => {
-            fill_and_submit({
-                '#advanced-search-keywords': 'unicorns',
-                '#radio-search_target-notes': {type: 'check', force: true}
             })
             cy.get('.dataset-list').children().should('have.length', 1)
             cy.get('.dataset-heading').contains('second dataset')

@@ -43,7 +43,7 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
     get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
     get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
-    get_last_harvested_date, get_resource_sha256, get_package_showcase_list
+    get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin
 
 from tools import create_system_context, get_original_method
 
@@ -188,6 +188,12 @@ def action_package_show(context, data_dict):
             result['organization'].update(group.extras)
 
     return result
+
+
+@logic.side_effect_free
+def action_package_search(context, data_dict):
+    data_dict['sort'] = data_dict.get('sort') or 'metadata_created desc'
+    return get_original_method('ckan.logic.action.get', 'package_search')(context, data_dict)
 
 
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
@@ -412,6 +418,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'group_list_with_selected': group_list_with_selected,
                 'get_resource_sha256': get_resource_sha256,
                 'get_package_showcase_list': get_package_showcase_list,
+                'get_groups_where_user_is_admin': get_groups_where_user_is_admin
                 }
 
     def get_auth_functions(self):
@@ -481,7 +488,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     # IActions #
     def get_actions(self):
-        return {'package_show': action_package_show}
+        return {'package_show': action_package_show, 'package_search': action_package_search}
 
     # IValidators
     def get_validators(self):
@@ -1030,7 +1037,9 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
             cookies = {}
             for domain in domains:
-                domain_hash = hashlib.sha256(domain).hexdigest()[:32]
+                # Split domain from : and expect first part to be hostname and second part be port.
+                # Here we ignore the port as drupal seems to ignore the port when generating cookiename hashes
+                domain_hash = hashlib.sha256(domain.split(':')[0]).hexdigest()[:32]
                 cookienames = (template % domain_hash for template in ('SESS%s', 'SSESS%s'))
                 named_cookies = ((name, p.toolkit.request.cookies.get(name)) for name in cookienames)
                 for cookiename, cookie in named_cookies:

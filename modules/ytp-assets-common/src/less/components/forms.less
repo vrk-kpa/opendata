@@ -1,9 +1,9 @@
 // Form specific overrides
-@common-path: '../..';
-@common-less: '@{common-path}/less';
+@common-path: "../..";
+@common-less: "@{common-path}/less";
 
-@import '@{common-less}/variables.less';
-@import '@{common-less}/mixins/mixins.less';
+@import "@{common-less}/variables.less";
+@import "@{common-less}/mixins/mixins.less";
 
 @input-border-radius: 2px;
 @input-border-color: @suomi-depthLight13;
@@ -15,6 +15,10 @@
 .form-control {
   border: 1px solid @opendata-ckan-unhighlight;
   font-size: 14px;
+
+  &[type="file"] {
+    height: auto;
+  }
 }
 
 .form-horizontal .form-group {
@@ -164,7 +168,7 @@ fieldset.checkboxes {
   max-width: max-content;
   font-weight: normal;
 
-  [type='checkbox'] {
+  [type="checkbox"] {
     display: none;
 
     & + .custom-checkbox {
@@ -178,8 +182,8 @@ fieldset.checkboxes {
     }
 
     &:checked + .custom-checkbox::before {
-      content: '\f00c';
-      font-family: 'Font Awesome 5 Pro', sans-serif;
+      content: "\f00c";
+      font-family: "Font Awesome 5 Pro", sans-serif;
       font-weight: 500;
       vertical-align: middle;
       display: inline-block;
@@ -268,7 +272,7 @@ fieldset.checkboxes {
       content: none;
     }
 
-    [type='checkbox'] {
+    [type="checkbox"] {
       & + .custom-checkbox {
         border: 1px solid @input-border-color;
         border-radius: 2px;
@@ -331,8 +335,8 @@ fieldset.checkboxes {
 
 .ytp-search-bar {
   &::before {
-    content: '\f002';
-    font-family: 'Font Awesome Pro', sans-serif;
+    content: "\f002";
+    font-family: "Font Awesome Pro", sans-serif;
     font-weight: 300;
   }
 }
@@ -358,11 +362,11 @@ fieldset.checkboxes {
   }
 
   // Checked button style
-  input[type='radio']:checked ~ .custom-radio {
+  input[type="radio"]:checked ~ .custom-radio {
     border: 1px solid @suomi-highlightBase;
 
     &::after {
-      content: '';
+      content: "";
       display: block;
       background-color: @suomi-highlightBase;
       height: 8px;
@@ -372,7 +376,7 @@ fieldset.checkboxes {
   }
 
   // Focused button style
-  input[type='radio']:focus ~ .custom-radio {
+  input[type="radio"]:focus ~ .custom-radio {
     box-shadow: 0 0 2px 1px @suomi-highlightBase;
   }
 
@@ -417,5 +421,340 @@ fieldset.checkboxes {
     span {
       display: none;
     }
+  }
+}
+
+.ytp-group-title {
+  margin-top: 40px;
+  margin-bottom: 20px;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+}
+
+.ytp-group-description {
+  font-family: @font-family-sans-serif;
+  font-weight: normal;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.ytp-group-divider {
+  width: 100%;
+  height: 1px;
+  background: rgb(200, 205, 208);
+  border-radius: 0;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.page-description {
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 27px;
+}
+
+.no-editor-info {
+  .editor-info-block {
+    display: none;
+  }
+
+  .editor textarea {
+    border-radius: 0;
+    border-color: @suomi-depthLight13;
+    border-bottom: 1px solid @suomi-depthLight13;
+    padding: 6px 10px;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 24px;
+  }
+
+  span.error-block {
+    margin-top: -6px;
+  }
+}
+
+.label-on-top.form-group {
+  display: block;
+}
+
+label.control-label {
+  font-size: 16px;
+  font-family: @font-family-sans-serif-semibold;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.ytp-select2 {
+  .select2-search-choice {
+    display: none;
+  }
+
+  .ytp-select2-tags-container .avoindata-pill {
+    margin-right: 8px;
+    margin-bottom: 0;
+  }
+
+  &.select2-container .select2-choices,
+  & .select2-container .select2-choices {
+    padding: 0;
+  }
+}
+
+.radios {
+  display: block;
+  position: relative;
+
+  input[type="radio"] {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .check {
+    border: 1px solid #a5adb1;
+    border-radius: 100%;
+    margin-right: 8px;
+    height: 18px;
+    width: 18px;
+    z-index: 5;
+    transition: border 0.25s linear;
+    display: inline-flex;
+    place-content: center;
+    align-self: center;
+  }
+
+  .check::before {
+    display: flex;
+    align-self: center;
+    content: "";
+    border-radius: 100%;
+    height: 8px;
+    width: 8px;
+    transition: background 0.25s linear;
+  }
+
+  input[type="radio"]:checked ~ .check {
+    border: 1px solid #2a6ebb;
+  }
+
+  input[type="radio"]:checked ~ .check::before {
+    background: #2a6ebb;
+  }
+
+  label {
+    font-size: 16px;
+    font-weight: normal;
+    margin-right: 20px;
+    z-index: 9;
+    cursor: pointer;
+    transition: all 0.25s linear;
+    display: inline-flex;
+  }
+
+  label::after {
+    content: "";
+  }
+}
+
+.add-input-button {
+  margin-top: 20px;
+}
+
+.removable-input-container {
+  margin-top: 20px;
+
+  input {
+    width: 90%;
+    display: inline-block;
+  }
+
+  button {
+    float: right;
+  }
+}
+
+.disclaimer {
+  margin-left: 45%;
+  width: 55%;
+  padding-top: 40px;
+  color: rgb(95, 104, 109);
+  font-size: 14px;
+  font-family: @font-family-sans-serif;
+  font-weight: normal;
+  line-height: 18px;
+}
+
+.page-container {
+  .form-actions {
+    flex-direction: row;
+    justify-content: start;
+
+    .suomifi-button-primary {
+      margin-left: auto;
+    }
+
+    .suomifi-button-secondary {
+      margin-right: 20px;
+    }
+  }
+
+  .page-heading {
+    margin-top: 0;
+  }
+
+  .field-assistive-text {
+    font-style: normal;
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 15px;
+  }
+}
+
+#content > .wrapper.ckanext-showcase-edit-wrapper {
+  padding: 0 15px;
+
+  > .primary {
+    float: none;
+  }
+}
+
+.suomifi-page-header {
+  border: 1px solid #c9cdcf;
+  border-radius: 3px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 0;
+  background-color: #fff;
+  padding: 35px 25px 20px;
+
+  h1 {
+    margin-top: 0;
+  }
+
+  .content_action a {
+    float: right;
+  }
+
+  .nav {
+    li {
+      display: inline-block;
+      margin-right: 60px;
+
+      a {
+        padding: 10px 5px;
+        color: @new-layout-primary-text-color;
+        font-family: @font-family-sans-serif;
+        font-size: 18px;
+        font-weight: normal;
+        line-height: 27px;
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: none;
+        background-color: transparent;
+      }
+
+      &.active a {
+        font-family: @font-family-sans-serif-semibold;
+        border-bottom: 4px solid @suomi-highlightBase;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.suomifi-page-header ~ .page-container {
+  margin-top: 0;
+}
+
+td.selectable-row {
+  label {
+    display: flex;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 0;
+    line-height: 20px;
+  }
+
+  input[type="checkbox"].row-checkbox {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .check {
+    border: 1px solid #a5adb1;
+    margin-right: 8px;
+    height: 18px;
+    width: 18px;
+    z-index: 5;
+    transition: border 0.25s linear;
+    display: inline-flex;
+    place-content: center;
+    align-self: center;
+  }
+
+  .check::before {
+    display: flex;
+    align-self: center;
+    transition: background 0.25s linear;
+  }
+
+  input[type="checkbox"].row-checkbox:checked ~ .check {
+    border-color: @suomi-highlightBase;
+  }
+
+  input[type="checkbox"].row-checkbox:checked ~ .check::before {
+    color: @suomi-highlightBase;
+    content: "\f00c";
+    font-family: "Font Awesome 5 Pro", sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  label::after {
+    content: "";
+  }
+}
+
+.row-title {
+  display: inline-block;
+}
+
+.custom-table-header {
+  padding: 25px 20px 10px;
+  border: 1px solid @suomi-depthLight13;
+  border-bottom: none;
+
+  & ~ p.filter-list {
+    margin: 0;
+  }
+
+  #field-order-by-container label::after {
+    content: "";
+  }
+}
+
+.custom-table-header-title {
+  font-family: @font-family-sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 28px;
+  align-self: center;
+}
+
+.action-button-group {
+  border-left: 1px solid @suomi-depthLight13;
+  border-right: 1px solid @suomi-depthLight13;
+
+  & button {
+    margin-left: 20px;
+    margin-bottom: 10px;
   }
 }

@@ -31,15 +31,17 @@ class EventsController extends ControllerBase {
     $currentDateTime->setTimezone(new \DateTimezone(DATETIME_STORAGE_TIMEZONE));
     $formattedcurrentDateTime = $currentDateTime->format(DATETIME_DATETIME_STORAGE_FORMAT);
 
-    $sort = $request->query->get('sort');
+    $sort = $request->query->get('sort') ?: 'asc';
     $searchterm = $request->query->get('search');
     $showpast = $request->query->get('past');
 
     $eventNodeIdsTitleQuery = \Drupal::entityQuery('node')
       ->condition('type', 'avoindata_event')
+      ->condition('status', 1)
       ->condition('langcode', $lang);
     $eventNodeIdsBodyQuery = \Drupal::entityQuery('node')
       ->condition('type', 'avoindata_event')
+      ->condition('status', 1)
       ->condition('langcode', $lang);
 
     if (!empty($searchterm)) {
@@ -50,10 +52,17 @@ class EventsController extends ControllerBase {
     }
 
     if (empty($showpast) or (!empty($showpast) and strcmp($showpast, 'false') == 0)) {
-      $eventNodeIdsTitleQuery = $eventNodeIdsTitleQuery
-        ->condition('field_start_date', $formattedcurrentDateTime, '>=');
-      $eventNodeIdsBodyQuery = $eventNodeIdsBodyQuery
-        ->condition('field_start_date', $formattedcurrentDateTime, '>=');
+      $emptyOrNotPastTitles = $eventNodeIdsTitleQuery
+        ->orConditionGroup()
+        ->notExists('field_end_date')
+        ->condition('field_end_date', $formattedcurrentDateTime, '>=');
+      $emptyOrNotPastBodies = $eventNodeIdsBodyQuery
+        ->orConditionGroup()
+        ->notExists('field_end_date')
+        ->condition('field_end_date', $formattedcurrentDateTime, '>=');
+
+      $eventNodeIdsTitleQuery = $eventNodeIdsTitleQuery->condition($emptyOrNotPastTitles);
+      $eventNodeIdsBodyQuery = $eventNodeIdsBodyQuery->condition($emptyOrNotPastBodies);
     }
 
     $eventNodeIdsTitle = $eventNodeIdsTitleQuery

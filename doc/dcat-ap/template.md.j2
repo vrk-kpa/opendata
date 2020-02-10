@@ -1,0 +1,31 @@
+# Avoindata.fi DCAT-AP extension
+
+## Vocabularies
+
+Prefix | URI
+-------|----
+{% for vocabulary in vocabularies -%}
+{{ vocabulary.prefix }} | {{ vocabulary.uri }}
+{% endfor %}
+
+## Classes
+
+{% for class in classes %}
+### {{ class.term }}
+
+#### {{ class.title }}
+
+{{ class.description }}
+
+#### Properties
+
+{% for level in ['mandatory', 'recommended', 'optional'] %}
+##### {{ level | title }}
+Term | Range | Cardinality | Comment
+-----|-------|-------------|--------
+{% for property in class.properties[level] -%}
+  {% if property.extension %}**{{ property.term }}** {% else %}{{ property.term }} {% endif -%}
+  | {{ property.range }} | {{ property.min }}..{{ property.max }} | {{ property.description }}
+{% endfor %} {# property #}
+{% endfor %} {# level #}
+{% endfor %} {# class #}
