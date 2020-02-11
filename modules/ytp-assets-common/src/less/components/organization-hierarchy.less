@@ -86,3 +86,47 @@ li.organization {
   color: darken(@opendata-brand-primary, 10%);
   font-weight: @font-weight-heavy;
 }
+
+.organization-list {
+  list-style: none;
+  padding: 0;
+
+  li {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: baseline;
+    border: 1px solid @suomi-depthLight13;
+    border-bottom: none;
+    padding: 20px;
+
+    &:last-child {
+      border-bottom: 1px solid @suomi-depthLight13;
+    }
+  }
+
+  a {
+    color: @suomi-highlightBase;
+  }
+
+  h3 {
+    margin-top: 5px;
+  }
+
+  .parent-organization {
+    width: 100%;
+  }
+
+  .organization-title {
+    flex: max-content;
+  }
+
+  .package-count {
+    color: @suomi-blackBase;
+    font-size: 16px;
+  }
+
+  .child-count {
+    color: @suomi-depthDark27;
+    width: 100%;
+  }
+}
