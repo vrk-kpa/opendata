@@ -832,6 +832,39 @@ class YtpOrganizationController(OrganizationController):
 
         return render("organization/embed.html")
 
+    def index(self):
+        group_type = self._guess_group_type()
+
+        page = h.get_page_number(request.params) or 1
+        items_per_page = 21
+        c.with_datasets = with_datasets = request.params.get('with_datasets', '').lower() in ('true', '1', 'yes')
+
+        context = {'model': model, 'session': model.Session,
+                   'user': c.user, 'for_view': True,
+                   'with_private': False,
+                   'user_is_sysadmin': c.userobj.sysadmin if c.userobj else False}
+
+        q = c.q = request.params.get('q', '').lower()
+        sort_by = c.sort_by_selected = request.params.get('sort')
+        try:
+            tree_list_params = {
+                    'q': q, 'sort_by': sort_by, 'with_datasets': with_datasets,
+                    'page': page, 'items_per_page': items_per_page}
+            results = get_action('organization_tree_list')(context, tree_list_params)
+        except NotAuthorized:
+            abort(403, _('Not authorized to see this page'))
+
+        c.page = h.Page(
+            collection=results['global_results'],
+            page=page,
+            url=h.pager_url,
+            items_per_page=items_per_page,
+        )
+        c.page.items = results['page_results']
+
+        return render(self._index_template(group_type),
+                      extra_vars={'group_type': group_type})
+
 
 class YtpThemeController(base.BaseController):
     def new_template(self):
