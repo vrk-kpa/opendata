@@ -28,7 +28,7 @@ def showcase_list(context, data_dict):
         .filter(model.Package.state == 'active')
 
     # Showcase includes private showcases by default, but those can be excluded with include_private = false
-    if data_dict.get('include_private') is 'false':
+    if data_dict.get('include_private') == 'false':
         q = q.filter(model.Package.private == False) # Noqa
 
     showcase_list = []

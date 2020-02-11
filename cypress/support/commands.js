@@ -35,7 +35,14 @@ Cypress.Commands.add('login_post_request', (username, password) => {
           form_id: 'user_login_form'
       }
   });
-})
+});
+
+Cypress.Commands.add('logout_request', (username, password) => {
+  cy.request({
+    method: 'GET',
+    url: '/user/logout'
+  });
+});
 
 Cypress.Commands.add('login', (username, password) => {
   cy.visit('/user/login');
@@ -269,15 +276,42 @@ Cypress.Commands.add('delete_showcase', (showcase_name) => {
   cy.get('.form-actions').contains('Poista')
     .should('have.attr', 'href')
     .then((href) => {
-         cy.visit(href)
+      cy.get('button[name=save]').click();
+      cy.visit(href);
+      cy.contains('Haluatko varmasti poistaa sovelluksen');
+      cy.get('body').find('.btn').contains('Vahvista').click();
+      cy.visit('/data/showcase');
+      cy.get('.search-input .search').type(showcase_name + '{enter}');
+      cy.get('.showcase-list').should('not.exist');
+      cy.contains("Sovelluksia ei löytynyt");
     });
-  cy.contains('Haluatko varmasti poistaa sovelluksen');
-  cy.get('body').find('.btn').contains('Vahvista').click();
-  cy.visit('/data/showcase');
-  cy.get('.search-input .search').type(showcase_name + '{enter}');
-  cy.get('.showcase-list').should('not.exist');
-  cy.contains("Sovelluksia ei löytynyt");
-})
+});
+
+Cypress.Commands.add('add_showcase_user', () => {
+  // Login with test-publisher and visit ckan to create the user
+  cy.login_post_request('test-publisher', 'test-publisher');
+  cy.request('/data/fi/dataset');
+  cy.logout_request();
+
+  // Set showcase-admin rights for test-publisher
+  cy.login_post_request('admin', 'administrator');
+
+  // It's necessary to request dataset page before ckan-admin so that the ckan user is created
+  cy.request('/data/fi/dataset');
+  cy.visit('/data/ckan-admin');
+  cy.get('a[href="/data/ckan-admin/showcase_admins"]').click();
+  cy.get('#s2id_username').click();
+  cy.get('#s2id_autogen1_search').type('test-publisher{enter}', {force: true});
+  cy.get('button[name=submit]').click();
+  cy.logout_request();
+
+  // Login with test-publisher
+  cy.login_post_request('test-publisher', 'test-publisher');
+
+  // We're forcing the click since drupal toolbar obscures the link
+  // and due to cypress-io/cypress#2302 the auto-scrolling does not work
+  cy.get('nav a[href="/data/fi/showcase"]').click({force: true});
+});
 
 Cypress.Commands.add('reset_db', () => {
     if (Cypress.env('resetDB') === true){

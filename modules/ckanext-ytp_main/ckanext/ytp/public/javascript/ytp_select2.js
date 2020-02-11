@@ -31,7 +31,8 @@ $(window).on("load", function() {
         createTag(tag, container);
       }
     })
-    .trigger("change");
+    // Removed as it marks the form changed
+    //.trigger("change");
 });
 
 var createTag = function(tag, container) {

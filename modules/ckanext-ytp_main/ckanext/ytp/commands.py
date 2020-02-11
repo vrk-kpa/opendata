@@ -231,7 +231,7 @@ def migrate_temporal_granularity(ctx, config, dryrun):
                     if isinstance(v, basestring) and len(v) > 0:
                         temporal_granularity[k] = [v]
                         changes = True
-                    elif isinstance(v, basestring) and len(v) is 0:
+                    elif isinstance(v, basestring) and len(v) != 0:
                         temporal_granularity.pop(k)
                         changes = True
                 resource_patches.append(resource)

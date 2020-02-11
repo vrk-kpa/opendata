@@ -1,0 +1,23 @@
+{% set organization_display_name = h.extra_translation(organization, 'title') or organization.id %}
+{% set parent_display_name = h.extra_translation(organization, 'parent_title') or organization.parent_name %}
+<li>
+  {% if organization.parent_name %}
+  <a class="parent-organization" href="{{ h.url_for('organization_read', action='read', id=organization.parent_name) }}">{{ parent_display_name }}</a>
+  {% else %}
+  <span class="parent-organization">&nbsp;</span>
+  {% endif %}
+  <a class="organization-title" href="{{ h.url_for('organization_read', action='read', id=organization.id) }}">
+    <h3>{{ organization_display_name }}</h3>
+  </a>
+  {% if organization.package_count > 0 %}
+  <span class="package-count">{{ ungettext('{num} Dataset', '{num} Datasets', organization.package_count).format(num=organization.package_count) }}</span>
+  {% else %}
+  <span class="package-count">&nbsp;</span>
+  {% endif %}
+  {% if organization.child_count > 0 %}
+  <span class="child-count">{{ ungettext('{num} Child Organization', '{num} Child Organizations', organization.child_count).format(num=organization.child_count) }}</span>
+  {% else %}
+  <span class="child-count">&nbsp;</span>
+  {% endif %}
+</li>
+
