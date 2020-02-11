@@ -147,7 +147,7 @@ describe("General tests", function(){
       cy.visit('/data/fi/user_list');
       cy.go('back')
       cy.contains('Tapahtumatiedot').click();
-      cy.contains('Data Requests').click();
+      cy.contains('Tietopyynnöt').click();
       cy.go('back')
       cy.contains('Tietoaineistot').click();
   })
