@@ -257,17 +257,21 @@
       "form_attrs": {
         "class": "form-control"
       },
-      "description": "A short and descriptive name for the resource."
+      "description": "",
+      "group_title": "Resource name",
+      "group_description": "* Required field"
     },
     {
       "field_name": "url",
-      "label": "URL",
+      "label": "",
       "preset": "resource_url_upload_ex",
       "form_attrs": {
         "class": "form-control"
       },
-      "description": "A file or url which describes the location of the desired resource file.",
-      "required": true
+      "description": "",
+      "required": true,
+      "group_title": "File *",
+      "group_description": "A file or url which describes the location of the desired resource file."
     },
     {
       "field_name": "size",
@@ -294,7 +298,9 @@
       "form_attrs": {
         "class": "form-control"
       },
-      "description": "An universal, compact and easy to understand description of the added resource."
+      "description": "",
+      "group_title": "Resource description",
+      "group_description": "An universal, compact and easy to understand description of the added resource."
     },
     {
       "field_name": "maturity",
@@ -313,7 +319,8 @@
           "value": "archived",
           "label": "Archived version"
         }
-      ]
+      ],
+      "group_title": "Additional information"
     },
     {
       "field_name": "position_info",
@@ -337,14 +344,14 @@
       "description": "A string which describes the precision of the entered time series."
     },
     {
-      "field_name": "temporal_coverage_to",
-      "label": "Temporal coverage to",
-      "preset": "date_opendata"
-    },
-    {
       "field_name": "temporal_coverage_from",
       "label": "Temporal coverage from",
-      "preset": "date_opendata"
+      "preset": "date_opendata_with_icon"
+    },
+    {
+      "field_name": "temporal_coverage_to",
+      "label": "Temporal coverage to",
+      "preset": "date_opendata_with_icon"
     },
     {
       "field_name": "status_updated",

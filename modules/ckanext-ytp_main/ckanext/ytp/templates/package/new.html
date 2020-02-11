@@ -13,7 +13,7 @@
     <aside class="sidebar col-sm-4 pull-left">
         <h4>{{_("Stages")}}</h4>
         <div class="ytp-group-divider"></div>
-        {{ h.snippet('package/snippets/stages.html', stages=form_vars.stage) }}
+        {{ h.snippet('package/snippets/stages.html', stages=form_vars.stage, pkg_name=form_vars.data.name) }}
     </aside>
     {% endblock %}
 {% endblock  %}

@@ -1,15 +1,27 @@
 {% ckan_extends %}
 
+{% block maintag %}<div role="main" class="container-page-wrapper">{% endblock %}
+
+{% block prelude %}
+<div class="d-flex justify-content-between align-items-end flex-wrap">
+    <h1 class="page-heading">{% block page_heading %}{{ _("Create Dataset") }} - {{ _("Add data") }}{% endblock %}</h1>
+</div>
+{% endblock %}
+
 {% block secondary %}
+    {% block stages %}
+    <aside class="sidebar col-sm-4 pull-left">
+        <h4>{{_("Stages")}}</h4>
+        <div class="ytp-group-divider"></div>
+        {{ h.snippet('package/snippets/stages.html', stages=stage, pkg_name=pkg_name) }}
+    </aside>
+    {% endblock %}
 {% endblock  %}
 
 {% block primary %}
 {% resource 'ytp_dataset_js/form.js' %}
-    <div >
+    <div class="primary col-sm-8">
         {% block primary_content %}
-            {% block ytp_title %}
-            <h1 class="content-heading">{{ _("Create Dataset") }} - {{ _("Add data") }}</h1>
-            {% endblock %}
             {{ super() }}
         {% endblock %}
     </div>
