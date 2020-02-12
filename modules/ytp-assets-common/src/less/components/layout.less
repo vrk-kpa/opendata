@@ -1,4 +1,4 @@
-@import '../variables';
+@import "../variables";
 
 // ------------------
 // Main layout styles
@@ -11,7 +11,7 @@ body {
   min-height: 100vh;
 }
 
-[role='main'] {
+[role="main"] {
   background: transparent;
   padding-top: 0;
 }
@@ -62,6 +62,10 @@ body {
 }
 
 #content > .wrapper > .primary {
+  > .module > .module-content {
+    padding-top: 32px;
+  }
+
   &:first-child > .module > .module-content {
     padding-left: 0;
   }
@@ -85,4 +89,113 @@ body {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
+}
+
+.align-items-end {
+  align-items: end;
+}
+
+.container-page-wrapper {
+  background-color: #fafafa;
+
+  .container > h1 {
+    margin-top: 0;
+  }
+}
+
+.page-container {
+  background-color: #fff;
+  border: 1px solid @suomi-depthLight13;
+  padding: 20px 20px 60px 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+
+  span.control-required {
+    float: right;
+    color: black;
+    padding-left: 3px;
+  }
+
+  .select2-container .select2-choices .select2-search-field input,
+  input,
+  select {
+    border-radius: 0;
+    border-color: @suomi-depthLight13;
+    padding: 6px 10px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 24px;
+  }
+
+  .select2-container .select2-choice,
+  .select2-container .select2-choices {
+    border-radius: 0;
+  }
+
+  .input-prepend input,
+  .controls input {
+    border: 1px solid @suomi-depthLight13;
+  }
+}
+
+.primary .module-content {
+  padding-top: 0;
+}
+
+.suomifi-button-text {
+  font-family: @font-family-sans-serif-semibold;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  line-height: 20px;
+}
+
+.suomifi-button-primary {
+  .suomifi-button-text();
+
+  box-shadow: 0 1px 1px 0 rgba(0, 52, 122, 0.5);
+  height: 40px;
+  background:
+    linear-gradient(
+      0deg,
+      rgb(35, 90, 154) 0%,
+      rgb(42, 110, 187) 100%
+    );
+  border: 1px solid @suomi-highlightBase;
+  border-radius: 2px;
+  display: inline-flex;
+  color: white;
+}
+
+.suomifi-button-secondary {
+  .suomifi-button-text();
+
+  height: 40px;
+  display: inline-flex;
+  color: @suomi-highlightBase;
+  appearance: none;
+  border: 1px solid @suomi-highlightBase;
+  padding: 10px 30px;
+  background: white;
+  border-radius: 2px;
+
+  i {
+    margin-right: 8px;
+    font-size: 16px;
+    margin-top: 1px;
+  }
+}
+
+.suomifi-button-secondary-noborder {
+  .suomifi-button-secondary();
+
+  height: 40px;
+  padding: 10px 15px;
+  border: none;
+}
+
+.table-bordered > tbody > tr > td {
+  padding: 10px;
+  border-color: @suomi-depthLight13;
 }

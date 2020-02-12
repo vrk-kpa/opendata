@@ -29,7 +29,7 @@ def get_featured_showcases():
 def get_showcases_by_author(author, limit, exclude_id):
     context = {'model': model, 'user': c.user, 'auth_user_obj': c.userobj}
     fq = ''
-    fq += u'author:{author_name}'.format(author_name=author.replace(' ', '\ '))
+    fq += u'author:{author_name}'.format(author_name=author.replace(' ', r'\ '))
     fq += ' -id:{exclude_id}'.format(exclude_id=exclude_id)
     fq += ' +dataset_type:showcase'
 
