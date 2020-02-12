@@ -1,0 +1,8 @@
+{% block showcase_list %}
+    {% set showcase_list = h.get_package_showcase_list(pkg.id) %}
+    {% if showcase_list %}
+        <h3>{{ list_title or _('Applications') }} ({{ showcase_list|count }})</h3>
+        {% snippet "sixodp_showcase/snippets/showcase_list.html", packages=showcase_list, pkg_id=pkg.name, show_remove=False %}
+    {% endif %}
+{% endblock %}
+
