@@ -35,20 +35,22 @@ def get_dict(d, key):
 
 class AvoindataDCATAPProfile(RDFProfile):
     '''
-    An RDF profile for Avoindata based on DCAT-AP 1.2.2.
+    An RDF profile for Avoindata based on DCAT-AP 2.0.0 extension at
+    <https://www.avoindata.fi/ns/#>
 
     Supported dataset fields:
         Mandatory: dct:title, dct:description
         Recommended:  dcat:contactPoint, dcat:distribution, dcat:keyword
                       dct:publisher, dcat:theme
         Optional: dcat:landingPage, dct:spatial, dct:accuralPeriodicity, dct:type,
-                  dct:identifier, dct:temporal, dct:issued, dct:rights
+                  dct:identifier, dct:temporal, dct:issued
 
     Supported distribution fields:
         Mandatory: dct:accessUrl
         Recommended: dct:description
         Optional: dct:title, dct:downloadUrl, adms:status, dct:license, dct:format,
-                  dcat:byteSize, dcat:temporalResolution, spdx:checksum
+                  dcat:byteSize, dcat:temporalResolution, spdx:checksum, dct:rights,
+                  dct:conformsTo
     '''
 
     #
