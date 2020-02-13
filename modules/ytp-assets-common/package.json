@@ -22,7 +22,7 @@
     "gulp-uglify": "^3.0.1",
     "imagemin-jpegoptim": "^6.0.0",
     "pump": "^3.0.0",
-    "stylelint": "^10.0.1",
+    "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.2.0",
     "gulp-stylelint": "^9.0.0",
     "extend": "^3.0.2"
