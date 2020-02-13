@@ -5,6 +5,7 @@ import re
 import types
 import urlparse
 import validators
+import sqlalchemy
 
 import ckan.lib.base as base
 import logic as plugin_logic
@@ -19,7 +20,7 @@ from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
 from ckan.lib.navl.dictization_functions import Missing, flatten_dict, unflatten, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
-from ckan.logic import NotFound, NotAuthorized, get_action
+from ckan.logic import NotFound, NotAuthorized, get_action, check_access
 from ckan.model import Session
 from ckan.plugins import toolkit
 from ckan.plugins.toolkit import config, chained_action
@@ -29,6 +30,8 @@ from ckanext.showcase.model import ShowcaseAdmin
 from paste.deploy.converters import asbool
 from webhelpers.html import escape
 from webhelpers.html.tags import link_to
+from sqlalchemy import and_, or_
+from sqlalchemy.sql.expression import false
 
 from flask import Blueprint
 from logic import package_autocomplete
@@ -47,7 +50,7 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
     get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
     get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
-    get_last_harvested_date, get_resource_sha256, get_groups_where_user_is_admin
+    get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin
 
 from tools import create_system_context, get_original_method
 
@@ -425,6 +428,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'check_group_selected': check_group_selected,
                 'group_list_with_selected': group_list_with_selected,
                 'get_resource_sha256': get_resource_sha256,
+                'get_package_showcase_list': get_package_showcase_list,
                 'get_groups_where_user_is_admin': get_groups_where_user_is_admin
                 }
 
@@ -746,6 +750,137 @@ def action_organization_show(context, data_dict):
     return result
 
 
+@logic.side_effect_free
+def action_organization_tree_list(context, data_dict):
+    check_access('site_read', context)
+    check_access('group_list', context)
+
+    q = data_dict.get('q')
+    sort_by = data_dict.get('sort_by', 'name asc')
+    page = data_dict.get('page', 1)
+    items_per_page = data_dict.get('items_per_page', 21)
+    with_datasets = data_dict.get('with_datasets', False)
+    user = context.get('user')
+
+    # Determine non-visible organizations
+    if context.get('user_is_sysadmin', False):
+        non_approved = []
+    else:
+        # Find names of all non-approved organizations
+        query = (model.Session.query(model.Group.name)
+                 .filter(model.Group.state == u'active')
+                 .filter(model.Group.approval_status != u'approved'))
+
+        non_approved = set(result[0] for result in query.all())
+
+        # If user is logged in, retain only names of organizations the user is not a member of
+        if user:
+            query = (model.Session.query(model.Group.name)
+                     .join(model.Member, model.Member.group_id == model.Group.id)
+                     .join(model.User, model.User.id == model.Member.table_id)
+                     .filter(model.Member.state == u'active')
+                     .filter(model.Member.table_name == u'user')
+                     .filter(model.User.name == user)
+                     .filter(model.Group.state == u'active')
+                     .filter(model.Group.approval_status != u'approved'))
+            memberships = set(result[0] for result in query.all())
+            non_approved -= memberships
+
+    parent_member = sqlalchemy.orm.aliased(model.Member)
+    parent_group = sqlalchemy.orm.aliased(model.Group)
+    parent_extra = sqlalchemy.orm.aliased(model.GroupExtra)
+    child_member = sqlalchemy.orm.aliased(model.Member)
+    child_group = sqlalchemy.orm.aliased(model.Group)
+
+    # Fetch ids of all visible organizations filtered in maybe correct order
+    ids_and_titles = (model.Session.query(model.Group.id, model.Group.title, model.GroupExtra.value)
+                      .filter(model.Group.state == u'active')
+                      .filter(model.Group.is_organization.is_(True))
+                      .filter(model.Group.name.notin_(non_approved))
+                      .join(model.GroupExtra, model.GroupExtra.group_id == model.Group.id)
+                      .filter(model.GroupExtra.key == u'title_translated')
+                      .order_by(model.Group.title))
+
+    # Optionally handle getting only organizations with datasets
+    if with_datasets:
+        ids_and_titles = (
+                ids_and_titles
+                .outerjoin(model.Package, and_(model.Package.private == false(),
+                                               or_(model.Package.owner_org == model.Group.name,
+                                                   model.Package.owner_org == model.Group.id)))
+                .group_by(model.Group.id, model.Group.title, model.GroupExtra.value)
+                .having(sqlalchemy.func.count(model.Package.id) > 0))
+
+    ids_and_titles = list(ids_and_titles.all())
+
+    # Pick translated title for each result
+    lang = helpers.lang() or config.get('ckan.locale_default', 'en')
+    translated_titles_and_gids = (((json.loads(translated).get(lang) or title).lower(), gid)
+                                  for gid, title, translated in ids_and_titles)
+
+    # Filter based on search query if provided
+    if q:
+        result_titles_and_gids = ((title, gid) for title, gid in translated_titles_and_gids
+                                  if q in title)
+    else:
+        result_titles_and_gids = translated_titles_and_gids
+
+    # Sort global results correctly into a list of ids
+    if sort_by == 'name desc':
+        sorted_titles_and_gids = sorted(result_titles_and_gids, reverse=True)
+    else:
+        sorted_titles_and_gids = sorted(result_titles_and_gids)
+
+    global_results = [gid for title, gid in sorted_titles_and_gids]
+
+    # Early return for empty results
+    if not global_results:
+        return {'global_results': [], 'page_results': []}
+
+    # Slice current page ids
+    page_ids = global_results[(page - 1) * items_per_page:page * items_per_page]
+
+    # Fetch details for organizations on current page
+    page_orgs = (
+            model.Session.query(model.Group.id, model.Group.name, model.Group.title,
+                                model.GroupExtra.value, sqlalchemy.func.count(model.Package.id),
+                                parent_group.name, parent_group.title, parent_extra.value,
+                                sqlalchemy.func.count(child_group.id))
+            .join(model.GroupExtra, model.GroupExtra.group_id == model.Group.id)
+            .outerjoin(model.Package, and_(model.Package.private == false(),
+                                           or_(model.Package.owner_org == model.Group.name,
+                                               model.Package.owner_org == model.Group.id)))
+            .outerjoin(parent_member, and_(parent_member.group_id == model.Group.id,
+                                           parent_member.table_name == u'group'))
+            .outerjoin(parent_group, parent_group.id == parent_member.table_id)
+            .outerjoin(parent_extra, and_(parent_extra.group_id == parent_group.id,
+                                          parent_extra.key == u'title_translated'))
+            .outerjoin(child_member, and_(child_member.table_id == model.Group.id,
+                                          child_member.table_name == u'group'))
+            .outerjoin(child_group, child_group.id == child_member.group_id)
+            .filter(model.Group.id.in_(page_ids))
+            .filter(model.GroupExtra.state == u'active')
+            .filter(model.GroupExtra.key == u'title_translated')
+            .group_by(model.Group.id, model.Group.name,
+                      model.Group.title, model.GroupExtra.value,
+                      parent_group.name, parent_group.title, parent_extra.value)
+            .all())
+
+    page_results_by_id = {gid: {
+        'id': name, 'title': title, 'title_translated': json.loads(title_translated),
+        'package_count': package_count, 'parent_name': parent_name,
+        'parent_title': parent_title, 'parent_title_translated': parent_title_translated,
+        'child_count': child_count
+        } for gid, name, title, title_translated, package_count,
+        parent_name, parent_title, parent_title_translated, child_count in page_orgs}
+
+    # Retain global sorting
+    page_results = [page_results_by_id[gid] for gid in page_ids]
+
+    return {'global_results': global_results,
+            'page_results': page_results}
+
+
 class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, YtpMainTranslation):
     """ CKAN plugin to change how organizations work """
     plugins.implements(plugins.IConfigurable)
@@ -774,7 +909,8 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
         return {'organization_create': auth.organization_create}
 
     def get_actions(self):
-        return {'user_create': action_user_create, 'organization_show': action_organization_show}
+        return {'user_create': action_user_create, 'organization_show': action_organization_show,
+                'organization_tree_list': action_organization_tree_list}
 
     def before_map(self, map):
         organization_controller = 'ckanext.ytp.controller:YtpOrganizationController'
@@ -787,6 +923,10 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
         map.connect('/organization/new',
                     controller=organization_controller,
                     action='new')
+
+        map.connect('/organization',
+                    controller=organization_controller,
+                    action='index')
 
         map.connect('organization_read_extended',
                     '/organization/{id}',
