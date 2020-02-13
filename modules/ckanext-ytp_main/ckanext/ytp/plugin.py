@@ -46,7 +46,7 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
     get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
     get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
-    get_last_harvested_date, get_resource_sha256, get_groups_where_user_is_admin
+    get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin
 
 from tools import create_system_context, get_original_method
 
@@ -420,6 +420,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'check_group_selected': check_group_selected,
                 'group_list_with_selected': group_list_with_selected,
                 'get_resource_sha256': get_resource_sha256,
+                'get_package_showcase_list': get_package_showcase_list,
                 'get_groups_where_user_is_admin': get_groups_where_user_is_admin
                 }
 
