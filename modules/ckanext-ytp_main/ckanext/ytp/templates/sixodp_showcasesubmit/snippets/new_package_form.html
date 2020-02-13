@@ -58,7 +58,7 @@
         value="{{ data['datasets'] if data['datasets'] | length > 0 }}"
         class="control-full ytp-select2"
         data-module="autocomplete"
-        data-module-source="/api/util/dataset/autocomplete?incomplete=?"
+        data-module-source="/api/util/dataset/autocomplete?incomplete=?&package_type=dataset"
         data-module-tags="true"
         data-module-key="name"
         data-module-label="title">
@@ -166,7 +166,6 @@
       )
     %}
     {% endcall %}
-
 
     <div class="ytp-group-divider"></div>
 
