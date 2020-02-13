@@ -82,7 +82,7 @@
         }
       ],
       "default_value": "false",
-      "validators": "boolean_validator set_private_if_not_admin_or_showcase_admin",
+      "validators": "boolean_validator",
       "group_title": "Dataset additional information"
     },
     {
