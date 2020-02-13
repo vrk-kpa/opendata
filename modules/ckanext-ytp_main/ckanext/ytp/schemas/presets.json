@@ -209,6 +209,18 @@
           "class": "form-control"
         }
       }
+    },
+    {
+      "preset_name": "date_opendata_with_icon",
+      "values": {
+        "form_snippet": "date_with_icon.html",
+        "display_snippet": "date.html",
+        "validators": "scheming_required from_date_is_before_until_date isodate convert_to_json_if_date",
+        "form_attrs": {
+          "data-datepicker": "",
+          "class": "form-control"
+        }
+      }
     }
   ]
 }

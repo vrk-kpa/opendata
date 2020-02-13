@@ -170,15 +170,12 @@ Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, res
     cy.get("#field-organizations").select(parent_organization, {force: true});
   }
 
-  // Make dataset public instead of private
-  cy.get("#field-private").select("False").should('have.value', 'False');
-
   cy.get('button[name=save]').click();
 
   //Resource form, filled with just the name
   cy.contains('a', 'Linkki').click()
   cy.fill_form_fields(resource_form_data);
-  cy.get('button[name=save]').contains('Valmis').click();
+  cy.get('button[name=save].suomifi-button-primary').click();
   cy.url().should('include', `/data/fi/dataset/${dataset_name.replace(" ", "-")}`);
 })
 

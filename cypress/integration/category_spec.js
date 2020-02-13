@@ -39,7 +39,7 @@ describe('Category tests', function () {
 
     cy.contains('a', 'Linkki').click();
     cy.fill_form_fields(resource_form_data);
-    cy.get('button[name=save]').contains('Valmis').click();
+    cy.get('button[name=save].suomifi-button-primary').click();
 
     cy.get('a[href="/data/fi/dataset/groups/' + dataset_name + '"]').click();
 

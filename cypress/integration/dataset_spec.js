@@ -54,7 +54,7 @@ describe('Dataset tests', function() {
         })
     });
 
-    cy.get('button[name=save]').contains('Valmis').click();
+    cy.get('button[name=save].suomifi-button-primary').click();
 
     // if cloudstorage is enabled, we wait for window.location to change, can't use dataset name as redirection is done with id
     if (Cypress.env('cloudStorageEnabled')){

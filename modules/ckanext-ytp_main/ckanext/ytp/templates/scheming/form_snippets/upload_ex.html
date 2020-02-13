@@ -1,4 +1,4 @@
-{% import 'macros/ytp_layout.html' as form %} {%- set is_upload = (data.url_type
+{% import 'scheming/macros/form.html' as form %} {%- set is_upload = (data.url_type
 == 'upload') or (data.image_url and not data.image_url.startswith('http')) -%}
 {{ form.image_upload(
     data,
