@@ -17,6 +17,6 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
-    "query-string": "^6.10.1"
+    "query-string": "^6.11.0"
   }
 }
