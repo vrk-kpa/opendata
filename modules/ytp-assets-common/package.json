@@ -19,7 +19,7 @@
     "gulp-rename": "^1.4.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-template": "^5.0.0",
-    "gulp-uglify": "^3.0.1",
+    "gulp-uglify": "^3.0.2",
     "imagemin-jpegoptim": "^6.0.0",
     "pump": "^3.0.0",
     "stylelint": "^10.1.0",
