@@ -31,10 +31,6 @@ describe('Advanced search tests', () => {
                     '#field-license_id': {
                         type: 'select',
                         value: 'cc-by'
-                    },
-                    '#field-private': {
-                        type: 'select',
-                        value: 'False'
                     }
                 },
                 resource_data: {
@@ -56,11 +52,7 @@ describe('Advanced search tests', () => {
                     '#field-maintainer': 'test maintainer',
                     '#field-maintainer_email': 'test.maintainer@example.com',
                     '#field-valid_from': '2019-02-04',
-                    '#field-valid_till': '2020-02-04',
-                    '#field-private': {
-                        type: 'select',
-                        value: 'True'
-                    }
+                    '#field-valid_till': '2020-02-04'
                 },
                 resource_data: {
                     '#field-name_translated-fi': 'some test data',

@@ -42,7 +42,7 @@
         {% block package_tags %}
         {% endblock %}
         {% block package_resources %}
-           {% snippet "package/snippets/resources_list2.html", pkg=pkg, resources=pkg.resources %}
+            {% snippet "package/snippets/resources_list2.html", pkg=pkg, resources=pkg.resources %}
         {% endblock %}
 
         {% block package_additional_info %}
@@ -51,6 +51,7 @@
         {% endblock %}
 
 
+        {% snippet "package/snippets/dataset_showcase_list_embed.html", pkg=pkg %}
         {{h.disqus_comments()}}
       </section>
 

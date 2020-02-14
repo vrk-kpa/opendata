@@ -33,6 +33,10 @@ from webhelpers.html.tags import link_to
 from sqlalchemy import and_, or_
 from sqlalchemy.sql.expression import false
 
+from flask import Blueprint
+from logic import package_autocomplete
+from views import dataset_autocomplete
+
 import auth
 import menu
 
@@ -46,7 +50,7 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
     get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
     get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
-    get_last_harvested_date, get_resource_sha256, get_groups_where_user_is_admin
+    get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin
 
 from tools import create_system_context, get_original_method
 
@@ -211,6 +215,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.ITranslation)
+    plugins.implements(plugins.IBlueprint)
 
     _localized_fields = ['title', 'notes', 'copyright_notice']
 
@@ -244,6 +249,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         """ Override ckan api for autocomplete """
         controller = 'ckanext.ytp.controller:YtpDatasetController'
         m.connect('/api/2/util/tag/autocomplete', action='ytp_tag_autocomplete',
+                  controller=controller,
+                  conditions=dict(method=['GET']))
+        m.connect('/api/util/dataset/autocomplete', action='dataset_autocomplete',
                   controller=controller,
                   conditions=dict(method=['GET']))
         m.connect('/dataset/new_metadata/{id}', action='new_metadata',
@@ -420,6 +428,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'check_group_selected': check_group_selected,
                 'group_list_with_selected': group_list_with_selected,
                 'get_resource_sha256': get_resource_sha256,
+                'get_package_showcase_list': get_package_showcase_list,
                 'get_groups_where_user_is_admin': get_groups_where_user_is_admin
                 }
 
@@ -490,7 +499,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     # IActions #
     def get_actions(self):
-        return {'package_show': action_package_show, 'package_search': action_package_search}
+        return {'package_show': action_package_show, 'package_search': action_package_search,
+                'package_autocomplete': package_autocomplete}
 
     # IValidators
     def get_validators(self):
@@ -519,6 +529,17 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'use_url_for_name_if_left_empty': validators.use_url_for_name_if_left_empty,
             'convert_to_json_compatible_str_if_str': validators.convert_to_json_compatible_str_if_str
         }
+
+    def get_blueprint(self):
+        u'''Return a Flask Blueprint object to be registered by the app.'''
+
+        # Create Blueprint for plugin
+        blueprint = Blueprint(self.name, self.__module__)
+
+        # Add plugin url rules to Blueprint object
+        blueprint.add_url_rule(u'/api/util/dataset/autocomplete', view_func=dataset_autocomplete)
+
+        return blueprint
 
 
 class YTPSpatialHarvester(plugins.SingletonPlugin):

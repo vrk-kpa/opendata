@@ -9,9 +9,11 @@
       "label": "Title",
       "preset": "fluent_core_title_translated",
       "form_languages": ["fi", "en", "sv"],
-      "form_placeholder":"eg. A descriptive title",
+      "form_placeholder": "eg. A descriptive title",
       "only_default_lang_required": true,
-      "description": "A short and descriptive title for the dataset. Do not utilize dates in the title but instead add multiple time-specific resources to the dataset in the next stage."
+      "description": "",
+      "group_title": "Dataset name",
+      "group_description": "* Required field"
     },
     {
       "field_name": "name",
@@ -33,12 +35,14 @@
       "label": "Description",
       "display_snippet": null,
       "only_default_lang_required": true,
-      "description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
+      "description": "",
+      "group_title": "Dataset description",
+      "group_description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
     },
     {
       "field_name": "keywords",
       "label": "Tags",
-      "form_placeholder":"eg. Maps",
+      "form_placeholder": "eg. Maps",
       "form_languages": ["fi", "en", "sv"],
       "preset": "fluent_vocabulary_with_autocomplete",
       "validators": "only_default_lang_required fluent_tags create_fluent_tags(keywords)",
@@ -47,8 +51,122 @@
         "data-module-tags": "",
         "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=keywords"
       },
-      "description": "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag.",
-      "only_default_lang_required": true
+      "description": "",
+      "only_default_lang_required": true,
+      "group_title": "Keywords and categories",
+      "group_description": "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag. Please pick at least one finnish keyword."
+    },
+    {
+      "field_name": "categories",
+      "label": "Categories",
+      "preset": "multiple_checkbox",
+      "form_snippet": "ytp_multiple_checkbox.html",
+      "choices_helper": "scheming_category_list",
+      "description": "Luokittelukategoriat, joihin aineisto pääsääntöisesti liittyy. Valitse yksi tai useampi mahdollisimman osuva aihe. LINKKI!",
+      "validators": "save_to_groups",
+      "display_snippet": null
+    },
+    {
+      "field_name": "private",
+      "label": "Visibility",
+      "preset": "select",
+      "form_snippet": "radio.html",
+      "choices": [
+        {
+          "label": "Public",
+          "value": "false"
+        },
+        {
+          "label": "Private",
+          "value": "true"
+        }
+      ],
+      "default_value": "false",
+      "validators": "boolean_validator",
+      "group_title": "Dataset additional information"
+    },
+    {
+      "field_name": "deprecated",
+      "label": "Deprecated",
+      "preset": "select",
+      "choices": [
+        {
+          "value": false,
+          "label": "No"
+        },
+        {
+          "value": true,
+          "label": "Yes"
+        }
+      ],
+      "form_snippet": null,
+      "validators": "check_deprecation boolean_validator",
+      "output_validators": "boolean_validator"
+    },
+    {
+      "field_name": "license_id",
+      "label": "License",
+      "preset": "sixodp_licence",
+      "form_snippet": "license.html",
+      "display_snippet": "license.html",
+      "required": true
+    },
+    {
+      "field_name": "copyright_notice_translated",
+      "preset": "fluent_markdown_translated",
+      "form_placeholder": "eg. A detailed description",
+      "form_languages": ["fi", "en", "sv"],
+      "label": "Copyright notice",
+      "display_snippet": null,
+      "description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
+    },
+    {
+      "field_name": "geographical_coverage",
+      "label": "Geographical coverage",
+      "form_placeholder": "eg. tampere",
+      "preset": "vocabulary_with_autocomplete",
+      "validators": "ignore_missing convert_to_list create_tags(geographical_coverage)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=geographical_coverage"
+      },
+      "description": "Select the municipalities from which the dataset contains data."
+    },
+    {
+      "field_name": "update_frequency",
+      "label": "Update frequency",
+      "form_placeholder": "eg. every second week",
+      "form_languages": ["fi", "en", "sv"],
+      "preset": "fluent_vocabulary_with_autocomplete",
+      "validators": "fluent_tags create_fluent_tags(update_frequency)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=update_frequency"
+      },
+      "description": "A short description of how frequently the dataset will get updated."
+    },
+    {
+      "field_name": "valid_from",
+      "label": "Valid from",
+      "preset": "date_opendata_with_icon",
+      "max_date_field": "valid_till"
+    },
+    {
+      "field_name": "valid_till",
+      "label": "Valid till",
+      "preset": "date_opendata_with_icon",
+      "min_date_field": "valid_from"
+    },
+    {
+      "field_name": "external_urls",
+      "preset": "repeating_text",
+      "label": "Links to additional information",
+      "form_blanks": 1,
+      "display_snippet": "repeating_link.html",
+      "form_snippet": "repeating.html",
+      "description": "Links to additional information concerning the dataset."
     },
     {
       "field_name": "collection_type",
@@ -67,19 +185,9 @@
       "required": true
     },
     {
-      "field_name": "categories",
-      "label": "Categories",
-      "preset": "multiple_checkbox",
-      "form_snippet": "ytp_multiple_checkbox.html",
-      "choices_helper": "scheming_category_list",
-      "description": "Luokittelukategoriat, joihin aineisto pääsääntöisesti liittyy. Valitse yksi tai useampi mahdollisimman osuva aihe. LINKKI!",
-      "validators": "save_to_groups",
-      "display_snippet": null
-    },
-    {
       "field_name": "international_benchmarks",
       "label": "International benchmarks",
-      "form_placeholder":"eg. Maps",
+      "form_placeholder": "eg. Maps",
       "preset": "vocabulary_with_autocomplete",
       "validators": "ignore_missing convert_to_list create_tags(international_benchmarks)",
       "form_attrs": {
@@ -88,6 +196,13 @@
         "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=international_benchmarks"
       },
       "description": "Select international benchmarks which this dataset belongs to."
+    },
+    {
+      "field_name": "owner_org",
+      "label": "Organization",
+      "preset": "dataset_organization_ex",
+      "description": "Select the producer (organization) who owns this dataset",
+      "group_title": "Dataset producer and maintainer"
     },
     {
       "field_name": "maintainer",
@@ -122,73 +237,6 @@
       "display_snippet": "link.html"
     },
     {
-      "field_name": "private",
-      "label": "Visibility",
-      "form_snippet": "private.html",
-      "display_snippet": null,
-      "validators": "boolean_validator",
-      "description": "Private datasets will only be seen by the logged in users of the dataset's organization. Public datasets will be listed publicly through the search."
-    },
-    {
-      "field_name": "owner_org",
-      "label": "Organization",
-      "preset": "dataset_organization_ex",
-      "description": "The organization which owns the dataset."
-    },
-    {
-      "field_name": "license_id",
-      "label": "License",
-      "preset": "sixodp_licence",
-      "form_snippet": "license.html",
-      "display_snippet": "license.html",
-      "required": true
-    },
-    {
-      "field_name": "copyright_notice_translated",
-      "preset": "fluent_markdown_translated",
-      "form_placeholder": "eg. A detailed description",
-      "form_languages": ["fi", "en", "sv"],
-      "label": "Copyright notice",
-      "display_snippet": null,
-      "description": "An universal, compact and easy to understand description of the added dataset. Use as confining terms as possible to assist the user to understand what types of data, meters and dimensions the dataset contains."
-    },
-    {
-      "field_name": "geographical_coverage",
-      "label": "Geographical coverage",
-      "form_placeholder":"eg. tampere",
-      "preset": "vocabulary_with_autocomplete",
-      "validators": "ignore_missing convert_to_list create_tags(geographical_coverage)",
-      "form_attrs": {
-        "data-module": "autocomplete",
-        "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=geographical_coverage"
-      },
-      "description": "Select the municipalities from which the dataset contains data."
-    },
-    {
-      "field_name": "external_urls",
-      "preset": "repeating_text",
-      "label": "Links to additional information",
-      "form_blanks": 1,
-      "display_snippet": "repeating_link.html",
-      "form_snippet": "repeating.html",
-      "description": "Links to additional information concerning the dataset."
-    },
-    {
-      "field_name": "update_frequency",
-      "label": "Update frequency",
-      "form_placeholder":"eg. every second week",
-      "form_languages": ["fi", "en", "sv"],
-      "preset": "fluent_vocabulary_with_autocomplete",
-      "validators": "fluent_tags create_fluent_tags(update_frequency)",
-      "form_attrs": {
-        "data-module": "autocomplete",
-        "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=update_frequency"
-      },
-      "description": "A short description of how frequently the dataset will get updated."
-    },
-    {
       "field_name": "date_released",
       "label": "Published",
       "preset": "date_opendata",
@@ -197,36 +245,6 @@
       "description": "The dataset publication date.",
       "validators": "keep_old_value_if_missing ignore_missing",
       "output_validators": "ignore_if_invalid_isodatetime override_field(metadata_created)"
-    },
-    {
-      "field_name": "valid_from",
-      "label": "Valid from",
-      "preset": "date_opendata",
-      "max_date_field": "valid_till"
-    },
-    {
-      "field_name": "valid_till",
-      "label": "Valid till",
-      "preset": "date_opendata",
-      "min_date_field": "valid_from"
-    },
-    {
-      "field_name": "deprecated",
-      "label": "Deprecated",
-      "preset": "select",
-      "choices": [
-        {
-          "value": false,
-          "label": "No"
-        },
-        {
-          "value": true,
-          "label": "Yes"
-        }
-      ],
-      "form_snippet": null,
-      "validators": "check_deprecation boolean_validator",
-      "output_validators": "boolean_validator"
     }
   ],
   "resource_fields": [
@@ -235,21 +253,25 @@
       "label": "Name",
       "preset": "fluent_core_translated_extended",
       "form_languages": ["fi", "en", "sv"],
-      "form_placeholder":"eg. January 2011 Gold Prices",
+      "form_placeholder": "eg. January 2011 Gold Prices",
       "form_attrs": {
         "class": "form-control"
       },
-      "description": "A short and descriptive name for the resource."
+      "description": "",
+      "group_title": "Resource name",
+      "group_description": "* Required field"
     },
     {
       "field_name": "url",
-      "label": "URL",
+      "label": "",
       "preset": "resource_url_upload_ex",
       "form_attrs": {
         "class": "form-control"
       },
-      "description": "A file or url which describes the location of the desired resource file.",
-      "required": true
+      "description": "",
+      "required": true,
+      "group_title": "File *",
+      "group_description": "A file or url which describes the location of the desired resource file."
     },
     {
       "field_name": "size",
@@ -276,7 +298,9 @@
       "form_attrs": {
         "class": "form-control"
       },
-      "description": "An universal, compact and easy to understand description of the added resource."
+      "description": "",
+      "group_title": "Resource description",
+      "group_description": "An universal, compact and easy to understand description of the added resource."
     },
     {
       "field_name": "maturity",
@@ -295,7 +319,8 @@
           "value": "archived",
           "label": "Archived version"
         }
-      ]
+      ],
+      "group_title": "Additional information"
     },
     {
       "field_name": "position_info",
@@ -308,7 +333,7 @@
     {
       "field_name": "temporal_granularity",
       "label": "Temporal granularity",
-      "form_placeholder":"eg. 2 weeks",
+      "form_placeholder": "eg. 2 weeks",
       "preset": "fluent_vocabulary_with_autocomplete",
       "validators": "fluent_tags create_fluent_tags(temporal_granularity)",
       "form_attrs": {
@@ -319,14 +344,14 @@
       "description": "A string which describes the precision of the entered time series."
     },
     {
-      "field_name": "temporal_coverage_to",
-      "label": "Temporal coverage to",
-      "preset": "date_opendata"
-    },
-    {
       "field_name": "temporal_coverage_from",
       "label": "Temporal coverage from",
-      "preset": "date_opendata"
+      "preset": "date_opendata_with_icon"
+    },
+    {
+      "field_name": "temporal_coverage_to",
+      "label": "Temporal coverage to",
+      "preset": "date_opendata_with_icon"
     },
     {
       "field_name": "status_updated",

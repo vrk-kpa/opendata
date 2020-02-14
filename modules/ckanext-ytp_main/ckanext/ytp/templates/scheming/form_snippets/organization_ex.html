@@ -1,4 +1,4 @@
-{% import 'macros/form.html' as form %}
+{% import 'scheming/macros/form.html' as form %}
 
 {# This is specific to datasets' owner_org field and won't work #}
 {# if used with other fields #}
@@ -19,6 +19,7 @@
     error=errors[field.field_name],
     is_required=org_required,
     extra_html=caller() if caller,
+    description=field.description
     ) %}
     <div {{ form.attributes(field.form_attrs) if 'form_attrs' in field else '' }}>
     <select id="field-organizations" name="owner_org" data-module="autocomplete">
@@ -56,9 +57,3 @@
     {% endcall %}
   {% endif %}
 </div>
-
-{% if field.description and field.description.strip() %}
-<div class="field-assistive-text">
-    {{ _(field.description) }}
-</div>
-{% endif %}

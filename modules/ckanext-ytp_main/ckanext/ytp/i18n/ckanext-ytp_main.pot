@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-07 06:10+0000\n"
+"POT-Creation-Date: 2020-02-11 08:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -164,7 +164,7 @@ msgid "Related item was successfully updated"
 msgstr ""
 
 #: ckanext/ytp/controller.py:478 ckanext/ytp/controller.py:641
-#: ckanext/ytp/controller.py:994
+#: ckanext/ytp/controller.py:995
 msgid "Integrity Error"
 msgstr ""
 
@@ -213,34 +213,34 @@ msgstr ""
 msgid "User %r not authorized to edit members of %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:854
+#: ckanext/ytp/controller.py:855
 msgid "Not authorized to see this page"
 msgstr ""
 
-#: ckanext/ytp/controller.py:897
+#: ckanext/ytp/controller.py:898
 msgid "No user specified"
 msgstr ""
 
-#: ckanext/ytp/controller.py:903
+#: ckanext/ytp/controller.py:904
 msgid "Unauthorized to edit a user."
 msgstr ""
 
-#: ckanext/ytp/controller.py:922 ckanext/ytp/controller.py:990
+#: ckanext/ytp/controller.py:923 ckanext/ytp/controller.py:991
 #, python-format
 msgid "Unauthorized to edit user %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:924 ckanext/ytp/controller.py:992
+#: ckanext/ytp/controller.py:925 ckanext/ytp/controller.py:993
 #: ckanext/ytp/logic.py:36
 msgid "User not found"
 msgstr ""
 
-#: ckanext/ytp/controller.py:930
+#: ckanext/ytp/controller.py:931
 #, python-format
 msgid "User %s not authorized to edit %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:987
+#: ckanext/ytp/controller.py:988
 msgid "Profile updated"
 msgstr ""
 
@@ -254,7 +254,7 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:92 ckanext/ytp/plugin.py:365
+#: ckanext/ytp/helpers.py:92 ckanext/ytp/plugin.py:366
 msgid "Unnamed resource"
 msgstr ""
 
@@ -353,25 +353,25 @@ msgstr ""
 msgid "Publish Data"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:306 ckanext/ytp/translations.py:39
+#: ckanext/ytp/plugin.py:307 ckanext/ytp/translations.py:39
 msgid "International benchmarks"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:307 ckanext/ytp/plugin.py:321
+#: ckanext/ytp/plugin.py:308 ckanext/ytp/plugin.py:322
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 msgid "Collection Type"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:308
+#: ckanext/ytp/plugin.py:309
 msgid "Popular tags"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:309 ckanext/ytp/plugin.py:323
+#: ckanext/ytp/plugin.py:310 ckanext/ytp/plugin.py:324
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:48
 msgid "Content Type"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:310
+#: ckanext/ytp/plugin.py:311
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:22
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
@@ -380,28 +380,28 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:311 ckanext/ytp/plugin.py:324
+#: ckanext/ytp/plugin.py:312 ckanext/ytp/plugin.py:325
 #: ckanext/ytp/translations.py:35
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:313 ckanext/ytp/templates/package/search.html:58
+#: ckanext/ytp/plugin.py:314 ckanext/ytp/templates/package/search.html:58
 #: ckanext/ytp/templates/package/snippets/additional_info.html:19
 msgid "Source"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:314 ckanext/ytp/templates/package/resource_read.html:168
+#: ckanext/ytp/plugin.py:315 ckanext/ytp/templates/package/resource_read.html:168
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:72
 #: ckanext/ytp/templates/snippets/license.html:21
 msgid "License"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:322
+#: ckanext/ytp/plugin.py:323
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:31
 msgid "Tags"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:365
+#: ckanext/ytp/plugin.py:366
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
 msgid "Additional Info"
 msgstr ""
@@ -1294,7 +1294,7 @@ msgid "Followers"
 msgstr ""
 
 #: ckanext/ytp/templates/group/snippets/info.html:36
-#: ckanext/ytp/templates/organization/index.html:88
+#: ckanext/ytp/templates/organization/index.html:91
 #: ckanext/ytp/templates/organization/read_base.html:11
 #: ckanext/ytp/templates/package/base.html:12
 #: ckanext/ytp/templates/package/base.html:16
@@ -1438,19 +1438,20 @@ msgstr ""
 msgid "Go"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:76
-msgid "<p>No organizations found</p>"
+#: ckanext/ytp/templates/organization/index.html:78
+#: ckanext/ytp/templates/snippets/search_result_text.html:32
+msgid "No organizations found"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:85
+#: ckanext/ytp/templates/organization/index.html:88
 msgid "Filter list"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:93
+#: ckanext/ytp/templates/organization/index.html:96
 msgid "Show organizations without datasets"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:97
+#: ckanext/ytp/templates/organization/index.html:100
 msgid "Show only organizations with datasets"
 msgstr ""
 
@@ -2403,10 +2404,6 @@ msgid "{number} organization found"
 msgid_plural "{number} organizations found"
 msgstr[0] ""
 msgstr[1] ""
-
-#: ckanext/ytp/templates/snippets/search_result_text.html:32
-msgid "No organizations found"
-msgstr ""
 
 #: ckanext/ytp/templates/user/dashboard.html:6
 msgid "Dashboard"

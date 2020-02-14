@@ -101,6 +101,10 @@ body {
   .container > h1 {
     margin-top: 0;
   }
+
+  .module-content {
+    padding: 0;
+  }
 }
 
 .page-container {
@@ -166,6 +170,13 @@ body {
   border-radius: 2px;
   display: inline-flex;
   color: white;
+  padding: 10px 30px;
+
+  i {
+    margin-left: 12px;
+    font-size: 16px;
+    margin-top: 2px;
+  }
 }
 
 .suomifi-button-secondary {
@@ -198,4 +209,100 @@ body {
 .table-bordered > tbody > tr > td {
   padding: 10px;
   border-color: @suomi-depthLight13;
+}
+
+.flex-form {
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  padding: 15px 20px;
+  background-color: white;
+  border: 1px solid @suomi-depthLight13;
+  z-index: 2;
+
+  h4 {
+    margin: 0;
+  }
+
+  .ytp-group-divider {
+    margin: 15px 0;
+  }
+
+  .stages {
+    margin-bottom: 30px;
+
+    li {
+      float: none;
+      background-color: transparent;
+      color: @new-layout-primary-text-color;
+      font-size: 16px;
+      line-height: 24px;
+      width: 100%;
+      padding: 10px 0;
+
+      .highlight {
+        color: @new-layout-primary-text-color;
+        font-weight: normal;
+      }
+
+      a.highlight {
+        color: @suomi-highlightBase;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      &::before {
+        background-color: transparent;
+        color: @new-layout-primary-text-color;
+        border: 1px solid @new-layout-primary-text-color;
+      }
+
+      &:not(:first-of-type)::after {
+        left: 12px;
+        top: -5px;
+        content: " ";
+        height: 10px;
+        width: 1px;
+        position: absolute;
+        border: none;
+        margin: 0;
+        border-left: 1px solid @suomi-depthLight13;
+        pointer-events: none;
+      }
+
+      &.active {
+        .highlight {
+          color: inherit;
+          background: unset;
+          font-family: @font-family-sans-serif-semibold;
+        }
+
+        &::before {
+          color: white;
+          background: @suomi-successBase;
+          border-color: @suomi-successBase;
+        }
+      }
+
+      &.complete {
+        .highlight {
+          background: transparent;
+        }
+
+        &::before {
+          color: white;
+          background: @suomi-successBase;
+          border-color: @suomi-successBase;
+        }
+      }
+    }
+  }
+}
+
+.sidebar ~ .primary .page-container {
+  margin-top: 0;
 }
