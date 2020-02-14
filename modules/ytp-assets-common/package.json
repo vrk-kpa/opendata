@@ -6,9 +6,9 @@
   "devDependencies": {
     "del": "^5.1.0",
     "glob-watcher": "^5.0.3",
-    "gulp": "^4.0.1",
+    "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
-    "gulp-base64-inline": "~1.0.4",
+    "gulp-base64-inline": "~1.0.6",
     "gulp-clean-css": "^4.2.0",
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^5.0.3",
@@ -19,7 +19,7 @@
     "gulp-rename": "^1.4.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-template": "^5.0.0",
-    "gulp-uglify": "^3.0.1",
+    "gulp-uglify": "^3.0.2",
     "imagemin-jpegoptim": "^6.0.0",
     "pump": "^3.0.0",
     "stylelint": "^10.1.0",
@@ -35,7 +35,7 @@
     "bootstrap": "^3.4.1",
     "bootstrap-table": "^1.12.1",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
-    "jstree": "^3.3.7",
+    "jstree": "^3.3.9",
     "moment": "^2.24.0",
     "select2-bootstrap-css": "^1.4.6"
   }
