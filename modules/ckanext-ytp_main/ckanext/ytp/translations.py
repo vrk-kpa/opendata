@@ -188,22 +188,47 @@ def _translations():
     _("en")
     _("sv")
 
-    _("Showcase title")
+    _("Showcase name")
     _("* Required field")
 
+    _("e.g. Most popular first names by region")
+    _("The showcase’s URL on opendata.fi. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.")  # noqa: E501
+
     _("Showcase description")
-    _("An universal, compact and easy to understand description of the showcase.")
+    _("A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.")  # noqa: E501
+    _("Write a description for the showcase.")
 
     _("Keywords and categories")
-    _("Keywords or tags through which users are able to find this showcase easily through the search page or other showcases which have the same tag. Please pick at least one finnish keyword.")  # noqa: E501
+    _("Keywords help users to find your showcase. Select at least one keyword in Finnish.")
+    _("e.g. names")
+
+    _("Showcase type")
+    _("Select one or more type that describes your showcase.")
+
+    _("Select at least one category.")
 
     _("Additional showcase information")
 
-    _("Application developer")
+    _("If you have created a mobile or desktop application, select which platforms it supports.")
+
+    _("Showcase website")
+    _("Links to app stores")
+
+    _("Developer")
+    _("e.g. Digital and Population Data Services Agency")
+
+    _("Developer website")
+    _("e.g. www.dvv.fi")
+
+    _("e.g. dvv.fi/showcase")
+
+    _("e.g. appstore.com/app")
+
+    _("")
 
     _("Images will be shown on the showcase page. You can upload images from your computer or link to an URL.")
 
-    _("Icon")
+    _("Logo")
 
     _("Yes")
     _("No")
@@ -211,16 +236,19 @@ def _translations():
     _("Type in application website")
     _("Type in URL")
 
-    _("Icon will be shown at the top of the showcase page.")
-    _("Featured image will be shown on the cards in showcase list page.")
+    _("Logo will be shown at the top of the showcase page.")
+    _("The featured image will be shown on the Showcases-page as well as on the showcase’s own page.")
+    _("Add max. 3 images of your showcase. Good images are for example those that show the user interface and features of the showcase.")  # noqa: E501
 
-    _("Dataset title")
+    # Dataset
+    _("Dataset name")
     _("Dataset description")
     _("Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag. Please pick at least one finnish keyword.")  # noqa: E501
     _("Dataset additional information")
     _("Dataset producer and maintainer")
     _("Select the producer (organization) who owns this dataset")
 
+    # Resource
     _("Resource name")
     _("File *")
     _("A file or url which describes the location of the desired resource file.")

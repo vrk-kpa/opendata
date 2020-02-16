@@ -18,12 +18,11 @@
   </div>
   {% endif %}
     <h3 class="ytp-group-title">{{_("Showcase title")}}</h3>
-    <h5 class="ytp-group-description">{{_("* Required field")}}</h5>
       {% call form.input(
         'title',
         id='field-title',
-        label=h.scheming_language_text('Showcase name'),
-        placeholder=h.scheming_language_text('eg. A descriptive title'),
+        label=h.scheming_language_text('Name'),
+        placeholder=h.scheming_language_text('e.g. Most popular first names by region'),
         value=data['title'],
         error=errors['name'],
         classes=['control-full'],
@@ -35,12 +34,12 @@
     <div class="ytp-group-divider"></div>
 
     <h3 class="ytp-group-title">{{_("Showcase description")}}</h3>
-    <h5 class="ytp-group-description">{{_("An universal, compact and easy to understand description of the showcase.")}}</h5>
+    <h5 class="ytp-group-description">{{_("A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.")}}</h5>
       {% snippet "scheming/form_snippets/fluent_markdown_ex.html", field={
         "field_name": "notes_translated",
         "label": "Description",
         "preset": "fluent_core_markdown_translated",
-        "form_placeholder": "eg. A detailed description",
+        "form_placeholder": "Write a description for the showcase.",
         "form_languages": ["fi", "en", "sv"],
         "description": "",
         "only_default_lang_required": true
@@ -51,10 +50,13 @@
     <h3 class="ytp-group-title">{{_("Showcase information")}}</h3>
 
     <div class="control-group control-medium">
-      <label class="control-label">{{ _('Datasets used in the application') }}</label>
+      <label class="control-label">{{ _('Datasets used in the showcase') }}</label>
+      <div class="field-assistive-text">
+        {{_("Select which of the datasets found on opendata.fi were used in the showcase. Search for a dataset by typing its name in the field below.")}}
+      </div>
       <input id="dataset"
         name="datasets"
-        placeholder="{{ _('Search for a dataset') }}"
+        placeholder="{{ _(' e.g. Most popular first names') }}"
         value="{{ data['datasets'] if data['datasets'] | length > 0 }}"
         class="control-full ytp-select2"
         data-module="autocomplete"
@@ -68,7 +70,7 @@
       'platform',
       id='field-platform',
       label=_('Platform'),
-      placeholder=_('e.g. android'),
+      placeholder=_('If you have created a mobile or desktop application, select which platforms it supports.'),
       value=data['platform'],
       error=errors['platform'],
       classes=['control-full ytp-select2'],
@@ -99,9 +101,9 @@
     {{ scheming_form.input_multiple(
       'store_urls',
       id='field-store_urls',
-      label=_('Store urls'),
+      label=_('Links to app stores'),
       value=data['store_urls'],
-      placeholder='',
+      placeholder='e.g. appstore.com/app',
       error=errors['store_urls'],
       attrs={'class': 'form-control', 'data-module': 'ytp_main_input_multiple'},
       is_required=false,
@@ -136,14 +138,14 @@
 
     <div class="ytp-group-divider"></div>
 
-    <h3 class="ytp-group-title">{{_("Submitter info")}}</h3>
-    <h5 class="ytp-group-description">{{_("Name or email of the submitter will not be published alongside the application. They can be used to contact the submitter in case additional information is required.")}}</h5>
+    <h3 class="ytp-group-title">{{_("Submitter information")}}</h3>
+    <h5 class="ytp-group-description">{{_("Your name or email address will not be published. The service admins might contact you via email if we need more information about the showcase.")}}</h5>
 
     {% call form.input(
       'notifier',
       id='notifier',
-      label=_('Name of the submitter'),
-      placeholder='',
+      label=_('Submitter name'),
+      placeholder='e.g. Jane Doe',
       value=data['notifier'],
       error=errors['notifier'],
       classes=['control-medium'],
@@ -157,7 +159,7 @@
       'notifier_email',
       id='notifier_email',
       label=_('Submitter email'),
-      placeholder='',
+      placeholder='e.g. jane.doe@dvv.fi',
       value=data['notifier_email'],
       error=errors['notifier_email'],
       classes=['control-medium'],

@@ -2,13 +2,12 @@
 
 {% block maintag %}<div role="main" class="container-page-wrapper">{% endblock %}
 
-{% block subtitle %}{{ _('Create Showcase') }}{% endblock %}
+{% block subtitle %}{{ _('Create new showcase') }}{% endblock %}
 
 {% block primary_content %}
 <section class="module">
     <div class="module-content">
-        <h1 class="{% block page_heading_class %}page-heading{% endblock %}">{% block page_heading %}{{ _('Create a Showcase') }}{% endblock %}</h1>
-        <div class="page-description">{{ _('new-showcase-page-description') }}</div>
+        <h1 class="{% block page_heading_class %}page-heading{% endblock %}">{% block page_heading %}{{ _('Create new showcase') }}{% endblock %}</h1>
         {% block primary_content_inner %}
             {% block form %}
                 {#- passing c to a snippet is bad but is required here
