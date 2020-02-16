@@ -195,8 +195,7 @@ def _translations():
     _("An universal, compact and easy to understand description of the showcase.")
 
     _("Keywords and categories")
-    _("Keywords or tags through which users are able to find this showcase easily through the search page or other showcases \
-       which have the same tag. Please pick at least one finnish keyword.")
+    _("Keywords or tags through which users are able to find this showcase easily through the search page or other showcases which have the same tag. Please pick at least one finnish keyword.")  # noqa: E501
 
     _("Additional showcase information")
 
@@ -214,6 +213,20 @@ def _translations():
 
     _("Icon will be shown at the top of the showcase page.")
     _("Featured image will be shown on the cards in showcase list page.")
+
+
+    _("Dataset title")
+    _("Dataset description")
+    _("Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag. Please pick at least one finnish keyword.")
+    _("Dataset additional information")
+    _("Dataset producer and maintainer")
+    _("Select the producer (organization) who owns this dataset")
+
+    _("Resource name")
+    _("File *")
+    _("A file or url which describes the location of the desired resource file.")
+    _("Resource description")
+    _("Additional information")
 
 
 def facet_translations():
