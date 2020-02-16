@@ -303,6 +303,12 @@ body {
   }
 }
 
-.sidebar ~ .primary .page-container {
-  margin-top: 0;
+.sidebar ~ .primary {
+  .page-container {
+    margin-top: 0;
+  }
+
+  > .module > .module-content:not(#just-increase-specificity) {
+    padding-top: 0;
+  }
 }
