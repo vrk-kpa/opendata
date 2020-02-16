@@ -214,10 +214,9 @@ def _translations():
     _("Icon will be shown at the top of the showcase page.")
     _("Featured image will be shown on the cards in showcase list page.")
 
-
     _("Dataset title")
     _("Dataset description")
-    _("Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag. Please pick at least one finnish keyword.")
+    _("Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag. Please pick at least one finnish keyword.")  # noqa: E501
     _("Dataset additional information")
     _("Dataset producer and maintainer")
     _("Select the producer (organization) who owns this dataset")
