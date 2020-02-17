@@ -12,7 +12,7 @@
       "form_placeholder": "eg. A descriptive title",
       "only_default_lang_required": true,
       "description": "",
-      "group_title": "Dataset name",
+      "group_title": "Dataset title",
       "group_description": "* Required field"
     },
     {

@@ -10,18 +10,18 @@
 # Aaron Hakala <aaron.hakala@gofore.com>, 2019
 # Meeri Hakala <meeri.hakala@vrk.fi>, 2019
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
-# Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2020
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2020
+# Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-11 08:20+0000\n"
+"POT-Creation-Date: 2020-02-14 21:12+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2020\n"
+"Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,13 +97,15 @@ msgstr "Muokkaa tai lisää kieliversioita"
 #: ckanext/ytp/templates/organization/members.html:43
 #: ckanext/ytp/templates/organization/user_list.html:53
 #: ckanext/ytp/templates/package/new_package_form.html:29
+#: ckanext/ytp/templates/package/snippets/package_form.html:25
+#: ckanext/ytp/templates/package/snippets/resource_form.html:59
 #: ckanext/ytp/templates/user/edit_user_form.html:47
 msgid "Delete"
 msgstr "Poista"
 
 #: ckanext/ytp/controller.py:94 ckanext/ytp/templates/package/base.html:17
-#: ckanext/ytp/templates/package/new.html:10
-#: ckanext/ytp/templates/package/new_resource.html:11
+#: ckanext/ytp/templates/package/new.html:7
+#: ckanext/ytp/templates/package/new_resource.html:7
 msgid "Create Dataset"
 msgstr "Luo uusi tietoaineisto"
 
@@ -243,7 +245,7 @@ msgid "Unauthorized to edit user %s"
 msgstr "Käyttäjän muokkaus ei sallittu %s"
 
 #: ckanext/ytp/controller.py:925 ckanext/ytp/controller.py:993
-#: ckanext/ytp/logic.py:36
+#: ckanext/ytp/logic.py:41
 msgid "User not found"
 msgstr "Käyttäjää ei löytynyt"
 
@@ -268,7 +270,7 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr "Päivämäärän muoto väärä"
 
-#: ckanext/ytp/helpers.py:92 ckanext/ytp/plugin.py:366
+#: ckanext/ytp/helpers.py:92 ckanext/ytp/plugin.py:374
 msgid "Unnamed resource"
 msgstr "Nimetön data-aineisto"
 
@@ -276,28 +278,28 @@ msgstr "Nimetön data-aineisto"
 msgid "-"
 msgstr ""
 
-#: ckanext/ytp/logic.py:39
+#: ckanext/ytp/logic.py:44
 msgid "Cannot change username"
 msgstr "Käyttäjätunnusta ei voi muuttaa"
 
-#: ckanext/ytp/logic.py:41
+#: ckanext/ytp/logic.py:46
 msgid "Cannot change email"
 msgstr "Sähköpostiosoitetta ei voi muuttaa"
 
-#: ckanext/ytp/logic.py:52
+#: ckanext/ytp/logic.py:57
 msgid "Have to be logged in to edit user"
 msgstr "Pitää olla kirjautunut sisään muokatakseen käyttäjää"
 
-#: ckanext/ytp/logic.py:60
+#: ckanext/ytp/logic.py:65
 #, python-format
 msgid "User %s not authorized to edit user %s"
 msgstr "Käyttäjällä %s ei ole oikeuksia muokata käyttäjää %s"
 
-#: ckanext/ytp/logic.py:66
+#: ckanext/ytp/logic.py:71
 msgid "Have to be logged in to list users"
 msgstr "Pitää olla kirjautunut sisään nähdäkseen listan käyttäjistä"
 
-#: ckanext/ytp/logic.py:72
+#: ckanext/ytp/logic.py:77
 msgid "Have to be logged in to list admins"
 msgstr "PItää olla sisäänkirjautunut listataksesi ylläpitäjät"
 
@@ -369,25 +371,25 @@ msgstr "Julkaise avointa dataa"
 msgid "Publish Data"
 msgstr "Julkaise dataa"
 
-#: ckanext/ytp/plugin.py:307 ckanext/ytp/translations.py:39
+#: ckanext/ytp/plugin.py:315 ckanext/ytp/translations.py:39
 msgid "International benchmarks"
 msgstr "Kansainväliset vertailut"
 
-#: ckanext/ytp/plugin.py:308 ckanext/ytp/plugin.py:322
+#: ckanext/ytp/plugin.py:316 ckanext/ytp/plugin.py:330
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 msgid "Collection Type"
 msgstr "Tietoaineisto"
 
-#: ckanext/ytp/plugin.py:309
+#: ckanext/ytp/plugin.py:317
 msgid "Popular tags"
 msgstr "Suositut avainsanat"
 
-#: ckanext/ytp/plugin.py:310 ckanext/ytp/plugin.py:324
+#: ckanext/ytp/plugin.py:318 ckanext/ytp/plugin.py:332
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:48
 msgid "Content Type"
 msgstr "Sisältötyyppi"
 
-#: ckanext/ytp/plugin.py:311
+#: ckanext/ytp/plugin.py:319
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:22
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
@@ -396,29 +398,29 @@ msgstr "Sisältötyyppi"
 msgid "Organization"
 msgstr "Tuottaja"
 
-#: ckanext/ytp/plugin.py:312 ckanext/ytp/plugin.py:325
+#: ckanext/ytp/plugin.py:320 ckanext/ytp/plugin.py:333
 #: ckanext/ytp/translations.py:35
 msgid "Formats"
 msgstr "Tiedostomuoto"
 
-#: ckanext/ytp/plugin.py:314 ckanext/ytp/templates/package/search.html:58
+#: ckanext/ytp/plugin.py:322 ckanext/ytp/templates/package/search.html:58
 #: ckanext/ytp/templates/package/snippets/additional_info.html:19
 msgid "Source"
 msgstr "Lähde"
 
-#: ckanext/ytp/plugin.py:315
+#: ckanext/ytp/plugin.py:323
 #: ckanext/ytp/templates/package/resource_read.html:168
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:72
 #: ckanext/ytp/templates/snippets/license.html:21
 msgid "License"
 msgstr "Lisenssi"
 
-#: ckanext/ytp/plugin.py:323
+#: ckanext/ytp/plugin.py:331
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:31
 msgid "Tags"
 msgstr "Avainsanat"
 
-#: ckanext/ytp/plugin.py:366
+#: ckanext/ytp/plugin.py:374
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
 msgid "Additional Info"
 msgstr "Lisätiedot"
@@ -492,6 +494,7 @@ msgstr "Sisäinen"
 msgid "Created"
 msgstr "Luotu"
 
+#: ckanext/ytp/templates/package/snippets/resource_form.html:18
 #: ckanext/ytp/translations.py:30
 msgid "URL"
 msgstr "Verkko-osoite"
@@ -500,12 +503,12 @@ msgstr "Verkko-osoite"
 msgid "Title"
 msgstr "Nimi"
 
-#: ckanext/ytp/templates/macros/ytp_layout.html:29
+#: ckanext/ytp/templates/scheming/macros/form.html:8
 #: ckanext/ytp/translations.py:32
 msgid "Image URL"
 msgstr "Kuvan verkko-osoite"
 
-#: ckanext/ytp/templates/macros/ytp_layout.html:30
+#: ckanext/ytp/templates/scheming/macros/form.html:9
 #: ckanext/ytp/translations.py:33
 msgid "Image"
 msgstr "Logo tai kuvituskuva"
@@ -1069,15 +1072,15 @@ msgstr "Organisaatiota ei voida poistaa, koska sillä on tietoaineistoja"
 
 #: ckanext/ytp/translations.py:187
 msgid "fi"
-msgstr ""
+msgstr "suomeksi"
 
 #: ckanext/ytp/translations.py:188
 msgid "en"
-msgstr ""
+msgstr "englanniksi"
 
 #: ckanext/ytp/translations.py:189
 msgid "sv"
-msgstr ""
+msgstr "ruotsiksi"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:20
 #: ckanext/ytp/translations.py:191
@@ -1107,23 +1110,23 @@ msgstr "Avainsanat ja kategoriat"
 #: ckanext/ytp/translations.py:198
 msgid ""
 "Keywords or tags through which users are able to find this showcase easily "
-"through the search page or other showcases        which have the same tag. "
-"Please pick at least one finnish keyword."
+"through the search page or other showcases which have the same tag. Please "
+"pick at least one finnish keyword."
 msgstr ""
 "Avainsanojen avulla käyttäjä löytää tämän sovelluksen tai vastaavia "
 "sovelluksia helposti hakusivun kautta. Valitse vähintään yksi suomenkielinen"
 " avainsana."
 
-#: ckanext/ytp/translations.py:201
+#: ckanext/ytp/translations.py:200
 msgid "Additional showcase information"
 msgstr "Sovelluksen muut tiedot"
 
-#: ckanext/ytp/translations.py:203
+#: ckanext/ytp/translations.py:202
 msgid "Application developer"
 msgstr "Sovelluksen kehittäjä"
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:174
-#: ckanext/ytp/translations.py:205
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:173
+#: ckanext/ytp/translations.py:204
 msgid ""
 "Images will be shown on the showcase page. You can upload images from your "
 "computer or link to an URL."
@@ -1131,36 +1134,87 @@ msgstr ""
 "Kuvat tullaan esittämään sovelluksen esittelysivulla. Voit ladata tiedostot "
 "tietokoneelta tai lisätä linkin kuvaan."
 
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:185
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:186
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:187
-#: ckanext/ytp/translations.py:207
+#: ckanext/ytp/translations.py:206
 msgid "Icon"
 msgstr "Kuvake"
 
-#: ckanext/ytp/translations.py:209
+#: ckanext/ytp/translations.py:208
 msgid "Yes"
 msgstr "Kyllä"
 
-#: ckanext/ytp/translations.py:210
+#: ckanext/ytp/translations.py:209
 msgid "No"
 msgstr "Ei"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:89
-#: ckanext/ytp/translations.py:212
+#: ckanext/ytp/translations.py:211
 msgid "Type in application website"
 msgstr "Kirjoita sovelluksen verkkosivu"
 
-#: ckanext/ytp/translations.py:213
+#: ckanext/ytp/translations.py:212
 msgid "Type in URL"
 msgstr "Kirjoita linkki"
 
-#: ckanext/ytp/translations.py:215
+#: ckanext/ytp/translations.py:214
 msgid "Icon will be shown at the top of the showcase page."
 msgstr "Kuvake näytetään sovelluksen esittelysivun ylänurkassa."
 
-#: ckanext/ytp/translations.py:216
+#: ckanext/ytp/translations.py:215
 msgid "Featured image will be shown on the cards in showcase list page."
 msgstr "Esittelykuva näytetään sovelluksen korttinäkymissä."
+
+#: ckanext/ytp/translations.py:218
+msgid "Dataset title"
+msgstr "Tietoaineiston nimi"
+
+#: ckanext/ytp/translations.py:219
+msgid "Dataset description"
+msgstr "Tietoaineiston kuvaus"
+
+#: ckanext/ytp/translations.py:220
+msgid ""
+"Keywords or tags through which users are able to find this dataset easily "
+"through the search page or other datasets which have the same tag. Please "
+"pick at least one finnish keyword."
+msgstr ""
+"Avainsanojen avulla käyttäjä löytää tämän tietoaineiston tai vastaavia "
+"tietoaineistoja helposti hakusivun kautta. Valitse vähintään yksi "
+"suomenkielinen avainsana."
+
+#: ckanext/ytp/translations.py:221
+msgid "Dataset additional information"
+msgstr "Tietoaineiston muut tiedot"
+
+#: ckanext/ytp/translations.py:222
+msgid "Dataset producer and maintainer"
+msgstr "Tietoaineiston tuottaja ja ylläpitäjä"
+
+#: ckanext/ytp/translations.py:223
+msgid "Select the producer (organization) who owns this dataset"
+msgstr "Valitse tietoaineiston omistava tuottaja (organisaatio)"
+
+#: ckanext/ytp/translations.py:225
+msgid "Resource name"
+msgstr "Data-aineiston nimi"
+
+#: ckanext/ytp/translations.py:226
+msgid "File *"
+msgstr "Tiedosto *"
+
+#: ckanext/ytp/translations.py:227
+msgid ""
+"A file or url which describes the location of the desired resource file."
+msgstr "Valitse tiedosto tai linkki"
+
+#: ckanext/ytp/translations.py:228
+msgid "Resource description"
+msgstr "Data-aineiston kuvaus"
+
+#: ckanext/ytp/translations.py:229
+msgid "Additional information"
+msgstr "Lisätiedot"
 
 #: ckanext/ytp/validators.py:66
 msgid "Missing value"
@@ -1252,6 +1306,7 @@ msgid "Link to a URL"
 msgstr "Lisää verkko-osoite"
 
 #: ckanext/ytp/public/javascript/translations.js:7
+#: ckanext/ytp/templates/scheming/macros/form.html:73
 msgid "This field is required"
 msgstr "Pakollinen kenttä"
 
@@ -1360,14 +1415,6 @@ msgstr "Seuraajat"
 #: ckanext/ytp/templates/user/read.html:5
 msgid "Datasets"
 msgstr "Tietoaineistot"
-
-#: ckanext/ytp/templates/macros/ytp_layout.html:28
-msgid "http://example.com/my-image.jpg"
-msgstr ""
-
-#: ckanext/ytp/templates/macros/ytp_layout.html:44
-msgid "Clear Upload"
-msgstr "Tyhjennä lataus"
 
 #: ckanext/ytp/templates/organization/admin_list.html:5
 #: ckanext/ytp/templates/organization/user_list.html:5
@@ -1603,17 +1650,37 @@ msgstr ""
 "Valitse vähintään yksi tietoaineistolle sopiva kategoria. Voit myös valita "
 "useampia kategorioita."
 
+#: ckanext/ytp/templates/package/new.html:14
+#: ckanext/ytp/templates/package/new_resource.html:14
+msgid "Stages"
+msgstr "Vaiheet"
+
+#: ckanext/ytp/templates/package/new_package_form.html:12
+msgid "Next"
+msgstr "Seuraava"
+
 #: ckanext/ytp/templates/package/new_package_form.html:14
 msgid "Update"
 msgstr "Päivitä"
 
 #: ckanext/ytp/templates/package/new_package_form.html:28
+#: ckanext/ytp/templates/package/snippets/package_form.html:25
 msgid "Are you sure you want to delete this dataset?"
 msgstr "Haluatko varmasti poistaa tietoaineiston?"
 
-#: ckanext/ytp/templates/package/new_resource.html:11
+#: ckanext/ytp/templates/package/new_package_form.html:32
+#: ckanext/ytp/templates/package/snippets/package_form.html:27
+#: ckanext/ytp/templates/package/snippets/resource_form.html:62
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:269
+msgid "Abort"
+msgstr "Keskeytä"
+
+#: ckanext/ytp/templates/package/new_resource.html:7
+#: ckanext/ytp/templates/package/snippets/stages.html:30
+#: ckanext/ytp/templates/package/snippets/stages.html:34
+#: ckanext/ytp/templates/package/snippets/stages.html:36
 msgid "Add data"
-msgstr "Lisää dataa"
+msgstr "Lisää data-aineisto"
 
 #: ckanext/ytp/templates/package/resource_edit_base.html:3
 msgid "Edit resource"
@@ -1706,6 +1773,7 @@ msgid "unknown"
 msgstr "tuntematon"
 
 #: ckanext/ytp/templates/package/resource_read.html:165
+#: ckanext/ytp/templates/package/snippets/resource_form.html:31
 msgid "Format"
 msgstr "Muoto"
 
@@ -1788,6 +1856,7 @@ msgstr "Relevanssi"
 #: ckanext/ytp/templates/package/search.html:55
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:223
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:235
+#: ckanext/ytp/templates/package/snippets/resource_form.html:45
 msgid "Last Modified"
 msgstr "Viimeksi muokattu"
 
@@ -1979,6 +2048,22 @@ msgstr ""
 "href=\"https://creativecommons.org/licenses/by/4.0/\">Creative Commons "
 "Attribution 4.0 International License</a>."
 
+#: ckanext/ytp/templates/package/snippets/package_form.html:30
+msgid "Next: Add Data"
+msgstr "Seuraava: Lisää data-aineisto"
+
+#: ckanext/ytp/templates/package/snippets/package_form.html:35
+msgid ""
+"By submitting this form, you agree to release the <i>metadata</i> values "
+"that you enter into the form under the <a "
+"href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database "
+"License</a>."
+msgstr ""
+"Lähettämällä tämän lomakkeen suostut julkaisemaan täyttämäsi "
+"<i>metatiedot</i> <a "
+"href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database "
+"Lisenssin</a> mukaisesti."
+
 #: ckanext/ytp/templates/package/snippets/related_item.html:32
 msgid "Relates to this"
 msgstr "Liittyy tähän"
@@ -2022,6 +2107,80 @@ msgid ""
 msgstr ""
 "<p class=\"empty\">Tiedätkö sovelluksia, jotka käyttävät tätä "
 "tietoaineistoa? Lisää ne kirjautumalla sisään."
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:18
+msgid "Data"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:18
+msgid "http://example.com/external-data.csv"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:22
+msgid "Name"
+msgstr "Nimi"
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:22
+msgid "eg. January 2011 Gold Prices"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:26
+msgid "Description"
+msgstr "Kuvaus"
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:26
+msgid "Some useful notes about the data"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:31
+msgid "eg. CSV, XML or JSON"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:34
+msgid "This will be guessed automatically. Leave blank if you wish"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:45
+msgid "eg. 2012-06-05"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:47
+msgid "File Size"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:47
+msgid "eg. 1024"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:49
+#: ckanext/ytp/templates/package/snippets/resource_form.html:51
+msgid "MIME Type"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:49
+#: ckanext/ytp/templates/package/snippets/resource_form.html:51
+msgid "eg. application/json"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:59
+msgid "Are you sure you want to delete this resource?"
+msgstr "Haluatko varmasti poistaa tämän data-aineiston?"
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:66
+msgid "Previous"
+msgstr "Edellinen"
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:69
+msgid "Save & add another"
+msgstr "Tallenna ja lisää toinen"
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:72
+msgid "Save dataset"
+msgstr "Tallenna tietoaineisto"
+
+#: ckanext/ytp/templates/package/snippets/resource_form.html:76
+msgid "Add"
+msgstr "Lisää"
 
 #: ckanext/ytp/templates/package/snippets/resource_item.html:22
 msgid "No description for this resource"
@@ -2123,6 +2282,11 @@ msgid ""
 msgstr ""
 "<p class=\"empty\">Tietoaineistosta ei voi lähettää palautetta, koska "
 "aineistolla ei ole ylläpitäjää.</p>"
+
+#: ckanext/ytp/templates/package/snippets/stages.html:23
+#: ckanext/ytp/templates/package/snippets/stages.html:25
+msgid "Create dataset"
+msgstr "Luo uusi tietoaineisto"
 
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:26
 msgid "Languages"
@@ -2232,7 +2396,7 @@ msgstr ""
 "href=\"https://synthetics.newrelic.com/report/b9EHg\" "
 "target=\"_blank\">täältä</a>."
 
-#: ckanext/ytp/templates/scheming/form_snippets/organization_ex.html:26
+#: ckanext/ytp/templates/scheming/form_snippets/organization_ex.html:27
 msgid "No organization"
 msgstr "Ei tuottajaa"
 
@@ -2248,6 +2412,18 @@ msgstr "Julkinen"
 #, python-format
 msgid " Categories can be edited from <a href=\"%(category_url)s\">here</a> "
 msgstr "Kategorioita voi muokata <a href=\"%(category_url)s\">täältä</a>"
+
+#: ckanext/ytp/templates/scheming/macros/form.html:7
+msgid "http://example.com/my-image.jpg"
+msgstr ""
+
+#: ckanext/ytp/templates/scheming/macros/form.html:21
+msgid "Clear Upload"
+msgstr "Tyhjennä lataus"
+
+#: ckanext/ytp/templates/scheming/macros/form.html:73
+msgid "Custom"
+msgstr ""
 
 #: ckanext/ytp/templates/scheming/organization/about.html:13
 msgid "Organization hierarchy"
@@ -2331,43 +2507,39 @@ msgstr "Ilmoittajan nimi"
 msgid "Submitter email"
 msgstr "Ilmoittajan sähköpostiosoite"
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:173
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:172
 msgid "Showcase images"
 msgstr "Sovelluksen kuvat"
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:192
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:191
 msgid " Icon will be shown at the top of the showcase page "
 msgstr "Kuvake näytetään sovelluksen esittelysivun ylänurkassa."
 
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:206
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:207
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:208
 msgid "Featured image"
 msgstr "Esittelykuva"
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:213
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:212
 msgid " Featured image will be shown on the cards in showcase list page. "
 msgstr "Esittelykuva näytetään sovelluksen korttinäkymissä."
 
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:227
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:228
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:229
 msgid "Image 1"
 msgstr "Kuva 1"
 
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:243
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:244
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:245
 msgid "Image 2"
 msgstr "Kuva 2"
 
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:259
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:260
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:261
 msgid "Image 3"
 msgstr "Kuva 3"
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:270
-msgid "Abort"
-msgstr "Keskeytä"
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:281
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:280
 msgid "Send submission"
 msgstr "Lähetä ilmoitus"
 
