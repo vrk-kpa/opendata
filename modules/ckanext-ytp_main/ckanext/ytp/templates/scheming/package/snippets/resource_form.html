@@ -13,10 +13,10 @@
 			{% if loop.index > 1 %}
 				<div class="ytp-group-divider"></div>
 			{% endif %}
-			<h3 class="ytp-group-title">{{_(field.group_title)}}</h3>
+			<h3 class="ytp-group-title {% if field.group_title_class %}{{field.group_title_class}}{% endif %}">{{_(field.group_title)}}</h3>
 		{% endif %}
 		{% if field.group_description %}
-			<h5 class="ytp-group-description">{{_(field.group_description)}}</h5>
+			<h5 class="ytp-group-description {% if field.group_description_class %}{{field.group_description_class}}{% endif %}">{{_(field.group_description)}}</h5>
 		{% endif %}
 		{%- if field.form_snippet is not none -%}
 			{%- snippet 'scheming/snippets/form_field.html',

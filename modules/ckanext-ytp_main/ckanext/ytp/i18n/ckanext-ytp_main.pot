@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-17 10:41+0000\n"
+"POT-Creation-Date: 2020-02-17 12:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,7 +92,6 @@ msgid "Delete"
 msgstr ""
 
 #: ckanext/ytp/controller.py:94 ckanext/ytp/templates/package/base.html:17
-#: ckanext/ytp/templates/package/new_resource.html:7
 msgid "Create Dataset"
 msgstr ""
 
@@ -1298,23 +1297,89 @@ msgid "e.g. avoindata@dvv.fi"
 msgstr ""
 
 #: ckanext/ytp/translations.py:253
-msgid "Resource name"
+msgid "Data resource title"
 msgstr ""
 
 #: ckanext/ytp/translations.py:254
-msgid "File *"
+msgid ""
+"Write a short and descriptive name for the data resource. If the data covers "
+"a specific time frame, mention that in the name."
 msgstr ""
 
 #: ckanext/ytp/translations.py:255
-msgid "A file or url which describes the location of the desired resource file."
+msgid "e.g. Most popular Finnish first names 2019"
 msgstr ""
 
 #: ckanext/ytp/translations.py:256
-msgid "Resource description"
+msgid "Resource *"
 msgstr ""
 
 #: ckanext/ytp/translations.py:257
+msgid ""
+"Add the data resource by uploading a file or adding a link to the "
+"data.\\nSelect or drag the files here.\\nThe maximum file size is XX Mt. "
+"Valid data formats are pdf, jpg, jpeg, png, doc, docx, xls, xlsx, csv, ppt, "
+"pptx, odt, ods, txt.\\nLink: Add a link to the data."
+msgstr ""
+
+#: ckanext/ytp/translations.py:258
+msgid "Data resource description"
+msgstr ""
+
+#: ckanext/ytp/translations.py:259
+msgid "Write a description for the resource"
+msgstr ""
+
+#: ckanext/ytp/translations.py:260
+msgid ""
+"Describe the data clearly and concisely. Use as confining terms as possible "
+"to make it easier to find and understand the data."
+msgstr ""
+
+#: ckanext/ytp/translations.py:261
 msgid "Additional information"
+msgstr ""
+
+#: ckanext/ytp/translations.py:262
+msgid "Data status"
+msgstr ""
+
+#: ckanext/ytp/translations.py:263
+msgid ""
+"Define a state for the data. This is recommended especially if your dataset "
+"has data resources from multiple years."
+msgstr ""
+
+#: ckanext/ytp/translations.py:264
+msgid "Coordinate system"
+msgstr ""
+
+#: ckanext/ytp/translations.py:265
+msgid ""
+"If your data includes geographic information, specify the coordinate system "
+"it uses."
+msgstr ""
+
+#: ckanext/ytp/translations.py:266
+msgid "e.g. WGS84 (World Geodetic System 1984)"
+msgstr ""
+
+#: ckanext/ytp/translations.py:267
+msgid ""
+"Select the time frame by which the data is separated. For example, does the "
+"resource include data from every week or month."
+msgstr ""
+
+#: ckanext/ytp/translations.py:268
+msgid "Time Frame"
+msgstr ""
+
+#: ckanext/ytp/translations.py:269
+msgid "Start date"
+msgstr ""
+
+#: ckanext/ytp/translations.py:270
+msgid "End date"
 msgstr ""
 
 #: ckanext/ytp/validators.py:66

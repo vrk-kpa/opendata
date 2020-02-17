@@ -250,11 +250,24 @@ def _translations():
     _("e.g. avoindata@dvv.fi")
 
     # Resource
-    _("Resource name")
-    _("File *")
-    _("A file or url which describes the location of the desired resource file.")
-    _("Resource description")
+    _("Data resource title")
+    _("Write a short and descriptive name for the data resource. If the data covers a specific time frame, mention that in the name.")  # noqa: E501
+    _("e.g. Most popular Finnish first names 2019")
+    _("Resource *")
+    _("Add the data resource by uploading a file or adding a link to the data.\\nSelect or drag the files here.\\nThe maximum file size is XX Mt. Valid data formats are pdf, jpg, jpeg, png, doc, docx, xls, xlsx, csv, ppt, pptx, odt, ods, txt.\\nLink: Add a link to the data.")  # noqa: E501
+    _("Data resource description")
+    _("Write a description for the resource")
+    _("Describe the data clearly and concisely. Use as confining terms as possible to make it easier to find and understand the data.")  # noqa: E501
     _("Additional information")
+    _("Data status")
+    _("Define a state for the data. This is recommended especially if your dataset has data resources from multiple years.")
+    _("Coordinate system")
+    _("If your data includes geographic information, specify the coordinate system it uses.")
+    _("e.g. WGS84 (World Geodetic System 1984)")
+    _("Select the time frame by which the data is separated. For example, does the resource include data from every week or month.")
+    _("Time Frame")
+    _("Start date")
+    _("End date")
 
 
 def facet_translations():
