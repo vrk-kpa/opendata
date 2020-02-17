@@ -264,7 +264,7 @@ def _translations():
     _("Coordinate system")
     _("If your data includes geographic information, specify the coordinate system it uses.")
     _("e.g. WGS84 (World Geodetic System 1984)")
-    _("Select the time frame by which the data is separated. For example, does the resource include data from every week or month.")
+    _("Select the time frame by which the data is separated. For example, does the resource include data from every week or month.")  # noqa: E501
     _("Time Frame")
     _("Start date")
     _("End date")
