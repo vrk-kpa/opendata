@@ -1,16 +1,21 @@
 - block:
-    - name: Copy prh systemd configuration
+    - name: Copy prh systemd configurations
       copy:
         src: "{{ item }}"
         dest: "/etc/systemd/system/{{ item }}"
       with_items:
         - prh.service
         - prh.timer
+        - prh_clear.service
+        - prh_clear.timer
       notify: Reload systemd
 
-    - name: Enable prh timer
+    - name: Enable prh timers
       systemd:
-        name: prh.timer
+        name: "{{ item }}"
         enabled: yes
         state: started
+      with_items:
+        - prh.timer
+        - prh_clear.timer
   when: prh_crawler_enabled
