@@ -183,70 +183,71 @@ def _translations():
     _('Organization cannot be deleted while it still has datasets')
 
     # Translations for keys from schema
-    # Showcase
     _("fi")
     _("en")
     _("sv")
 
+    # Showcase
     _("Showcase name")
     _("* Required field")
-
     _("e.g. Most popular first names by region")
     _("The showcase’s URL on opendata.fi. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.")  # noqa: E501
-
     _("Showcase description")
     _("A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.")  # noqa: E501
     _("Write a description for the showcase.")
-
     _("Keywords and categories")
     _("Keywords help users to find your showcase. Select at least one keyword in Finnish.")
     _("e.g. names")
-
     _("Showcase type")
     _("Select one or more type that describes your showcase.")
-
     _("Select at least one category.")
-
     _("Additional showcase information")
-
     _("If you have created a mobile or desktop application, select which platforms it supports.")
-
     _("Showcase website")
     _("Links to app stores")
-
     _("Developer")
     _("e.g. Digital and Population Data Services Agency")
-
     _("Developer website")
     _("e.g. www.dvv.fi")
-
     _("e.g. dvv.fi/showcase")
-
     _("e.g. appstore.com/app")
-
-    _("")
-
     _("Images will be shown on the showcase page. You can upload images from your computer or link to an URL.")
-
     _("Logo")
-
     _("Yes")
     _("No")
-
     _("Type in application website")
     _("Type in URL")
-
     _("Logo will be shown at the top of the showcase page.")
     _("The featured image will be shown on the Showcases-page as well as on the showcase’s own page.")
     _("Add max. 3 images of your showcase. Good images are for example those that show the user interface and features of the showcase.")  # noqa: E501
 
     # Dataset
     _("Dataset name")
+    _("e.g. Finnish names")
+    _("Give a short and descriptive name for the dataset.")
+    _("The URL is created automatically based on the dataset title. You can edit the URL if you want.")
     _("Dataset description")
-    _("Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag. Please pick at least one finnish keyword.")  # noqa: E501
+    _("Write a description for the dataset.")
+    _("Describe the dataset’s contents, collection process, quality and  possible limits, flaws and applications in a comprehensible way. Use as confining terms as possible to make it easier to find and understand the data.")  # noqa: E501
+    _("Keywords help users to find your data. Select at least one keyword in Finnish.")  # noqa: E501
+    _("Select at least one category.")
     _("Dataset additional information")
+    _("Dataset visibility")
+    _("You can set the visibility to private temporarily for example if the dataset is missing some information. Private datasets are visible to all members of the producer-organisation.")  # noqa: E501
+    _("Select a license that suits your needs. We recommend using CC0 or CC BY 4 -licenses.")
+    _("More about the license")
+    _("Describe how you want your organisation to be named when using CC BY 4 -license.")
+    _("e.g. Data was produced by Finnish Digital Agency")
+    _("Select which municipalities/cities the data covers.")
+    _("e.g. Tampere")
+    _("Describe how often your data is updated")
+    _("e.g. monthly")
+    _("Add links to one or more websites with additional information about the data.")
+    _("Select the dataset publisher (organisation).")
     _("Dataset producer and maintainer")
-    _("Select the producer (organization) who owns this dataset")
+    _("Dataset maintainer")
+    _("The dataset maintainer will receive updates about the dataset to the email address specified in this form. We recommend using a general email address instead of the contact information of a single employee. Note that the dataset information can only be managed by registered users with Editor- or Admin-rights in the publishing organisation.")  # noqa: E501
+    _("e.g. avoindata@dvv.fi")
 
     # Resource
     _("Resource name")

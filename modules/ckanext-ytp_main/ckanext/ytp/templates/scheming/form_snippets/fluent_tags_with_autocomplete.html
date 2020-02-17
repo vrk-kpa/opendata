@@ -7,6 +7,11 @@
 {% set attrs = field.form_attrs if 'form_attrs' in field else {} %}
 
 <div class="form-group-fluent">
+{% if field.description and field.description.strip() %}
+<div class="field-assistive-text">
+    {{ _(field.description) }}
+</div>
+{% endif %}
   {%- for lang in languages  -%}
 
     {% set attrs_with_locale = h.add_locale_to_source(attrs, lang) %}
@@ -29,8 +34,3 @@
     {% endcall %}
   {%- endfor -%}
 </div>
-{% if field.description and field.description.strip() %}
-<div class="field-assistive-text">
-    {{ _(field.description) }}
-</div>
-{% endif %}
