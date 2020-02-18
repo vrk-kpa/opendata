@@ -1,9 +1,9 @@
 $(window).on("load", function() {
   $('input[data-module="autocomplete"]').each(function(index, element) {
-    if (Array.isArray($(element).select2("data")) && $(element).select2("data").length > 0) {
-      $(element).select2("data")
+    if (element.value.length > 0 && element.value.split(',').length > 0) {
+      element.value.split(',')
         .forEach(function(tag) {
-          tag.container = element.id;
+          tag = { container: element.id, id: tag, text: tag};
           var container = $(element).siblings(".ytp-select2-tags-container");
 
           if (!container || container.length === 0) {

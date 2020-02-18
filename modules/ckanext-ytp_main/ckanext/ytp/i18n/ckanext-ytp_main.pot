@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-14 21:12+0000\n"
+"POT-Creation-Date: 2020-02-18 10:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,8 +92,6 @@ msgid "Delete"
 msgstr ""
 
 #: ckanext/ytp/controller.py:94 ckanext/ytp/templates/package/base.html:17
-#: ckanext/ytp/templates/package/new.html:7
-#: ckanext/ytp/templates/package/new_resource.html:7
 msgid "Create Dataset"
 msgstr ""
 
@@ -675,7 +673,7 @@ msgstr ""
 msgid "Temporal coverage to"
 msgstr ""
 
-#: ckanext/ytp/translations.py:84
+#: ckanext/ytp/translations.py:84 ckanext/ytp/translations.py:191
 msgid "Showcase name"
 msgstr ""
 
@@ -1024,140 +1022,376 @@ msgstr ""
 msgid "Organization cannot be deleted while it still has datasets"
 msgstr ""
 
-#: ckanext/ytp/translations.py:187
+#: ckanext/ytp/translations.py:186
 msgid "fi"
 msgstr ""
 
-#: ckanext/ytp/translations.py:188
+#: ckanext/ytp/translations.py:187
 msgid "en"
 msgstr ""
 
-#: ckanext/ytp/translations.py:189
+#: ckanext/ytp/translations.py:188
 msgid "sv"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:20
-#: ckanext/ytp/translations.py:191
-msgid "Showcase title"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:21
 #: ckanext/ytp/translations.py:192
 msgid "* Required field"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:37
+#: ckanext/ytp/translations.py:193
+msgid "e.g. Most popular first names by region"
+msgstr ""
+
 #: ckanext/ytp/translations.py:194
+msgid ""
+"The showcase’s URL on opendata.fi. The URL is created automatically based on "
+"the publisher’s name. You can edit the URL if you want."
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:36
+#: ckanext/ytp/translations.py:195
 msgid "Showcase description"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:38
-#: ckanext/ytp/translations.py:195
-msgid "An universal, compact and easy to understand description of the showcase."
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:37
+#: ckanext/ytp/translations.py:196
+msgid ""
+"A short and descriptive explanation about the showcase. Tell for example "
+"about possible applications and the creation process, as well as about how "
+"open data has been used in the showcase."
 msgstr ""
 
 #: ckanext/ytp/translations.py:197
-msgid "Keywords and categories"
+msgid "Write a description for the showcase."
 msgstr ""
 
 #: ckanext/ytp/translations.py:198
+msgid "Keywords and categories"
+msgstr ""
+
+#: ckanext/ytp/translations.py:199
 msgid ""
-"Keywords or tags through which users are able to find this showcase easily "
-"through the search page or other showcases which have the same tag. Please "
-"pick at least one finnish keyword."
+"Keywords help users to find your showcase. Select at least one keyword in "
+"Finnish."
 msgstr ""
 
 #: ckanext/ytp/translations.py:200
-msgid "Additional showcase information"
+msgid "e.g. names"
+msgstr ""
+
+#: ckanext/ytp/translations.py:201
+msgid "Showcase type"
 msgstr ""
 
 #: ckanext/ytp/translations.py:202
-msgid "Application developer"
+msgid "Select one or more type that describes your showcase."
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:173
+#: ckanext/ytp/translations.py:203 ckanext/ytp/translations.py:235
+msgid "Select at least one category."
+msgstr ""
+
 #: ckanext/ytp/translations.py:204
+msgid "Additional showcase information"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:73
+#: ckanext/ytp/translations.py:205
+msgid ""
+"If you have created a mobile or desktop application, select which platforms "
+"it supports."
+msgstr ""
+
+#: ckanext/ytp/translations.py:206
+msgid "Showcase website"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:104
+#: ckanext/ytp/translations.py:207
+msgid "Links to app stores"
+msgstr ""
+
+#: ckanext/ytp/translations.py:208
+msgid "Developer"
+msgstr ""
+
+#: ckanext/ytp/translations.py:209
+msgid "e.g. Digital and Population Data Services Agency"
+msgstr ""
+
+#: ckanext/ytp/translations.py:210
+msgid "Developer website"
+msgstr ""
+
+#: ckanext/ytp/translations.py:211
+msgid "e.g. www.dvv.fi"
+msgstr ""
+
+#: ckanext/ytp/translations.py:212
+msgid "e.g. dvv.fi/showcase"
+msgstr ""
+
+#: ckanext/ytp/translations.py:213
+msgid "e.g. appstore.com/app"
+msgstr ""
+
+#: ckanext/ytp/translations.py:214
+msgid "e.g. Jane Doe"
+msgstr ""
+
+#: ckanext/ytp/translations.py:215
+msgid "e.g. jane.doe@dvv.fi"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:175
+#: ckanext/ytp/translations.py:216
 msgid ""
 "Images will be shown on the showcase page. You can upload images from your "
 "computer or link to an URL."
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:185
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:186
-#: ckanext/ytp/translations.py:206
-msgid "Icon"
-msgstr ""
-
-#: ckanext/ytp/translations.py:208
-msgid "Yes"
-msgstr ""
-
-#: ckanext/ytp/translations.py:209
-msgid "No"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:89
-#: ckanext/ytp/translations.py:211
-msgid "Type in application website"
-msgstr ""
-
-#: ckanext/ytp/translations.py:212
-msgid "Type in URL"
-msgstr ""
-
-#: ckanext/ytp/translations.py:214
-msgid "Icon will be shown at the top of the showcase page."
-msgstr ""
-
-#: ckanext/ytp/translations.py:215
-msgid "Featured image will be shown on the cards in showcase list page."
+#: ckanext/ytp/translations.py:217
+msgid "Logo"
 msgstr ""
 
 #: ckanext/ytp/translations.py:218
-msgid "Dataset title"
+msgid "Yes"
 msgstr ""
 
 #: ckanext/ytp/translations.py:219
-msgid "Dataset description"
+msgid "No"
 msgstr ""
 
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:91
 #: ckanext/ytp/translations.py:220
-msgid ""
-"Keywords or tags through which users are able to find this dataset easily "
-"through the search page or other datasets which have the same tag. Please "
-"pick at least one finnish keyword."
+msgid "Type in application website"
 msgstr ""
 
 #: ckanext/ytp/translations.py:221
-msgid "Dataset additional information"
+msgid "Type in URL"
 msgstr ""
 
 #: ckanext/ytp/translations.py:222
-msgid "Dataset producer and maintainer"
+msgid "Logo will be shown at the top of the showcase page."
 msgstr ""
 
 #: ckanext/ytp/translations.py:223
-msgid "Select the producer (organization) who owns this dataset"
+msgid ""
+"The featured image will be shown on the Showcases-page as well as on the "
+"showcase’s own page."
 msgstr ""
 
-#: ckanext/ytp/translations.py:225
-msgid "Resource name"
-msgstr ""
-
-#: ckanext/ytp/translations.py:226
-msgid "File *"
+#: ckanext/ytp/translations.py:224
+msgid ""
+"Add max. 3 images of your showcase. Good images are for example those that "
+"show the user interface and features of the showcase."
 msgstr ""
 
 #: ckanext/ytp/translations.py:227
-msgid "A file or url which describes the location of the desired resource file."
+msgid "Dataset title"
 msgstr ""
 
 #: ckanext/ytp/translations.py:228
-msgid "Resource description"
+msgid "e.g. Finnish names"
 msgstr ""
 
 #: ckanext/ytp/translations.py:229
+msgid "Give a short and descriptive name for the dataset."
+msgstr ""
+
+#: ckanext/ytp/translations.py:230
+msgid ""
+"The URL is created automatically based on the dataset title. You can edit the"
+" URL if you want."
+msgstr ""
+
+#: ckanext/ytp/translations.py:231
+msgid "Dataset description"
+msgstr ""
+
+#: ckanext/ytp/translations.py:232
+msgid "Write a description for the dataset."
+msgstr ""
+
+#: ckanext/ytp/translations.py:233
+msgid ""
+"Describe the dataset’s contents, collection process, quality and  possible "
+"limits, flaws and applications in a comprehensible way. Use as confining "
+"terms as possible to make it easier to find and understand the data."
+msgstr ""
+
+#: ckanext/ytp/translations.py:234
+msgid "Keywords help users to find your data. Select at least one keyword in Finnish."
+msgstr ""
+
+#: ckanext/ytp/translations.py:236
+msgid "Dataset additional information"
+msgstr ""
+
+#: ckanext/ytp/translations.py:237
+msgid "Dataset visibility"
+msgstr ""
+
+#: ckanext/ytp/translations.py:238
+msgid ""
+"You can set the visibility to private temporarily for example if the dataset "
+"is missing some information. Private datasets are visible to all members of "
+"the producer-organisation."
+msgstr ""
+
+#: ckanext/ytp/translations.py:239
+msgid ""
+"Select a license that suits your needs. We recommend using CC0 or CC BY 4 "
+"-licenses."
+msgstr ""
+
+#: ckanext/ytp/translations.py:240
+msgid "More about the license"
+msgstr ""
+
+#: ckanext/ytp/translations.py:241
+msgid ""
+"Describe how you want your organisation to be named when using CC BY 4 "
+"-license."
+msgstr ""
+
+#: ckanext/ytp/translations.py:242
+msgid "e.g. Data was produced by Finnish Digital Agency"
+msgstr ""
+
+#: ckanext/ytp/translations.py:243
+msgid "Select which municipalities/cities the data covers."
+msgstr ""
+
+#: ckanext/ytp/translations.py:244
+msgid "e.g. Tampere"
+msgstr ""
+
+#: ckanext/ytp/translations.py:245
+msgid "Describe how often your data is updated"
+msgstr ""
+
+#: ckanext/ytp/translations.py:246
+msgid "e.g. monthly"
+msgstr ""
+
+#: ckanext/ytp/translations.py:247
+msgid "Add links to one or more websites with additional information about the data."
+msgstr ""
+
+#: ckanext/ytp/translations.py:248
+msgid "Select the dataset publisher (organisation)."
+msgstr ""
+
+#: ckanext/ytp/translations.py:249
+msgid "Dataset producer and maintainer"
+msgstr ""
+
+#: ckanext/ytp/translations.py:250
+msgid "Dataset maintainer"
+msgstr ""
+
+#: ckanext/ytp/translations.py:251
+msgid ""
+"The dataset maintainer will receive updates about the dataset to the email "
+"address specified in this form. We recommend using a general email address "
+"instead of the contact information of a single employee. Note that the "
+"dataset information can only be managed by registered users with Editor- or "
+"Admin-rights in the publishing organisation."
+msgstr ""
+
+#: ckanext/ytp/translations.py:252
+msgid "e.g. avoindata@dvv.fi"
+msgstr ""
+
+#: ckanext/ytp/translations.py:255
+msgid "Data resource title"
+msgstr ""
+
+#: ckanext/ytp/translations.py:256
+msgid ""
+"Write a short and descriptive name for the data resource. If the data covers "
+"a specific time frame, mention that in the name."
+msgstr ""
+
+#: ckanext/ytp/translations.py:257
+msgid "e.g. Most popular Finnish first names 2019"
+msgstr ""
+
+#: ckanext/ytp/translations.py:258
+msgid "Resource *"
+msgstr ""
+
+#: ckanext/ytp/translations.py:259
+msgid ""
+"Add the data resource by uploading a file or adding a link to the "
+"data.<br>Select or drag the files here.<br>The maximum file size is 5 Gb. "
+"Valid data formats are pdf, jpg, jpeg, png, doc, docx, xls, xlsx, csv, ppt, "
+"pptx, odt, ods, txt.<br>Link: Add a link to the data."
+msgstr ""
+
+#: ckanext/ytp/translations.py:260
+msgid "Data resource description"
+msgstr ""
+
+#: ckanext/ytp/translations.py:261
+msgid "Write a description for the resource"
+msgstr ""
+
+#: ckanext/ytp/translations.py:262
+msgid ""
+"Describe the data clearly and concisely. Use as confining terms as possible "
+"to make it easier to find and understand the data."
+msgstr ""
+
+#: ckanext/ytp/translations.py:263
 msgid "Additional information"
+msgstr ""
+
+#: ckanext/ytp/translations.py:264
+msgid "Data status"
+msgstr ""
+
+#: ckanext/ytp/translations.py:265
+msgid ""
+"Define a state for the data. This is recommended especially if your dataset "
+"has data resources from multiple years."
+msgstr ""
+
+#: ckanext/ytp/translations.py:266
+msgid "Coordinate system"
+msgstr ""
+
+#: ckanext/ytp/translations.py:267
+msgid ""
+"If your data includes geographic information, specify the coordinate system "
+"it uses."
+msgstr ""
+
+#: ckanext/ytp/translations.py:268
+msgid "e.g. WGS84 (World Geodetic System 1984)"
+msgstr ""
+
+#: ckanext/ytp/translations.py:269
+msgid ""
+"Select the time frame by which the data is separated. For example, does the "
+"resource include data from every week or month."
+msgstr ""
+
+#: ckanext/ytp/translations.py:270
+msgid "e.g. a month"
+msgstr ""
+
+#: ckanext/ytp/translations.py:271
+msgid "Time Frame"
+msgstr ""
+
+#: ckanext/ytp/translations.py:272
+msgid "Start date"
+msgstr ""
+
+#: ckanext/ytp/translations.py:273
+msgid "End date"
 msgstr ""
 
 #: ckanext/ytp/validators.py:66
@@ -1582,6 +1816,10 @@ msgid ""
 "multiple accurate categories."
 msgstr ""
 
+#: ckanext/ytp/templates/package/new.html:7
+msgid "Create new dataset"
+msgstr ""
+
 #: ckanext/ytp/templates/package/new.html:14
 #: ckanext/ytp/templates/package/new_resource.html:14
 msgid "Stages"
@@ -1603,7 +1841,7 @@ msgstr ""
 #: ckanext/ytp/templates/package/new_package_form.html:32
 #: ckanext/ytp/templates/package/snippets/package_form.html:27
 #: ckanext/ytp/templates/package/snippets/resource_form.html:62
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:269
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:271
 msgid "Abort"
 msgstr ""
 
@@ -2322,103 +2560,110 @@ msgid "Showcase submit"
 msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:13
-msgid "Submit a new application"
+msgid "Tell us about a showcase"
 msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:15
 msgid ""
-" Inform us about an application, web page or visualization that you'be "
-"created with the form below and we will add it to application gallery. "
+" Tell us about a showcase you have created or found, and we will add it to "
+"our showcase gallery within a few days. Fields marked with an asterisk (*) "
+"are required. "
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:51
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:20
+msgid "Showcase title"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:50
 msgid "Showcase information"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:54
-msgid "Datasets used in the application"
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:53
+msgid "Datasets used in the showcase"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:57
-msgid "Search for a dataset"
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:55
+msgid ""
+"Select which of the datasets found on opendata.fi were used in the showcase. "
+"Search for a dataset by typing its name in the field below."
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:70
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:59
+msgid " e.g. Most popular first names"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:72
 msgid "Platform"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:71
-msgid "e.g. android"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:88
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:90
 msgid "Application website"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:102
-msgid "Store urls"
-msgstr ""
-
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:113
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:115
 msgid "Name or organization of the author"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:127
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:129
 msgid "Author Website"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:139
-msgid "Submitter info"
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:141
+msgid "Submitter information"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:140
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:142
 msgid ""
-"Name or email of the submitter will not be published alongside the "
-"application. They can be used to contact the submitter in case additional "
-"information is required."
+"Your name or email address will not be published. The service admins might "
+"contact you via email if we need more information about the showcase."
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:145
-msgid "Name of the submitter"
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:147
+msgid "Submitter name"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:159
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:161
 msgid "Submitter email"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:172
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:174
 msgid "Showcase images"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:191
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:187
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:188
+msgid "Icon"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:193
 msgid " Icon will be shown at the top of the showcase page "
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:206
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:207
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:208
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:209
 msgid "Featured image"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:212
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:214
 msgid " Featured image will be shown on the cards in showcase list page. "
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:227
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:228
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:229
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:230
 msgid "Image 1"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:243
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:244
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:245
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:246
 msgid "Image 2"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:259
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:260
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:261
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:262
 msgid "Image 3"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:280
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:282
 msgid "Send submission"
 msgstr ""
 

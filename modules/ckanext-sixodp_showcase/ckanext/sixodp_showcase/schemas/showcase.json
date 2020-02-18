@@ -6,12 +6,12 @@
   "dataset_fields": [
     {
       "field_name": "title",
-      "label": "Title",
+      "label": "Name",
       "preset": "title",
-      "form_placeholder": "eg. A descriptive title",
+      "form_placeholder": "e.g. Most popular first names by region",
       "description": "",
       "required": true,
-      "group_title": "Showcase title",
+      "group_title": "Showcase name",
       "group_description": "* Required field"
     },
     {
@@ -19,24 +19,24 @@
       "label": "URL",
       "preset": "dataset_slug_ex",
       "form_placeholder": "eg. my-dataset",
-      "description": "An URL-address which refers to the dataset. The automatically filled option derived from the title is the best option in most cases.",
+      "description": "The showcase’s URL on opendata.fi. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.",
       "required": true
     },
     {
       "field_name": "notes_translated",
       "label": "Description",
       "preset": "fluent_core_markdown_translated",
-      "form_placeholder": "eg. A detailed description",
+      "form_placeholder": "Write a description for the showcase.",
       "form_languages": ["fi", "sv", "en"],
       "only_default_lang_required": true,
       "description": "",
       "group_title": "Showcase description",
-      "group_description": "An universal, compact and easy to understand description of the showcase."
+      "group_description": "A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase."
     },
     {
       "field_name": "keywords",
-      "label": "Tags",
-      "form_placeholder": "eg. traffic",
+      "label": "Keywords",
+      "form_placeholder": "e.g. names",
       "form_languages": ["fi", "sv", "en"],
       "preset": "fluent_vocabulary_with_autocomplete",
       "validators": "fluent_tags create_fluent_tags(keywords)",
@@ -47,7 +47,7 @@
       },
       "description": "",
       "group_title": "Keywords and categories",
-      "group_description": "Keywords or tags through which users are able to find this showcase easily through the search page or other showcases which have the same tag. Please pick at least one finnish keyword."
+      "group_description": "Keywords help users to find your showcase. Select at least one keyword in Finnish."
     },
     {
       "field_name": "category",
@@ -122,7 +122,7 @@
     {
       "field_name": "platform",
       "label": "Platform",
-      "form_placeholder": "eg. android",
+      "form_placeholder": "If you have created a mobile or desktop application, select which platforms it supports.",
       "preset": "vocabulary_with_autocomplete",
       "validators": "convert_to_list create_tags(platform)",
       "form_attrs": {
@@ -134,15 +134,15 @@
     },
     {
       "field_name": "application_website",
-      "label": "Application Website",
-      "form_placeholder": "Type in application website",
+      "label": "Showcase website",
+      "form_placeholder": "e.g. dvv.fi/showcase",
       "display_snippet": "link.html"
     },
     {
       "field_name": "store_urls",
       "preset": "repeating_text",
-      "label": "Links to stores",
-      "form_placeholder": "Type in URL",
+      "label": "Links to app stores",
+      "form_placeholder": "e.g. appstore.com/app",
       "form_blanks": 1,
       "display_snippet": "repeating_link.html",
       "form_snippet": "repeating.html",
@@ -154,25 +154,25 @@
     },
     {
       "field_name": "author",
-      "label": "Application developer",
-      "form_placeholder": "Joe Bloggs",
+      "label": "Developer",
+      "form_placeholder": "e.g. Digital and Population Data Services Agency",
       "required": true
     },
     {
       "field_name": "author_website",
-      "label": "Author Website",
-      "form_placeholder": "http://www.example.com",
+      "label": "Developer website",
+      "form_placeholder": "e.g. www.dvv.fi",
       "display_snippet": "link.html"
     },
     {
       "field_name": "icon",
-      "label": "Icon",
+      "label": "Logo",
       "preset": "showcase_url_upload",
-      "form_placeholder": "http://example.com/my-camel-photo.jpg",
+      "form_placeholder": "",
       "upload_field": "icon_upload",
       "upload_clear": "clear_icon_upload",
       "upload_label": "Icon",
-      "description": "Icon will be shown at the top of the showcase page.",
+      "description": "Logo will be shown at the top of the showcase page.",
       "group_title": "Showcase images",
       "group_description": "Images will be shown on the showcase page. You can upload images from your computer or link to an URL."
     },
@@ -190,7 +190,7 @@
       "upload_field": "featured_image_upload",
       "upload_clear": "clear_featured_image_upload",
       "upload_label": "Featured Image",
-      "description": "Featured image will be shown on the cards in showcase list page."
+      "description": "The featured image will be shown on the Showcases-page as well as on the showcase’s own page."
     },
     {
       "field_name": "image_1",
@@ -199,7 +199,8 @@
       "form_placeholder": "http://example.com/my-camel-photo.jpg",
       "upload_field": "image_1_upload",
       "upload_clear": "clear_image_1_upload",
-      "upload_label": "Image 1"
+      "upload_label": "Image 1",
+      "group_description": "Add max. 3 images of your showcase. Good images are for example those that show the user interface and features of the showcase."
     },
     {
       "field_name": "image_2",
