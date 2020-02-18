@@ -211,6 +211,8 @@ def _translations():
     _("e.g. www.dvv.fi")
     _("e.g. dvv.fi/showcase")
     _("e.g. appstore.com/app")
+    _("e.g. Jane Doe")
+    _("e.g. jane.doe@dvv.fi")
     _("Images will be shown on the showcase page. You can upload images from your computer or link to an URL.")
     _("Logo")
     _("Yes")
@@ -222,7 +224,7 @@ def _translations():
     _("Add max. 3 images of your showcase. Good images are for example those that show the user interface and features of the showcase.")  # noqa: E501
 
     # Dataset
-    _("Dataset name")
+    _("Dataset title")
     _("e.g. Finnish names")
     _("Give a short and descriptive name for the dataset.")
     _("The URL is created automatically based on the dataset title. You can edit the URL if you want.")
@@ -254,7 +256,7 @@ def _translations():
     _("Write a short and descriptive name for the data resource. If the data covers a specific time frame, mention that in the name.")  # noqa: E501
     _("e.g. Most popular Finnish first names 2019")
     _("Resource *")
-    _("Add the data resource by uploading a file or adding a link to the data.\\nSelect or drag the files here.\\nThe maximum file size is XX Mt. Valid data formats are pdf, jpg, jpeg, png, doc, docx, xls, xlsx, csv, ppt, pptx, odt, ods, txt.\\nLink: Add a link to the data.")  # noqa: E501
+    _("Add the data resource by uploading a file or adding a link to the data.<br>Select or drag the files here.<br>The maximum file size is 5 Gb. Valid data formats are pdf, jpg, jpeg, png, doc, docx, xls, xlsx, csv, ppt, pptx, odt, ods, txt.<br>Link: Add a link to the data.")  # noqa: E501
     _("Data resource description")
     _("Write a description for the resource")
     _("Describe the data clearly and concisely. Use as confining terms as possible to make it easier to find and understand the data.")  # noqa: E501
@@ -265,6 +267,7 @@ def _translations():
     _("If your data includes geographic information, specify the coordinate system it uses.")
     _("e.g. WGS84 (World Geodetic System 1984)")
     _("Select the time frame by which the data is separated. For example, does the resource include data from every week or month.")  # noqa: E501
+    _("e.g. a month")
     _("Time Frame")
     _("Start date")
     _("End date")

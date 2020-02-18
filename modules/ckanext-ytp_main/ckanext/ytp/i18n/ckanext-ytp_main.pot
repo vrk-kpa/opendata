@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-17 12:42+0000\n"
+"POT-Creation-Date: 2020-02-18 10:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1087,7 +1087,7 @@ msgstr ""
 msgid "Select one or more type that describes your showcase."
 msgstr ""
 
-#: ckanext/ytp/translations.py:203 ckanext/ytp/translations.py:233
+#: ckanext/ytp/translations.py:203 ckanext/ytp/translations.py:235
 msgid "Select at least one category."
 msgstr ""
 
@@ -1135,155 +1135,163 @@ msgstr ""
 msgid "e.g. appstore.com/app"
 msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:175
 #: ckanext/ytp/translations.py:214
+msgid "e.g. Jane Doe"
+msgstr ""
+
+#: ckanext/ytp/translations.py:215
+msgid "e.g. jane.doe@dvv.fi"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:175
+#: ckanext/ytp/translations.py:216
 msgid ""
 "Images will be shown on the showcase page. You can upload images from your "
 "computer or link to an URL."
 msgstr ""
 
-#: ckanext/ytp/translations.py:215
+#: ckanext/ytp/translations.py:217
 msgid "Logo"
 msgstr ""
 
-#: ckanext/ytp/translations.py:216
+#: ckanext/ytp/translations.py:218
 msgid "Yes"
 msgstr ""
 
-#: ckanext/ytp/translations.py:217
+#: ckanext/ytp/translations.py:219
 msgid "No"
 msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:91
-#: ckanext/ytp/translations.py:218
+#: ckanext/ytp/translations.py:220
 msgid "Type in application website"
 msgstr ""
 
-#: ckanext/ytp/translations.py:219
+#: ckanext/ytp/translations.py:221
 msgid "Type in URL"
 msgstr ""
 
-#: ckanext/ytp/translations.py:220
+#: ckanext/ytp/translations.py:222
 msgid "Logo will be shown at the top of the showcase page."
 msgstr ""
 
-#: ckanext/ytp/translations.py:221
+#: ckanext/ytp/translations.py:223
 msgid ""
 "The featured image will be shown on the Showcases-page as well as on the "
 "showcase’s own page."
 msgstr ""
 
-#: ckanext/ytp/translations.py:222
+#: ckanext/ytp/translations.py:224
 msgid ""
 "Add max. 3 images of your showcase. Good images are for example those that "
 "show the user interface and features of the showcase."
 msgstr ""
 
-#: ckanext/ytp/translations.py:225
-msgid "Dataset name"
-msgstr ""
-
-#: ckanext/ytp/translations.py:226
-msgid "e.g. Finnish names"
-msgstr ""
-
 #: ckanext/ytp/translations.py:227
-msgid "Give a short and descriptive name for the dataset."
+msgid "Dataset title"
 msgstr ""
 
 #: ckanext/ytp/translations.py:228
+msgid "e.g. Finnish names"
+msgstr ""
+
+#: ckanext/ytp/translations.py:229
+msgid "Give a short and descriptive name for the dataset."
+msgstr ""
+
+#: ckanext/ytp/translations.py:230
 msgid ""
 "The URL is created automatically based on the dataset title. You can edit the"
 " URL if you want."
 msgstr ""
 
-#: ckanext/ytp/translations.py:229
+#: ckanext/ytp/translations.py:231
 msgid "Dataset description"
 msgstr ""
 
-#: ckanext/ytp/translations.py:230
+#: ckanext/ytp/translations.py:232
 msgid "Write a description for the dataset."
 msgstr ""
 
-#: ckanext/ytp/translations.py:231
+#: ckanext/ytp/translations.py:233
 msgid ""
 "Describe the dataset’s contents, collection process, quality and  possible "
 "limits, flaws and applications in a comprehensible way. Use as confining "
 "terms as possible to make it easier to find and understand the data."
 msgstr ""
 
-#: ckanext/ytp/translations.py:232
+#: ckanext/ytp/translations.py:234
 msgid "Keywords help users to find your data. Select at least one keyword in Finnish."
 msgstr ""
 
-#: ckanext/ytp/translations.py:234
+#: ckanext/ytp/translations.py:236
 msgid "Dataset additional information"
 msgstr ""
 
-#: ckanext/ytp/translations.py:235
+#: ckanext/ytp/translations.py:237
 msgid "Dataset visibility"
 msgstr ""
 
-#: ckanext/ytp/translations.py:236
+#: ckanext/ytp/translations.py:238
 msgid ""
 "You can set the visibility to private temporarily for example if the dataset "
 "is missing some information. Private datasets are visible to all members of "
 "the producer-organisation."
 msgstr ""
 
-#: ckanext/ytp/translations.py:237
+#: ckanext/ytp/translations.py:239
 msgid ""
 "Select a license that suits your needs. We recommend using CC0 or CC BY 4 "
 "-licenses."
 msgstr ""
 
-#: ckanext/ytp/translations.py:238
+#: ckanext/ytp/translations.py:240
 msgid "More about the license"
 msgstr ""
 
-#: ckanext/ytp/translations.py:239
+#: ckanext/ytp/translations.py:241
 msgid ""
 "Describe how you want your organisation to be named when using CC BY 4 "
 "-license."
 msgstr ""
 
-#: ckanext/ytp/translations.py:240
+#: ckanext/ytp/translations.py:242
 msgid "e.g. Data was produced by Finnish Digital Agency"
 msgstr ""
 
-#: ckanext/ytp/translations.py:241
+#: ckanext/ytp/translations.py:243
 msgid "Select which municipalities/cities the data covers."
 msgstr ""
 
-#: ckanext/ytp/translations.py:242
+#: ckanext/ytp/translations.py:244
 msgid "e.g. Tampere"
 msgstr ""
 
-#: ckanext/ytp/translations.py:243
+#: ckanext/ytp/translations.py:245
 msgid "Describe how often your data is updated"
 msgstr ""
 
-#: ckanext/ytp/translations.py:244
+#: ckanext/ytp/translations.py:246
 msgid "e.g. monthly"
 msgstr ""
 
-#: ckanext/ytp/translations.py:245
+#: ckanext/ytp/translations.py:247
 msgid "Add links to one or more websites with additional information about the data."
 msgstr ""
 
-#: ckanext/ytp/translations.py:246
+#: ckanext/ytp/translations.py:248
 msgid "Select the dataset publisher (organisation)."
 msgstr ""
 
-#: ckanext/ytp/translations.py:247
+#: ckanext/ytp/translations.py:249
 msgid "Dataset producer and maintainer"
 msgstr ""
 
-#: ckanext/ytp/translations.py:248
+#: ckanext/ytp/translations.py:250
 msgid "Dataset maintainer"
 msgstr ""
 
-#: ckanext/ytp/translations.py:249
+#: ckanext/ytp/translations.py:251
 msgid ""
 "The dataset maintainer will receive updates about the dataset to the email "
 "address specified in this form. We recommend using a general email address "
@@ -1292,93 +1300,97 @@ msgid ""
 "Admin-rights in the publishing organisation."
 msgstr ""
 
-#: ckanext/ytp/translations.py:250
+#: ckanext/ytp/translations.py:252
 msgid "e.g. avoindata@dvv.fi"
 msgstr ""
 
-#: ckanext/ytp/translations.py:253
+#: ckanext/ytp/translations.py:255
 msgid "Data resource title"
 msgstr ""
 
-#: ckanext/ytp/translations.py:254
+#: ckanext/ytp/translations.py:256
 msgid ""
 "Write a short and descriptive name for the data resource. If the data covers "
 "a specific time frame, mention that in the name."
 msgstr ""
 
-#: ckanext/ytp/translations.py:255
+#: ckanext/ytp/translations.py:257
 msgid "e.g. Most popular Finnish first names 2019"
 msgstr ""
 
-#: ckanext/ytp/translations.py:256
+#: ckanext/ytp/translations.py:258
 msgid "Resource *"
 msgstr ""
 
-#: ckanext/ytp/translations.py:257
+#: ckanext/ytp/translations.py:259
 msgid ""
 "Add the data resource by uploading a file or adding a link to the "
-"data.\\nSelect or drag the files here.\\nThe maximum file size is XX Mt. "
+"data.<br>Select or drag the files here.<br>The maximum file size is 5 Gb. "
 "Valid data formats are pdf, jpg, jpeg, png, doc, docx, xls, xlsx, csv, ppt, "
-"pptx, odt, ods, txt.\\nLink: Add a link to the data."
-msgstr ""
-
-#: ckanext/ytp/translations.py:258
-msgid "Data resource description"
-msgstr ""
-
-#: ckanext/ytp/translations.py:259
-msgid "Write a description for the resource"
+"pptx, odt, ods, txt.<br>Link: Add a link to the data."
 msgstr ""
 
 #: ckanext/ytp/translations.py:260
+msgid "Data resource description"
+msgstr ""
+
+#: ckanext/ytp/translations.py:261
+msgid "Write a description for the resource"
+msgstr ""
+
+#: ckanext/ytp/translations.py:262
 msgid ""
 "Describe the data clearly and concisely. Use as confining terms as possible "
 "to make it easier to find and understand the data."
 msgstr ""
 
-#: ckanext/ytp/translations.py:261
+#: ckanext/ytp/translations.py:263
 msgid "Additional information"
 msgstr ""
 
-#: ckanext/ytp/translations.py:262
+#: ckanext/ytp/translations.py:264
 msgid "Data status"
 msgstr ""
 
-#: ckanext/ytp/translations.py:263
+#: ckanext/ytp/translations.py:265
 msgid ""
 "Define a state for the data. This is recommended especially if your dataset "
 "has data resources from multiple years."
 msgstr ""
 
-#: ckanext/ytp/translations.py:264
+#: ckanext/ytp/translations.py:266
 msgid "Coordinate system"
 msgstr ""
 
-#: ckanext/ytp/translations.py:265
+#: ckanext/ytp/translations.py:267
 msgid ""
 "If your data includes geographic information, specify the coordinate system "
 "it uses."
 msgstr ""
 
-#: ckanext/ytp/translations.py:266
+#: ckanext/ytp/translations.py:268
 msgid "e.g. WGS84 (World Geodetic System 1984)"
 msgstr ""
 
-#: ckanext/ytp/translations.py:267
+#: ckanext/ytp/translations.py:269
 msgid ""
 "Select the time frame by which the data is separated. For example, does the "
 "resource include data from every week or month."
 msgstr ""
 
-#: ckanext/ytp/translations.py:268
+#: ckanext/ytp/translations.py:270
+msgid "e.g. a month"
+msgstr ""
+
+#: ckanext/ytp/translations.py:271
 msgid "Time Frame"
 msgstr ""
 
-#: ckanext/ytp/translations.py:269
+#: ckanext/ytp/translations.py:272
 msgid "Start date"
 msgstr ""
 
-#: ckanext/ytp/translations.py:270
+#: ckanext/ytp/translations.py:273
 msgid "End date"
 msgstr ""
 

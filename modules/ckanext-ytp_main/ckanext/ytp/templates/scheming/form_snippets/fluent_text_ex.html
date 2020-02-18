@@ -1,6 +1,11 @@
 {% import 'macros/form.html' as form %}
 
 <div class="form-group-fluent">
+  {% if field.description and field.description.strip() %}
+  <div class="field-assistive-text">
+      {{ _(field.description) }}
+  </div>
+  {% endif %}
   {%- for lang in h.fluent_form_languages(field, entity_type, object_type, schema) -%}
     {% call form.input(
       field.field_name + '-' + lang,
@@ -22,8 +27,3 @@
     {% endcall %}
   {%- endfor -%}
 </div>
-{% if field.description and field.description.strip() %}
-<div class="field-assistive-text">
-    {{ _(field.description) }}
-</div>
-{% endif %}

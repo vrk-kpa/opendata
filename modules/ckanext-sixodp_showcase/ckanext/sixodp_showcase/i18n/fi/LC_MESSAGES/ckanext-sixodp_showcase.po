@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-29 13:45+0000\n"
+"POT-Creation-Date: 2020-02-18 11:06+0000\n"
 "PO-Revision-Date: 2018-03-14 11:02+0000\n"
 "Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -302,7 +302,6 @@ msgstr "Muokkaa"
 
 #: ckanext/sixodp_showcase/templates/showcase/edit_base.html:17
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:21
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:5
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:63
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:15
 msgid "Create Showcase"
@@ -407,13 +406,10 @@ msgstr "Näytä sivu"
 msgid "Search showcases..."
 msgstr "Etsi käyttösovelluksia..."
 
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:5
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:10
-msgid "Create a Showcase"
-msgstr "Luo sovellus"
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:11
-msgid "new-showcase-page-description"
-msgstr ""
+msgid "Create new showcase"
+msgstr "Luo uusi sovellus"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:15
 msgid "Title"

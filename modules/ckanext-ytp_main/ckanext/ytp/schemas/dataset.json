@@ -276,7 +276,7 @@
       "description": "",
       "required": true,
       "group_title": "Resource *",
-      "group_description": "Add the data resource by uploading a file or adding a link to the data.\\nSelect or drag the files here.\\nThe maximum file size is XX Mt. Valid data formats are pdf, jpg, jpeg, png, doc, docx, xls, xlsx, csv, ppt, pptx, odt, ods, txt.\\nLink: Add a link to the data."
+      "group_description": "Add the data resource by uploading a file or adding a link to the data.<br>Select or drag the files here.<br>The maximum file size is 5 Gb. Valid data formats are pdf, jpg, jpeg, png, doc, docx, xls, xlsx, csv, ppt, pptx, odt, ods, txt.<br>Link: Add a link to the data."
     },
     {
       "field_name": "size",
