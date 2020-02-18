@@ -311,13 +311,14 @@ def apply_group_assigns(group_packages_map):
                     print e
 
 
-def package_generator(query, page_size, context={'ignore_auth': True}):
+def package_generator(query, page_size, context={'ignore_auth': True}, dataset_type='dataset'):
     package_search = get_action('package_search')
 
     # Loop through all items. Each page has {page_size} items.
     # Stop iteration when all items have been looped.
     for index in itertools.count(start=0, step=page_size):
-        data_dict = {'include_private': True, 'rows': page_size, 'q': query, 'start': index}
+        data_dict = {'include_private': True, 'rows': page_size, 'q': query, 'start': index,
+                     'fq': '+dataset_type:' + dataset_type}
         data = package_search(context, data_dict)
         packages = data.get('results', [])
         for package in packages:
@@ -661,3 +662,43 @@ def _pretty_time(t):
         return '%d months ago' % int(delta.days / 30)
     else:
         return '%d years ago' % int(delta.days / 365)
+
+
+ytp_showcase_group = paster_click_group(
+    summary=u'Showcase related commands.'
+)
+
+
+@ytp_showcase_group.command(
+    u'migrate_title_to_title_translated',
+    help=u'Migrates old schema title to the new multi-lang title'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def migrate_title_to_title_translated(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+
+    showcase_patches = []
+
+    for old_showcase_dict in package_generator('*:*', 1000, dataset_type='showcase'):
+
+        if 'title_translated' in old_showcase_dict:
+            continue
+
+        title = old_showcase_dict.get('title')
+
+        patch = {
+            'id': old_showcase_dict['id'],
+            'title_translated': {
+                'fi': title
+            }
+        }
+
+        showcase_patches.append(patch)
+
+    if dryrun:
+        print '\n'.join('%s' % p for p in showcase_patches)
+    else:
+        # No resource patches so empty parameter is passed
+        apply_patches(showcase_patches, [])
