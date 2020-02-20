@@ -74,7 +74,7 @@
     name: "Send broken link email"
     minute: "0"
     hour: "10"
-    weekday: "2"
+    day: "1"
     job: >-
       {{ ckan_virtual_environment }}/bin/paster
       --plugin=ckanext-archiver archiver send_broken_link_notification
