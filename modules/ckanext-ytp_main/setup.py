@@ -50,7 +50,6 @@ setup(
         ytp-facet-translations = ckanext.ytp.commands:YtpFacetTranslations
         ytp-dataset = ckanext.ytp.commands:ytp_dataset_group
         ytp-organization = ckanext.ytp.commands:ytp_org_group
-        ytp-showcase = ckanext.ytp.commands:ytp_showcase_group
         opendata-group = ckanext.ytp.commands:opendata_group
         opendata-harvest = ckanext.ytp.commands:opendata_harvest_group
 
