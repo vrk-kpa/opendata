@@ -25,7 +25,7 @@ describe('Showcase tests', function() {
       '#s2id_autogen3': 'test {enter}',
       '#s2id_autogen4': 'test {enter}',
       '#s2id_autogen6': 'test {enter}',
-      '#s2id_autogen7': 'test {enter}',
+      '#s2id_autogen7': 'android{enter}',
       '#field-author': 'test {enter}',
       '#field-author_website': 'www.example.com',
       '#field-application_website': 'www.example.com',
