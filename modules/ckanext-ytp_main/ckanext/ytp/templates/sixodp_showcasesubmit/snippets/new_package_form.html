@@ -66,11 +66,11 @@
         data-module-label="title">
     </div>
 
-    {% call form.input(
+    {% call scheming_form.input(
       'platform',
       id='field-platform',
       label=_('Platform'),
-      placeholder=_('If you have created a mobile or desktop application, select which platforms it supports.'),
+      description=_('If you have created a mobile or desktop application, select which platforms it supports.'),
       value=data['platform'],
       error=errors['platform'],
       classes=['control-full ytp-select2'],
