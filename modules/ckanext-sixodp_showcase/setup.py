@@ -82,6 +82,9 @@ setup(
         [ckan.plugins]
         sixodp_showcase=ckanext.sixodp_showcase.plugin:Sixodp_ShowcasePlugin
 
+        [paste.paster_command]
+        sixodp_showcase = ckanext.sixodp_showcase.commands:sixodp_showcase_group
+
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan
     ''',

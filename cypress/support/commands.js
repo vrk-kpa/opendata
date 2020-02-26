@@ -212,7 +212,7 @@ Cypress.Commands.add('create_new_showcase', (showcase_name, showcase_form_data) 
   // Default values for showcase
   if (!showcase_form_data) {
     showcase_form_data = {
-      "#field-title": showcase_name,
+      "#field-title_translated-fi": showcase_name,
       '#field-notes_translated-fi': 'Dataset test description',
       '#s2id_autogen1': 'test_keyword {enter}',
       '#field-author': 'test author'
@@ -258,7 +258,7 @@ Cypress.Commands.add('edit_showcase', (showcase_name, showcase_form_data) => {
 
   if (!showcase_form_data) {
     showcase_form_data = {
-      "#field-title": 'edit',
+      "#field-title_translated-fi": 'edit',
     }
   }
   cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).first().click();

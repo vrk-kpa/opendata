@@ -19,7 +19,7 @@ describe('Showcase tests', function() {
     cy.add_showcase_user();
     const showcase_name = 'test_showcase_with_all_fields';
     const showcase_form_data = {
-      '#field-title': showcase_name,
+      '#field-title_translated-fi': showcase_name,
       '#s2id_autogen1': 'test {enter}',
       '#s2id_autogen2': 'test {enter}',
       '#s2id_autogen3': 'test {enter}',
@@ -107,5 +107,5 @@ describe('Showcase tests', function() {
     cy.get('button[name=save]').click();
     cy.get('.error-explanation');
   });
-  
+
 });
