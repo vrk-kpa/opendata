@@ -124,14 +124,11 @@
       "field_name": "platform",
       "label": "Platform",
       "form_placeholder": "If you have created a mobile or desktop application, select which platforms it supports.",
-      "preset": "vocabulary_with_autocomplete",
-      "validators": "convert_to_list create_tags(platform)",
-      "form_attrs": {
-        "data-module": "autocomplete",
-        "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=platform"
-      },
-      "description": ""
+      "validators": "empty_string_if_value_missing list_to_string",
+      "output_validators": "string_to_list",
+      "description": "",
+      "form_snippet": "select_preset_options.html",
+      "vocabulary": "platform"
     },
     {
       "field_name": "application_website",

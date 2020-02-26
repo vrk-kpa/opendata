@@ -143,7 +143,9 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
             'facet_remove_field': showcase_helpers.facet_remove_field,
             'get_site_statistics': showcase_helpers.get_site_statistics,
             'get_featured_showcases': helpers.get_featured_showcases,
-            'get_showcases_by_author': helpers.get_showcases_by_author
+            'get_showcases_by_author': helpers.get_showcases_by_author,
+            'get_vocabulary': helpers.get_vocabulary,
+            'translate_list_items': helpers.translate_list_items
         }
 
     def _add_image_urls(self, pkg_dict):
@@ -195,7 +197,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
     def before_index(self, data_dict):
 
         if data_dict.get('platform'):
-            data_dict['vocab_platform'] = [tag for tag in json.loads(data_dict['platform'])]
+            data_dict['vocab_platform'] = [tag for tag in data_dict['platform'].split(",")]
 
         vocabs = ['category', 'keywords']
         languages = ['fi', 'sv', 'en']

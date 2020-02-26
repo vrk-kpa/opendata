@@ -44,3 +44,24 @@ def get_showcases_by_author(author, limit, exclude_id):
     query = get_action('package_search')(context, data_dict)
 
     return query['results']
+
+
+def get_vocabulary(vocab_id):
+    context = {'model': model, 'user': c.user, 'auth_user_obj': c.userobj}
+
+    data_dict = {
+        'id': vocab_id
+    }
+
+    results = get_action('vocabulary_show')(context, data_dict)
+
+    return results
+
+
+def translate_list_items(old_list):
+    translated_list = []
+    for item in old_list:
+        print item
+        translated_list.append(tk._(item))
+    print translated_list
+    return translated_list

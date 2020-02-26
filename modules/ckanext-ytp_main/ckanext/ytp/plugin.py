@@ -515,6 +515,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'ignore_if_invalid_isodatetime': validators.ignore_if_invalid_isodatetime,
             'keep_old_value_if_missing': validators.keep_old_value_if_missing,
             'list_to_string': validators.list_to_string,
+            'string_to_list': validators.string_to_list,
             'lower_if_exists': validators.lower_if_exists,
             'only_default_lang_required': validators.only_default_lang_required,
             'override_field_with_default_translation': validators.override_field_with_default_translation,
@@ -527,7 +528,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'upper_if_exists': validators.upper_if_exists,
             'admin_only_field': validators.admin_only_field,
             'use_url_for_name_if_left_empty': validators.use_url_for_name_if_left_empty,
-            'convert_to_json_compatible_str_if_str': validators.convert_to_json_compatible_str_if_str
+            'convert_to_json_compatible_str_if_str': validators.convert_to_json_compatible_str_if_str,
+            'empty_string_if_value_missing': validators.empty_string_if_value_missing
         }
 
     def get_blueprint(self):
