@@ -13,7 +13,7 @@
   {% set selected_tags = data.get(field.field_name, []) %}
   <select class="ytp-badges" multiple id="{{"field-" + field.field_name}}" name="{{field.field_name}}" data-module="autocomplete" placeholder="{{_(field.form_placeholder)}}">
     {% for tag in tags %}
-      <option value="{{ tag.name }}" {% if tag.name in selected_tags %} selected="selected"{% endif %}>{{ tag.display_name }}</option>
+      <option value="{{ tag.name }}" {% if tag.name in selected_tags %} selected="selected"{% endif %}>{{ _(tag.display_name) }}</option>
     {% endfor %}
   </select>
   </div>

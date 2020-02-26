@@ -144,7 +144,8 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
             'get_site_statistics': showcase_helpers.get_site_statistics,
             'get_featured_showcases': helpers.get_featured_showcases,
             'get_showcases_by_author': helpers.get_showcases_by_author,
-            'get_vocabulary': helpers.get_vocabulary
+            'get_vocabulary': helpers.get_vocabulary,
+            'translate_list_items': helpers.translate_list_items
         }
 
     def _add_image_urls(self, pkg_dict):
