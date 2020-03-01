@@ -10,6 +10,7 @@ fieldset.checkboxes label input {
     top: 0;
 }
 </style>
+
 {% if tmpl_context.action == 'edit' %}
   {% set category_url = h.url_for('dataset_groups', id=data['name']) %}
   <label class="control-label" for="field-{{ field.field_name }}">{{ h.scheming_language_text(field.label) }}</label>
@@ -26,7 +27,7 @@ fieldset.checkboxes label input {
         {%- set choices = [] -%}
         {%- for c in h.scheming_field_choices(field) -%}
             {%- do choices.append(
-            (c.value, h.scheming_language_text(c.label))) -%}
+            (c.value, h.get_translation(c.label))) -%}
         {%- endfor -%}
         <fieldset class="checkboxes">
             {%- for val, label in choices -%}

@@ -47,7 +47,7 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, \
     get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
     sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, \
-    get_lang_prefix, call_toolkit_function, get_translated, dataset_display_name, resource_display_name, \
+    get_lang_prefix, call_toolkit_function, get_translation, get_translated, dataset_display_name, resource_display_name, \
     get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
     get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
     get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin
@@ -420,6 +420,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'scheming_language_text_or_empty': scheming_language_text_or_empty,
                 'get_lang_prefix': get_lang_prefix,
                 'call_toolkit_function': call_toolkit_function,
+                'get_translation': get_translation,
                 'get_translated': get_translated,
                 'dataset_display_name': dataset_display_name,
                 'group_title_by_id': group_title_by_id,
