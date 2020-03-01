@@ -495,7 +495,7 @@ def scheming_category_list(args):
 
             category_list.append({
                 "value": group,
-                "label": group_details.get('title')
+                "label": group_details.get('title_translated')
             })
 
     return category_list

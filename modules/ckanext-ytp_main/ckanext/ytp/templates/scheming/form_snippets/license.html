@@ -11,11 +11,14 @@
 {%- if field.get('sorted_choices', true) -%}
     {%- set licenses = licenses|sort -%}
 {%- endif -%}
+
+{# Change 'text': from license_desc to license_id and retranslate.
+   h.license_options() returns license_desc pre-translated so the translations are always in default language regardless of the language in the context #}
 {%- for license_id, license_desc in licenses -%}
     {%- if license_id or not h.scheming_field_required(field) -%}
         {%- do options.append({
             'value': license_id,
-            'text': _(license_desc)}) -%}
+            'text': _(license_id)}) -%}
     {%- endif -%}
 {%- endfor -%}
 

@@ -8,10 +8,10 @@
 # Pentti Laitinen, 2018
 # Teemu Leivo <teemu.leivo@gofore.com>, 2019
 # Aaron Hakala <aaron.hakala@gofore.com>, 2019
-# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2020
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2020
 # Meeri Hakala <meeri.hakala@vrk.fi>, 2020
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
 # Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020
 # 
 #, fuzzy
@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-18 10:50+0000\n"
+"POT-Creation-Date: 2020-02-25 13:08+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -1121,6 +1121,10 @@ msgid "Keywords and categories"
 msgstr "Avainsanat ja kategoriat"
 
 #: ckanext/ytp/translations.py:199
+msgid "Keywords"
+msgstr "Avainsanat"
+
+#: ckanext/ytp/translations.py:200
 msgid ""
 "Keywords help users to find your showcase. Select at least one keyword in "
 "Finnish."
@@ -1128,28 +1132,28 @@ msgstr ""
 "Avainsanat helpottavat sovelluksesi löytämistä. Valitse vähintään yksi "
 "suomenkielinen avainsana."
 
-#: ckanext/ytp/translations.py:200
+#: ckanext/ytp/translations.py:201
 msgid "e.g. names"
 msgstr "esim. nimet"
 
-#: ckanext/ytp/translations.py:201
+#: ckanext/ytp/translations.py:202
 msgid "Showcase type"
 msgstr "Sovelluksen tyyppi"
 
-#: ckanext/ytp/translations.py:202
+#: ckanext/ytp/translations.py:203
 msgid "Select one or more type that describes your showcase."
 msgstr "Valitse listasta yksi tai useampi sovellusta kuvaava tyyppi."
 
-#: ckanext/ytp/translations.py:203 ckanext/ytp/translations.py:235
+#: ckanext/ytp/translations.py:204 ckanext/ytp/translations.py:237
 msgid "Select at least one category."
 msgstr "Valitse listasta yksi tai useampi sovellusta kuvaava kategoria."
 
-#: ckanext/ytp/translations.py:204
+#: ckanext/ytp/translations.py:205
 msgid "Additional showcase information"
 msgstr "Sovelluksen muut tiedot"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:73
-#: ckanext/ytp/translations.py:205
+#: ckanext/ytp/translations.py:206
 msgid ""
 "If you have created a mobile or desktop application, select which platforms "
 "it supports."
@@ -1157,49 +1161,50 @@ msgstr ""
 "Jos olet luonut mobiili- tai työpöytäsovelluksen, valitse millä alustalla "
 "sovelluksesi toimii. "
 
-#: ckanext/ytp/translations.py:206
+#: ckanext/ytp/translations.py:207
 msgid "Showcase website"
 msgstr "Sovelluksen verkkosivu"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:104
-#: ckanext/ytp/translations.py:207
+#: ckanext/ytp/translations.py:208
 msgid "Links to app stores"
 msgstr "Linkit sovelluskauppoihin"
 
-#: ckanext/ytp/translations.py:208
+#: ckanext/ytp/translations.py:209
 msgid "Developer"
 msgstr "Sovelluksen kehittäjä"
 
-#: ckanext/ytp/translations.py:209
+#: ckanext/ytp/translations.py:210
 msgid "e.g. Digital and Population Data Services Agency"
 msgstr "esim. Digi- ja väestötietovirasto"
 
-#: ckanext/ytp/translations.py:210
+#: ckanext/ytp/translations.py:211
 msgid "Developer website"
 msgstr "Kehittäjän verkkosivu"
 
-#: ckanext/ytp/translations.py:211
+#: ckanext/ytp/translations.py:212
 msgid "e.g. www.dvv.fi"
 msgstr "esim. www.dvv.fi"
 
-#: ckanext/ytp/translations.py:212
+#: ckanext/ytp/translations.py:213
 msgid "e.g. dvv.fi/showcase"
 msgstr "esim. dvv.fi/sovellus"
 
-#: ckanext/ytp/translations.py:213
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:106
+#: ckanext/ytp/translations.py:214
 msgid "e.g. appstore.com/app"
 msgstr "esim. sovelluskauppa.com/sovellus"
 
-#: ckanext/ytp/translations.py:214
-msgid "e.g. Jane Doe"
-msgstr ""
-
 #: ckanext/ytp/translations.py:215
+msgid "e.g. Jane Doe"
+msgstr "esim. Maija Mehiläinen"
+
+#: ckanext/ytp/translations.py:216
 msgid "e.g. jane.doe@dvv.fi"
-msgstr ""
+msgstr "esim. maija.mehilainen@dvv.fi"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:175
-#: ckanext/ytp/translations.py:216
+#: ckanext/ytp/translations.py:217
 msgid ""
 "Images will be shown on the showcase page. You can upload images from your "
 "computer or link to an URL."
@@ -1207,32 +1212,32 @@ msgstr ""
 "Kuvat tullaan esittämään sovelluksen esittelysivulla. Voit ladata tiedostot "
 "tietokoneelta tai lisätä linkin kuvaan."
 
-#: ckanext/ytp/translations.py:217
+#: ckanext/ytp/translations.py:218
 msgid "Logo"
 msgstr "Logo"
 
-#: ckanext/ytp/translations.py:218
+#: ckanext/ytp/translations.py:219
 msgid "Yes"
 msgstr "Kyllä"
 
-#: ckanext/ytp/translations.py:219
+#: ckanext/ytp/translations.py:220
 msgid "No"
 msgstr "Ei"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:91
-#: ckanext/ytp/translations.py:220
+#: ckanext/ytp/translations.py:221
 msgid "Type in application website"
 msgstr "Kirjoita sovelluksen verkkosivu"
 
-#: ckanext/ytp/translations.py:221
+#: ckanext/ytp/translations.py:222
 msgid "Type in URL"
 msgstr "Kirjoita linkki"
 
-#: ckanext/ytp/translations.py:222
-msgid "Logo will be shown at the top of the showcase page."
-msgstr ""
-
 #: ckanext/ytp/translations.py:223
+msgid "Logo will be shown at the top of the showcase page."
+msgstr "Logo näytetään sovelluksen esittelysivun ylänurkassa."
+
+#: ckanext/ytp/translations.py:224
 msgid ""
 "The featured image will be shown on the Showcases-page as well as on the "
 "showcase’s own page."
@@ -1240,7 +1245,7 @@ msgstr ""
 "Esittelykuva näkyy Käyttösovellukset-sivulla sovelluksen kuvana sekä "
 "sovelluksen omalla sivulla."
 
-#: ckanext/ytp/translations.py:224
+#: ckanext/ytp/translations.py:225
 msgid ""
 "Add max. 3 images of your showcase. Good images are for example those that "
 "show the user interface and features of the showcase."
@@ -1248,19 +1253,19 @@ msgstr ""
 "Lisää enintään 3 kuvaa käyttösovelluksesta. Hyviä kuvia ovat esimerkiksi "
 "sellaiset, joista näkee sovelluksen käyttöliittymää ja ominaisuuksia."
 
-#: ckanext/ytp/translations.py:227
+#: ckanext/ytp/translations.py:228
 msgid "Dataset title"
 msgstr "Tietoaineiston nimi"
 
-#: ckanext/ytp/translations.py:228
+#: ckanext/ytp/translations.py:229
 msgid "e.g. Finnish names"
 msgstr "esim. Suomalaiset nimiaineistot"
 
-#: ckanext/ytp/translations.py:229
+#: ckanext/ytp/translations.py:230
 msgid "Give a short and descriptive name for the dataset."
 msgstr "Kirjoita lyhyt ja kuvaava nimi tietoaineistolle."
 
-#: ckanext/ytp/translations.py:230
+#: ckanext/ytp/translations.py:231
 msgid ""
 "The URL is created automatically based on the dataset title. You can edit "
 "the URL if you want."
@@ -1268,15 +1273,24 @@ msgstr ""
 "Verkko-osoite luodaan automaattisesti nimen perusteella. Voit halutessasi "
 "muokata osoitetta."
 
-#: ckanext/ytp/translations.py:231
+#: ckanext/ytp/translations.py:232
+msgid ""
+"Give a short and descriptive name for the dataset.<br><br>The URL is created"
+" automatically based on the dataset title. You can edit the URL if you want."
+msgstr ""
+"Kirjoita lyhyt ja kuvaava nimi tietoaineistolle.<br><br>Verkko-osoite "
+"luodaan automaattisesti nimen perusteella. Voit halutessasi muokata "
+"osoitetta."
+
+#: ckanext/ytp/translations.py:233
 msgid "Dataset description"
 msgstr "Tietoaineiston kuvaus"
 
-#: ckanext/ytp/translations.py:232
+#: ckanext/ytp/translations.py:234
 msgid "Write a description for the dataset."
 msgstr "Kirjoita kuvaus tietoaineistolle"
 
-#: ckanext/ytp/translations.py:233
+#: ckanext/ytp/translations.py:235
 msgid ""
 "Describe the dataset’s contents, collection process, quality and  possible "
 "limits, flaws and applications in a comprehensible way. Use as confining "
@@ -1287,7 +1301,7 @@ msgstr ""
 "rajoitteista ja puutteista. Käytä mahdollisimman rajaavia termejä "
 "helpottamaan tietoaineiston löytämistä ja sisällön ymmärtämistä."
 
-#: ckanext/ytp/translations.py:234
+#: ckanext/ytp/translations.py:236
 msgid ""
 "Keywords help users to find your data. Select at least one keyword in "
 "Finnish."
@@ -1295,15 +1309,15 @@ msgstr ""
 "Avainsanat helpottavat datan löytämistä. Valitse vähintään yksi "
 "suomenkielinen avainsana."
 
-#: ckanext/ytp/translations.py:236
+#: ckanext/ytp/translations.py:238
 msgid "Dataset additional information"
 msgstr "Tietoaineiston muut tiedot"
 
-#: ckanext/ytp/translations.py:237
+#: ckanext/ytp/translations.py:239
 msgid "Dataset visibility"
 msgstr "Tietoaineiston näkyvyys"
 
-#: ckanext/ytp/translations.py:238
+#: ckanext/ytp/translations.py:240
 msgid ""
 "You can set the visibility to private temporarily for example if the dataset"
 " is missing some information. Private datasets are visible to all members of"
@@ -1313,17 +1327,17 @@ msgstr ""
 "esimerkiksi puutteellisten tietojen vuoksi. Yksityiset tietoaineistot "
 "näkyvät kaikille saman tuottajaorganisaation kirjautuneille jäsenille."
 
-#: ckanext/ytp/translations.py:239
+#: ckanext/ytp/translations.py:241
 msgid ""
 "Select a license that suits your needs. We recommend using CC0 or CC BY 4 "
 "-licenses."
 msgstr "Valitse sopiva lisenssi. Suosittelemme CC0 tai CC BY 4 -lisenssejä."
 
-#: ckanext/ytp/translations.py:240
+#: ckanext/ytp/translations.py:242
 msgid "More about the license"
 msgstr "Lisätietoa lisenssistä"
 
-#: ckanext/ytp/translations.py:241
+#: ckanext/ytp/translations.py:243
 msgid ""
 "Describe how you want your organisation to be named when using CC BY 4 "
 "-license."
@@ -1331,46 +1345,46 @@ msgstr ""
 "Kerro miten haluat, että organisaatiosi nimetään, kun CC BY 4 -lisensoitua "
 "dataasi käytetään johonkin."
 
-#: ckanext/ytp/translations.py:242
+#: ckanext/ytp/translations.py:244
 msgid "e.g. Data was produced by Finnish Digital Agency"
 msgstr "esim. Datan on tuottanut Digi- ja väestötietovirasto"
 
-#: ckanext/ytp/translations.py:243
+#: ckanext/ytp/translations.py:245
 msgid "Select which municipalities/cities the data covers."
 msgstr "Valitse kunnat, joita tietoaineisto koskee."
 
-#: ckanext/ytp/translations.py:244
+#: ckanext/ytp/translations.py:246
 msgid "e.g. Tampere"
 msgstr "esim. Tampere"
 
-#: ckanext/ytp/translations.py:245
+#: ckanext/ytp/translations.py:247
 msgid "Describe how often your data is updated"
 msgstr "Kerro kuinka usein tietoaineistoa päivitetään."
 
-#: ckanext/ytp/translations.py:246
+#: ckanext/ytp/translations.py:248
 msgid "e.g. monthly"
 msgstr "esim. kuukausittain"
 
-#: ckanext/ytp/translations.py:247
+#: ckanext/ytp/translations.py:249
 msgid ""
 "Add links to one or more websites with additional information about the "
 "data."
 msgstr ""
 "Lisää yksi tai useampi verkkosivu, jotka antavat lisätietoa aineistosta."
 
-#: ckanext/ytp/translations.py:248
+#: ckanext/ytp/translations.py:250
 msgid "Select the dataset publisher (organisation)."
 msgstr "Valitse tietoaineiston omistava tuottaja (organisaatio)."
 
-#: ckanext/ytp/translations.py:249
+#: ckanext/ytp/translations.py:251
 msgid "Dataset producer and maintainer"
 msgstr "Tietoaineiston tuottaja ja ylläpitäjä"
 
-#: ckanext/ytp/translations.py:250
+#: ckanext/ytp/translations.py:252
 msgid "Dataset maintainer"
 msgstr "Tietoaineiston ylläpitäjä"
 
-#: ckanext/ytp/translations.py:251
+#: ckanext/ytp/translations.py:253
 msgid ""
 "The dataset maintainer will receive updates about the dataset to the email "
 "address specified in this form. We recommend using a general email address "
@@ -1385,15 +1399,15 @@ msgstr ""
 "käyttäjät, joilla on Muokkaaja- tai Ylläpitäjä-oikeudet kyseisessä "
 "organisaatiossa."
 
-#: ckanext/ytp/translations.py:252
+#: ckanext/ytp/translations.py:254
 msgid "e.g. avoindata@dvv.fi"
 msgstr "esim. avoindata@dvv.fi"
 
-#: ckanext/ytp/translations.py:255
+#: ckanext/ytp/translations.py:257
 msgid "Data resource title"
 msgstr "Data-aineiston nimi"
 
-#: ckanext/ytp/translations.py:256
+#: ckanext/ytp/translations.py:258
 msgid ""
 "Write a short and descriptive name for the data resource. If the data covers"
 " a specific time frame, mention that in the name."
@@ -1401,36 +1415,36 @@ msgstr ""
 "Kirjoita lyhyt ja kuvaava nimi data-aineistolle. Jos data kattaa vain tietyn"
 " aikavälin, mainitse se nimessä."
 
-#: ckanext/ytp/translations.py:257
+#: ckanext/ytp/translations.py:259
 msgid "e.g. Most popular Finnish first names 2019"
 msgstr "esim. Suosituimmat suomalaiset etunimet 2019"
 
-#: ckanext/ytp/translations.py:258
+#: ckanext/ytp/translations.py:260
 msgid "Resource *"
 msgstr "Data-aineisto *"
 
-#: ckanext/ytp/translations.py:259
+#: ckanext/ytp/translations.py:261
 msgid ""
 "Add the data resource by uploading a file or adding a link to the "
 "data.<br>Select or drag the files here.<br>The maximum file size is 5 Gb. "
 "Valid data formats are pdf, jpg, jpeg, png, doc, docx, xls, xlsx, csv, ppt, "
 "pptx, odt, ods, txt.<br>Link: Add a link to the data."
 msgstr ""
-"Lisää data-aineisto liittämällä tiedosto tai lisäämällä linkki "
+"Lisää data-aineisto lataamalla tiedosto tai lisäämällä linkki "
 "dataan.<br>Valitse tiedosto tai raahaa tiedosto tähän.<br>Suurin sallittu "
-"tiedostokoko on 5 Gt. Sallituja tiedostomuotoja ovat: pdf, jpg, jpeg, png, "
-"doc, docx, xls, xlsx, csv, ppt, pptx, odt, ods, txt.<br>Linkki: Lisää linkki"
-" dataan."
+"tiedostokoko on 5 Gt. Sallittuja tiedostomuotoja ovat mm. pdf, jpg, jpeg, "
+"png, doc, docx, xls, xlsx, csv, ppt, pptx, odt, ods, txt.<br>Linkki: Lisää "
+"linkki dataan."
 
-#: ckanext/ytp/translations.py:260
+#: ckanext/ytp/translations.py:262
 msgid "Data resource description"
 msgstr "Data-aineiston kuvaus"
 
-#: ckanext/ytp/translations.py:261
+#: ckanext/ytp/translations.py:263
 msgid "Write a description for the resource"
 msgstr "Kirjoita kuvaus data-aineistolle"
 
-#: ckanext/ytp/translations.py:262
+#: ckanext/ytp/translations.py:264
 msgid ""
 "Describe the data clearly and concisely. Use as confining terms as possible "
 "to make it easier to find and understand the data."
@@ -1438,15 +1452,15 @@ msgstr ""
 "Tiivis ja helppotajuinen kuvaus data-aineistosta. Käytä mahdollisimman "
 "rajaavia termejä helpottamaan datan ymmärtämistä."
 
-#: ckanext/ytp/translations.py:263
+#: ckanext/ytp/translations.py:265
 msgid "Additional information"
 msgstr "Lisätiedot"
 
-#: ckanext/ytp/translations.py:264
+#: ckanext/ytp/translations.py:266
 msgid "Data status"
 msgstr "Aineiston tila"
 
-#: ckanext/ytp/translations.py:265
+#: ckanext/ytp/translations.py:267
 msgid ""
 "Define a state for the data. This is recommended especially if your dataset "
 "has data resources from multiple years."
@@ -1454,11 +1468,11 @@ msgstr ""
 "Voit määritellä data-aineistolle tilan. Tämä on suositeltavaa erityisesti "
 "jos tietoaineistollasi on data-aineistoja useilta eri vuosilta."
 
-#: ckanext/ytp/translations.py:266
+#: ckanext/ytp/translations.py:268
 msgid "Coordinate system"
 msgstr "Sijaintikoordinaattien muoto"
 
-#: ckanext/ytp/translations.py:267
+#: ckanext/ytp/translations.py:269
 msgid ""
 "If your data includes geographic information, specify the coordinate system "
 "it uses."
@@ -1466,11 +1480,11 @@ msgstr ""
 "Kerro missä muodossa karttamuotoisen aineiston koordinaatit ovat. Esim. "
 "koordinaatisto, jossa sijaintidata tarjotaan."
 
-#: ckanext/ytp/translations.py:268
+#: ckanext/ytp/translations.py:270
 msgid "e.g. WGS84 (World Geodetic System 1984)"
 msgstr "esim. WGS84 (World Geodetic System 1984)"
 
-#: ckanext/ytp/translations.py:269
+#: ckanext/ytp/translations.py:271
 msgid ""
 "Select the time frame by which the data is separated. For example, does the "
 "resource include data from every week or month."
@@ -1478,21 +1492,117 @@ msgstr ""
 "Kerro, kuinka tarkasti data on eroteltu aineistossa. Esimerkiksi sisältääkö "
 "aineisto dataa joka viikolta tai kuukaudelta."
 
-#: ckanext/ytp/translations.py:270
+#: ckanext/ytp/translations.py:272
 msgid "e.g. a month"
 msgstr "esim. kuukausi"
 
-#: ckanext/ytp/translations.py:271
+#: ckanext/ytp/translations.py:273
 msgid "Time Frame"
 msgstr "Ajallinen kattavuus"
 
-#: ckanext/ytp/translations.py:272
+#: ckanext/ytp/translations.py:274
 msgid "Start date"
 msgstr "Alkuajankohta"
 
-#: ckanext/ytp/translations.py:273
+#: ckanext/ytp/translations.py:275
 msgid "End date"
 msgstr "Loppuajankohta"
+
+#: ckanext/ytp/translations.py:278
+msgid "cc-by"
+msgstr "Creative Commons Attribution"
+
+#: ckanext/ytp/translations.py:279
+msgid "cc-by-4-fi"
+msgstr " Creative Commons Nimeä 4.0"
+
+#: ckanext/ytp/translations.py:280
+msgid "cc-by-4.0"
+msgstr " Creative Commons Nimeä 4.0"
+
+#: ckanext/ytp/translations.py:281
+msgid "cc-by-sa"
+msgstr "Creative Commons Attribution Share-Alike"
+
+#: ckanext/ytp/translations.py:282
+msgid "cc-by-sa-1-fi"
+msgstr "Creative Commons Nime\\xe4-Tarttuva 1.0 Suomi CC BY-SA 1.0"
+
+#: ckanext/ytp/translations.py:283
+msgid "cc-nc"
+msgstr "Creative Commons Non-Commercial Any"
+
+#: ckanext/ytp/translations.py:284
+msgid "cc-zero"
+msgstr "Creative Commons CCZero"
+
+#: ckanext/ytp/translations.py:285
+msgid "cc-zero-1.0"
+msgstr "Creative Commons CCZero 1.0"
+
+#: ckanext/ytp/translations.py:286
+msgid "gfdl"
+msgstr "GNU Free Documentation License"
+
+#: ckanext/ytp/translations.py:287
+msgid "helsinkikanava-opendata-tos"
+msgstr " Helsinkikanava Open Data käyttöehdot"
+
+#: ckanext/ytp/translations.py:288
+msgid "hri-tietoaineistot-lisenssi-nimea"
+msgstr " HRI - tietoaineistojen lisenssi - nimeä"
+
+#: ckanext/ytp/translations.py:289
+msgid "ilmoitettumuualla"
+msgstr " Lisenssi ilmoitettu tietoaineiston ylläpitäjän palvelussa"
+
+#: ckanext/ytp/translations.py:290
+msgid "kmo-aluejakorajat"
+msgstr " KMO aluejakorajojen vektoriaineistojen käyttöehdot"
+
+#: ckanext/ytp/translations.py:291
+msgid "notspecified"
+msgstr " Lisenssiä ei ole määritelty"
+
+#: ckanext/ytp/translations.py:292
+msgid "odc-by"
+msgstr "Open Data Commons Attribution License"
+
+#: ckanext/ytp/translations.py:293
+msgid "odc-odbl"
+msgstr "Open Data Commons Open Database License ODbL"
+
+#: ckanext/ytp/translations.py:294
+msgid "odc-pddl"
+msgstr "Open Data Commons Public Domain Dedication and Licence PDDL"
+
+#: ckanext/ytp/translations.py:295
+msgid "other"
+msgstr " Muu"
+
+#: ckanext/ytp/translations.py:296
+msgid "other-at"
+msgstr "Muu (Attribution)"
+
+#: ckanext/ytp/translations.py:297
+msgid "other-closed"
+msgstr "Muu (Not Open)"
+
+#: ckanext/ytp/translations.py:298
+msgid "other-nc"
+msgstr " Muu (Non-Commercial)"
+
+#: ckanext/ytp/translations.py:299
+msgid "other-open"
+msgstr " Muu (avoin)"
+
+#: ckanext/ytp/translations.py:300
+msgid "other-pd"
+msgstr " Muu (Public Domain)"
+
+#: ckanext/ytp/translations.py:301
+msgid "uk-ogl"
+msgstr "UK Open Government Licence OGL"
 
 #: ckanext/ytp/validators.py:66
 msgid "Missing value"
@@ -2428,7 +2538,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/resource_form.html:47
 msgid "File Size"
-msgstr ""
+msgstr "Tiedostokoko"
 
 #: ckanext/ytp/templates/package/snippets/resource_form.html:47
 msgid "eg. 1024"
@@ -2690,7 +2800,7 @@ msgstr "Näkyvyys"
 msgid "Public"
 msgstr "Julkinen"
 
-#: ckanext/ytp/templates/scheming/form_snippets/ytp_multiple_checkbox.html:16
+#: ckanext/ytp/templates/scheming/form_snippets/ytp_multiple_checkbox.html:17
 #, python-format
 msgid " Categories can be edited from <a href=\"%(category_url)s\">here</a> "
 msgstr "Kategorioita voi muokata <a href=\"%(category_url)s\">täältä</a>"

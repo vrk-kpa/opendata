@@ -6,7 +6,7 @@
 <div class="form-group-fluent">
   {% if field.description and field.description.strip() %}
   <div class="field-assistive-text">
-      {{ _(field.description) }}
+      {{ _(field.description) | safe }}
   </div>
   {% endif %}
   {% call form.input(

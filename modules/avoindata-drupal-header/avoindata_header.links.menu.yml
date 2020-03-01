@@ -192,3 +192,27 @@ avoindata_header.events_sv:
   menu_name: main-sv
   url: 'internal:/sv/events/'
   weight: 5
+
+avoindata_header.dcat-ap_fi:
+  title: 'DCAT-AP'
+  description: 'DCAT-AP'
+  parent: avoindata_header.moreoptions_fi
+  menu_name: main-fi
+  url: 'internal:/fi/dcat-ap/'
+  weight: 5
+
+avoindata_header.dcat-ap_en:
+  title: 'DCAT-AP'
+  description: 'DCAT-AP'
+  parent: avoindata_header.moreoptions_en
+  menu_name: main-en
+  url: 'internal:/en/dcat-ap/'
+  weight: 5
+
+avoindata_header.dcat-ap_sv:
+  title: 'DCAT-AP'
+  description: 'DCAT-AP'
+  parent: avoindata_header.moreoptions_sv
+  menu_name: main-sv
+  url: 'internal:/sv/dcat-ap/'
+  weight: 5

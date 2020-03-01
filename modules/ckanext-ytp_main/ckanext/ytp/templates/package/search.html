@@ -98,12 +98,16 @@
 {% block secondary_content %}
   {% for facet in c.facet_titles %}
     {% set title = c.facet_titles[facet] or h.get_facet_title(name) %}
-    {% if (title == 'Sisältötyyppi' or title == "Content Type") %}
+    {% if facet.startswith('vocab_content_type_')  %}
       {% for item in items or h.get_facet_items_dict('collection_type') %}
         {% if (item.name == 'Interoperability Tools' and item.active == True) %}
           {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}
         {% endif %}
       {% endfor %}
+    {% elif facet == 'vocab_international_benchmarks' %}
+      {% if h.check_access('sysadmin') %}
+        {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}
+      {% endif %}
     {% else %}
       {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}
     {% endif %}
