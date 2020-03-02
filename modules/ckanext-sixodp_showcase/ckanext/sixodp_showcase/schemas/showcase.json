@@ -5,12 +5,13 @@
   "about_url": "http://github.com/6aika/sixodp",
   "dataset_fields": [
     {
-      "field_name": "title",
+      "field_name": "title_translated",
+      "preset": "fluent_core_title_translated",
+      "form_languages": ["fi", "en", "sv"],
+      "only_default_lang_required": true,
       "label": "Name",
-      "preset": "title",
       "form_placeholder": "e.g. Most popular first names by region",
       "description": "",
-      "required": true,
       "group_title": "Showcase name",
       "group_description": "* Required field"
     },

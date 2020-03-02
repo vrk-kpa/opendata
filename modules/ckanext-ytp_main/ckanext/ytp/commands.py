@@ -311,13 +311,14 @@ def apply_group_assigns(group_packages_map):
                     print e
 
 
-def package_generator(query, page_size, context={'ignore_auth': True}):
+def package_generator(query, page_size, context={'ignore_auth': True}, dataset_type='dataset'):
     package_search = get_action('package_search')
 
     # Loop through all items. Each page has {page_size} items.
     # Stop iteration when all items have been looped.
     for index in itertools.count(start=0, step=page_size):
-        data_dict = {'include_private': True, 'rows': page_size, 'q': query, 'start': index}
+        data_dict = {'include_private': True, 'rows': page_size, 'q': query, 'start': index,
+                     'fq': '+dataset_type:' + dataset_type}
         data = package_search(context, data_dict)
         packages = data.get('results', [])
         for package in packages:

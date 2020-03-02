@@ -1,6 +1,7 @@
 {% extends 'page.html' %}
 
 {% set pkg = c.pkg_dict %}
+{% set name = h.get_translated(pkg, 'title') or pkg.name %}
 
 {% block subtitle %}{{ _('Showcases') }}{% endblock %}
 
@@ -12,7 +13,7 @@
 
 {% block breadcrumb_content %}
   {% if pkg %}
-    {% set showcase = pkg.title or pkg.name %}
+    {% set showcase = name %}
     <li>{% link_for _('Showcases'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search' %}</li>
     <li>{{ self.breadcrumb_content_selected() }}{% link_for showcase|truncate(30), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='read', id=pkg.name %}</li>
     <li class="active">{% link_for _('Edit'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='edit', id=pkg.name %}</li>
@@ -35,7 +36,7 @@
                 {% endblock %}
               </div>
             {% endif %}
-            <h1>{{pkg.title}}</h1>
+            <h1>{{name}}</h1>
             <ul class="nav">
               {% block content_primary_nav %}
                 {{ h.build_nav_icon('ckanext_showcase_edit', _('Edit showcase'), id=pkg.name, icon=None) }}
