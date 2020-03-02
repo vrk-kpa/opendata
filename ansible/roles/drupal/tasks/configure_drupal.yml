@@ -131,6 +131,7 @@
     - registration_validation
     - protected_submissions
     - recaptcha
+    - unpublished_node_permissions
   when: item not in drupal_enabled_modules.stdout
   tags:
     - skip_ansible_lint

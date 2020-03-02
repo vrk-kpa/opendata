@@ -49,7 +49,8 @@
         "drupal/ape": "^1.4",
         "drupal/honeypot": "^1.29",
         "behat/mink-selenium2-driver": "dev-master as 1.3.x-dev",
-        "drupal/protected_submissions": "1.x-dev#86162df640161c9e54137fed23d13375b464fb91"
+        "drupal/protected_submissions": "1.x-dev#86162df640161c9e54137fed23d13375b464fb91",
+        "drupal/unpublished_node_permissions": "^1.0"
     },
     "require-dev": {
         "webflo/drupal-core-require-dev": "^8.6.0"
