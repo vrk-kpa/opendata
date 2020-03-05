@@ -17,7 +17,6 @@ ckan_plugin_order:
   - spatial_query
   - csw_harvester
   - drupal8
-  - datarequests
   - ytp_organizations
   - ytp_request
   - hierarchy_display
@@ -31,6 +30,7 @@ ckan_plugin_order:
   - apis
   - ytp_spatial
   - ytp_user
+  - datarequests
   - datastore
   - sixodp_showcase
   - sixodp_showcasesubmit

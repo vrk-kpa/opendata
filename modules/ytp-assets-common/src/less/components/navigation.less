@@ -54,6 +54,32 @@
   }
 }
 
+.nav-tabs.suomifi {
+  border: 0;
+
+  > li, > li:hover {
+    border: 0;
+    &:not(:last-child) {
+      margin-right: 64px;
+    }
+    &.active {
+      border-bottom: 4px solid @suomi-highlightBase;
+    }
+
+    > a, > a:hover {
+      font: 18px @font-family-sans-serif-semibold;
+      padding: 8px 2px;
+      color: inherit;
+      border: 0;
+      background-color: transparent;
+
+      &.nav-link {
+        font: 16px @font-family-sans-serif;
+        color: @suomi-highlightBase;
+      }
+    }
+  }
+}
 //In the resources view, the current resource is active and
 //it shouldn't be blue
 .resources .nav-simple > li.active {
