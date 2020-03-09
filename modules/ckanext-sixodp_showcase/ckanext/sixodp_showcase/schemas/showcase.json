@@ -51,17 +51,23 @@
       "group_description": "Keywords help users to find your showcase. Select at least one keyword in Finnish."
     },
     {
+      "field_name": "showcase_type",
+      "label": "Showcase type",
+      "validators": "empty_string_if_value_missing list_to_string",
+      "output_validators": "string_to_list",
+      "description": "Select one or more type that describes your showcase.",
+      "form_snippet": "select_preset_options.html",
+      "vocabulary": "showcase_type"
+    },
+    {
       "field_name": "category",
-      "label": "Category",
-      "form_placeholder": "eg. visualization",
-      "preset": "fluent_vocabulary_with_autocomplete",
-      "validators": "fluent_tags create_fluent_tags(category)",
-      "form_attrs": {
-        "data-module": "autocomplete",
-        "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=category"
-      },
-      "description": ""
+      "label": "Categories",
+      "preset": "multiple_checkbox",
+      "form_snippet": "ytp_multiple_checkbox_without_link_to_dataset_groups.html",
+      "choices_helper": "scheming_category_list",
+      "description": "Select at least one category.",
+      "validators": "empty_dict_if_value_missing",
+      "display_snippet": null
     },
     {
       "field_name": "private",

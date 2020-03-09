@@ -173,7 +173,7 @@
 
   {% block application_categories %}
     {% set lang = h.get_lang_prefix() %}
-    {% set showcase_categories = pkg.category.get(lang) %}
+    {# {% set showcase_categories = pkg.category.get(lang, []) %} #}
     {% if showcase_categories %}
       <section class="module module-narrow">
         <h3 class="module-heading">

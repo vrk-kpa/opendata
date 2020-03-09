@@ -520,3 +520,9 @@ def empty_string_if_value_missing(key, data, errors, context):
     value = data.get(key)
     if not value or value is missing:
         data[key] = ''
+
+
+def empty_dict_if_value_missing(key, data, errors, context):
+    value = data.get(key)
+    if not value or value is missing:
+        data[key] = {}
