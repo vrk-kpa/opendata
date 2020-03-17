@@ -176,6 +176,14 @@ location /data {
         # Do not show nginx's 404 error page for the API
         proxy_intercept_errors off;
     }
+
+    location ~ /data/(fi/|en/|sv/)?catalog.(rdf|xml|ttl|n3|jsonld) {
+        expires 1h;
+        add_header Cache-Control "public, no-transform";
+        proxy_pass http://127.0.0.1:{{ item.apache_port }}/data/$1/;
+        proxy_hide_header Cache-Control;
+        proxy_read_timeout 300s;
+    }
 }
 
 # Drupal
