@@ -177,7 +177,7 @@ location /data {
         proxy_intercept_errors off;
     }
 
-    location ~ /data/(fi/|en/|sv/)?catalog.rdf {
+    location ~ /data/(fi/|en/|sv/)?catalog.(rdf|xml|ttl|n3|jsonld) {
         expires 1h;
         add_header Cache-Control "public, no-transform";
         proxy_pass http://127.0.0.1:{{ item.apache_port }}/data/$1/;
