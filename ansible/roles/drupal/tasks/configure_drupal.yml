@@ -327,3 +327,8 @@
   with_items: "{{ drupal_roles }}"
   tags:
     - skip_ansible_lint
+
+- name: Deploy robots.txt
+  copy:
+    src: "{{ drupal_search_engine_robots_filename }}"
+    dest: "{{ drupal_root }}/web/robots.txt"
