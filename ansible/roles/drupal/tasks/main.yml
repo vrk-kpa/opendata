@@ -120,11 +120,6 @@
     src: "services.yml.j2"
     dest: "{{ drupal_root }}/web/sites/default/services.yml"
 
-- name: Deploy robots.txt
-  copy:
-    src: "{{ drupal_search_engine_robots_filename }}"
-    dest: "{{ drupal_root }}/web/robots.txt"
-
 - name: Configure drupal instance
   import_tasks: configure_drupal.yml
   tags:
