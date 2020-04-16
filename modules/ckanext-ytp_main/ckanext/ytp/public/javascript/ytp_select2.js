@@ -29,6 +29,11 @@ $(window).on("load", function() {
         }
 
         createTag(tag, container);
+
+        // single select components remove previous element, eg format selector
+        if (e.removed ){
+          removeTag(e.removed, container);
+        }
       }
     })
     // Removed as it marks the form changed
@@ -51,13 +56,29 @@ var createTag = function(tag, container) {
     // contains the list of select2 (the data of the original hidden select2 tags)
     var data = $("#" + badge.data().containerId).select2("data");
 
-    // filter out the removed tag from the original hidden select2 tags
-    $("#" + badge.data().containerId).select2(
-      "data",
-      data.filter(pill => pill.id != badge.data().tagId)
-    );
+    // multi-select is array, single-select is object
+    if (Array.isArray(data)) {
+
+      // filter out the removed tag from the original hidden select2 tags
+      $("#" + badge.data().containerId).select2(
+        "data",
+        data.filter(pill => pill.id != badge.data().tagId)
+      );
+    }
+
+    else {
+      // set single-select value to null to make it empty
+      $("#" + badge.data().containerId).select2(
+        "data",
+        null
+      );
+    }
 
     // remove the custom tag as well after it's removed from the select2 tags
     badge.remove();
   });
+};
+
+let removeTag = function(tag, container) {
+  container.find(`[data-tag-id="${tag.id}"]`).remove();
 };
