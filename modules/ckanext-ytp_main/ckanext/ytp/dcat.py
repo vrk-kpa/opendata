@@ -38,11 +38,11 @@ group_list = []
 
 
 def get_organization(org_id):
-    return next(organization for organization in organization_list if organization['id'] == org_id, None)
+    return next((organization for organization in organization_list if organization['id'] == org_id), None)
 
 
 def get_group(group_id):
-    return next(group for group in group_list if group['id'] == group_id, None)
+    return next((group for group in group_list if group['id'] == group_id), None)
 
 
 class AvoindataDCATAPProfile(RDFProfile):
