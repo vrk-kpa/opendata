@@ -33,6 +33,26 @@ def get_dict(d, key):
     return as_dict(d.get(key, {}))
 
 
+organization_list = []
+group_list = []
+
+
+def get_organization(org_id):
+    try:
+        org = next(organization for organization in organization_list if organization['id'] == org_id)
+        return org
+    except StopIteration:
+        return
+
+
+def get_group(group_id):
+    try:
+        group = next(group for group in group_list if group['id'] == group_id)
+        return group
+    except StopIteration:
+        return
+
+
 class AvoindataDCATAPProfile(RDFProfile):
     '''
     An RDF profile for Avoindata based on DCAT-AP 2.0.0 extension at
@@ -218,25 +238,26 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((dataset_ref, DCAT.keyword, Literal(keyword)))
 
         # dct:publisher
-        context = {'user': p.c.user}
-        organization = p.get_action('organization_show')(context, data_dict={'id': dataset_dict['owner_org']})
+        organization = get_organization(dataset_dict['owner_org'])
 
-        publisher = URIRef(p.url_for(controller='organization', action='read', id=organization['id'], qualified=True))
-        g.add((publisher, RDF.type, FOAF.Agent))
-        g.add((dataset_ref, DCT.publisher, publisher))
+        # If organization is not approved, it won't be available in organization list
+        if organization:
+            publisher = URIRef(p.url_for(controller='organization', action='read', id=organization['id'], qualified=True))
+            g.add((publisher, RDF.type, FOAF.Agent))
+            g.add((dataset_ref, DCT.publisher, publisher))
 
-        organization_titles = (t for t in get_dict(organization, 'title_translated').values() if t)
+            organization_titles = (t for t in get_dict(organization, 'title_translated').values() if t)
 
-        for title in organization_titles:
-            g.add((publisher, FOAF.name, Literal(title)))
+            for title in organization_titles:
+                g.add((publisher, FOAF.name, Literal(title)))
 
-        self._add_triple_from_dict(organization, publisher, FOAF.homepage, 'homepage')
+            self._add_triple_from_dict(organization, publisher, FOAF.homepage, 'homepage')
 
         # dcat:theme
         groups = dataset_dict.get('groups', [])
 
         for group_item in groups:
-            group_dict = p.get_action('group_show')(context, data_dict={'id': group_item['id']})
+            group_dict = get_group(group_item['id'])
             theme = URIRef(p.url_for(controller='group', action='read', id=group_dict['id'], qualified=True))
             g.add((theme, RDF.type, SKOS.Concept))
             g.add((dataset_ref, DCAT.theme, theme))
@@ -302,7 +323,14 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((dataset_ref, DCT.issued, issued_date))
 
     def graph_from_catalog(self, catalog_dict, catalog_ref):
+        # Fetch organization list for graph_from_dataset to use
 
+        context = {'user': p.c.user}
+        global organization_list
+        organization_list = p.get_action('organization_list')(context, {"all_fields": True, "include_extras": True})
+
+        global group_list
+        group_list = p.get_action('group_list')(context, {"all_fields": True, "include_extras": True})
         g = self.g
 
         for prefix, namespace in namespaces.iteritems():
