@@ -1,9 +1,13 @@
 import json
+import threading
 from rdflib import URIRef, BNode, Literal, Namespace
 from rdflib.namespace import RDF, XSD
 from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX
 from ckanext.dcat.utils import resource_uri
 from ckan.plugins import toolkit as p
+
+import logging
+log = logging.getLogger(__name__)
 
 ADFI = Namespace('http://avoindata.fi/ns#')
 
@@ -33,16 +37,28 @@ def get_dict(d, key):
     return as_dict(d.get(key, {}))
 
 
-organization_list = []
-group_list = []
+thread_local = threading.local()
+thread_local.organization_list = []
+thread_local.group_list = []
 
 
 def get_organization(org_id):
-    return next((organization for organization in organization_list if organization['id'] == org_id), None)
+    organization = next((organization for organization in thread_local.organization_list
+                         if organization['id'] == org_id), None)
+
+    # If organization does not exist in previously fetched list, use organization_show to fetch it
+    if not organization:
+        organization = p.get_action('organization_show')({}, {'id': org_id})
+    return organization
 
 
 def get_group(group_id):
-    return next((group for group in group_list if group['id'] == group_id), None)
+    group = next((group for group in thread_local.group_list if group['id'] == group_id), None)
+
+    # If group does not exist in previously fetched list, use group_show to fetch it
+    if not group:
+        group = p.get_action('group_show')({}, {'id': group_id})
+    return group
 
 
 class AvoindataDCATAPProfile(RDFProfile):
@@ -318,11 +334,9 @@ class AvoindataDCATAPProfile(RDFProfile):
         # Fetch organization list for graph_from_dataset to use
 
         context = {'user': p.c.user}
-        global organization_list
-        organization_list = p.get_action('organization_list')(context, {"all_fields": True, "include_extras": True})
-
-        global group_list
-        group_list = p.get_action('group_list')(context, {"all_fields": True, "include_extras": True})
+        thread_local.organization_list = \
+            p.get_action('organization_list')(context, {"all_fields": True, "include_extras": True})
+        thread_local.group_list = p.get_action('group_list')(context, {"all_fields": True, "include_extras": True})
         g = self.g
 
         for prefix, namespace in namespaces.iteritems():
