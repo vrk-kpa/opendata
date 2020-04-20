@@ -43,8 +43,11 @@ thread_local.group_list = []
 
 
 def get_organization(org_id):
-    organization = next((organization for organization in thread_local.organization_list
-                         if organization['id'] == org_id), None)
+    if hasattr(thread_local, 'organization_list'):
+        organization = next((organization for organization in thread_local.organization_list
+                             if organization['id'] == org_id), None)
+    else:
+        organization = None
 
     # If organization does not exist in previously fetched list, use organization_show to fetch it
     if not organization:
@@ -53,7 +56,10 @@ def get_organization(org_id):
 
 
 def get_group(group_id):
-    group = next((group for group in thread_local.group_list if group['id'] == group_id), None)
+    if hasattr(thread_local, 'group_list'):
+        group = next((group for group in thread_local.group_list if group['id'] == group_id), None)
+    else:
+        group = None
 
     # If group does not exist in previously fetched list, use group_show to fetch it
     if not group:
