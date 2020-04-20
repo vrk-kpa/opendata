@@ -26,7 +26,7 @@ writer.writeheader()
 for key in keys:
     fi_values = fi_data[key]
     sv_values = sv_data[key]
-    en_values = en_data[key]
+    en_values = en_data.get(key, {})
     values = {
             'msgid': key,
             'msgid_plural': fi_values['msgid_plural'],
@@ -35,8 +35,8 @@ for key in keys:
             'fi_plural': fi_values['msgstr[1]'],
             'sv': sv_values['msgstr[0]'],
             'sv_plural': sv_values['msgstr[1]'],
-            'en': en_values['msgstr[0]'],
-            'en_plural': en_values['msgstr[1]'],
+            'en': en_values.get('msgstr[0]', ''),
+            'en_plural': en_values.get('msgstr[1]', ''),
             }
     writer.writerow(values)
 

@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the ckanext-sixodp_showcase
 # project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
-# 
+#
 # Translators:
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2018
 # Meeri Hakala <meeri.hakala@vrk.fi>, 2019
-# 
-#, fuzzy
+#
+# , fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
@@ -82,102 +82,96 @@ msgid "Platform"
 msgstr ""
 
 #: ckanext/sixodp_showcase/translations.py:4
-msgid ""
-"An URL-address which refers to the dataset. The automatically filled option "
-"derived from the title is the best option in most cases."
-msgstr ""
+msgid "An URL-address which refers to the dataset. The automatically filled option derived from the title is the best option in most cases."
+msgstr "Applikationens webbadress. Den adress som härletts automatiskt från titeln är oftast det bästa alternativet."
 
 #: ckanext/sixodp_showcase/translations.py:6
 msgid "Category which represents showcase."
-msgstr ""
+msgstr "Applikationens kategori"
 
 #: ckanext/sixodp_showcase/translations.py:7
 msgid "Platforms of the showcase."
-msgstr ""
+msgstr "Plattformarna för applikationen"
 
 #: ckanext/sixodp_showcase/translations.py:8
-msgid ""
-"Keywords or tags through which users are able to find this dataset easily "
-"through the search page or other datasets which have the same tag."
-msgstr ""
+msgid "Keywords or tags through which users are able to find this dataset easily through the search page or other datasets which have the same tag."
+msgstr "Nyckelord eller taggar som användaren kan använda för att enkelt hitta denna datamängd eller motsvarande datamängder på söksidan"
 
 #: ckanext/sixodp_showcase/translations.py:10
 msgid "Author Website"
-msgstr ""
+msgstr "Utvecklarens webbplats"
 
 #: ckanext/sixodp_showcase/translations.py:11
 msgid "Application Website"
-msgstr ""
+msgstr "Applikationens webbplats"
 
 #: ckanext/sixodp_showcase/translations.py:12
 msgid "Links to stores"
-msgstr ""
+msgstr "Länkar till appbutiker"
 
 #: ckanext/sixodp_showcase/translations.py:13
 msgid "Kuvaus"
-msgstr ""
+msgstr "Beskrivning"
 
 #: ckanext/sixodp_showcase/translations.py:14
-msgid ""
-"An universal, compact and easy to understand description of the added "
-"resource."
-msgstr ""
+msgid "An universal, compact and easy to understand description of the added resource."
+msgstr "En komplett, kortfattad och tydlig beskrivning om det tillagda materialet."
 
 #: ckanext/sixodp_showcase/translations.py:15
 msgid "Featured"
-msgstr ""
+msgstr "I blickfånget"
 
 #: ckanext/sixodp_showcase/translations.py:16
 msgid "Icon"
-msgstr ""
+msgstr "Ikon"
 
 #: ckanext/sixodp_showcase/translations.py:17
 msgid "Featured Image"
-msgstr ""
+msgstr "Presentationsbild"
 
 #: ckanext/sixodp_showcase/translations.py:18
 msgid "Image 1"
-msgstr ""
+msgstr "Bild 1"
 
 #: ckanext/sixodp_showcase/translations.py:19
 msgid "Image 2"
-msgstr ""
+msgstr "Bild 2"
 
 #: ckanext/sixodp_showcase/translations.py:20
 msgid "Image 3"
-msgstr ""
+msgstr "Bild 3"
 
 #: ckanext/sixodp_showcase/translations.py:21
 msgid "Notifier"
-msgstr ""
+msgstr "Meddelare"
 
 #: ckanext/sixodp_showcase/translations.py:22
 msgid "Notifier Email"
-msgstr ""
+msgstr "Meddelarens e-post"
 
 #: ckanext/sixodp_showcase/translations.py:23
 msgid "eg. android"
-msgstr ""
+msgstr "t.ex. Android"
 
 #: ckanext/sixodp_showcase/translations.py:24
 msgid "eg. visualization"
-msgstr ""
+msgstr "t.ex. visualisering"
 
 #: ckanext/sixodp_showcase/translations.py:25
 msgid "eg. traffic"
-msgstr ""
+msgstr "t.ex. trafik"
 
 #: ckanext/sixodp_showcase/translations.py:26
 msgid "The dataset has been added to the showcase."
 msgid_plural "The datasets have been added to the showcase."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Datamängden har lagts till i applikationen."
+msgstr[1] "Datamängden har lagts till i applikationen."
 
 #: ckanext/sixodp_showcase/translations.py:27
 msgid "The dataset has been removed from the showcase."
 msgid_plural "The datasets have been removed from the showcase."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Datamängden har tagits bort från applikationen."
+msgstr[1] "Datamängden har tagits bort från applikationen."
 
 #: ckanext/sixodp_showcase/templates/admin/base.html:6
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:38
@@ -190,8 +184,7 @@ msgid "Confirm Remove"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/confirm_remove_showcase_admin.html:11
-msgid ""
-"Are you sure you want to remove this user as a Showcase Admin - {name}?"
+msgid "Are you sure you want to remove this user as a Showcase Admin - {name}?"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/confirm_remove_showcase_admin.html:15
@@ -208,8 +201,7 @@ msgid "Add an Existing User"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:19
-msgid ""
-"To make an existing user a Showcase Admin, search for their username below."
+msgid "To make an existing user a Showcase Admin, search for their username below."
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:23
@@ -225,8 +217,7 @@ msgid "User"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:51
-msgid ""
-"Are you sure you want to remove this user from the Showcase Admin list?"
+msgid "Are you sure you want to remove this user from the Showcase Admin list?"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:53
@@ -240,9 +231,7 @@ msgid "There are currently no Showcase Admins."
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:69
-msgid ""
-" <p><strong>Showcase Admin:</strong> Can create and remove showcases. Can "
-"add and remove datasets from showcases.</p> "
+msgid " <p><strong>Showcase Admin:</strong> Can create and remove showcases. Can add and remove datasets from showcases.</p> "
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/package/dataset_showcase_list.html:3
@@ -465,136 +454,121 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:12
 msgid "Abort"
-msgstr ""
+msgstr "Avbryt"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:20
-msgid ""
-"By submitting this form, you agree to release the <i>metadata</i> values "
-"that you enter into the form under the <a "
-"href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database "
-"License</a>."
+msgid "By submitting this form, you agree to release the <i>metadata</i> values that you enter into the form under the <a href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database License</a>."
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:47
 msgid "Archived"
-msgstr ""
+msgstr "Arkiverat"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:60
 msgid "Published"
-msgstr ""
+msgstr "Publicerat"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:62
 msgid "updated"
-msgstr ""
+msgstr "uppdaterat"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:132
 msgid "Used datasets"
-msgstr ""
+msgstr "Använda datamängder"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:136
 msgid "There are no Datasets in this Showcase"
-msgstr ""
+msgstr "Denna applikation saknar datamängder"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:151
 msgid " Links "
-msgstr ""
+msgstr "Länkar"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:158
 msgid "Application website"
-msgstr ""
+msgstr "Applikationens webbplats"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:165
 msgid "Author website"
-msgstr ""
+msgstr "Utvecklarens webbplats"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:180
 msgid " Categories "
-msgstr ""
+msgstr "Kategorier"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:199
 msgid "More from the author"
-msgstr ""
+msgstr "Fler applikationer av samma utvecklare"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:31
 msgid "Search applications..."
-msgstr "Sök efter applikationer..."
+msgstr "Sök applikationer ..."
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:15
 msgid " Applications "
-msgstr ""
+msgstr "Applikationer "
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:21
 msgid "Add Showcase"
-msgstr ""
+msgstr "Lägg till applikation"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:27
-msgid ""
-"Datasets provided by this service come alive with the help of applications "
-"(visualizations, research, webservices and data journalism)."
-msgstr ""
+msgid "Datasets provided by this service come alive with the help of applications (visualizations, research, webservices and data journalism)."
+msgstr "Olika applikationer (visualiseringar, undersökningar, webbplatser och datajournalistik) ger liv åt datamängderna i denna tjänst."
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:30
-msgid ""
-"Commonly the creators of opendata applications are researchers, freelanchers"
-" and software developers, but with the help of improved development and "
-"visualization tools anyone is able to utilize these datasets. You can find "
-"additional information from our guide to open data."
-msgstr ""
-"Commonly the creators of open data applications are researchers, "
-"freelanchers and software developers, but with the help of improved "
-"development and visualization tools anyone is able to utilize these "
-"datasets. You can find additional information from our guide to open data."
+msgid "Commonly the creators of opendata applications are researchers, freelanchers and software developers, but with the help of improved development and visualization tools anyone is able to utilize these datasets. You can find additional information from our guide to open data."
+msgstr "Ofta är det forskare, frilansare och mjukvaruutvecklare som skapar applikationer av öppna data, men de förbättrade verktygen för utveckling och visualisering gör det möjligt för vem som helst att använda sig av datamängderna. Mer information hittar du i vår guide till öppna data."
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:34
 msgid "Have you created application that utilizes open data?"
-msgstr ""
+msgstr "Har du skapat en applikation som använder sig av öppna data?"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:35
-msgid ""
-"Inform us about your application by using this form and it will be added to "
-"the list below."
-msgstr ""
+msgid "Inform us about your application by using this form and it will be added to the list below."
+msgstr "Berätta oss om din applikation med detta formulär så lägger vi till den på listan nedan."
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:46
 msgid "This showcase has no description"
-msgstr ""
+msgstr "Applikationen saknar beskrivning"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:50
 msgid "Remove dataset from this showcase"
-msgstr ""
+msgstr "Ta bort datamängden från denna applikation"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:9
 msgid "Submit"
-msgstr ""
+msgstr "Skicka in"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:29
 msgid "Newest first"
-msgstr ""
+msgstr "Nyast först"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:30
 msgid "Oldest first"
-msgstr ""
+msgstr "Äldst först"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:36
 msgid "Top rating"
-msgstr ""
+msgstr "Bästa betyg"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:7
 msgid "{number} showcase found for '{query}'"
 msgid_plural "{number} showcases found for '{query}'"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} applikation hittades för '{query}'"
+msgstr[1] "{number} applikationer hittades för '{query}'"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:8
 msgid "No showcases found for '{query}'"
-msgstr ""
+msgstr "Inga applikationer hittades för '{query}'"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:9
 msgid "{number} showcase found"
 msgid_plural "{number} showcases found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} applikation hittades"
+msgstr[1] "{number} applikationer hittades"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:10
 msgid "No showcases found"
-msgstr ""
+msgstr "Inga applikationer hittades"
+
