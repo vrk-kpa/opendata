@@ -1,9 +1,13 @@
 import json
+import threading
 from rdflib import URIRef, BNode, Literal, Namespace
 from rdflib.namespace import RDF, XSD
 from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX
 from ckanext.dcat.utils import resource_uri
 from ckan.plugins import toolkit as p
+
+import logging
+log = logging.getLogger(__name__)
 
 ADFI = Namespace('http://avoindata.fi/ns#')
 
@@ -31,6 +35,36 @@ def as_dict(value):
 
 def get_dict(d, key):
     return as_dict(d.get(key, {}))
+
+
+thread_local = threading.local()
+thread_local.organization_list = []
+thread_local.group_list = []
+
+
+def get_organization(org_id):
+    if hasattr(thread_local, 'organization_list'):
+        organization = next((organization for organization in thread_local.organization_list
+                             if organization['id'] == org_id), None)
+    else:
+        organization = None
+
+    # If organization does not exist in previously fetched list, use organization_show to fetch it
+    if not organization:
+        organization = p.get_action('organization_show')({}, {'id': org_id})
+    return organization
+
+
+def get_group(group_id):
+    if hasattr(thread_local, 'group_list'):
+        group = next((group for group in thread_local.group_list if group['id'] == group_id), None)
+    else:
+        group = None
+
+    # If group does not exist in previously fetched list, use group_show to fetch it
+    if not group:
+        group = p.get_action('group_show')({}, {'id': group_id})
+    return group
 
 
 class AvoindataDCATAPProfile(RDFProfile):
@@ -218,25 +252,26 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((dataset_ref, DCAT.keyword, Literal(keyword)))
 
         # dct:publisher
-        context = {'user': p.c.user}
-        organization = p.get_action('organization_show')(context, data_dict={'id': dataset_dict['owner_org']})
+        organization = get_organization(dataset_dict['owner_org'])
 
-        publisher = URIRef(p.url_for(controller='organization', action='read', id=organization['id'], qualified=True))
-        g.add((publisher, RDF.type, FOAF.Agent))
-        g.add((dataset_ref, DCT.publisher, publisher))
+        # If organization is not approved, it won't be available in organization list
+        if organization:
+            publisher = URIRef(p.url_for(controller='organization', action='read', id=organization['id'], qualified=True))
+            g.add((publisher, RDF.type, FOAF.Agent))
+            g.add((dataset_ref, DCT.publisher, publisher))
 
-        organization_titles = (t for t in get_dict(organization, 'title_translated').values() if t)
+            organization_titles = (t for t in get_dict(organization, 'title_translated').values() if t)
 
-        for title in organization_titles:
-            g.add((publisher, FOAF.name, Literal(title)))
+            for title in organization_titles:
+                g.add((publisher, FOAF.name, Literal(title)))
 
-        self._add_triple_from_dict(organization, publisher, FOAF.homepage, 'homepage')
+            self._add_triple_from_dict(organization, publisher, FOAF.homepage, 'homepage')
 
         # dcat:theme
         groups = dataset_dict.get('groups', [])
 
         for group_item in groups:
-            group_dict = p.get_action('group_show')(context, data_dict={'id': group_item['id']})
+            group_dict = get_group(group_item['id'])
             theme = URIRef(p.url_for(controller='group', action='read', id=group_dict['id'], qualified=True))
             g.add((theme, RDF.type, SKOS.Concept))
             g.add((dataset_ref, DCAT.theme, theme))
@@ -302,7 +337,12 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((dataset_ref, DCT.issued, issued_date))
 
     def graph_from_catalog(self, catalog_dict, catalog_ref):
+        # Fetch organization list for graph_from_dataset to use
 
+        context = {'user': p.c.user}
+        thread_local.organization_list = \
+            p.get_action('organization_list')(context, {"all_fields": True, "include_extras": True})
+        thread_local.group_list = p.get_action('group_list')(context, {"all_fields": True, "include_extras": True})
         g = self.g
 
         for prefix, namespace in namespaces.iteritems():
