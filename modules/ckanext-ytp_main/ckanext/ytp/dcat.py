@@ -341,8 +341,10 @@ class AvoindataDCATAPProfile(RDFProfile):
 
         context = {'user': p.c.user}
         thread_local.organization_list = \
-            p.get_action('organization_list')(context, {"all_fields": True, "include_extras": True})
-        thread_local.group_list = p.get_action('group_list')(context, {"all_fields": True, "include_extras": True})
+            p.get_action('organization_list')(context, {"all_fields": True, "include_extras": True,
+                                                        "include_dataset_count": False})
+        thread_local.group_list = p.get_action('group_list')(context, {"all_fields": True, "include_extras": True,
+                                                                       "include_dataset_count": False})
         g = self.g
 
         for prefix, namespace in namespaces.iteritems():
