@@ -133,14 +133,6 @@ location /resources {
     log_not_found off;
 }
 
-location ~ /data/(fi/|en/|sv/)?(catalog.)(rdf|xml|ttl|n3|jsonld) {
-    root /var/www;
-    expires 1h;
-    add_header Cache-Control "public, no-transform";
-    set $catalog /$2$3;
-    rewrite ^(.*)$ $catalog break;
-}
-
 
 include snippets/nginx_security_headers.conf;
 

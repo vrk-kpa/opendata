@@ -73,11 +73,3 @@
     mode: "0700"
   tags:
     - nginx
-
-- name: Ensure cron for fetch catalog
-  cron:
-    name: "Fetch catalogs"
-    hour: "0"
-    job: "bash /var/www/fetch_catalogs.bash"
-  tags:
-    - nginx
