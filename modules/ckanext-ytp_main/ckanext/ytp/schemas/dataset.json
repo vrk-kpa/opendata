@@ -120,7 +120,6 @@
       "form_placeholder": "e.g. Data was produced by Finnish Digital Agency",
       "form_languages": ["fi", "en", "sv"],
       "label": "More about the license",
-      "display_snippet": null,
       "description": "Describe how you want your organisation to be named when using CC BY 4 -license."
     },
     {
