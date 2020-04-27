@@ -8,12 +8,12 @@ php_packages_state: present
 
 php_required_packages:
   - "{{ php_fpm_package }}"  # exact version so that apache is not needed as dependency
-  - php
-  - php-gd
-  - php-pgsql
-  - php-xml  # installs "dom"
-  - php-mbstring
-  - php-curl
+  - php7.4
+  - php7.4-gd
+  - php7.4-pgsql
+  - php7.4-xml  # installs "dom"
+  - php7.4-mbstring
+  - php7.4-curl
 
 php_max_children: 5
 php_start_servers: 2
