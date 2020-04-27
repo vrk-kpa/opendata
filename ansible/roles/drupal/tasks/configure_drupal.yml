@@ -211,6 +211,14 @@
   tags:
     - skip_ansible_lint
 
+- name: Clear caches
+  shell: ./vendor/bin/drupal cr
+  args:
+    chdir: "{{ drupal_root }}"
+  tags:
+    - skip_ansible_lint
+
+
 - name: Reload theme configurations
   shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/web/themes/avoindata/config/install"
   args:
@@ -283,7 +291,7 @@
   tags:
     - skip_ansible_lint
 
-- name: Clear caches
+- name: Clear caches again
   shell: ./vendor/bin/drupal cr
   args:
     chdir: "{{ drupal_root }}"
