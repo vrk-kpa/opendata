@@ -96,7 +96,7 @@ class AvoindataDCATAPProfile(RDFProfile):
 
         for prefix, namespace in namespaces.iteritems():
             g.bind(prefix, namespace)
-        g.add((dataset_ref, RDF.type, ADFI.Dataset))
+        g.add((dataset_ref, RDF.type, DCAT.Dataset))
 
         # dct:title
         titles = set(t for t in get_dict(dataset_dict, 'title_translated').values() if t)
@@ -132,7 +132,7 @@ class AvoindataDCATAPProfile(RDFProfile):
         for resource_dict in dataset_dict.get('resources', []):
             resource_dict = as_dict(resource_dict)
             distribution = BNode()
-            g.add((distribution, RDF.type, ADFI.Distribution))
+            g.add((distribution, RDF.type, DCAT.Distribution))
             g.add((dataset_ref, DCAT.distribution, distribution))
 
             # dct:title
@@ -350,7 +350,7 @@ class AvoindataDCATAPProfile(RDFProfile):
         for prefix, namespace in namespaces.iteritems():
             g.bind(prefix, namespace)
 
-        g.add((catalog_ref, RDF.type, ADFI.Catalog))
+        g.add((catalog_ref, RDF.type, DCAT.Catalog))
 
         # Basic fields
         title = p.config.get('ckan.site_title', '')
