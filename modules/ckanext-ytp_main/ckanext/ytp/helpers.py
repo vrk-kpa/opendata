@@ -374,7 +374,7 @@ def get_geonetwork_link(uuid, organization, lang=None):
                 lang = "en"
 
         lang = lang_map[lang]
-        link_stem = "https://www.paikkatietohakemisto.fi/geonetwork/srv/{lang]/catalog.search#/metadata/{uuid}"
+        link_stem = "https://www.paikkatietohakemisto.fi/geonetwork/srv/{lang}/catalog.search#/metadata/{uuid}"
 
     return link_stem.format(lang=lang, uuid=uuid)
 
