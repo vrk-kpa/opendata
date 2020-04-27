@@ -20,8 +20,8 @@
   ini_file:
     dest: "{{ php_fpm_ini_file }}"
     section: Session
-      option: session.cookie_samesite
-      value: "Lax"
+    option: session.cookie_samesite
+    value: "Lax"
   notify: restart php-fmp service
 
 - name: Set socket to listen
