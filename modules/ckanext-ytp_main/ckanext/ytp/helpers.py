@@ -353,6 +353,14 @@ def get_current_date():
     return datetime.datetime.now()
 
 
+lang_map = {
+    "fi": "fin",
+    "sv": "swe",
+    "en": "eng",
+    "en_GB": "eng"
+}
+
+
 def get_geonetwork_link(uuid, organization, lang=None):
     link_stem = ""
 
@@ -365,7 +373,8 @@ def get_geonetwork_link(uuid, organization, lang=None):
             except TypeError:
                 lang = "en"
 
-        link_stem = "http://www.paikkatietohakemisto.fi/geonetwork/srv/{lang}/main.home?uuid={uuid}"
+        lang = lang_map[lang]
+        link_stem = "https://www.paikkatietohakemisto.fi/geonetwork/srv/{lang]/catalog.search#/metadata/{uuid}"
 
     return link_stem.format(lang=lang, uuid=uuid)
 
