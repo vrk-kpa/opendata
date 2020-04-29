@@ -26,6 +26,6 @@
     "cypress-plugin-retries": "^1.5.2"
   },
   "dependencies": {
-    "pg": "^8.0.0"
+    "pg": "^8.0.3"
   }
 }
