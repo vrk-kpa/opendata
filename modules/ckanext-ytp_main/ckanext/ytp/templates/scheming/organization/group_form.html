@@ -1,0 +1,36 @@
+{% import 'macros/form.html' as form %}
+{% resource 'ytp_dataset_js/form.js' %}
+{%- if not c.group_type -%}
+    <p>
+        group_type not passed to template. your version of CKAN
+        might not be compatible with ckanext-scheming
+    </p>
+{%- endif -%}
+
+<form class="dataset-form form-horizontal" method="post" data-module="basic-form" enctype="multipart/form-data">
+  {% block error_summary %}
+    {{ form.errors(error_summary) }}
+  {% endblock %}
+
+  {%- set schema = h.scheming_get_organization_schema(c.group_type) -%}
+    {%- for field in schema['fields'] -%}
+        {%- if field.form_snippet is not none -%}
+          {%- snippet 'scheming/snippets/form_field.html',
+          field=field, data=data, errors=errors, licenses=licenses,
+          entity_type='organization', object_type=c.group_type -%}
+        {%- endif -%}
+    {%- endfor -%}
+
+    <div class="form-actions">
+        {% block delete_button %}
+        {% if action == 'edit' %}
+          {% if h.check_access('group_delete', {'id': data.id}) and action=='edit'  %}
+            {% set locale = h.dump_json({'content': _('Are you sure you want to delete this Organization?')}) %}
+            <a class="btn btn-danger pull-left" href="{% url_for controller='organization', action='delete', id=data.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}{{ _('Delete') }}{% endblock %}</a>
+          {% endif %}
+        {% endif %}
+        {% endblock %}
+        <button class="btn btn-primary" name="save" type="submit">{% block save_text %}{{ _('Save Organization') }}{% endblock %}</button>
+        {{ form.required_message() }}
+    </div>
+</form>
