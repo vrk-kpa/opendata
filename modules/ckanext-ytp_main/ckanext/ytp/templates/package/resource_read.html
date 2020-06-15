@@ -251,18 +251,12 @@
   <div id="chart_div"></div>
 
   <span>{{ _('All time downloads:' ) }} {{ visits.count }}</span>
-  
-  <script type="text/javascript"
-            src="https://www.google.com/jsapi?autoload={
-              'modules':[{
-                'name':'visualization',
-                'version':'1',
-                'packages':['corechart']
-              }]
-            }"></script>
+
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
 
   <script type="text/javascript">
-        google.setOnLoadCallback(drawChart);
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
           var data = google.visualization.arrayToDataTable([
