@@ -8,11 +8,6 @@
             <i class="fa fa-search"></i>
             <span>{{ _('Submit') }}</span>
         </button>
-        {% for param in query_params %}
-            {% for value in query_params[param] %}
-                <input class="search-input" type="hidden" name="{{ param }}" value="{{value}}">
-            {% endfor %}
-        {% endfor %}
 
         <input class="search-input" type="hidden" name="sort" value="{{ sorting }}">
     </div>
