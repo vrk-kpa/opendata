@@ -13,7 +13,7 @@
   pip:
     name:
       - pip
-      - setuptools==36.1
+      - setuptools==44.1.0
       - boto
     virtualenv: "{{ opendata_frontend_virtual_environment }}"
     state: present
