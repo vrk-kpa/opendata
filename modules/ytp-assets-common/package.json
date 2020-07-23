@@ -5,7 +5,7 @@
   "repository": "https://github.com/vrk-kpa/opendata/",
   "devDependencies": {
     "del": "^5.1.0",
-    "glob-watcher": "^5.0.3",
+    "glob-watcher": "^5.0.5",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-base64-inline": "~1.0.6",
