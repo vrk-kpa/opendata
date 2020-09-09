@@ -242,6 +242,7 @@
   template:
     src: "drupal_site_config/{{ item.src }}"
     dest: "{{ drupal_root }}/site_config/{{ item.dest }}"
+    mode: "0644"
   with_items:
     - { src: system.mail.yml.j2, dest: system.mail.yml }
     - { src: smtp.settings.yml.j2, dest: smtp.settings.yml }
@@ -276,6 +277,7 @@
   template:
     src: "drupal_site_config/{{ item.src }}"
     dest: "{{ drupal_root }}/site_config/{{ item.dest }}"
+    mode: "0644"
   with_items:
     - { src: captcha.settings.yml.j2, dest: captcha.settings.yml }
     - { src: captcha.captcha_point.user_register_form.yml.j2, dest: captcha.captcha_point.user_register_form.yml }
@@ -340,3 +342,4 @@
   copy:
     src: "{{ drupal_search_engine_robots_filename }}"
     dest: "{{ drupal_root }}/web/robots.txt"
+    mode: "0644"

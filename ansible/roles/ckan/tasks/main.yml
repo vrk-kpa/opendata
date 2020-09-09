@@ -29,16 +29,19 @@
   file:
     path: "{{ ckan_cache_path }}"
     state: directory
+    mode: "0644"
 
 - name: Ensure temp directory for extensions
   file:
     path: "{{ ckan_extension_sync_path }}"
     state: directory
+    mode: "0644"
 
 - name: Ensure cache directory for pip
   file:
     path: /home/vagrant/.cache/pip/http
     state: directory
+    mode: "0644"
   when: ckan_deployment_environment_id == "vagrant"
 
 - include: extension.yml

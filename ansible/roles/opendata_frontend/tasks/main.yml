@@ -23,6 +23,7 @@
   file:
     path: "{{ opendata_frontend_server_path }}"
     state: directory
+    mode: "0644"
 
 - name: Copy assets common
   synchronize:

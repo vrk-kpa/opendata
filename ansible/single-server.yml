@@ -10,11 +10,13 @@
       file:
         path: "/var/www"
         state: directory
+        mode: "0644"
 
     - name: Enable maintenance mode
       file:
         path: "/var/www/maintenance"
         state: touch
+        mode: "0644"
 
     - import_role:
         name: secrets

@@ -30,6 +30,7 @@
     path: "{{ composer_home_path }}"
     owner: "{{ composer_home_owner }}"
     group: "{{ composer_home_group }}"
+    mode: "0644"
     state: directory
 
 - name: Install dependencies for dependency management
