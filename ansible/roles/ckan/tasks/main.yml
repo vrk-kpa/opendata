@@ -29,19 +29,19 @@
   file:
     path: "{{ ckan_cache_path }}"
     state: directory
-    mode: "0644"
+    mode: "0755"
 
 - name: Ensure temp directory for extensions
   file:
     path: "{{ ckan_extension_sync_path }}"
     state: directory
-    mode: "0644"
+    mode: "0755"
 
 - name: Ensure cache directory for pip
   file:
     path: /home/vagrant/.cache/pip/http
     state: directory
-    mode: "0644"
+    mode: "0755"
   when: ckan_deployment_environment_id == "vagrant"
 
 - include: extension.yml
@@ -168,7 +168,7 @@
     dest: "/{{ ckan_cache_path }}/{{ item }}"
     owner: root
     group: root
-    mode: "0644"
+    mode: "0666"
   with_items: "{{ ckan_sql_files_to_execute }}"
 
 - import_tasks: translations.yml

@@ -42,7 +42,7 @@
     state: directory
     owner: "{{ datapusher_user }}"
     group: "{{ datapusher_group }}"
-    mode: "0644"
+    mode: "0755"
 
 - name: Import configuration tasks
   import_tasks: configure.yml

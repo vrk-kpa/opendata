@@ -10,7 +10,7 @@
       file:
         path: "/var/www"
         state: directory
-        mode: "0644"
+        mode: "0755"
 
     - name: Enable maintenance mode
       file:
