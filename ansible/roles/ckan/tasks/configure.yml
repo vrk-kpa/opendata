@@ -64,9 +64,12 @@
 
 # Background services can block database update
 - name: Stop supervisor services
-  command: supervisorctl stop all
+  supervisorctl:
+    name: "{{ item }}"
+    state: stopped
+  with_flattened:
+    - "{{ ckan_supervisor_services }}"
   tags:
-    - skip_ansible_lint
     - supervisor
 
 - name: re-minify CKAN javascript files
