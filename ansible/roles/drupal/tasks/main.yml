@@ -119,6 +119,7 @@
   template:
     src: "services.yml.j2"
     dest: "{{ drupal_root }}/web/sites/default/services.yml"
+    mode: "0644"
 
 - name: Configure drupal instance
   import_tasks: configure_drupal.yml
