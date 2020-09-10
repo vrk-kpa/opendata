@@ -133,7 +133,6 @@
     state: started
   with_flattened:
     - "{{ ckan_supervisor_services }}"
-  ignore_errors: true
   tags:
     - supervisor
 
