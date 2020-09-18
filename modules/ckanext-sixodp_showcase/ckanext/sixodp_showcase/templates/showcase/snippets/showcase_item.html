@@ -2,10 +2,12 @@
 
 {% block item_inner %}
   {{ super() }}
+  {# Disable ratings
   {% if h.show_rating_in_type('showcase') %}
     {% block rating %}
       <p>{% snippet "rating/snippets/stars_inactive.html", package=package %}</p>
     {% endblock %}
   {% endif %}
+   #}
 {% endblock %}
 

@@ -111,9 +111,11 @@
     {% endblock %}
 
     {% block rating %}
+      {# Disable ratings
       {{ layout.moduleBoxHead(_('Rating')) }}
         {% snippet "rating/snippets/rating.html", package=pkg %}
       {{ layout.moduleBoxFoot() }}
+      #}
     {% endblock %}
 
     {% block package_feedback %}
