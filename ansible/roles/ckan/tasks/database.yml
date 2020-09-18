@@ -153,6 +153,7 @@
     --config='{{ item.file }}'
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
+  when: "'ckanext-rating' in ckan_extensions"
   tags:
     - skip_ansible_lint
 
