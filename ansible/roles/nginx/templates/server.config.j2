@@ -162,13 +162,13 @@ location /data {
     location ~ ^/data/en($|/.*) {
       return 301 /data/en_GB$1;
     }
-    location ~ /data/(fi|en|sv)/organization/(.*)/embed{
+    location ~ /data/(fi|en_GB|sv)/organization/(.*)/embed{
         # Overwrite X-Frame-Options SAMEORIGIN policy for /embed
         proxy_pass http://127.0.0.1:{{ item.apache_port }}/data/$1/organization/$2/embed$is_args$args;
         add_header Bypass-Sameorigin-Policy 1;
     }
 
-    location ~ /data/(fi/|en/|sv/)?(api/)(.*) {
+    location ~ /data/(fi/|en_GB/|sv/)?(api/)(.*) {
         proxy_pass http://127.0.0.1:{{ item.apache_port }}/data/$1$2$3?$args;
         # Do not cache api requests
         proxy_no_cache 1;
@@ -176,6 +176,10 @@ location /data {
         proxy_cache_bypass 1;
         # Do not show nginx's 404 error page for the API
         proxy_intercept_errors off;
+    }
+
+    location ~/data/(fi/|en_GB/|sv/)?feeds {
+        return 404;
     }
 }
 
