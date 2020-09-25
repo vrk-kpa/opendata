@@ -53,11 +53,11 @@ function avoindata_recent_applications() {
 
   foreach ($recentApplications as $app) {
 
-    if (strlen($app['icon']) != 0) {
-      $app_icon = $app['icon_display_url'];
+    if (strlen($app['featured_image']) != 0) {
+      $app_featured_image = $app['featured_image_display_url'];
     }
     else {
-      $app_icon = '/data/images/showcase_placeholder.png';
+      $app_featured_image = '/data/images/showcase_placeholder.png';
     }
 
     $app_date = \Drupal::service('date.formatter')->format(strtotime($app['metadata_created']), 'avoindata_long_date');
@@ -74,7 +74,7 @@ function avoindata_recent_applications() {
     <div class="avoindata-appfeed-application-box">
             <div class="application-item-logo">
               <a href="/data/{$currentLang}/showcase/{$app['name']}">
-                <img class="application-item-img" src="{$app_icon}" alt="">
+                <img class="application-item-img" src="{$app_featured_image}" alt="">
               </a>
             </div>
             <div class="application-item-content>
