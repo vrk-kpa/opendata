@@ -546,7 +546,7 @@ jobs:
               ParameterKey=AsgMaxSize,ParameterValue=/beta/web/asgmaxsize > ~/logs/beta_stack_update.log 2>&1
             aws cloudformation wait stack-update-complete --stack-name "beta-asg-lt"
           working_directory: ~/project/deploy
-          no_output_timeout: 30m
+          no_output_timeout: 60m
 
       - run:
           name: Notify Dynatrace
@@ -771,7 +771,7 @@ jobs:
               ParameterKey=AsgMaxSize,ParameterValue=/prod/web/asgmaxsize > ~/logs/prod_stack_update.log 2>&1
             aws cloudformation wait stack-update-complete --stack-name "prod-asg-lt"
           working_directory: ~/project/deploy
-          no_output_timeout: 30m
+          no_output_timeout: 60m
 
       - run:
           name: Notify Dynatrace
