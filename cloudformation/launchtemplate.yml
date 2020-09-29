@@ -184,7 +184,7 @@ Resources:
     CreationPolicy:
       ResourceSignal:
         Count: !Ref AsgDesiredSize
-        Timeout: PT20M
+        Timeout: PT40M
     Properties:
       HealthCheckGracePeriod: !Ref WebHealthCheckGracePeriod
       HealthCheckType: ELB

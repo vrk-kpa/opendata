@@ -273,6 +273,7 @@ ckan_patches:
   - side_effect_free-chained_action # https://github.com/ckan/ckan/issues/4597
   - add_drafts_to_search # https://github.com/ckan/ckan/pull/5088
   - add_group_extra_resource_db_indices
+  - add_cache_control_headers_to_flask
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
