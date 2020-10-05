@@ -32,10 +32,33 @@ class SYKEHarvester(CKANHarvester):
 
 
     def modify_package_dict(self, package_dict, harvest_object):
-        '''
-            Allows custom harvesters to modify the package dict before
-            creating or updating the actual package.
-        '''
+
+        package_dict['notes_translated'] = {
+            "fi": package_dict.get('notes', '')
+        }
+
+        extras = package_dict.get('extras', [])
+
+        for k, v in [(extra['key'], extra['value']) for extra in extras]:
+
+            if k == 'responsible-party':
+                responsible_party = json.loads(v)[0]
+                package_dict['maintainer_email'] = responsible_party.get('email', '')
+        #test = [(k,v) for extra in extras for (k,v) in extra.values()]
+        #log.info(test)
+        #for k, v in [(k, v) for extra in extras for (k, v) in extra.items()]:
+        #    log.info(k)
+        #    log.info(v)
+
+        #for extra in extras:
+        #    for key, value in extra.items():
+        #        if extra[key] == 'responsible-party':
+        #            log.info(extra[value])
+        #            responsible_party = json.loads(extra[value])
+        #            log.info(responsible_party)
+        #            package_dict['maintainer_email'] = responsible_party.get('email', '')
+
+
         return package_dict
 
     def gather_stage(self, harvest_job):
@@ -68,10 +91,6 @@ class SYKEHarvester(CKANHarvester):
         elif groups_filter_exclude:
             fq_terms.extend(
                 '-groups:%s' % group_name for group_name in groups_filter_exclude)
-
-        fq_terms.append('notes:CC BY 4.0')
-
-        log.info(fq_terms)
 
         # Ideally we can request from the remote CKAN only those datasets
         # modified since the last completely successful harvest.
@@ -138,6 +157,10 @@ class SYKEHarvester(CKANHarvester):
                              'to datasets being changed at the same time as '
                              'when the harvester was paging through',
                              pkg_dict['id'])
+                    continue
+
+                if u'CC BY 4.0' not in pkg_dict.get(u'notes', u""):
+                    log.info("Not under CC BY 4.0 license, skipping..")
                     continue
                 package_ids.add(pkg_dict['id'])
 
@@ -331,6 +354,8 @@ class SYKEHarvester(CKANHarvester):
                 # key.
                 resource.pop('revision_id', None)
 
+            package_dict = self.modify_package_dict(package_dict, harvest_object)
+
             # validate packages if needed
             validate_packages = self.config.get('validate_packages', {})
             if validate_packages:
@@ -366,7 +391,6 @@ class SYKEHarvester(CKANHarvester):
 
                 if errors:
                     raise ValidationError(errors)
-            package_dict = self.modify_package_dict(package_dict, harvest_object)
 
             result = self._create_or_update_package(
                 package_dict, harvest_object, package_dict_form='package_show')
