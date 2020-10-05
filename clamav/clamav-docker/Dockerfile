@@ -24,7 +24,8 @@ RUN mkdir /var/run/clamav && \
     chmod 750 /var/run/clamav
 
 RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf && \
-    sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf
+    sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf && \
+    service clamav-daemon restart
 
 COPY requirements.txt /
 RUN pip3 install -r /requirements.txt
