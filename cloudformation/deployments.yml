@@ -52,6 +52,7 @@ Resources:
                   - lambda:UntagResource
                   - lambda:GetFunctionConfiguration
                   - lambda:AddPermission
+                  - lambda:UpdateFunctionConfiguration
                 Resource: "*"
               - Effect: Allow
                 Action:
@@ -73,8 +74,10 @@ Resources:
                 - iam:PassRole
                 Resource: "*"
                 Condition:
-                  StringLike:
-                    iam:PassedToService: ec2.amazonaws.com*
+                  ForAllValues:StringLike:
+                    iam:PassedToService:
+                      - ec2.amazonaws.com*
+                      - lambda.amazonaws.com*
               - Effect: Allow
                 Action:
                   - autoscaling:*
