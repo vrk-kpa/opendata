@@ -30,11 +30,11 @@ def resource_status(context=None, data_dict=None):
         finished = all(x not in (None, '') for x in (sha256, malware))
 
         patch = {}
-        if status.sha256() is not None and status.sha256() is not sha256:
+        if status.sha256() is not None and status.sha256() != sha256:
             patch['sha256'] = status.sha256()
-        if status.malware() is not None and status.malware() is not malware:
+        if status.malware() is not None and status.malware() != malware:
             patch['malware_check'] = status.malware()
-        if status.updated() is not None and status.updated() is not status_updated:
+        if status.updated() is not None and status.updated() != status_updated:
             patch['status_updated'] = status.updated()
         if patch:
             patch['id'] = resource['id']
