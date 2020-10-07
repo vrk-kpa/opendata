@@ -152,6 +152,7 @@ ckan_override_requirements:
   - "flask==0.12"
   - "flask-login==0.3.0"
   - "simplejson==3.16.0"
+  - "six==1.13.0"
 
 # ckan paths
 ckan_files_root: "{{ ckan_server_path }}/files"
