@@ -11,7 +11,7 @@ Parameters:
 
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 15
 
 Resources:
   NewFileHandler:

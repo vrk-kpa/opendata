@@ -303,3 +303,4 @@ ckan_sentry_pip_packages:
   - sentry-sdk[flask]==0.10.0
 
 ckan_notifications_to_maintainers_enabled: false
+ckan_exempt_domains_from_broken_link_notifications: []
