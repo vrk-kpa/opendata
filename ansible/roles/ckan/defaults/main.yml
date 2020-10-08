@@ -8,6 +8,7 @@ ckan_plugins_default: stats scheming_datasets scheming_groups scheming_organizat
 ckan_plugin_order:
   - ckan_harvester
   - hri_harvester
+  - syke_harvester
   - dcat
   - structured_data
   - dcat_rdf_harvester

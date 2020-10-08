@@ -150,7 +150,6 @@ def simple_date_validate(value, context):
 def save_to_groups(key, data, errors, context):
     # https://docs.ckan.org/en/ckan-2.7.3/api/#ckan.logic.action.create.package_create
     # Add selected items as groups to dataset
-    log.info('save to groups')
     value = data[key]
 
     if value and value is not missing:
