@@ -11,6 +11,18 @@ import logging
 log = logging.getLogger(__name__)
 
 
+_category_mapping = {
+    u'alueet-ja-kaupungit': [u'Administrative and Political Boundaries', u'Cadastral', u'Imagery and Base Maps', u'Locations and Geodetic Networks'],
+    u'liikenne': [u'Transportation Networks'],
+    u'maatalous-kalastus-metsatalous-ja-elintarvikkeet': [u'Agriculture and Farming'],
+    u'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': [u'Military'],
+    u'rakennettu-ymparisto-ja-infrastruktuuri': [u'Utilities and Communication', u'Facilities and Structures'],
+    u'talous-ja-rahoitus': [u'Business and Economic'],
+    u'terveys': [u'Human Health and Disease'],
+    u'vaesto-ja-yhteiskunta': [u'Cultural, Society and Demography'],
+    u'ymparisto-ja-luonto': [u'Atmosphere and Climatic', u'Elevation and Derived Products', u'Environment and Conservation', u'Geological and Geophysical', u'Biology and Ecology', u'Inland Water Resources', u'Oceans and Estuaries']
+}
+
 class SYKEHarvester(CKANHarvester):
 
     def info(self):
