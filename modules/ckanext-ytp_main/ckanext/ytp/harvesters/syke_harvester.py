@@ -61,7 +61,7 @@ class SYKEHarvester(CKANHarvester):
 
             if k == u'use_constraints':
                 package_dict['copyright_notice_translated'] = {
-                    u'fi': v
+                    u'fi': json.loads(v)[0]
                 }
 
             if k == u'metadata-date':
