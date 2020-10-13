@@ -25,6 +25,7 @@ _category_mapping = {
                              u'geoscientificInformation', u'biota', u'inlandWaters', u'oceans']
 }
 
+
 class SYKEHarvester(CKANHarvester):
 
     def info(self):
