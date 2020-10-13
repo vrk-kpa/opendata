@@ -365,7 +365,7 @@ def get_geonetwork_link(uuid, organization, lang=None):
     link_stem = ""
 
     if organization == "suomen-ymparistokeskus":
-        link_stem = "http://metatieto.ymparisto.fi:8080/geoportal/catalog/search/resource/details.page?uuid={uuid}"
+        link_stem = "https://ckan.ymparisto.fi/dataset/{uuid}"
     else:
         if not lang:
             try:
