@@ -46,11 +46,14 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
     get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, \
     get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
-    sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, scheming_language_text_or_empty, \
-    get_lang_prefix, call_toolkit_function, get_translation, get_translated, dataset_display_name, resource_display_name, \
+    sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, \
+    scheming_language_text_or_empty, \
+    get_lang_prefix, call_toolkit_function, get_translation, get_translated, dataset_display_name, \
+    resource_display_name, \
     get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
     get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
-    get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin
+    get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin, \
+    get_value_from_extras_by_key, get_field_from_dataset_schema, get_field_from_resource_schema
 
 from tools import create_system_context, get_original_method
 
@@ -130,58 +133,6 @@ def _prettify(field_name):
     """ Taken from ckan.logic.ValidationError.error_summary """
     field_name = re.sub('(?<!\\w)[Uu]rl(?!\\w)', 'URL', field_name.replace('_', ' ').capitalize())
     return _(field_name.replace('_', ' '))
-
-
-def _format_value(value):
-    if isinstance(value, types.DictionaryType):
-        value_buffer = []
-        for key, item_value in value.iteritems():
-            value_buffer.append(_dict_formatter(key, item_value))
-        return value_buffer
-    elif isinstance(value, types.ListType):
-        value_buffer = []
-        for item_value in value:
-            value_buffer.append(_format_value(item_value))
-        return value_buffer
-
-    return _escape(value)
-
-
-def _format_extras(extras):
-
-    if not extras:
-        return ""
-    extra_buffer = {}
-    for extra_key, extra_value in extras.iteritems():
-        extra_buffer.update(_dict_formatter(extra_key, extra_value))
-    return extra_buffer
-
-
-def _dict_formatter(key, value):
-    value_formatter = _key_functions.get(key)
-    if value_formatter:
-        return value_formatter(key, value)
-    else:
-        value = _format_value(value)
-    if key and value:
-        return{key: value}
-    return {}
-
-
-def _parse_extras(key, extras):
-    extras_dict = dict()
-    if not key or not extras:
-        log.error("Fail at Extras key: " + repr(key))
-        log.error("Fail Extras payload: " + repr(extras))
-        return extras_dict
-    for extra in extras:
-        key = extra.get('key')
-        value = extra.get('value')
-        extras_dict.update(_dict_formatter(key, value))
-    return extras_dict
-
-
-_key_functions = {u'extras': _parse_extras}
 
 
 @logic.side_effect_free
@@ -336,9 +287,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     # ITemplateHelpers #
 
-    def format_extras(self, extras):
-        return _format_extras(extras)
-
     def _unique_formats(self, resources):
         formats = set()
         for resource in resources:
@@ -388,7 +336,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         return {'current_user': self._current_user,
                 'get_user': self._get_user,
                 'unique_formats': self._unique_formats,
-                'format_extras': self.format_extras,
                 'extra_translation': extra_translation,
                 'service_database_enabled': service_database_enabled,
                 'resource_display_name': self._resource_display_name,
@@ -430,7 +377,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'group_list_with_selected': group_list_with_selected,
                 'get_resource_sha256': get_resource_sha256,
                 'get_package_showcase_list': get_package_showcase_list,
-                'get_groups_where_user_is_admin': get_groups_where_user_is_admin
+                'get_groups_where_user_is_admin': get_groups_where_user_is_admin,
+                'get_value_from_extras_by_key': get_value_from_extras_by_key,
+                'get_field_from_dataset_schema': get_field_from_dataset_schema,
+                'get_field_from_resource_schema': get_field_from_resource_schema
                 }
 
     def get_auth_functions(self):
