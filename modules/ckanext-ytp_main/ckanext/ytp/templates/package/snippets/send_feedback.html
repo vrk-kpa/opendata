@@ -3,11 +3,10 @@
 
 {{ layout.moduleBoxHead(_('Send feedback about this dataset')) }}
 {% block package_send_feedback %}
-    {% set extra_dict = h.format_extras(pkg_dict) %}
-    {% if extra_dict.maintainer_email and extra_dict.maintainer_email != "None" %}
-      <a class="btn btn-primary" href="mailto:{{ extra_dict.maintainer_email }}">{{ _('Feedback') }}</a>
-    {% elif extra_dict.author_email and extra_dict.author_email != "None" %}
-        <a class="btn btn-primary" href="mailto:{{ extra_dict.author_email }}">{{ _('Feedback') }}</a>
+    {% if pkg_dict.maintainer_email and pkg_dict.maintainer_email != "None" %}
+      <a class="btn btn-primary" href="mailto:{{ pkg_dict.maintainer_email }}">{{ _('Feedback') }}</a>
+    {% elif pkg_dict.author_email and pkg_dict.author_email != "None" %}
+        <a class="btn btn-primary" href="mailto:{{ pkg_dict.author_email }}">{{ _('Feedback') }}</a>
     {% else %}
       {% trans %}
         <p class="empty">Not possible to send feedback on this dataset since there is no valid maintainer.</p>

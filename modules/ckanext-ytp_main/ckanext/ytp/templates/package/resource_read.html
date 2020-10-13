@@ -167,23 +167,23 @@
   
               <dt>{{ _('License') }}</dt>
               <dd>{% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}</dd>
-              {% set extra_dict = h.format_extras(res) %}
-  
-              {% if extra_dict.temporal_granularity %}
+              {% if res.temporal_granularity %}
                 <dt>{{ _('Temporal Granularity')}}</dt>
-                <dd>{{ h.extra_translation(res, 'temporal_granularity') }}</dd>
+                <dd>{%- snippet 'scheming/snippets/display_field.html',
+                      field=h.get_field_from_resource_schema(schema, 'temporal_granularity'), data=res, entity_type='dataset',
+                      object_type=dataset_type -%}</dd>
               {% endif %}
   
-              {% if extra_dict.update_frequency %}
+              {% if res.update_frequency %}
                 <dt>{{ _('Update Frequency') }}</dt>
                 <dd>{{ h.extra_translation(res, 'update_frequency') }}</dd>
               {% endif %}
   
-              {% if extra_dict.temporal_coverage_from or extra_dict.temporal_coverage_to %}
+              {% if res.temporal_coverage_from or res.temporal_coverage_to %}
                 <dt>{{ _('Temporal Coverage') }}</dt>
                 <dd>
-                  {% if extra_dict.temporal_coverage_from %}{{ h.render_date(h.date_str_to_datetime(extra_dict.temporal_coverage_from)) }}{% endif %} -
-                  {% if extra_dict.temporal_coverage_to %}{{ h.render_date(h.date_str_to_datetime(extra_dict.temporal_coverage_to))}}{% endif %}
+                  {% if res.temporal_coverage_from %}{{ h.render_date(h.date_str_to_datetime(res.temporal_coverage_from)) }}{% endif %} -
+                  {% if res.temporal_coverage_to %}{{ h.render_date(h.date_str_to_datetime(res.temporal_coverage_to))}}{% endif %}
                 </dd>
               {% endif %}
             </dl>
@@ -196,6 +196,8 @@
               'description',
               'description_translated',
               'temporal_granularity',
+              'temporal_coverage_from',
+              'temporal_coverage_to',
               'update_frequency',
               'description_translated',
               'url',
