@@ -456,6 +456,10 @@ jobs:
     docker:
       - image: circleci/python
 
+    environment:
+      SENTRY_ORG: gofore-b3
+      SENTRY_PROJECT: avoindata
+
     steps:
 
       - checkout
@@ -547,6 +551,15 @@ jobs:
             aws cloudformation wait stack-update-complete --stack-name "beta-asg-lt"
           working_directory: ~/project/deploy
           no_output_timeout: 60m
+
+      - run:
+          name: Create a release on sentry
+          command: |
+            curl -sL https://sentry.io/get-cli/ | bash
+            export SENTRY_RELEASE=$(sentry-cli releases propose-version)
+            sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
+            sentry-cli releases set-commits --auto $SENTRY_RELEASE
+            sentry-cli releases finalize $SENTRY_RELEASE
 
       - run:
           name: Notify Dynatrace
