@@ -604,10 +604,12 @@ def get_value_from_extras_by_key(object_with_extras, key):
 
     return None
 
+
 def get_field_from_dataset_schema(schema, field_name):
 
     field = next(field for field in schema.get('dataset_fields', []) if field.get('field_name') == field_name)
     return field
+
 
 def get_field_from_resource_schema(schema, field_name):
 
