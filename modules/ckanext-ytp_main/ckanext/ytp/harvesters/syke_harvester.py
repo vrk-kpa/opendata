@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import datetime
+import six
 from ckan.lib.helpers import json, date_str_to_datetime
 from ckan.plugins import toolkit
 from ckan.lib.munge import munge_tag
@@ -9,6 +10,20 @@ from ckanext.harvest.harvesters.ckanharvester import CKANHarvester
 
 import logging
 log = logging.getLogger(__name__)
+
+
+_category_mapping = {
+    u'alueet-ja-kaupungit': [u'boundaries', u'planningCadastre', u'imageryBaseMapsEarthCover', u'location'],
+    u'liikenne': [u'transportation'],
+    u'maatalous-kalastus-metsatalous-ja-elintarvikkeet': [u'farming'],
+    u'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': [u'intelligenceMilitary'],
+    u'rakennettu-ymparisto-ja-infrastruktuuri': [u'utilitiesCommunication', u'structure'],
+    u'talous-ja-rahoitus': [u'economy'],
+    u'terveys': [u'health'],
+    u'vaesto-ja-yhteiskunta': [u'society'],
+    u'ymparisto-ja-luonto': [u'climatologyMeteorologyAtmosphere', u'elevation', u'environment',
+                             u'geoscientificInformation', u'biota', u'inlandWaters', u'oceans']
+}
 
 
 class SYKEHarvester(CKANHarvester):
@@ -81,6 +96,13 @@ class SYKEHarvester(CKANHarvester):
                 except ValueError:
                     log.info("Invalid date for valid_until, ignoring..")
                     pass
+
+            if k == u'topic-category':
+                topic_categories = json.loads(v)
+                categories = [category for topic_category in topic_categories
+                              for category, iso_topic_categories in six.iteritems(_category_mapping)
+                              if topic_category in iso_topic_categories]
+                package_dict['categories'] = categories
 
         return package_dict
 
