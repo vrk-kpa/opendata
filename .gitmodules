@@ -71,3 +71,6 @@
 [submodule "modules/ckanext-prh_tools"]
 	path = modules/ckanext-prh_tools
 	url = https://github.com/Mygee/Avoindata.fi-Python-Tools
+[submodule "modules/ckanext-openapiviewer"]
+	path = modules/ckanext-openapiviewer
+	url = https://github.com/vrk-kpa/ckanext-openapiviewer.git
