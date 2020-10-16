@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@3.2.0
+  cypress: cypress-io/cypress@1.26.0
 
 commands:
   slack_notification:
@@ -241,8 +242,6 @@ jobs:
       - slack_notification
 
   cypress-web:
-    docker:
-      - image: circleci/python
 
     steps:
       - checkout
@@ -253,33 +252,11 @@ jobs:
       - run: sudo pip install boto awscli
       - run: sudo pip install ansible
 
-      - restore_cache:
-          keys:
-            - v2-cypress-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
-            - v2-cypress-deps-{{ .Branch }}
-            - v2-cypress-deps
-
       - run: |
           mkdir ~/logs
 
       - attach_workspace:
           at: ~/project
-
-      - run: sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
-
-      - run: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-
-      - run: sudo apt-get install -y nodejs
-
-      - run:
-          name: Install Dependencies
-          command: npm ci
-          working_directory: ~/project/
-
-      - save_cache:
-          key: v2-cypress-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          paths:
-            - ~/project/node_modules
 
       - run:
           name: Set instance public for Cypress
@@ -288,9 +265,8 @@ jobs:
             echo 'export CYPRESS_resetDB=false' >> $BASH_ENV
             echo 'export CYPRESS_cloudStorageEnabled=true' >> $BASH_ENV
 
-      - run:
-          name: Run cypress tests
-          command: $(npm bin)/cypress run --record --key $CYPRESS_KEY
+      - cypress/run:
+          record: true
 
         # Cleanup task to ensure that created instances will be terminated.
       - run:
