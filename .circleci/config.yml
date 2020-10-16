@@ -242,6 +242,8 @@ jobs:
       - slack_notification
 
   cypress-web:
+    docker:
+      - image: circleci/python
 
     steps:
       - checkout
