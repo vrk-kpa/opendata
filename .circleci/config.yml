@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@3.2.0
-  cypress: cypress-io/cypress@1.26.0
 
 commands:
   slack_notification:
@@ -140,8 +139,8 @@ jobs:
     steps:
       - checkout
       - run: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
-           bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
-           ' >> ~/.ssh/known_hosts
+          bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
+          ' >> ~/.ssh/known_hosts
       - run: git submodule update --init --recursive
       - run: sudo apt-get update && sudo apt-get install rsync
       - run: sudo pip install ansible
@@ -241,7 +240,7 @@ jobs:
 
       - slack_notification
 
-  cleanup:
+  cypress-web:
     docker:
       - image: circleci/python
 
@@ -254,11 +253,44 @@ jobs:
       - run: sudo pip install boto awscli
       - run: sudo pip install ansible
 
+      - restore_cache:
+          keys:
+            - v2-cypress-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - v2-cypress-deps-{{ .Branch }}
+            - v2-cypress-deps
+
       - run: |
           mkdir ~/logs
 
       - attach_workspace:
           at: ~/project
+
+      - run: sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+
+      - run: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+
+      - run: sudo apt-get install -y nodejs
+
+      - run:
+          name: Install Dependencies
+          command: npm ci
+          working_directory: ~/project/
+
+      - save_cache:
+          key: v2-cypress-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/project/node_modules
+
+      - run:
+          name: Set instance public for Cypress
+          command: |
+            echo 'export CYPRESS_BASE_URL=http://$(cat ~/project/instance_public_ip)' >> $BASH_ENV
+            echo 'export CYPRESS_resetDB=false' >> $BASH_ENV
+            echo 'export CYPRESS_cloudStorageEnabled=true' >> $BASH_ENV
+
+      - run:
+          name: Run cypress tests
+          command: $(npm bin)/cypress run --record --key $CYPRESS_KEY
 
         # Cleanup task to ensure that created instances will be terminated.
       - run:
@@ -465,35 +497,35 @@ jobs:
       - run:
           name: Start maintenance break in Dynatrace
           command: |
-              curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance?Api-Token=$DYNATRACE_AUTH_TOKEN" \
-                -H "Content-Type: application/json" \
-                -H "accept: application/json" \
-                -d '{
-                  "id": "'"$CIRCLE_BUILD_NUM"'",
-                  "type": "Planned",
-                  "description": "Maintenance break for CircleCI build '"$CIRCLE_BUILD_NUM"'",
-                  "suppressAlerts": true,
-                  "suppressProblems": true,
-                  "scope": {
-                      "matches": [
-                      {
-                        "type": "APPLICATION",
-                        "tags": [
-                          {
-                            "context": "CONTEXTLESS",
-                            "key": "beta"
-                          }
-                        ]
-                      }
-                    ]
-                   },
-                "schedule": {
-                  "type": "Once",
-                  "timezoneId": "UTC",
-                  "maintenanceStart": "'"$(date -u +'%F %R')"'",
-                  "maintenanceEnd": "'"$(date -u --date='30 min' +'%F %R')"'"
-                }
-              }' > ~/logs/dynatrace_maintenance_start.log 2>&1
+            curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "accept: application/json" \
+              -d '{
+                "id": "'"$CIRCLE_BUILD_NUM"'",
+                "type": "Planned",
+                "description": "Maintenance break for CircleCI build '"$CIRCLE_BUILD_NUM"'",
+                "suppressAlerts": true,
+                "suppressProblems": true,
+                "scope": {
+                    "matches": [
+                    {
+                      "type": "APPLICATION",
+                      "tags": [
+                        {
+                          "context": "CONTEXTLESS",
+                          "key": "beta"
+                        }
+                      ]
+                    }
+                  ]
+                 },
+              "schedule": {
+                "type": "Once",
+                "timezoneId": "UTC",
+                "maintenanceStart": "'"$(date -u +'%F %R')"'",
+                "maintenanceEnd": "'"$(date -u --date='30 min' +'%F %R')"'"
+              }
+            }' > ~/logs/dynatrace_maintenance_start.log 2>&1
 
       - run:
           name: Update stack
@@ -558,9 +590,9 @@ jobs:
       - run:
           name: End maintenance break in Dynatrace
           command: |
-              curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
-                -H "Content-Type: application/json" \
-                -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
+            curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
           when: always
 
       - store_artifacts:
@@ -699,35 +731,35 @@ jobs:
       - run:
           name: Start maintenance break in Dynatrace
           command: |
-              curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance?Api-Token=$DYNATRACE_AUTH_TOKEN" \
-                -H "Content-Type: application/json" \
-                -H "accept: application/json" \
-                -d '{
-                  "id": "'"$CIRCLE_BUILD_NUM"'",
-                  "type": "Planned",
-                  "description": "Maintenance break for CircleCI build '"$CIRCLE_BUILD_NUM"'",
-                  "suppressAlerts": true,
-                  "suppressProblems": true,
-                  "scope": {
-                      "matches": [
-                      {
-                        "type": "APPLICATION",
-                        "tags": [
-                          {
-                            "context": "CONTEXTLESS",
-                            "key": "prod"
-                          }
-                        ]
-                      }
-                    ]
-                   },
-                "schedule": {
-                  "type": "Once",
-                  "timezoneId": "UTC",
-                  "maintenanceStart": "'"$(date -u +'%F %R')"'",
-                  "maintenanceEnd": "'"$(date -u --date='30 min' +'%F %R')"'"
-                }
-              }' > ~/logs/dynatrace_maintenance_start.log 2>&1
+            curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "accept: application/json" \
+              -d '{
+                "id": "'"$CIRCLE_BUILD_NUM"'",
+                "type": "Planned",
+                "description": "Maintenance break for CircleCI build '"$CIRCLE_BUILD_NUM"'",
+                "suppressAlerts": true,
+                "suppressProblems": true,
+                "scope": {
+                    "matches": [
+                    {
+                      "type": "APPLICATION",
+                      "tags": [
+                        {
+                          "context": "CONTEXTLESS",
+                          "key": "prod"
+                        }
+                      ]
+                    }
+                  ]
+                 },
+              "schedule": {
+                "type": "Once",
+                "timezoneId": "UTC",
+                "maintenanceStart": "'"$(date -u +'%F %R')"'",
+                "maintenanceEnd": "'"$(date -u --date='30 min' +'%F %R')"'"
+              }
+            }' > ~/logs/dynatrace_maintenance_start.log 2>&1
 
       - run:
           name: Update Cloudformation stack
@@ -784,9 +816,9 @@ jobs:
       - run:
           name: End maintenance break in Dynatrace
           command: |
-              curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
-                -H "Content-Type: application/json" \
-                -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
+            curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
           when: always
 
       - store_artifacts:
@@ -818,25 +850,9 @@ workflows:
       - ansible-web:
           requires:
             - packer-web
-      - cypress/install
-      - cypress/run:
-          pre_steps:
-            - attach_workspace:
-                at: ~/project
-
-            - run:
-                name: Set instance public for Cypress
-                command: |
-                  echo 'export CYPRESS_BASE_URL=http://$(cat ~/project/instance_public_ip)' >> $BASH_ENV
-                  echo 'export CYPRESS_resetDB=false' >> $BASH_ENV
-                  echo 'export CYPRESS_cloudStorageEnabled=true' >> $BASH_ENV
+      - cypress-web:
           requires:
             - ansible-web
-            - cypress/install
-          record: true
-      - cleanup:
-          requires:
-            - cypress/run
       - packer-scheduled:
           requires:
             - flake8
