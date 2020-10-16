@@ -129,7 +129,7 @@ describe('Showcase tests', function() {
     cy.get('.error-block').siblings('textarea[name=notes_translated-en]').should('exist')
   });
 
-  it('Submitting non-existing dataset adds notification to notes', function (){
+  it('Submitting showcase with non-existing dataset adds notification to notes', function (){
     cy.visit('/')
 
     // Create admin user
@@ -140,7 +140,7 @@ describe('Showcase tests', function() {
     cy.get('ul.nav a[href="/data/fi/showcase"]').click()
 
     const showcase_data = {
-      "#field-title": "testisovellus",
+      "#field-title": "nonexisting_dataset",
       '#field-notes_translated-fi': 'Showcase test description',
       '#notifier': 'test author',
       '#notifier_email': 'test@example.com',
@@ -149,9 +149,9 @@ describe('Showcase tests', function() {
     }
 
 
-    cy.create_new_showcase_using_public_form("testisovellus", showcase_data);
+    cy.create_new_showcase_using_public_form("nonexisting_dataset", showcase_data);
     cy.login_post_request('admin', 'administrator')
-    cy.visit('/data/fi/showcase/testisovellus')
+    cy.visit('/data/fi/showcase/nonexistingdataset')
     cy.get('.notes').should('contain', "Seuraavaa aineistoa ei voitu automaattisesti liittää sovellukseen:")
 
   })
