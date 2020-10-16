@@ -242,7 +242,8 @@ Cypress.Commands.add('create_new_showcase_using_public_form', (showcase_name, sh
       "#field-title": showcase_name,
       '#field-notes_translated-fi': 'Showcase test description',
       '#notifier': 'test author',
-      '#notifier_email': 'test@example.com'
+      '#notifier_email': 'test@example.com',
+      '#field-author': 'Author of showcase'
     }
   }
 
@@ -250,7 +251,7 @@ Cypress.Commands.add('create_new_showcase_using_public_form', (showcase_name, sh
   cy.get('a[href="/data/fi/submit-showcase"]').click();
   cy.fill_form_fields(showcase_form_data);
   cy.get('button[name=save]').click();
-  cy.get('nav a[href="/data/fi/showcase"]').click();
+  cy.get('.alert_success').should('contain', 'Sovelluksen lähetys onnistui')
 })
 
 // Edits an existing showcase

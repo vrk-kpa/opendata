@@ -1,4 +1,3 @@
-require('cypress-plugin-retries');
 
 // Import commands.js using ES2015 syntax:
 import './commands'
