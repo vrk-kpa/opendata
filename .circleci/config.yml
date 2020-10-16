@@ -241,7 +241,7 @@ jobs:
 
       - slack_notification
 
-  cypress-web:
+  cleanup:
     docker:
       - image: circleci/python
 
@@ -259,16 +259,6 @@ jobs:
 
       - attach_workspace:
           at: ~/project
-
-      - run:
-          name: Set instance public for Cypress
-          command: |
-            echo 'export CYPRESS_BASE_URL=http://$(cat ~/project/instance_public_ip)' >> $BASH_ENV
-            echo 'export CYPRESS_resetDB=false' >> $BASH_ENV
-            echo 'export CYPRESS_cloudStorageEnabled=true' >> $BASH_ENV
-
-      - cypress/run:
-          record: true
 
         # Cleanup task to ensure that created instances will be terminated.
       - run:
@@ -828,9 +818,25 @@ workflows:
       - ansible-web:
           requires:
             - packer-web
-      - cypress-web:
+      - cypress/install
+      - cypress/run:
+          pre_steps:
+            - attach_workspace:
+                at: ~/project
+
+            - run:
+                name: Set instance public for Cypress
+                command: |
+                  echo 'export CYPRESS_BASE_URL=http://$(cat ~/project/instance_public_ip)' >> $BASH_ENV
+                  echo 'export CYPRESS_resetDB=false' >> $BASH_ENV
+                  echo 'export CYPRESS_cloudStorageEnabled=true' >> $BASH_ENV
           requires:
             - ansible-web
+            - cypress/install
+          record: true
+      - cleanup:
+          requires:
+            - cypress/run
       - packer-scheduled:
           requires:
             - flake8
