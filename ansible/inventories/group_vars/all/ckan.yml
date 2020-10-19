@@ -46,7 +46,6 @@ ckan_postgres:
 
 ckan_admins:
   - "{{ admin.username }}"
-  - "test-editor"
 
 
 ckan_google_analytics: "{{ google_analytics }}"
