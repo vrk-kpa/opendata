@@ -2,7 +2,7 @@
   {% for item in store_links %}
     {% if item | length > 0 %}
       <li class="mr-3">
-        {% if 'itunes.apple.com' in item %}
+        {% if 'apps.apple.com' in item or 'itunes.apple.com' in item %}
           <a href="{{item}}">
             <img src="{{ h.url_for_static('/images/apple-app-store-badge-' + h.get_lang_prefix() + '.svg') }}"> 
           </a>
