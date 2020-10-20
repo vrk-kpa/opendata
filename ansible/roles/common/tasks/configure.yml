@@ -24,6 +24,7 @@
     remote_src: true
     src: "/etc/sudoers"
     dest: "/etc/sudoers.tmp"
+    mode: "preserve"
   no_log: true
 
 - name: Ensure passwordless sudo for sudo group

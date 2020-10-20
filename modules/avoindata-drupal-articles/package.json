@@ -9,14 +9,14 @@
     "watch": "webpack --watch --mode=development"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.6",
-    "@babel/preset-env": "^7.8.6",
-    "babel-loader": "^8.0.6",
-    "webpack": "^4.41.6",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.9.0",
+    "babel-loader": "^8.1.0",
+    "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.8.3",
-    "query-string": "^6.11.0"
+    "@babel/polyfill": "^7.8.7",
+    "query-string": "^6.11.1"
   }
 }

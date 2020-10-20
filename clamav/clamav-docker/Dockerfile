@@ -1,6 +1,6 @@
-FROM python:3.7.3-slim-stretch
+FROM python:3.7-slim-buster
 
-ENV DEBIAN_VERSION stretch
+ENV DEBIAN_VERSION buster
 
 RUN echo "deb http://http.debian.net/debian/ $DEBIAN_VERSION main contrib non-free" > /etc/apt/sources.list && \
     echo "deb http://http.debian.net/debian/ $DEBIAN_VERSION-updates main contrib non-free" >> /etc/apt/sources.list && \

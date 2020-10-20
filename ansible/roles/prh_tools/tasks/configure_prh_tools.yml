@@ -3,6 +3,7 @@
       copy:
         src: "{{ item }}"
         dest: "/etc/systemd/system/{{ item }}"
+        mode: "0644"
       with_items:
         - prh.service
         - prh.timer

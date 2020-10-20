@@ -54,11 +54,12 @@
     {% endblock %}
 
     {% block material_link %}
-        {% set extra_dict = h.format_extras(pkg) %}
-        {% if extra_dict.guid %}
-            {% set material_link = h.get_geonetwork_link(extra_dict.guid, pkg.organization.name)%}
-        {% elif extra_dict.original_url %}
-            {% set material_link = extra_dict.original_url %}
+        {% set guid = h.get_value_from_extras_by_key(pkg, 'guid') %}
+        {% set original_url = h.get_value_from_extras_by_key(pkg, 'original_url') %}
+        {% if guid %}
+            {% set material_link = h.get_geonetwork_link(guid, pkg.organization.name)%}
+        {% elif original_url %}
+            {% set material_link = original_url %}
         {% endif %}
         {% if material_link %}
             {{ layout.moduleBoxHead(_('Content Link')) }}
@@ -93,13 +94,14 @@
                 {% elif pkg.license_title != None %}
                     <span property="dc:rights">{{ _(pkg.license_title) }}</span>
                 {% else %}
-                {% set extra_dict = h.format_extras(pkg) %}
-                {% if extra_dict.license_url %}
-                    <a href="{{ extra_dict.license_url }}" rel="dc:rights" class="licenseUrl">
-                    {% if extra_dict.license_title != "None" %}
-                        {{ extra_dict.license_title }}
+                {% set license_url = h.get_value_from_extras_by_key(pkg, 'license_url') %}
+                {% if license_url %}
+                    <a href="{{ license_url }}" rel="dc:rights" class="licenseUrl">
+                    {% set license_title = h.get_value_from_extras_by_key(pkg, 'license_title') %}
+                      {% if license_title != None %}
+                        {{ license_title }}
                     {% else %}
-                        {{  extra_dict.license_url }}
+                        {{ license_url }}
                     {% endif %}
                     </a>
                 {% else %}
@@ -111,9 +113,11 @@
     {% endblock %}
 
     {% block rating %}
+      {# Disable ratings
       {{ layout.moduleBoxHead(_('Rating')) }}
         {% snippet "rating/snippets/rating.html", package=pkg %}
       {{ layout.moduleBoxFoot() }}
+      #}
     {% endblock %}
 
     {% block package_feedback %}
@@ -166,18 +170,10 @@
             <span>{{ _('Downloads during year') }} {{last_year}}: {{ download_count_last_year }}</span><br/>
             <span>{{ _('All time visits:') }} {{ visits.count }}</span><br/>
             <span>{{ _('All time downloads:') }} {{ visits.download_count }}</span>
-            <script type="text/javascript"
-                src="https://www.google.com/jsapi?autoload={
-                    'modules':[{
-                    'name':'visualization',
-                    'version':'1',
-                    'packages':['corechart']
-                    }]
-                }">
-            </script>
-
+            <script src="https://www.gstatic.com/charts/loader.js"></script>
             <script type="text/javascript">
-                google.setOnLoadCallback(drawChart);
+              google.charts.load('current', {packages: ['corechart']});
+              google.charts.setOnLoadCallback(drawChart);
 
                 function drawChart() {
                     var data = google.visualization.arrayToDataTable([
@@ -222,22 +218,6 @@
 
             <div>{{_('Last Modified')}}: {{ h.render_datetime(pkg.get('metadata_modified'), "%d.%m.%Y")}}</div>
             <div>{{_('Created')}}: {{ h.render_datetime(pkg.get('metadata_created'), "%d.%m.%Y")}}</div>
-
-            <!-- Resource Creation and Modification dates-->
-
-            {% set extra_dict = h.format_extras(pkg) %}
-
-            {% if "resource_modified" in extra_dict or "resource_created" in extra_dict %}
-            <h5 class="sidebar-title">{{_('Resource')}}</h5>
-            {% endif %}
-
-            {% if extra_dict.get("resource_modified") %}
-            <div>{{_('Last Modified')}}: {{ h.render_datetime(extra_dict.get("resource_modified"), "%d.%m.%Y") }}</div>
-            {% endif %}
-            {% if extra_dict.get("resource_created") %}
-            <div>{{_('Created')}}: {{ h.render_datetime(extra_dict.get("resource_created"), "%d.%m.%Y") }}</div>
-            {% endif %}
-
             <br />
 
             <a href="/data/{{ h.lang() }}/dataset/activity/{{pkg.get('name')}}">{{_('Show change log')}} ></a>
@@ -247,4 +227,4 @@
     {% block related_info %}
         {# Related items deactivated until better defined and layouts updates #}
     {% endblock %}
-</section>
+</aside>

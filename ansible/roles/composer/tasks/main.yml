@@ -30,6 +30,7 @@
     path: "{{ composer_home_path }}"
     owner: "{{ composer_home_owner }}"
     group: "{{ composer_home_group }}"
+    mode: "0755"
     state: directory
 
 - name: Install dependencies for dependency management
@@ -37,3 +38,9 @@
     command: require
     global_command: true
     arguments: alchemy/zippy:0.4.3
+
+- name: Install specific composer version
+  composer:
+    command: self-update
+    global_command: true
+    arguments: 1.10.10

@@ -17,7 +17,7 @@ writer = csv.DictWriter(sys.stdout, fields, quoting=csv.QUOTE_ALL)
 writer.writeheader()
 
 for row in rows:
-    combined_values = combined_data[row['msgid']]
-    row['msgstr[0]'] = combined_values['%s' % csv_lang]
-    row['msgstr[1]'] = combined_values['%s_plural' % csv_lang]
+    combined_values = combined_data.get(row['msgid'], {})
+    row['msgstr[0]'] = combined_values.get('%s' % csv_lang, row['msgstr[0]'])
+    row['msgstr[1]'] = combined_values.get('%s_plural' % csv_lang, row['msgstr[1]'])
     writer.writerow(row)

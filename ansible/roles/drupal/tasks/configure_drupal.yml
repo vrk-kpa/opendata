@@ -211,6 +211,14 @@
   tags:
     - skip_ansible_lint
 
+- name: Clear caches
+  shell: ./vendor/bin/drupal cr
+  args:
+    chdir: "{{ drupal_root }}"
+  tags:
+    - skip_ansible_lint
+
+
 - name: Reload theme configurations
   shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/web/themes/avoindata/config/install"
   args:
@@ -234,6 +242,7 @@
   template:
     src: "drupal_site_config/{{ item.src }}"
     dest: "{{ drupal_root }}/site_config/{{ item.dest }}"
+    mode: "0644"
   with_items:
     - { src: system.mail.yml.j2, dest: system.mail.yml }
     - { src: smtp.settings.yml.j2, dest: smtp.settings.yml }
@@ -268,6 +277,7 @@
   template:
     src: "drupal_site_config/{{ item.src }}"
     dest: "{{ drupal_root }}/site_config/{{ item.dest }}"
+    mode: "0644"
   with_items:
     - { src: captcha.settings.yml.j2, dest: captcha.settings.yml }
     - { src: captcha.captcha_point.user_register_form.yml.j2, dest: captcha.captcha_point.user_register_form.yml }
@@ -283,7 +293,7 @@
   tags:
     - skip_ansible_lint
 
-- name: Clear caches
+- name: Clear caches again
   shell: ./vendor/bin/drupal cr
   args:
     chdir: "{{ drupal_root }}"
@@ -327,3 +337,9 @@
   with_items: "{{ drupal_roles }}"
   tags:
     - skip_ansible_lint
+
+- name: Deploy robots.txt
+  copy:
+    src: "{{ drupal_search_engine_robots_filename }}"
+    dest: "{{ drupal_root }}/web/robots.txt"
+    mode: "0644"

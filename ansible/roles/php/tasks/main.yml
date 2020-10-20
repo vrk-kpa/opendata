@@ -8,6 +8,11 @@
     - "{{ ansible_distribution }}.yml"
   tags: always
 
+- name: Add repository for up to date php
+  apt_repository:
+    repo: ppa:ondrej/php
+
+
 - name: Get PHP and required extensions
   package:
     name: "{{ php_required_packages }}"

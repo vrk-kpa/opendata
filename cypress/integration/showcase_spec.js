@@ -46,8 +46,16 @@ describe('Showcase tests', function() {
 
   it('Fill showcase form with anonymous user', function() {
     cy.visit('/');
+
+    // Create admin user
+    cy.login_post_request('admin', 'administrator')
+    cy.visit('/data/fi/dataset')
+    cy.logout_request()
+
+
     cy.get('nav a[href="/data/fi/showcase"]').click();
     cy.create_new_showcase_using_public_form("testisovellus");
+    cy.get('nav a[href="/data/fi/showcase"]').click();
     cy.get("testisovellus").should('not.exist'); // The showcase should not be visible on the list
   })
 
@@ -101,11 +109,50 @@ describe('Showcase tests', function() {
     cy.edit_showcase(showcase_name);
   })
 
-  it('Creating an empty showcase fails', function() {
-    cy.add_showcase_user();
-    cy.get('a[href="/data/fi/showcase/new"]').click();
-    cy.get('button[name=save]').click();
-    cy.get('.error-explanation');
+  it('Submitting empty showcase notifies about all mandatory fields', function (){
+    cy.visit('/')
+
+    // Create admin user
+    cy.login_post_request('admin', 'administrator')
+    cy.visit('/data/fi/dataset')
+    cy.logout_request()
+
+    cy.get('ul.nav a[href="/data/fi/showcase"]').click()
+    cy.get('a[href="/data/fi/submit-showcase"]').click()
+    cy.get('button[name=save]').click()
+
+    cy.get('.error-block').should('have.length', 5)
+    cy.get('.error-block').siblings('input[name=title]').should('exist')
+    cy.get('.error-block').siblings('input[name=author]').should('exist')
+    cy.get('.error-block').siblings('textarea[name=notes_translated-fi]').should('exist')
+    cy.get('.error-block').siblings('textarea[name=notes_translated-sv]').should('exist')
+    cy.get('.error-block').siblings('textarea[name=notes_translated-en]').should('exist')
   });
 
+  it('Submitting showcase with non-existing dataset adds notification to notes', function (){
+    cy.visit('/')
+
+    // Create admin user
+    cy.login_post_request('admin', 'administrator')
+    cy.visit('/data/fi/dataset')
+    cy.logout_request()
+
+    cy.get('ul.nav a[href="/data/fi/showcase"]').click()
+
+    const showcase_data = {
+      "#field-title": "nonexisting_dataset",
+      '#field-notes_translated-fi': 'Showcase test description',
+      '#notifier': 'test author',
+      '#notifier_email': 'test@example.com',
+      '#field-author': 'Author of showcase',
+      '#s2id_autogen1': 'test_keyword {enter}'
+    }
+
+
+    cy.create_new_showcase_using_public_form("nonexisting_dataset", showcase_data);
+    cy.login_post_request('admin', 'administrator')
+    cy.visit('/data/fi/showcase/nonexistingdataset')
+    cy.get('.notes').should('contain', "Seuraavaa aineistoa ei voitu automaattisesti liittää sovellukseen:")
+
+  })
 });

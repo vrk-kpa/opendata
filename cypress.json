@@ -3,7 +3,6 @@
   "projectId": "ssb2ut",
   "env": {
     "resetDB": true,
-    "cloudStorageEnabled": false,
-    "RETRIES": 2
+    "cloudStorageEnabled": false
   }
 }

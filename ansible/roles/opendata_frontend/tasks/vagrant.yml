@@ -14,6 +14,7 @@
   copy:
     src: package.json
     dest: "{{ opendata_frontend_server_path }}/ytp-assets-common/package.json"
+    mode: "0644"
   when: not npmrc.stat.exists
 
 - name: Symlink avoindata drupal theme to cache folder

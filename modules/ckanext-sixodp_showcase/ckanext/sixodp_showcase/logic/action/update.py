@@ -17,6 +17,7 @@ def showcase_update(context, data_dict):
     imgs = ['icon', 'featured_image', 'image_1', 'image_2', 'image_3']
     for image in imgs:
         if data_dict[image]:
+            data_dict[image] = data_dict[image].encode('utf-8')
             try:
                 upload = uploader.get_uploader('showcase', data_dict[image])
             except AttributeError:

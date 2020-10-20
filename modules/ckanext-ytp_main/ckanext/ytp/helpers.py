@@ -353,11 +353,19 @@ def get_current_date():
     return datetime.datetime.now()
 
 
+lang_map = {
+    "fi": "fin",
+    "sv": "swe",
+    "en": "eng",
+    "en_GB": "eng"
+}
+
+
 def get_geonetwork_link(uuid, organization, lang=None):
     link_stem = ""
 
     if organization == "suomen-ymparistokeskus":
-        link_stem = "http://metatieto.ymparisto.fi:8080/geoportal/catalog/search/resource/details.page?uuid={uuid}"
+        link_stem = "https://metadata.ymparisto.fi/dataset/{uuid}"
     else:
         if not lang:
             try:
@@ -365,7 +373,8 @@ def get_geonetwork_link(uuid, organization, lang=None):
             except TypeError:
                 lang = "en"
 
-        link_stem = "http://www.paikkatietohakemisto.fi/geonetwork/srv/{lang}/main.home?uuid={uuid}"
+        lang = lang_map[lang]
+        link_stem = "https://www.paikkatietohakemisto.fi/geonetwork/srv/{lang}/catalog.search#/metadata/{uuid}"
 
     return link_stem.format(lang=lang, uuid=uuid)
 
@@ -584,3 +593,25 @@ def get_package_showcase_list(package_id):
 def get_groups_where_user_is_admin():
     context = {'model': model, 'session': model.Session, 'user': c.user}
     return get_action('organization_list_for_user')(context, {'permission': 'admin'})
+
+
+def get_value_from_extras_by_key(object_with_extras, key):
+    extras = object_with_extras.get(u'extras', [])
+
+    for k, v in [(extra['key'], extra['value']) for extra in extras]:
+        if k == key:
+            return v
+
+    return None
+
+
+def get_field_from_dataset_schema(schema, field_name):
+
+    field = next(field for field in schema.get('dataset_fields', []) if field.get('field_name') == field_name)
+    return field
+
+
+def get_field_from_resource_schema(schema, field_name):
+
+    field = next(field for field in schema.get('resource_fields', []) if field.get('field_name') == field_name)
+    return field

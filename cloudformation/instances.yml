@@ -431,7 +431,7 @@ Resources:
       HealthCheckPath: /data/health
       HealthCheckPort: '80'
       HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 10
+      HealthCheckTimeoutSeconds: 20
       HealthyThresholdCount: 5
       Matcher:
         HttpCode: '200'
@@ -441,7 +441,7 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}-loadbalancer-targetGroup-http
-      UnhealthyThresholdCount: 5
+      UnhealthyThresholdCount: 10
       VpcId: !Ref Vpc
 
   PrivateALBTargetGroup:

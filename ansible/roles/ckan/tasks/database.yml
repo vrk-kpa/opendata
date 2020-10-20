@@ -61,7 +61,7 @@
     chdir='{{ ckan_virtual_environment }}'
   ignore_errors: true
   with_items: "{{ ckan_admins }}"
-  when: item not in ckan_current_sysadmins.stdout
+  when: item not in ckan_current_sysadmins.stdout | replace('Sysadmins', '')
   tags:
     - skip_ansible_lint
 
@@ -153,6 +153,7 @@
     --config='{{ item.file }}'
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
+  when: "'ckanext-rating' in ckan_extensions"
   tags:
     - skip_ansible_lint
 
