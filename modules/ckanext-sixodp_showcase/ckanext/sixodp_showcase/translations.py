@@ -59,5 +59,5 @@ def _translations():
     _("Logo will be shown at the top of the showcase page.")
     _("The featured image will be shown on the Showcases-page as well as on the showcase’s own page.")
     _("Add max. 3 images of your showcase. Good images are for example those that show the user interface and features of the showcase.")  # noqa: E501
-    _("Images will be shown on the showcase page. You can upload images from your computer or link to an URL. Telling us about a mobile app? If you want the app logo to show as the featured image, upload the app logo (and possible other images), but do not upload a featured image.")
+    _("Images will be shown on the showcase page. You can upload images from your computer or link to an URL. Telling us about a mobile app? If you want the app logo to show as the featured image, upload the app logo (and possible other images), but do not upload a featured image.")  # noqa: E501
     _("Logo")

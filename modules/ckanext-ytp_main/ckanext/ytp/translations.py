@@ -187,8 +187,6 @@ def _translations():
     _("en")
     _("sv")
 
-
-
     # Dataset
     _("Dataset title")
     _("e.g. Finnish names")
