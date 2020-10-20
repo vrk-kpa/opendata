@@ -33,6 +33,7 @@ setup(
         ytp_organizations_display=ckanext.ytp.plugin:YtpOrganizationsDisplayPlugin
         hri_harvester=ckanext.ytp.harvesters.hriharvester:HRIHarvester
         sixodp_harvester=ckanext.ytp.harvesters.sixodp_harvester:SixodpHarvester
+        syke_harvester=ckanext.ytp.harvesters.syke_harvester:SYKEHarvester
         ytp_theme=ckanext.ytp.plugin:YtpThemePlugin
         ytp_dataset=ckanext.ytp.plugin:YTPDatasetForm
         ytp_spatial=ckanext.ytp.plugin:YTPSpatialHarvester

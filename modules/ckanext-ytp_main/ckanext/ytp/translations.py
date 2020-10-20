@@ -196,6 +196,7 @@ def _translations():
     _("A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.")  # noqa: E501
     _("Write a description for the showcase.")
     _("Keywords and categories")
+    _("Keywords")
     _("Keywords help users to find your showcase. Select at least one keyword in Finnish.")
     _("e.g. names")
     _("Showcase type")
@@ -228,6 +229,7 @@ def _translations():
     _("e.g. Finnish names")
     _("Give a short and descriptive name for the dataset.")
     _("The URL is created automatically based on the dataset title. You can edit the URL if you want.")
+    _("Give a short and descriptive name for the dataset.<br><br>The URL is created automatically based on the dataset title. You can edit the URL if you want.")  # noqa: E501
     _("Dataset description")
     _("Write a description for the dataset.")
     _("Describe the dataset’s contents, collection process, quality and  possible limits, flaws and applications in a comprehensible way. Use as confining terms as possible to make it easier to find and understand the data.")  # noqa: E501
@@ -271,6 +273,32 @@ def _translations():
     _("Time Frame")
     _("Start date")
     _("End date")
+
+    # Licenses
+    _('cc-by')
+    _('cc-by-4-fi')
+    _('cc-by-4.0')
+    _('cc-by-sa')
+    _('cc-by-sa-1-fi')
+    _('cc-nc')
+    _('cc-zero')
+    _('cc-zero-1.0')
+    _('gfdl')
+    _('helsinkikanava-opendata-tos')
+    _('hri-tietoaineistot-lisenssi-nimea')
+    _('ilmoitettumuualla')
+    _('kmo-aluejakorajat')
+    _('notspecified')
+    _('odc-by')
+    _('odc-odbl')
+    _('odc-pddl')
+    _('other')
+    _('other-at')
+    _('other-closed')
+    _('other-nc')
+    _('other-open')
+    _('other-pd')
+    _('uk-ogl')
 
 
 def facet_translations():

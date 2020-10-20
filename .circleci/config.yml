@@ -38,6 +38,9 @@ jobs:
 
     steps:
       - checkout
+      - run: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+          bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
+          ' >> ~/.ssh/known_hosts
       - run: git submodule update --init --recursive
 
       # Download and cache dependencies
@@ -135,6 +138,9 @@ jobs:
 
     steps:
       - checkout
+      - run: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+          bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
+          ' >> ~/.ssh/known_hosts
       - run: git submodule update --init --recursive
       - run: sudo apt-get update && sudo apt-get install rsync
       - run: sudo pip install ansible
@@ -188,6 +194,9 @@ jobs:
 
     steps:
       - checkout
+      - run: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+          bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
+          ' >> ~/.ssh/known_hosts
       - run: git submodule update --init --recursive
       - run: sudo apt-get update && sudo apt-get install rsync
       - run: sudo pip install boto awscli
@@ -237,15 +246,18 @@ jobs:
 
     steps:
       - checkout
+      - run: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+          bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
+          ' >> ~/.ssh/known_hosts
       - run: git submodule update --init --recursive
       - run: sudo pip install boto awscli
       - run: sudo pip install ansible
 
       - restore_cache:
           keys:
-            - v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
-            - v1-deps-{{ .Branch }}
-            - v1-deps
+            - v2-cypress-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - v2-cypress-deps-{{ .Branch }}
+            - v2-cypress-deps
 
       - run: |
           mkdir ~/logs
@@ -253,7 +265,7 @@ jobs:
       - attach_workspace:
           at: ~/project
 
-      - run: sudo apt-get install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+      - run: sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
 
       - run: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 
@@ -265,10 +277,9 @@ jobs:
           working_directory: ~/project/
 
       - save_cache:
-          key: v1-deps-{{ .Branch }}-{{ checksum "package.json" }}
+          key: v2-cypress-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
-            - ~/.npm
-            - ~/.cache
+            - ~/project/node_modules
 
       - run:
           name: Set instance public for Cypress
@@ -299,6 +310,9 @@ jobs:
 
     steps:
       - checkout
+      - run: echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+          bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
+          ' >> ~/.ssh/known_hosts
       - run: git submodule update --init --recursive
       - run: sudo apt-get update && sudo apt-get install rsync
       - run: sudo pip install boto awscli
@@ -359,9 +373,9 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-deps-{{ .Branch }}-{{ checksum "modules/ytp-assets-common/package.json" }}
-            - v1-deps-{{ .Branch }}
-            - v1-deps
+            - v2-asset-deps-{{ .Branch }}-{{ checksum "modules/ytp-assets-common/package-lock.json" }}
+            - v2-asset-deps-{{ .Branch }}
+            - v2-asset-deps
 
       - run:
           name: Install Dependencies
@@ -369,10 +383,8 @@ jobs:
           working_directory: ~/project/modules/ytp-assets-common
 
       - save_cache:
-          key: v1-deps-{{ .Branch }}-{{ checksum "modules/ytp-assets-common/package.json" }}
+          key: v2-asset-deps-{{ .Branch }}-{{ checksum "modules/ytp-assets-common/package-lock.json" }}
           paths:
-            - ~/.npm
-            - ~/.cache
             - ~/project/modules/ytp-assets-common/node_modules
 
       - run:
@@ -444,6 +456,10 @@ jobs:
     docker:
       - image: circleci/python
 
+    environment:
+      SENTRY_ORG: gofore-b3
+      SENTRY_PROJECT: avoindata
+
     steps:
 
       - checkout
@@ -481,35 +497,35 @@ jobs:
       - run:
           name: Start maintenance break in Dynatrace
           command: |
-              curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance?Api-Token=$DYNATRACE_AUTH_TOKEN" \
-                -H "Content-Type: application/json" \
-                -H "accept: application/json" \
-                -d '{
-                  "id": "'"$CIRCLE_BUILD_NUM"'",
-                  "type": "Planned",
-                  "description": "Maintenance break for CircleCI build '"$CIRCLE_BUILD_NUM"'",
-                  "suppressAlerts": true,
-                  "suppressProblems": true,
-                  "scope": {
-                      "matches": [
-                      {
-                        "type": "APPLICATION",
-                        "tags": [
-                          {
-                            "context": "CONTEXTLESS",
-                            "key": "beta"
-                          }
-                        ]
-                      }
-                    ]
-                   },
-                "schedule": {
-                  "type": "Once",
-                  "timezoneId": "UTC",
-                  "maintenanceStart": "'"$(date -u +'%F %R')"'",
-                  "maintenanceEnd": "'"$(date -u --date='30 min' +'%F %R')"'"
-                }
-              }' > ~/logs/dynatrace_maintenance_start.log 2>&1
+            curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "accept: application/json" \
+              -d '{
+                "id": "'"$CIRCLE_BUILD_NUM"'",
+                "type": "Planned",
+                "description": "Maintenance break for CircleCI build '"$CIRCLE_BUILD_NUM"'",
+                "suppressAlerts": true,
+                "suppressProblems": true,
+                "scope": {
+                    "matches": [
+                    {
+                      "type": "APPLICATION",
+                      "tags": [
+                        {
+                          "context": "CONTEXTLESS",
+                          "key": "beta"
+                        }
+                      ]
+                    }
+                  ]
+                 },
+              "schedule": {
+                "type": "Once",
+                "timezoneId": "UTC",
+                "maintenanceStart": "'"$(date -u +'%F %R')"'",
+                "maintenanceEnd": "'"$(date -u --date='30 min' +'%F %R')"'"
+              }
+            }' > ~/logs/dynatrace_maintenance_start.log 2>&1
 
       - run:
           name: Update stack
@@ -534,7 +550,16 @@ jobs:
               ParameterKey=AsgMaxSize,ParameterValue=/beta/web/asgmaxsize > ~/logs/beta_stack_update.log 2>&1
             aws cloudformation wait stack-update-complete --stack-name "beta-asg-lt"
           working_directory: ~/project/deploy
-          no_output_timeout: 30m
+          no_output_timeout: 60m
+
+      - run:
+          name: Create a release on sentry
+          command: |
+            curl -sL https://sentry.io/get-cli/ | bash
+            export SENTRY_RELEASE=$(sentry-cli releases propose-version)
+            sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
+            sentry-cli releases set-commits --auto $SENTRY_RELEASE
+            sentry-cli releases finalize $SENTRY_RELEASE
 
       - run:
           name: Notify Dynatrace
@@ -565,9 +590,9 @@ jobs:
       - run:
           name: End maintenance break in Dynatrace
           command: |
-              curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
-                -H "Content-Type: application/json" \
-                -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
+            curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
           when: always
 
       - store_artifacts:
@@ -706,35 +731,35 @@ jobs:
       - run:
           name: Start maintenance break in Dynatrace
           command: |
-              curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance?Api-Token=$DYNATRACE_AUTH_TOKEN" \
-                -H "Content-Type: application/json" \
-                -H "accept: application/json" \
-                -d '{
-                  "id": "'"$CIRCLE_BUILD_NUM"'",
-                  "type": "Planned",
-                  "description": "Maintenance break for CircleCI build '"$CIRCLE_BUILD_NUM"'",
-                  "suppressAlerts": true,
-                  "suppressProblems": true,
-                  "scope": {
-                      "matches": [
-                      {
-                        "type": "APPLICATION",
-                        "tags": [
-                          {
-                            "context": "CONTEXTLESS",
-                            "key": "prod"
-                          }
-                        ]
-                      }
-                    ]
-                   },
-                "schedule": {
-                  "type": "Once",
-                  "timezoneId": "UTC",
-                  "maintenanceStart": "'"$(date -u +'%F %R')"'",
-                  "maintenanceEnd": "'"$(date -u --date='30 min' +'%F %R')"'"
-                }
-              }' > ~/logs/dynatrace_maintenance_start.log 2>&1
+            curl -X POST "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "accept: application/json" \
+              -d '{
+                "id": "'"$CIRCLE_BUILD_NUM"'",
+                "type": "Planned",
+                "description": "Maintenance break for CircleCI build '"$CIRCLE_BUILD_NUM"'",
+                "suppressAlerts": true,
+                "suppressProblems": true,
+                "scope": {
+                    "matches": [
+                    {
+                      "type": "APPLICATION",
+                      "tags": [
+                        {
+                          "context": "CONTEXTLESS",
+                          "key": "prod"
+                        }
+                      ]
+                    }
+                  ]
+                 },
+              "schedule": {
+                "type": "Once",
+                "timezoneId": "UTC",
+                "maintenanceStart": "'"$(date -u +'%F %R')"'",
+                "maintenanceEnd": "'"$(date -u --date='30 min' +'%F %R')"'"
+              }
+            }' > ~/logs/dynatrace_maintenance_start.log 2>&1
 
       - run:
           name: Update Cloudformation stack
@@ -759,7 +784,7 @@ jobs:
               ParameterKey=AsgMaxSize,ParameterValue=/prod/web/asgmaxsize > ~/logs/prod_stack_update.log 2>&1
             aws cloudformation wait stack-update-complete --stack-name "prod-asg-lt"
           working_directory: ~/project/deploy
-          no_output_timeout: 30m
+          no_output_timeout: 60m
 
       - run:
           name: Notify Dynatrace
@@ -791,9 +816,9 @@ jobs:
       - run:
           name: End maintenance break in Dynatrace
           command: |
-              curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
-                -H "Content-Type: application/json" \
-                -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
+            curl -X DELETE "https://$DYNATRACE_SERVICE_DOMAIN/api/v1/maintenance/$CIRCLE_BUILD_NUM?Api-Token=$DYNATRACE_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -H "accept: application/json" > ~/logs/dynatrace_maintenance_end.log 2>&1
           when: always
 
       - store_artifacts:

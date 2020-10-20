@@ -11,7 +11,7 @@
       "form_languages": ["fi", "en", "sv"],
       "form_placeholder": "e.g. Finnish names",
       "only_default_lang_required": true,
-      "description": "Give a short and descriptive name for the dataset.",
+      "description": "Give a short and descriptive name for the dataset.<br><br>The URL is created automatically based on the dataset title. You can edit the URL if you want.",
       "group_title": "Dataset title",
       "group_description": "* Required field"
     },
@@ -23,7 +23,7 @@
       "form_attrs": {
         "class": "form-control"
       },
-      "description": "The URL is created automatically based on the dataset title. You can edit the URL if you want."
+      "description": ""
     },
     {
       "field_name": "notes_translated",
@@ -42,7 +42,7 @@
     },
     {
       "field_name": "keywords",
-      "label": "Tags",
+      "label": "Keywords",
       "form_placeholder": "e.g. names",
       "form_languages": ["fi", "en", "sv"],
       "preset": "fluent_vocabulary_with_autocomplete",
@@ -120,7 +120,6 @@
       "form_placeholder": "e.g. Data was produced by Finnish Digital Agency",
       "form_languages": ["fi", "en", "sv"],
       "label": "More about the license",
-      "display_snippet": null,
       "description": "Describe how you want your organisation to be named when using CC BY 4 -license."
     },
     {

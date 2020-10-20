@@ -86,10 +86,12 @@ ckan.feeds.date = 2019-01-01
 ckan.feeds.author_name =
 ckan.feeds.author_link =
 ckan.search.show_all_types = False
+ckan.max_image_size = 5
 
 ckan.cors.origin_allow_all = True
-
 ckan.activity_streams_email_notifications = True
+ckan.cache_enabled = True
+ckan.cache_expires = 90
 
 email_to = {{ ckan_error_email }}
 error_email_from = {{ ckan_error_email_from }}
@@ -121,7 +123,7 @@ ckanext-archiver.cache_url_root = {{ ckan_extension_archiver_cache_protocol }}:/
 ckanext-archiver.user_agent_string = {{ item.hostname }} archiver
 ckanext-archiver.archive_cloud = True
 ckanext-archiver.send_notification_emails_to_maintainers = {{ ckan_notifications_to_maintainers_enabled }}
-
+ckanext-archiver.exempt_domains_from_broken_link_notifications = {{ ckan_exempt_domains_from_broken_link_notifications | join(' ') }}
 
 ckanext.sixodp_showcasesubmit.creating_user_username = {{ ckan_admin.username }}
 ckanext.sixodp_showcasesubmit.recaptcha_sitekey = {{ ckan_recaptcha_public_key }}

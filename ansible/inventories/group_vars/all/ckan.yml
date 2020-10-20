@@ -1,7 +1,7 @@
 ckan_hostname: "{{ hostname }}"
 ckan_secondary_hostname: "{{ secondary_hostname }}"
 ckan_virtual_environment: "{{ virtual_environment }}"
-ckan_version: "2.8.3"
+ckan_version: "2.8.4"
 
 ckan_debug_enabled: false
 ckan_postgres_installed_locally: false
@@ -46,7 +46,6 @@ ckan_postgres:
 
 ckan_admins:
   - "{{ admin.username }}"
-  - "test-editor"
 
 
 ckan_google_analytics: "{{ google_analytics }}"

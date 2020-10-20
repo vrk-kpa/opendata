@@ -231,10 +231,10 @@ def migrate_temporal_granularity(ctx, config, dryrun):
                     if isinstance(v, basestring) and len(v) > 0:
                         temporal_granularity[k] = [v]
                         changes = True
-                    elif isinstance(v, basestring) and len(v) != 0:
+                    elif isinstance(v, basestring):
                         temporal_granularity.pop(k)
                         changes = True
-                resource_patches.append(resource)
+            resource_patches.append(resource)
         if changes:
             # Resources need to patched all at once, so they are moved to package patch
             patch = {'id': old_package_dict['id'], 'resources': resource_patches}

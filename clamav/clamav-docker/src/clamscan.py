@@ -23,8 +23,9 @@ class ClamScanner:
 
     def __init__(self, file_name):
         self.file = file_name
-        self.update_clamav_definitions()
         self.start_clam_daemon()
+        self.update_clamav_definitions()
+
 
     @staticmethod
     def update_clamav_definitions():

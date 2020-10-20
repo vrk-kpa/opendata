@@ -66,8 +66,12 @@
         data-module-label="title">
     </div>
 
-    {% call form.input_block('platform',
+    {% call scheming_form.input(
+      'platform',
+      id='field-platform',
       label=_('Platform'),
+      description=_('If you have created a mobile or desktop application, select which platforms it supports.'),
+      value=data['platform'],
       error=errors['platform'],
       is_required=false
       ) %}

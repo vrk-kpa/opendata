@@ -18,6 +18,7 @@
       dest: "{{ ckan_extension_sync_path }}/"
       owner: root
       group: root
+      mode: "0755"
 
   when: ckan_deployment_environment_id != "vagrant"
 

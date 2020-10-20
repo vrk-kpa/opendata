@@ -63,3 +63,13 @@
     name: nginx
     state: "{{ nginx_service_state }}"
     enabled: true
+
+
+# Fetch full catalogs on web servers
+- name: Copy fetch script
+  copy:
+    src: fetch_catalogs.bash
+    dest: /var/www/fetch_catalogs.bash
+    mode: "0700"
+  tags:
+    - nginx
