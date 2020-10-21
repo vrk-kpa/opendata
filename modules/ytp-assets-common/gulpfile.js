@@ -34,6 +34,7 @@ var paths = {
     scripts: "src/scripts/**/*",
     bootstrap_styles: "node_modules/bootstrap/less",
     bootstrap_scripts: "node_modules/bootstrap/js/*",
+    moment_path: "node_modules/moment",
     root: "src"
   },
   dist: "resources"
@@ -240,8 +241,17 @@ gulp.task('copy:libs', (done) => {
   ], done)
 });
 
+gulp.task("copy:moment", (done) => {
+  pump([
+    gulp.src(paths.src.moment_path + "/min/**/*"),
+    gulp.dest(paths.src.moment_path + "/dist/min")
+  ], done)
+})
+
 gulp.task("vendor",
-  gulp.series("copy:libs", (done) => {
+  gulp.series(
+    "copy:moment",
+    "copy:libs", (done) => {
     pump([
       gulp.src(paths.src.root + "/vendor/**/*"),
       gulp.dest(paths.dist + "/vendor"),
