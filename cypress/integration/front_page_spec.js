@@ -6,6 +6,9 @@ describe('Basic tests', function() {
   // Opens pages, which don't require a certain dataset, resource, organization
   // or other item to exist. Only tests that the url doesn't return an error code
   it('Opens all kinds of various pages', function() {
+    // Ensure platform vocabulary for submit-showcase
+    cy.create_platform_vocabulary();
+
     cy.request("/data/dataset");
     cy.request("/data/sv/dataset");
     cy.request("/data/en_GB/dataset");
@@ -71,13 +74,13 @@ describe('Test contact page', function () {
   });
 
   it('Sending feedback containing external url should fail', function () {
-    cy.visit('/contact');
+    cy.visit('/en/contact');
     cy.get('#edit-name').type("Some name");
     cy.get('#edit-mail').type('foo@example.com');
     cy.get('#edit-subject-0-value').type('Some subject');
     cy.get('#edit-message-0-value').type('This content contains url to external site http://example.com');
     cy.get('#edit-submit').click();
-    cy.get('.messages__wrapper').contains('It looks like your post contains spam content. If you believe otherwise, please contact us.')
+    cy.get('.messages__wrapper').children('div').should('have.class', 'alert-danger').contains('spam content')
   });
 
 });
