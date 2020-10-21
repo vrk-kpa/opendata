@@ -144,7 +144,7 @@
       "field_name": "platform",
       "label": "Platform",
       "preset": "vocabulary_with_autocomplete",
-      "validators": "convert_to_list create_tags(platform)",
+      "validators": "convert_to_list create_tags(platform) ignore_missing",
       "form_attrs": {
         "data-module": "autocomplete",
         "data-module-tags": "",
