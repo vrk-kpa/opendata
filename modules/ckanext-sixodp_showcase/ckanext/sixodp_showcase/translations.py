@@ -1,3 +1,4 @@
+# coding=utf-8
 def _translations():
     """ Does nothing but hints message extractor to extract missing strings. """
     from ckan.common import _, ungettext
@@ -25,3 +26,38 @@ def _translations():
     _("eg. traffic")
     ungettext("The dataset has been added to the showcase.", "The datasets have been added to the showcase.", 2)
     ungettext("The dataset has been removed from the showcase.", "The datasets have been removed from the showcase.", 2)
+    _("Showcase name")
+    _("* Required field")
+    _("e.g. Most popular first names by region")
+    _("The showcase’s URL on opendata.fi. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.")  # noqa: E501
+    _("Showcase description")
+    _("A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.")  # noqa: E501
+    _("Write a description for the showcase.")
+    _("Keywords and categories")
+    _("Keywords")
+    _("Keywords help users to find your showcase. Select at least one keyword in Finnish.")
+    _("e.g. names")
+    _("Showcase type")
+    _("Select one or more type that describes your showcase.")
+    _("Select at least one category.")
+    _("Additional showcase information")
+    _("If you have created a mobile or desktop application, select which platforms it supports.")
+    _("Showcase website")
+    _("Links to app stores")
+    _("Developer")
+    _("e.g. Digital and Population Data Services Agency")
+    _("Developer website")
+    _("e.g. www.dvv.fi")
+    _("e.g. dvv.fi/showcase")
+    _("e.g. appstore.com/app")
+    _("e.g. Jane Doe")
+    _("e.g. jane.doe@dvv.fi")
+    _("Yes")
+    _("No")
+    _("Type in application website")
+    _("Type in URL")
+    _("Logo will be shown at the top of the showcase page.")
+    _("The featured image will be shown on the Showcases-page as well as on the showcase’s own page.")
+    _("Add max. 3 images of your showcase. Good images are for example those that show the user interface and features of the showcase.")  # noqa: E501
+    _("Images will be shown on the showcase page. You can upload images from your computer or link to an URL. Telling us about a mobile app? If you want the app logo to show as the featured image, upload the app logo (and possible other images), but do not upload a featured image.")  # noqa: E501
+    _("Logo")
