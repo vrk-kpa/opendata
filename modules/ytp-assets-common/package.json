@@ -29,9 +29,6 @@
     "stylelint": "^13.7.2",
     "stylelint-config-standard": "^20.0.0"
   },
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "dependencies": {
     "@fortawesome/fontawesome-pro": "^5.15.1",
     "bootstrap": "^3.4.1",
