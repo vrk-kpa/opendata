@@ -136,7 +136,6 @@ gulp.task("images", (done) => {
   pump([
     gulp.src(paths.src.images),
     imagemin([
-      imagemin.gifsicle(),
       imagemin.mozjpeg(),
       imagemin.optipng(),
       imageminJpegoptim({
