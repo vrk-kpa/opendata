@@ -9,7 +9,7 @@ var del = require("del");
 var template = require("gulp-template");
 var inlineCss = require("gulp-inline-css");
 var cleancss = require("gulp-clean-css");
-var uglify = require("gulp-uglify");
+var terser = require("gulp-terser");
 var base64 = require("gulp-base64-inline");
 var pump = require("pump");
 var npmDist = require('gulp-npm-dist');
@@ -47,7 +47,7 @@ if (!fs.existsSync('node_modules/@fortawesome/fontawesome-pro')){
 var timestamp = new Date().getTime();
 
 gulp.task("clean", done => {
-  del.sync([paths.dist, paths.root + '/vendor']);
+  del.sync([paths.dist, paths.root + '/vendor/**']);
   done();
 });
 
@@ -77,10 +77,8 @@ gulp.task("ckan",(done) => {
     sourcemaps.init(),
     less({paths: [paths.src.ckan]}),
     prefixer(),
-    template(),
     cleancss({ keepBreaks: false }),
     concat("ckan.css"),
-    sourcemaps.write("./maps"),
     gulp.dest(paths.dist + "/styles")
   ], done)
 });
@@ -139,7 +137,7 @@ gulp.task("images", (done) => {
     gulp.src(paths.src.images),
     imagemin([
       imagemin.gifsicle(),
-      imagemin.jpegtran(),
+      imagemin.mozjpeg(),
       imagemin.optipng(),
       imageminJpegoptim({
         max: 90
@@ -257,7 +255,7 @@ gulp.task(
   gulp.series("vendor", (done) => {
     pump([
       gulp.src(paths.dist + "/vendor/**/*.js"),
-      uglify(),
+      terser(),
       gulp.dest(paths.dist + "/vendor")
     ], done)
   })
