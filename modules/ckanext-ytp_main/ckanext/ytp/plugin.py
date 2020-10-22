@@ -53,7 +53,7 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
     get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
     get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin, \
-    get_value_from_extras_by_key, get_field_from_dataset_schema, get_field_from_resource_schema
+    get_value_from_extras_by_key, get_field_from_dataset_schema, get_field_from_resource_schema, is_boolean_selected
 
 from tools import create_system_context, get_original_method
 
@@ -380,7 +380,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_groups_where_user_is_admin': get_groups_where_user_is_admin,
                 'get_value_from_extras_by_key': get_value_from_extras_by_key,
                 'get_field_from_dataset_schema': get_field_from_dataset_schema,
-                'get_field_from_resource_schema': get_field_from_resource_schema
+                'get_field_from_resource_schema': get_field_from_resource_schema,
+                "is_boolean_selected": is_boolean_selected
                 }
 
     def get_auth_functions(self):

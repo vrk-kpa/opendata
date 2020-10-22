@@ -180,7 +180,7 @@
       "upload_label": "Icon",
       "description": "Logo will be shown at the top of the showcase page.",
       "group_title": "Showcase images",
-      "group_description": "Images will be shown on the showcase page. You can upload images from your computer or link to an URL."
+      "group_description": "Images will be shown on the showcase page. You can upload images from your computer or link to an URL. Telling us about a mobile app? If you want the app logo to show as the featured image, upload the app logo (and possible other images), but do not upload a featured image."
     },
     {
       "field_name": "owner_org",

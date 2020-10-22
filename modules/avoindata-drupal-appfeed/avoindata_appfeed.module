@@ -56,6 +56,9 @@ function avoindata_recent_applications() {
     if (strlen($app['featured_image']) != 0) {
       $app_featured_image = $app['featured_image_display_url'];
     }
+    elseif (strlen($app['icon_display_url']) != 0){
+      $app_featured_image = $app['icon_display_url'];
+    }
     else {
       $app_featured_image = '/data/images/showcase_placeholder.png';
     }
