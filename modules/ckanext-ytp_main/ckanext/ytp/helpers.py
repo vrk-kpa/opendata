@@ -515,6 +515,7 @@ def check_group_selected(val, data):
         return True
     return False
 
+
 def is_boolean_selected(value, selected):
     try:
         return toolkit.asbool(value) is toolkit.asbool(selected)
