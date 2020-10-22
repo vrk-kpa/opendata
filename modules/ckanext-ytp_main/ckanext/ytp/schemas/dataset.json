@@ -201,6 +201,25 @@
       "description": "Select international benchmarks which this dataset belongs to."
     },
     {
+      "field_name": "state",
+      "label": "State",
+      "preset": "select",
+      "form_snippet": "state.html",
+      "choices": [
+        {
+          "label": "Active",
+          "value": "active"
+        },
+        {
+          "label": "Deleted",
+          "value": "deleted"
+        }
+      ],
+      "default_value": "active",
+      "validators": "ignore_not_package_admin ignore_missing",
+      "description": "You can set the state of the dataset back to active."
+    },
+    {
       "field_name": "owner_org",
       "label": "Publisher",
       "preset": "dataset_organization_ex",

@@ -17,7 +17,7 @@
                 type="radio"
                 name="{{ field.field_name }}"
                 value="{{ c.value }}"
-                {{"checked " if c.value == selected or h.asbool(c.value) is sameas h.asbool(selected) }} />
+                {{"checked " if c.value == selected or h.is_boolean_selected(c.value, selected) }} />
 
             <div class="check"></div>
             {{ h.scheming_language_text(c.label) }}
