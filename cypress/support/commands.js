@@ -361,11 +361,6 @@ Cypress.Commands.add(
   (document, selector) => Cypress.$(selector, document)
 )
 
-Cypress.Commands.add('create_platform_vocabulary', () => {
-  cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_platform_vocabulary --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
-});
-
-
 // generate random end to new data - ei toimi näin täältä - pitää muokata - jos asetettu testitapaukseen toimii
 function url_Alpha_Numeric() {
   var text = "";

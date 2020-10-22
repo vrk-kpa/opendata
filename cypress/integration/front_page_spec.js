@@ -7,7 +7,7 @@ describe('Basic tests', function() {
   // or other item to exist. Only tests that the url doesn't return an error code
   it('Opens all kinds of various pages', function() {
     // Ensure platform vocabulary for submit-showcase
-    cy.create_platform_vocabulary();
+    cy.reset_db();
 
     cy.request("/data/dataset");
     cy.request("/data/sv/dataset");
