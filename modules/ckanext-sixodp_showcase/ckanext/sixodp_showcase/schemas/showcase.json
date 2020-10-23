@@ -125,7 +125,7 @@
       "label": "Platform",
       "form_placeholder": "If you have created a mobile or desktop application, select which platforms it supports.",
       "validators": "empty_string_if_value_missing list_to_string",
-      "output_validators": "string_to_list",
+      "output_validators": "convert_to_list",
       "description": "",
       "form_snippet": "select_preset_options.html",
       "vocabulary": "platform"

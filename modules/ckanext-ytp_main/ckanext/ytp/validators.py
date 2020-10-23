@@ -55,17 +55,6 @@ def list_to_string(list):
     return list
 
 
-def string_to_list(value):
-    if isinstance(value, basestring):
-        tags = [tag.strip()
-                for tag in value.split(',')
-                if tag.strip()]
-    else:
-        tags = value
-
-    return tags
-
-
 def tag_string_or_tags_required(key, data, errors, context):
     value = data.get(key)
     if not value or value is df.missing:
