@@ -1,4 +1,10 @@
 describe('Basic tests', function() {
+  before(function () {
+    // Ensure platform vocabulary for submit-showcase
+    cy.reset_db();
+  });
+
+
   it('Opens frontpage!', function() {
     cy.visit("/");
   });
@@ -6,9 +12,6 @@ describe('Basic tests', function() {
   // Opens pages, which don't require a certain dataset, resource, organization
   // or other item to exist. Only tests that the url doesn't return an error code
   it('Opens all kinds of various pages', function() {
-    // Ensure platform vocabulary for submit-showcase
-    cy.reset_db();
-
     cy.request("/data/dataset");
     cy.request("/data/sv/dataset");
     cy.request("/data/en_GB/dataset");
