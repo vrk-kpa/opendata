@@ -366,7 +366,7 @@ jobs:
 
   stylelint:
     docker:
-      - image: circleci/node
+      - image: circleci/node:14
 
     steps:
       - checkout
