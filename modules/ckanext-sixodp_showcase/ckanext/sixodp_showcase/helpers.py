@@ -61,7 +61,5 @@ def get_vocabulary(vocab_id):
 def translate_list_items(old_list):
     translated_list = []
     for item in old_list:
-        print item
         translated_list.append(tk._(item))
-    print translated_list
     return translated_list
