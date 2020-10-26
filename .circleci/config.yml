@@ -155,8 +155,7 @@ jobs:
       - run:
           name: Set circle ip to env
           command: |
-            public_ip_address=$(wget -qO- http://checkip.amazonaws.com)
-            echo 'export BUILDER_CIDR=$public_ip_address' >> $BASH_ENV
+            echo 'export BUILDER_CIDR=$(wget -qO- http://checkip.amazonaws.com)' >> $BASH_ENV
 
       - run:
           name: Validate packer file
@@ -337,8 +336,7 @@ jobs:
       - run:
           name: Set circle ip to env
           command: |
-            public_ip_address=$(wget -qO- http://checkip.amazonaws.com)
-            echo 'export BUILDER_CIDR=$public_ip_address' >> $BASH_ENV
+            echo 'export BUILDER_CIDR=$(wget -qO- http://checkip.amazonaws.com)' >> $BASH_ENV
 
       - run:
           name: Validate packer file
