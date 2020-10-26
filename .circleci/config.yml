@@ -153,15 +153,15 @@ jobs:
           command: wget https://releases.hashicorp.com/packer/1.6.4/packer_1.6.4_linux_amd64.zip -O /tmp/packer.zip && sudo unzip /tmp/packer.zip -d /usr/local/bin/
 
       - run:
-          name: Validate packer file
-          command: packer validate ../packer/packer-web.json
-          working_directory: ~/project/ansible
-
-      - run:
           name: Set circle ip to env
           command: |
             public_ip_address=$(wget -qO- http://checkip.amazonaws.com)
             echo 'export BUILDER_CIDR=$public_ip_address' >> $BASH_ENV
+
+      - run:
+          name: Validate packer file
+          command: packer validate ../packer/packer-web.json
+          working_directory: ~/project/ansible
 
       - run:
           name: Build ami
@@ -335,16 +335,16 @@ jobs:
           command: wget https://releases.hashicorp.com/packer/1.6.4/packer_1.6.4_linux_amd64.zip -O /tmp/packer.zip && sudo unzip /tmp/packer.zip -d /usr/local/bin/
 
       - run:
-          name: Validate packer file
-          command: packer validate ../packer/packer-scheduled.json
-          working_directory: ~/project/ansible
-
-      - run:
           name: Set circle ip to env
           command: |
             public_ip_address=$(wget -qO- http://checkip.amazonaws.com)
             echo 'export BUILDER_CIDR=$public_ip_address' >> $BASH_ENV
-            
+
+      - run:
+          name: Validate packer file
+          command: packer validate ../packer/packer-scheduled.json
+          working_directory: ~/project/ansible
+
       - run:
           name: Build ami
           command: "packer build ../packer/packer-scheduled.json >> ~/logs/packer_build.log 2>&1"
