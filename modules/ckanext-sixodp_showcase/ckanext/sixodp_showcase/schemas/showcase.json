@@ -66,7 +66,6 @@
       "form_snippet": "ytp_multiple_checkbox_without_link_to_dataset_groups.html",
       "choices_helper": "scheming_category_list",
       "description": "Select at least one category.",
-      "validators": "empty_dict_if_value_missing",
       "display_snippet": null
     },
     {
