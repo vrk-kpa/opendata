@@ -130,31 +130,58 @@ def create_platform_vocabulary(ctx, config):
     help=u'Creates a showcase_type vocabulary to use as a preset list of options'
 )
 @click_config_option
+@click.option(u'--dryrun', is_flag=True)
 @click.pass_context
-def create_showcase_type_vocabulary(ctx, config):
+def create_showcase_type_vocabulary(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
     context = {'ignore_auth': True}
     vocab_id = 'showcase_type'
     tags = (u"Mobile application", u"Other application", u"Tools", u"Website", u"Visualisation")
+    tags_to_delete = []
+    tags_to_create = []
+    if dryrun:
+        print "-- Dryrun --"
     try:
         data = {'id': vocab_id}
         old_tags = toolkit.get_action('vocabulary_show')(context, data)
+        print 'Showcase type vocabulary found; clearing old tags if needed'
         for old_tag in old_tags.get('tags'):
-            if old_tag['id'] in tags:
+            if old_tag['name'] in tags:
                 continue
             else:
+                tags_to_delete.append({'name': old_tag['name']})
+                if dryrun:
+                    continue
                 toolkit.get_action('tag_delete')(context, {'id': old_tag['id']})
         for tag in tags:
             try:
                 toolkit.get_action('tag_show')(context, {'id': tag, 'vocabulary_id': vocab_id})
             except toolkit.ObjectNotFound:
+                tags_to_create.append({'name': tag})
+                if dryrun:
+                    continue
                 toolkit.get_action('tag_create')(context, {'name': tag, 'vocabulary_id': old_tags.get('id')})
     except NotFound:
+        print 'Showcase type vocabulary not found'
         data = {'name': vocab_id}
         vocab = toolkit.get_action('vocabulary_create')(context, data)
+        print 'Showcase type vocabulary created'
         for tag in tags:
             data = {'name': tag, 'vocabulary_id': vocab['id']}
+            tags_to_create.append({'name': tag})
+            if dryrun:
+                continue
             toolkit.get_action('tag_create')(context, data)
+
+    if len(tags_to_create) > 0 or len(tags_to_delete) > 0:
+        print "Tags to be deleted:" if dryrun else "Deleted tags:"
+        print tags_to_delete
+        print ""
+        print "Tags to be created:" if dryrun else "Created tags:"
+        print tags_to_create
+        print ""
+    else:
+        print "No changes"
 
 
 @sixodp_showcase_group.command(
