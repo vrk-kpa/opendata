@@ -15,7 +15,7 @@ Example:
         <div class="module-content">
           {% block package_info_inner %}
             {% block heading %}
-              <h1 class="heading">{{ pkg.title or pkg.name }}</h1>
+              <h1 class="heading">{{ h.get_translated(pkg, 'title') or pkg.name }}</h1>
             {% endblock %}
             {% block nums %}
               <div class="nums">

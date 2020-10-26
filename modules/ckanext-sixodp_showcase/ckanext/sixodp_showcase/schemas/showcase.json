@@ -121,6 +121,26 @@
       "validators": "boolean_validator"
     },
     {
+      "field_name": "harvested",
+      "label": "Harvested",
+      "preset": "select",
+      "choices": [
+        {
+          "value": "false",
+          "label": "No"
+        },
+        {
+          "value": "true",
+          "label": "Yes"
+        }
+      ],
+      "form_snippet": null,
+      "display_snippet": null,
+      "default_value": "false",
+      "validators": "boolean_validator",
+      "output_validators": "boolean_validator"
+    },
+    {
       "field_name": "platform",
       "label": "Platform",
       "form_placeholder": "If you have created a mobile or desktop application, select which platforms it supports.",
