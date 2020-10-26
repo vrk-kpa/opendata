@@ -158,6 +158,12 @@ jobs:
           working_directory: ~/project/ansible
 
       - run:
+          name: Set circle ip to env
+          command: |
+            public_ip_address=$(wget -qO- http://checkip.amazonaws.com)
+            echo 'export BUILDER_CIDR=$public_ip_address' >> $BASH_ENV
+
+      - run:
           name: Build ami
           command: "packer build ../packer/packer-web.json >> ~/logs/packer_build.log 2>&1"
           no_output_timeout: 60m
@@ -333,6 +339,12 @@ jobs:
           command: packer validate ../packer/packer-scheduled.json
           working_directory: ~/project/ansible
 
+      - run:
+          name: Set circle ip to env
+          command: |
+            public_ip_address=$(wget -qO- http://checkip.amazonaws.com)
+            echo 'export BUILDER_CIDR=$public_ip_address' >> $BASH_ENV
+            
       - run:
           name: Build ami
           command: "packer build ../packer/packer-scheduled.json >> ~/logs/packer_build.log 2>&1"

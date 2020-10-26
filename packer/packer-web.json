@@ -18,6 +18,9 @@
       "owners": ["099720109477"],
       "most_recent": true
     },
+    "temporary_security_group_source_cidrs": [
+      "{{env `BUILDER_CIDR` }}/32"
+    ],
     "instance_type": "t3.medium",
     "shutdown_behavior": "terminate",
     "user_data": "#!/bin/bash\n/sbin/shutdown -h +60 \"Scheduled shutdown\"",
