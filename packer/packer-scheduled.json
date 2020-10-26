@@ -4,7 +4,8 @@
     "commit": "{{env `CIRCLE_SHA1` }}",
     "build": "{{env `CIRCLE_BUILD_NUM` }}",
     "packer_instance_profile": "{{env `AWS_PACKER_EC2_INSTANCE_PROFILE` }}",
-    "aws_production_account_id": "{{env `AWS_PRODUCTION_ACCOUNT_ID` }}"
+    "aws_production_account_id": "{{env `AWS_PRODUCTION_ACCOUNT_ID` }}",
+    "builder_cidr": "{{env `BUILDER_CIDR`}}/32"
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -19,7 +20,7 @@
       "most_recent": true
     },
     "temporary_security_group_source_cidrs": [
-      "{{env `BUILDER_CIDR` }}/32"
+      "{{user `builder_cidr` }}"
     ],
     "instance_type": "t3.medium",
     "shutdown_behavior": "terminate",
