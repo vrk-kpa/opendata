@@ -86,12 +86,14 @@ def convert_to_list(value):
 
     return tags
 
+
 def lowercase(value):
     if isinstance(value, six.string_types):
         return value.lower()
 
     if isinstance(value, list):
         return [v.lower() for v in value]
+
 
 def create_tags(vocab):
     def callable(key, data, errors, context):
