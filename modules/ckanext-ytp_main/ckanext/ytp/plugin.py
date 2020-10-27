@@ -459,6 +459,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         return {
             'check_deprecation': validators.check_deprecation,
             'convert_to_list': validators.convert_to_list,
+            'lowercase': validators.lowercase,
             # NOTE: this is a converter. (https://github.com/vrk-kpa/ckanext-scheming/#validators)
             'save_to_groups': save_to_groups,
             'create_fluent_tags': validators.create_fluent_tags,

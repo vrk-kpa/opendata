@@ -305,6 +305,10 @@ Resources:
               - 'iam:GetRole'
               - 'iam:PassRole'
             Resource: !GetAtt SecretBucketGetRole.Arn
+          - Effect: Allow
+            Action:
+              - 'iam:GetInstanceProfile'
+            Resource: !GetAtt BuildTestInstanceProfile.Arn
 
 
   BuildTestBucketPolicy:
