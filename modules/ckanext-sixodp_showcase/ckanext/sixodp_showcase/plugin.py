@@ -199,7 +199,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
         if data_dict.get('platform'):
             data_dict['vocab_platform'] = [tag for tag in data_dict['platform'].split(",")]
 
-        vocabs = ['category', 'keywords']
+        vocabs = ['keywords']
         languages = ['fi', 'sv', 'en']
 
         for prop_key in vocabs:

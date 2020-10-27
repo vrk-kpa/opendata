@@ -210,11 +210,9 @@ def migrate_category_to_showcase_type_and_new_categories(ctx, config, dryrun):
 
         old_showcase_categories = old_showcase_dict.get('category', {})
 
-
         if old_showcase_categories:
             old_showcase_categories = old_showcase_categories
 
-        print old_showcase_categories
         for showcase_category in old_showcase_categories.get('en', []):
             if showcase_category in showcase_type_options:
                 new_showcase_types.append(showcase_category)
@@ -234,9 +232,9 @@ def migrate_category_to_showcase_type_and_new_categories(ctx, config, dryrun):
                 elif showcase_category == 'Health':
                     new_showcase_categories.append("terveys")
                 elif showcase_category == 'Maps':
-
                     new_showcase_keywords.setdefault('fi', ['Kartat']).append('Kartat')
                     new_showcase_keywords.setdefault('en', ['Maps']).append('Maps')
+                    new_showcase_keywords.setdefault('sv', ['Kartor']).append('Kartor')
                 elif showcase_category == 'Enterprise':
                     new_showcase_keywords.setdefault('fi', ['Yritys']).append('Yritys')
                     new_showcase_keywords.setdefault('en', ['Enterprise']).append('Enterprise')
@@ -248,8 +246,8 @@ def migrate_category_to_showcase_type_and_new_categories(ctx, config, dryrun):
 
         patch = {
             'id': old_showcase_dict['id'],
-            'showcase_type': ','.join(new_showcase_types),
-            'category': ','.join(new_showcase_categories),
+            'showcase_type': new_showcase_types,
+            'category': new_showcase_categories,
             'keywords': new_showcase_keywords
         }
 
