@@ -1,3 +1,4 @@
+import six
 from ckan.common import _
 import ckan.authz as authz
 import ckan.plugins.toolkit as toolkit
@@ -88,13 +89,21 @@ def set_private_if_not_admin_or_showcase_admin(private):
 
 def convert_to_list(value):
     if isinstance(value, basestring):
-        tags = [tag.strip().lower()
+        tags = [tag.strip()
                 for tag in value.split(',')
                 if tag.strip()]
     else:
         tags = value
 
     return tags
+
+
+def lowercase(value):
+    if isinstance(value, six.string_types):
+        return value.lower()
+
+    if isinstance(value, list):
+        return [v.lower() for v in value]
 
 
 def create_tags(vocab):

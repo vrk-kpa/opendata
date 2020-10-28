@@ -127,7 +127,7 @@
       "label": "Geographical coverage",
       "form_placeholder": "e.g. Tampere",
       "preset": "vocabulary_with_autocomplete",
-      "validators": "ignore_missing convert_to_list create_tags(geographical_coverage)",
+      "validators": "ignore_missing lowercase convert_to_list create_tags(geographical_coverage)",
       "form_attrs": {
         "data-module": "autocomplete",
         "data-module-tags": "",
@@ -192,7 +192,7 @@
       "label": "International benchmarks",
       "form_placeholder": "eg. Maps",
       "preset": "vocabulary_with_autocomplete",
-      "validators": "ignore_missing convert_to_list create_tags(international_benchmarks)",
+      "validators": "ignore_missing lowercase convert_to_list create_tags(international_benchmarks)",
       "form_attrs": {
         "data-module": "autocomplete",
         "data-module-tags": "",
