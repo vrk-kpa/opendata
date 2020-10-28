@@ -98,7 +98,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
             if lang in self._LOCALE_ALIASES:
                 lang = self._LOCALE_ALIASES[lang]
 
-            facets_dict['vocab_category_' + lang] = _('Category')
+            facets_dict.update({'groups': _('Groups')})
             facets_dict['vocab_keywords_' + lang] = _('Tags')
 
             facets_dict.update({'vocab_platform': _('Platform')})
@@ -215,6 +215,20 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
         return data_dict
 
     def after_search(self, search_results, search_params):
+        if(search_results['search_facets'].get('groups')):
+            context = {'for_view': True, 'with_private': False}
+            data_dict = {
+                'all_fields': True,
+                'include_extras': True,
+                'type': 'group',
+            }
+            groups_with_extras = toolkit.get_action('group_list')(context, data_dict)
+
+            for i, facet in enumerate(search_results['search_facets']['groups'].get('items', [])):
+                for group in groups_with_extras:
+                    if facet['name'] == group['name']:
+                        search_results['search_facets']['groups']['items'][i]['title_translated'] = \
+                            group.get('title_translated')
 
         for result in search_results['results']:
             self._add_image_urls(result)
