@@ -114,7 +114,7 @@ def create_platform_vocabulary(ctx, config, dryrun):
         old_tags = toolkit.get_action('vocabulary_show')(context, data)
         print 'Platform vocabulary found; clearing old tags if needed'
         for old_tag in old_tags.get('tags'):
-          
+
             if old_tag['id'] in tags:
                 continue
             else:
