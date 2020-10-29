@@ -480,7 +480,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'upper_if_exists': validators.upper_if_exists,
             'admin_only_field': validators.admin_only_field,
             'use_url_for_name_if_left_empty': validators.use_url_for_name_if_left_empty,
-            'convert_to_json_compatible_str_if_str': validators.convert_to_json_compatible_str_if_str
+            'convert_to_json_compatible_str_if_str': validators.convert_to_json_compatible_str_if_str,
+            'empty_string_if_value_missing': validators.empty_string_if_value_missing
         }
 
     def get_blueprint(self):

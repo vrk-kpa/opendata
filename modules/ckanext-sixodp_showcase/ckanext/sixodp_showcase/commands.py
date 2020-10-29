@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 
-from ckan.logic import get_action, ValidationError
+from ckan.logic import get_action, ValidationError, NotFound
+import ckan.plugins.toolkit as toolkit
 
 import itertools
 
@@ -90,3 +91,64 @@ def migrate_title_to_title_translated(ctx, config, dryrun):
     else:
         # No resource patches so empty parameter is passed
         apply_patches(showcase_patches, [])
+
+
+@sixodp_showcase_group.command(
+    u'create_platform_vocabulary',
+    help=u'Creates a platforms vocabulary to use as a preset list of options'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.pass_context
+def create_platform_vocabulary(ctx, config, dryrun):
+    load_config(config or ctx.obj['config'])
+    context = {'ignore_auth': True}
+    tags = (u"Android", u"iOS Apple", u"Windows", u"Mac OS X", u"Other")
+    tags_to_delete = []
+    tags_to_create = []
+    if dryrun:
+        print "-- Dryrun --"
+    try:
+        data = {'id': 'platform'}
+        old_tags = toolkit.get_action('vocabulary_show')(context, data)
+        print 'Platform vocabulary found; clearing old tags if needed'
+        for old_tag in old_tags.get('tags'):
+            if old_tag['name'] in tags:
+                continue
+            else:
+                tags_to_delete.append({'name': old_tag['name']})
+                if dryrun:
+                    continue
+                else:
+                    toolkit.get_action('tag_delete')(context, {'id': old_tag['id']})
+        for tag in tags:
+            try:
+                toolkit.get_action('tag_show')(context, {'id': tag, 'vocabulary_id': 'platform'})
+            except toolkit.ObjectNotFound:
+                tags_to_create.append({'name': tag})
+                if dryrun:
+                    continue
+                else:
+                    toolkit.get_action('tag_create')(context, {'name': tag, 'vocabulary_id': old_tags.get('id')})
+    except NotFound:
+        print 'Platform vocabulary not found'
+        data = {'name': 'platform'}
+        vocab = toolkit.get_action('vocabulary_create')(context, data)
+        print 'Platform vocabulary created'
+        for tag in tags:
+            data = {'name': tag, 'vocabulary_id': vocab['id']}
+            tags_to_create.append({'name': tag})
+            if dryrun:
+                continue
+            else:
+                toolkit.get_action('tag_create')(context, data)
+
+    if len(tags_to_create) > 0 or len(tags_to_delete) > 0:
+        print "Tags to be deleted:" if dryrun else "Deleted tags:"
+        print tags_to_delete
+        print ""
+        print "Tags to be created:" if dryrun else "Created tags:"
+        print tags_to_create
+        print ""
+    else:
+        print "No changes"

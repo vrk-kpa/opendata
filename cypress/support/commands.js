@@ -315,6 +315,7 @@ Cypress.Commands.add('reset_db', () => {
     if (Cypress.env('resetDB') === true){
       cy.exec('npm run reset:db');
       cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckan search-index clear --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
+      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_platform_vocabulary --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
     }
 });
 
@@ -359,7 +360,6 @@ Cypress.Commands.add(
   { prevSubject: 'document' },
   (document, selector) => Cypress.$(selector, document)
 )
-
 
 // generate random end to new data - ei toimi näin täältä - pitää muokata - jos asetettu testitapaukseen toimii
 function url_Alpha_Numeric() {

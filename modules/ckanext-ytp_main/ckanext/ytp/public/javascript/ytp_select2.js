@@ -16,6 +16,23 @@ $(window).on("load", function() {
     }
   });
 
+  $('select[data-module="autocomplete"].ytp-badges').each(function(index, element) {
+    if (element.selectedOptions.length > 0) {
+      for (var i = 0; i < element.selectedOptions.length; i++) {
+          var tag = element.selectedOptions[i];
+          tag = { container: element.id, id: tag.label, text: tag.label};
+          var container = $(element).siblings(".ytp-select2-tags-container");
+
+          if (!container || container.length === 0) {
+            $(element).after('<div class="ytp-select2-tags-container"></div>');
+            container = $(element).siblings(".ytp-select2-tags-container");
+          }
+
+          createTag(tag, container);
+        }
+    }
+  });
+
   $('input[data-module="autocomplete"]')
     .on("change", function(e) {
       if (e.added) {
@@ -35,9 +52,23 @@ $(window).on("load", function() {
           removeTag(e.removed, container);
         }
       }
-    })
-    // Removed as it marks the form changed
-    //.trigger("change");
+    });
+
+    $('select[data-module="autocomplete"].ytp-badges')
+    .on("change", function(e) {
+      if (e.added) {
+        var tag = e.added;
+        tag.container = this.id;
+        var container = $(this).siblings(".ytp-select2-tags-container");
+
+        if (!container || container.length === 0) {
+          $(this).after('<div class="ytp-select2-tags-container"></div>');
+          container = $(this).siblings(".ytp-select2-tags-container");
+        }
+
+        createTag(tag, container);
+      }
+    });
 });
 
 var createTag = function(tag, container) {
@@ -62,7 +93,7 @@ var createTag = function(tag, container) {
       // filter out the removed tag from the original hidden select2 tags
       $("#" + badge.data().containerId).select2(
         "data",
-        data.filter(pill => pill.id != badge.data().tagId)
+        data.filter(pill => pill.text != badge.data().tagId)
       );
     }
 

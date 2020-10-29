@@ -1,0 +1,20 @@
+{% import 'scheming/macros/form.html' as form %}
+
+{% resource "ytp_common_js/ytp_select2.js" %}
+
+{% call form.input_block(field.field_name,
+  label=h.scheming_language_text(field.label),
+  error=errors[field.field_name],
+  is_required=h.scheming_field_required(field),
+  description=field.description
+  ) %}
+  <div class="ytp-select2" {{ form.attributes(field.form_attrs) if 'form_attrs' in field else '' }}>
+  {% set tags = h.get_vocabulary(field.vocabulary).tags %}
+  {% set selected_tags = data.get(field.field_name, []) %}
+  <select class="ytp-badges" multiple id="{{"field-" + field.field_name}}" name="{{field.field_name}}" data-module="autocomplete" placeholder="{{_(field.form_placeholder)}}">
+    {% for tag in tags %}
+      <option value="{{ tag.name }}" {% if tag.name in selected_tags %} selected="selected"{% endif %}>{{ _(tag.display_name) }}</option>
+    {% endfor %}
+  </select>
+  </div>
+{% endcall %}

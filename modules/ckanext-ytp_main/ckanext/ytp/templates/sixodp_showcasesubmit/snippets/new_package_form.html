@@ -66,22 +66,22 @@
         data-module-label="title">
     </div>
 
-    {% call scheming_form.input(
-      'platform',
-      id='field-platform',
+
+    {% call scheming_form.input_block('platform',
       label=_('Platform'),
       description=_('If you have created a mobile or desktop application, select which platforms it supports.'),
-      value=data['platform'],
       error=errors['platform'],
-      classes=['control-full ytp-select2'],
-      attrs={
-        "data-module": "autocomplete",
-        "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=platform"
-      },
       is_required=false
-      )
-    %}
+      ) %}
+      <div class="ytp-select2">
+      {% set tags = h.get_vocabulary('platform').tags %}
+      {% set selected_tags = data.get('platform', []) %}
+      <select class="ytp-badges" multiple id="field-platform" name="platform" data-module="autocomplete" placeholder="{{_('If you have created a mobile or desktop application, select which platforms it supports.')}}">
+        {% for tag in tags %}
+          <option value="{{ tag.name }}" {% if tag.name in selected_tags %} selected="selected"{% endif %}>{{ _(tag.display_name) }}</option>
+        {% endfor %}
+      </select>
+      </div>
     {% endcall %}
 
     {% call form.input(

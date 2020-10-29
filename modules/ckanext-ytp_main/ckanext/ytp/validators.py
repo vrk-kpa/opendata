@@ -512,3 +512,9 @@ def convert_to_json_compatible_str_if_str(value):
         except ValueError:
             value = json.dumps({'fi': value})
         return value
+
+
+def empty_string_if_value_missing(key, data, errors, context):
+    value = data.get(key)
+    if not value or value is missing:
+        data[key] = ''
