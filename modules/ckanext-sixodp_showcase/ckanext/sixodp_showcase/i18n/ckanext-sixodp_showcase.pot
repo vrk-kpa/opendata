@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-10-20 07:53+0000\n"
+"POT-Creation-Date: 2020-10-29 07:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid "Organizations"
 msgstr ""
 
-#: ckanext/sixodp_showcase/controller.py:197
+#: ckanext/sixodp_showcase/controller.py:197 ckanext/sixodp_showcase/plugin.py:101
 msgid "Groups"
 msgstr ""
 
@@ -64,10 +64,6 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/controller.py:301
 msgid "Showcase has been deleted."
-msgstr ""
-
-#: ckanext/sixodp_showcase/plugin.py:101
-msgid "Category"
 msgstr ""
 
 #: ckanext/sixodp_showcase/plugin.py:104
@@ -327,6 +323,22 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/translations.py:63
 msgid "Logo"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:64
+msgid "Mobile application"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:65
+msgid "Other application"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:66
+msgid "Tools"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:67
+msgid "Visualisation"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/base.html:6
