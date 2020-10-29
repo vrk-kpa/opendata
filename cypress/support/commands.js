@@ -363,7 +363,6 @@ Cypress.Commands.add(
   (document, selector) => Cypress.$(selector, document)
 )
 
-
 // generate random end to new data - ei toimi näin täältä - pitää muokata - jos asetettu testitapaukseen toimii
 function url_Alpha_Numeric() {
   var text = "";

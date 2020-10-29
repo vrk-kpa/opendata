@@ -93,7 +93,7 @@ var createTag = function(tag, container) {
       // filter out the removed tag from the original hidden select2 tags
       $("#" + badge.data().containerId).select2(
         "data",
-        data.filter(pill => pill.id != badge.data().tagId)
+        data.filter(pill => pill.text != badge.data().tagId)
       );
     }
 
