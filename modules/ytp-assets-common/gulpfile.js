@@ -84,6 +84,18 @@ gulp.task("ckan",(done) => {
   ], done)
 });
 
+gulp.task("openapi_view",(done) => {
+  pump([
+    gulp.src(paths.src.less + "/openapi_view.less"),
+    sourcemaps.init(),
+    less(),
+    prefixer(),
+    cleancss({ keepBreaks: false }),
+    concat("openapi_view.css"),
+    gulp.dest(paths.dist + "/styles")
+  ], done)
+});
+
 
 
 // // Compiles Less files in Drupal theme directory
@@ -291,6 +303,7 @@ gulp.task(
       "templates",
       "static_pages",
       "ckan",
+      "openapi_view",
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
       "fonts",
