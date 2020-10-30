@@ -211,7 +211,7 @@ ckan_who_ini: /etc/ckan/default/who.ini
 ckan_admin: {'username': 'admin', 'password': 'administrator', 'email': 'vagrant@localhost'}
 ckan_admins:
   - "{{ ckan_admin.username }}"
-  - "test-editor"
+
 # user who should run supervisord
 ckan_harvester_user: "{{ ckan_www_user }}"
 ckan_harvester_status_email_recipients: ""

@@ -1,0 +1,5 @@
+{% extends 'scheming/form_snippets/radio.html' %}
+
+{% if data['state'] != 'active' %}
+{{ super() }}
+{% endif %}

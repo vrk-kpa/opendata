@@ -121,10 +121,30 @@
       "validators": "boolean_validator"
     },
     {
+      "field_name": "harvested",
+      "label": "Harvested",
+      "preset": "select",
+      "choices": [
+        {
+          "value": "false",
+          "label": "No"
+        },
+        {
+          "value": "true",
+          "label": "Yes"
+        }
+      ],
+      "form_snippet": null,
+      "display_snippet": null,
+      "default_value": "false",
+      "validators": "boolean_validator",
+      "output_validators": "boolean_validator"
+    },
+    {
       "field_name": "platform",
       "label": "Platform",
       "preset": "vocabulary_with_autocomplete",
-      "validators": "convert_to_list create_tags(platform)",
+      "validators": "convert_to_list create_tags(platform) ignore_missing",
       "form_attrs": {
         "data-module": "autocomplete",
         "data-module-tags": "",
@@ -174,7 +194,7 @@
       "upload_label": "Icon",
       "description": "Logo will be shown at the top of the showcase page.",
       "group_title": "Showcase images",
-      "group_description": "Images will be shown on the showcase page. You can upload images from your computer or link to an URL."
+      "group_description": "Images will be shown on the showcase page. You can upload images from your computer or link to an URL. Telling us about a mobile app? If you want the app logo to show as the featured image, upload the app logo (and possible other images), but do not upload a featured image."
     },
     {
       "field_name": "owner_org",

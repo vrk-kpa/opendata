@@ -127,7 +127,7 @@
       "label": "Geographical coverage",
       "form_placeholder": "e.g. Tampere",
       "preset": "vocabulary_with_autocomplete",
-      "validators": "ignore_missing convert_to_list create_tags(geographical_coverage)",
+      "validators": "ignore_missing lowercase convert_to_list create_tags(geographical_coverage)",
       "form_attrs": {
         "data-module": "autocomplete",
         "data-module-tags": "",
@@ -192,13 +192,32 @@
       "label": "International benchmarks",
       "form_placeholder": "eg. Maps",
       "preset": "vocabulary_with_autocomplete",
-      "validators": "ignore_missing convert_to_list create_tags(international_benchmarks)",
+      "validators": "ignore_missing lowercase convert_to_list create_tags(international_benchmarks)",
       "form_attrs": {
         "data-module": "autocomplete",
         "data-module-tags": "",
         "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=international_benchmarks"
       },
       "description": "Select international benchmarks which this dataset belongs to."
+    },
+    {
+      "field_name": "state",
+      "label": "State",
+      "preset": "select",
+      "form_snippet": "state.html",
+      "choices": [
+        {
+          "label": "Active",
+          "value": "active"
+        },
+        {
+          "label": "Deleted",
+          "value": "deleted"
+        }
+      ],
+      "default_value": "active",
+      "validators": "ignore_not_package_admin ignore_missing",
+      "description": "You can set the state of the dataset back to active."
     },
     {
       "field_name": "owner_org",
