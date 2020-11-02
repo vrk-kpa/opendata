@@ -1,17 +1,6 @@
 {% import 'macros/form.html' as form %}
 {% set search_class = search_class if search_class else 'search-giant' %}
 
-<form class="search-form{% if no_bottom_border %} no-bottom-border{% endif %} form_{{ search_class }}" method="get" data-module="select-switch">
-    <div class="search-input control-group search-giant">
-        <input class="search form-control" type="text" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
-        <button type="submit" value="search">
-            <i class="fa fa-search"></i>
-            <span>{{ _('Submit') }}</span>
-        </button>
-
-        <input class="search-input" type="hidden" name="sort" value="{{ sorting }}">
-    </div>
-
     {% block form %}
         {% set facets = {
             'fields': c.fields_grouped,
@@ -31,7 +20,6 @@
             (_('Top rating'), 'rating desc') ]
         %}
         <div class="search-options">
-            {% snippet 'sixodp_showcase/snippets/showcase_search_form.html', type='showcase', placeholder=_('Search showcases...'), query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, fields=c.fields, no_bottom_border=true %}
+            {% snippet 'sixodp_showcase/snippets/showcase_search_form.html', type='showcase', placeholder=_('Search showcases...'), query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, fields=c.fields, no_bottom_border=true, show_advanced_search=false %}
         </div>
     {% endblock %}
-</form>
