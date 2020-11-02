@@ -12,7 +12,6 @@ show_remove    - If True, show the remove button to remove showcase/dataset asso
 {% set truncate_title = truncate_title or 80 %}
 {% set title = h.get_translated(package, 'title') or package.name %}
 {% set platforms = h.translate_list_items(package.platform) %}
-
 {% set notes = h.markdown_extract(h.get_translated(package, 'notes'), extract_length=truncate) %}
 
 {% block package_item %}
