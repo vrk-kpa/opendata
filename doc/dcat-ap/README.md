@@ -9,7 +9,7 @@ Documents can be validated against this specification with a [SHACL](https://www
 
 For example, using [pyshacl](https://pypi.org/project/pyshacl):
 
-    pyshacl -s avoindata_dcat-ap_shacl.ttl -e FOAF.ttl --imports -i rdfs catalog.xml</code>
+    pyshacl -s avoindata_dcat-ap_shacl.ttl -e FOAF.ttl --imports -i rdfs catalog.xml
 
 ## Vocabularies
 
