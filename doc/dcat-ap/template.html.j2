@@ -8,6 +8,17 @@
   <body class="container">
     <h1>Avoindata.fi DCAT-AP extension</h1>
 
+    <h2>Validation</h2>
+    <p>Documents can be validated against this specification with a <a href="https://www.w3.org/TR/shacl/">SHACL</a> processor using these schema files:
+      <ul>
+        <li><a href="avoindata_dcat-ap_shacl.ttl">avoindata_dcat-ap_shacl.ttl</a></li>
+        <li><a href="FOAF.ttl">FOAF.ttl</a></li>
+      </ul>
+    </p>
+    <p>For example, using <a href="https://pypi.org/project/pyshacl/">pyshacl</a>:
+    <code>pyshacl -s avoindata_dcat-ap_shacl.ttl -e FOAF.ttl --imports -i rdfs catalog.xml</code>
+    </p>
+
     <h2>Vocabularies</h2>
 
     <table class="table table-striped">
