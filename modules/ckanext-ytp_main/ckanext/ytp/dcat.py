@@ -364,9 +364,12 @@ class AvoindataDCATAPProfile(RDFProfile):
 
         language = p.config.get('ckan.locale_default', 'en')
         linguistic_system = URIRef('http://id.loc.gov/vocabulary/iso639-1/%s' % language)
+        g.add((linguistic_system, RDF.type, DCT.LinguisticSystem))
         g.add((catalog_ref, DCT.language, linguistic_system))
 
-        publisher = URIRef(p.config.get('ckan.site_url', ''))
+        publisher = BNode()
+        g.add((publisher, RDF.type, FOAF.Organization))
+        g.add((publisher, FOAF.hasSite, URIRef(p.config.get('ckan.site_url', ''))))
         g.add((publisher, FOAF.name, Literal(p.config.get('ckan.site_title'))))
         g.add((catalog_ref, DCT.publisher, publisher))
 
