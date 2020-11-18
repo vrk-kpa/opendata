@@ -22,7 +22,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-stylelint": "^13.0.0",
     "gulp-template": "^5.0.0",
-    "gulp-terser": "^1.4.1",
+    "gulp-terser": "^2.0.0",
     "imagemin-jpegoptim": "^7.0.0",
     "less": "^3.12.2",
     "pump": "^3.0.0",
