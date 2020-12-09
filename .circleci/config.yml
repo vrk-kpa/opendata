@@ -619,7 +619,7 @@ jobs:
 
       - setup_remote_docker
 
-      - run: sudo pip install boto awscli aws-sam-cli pip==19.2.3
+      - run: sudo pip install boto3 awscli aws-sam-cli pip==19.2.3
 
       - run:
           name: Build and tag ClamAV container
