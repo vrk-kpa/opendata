@@ -223,6 +223,7 @@
         sh:severity sh:Violation
     ], [
         sh:class dcat:Dataset ;
+        sh:shape :Dataset_Shape ;
         sh:minCount 1 ;
         sh:path dcat:dataset ;
         sh:severity sh:Violation
