@@ -156,6 +156,7 @@ ckan_override_requirements:
   - "flask-login==0.3.0"
   - "simplejson==3.16.0"
   - "six==1.13.0"
+  - "pyOpenSSL==20.0.0"
 
 # ckan paths
 ckan_files_root: "{{ ckan_server_path }}/files"
@@ -278,6 +279,7 @@ ckan_patches:
   - add_group_extra_resource_db_indices
   - add_cache_control_headers_to_flask
   - add_autodynatrace
+  - fix_javascript_error_on_edge
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini

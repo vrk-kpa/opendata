@@ -1,0 +1,22 @@
+From a50544b23774b4e60a046f14749f40dbb52d444c Mon Sep 17 00:00:00 2001
+From: Jari Voutilainen <jari.voutilainen@iki.fi>
+Date: Tue, 8 Dec 2020 10:04:27 +0200
+Subject: [PATCH] Fix JavaScript error on Edge
+
+---
+ ckan/public/base/javascript/view-filters.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ckan/public/base/javascript/view-filters.js b/ckan/public/base/javascript/view-filters.js
+index 8e537ade58..b8c3edc7d8 100644
+--- a/ckan/public/base/javascript/view-filters.js
++++ b/ckan/public/base/javascript/view-filters.js
+@@ -24,7 +24,7 @@ String.prototype.queryStringToJSON = String.prototype.queryStringToJSON || funct
+     // Do we have JSON string?
+     try {
+       return JSON.parse(decodeURIComponent(params));
+-    } catch  {
++    } catch(error) {
+       // We have a params string
+       params = params.split(/\&(amp\;)?/);
+     }
