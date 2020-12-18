@@ -33,7 +33,7 @@
     "@fortawesome/fontawesome-pro": "^5.15.1",
     "bootstrap": "^3.4.1",
     "bootstrap-table": "^1.18.0",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.49",
     "jstree": "^3.3.10",
     "moment": "^2.29.1",
     "select2-bootstrap-css": "^1.4.6"
