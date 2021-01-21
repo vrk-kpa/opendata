@@ -309,7 +309,7 @@ ckan_sentry_pip_packages:
   - sentry-sdk[flask]==0.18.0
 
 ckan_dynatrace_pip_packages:
-  - autodynatrace
+  - autodynatrace==1.071
 
 ckan_notifications_to_maintainers_enabled: false
 ckan_exempt_domains_from_broken_link_notifications: []
