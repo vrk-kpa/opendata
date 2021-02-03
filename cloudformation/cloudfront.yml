@@ -148,6 +148,7 @@ Resources:
           AcmCertificateArn: !Ref AcmCertificateArn
           MinimumProtocolVersion: 'TLSv1.1_2016'
           SslSupportMethod: 'sni-only'
+        DefaultRootObject: 'fi'
       Tags:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}
