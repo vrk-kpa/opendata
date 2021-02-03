@@ -52,6 +52,7 @@ Resources:
                   - lambda:UntagResource
                   - lambda:GetFunctionConfiguration
                   - lambda:AddPermission
+                  - lambda:RemovePermission
                   - lambda:UpdateFunctionConfiguration
                 Resource: "*"
               - Effect: Allow
