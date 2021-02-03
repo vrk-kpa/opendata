@@ -73,6 +73,7 @@ Resources:
       Action: lambda:InvokeFunction
       Principal: s3.amazonaws.com
       SourceArn: !Sub "arn:aws:s3:::avoindata-infratest-datasets"
+      SourceAccount: !Sub "156418131626"
 
   PermissionBetaS3:
     Type: AWS::Lambda::Permission
@@ -81,6 +82,7 @@ Resources:
       Action: lambda:InvokeFunction
       Principal: s3.amazonaws.com
       SourceArn: !Sub "arn:aws:s3:::avoindata-beta-datasets"
+      SourceAccount: !Sub "156418131626"
 
   PermissionProd:
     Type: AWS::Lambda::Permission
@@ -89,6 +91,7 @@ Resources:
       Action: lambda:InvokeFunction
       Principal: s3.amazonaws.com
       SourceArn: !Sub "arn:aws:s3:::avoindata-prod-datasets"
+      SourceAccount: !Ref 'AWS::AccountId'
 
   ClamAvCluster:
     Type: AWS::ECS::Cluster
