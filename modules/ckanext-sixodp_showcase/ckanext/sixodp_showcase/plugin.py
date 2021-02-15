@@ -56,7 +56,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
         with SubMapper(map, controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController') as m:
 
             m.connect('ckanext_showcase_new', '/showcase/new', action='new')
-            #m.connect('ckanext_showcase_read', '/showcase/{id}', action='read',
+            # m.connect('ckanext_showcase_read', '/showcase/{id}', action='read',
             #          ckan_icon='picture')
             m.connect('ckanext_showcase_edit', '/showcase/edit/{id}',
                       action='edit', ckan_icon='edit')
@@ -68,7 +68,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
                       action='delete')
 
         with SubMapper(map, controller='ckanext.showcase.controller:ShowcaseController') as m:
-            #m.connect('ckanext_showcase_read', '/showcase/{id}', action='read',
+            # m.connect('ckanext_showcase_read', '/showcase/{id}', action='read',
             #          ckan_icon='picture')
             m.connect('ckanext_showcase_manage_datasets',
                       '/showcase/manage_datasets/{id}',
