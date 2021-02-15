@@ -1,0 +1,5 @@
+{% if dataset_type == 'dataset' %}
+  {% ckan_extends %}
+{% elif dataset_type == 'showcase' %}
+  {% extends "sixodp_showcase/read.html" %}
+{% endif %}
