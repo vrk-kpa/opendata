@@ -130,4 +130,10 @@ describe('Dataset tests', function() {
     cy.get('nav a[href="/data/fi/dataset"]').click();
     cy.get('a[href="/data/fi/dataset/new"]').should('not.exist');
   })
+
+  it('Dataset should not render as showcase', function (){
+    cy.create_new_dataset("test_dataset_render");
+    cy.visit('/data/fi/showcase/test_dataset_render');
+    cy.get('#dataset-resources').should('exist');
+  })
 })
