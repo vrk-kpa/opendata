@@ -123,7 +123,7 @@ jobs:
     steps:
       - checkout
 
-      - run: sudo pip install ansible-lint
+      - run: sudo pip install ansible-lint[community]
 
       - run:
           name: Run ansible-lint for single-server.yml
