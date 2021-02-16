@@ -26,7 +26,7 @@
 {% block breadcrumb_content %}
   {% set showcase = h.get_translated(pkg, 'title') or pkg.name %}
   <li>{{ h.nav_link(_('Showcases'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search', highlight_actions = 'new index') }}</li>
-  <li{{ self.breadcrumb_content_selected() }}>{% link_for showcase|truncate(30), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='read', id=pkg.name %}</li>
+  <li{{ self.breadcrumb_content_selected() }}>{% link_for showcase|truncate(30), named_route='showcase_read', id=pkg.name %}</li>
 {% endblock %}
 
 {% block page_header %}
