@@ -154,4 +154,13 @@ describe('Showcase tests', function() {
     cy.get('.notes').should('contain', "Seuraavaa aineistoa ei voitu automaattisesti liittää sovellukseen:")
 
   })
+
+  it('Showcase should not render as dataset', function () {
+    cy.add_showcase_user();
+    cy.create_new_showcase("test_showcase_render");
+
+    cy.visit('/data/fi/dataset/test_showcase_render')
+    cy.get(".showcase-content").should('exist')
+
+  })
 });
