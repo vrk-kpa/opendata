@@ -497,7 +497,7 @@ def scheming_category_list(args):
         for group in group_ids:
             try:
                 context = {'model': model, 'session': model.Session, 'ignore_auth': True}
-                group_details = get_action('group_show')(context, {'id': group})
+                group_details = get_action('group_show')(context, {'id': group, 'include_users': False})
             except Exception as e:
                 log.error(e)
                 return None
