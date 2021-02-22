@@ -62,6 +62,18 @@
     <css-placeholder token="{{ placeholder_token|raw }}">
     <js-placeholder token="{{ placeholder_token|raw }}">
     <meta name="twitter:widgets:csp" content="on">
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "url": "{{ base_url }}",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "{{ base_url }}/data/dataset?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+    </script>
   </head>
   <body{{ attributes.addClass(body_classes) }}>
     <a href="#main-content" class="visually-hidden focusable skip-link">

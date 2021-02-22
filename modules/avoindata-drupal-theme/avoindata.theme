@@ -61,3 +61,11 @@ function avoindata_preprocess_links__language_block(&$variables) {
     $variables['links'][$key]['link']['#title'] .= ' (' . strtoupper($key) . ')';
   }
 }
+
+/**
+ * Implements hook_template_preprocess_html().
+ */
+function avoindata_preprocess_html(array &$variables){
+  global $base_url;
+  $variables['base_url'] = $base_url;
+}
