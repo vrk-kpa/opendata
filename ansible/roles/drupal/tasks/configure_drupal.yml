@@ -241,7 +241,8 @@
 - name: Copy setting files
   synchronize:
     src: "site_config"
-    dest: "{{ drupal_root }}/site_config/"
+    dest: "{{ drupal_root }}/"
+    recursive: yes
 
 - name: Copy setting template files
   template:
@@ -252,6 +253,7 @@
     - { src: disqus.settings.yml.j2, dest: disqus.settings.yml }
     - { src: google_analytics.settings.yml.j2, dest: google_analytics.settings.yml }
     - { src: update.settings.yml.j2, dest: update.settings.yml }
+    - { src: smtp.settings.yml.j2, dest: smtp.settings.yml}
 
 - name: Enable captcha
   template:
