@@ -71,7 +71,11 @@ def dataset_display_name(package_or_package_dict):
 
 def group_title_by_id(group_id):
     context = {'model': model, 'session': model.Session, 'ignore_auth': True}
-    group_details = get_action('group_show')(context, {"id": group_id})
+    group_details = get_action('group_show')(context, {"id": group_id, 'include_users': False,
+                                                       'include_dataset_count': False,
+                                                       'include_groups': False,
+                                                       'include_tags': False,
+                                                       'include_followers': False})
     return get_translated(group_details, 'title')
 
 
