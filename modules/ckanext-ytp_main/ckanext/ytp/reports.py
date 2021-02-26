@@ -56,7 +56,7 @@ def administrative_branch_summary_report():
 
     # Optimization opportunity: Prefetch datasets for all related orgs in one go
     root_datasets_pairs = (
-        (k, list(package_generator('owner_org:(%s)' % ' OR '.join(v), 1000, context)))
+        (k, list(package_generator('owner_org:(%s)' % ' OR '.join(v), 10, context)))
         for k, v in root_tree_ids_pairs)
 
     try:
@@ -102,7 +102,7 @@ administrative_branch_summary_report_info = {
 
 def deprecated_datasets_report():
     # Get packages that are deprecated
-    all_deprecated = package_generator('deprecated:true AND private:false', 1000, {})
+    all_deprecated = package_generator('deprecated:true AND private:false', 10, {})
 
     # Function to loop packages through
     # Get package visit and download data

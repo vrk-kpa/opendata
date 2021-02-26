@@ -105,7 +105,7 @@ def migrate_author_email(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
     package_patches = []
 
-    for old_package_dict in package_generator('*:*', 1000):
+    for old_package_dict in package_generator('*:*', 10):
         if old_package_dict.get('author_email') is None:
             patch = {'id': old_package_dict['id'], 'author_email': ''}
             package_patches.append(patch)
@@ -132,7 +132,7 @@ def migrate(ctx, config, dryrun):
     package_patches = []
     resource_patches = []
 
-    for old_package_dict in package_generator('*:*', 1000):
+    for old_package_dict in package_generator('*:*', 10):
 
         if 'title_translated' in old_package_dict:
             continue
@@ -221,7 +221,7 @@ def migrate_temporal_granularity(ctx, config, dryrun):
 
     package_patches = []
 
-    for old_package_dict in package_generator('*:*', 1000):
+    for old_package_dict in package_generator('*:*', 10):
         resource_patches = []
         changes = False
         for resource in old_package_dict.get('resources', []):
@@ -258,7 +258,7 @@ def migrate_high_value_datasets(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
     package_patches = []
 
-    for old_package_dict in package_generator('*:*', 1000):
+    for old_package_dict in package_generator('*:*', 10):
         if old_package_dict.get('high_value_dataset_category'):
             patch = {'id': old_package_dict['id'], 'international_benchmarks': old_package_dict['high_value_dataset_category']}
             package_patches.append(patch)
@@ -345,7 +345,7 @@ def batch_edit(ctx, config, search_string, dryrun, group):
     if group:
         group_assigns[group] = []
 
-    for package_dict in package_generator(search_string, 1000):
+    for package_dict in package_generator(search_string, 10):
         if group:
             group_assigns[group].append(package_dict['name'])
 
@@ -370,7 +370,7 @@ def update_package_deprecation(ctx, config, dryrun):
     package_patches = []
 
     # Get only packages with a valid_till field and some value in the valid_till field
-    for old_package_dict in package_generator('valid_till:* AND -valid_till:""', 1000):
+    for old_package_dict in package_generator('valid_till:* AND -valid_till:""', 10):
         valid_till = old_package_dict.get('valid_till')
 
         # For packages that have a valid_till date set depracated field to true or false
@@ -407,7 +407,7 @@ def validate(ctx, config, verbose):
     no_errors = True
     user = t.get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
     context = {'model': model, 'session': model.Session, 'user': user['name'], 'ignore_auth': True}
-    for package_dict in package_generator('*:*', 1000):
+    for package_dict in package_generator('*:*', 10):
         if verbose:
             print "Validating %s" % package_dict['name']
 
