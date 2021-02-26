@@ -3,7 +3,7 @@ import threading
 from rdflib import URIRef, BNode, Literal, Namespace
 from rdflib.namespace import RDF, XSD
 from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX
-from ckanext.dcat.utils import resource_uri
+from ckanext.dcat.utils import resource_uri, url_quote
 from ckan.plugins import toolkit as p
 
 import logging
@@ -168,7 +168,7 @@ class AvoindataDCATAPProfile(RDFProfile):
             # dcat:downloadUrl
             resource_url = resource_dict.get('url')
             if resource_url:
-                g.add((distribution, DCAT.downloadURL, URIRef(resource_url)))
+                g.add((distribution, DCAT.downloadURL, URIRef(url_quote(resource_url))))
 
             # adms:status
             maturity = resource_dict.get('maturity')
