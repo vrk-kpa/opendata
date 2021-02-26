@@ -3,7 +3,7 @@ import threading
 from rdflib import URIRef, BNode, Literal, Namespace
 from rdflib.namespace import RDF, XSD
 from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX
-from ckanext.dcat.utils import resource_uri
+from ckanext.dcat.utils import resource_uri, url_quote
 from ckan.plugins import toolkit as p
 
 import logging
@@ -168,7 +168,7 @@ class AvoindataDCATAPProfile(RDFProfile):
             # dcat:downloadUrl
             resource_url = resource_dict.get('url')
             if resource_url:
-                g.add((distribution, DCAT.downloadURL, URIRef(resource_url)))
+                g.add((distribution, DCAT.downloadURL, URIRef(url_quote(resource_url))))
 
             # adms:status
             maturity = resource_dict.get('maturity')
@@ -284,15 +284,11 @@ class AvoindataDCATAPProfile(RDFProfile):
         external_urls = (u for u in dataset_dict.get('external_urls', []) if u)
 
         for external_url in external_urls:
-            # URIRef raises Exception if URL is invalid
-            try:
-                # some external urls have whitespace in them
-                external_url = external_url.strip()
-                document = URIRef(external_url)
-                g.add((document, RDF.type, FOAF.Document))
-                g.add((dataset_ref, DCAT.landingPage, document))
-            except Exception:
-                pass
+            # some external urls have whitespace in them
+            external_url = external_url.strip()
+            document = URIRef(url_quote(external_url))
+            g.add((document, RDF.type, FOAF.Document))
+            g.add((dataset_ref, DCAT.landingPage, document))
 
         # dct:spatial
         geographical_coverages = set(g for g in dataset_dict.get('geographical_coverage', []) if g)
