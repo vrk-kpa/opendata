@@ -284,15 +284,11 @@ class AvoindataDCATAPProfile(RDFProfile):
         external_urls = (u for u in dataset_dict.get('external_urls', []) if u)
 
         for external_url in external_urls:
-            # URIRef raises Exception if URL is invalid
-            try:
-                # some external urls have whitespace in them
-                external_url = external_url.strip()
-                document = URIRef(external_url)
-                g.add((document, RDF.type, FOAF.Document))
-                g.add((dataset_ref, DCAT.landingPage, document))
-            except Exception:
-                pass
+            # some external urls have whitespace in them
+            external_url = external_url.strip()
+            document = URIRef(url_quote(external_url))
+            g.add((document, RDF.type, FOAF.Document))
+            g.add((dataset_ref, DCAT.landingPage, document))
 
         # dct:spatial
         geographical_coverages = set(g for g in dataset_dict.get('geographical_coverage', []) if g)
