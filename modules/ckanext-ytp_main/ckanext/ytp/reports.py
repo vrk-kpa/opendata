@@ -56,7 +56,7 @@ def administrative_branch_summary_report():
 
     # Optimization opportunity: Prefetch datasets for all related orgs in one go
     root_datasets_pairs = (
-        (k, list(package_generator('owner_org:(%s)' % ' OR '.join(v), 10, context)))
+        (k, list(package_generator('owner_org:(%s)' % ' OR '.join(v), 1000, context)))
         for k, v in root_tree_ids_pairs)
 
     try:
