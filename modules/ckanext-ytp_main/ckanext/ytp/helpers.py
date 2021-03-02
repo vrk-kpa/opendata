@@ -568,7 +568,12 @@ def group_list_with_selected(package_groups):
 
 def get_last_harvested_date(organization_name):
 
-    organization = get_action('organization_show')({}, {'id': organization_name})
+    organization = get_action('organization_show')({}, {'id': organization_name,
+                                                        'include_users': False,
+                                                        'include_dataset_count': False,
+                                                        'include_groups': False,
+                                                        'include_tags': False,
+                                                        'include_followers': False})
 
     # if added by harvester to organization
     if not organization.get('last_harvested'):
