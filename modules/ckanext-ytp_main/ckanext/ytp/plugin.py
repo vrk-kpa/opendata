@@ -541,7 +541,12 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                         # find responsible party from orgs
                         try:
                             name = munge_title_to_name(value[0]['name'])
-                            group = get_action('organization_show')(harvester_context, {'id': name})
+                            group = get_action('organization_show')(harvester_context, {'id': name,
+                                                                                        'include_users': False,
+                                                                                        'include_dataset_count': False,
+                                                                                        'include_groups': False,
+                                                                                        'include_tags': False,
+                                                                                        'include_followers': False})
                             package_dict['owner_org'] = group['id']
                         except NotFound:
                             pass
@@ -666,13 +671,21 @@ def _configure(config=None):
 
 def _create_default_organization(context, organization_name, organization_title):
     default_locale = config.get('ckan.locale_default', 'fi')
-    values = {'name': organization_name,
-              'title': organization_title,
-              'title_translated': {default_locale: organization_title},
-              'id': organization_name}
+
     try:
-        return plugins.toolkit.get_action('organization_show')(context, values)
+        return plugins.toolkit.get_action('organization_show')(context, {'id': organization_name,
+                                                                         'include_users': False,
+                                                                         'include_dataset_count': False,
+                                                                         'include_groups': False,
+                                                                         'include_tags': False,
+                                                                         'include_followers': False})
     except NotFound:
+
+        values = {'name': organization_name,
+                  'title': organization_title,
+                  'title_translated': {default_locale: organization_title},
+                  'id': organization_name}
+
         return plugins.toolkit.get_action('organization_create')(context, values)
 
 

@@ -399,7 +399,12 @@ def is_admin_in_parent_if_changed(field, schema):
     def validator(key, data, errors, context):
 
         if context.get('group') is not None:
-            old_organization = get_action('organization_show')(context, {'id': context['group'].id})
+            old_organization = get_action('organization_show')(context, {'id': context['group'].id,
+                                                                         'include_users': False,
+                                                                         'include_dataset_count': False,
+                                                                         'include_groups': False,
+                                                                         'include_tags': False,
+                                                                         'include_followers': False})
             old_parent_group_names = [org['name'] for org in old_organization.get('groups', [])]
         else:
             old_parent_group_names = []
@@ -413,7 +418,12 @@ def is_admin_in_parent_if_changed(field, schema):
 
             if not authz.is_sysadmin(user):
 
-                selected_organization = get_action('organization_show')(context, {'id': data[actual_key]})
+                selected_organization = get_action('organization_show')(context, {'id': data[actual_key],
+                                                                                  'include_users': False,
+                                                                                  'include_dataset_count': False,
+                                                                                  'include_groups': False,
+                                                                                  'include_tags': False,
+                                                                                  'include_followers': False})
 
                 if data[actual_key] and data[actual_key] not in old_parent_group_names:
                     admin_in_orgs = model.Session.query(model.Member).filter(model.Member.state == 'active')\
@@ -448,7 +458,12 @@ def extra_validators_multiple_choice(field, schema):
             return
 
         if context.get('group'):
-            old_organization = get_action('organization_show')(context, {'id': context['group'].id})
+            old_organization = get_action('organization_show')(context, {'id': context['group'].id,
+                                                                         'include_users': False,
+                                                                         'include_dataset_count': False,
+                                                                         'include_groups': False,
+                                                                         'include_tags': False,
+                                                                         'include_followers': False})
             old_features = old_organization.get('features', [])
         else:
             old_features = []
