@@ -649,7 +649,12 @@ class SixodpHarvester(HarvesterBase):
 
                 if remote_org:
                     try:
-                        data_dict = {'id': remote_org}
+                        data_dict = {'id': remote_org,
+                                     'include_users': False,
+                                     'include_dataset_count': False,
+                                     'include_groups': False,
+                                     'include_tags': False,
+                                     'include_followers': False}
                         org = get_action('organization_show')(base_context.copy(), data_dict)
                         if org['state'] == 'deleted':
                             log.info("Organization %s is deleted, not assigning it.", remote_org)

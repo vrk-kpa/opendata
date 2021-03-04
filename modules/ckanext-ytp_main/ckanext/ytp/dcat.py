@@ -51,7 +51,12 @@ def get_organization(org_id):
 
     # If organization does not exist in previously fetched list, use organization_show to fetch it
     if not organization:
-        organization = p.get_action('organization_show')({}, {'id': org_id})
+        organization = p.get_action('organization_show')({}, {'id': org_id,
+                                                              'include_users': False,
+                                                              'include_dataset_count': False,
+                                                              'include_groups': False,
+                                                              'include_tags': False,
+                                                              'include_followers': False})
     return organization
 
 
