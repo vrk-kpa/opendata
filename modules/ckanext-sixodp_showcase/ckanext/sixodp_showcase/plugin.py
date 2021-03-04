@@ -54,7 +54,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
     def before_map(self, map):
 
         with SubMapper(map, controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController') as m:
-
+            m.connect('showcase_read', '/showcase/{id}', action='read')
             m.connect('ckanext_showcase_new', '/showcase/new', action='new')
             m.connect('ckanext_showcase_edit', '/showcase/edit/{id}',
                       action='edit', ckan_icon='edit')
