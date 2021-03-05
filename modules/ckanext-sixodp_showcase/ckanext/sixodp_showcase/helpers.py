@@ -63,3 +63,14 @@ def translate_list_items(old_list):
     for item in old_list:
         translated_list.append(tk._(item))
     return translated_list
+
+
+def get_showcase_pkgs(showcase_id):
+
+    context = {'model': model, 'session': model.Session,
+               'user': c.user or c.author, 'auth_user_obj': c.userobj}
+
+    showcase_pkgs = get_action('ckanext_showcase_package_list')(
+        context, {'showcase_id': showcase_id})
+
+    return showcase_pkgs
