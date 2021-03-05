@@ -54,4 +54,5 @@ class HeaderController extends ControllerBase {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
     return new RedirectResponse('/data/' . $lang . '/statistics');
   }
+
 }
