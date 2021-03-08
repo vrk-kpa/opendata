@@ -205,7 +205,7 @@ jobs:
       - run: git submodule update --init --recursive
       - run: sudo apt-get update && sudo apt-get install rsync
       - run: sudo pip install boto awscli
-      - run: sudo pip install ansible<3.0
+      - run: sudo pip install "ansible>=2.9,<3"
 
       - run:
           name: Copy private key for ec2 usage
