@@ -14,3 +14,12 @@ avoindata_header.ckanprofile:
   requirements:
     _permission: 'access content'
     _role: 'authenticated'
+
+avoindata_header.statistics:
+  path: '/statistics'
+  defaults:
+    _controller: '\Drupal\avoindata_header\Controller\HeaderController::ckanstatistics'
+    _title: 'Statistics'
+  requirements:
+    _permission: 'access content'
+    _role: 'authenticated'

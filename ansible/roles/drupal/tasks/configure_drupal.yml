@@ -132,6 +132,7 @@
     - protected_submissions
     - recaptcha
     - unpublished_node_permissions
+    - menu_item_role_access
   when: item not in drupal_enabled_modules.stdout
   tags:
     - skip_ansible_lint
