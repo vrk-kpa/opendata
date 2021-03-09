@@ -49,7 +49,7 @@
         "drupal/twig_field_value": "^1.1",
         "drupal/twig_tweak": "^2.0",
         "drupal/unpublished_node_permissions": "^1.0",
-        "drush/drush": "^9.0.0",
+        "drush/drush": "^10.3.6",
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3",
