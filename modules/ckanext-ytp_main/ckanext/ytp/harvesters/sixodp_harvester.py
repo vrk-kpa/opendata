@@ -598,7 +598,12 @@ class SixodpHarvester(HarvesterBase):
                     try:
                         try:
                             if 'id' in group_:
-                                data_dict = {'id': group_['id']}
+                                data_dict = {'id': group_['id'],
+                                             'include_users': False,
+                                             'include_dataset_count': False,
+                                             'include_groups': False,
+                                             'include_tags': False,
+                                             'include_followers': False}
                                 group = get_action('group_show')(base_context.copy(), data_dict)
                             else:
                                 raise NotFound

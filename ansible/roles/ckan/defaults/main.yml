@@ -134,7 +134,7 @@ ckan_www_group: www-data
 
 ckan_log_path: /var/log/ckan
 ckan_loglevel: INFO
-ckan_extension_loglevel: INFO
+ckan_extension_loglevel: DEBUG
 
 ckan_logrotate_conf: |
   /var/log/ckan/ckan.log {
