@@ -14,3 +14,9 @@
   command: update-grub
   when: update_grub_exist.rc == 0
   listen: update-grub
+
+- name: Initialize swap file
+  command: mkswap {{ swapfile_path }}
+
+- name: Enable swap file
+  command: swapon {{ swapfile_path }}

@@ -96,6 +96,9 @@
   args:
     creates: "{{ swapfile_path }}"
   register: swapfile_register_create
+  notify:
+    - Initialize swap file
+    - Enable swap file
 
 - name: Set swap file permissions
   file:
@@ -106,13 +109,8 @@
     mode: "0600"
   when: not ansible_check_mode
 
-- name: Initialize swap file
-  command: mkswap {{ swapfile_path }}
-  when: swapfile_register_create is changed
-
-- name: Enable swap file
-  command: swapon {{ swapfile_path }}
-  when: swapfile_register_create is changed
+- name: Run handlers to init swap file
+  meta: flush_handlers
 
 - name: Manage swap file in /etc/fstab
   mount:

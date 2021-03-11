@@ -18,11 +18,13 @@
         state: touch
         mode: "0644"
 
-    - import_role:
+    - name: Import secrets
+      import_role:
         name: secrets
       tags: always
 
-    - import_role:
+    - name: Install mailhog
+      import_role:
         name: mailhog
       when: deployment_environment_id == 'vagrant'
       tags: mailhog
@@ -65,7 +67,8 @@
         path: "/var/www/maintenance"
         state: absent
 
-    - import_role:
+    - name: Install cloudwatch agent
+      import_role:
         name: cloudwatch_agent
       when: cloudwatch_agent_enabled
       tags: cloudwatch_agent_role
