@@ -17,7 +17,7 @@
               WSGIPassAuthorization On
 
               # Deploy as a daemon (avoids conflicts between CKAN instances)
-              WSGIDaemonProcess datapusher display-name=demo processes=1 threads=15
+              WSGIDaemonProcess datapusher display-name=datapusher processes=1 threads=15
 
               WSGIProcessGroup datapusher
 
