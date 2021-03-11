@@ -6,6 +6,7 @@
     section: PHP
     option: cgi.fix_pathinfo
     value: "0"
+    mode: "0644"
   notify: restart php-fmp service
 
 - name: Set PHP upload_max_filesize
@@ -14,6 +15,7 @@
     section: PHP
     option: upload_max_filesize
     value: "10M"
+    mode: "0644"
   notify: restart php-fmp service
 
 - name: Set PHP session samesite flag
@@ -22,6 +24,7 @@
     section: Session
     option: session.cookie_samesite
     value: "Lax"
+    mode: "0644"
   notify: restart php-fmp service
 
 - name: Set socket to listen
@@ -30,6 +33,7 @@
     section: www
     option: listen
     value: /tmp/phpfpm.socket
+    mode: "0644"
   notify: restart php-fmp service
 
 - name: Set socket listen owner
@@ -38,6 +42,7 @@
     section: www
     option: listen.owner
     value: "{{ php_www_user }}"
+    mode: "0644"
   notify: restart php-fmp service
 
 - name: Set socket listen group
@@ -46,6 +51,7 @@
     section: www
     option: listen.group
     value: "{{ php_www_group }}"
+    mode: "0644"
   notify: restart php-fmp service
 
 - name: Set socket listen mode
@@ -54,6 +60,7 @@
     section: www
     option: listen.mode
     value: "0660"
+    mode: "0644"
   notify: restart php-fmp service
 
 - name: Configure pm.max_children setting
@@ -62,6 +69,7 @@
     section: www
     option: pm.max_children
     value: "{{ php_max_children }}"
+    mode: "0644"
   notify: restart php-fmp service
 
 - name: Configure pm.start_servers setting
@@ -70,6 +78,7 @@
     section: www
     option: pm.start_servers
     value: "{{ php_start_servers }}"
+    mode: "0644"
   notify: restart php-fmp service
 
 - name: Configure pm.max_spare_servers setting
@@ -78,6 +87,7 @@
     section: www
     option: pm.max_spare_servers
     value: "{{ php_max_spare_servers }}"
+    mode: "0644"
   notify: restart php-fmp service
 
 - name: Configure pm.min_spare_servers setting
@@ -86,4 +96,5 @@
     section: www
     option: pm.min_spare_servers
     value: "{{ php_min_spare_servers }}"
+    mode: "0644"
   notify: restart php-fmp service

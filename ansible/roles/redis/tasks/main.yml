@@ -13,16 +13,10 @@
     regexp: "^bind "
     state: "absent"
   register: configure_redis
+  notify: Restart redis
   tags:
   - redis
 
-- name: Restart redis
-  service:
-    name: redis-server
-    state: restarted
-  when: configure_redis is changed
-  tags:
-  - redis
 
 - name: Ensure redis is started
   service:
