@@ -547,7 +547,8 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                                                                                         'include_groups': False,
                                                                                         'include_tags': False,
                                                                                         'include_followers': False})
-                            package_dict['owner_org'] = group['id']
+                            if group['state'] is 'active':
+                                package_dict['owner_org'] = group['id']
                         except NotFound:
                             pass
 
