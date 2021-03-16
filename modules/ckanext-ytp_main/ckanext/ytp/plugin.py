@@ -18,7 +18,7 @@ from ckan.common import _, c, request, is_flask_request
 from ckan.config.routing import SubMapper
 from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
-from ckan.lib.navl.dictization_functions import Missing, flatten_dict, unflatten, Invalid
+from ckan.lib.navl.dictization_functions import Missing, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
 from ckan.logic import NotFound, NotAuthorized, get_action, check_access
 from ckan.model import Session
@@ -40,7 +40,7 @@ from views import dataset_autocomplete
 import auth
 import menu
 
-from converters import convert_to_tags_string, save_to_groups
+from converters import save_to_groups
 
 from helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
@@ -519,7 +519,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                             'value': value[0]
                         })
 
-        value_map = {'contact-email': ['maintainer_email', 'author_email']}
+        value_map = {'contact-email': ['maintainer_email']}
 
         for source, target in value_map.iteritems():
             for extra in package_dict['extras']:
@@ -527,7 +527,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                     for target_key in target:
                         package_dict[target_key] = extra['value']
 
-        map = {'responsible-party': ['maintainer', 'author']}
+        map = {'responsible-party': ['maintainer']}
 
         harvester_context = {'model': model, 'session': Session, 'user': 'harvest'}
         for source, target in map.iteritems():
@@ -547,7 +547,8 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                                                                                         'include_groups': False,
                                                                                         'include_tags': False,
                                                                                         'include_followers': False})
-                            package_dict['owner_org'] = group['id']
+                            if group['state'] == 'active':
+                                package_dict['owner_org'] = group['id']
                         except NotFound:
                             pass
 
@@ -557,22 +558,14 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         for extra in package_dict['extras']:
             if extra['key'] == 'resource-type' and len(extra['value']):
                 if extra['value'] == 'dataset':
-                    value = 'paikkatietoaineisto'
                     package_dict['collection_type'] = 'Open Data'
                 elif extra['value'] == 'series':
-                    value = 'paikkatietoaineistosarja'
                     package_dict['collection_type'] = 'Open Data'
                 elif extra['value'] == 'service':
-                    value = 'paikkatietopalvelu'
                     package_dict['collection_type'] = 'Interoperability Tools'
 
                 else:
                     continue
-
-                package_dict['content_type'] = {"fi": [value]}
-                flattened = flatten_dict(package_dict)
-                convert_to_tags_string('content_type')(('content_type',), flattened, {}, context)
-                package_dict = unflatten(flattened)
 
             if license_from_source is None:
                 if extra['key'] == 'licence':
