@@ -519,7 +519,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                             'value': value[0]
                         })
 
-        value_map = {'contact-email': ['maintainer_email', 'author_email']}
+        value_map = {'contact-email': ['maintainer_email']}
 
         for source, target in value_map.iteritems():
             for extra in package_dict['extras']:
@@ -527,7 +527,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                     for target_key in target:
                         package_dict[target_key] = extra['value']
 
-        map = {'responsible-party': ['maintainer', 'author']}
+        map = {'responsible-party': ['maintainer']}
 
         harvester_context = {'model': model, 'session': Session, 'user': 'harvest'}
         for source, target in map.iteritems():
@@ -558,22 +558,14 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         for extra in package_dict['extras']:
             if extra['key'] == 'resource-type' and len(extra['value']):
                 if extra['value'] == 'dataset':
-                    value = 'paikkatietoaineisto'
                     package_dict['collection_type'] = 'Open Data'
                 elif extra['value'] == 'series':
-                    value = 'paikkatietoaineistosarja'
                     package_dict['collection_type'] = 'Open Data'
                 elif extra['value'] == 'service':
-                    value = 'paikkatietopalvelu'
                     package_dict['collection_type'] = 'Interoperability Tools'
 
                 else:
                     continue
-
-                package_dict['content_type'] = {"fi": [value]}
-                flattened = flatten_dict(package_dict)
-                convert_to_tags_string('content_type')(('content_type',), flattened, {}, context)
-                package_dict = unflatten(flattened)
 
             if license_from_source is None:
                 if extra['key'] == 'licence':
