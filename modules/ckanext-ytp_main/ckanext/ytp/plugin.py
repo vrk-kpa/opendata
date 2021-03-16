@@ -18,7 +18,7 @@ from ckan.common import _, c, request, is_flask_request
 from ckan.config.routing import SubMapper
 from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
-from ckan.lib.navl.dictization_functions import Missing, flatten_dict, unflatten, Invalid
+from ckan.lib.navl.dictization_functions import Missing, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
 from ckan.logic import NotFound, NotAuthorized, get_action, check_access
 from ckan.model import Session
@@ -40,7 +40,7 @@ from views import dataset_autocomplete
 import auth
 import menu
 
-from converters import convert_to_tags_string, save_to_groups
+from converters import save_to_groups
 
 from helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
@@ -547,7 +547,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                                                                                         'include_groups': False,
                                                                                         'include_tags': False,
                                                                                         'include_followers': False})
-                            if group['state'] is 'active':
+                            if group['state'] == 'active':
                                 package_dict['owner_org'] = group['id']
                         except NotFound:
                             pass

@@ -661,7 +661,7 @@ class SixodpHarvester(HarvesterBase):
                                      'include_tags': False,
                                      'include_followers': False}
                         org = get_action('organization_show')(base_context.copy(), data_dict)
-                        if org['state'] is not 'active':
+                        if org['state'] !== 'active':
                             log.info("Organization %s is not active, not assigning it.", remote_org)
                         else:
                             validated_org = org['id']
