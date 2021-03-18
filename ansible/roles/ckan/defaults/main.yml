@@ -108,6 +108,7 @@ ckan_extensions:
   - ckanext-prh_tools
   - ckanext-openapiviewer
   - ckanext-statistics
+  - ckanext-matomo
 
 ckan_extensions_with_translations:
   - ckanext-ytp_request
@@ -120,8 +121,12 @@ ckan_extensions_with_translations:
   - ckanext-advancedsearch
   - ckanext-scheming
   - ckanext-statistics
+
 # enable google analytics can either be false, or dict of id account type
 ckan_google_analytics: false
+
+# enable matomo analytics can either be false, or dict of id account type
+ckan_matomo_analytics: false
 
 # deployment environment id is used to decide on debugging level and such
 ckan_deployment_environment_id: ""
