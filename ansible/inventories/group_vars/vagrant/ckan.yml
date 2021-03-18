@@ -52,3 +52,8 @@ ckan_log_files:
 
 ckan_sentry_integration_enabled: false
 ckan_notifications_to_maintainers_enabled: true
+
+ckan_matomo_analytics:
+  site_id: "19"
+  domain: "https://suomi.matomo.cloud/"
+  script_domain: "//cdn.matomo.cloud/suomi.matomo.cloud/"
