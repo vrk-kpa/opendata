@@ -52,7 +52,5 @@ ckan_sentry_dsn: "{{ secret_ckan_sentry_dsn }}"
 
 ckan_harvester_status_email_recipients: "{{ secret_ckan_harvester_status_email_recipients }}"
 
-ckan_matomo_analytics:
-  site_id: "18"
-  domain: "https://suomi.matomo.cloud/"
-  script_domain: "//cdn.matomo.cloud/suomi.matomo.cloud/"
+ckan_matomo_analytics: "{{ matomo_analytics }}"
+

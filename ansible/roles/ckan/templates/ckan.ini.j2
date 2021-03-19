@@ -213,7 +213,7 @@ googleanalytics.type = {{ ckan_google_analytics.type }}
 
 {% if ckan_matomo_analytics -%}
 ckanext.matomo.site_id = {{ ckan_matomo_analytics.site_id }}
-ckanext.matomo.domain = {{ ckan_matomo_analytics.domain }}
+ckanext.matomo.domain = https://{{ ckan_matomo_analytics.domain }}/
 ckanext.matomo.script_domain = {{ ckan_matomo_analytics.script_domain }}
 {%- endif %}
 

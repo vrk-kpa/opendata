@@ -133,6 +133,7 @@
     - recaptcha
     - unpublished_node_permissions
     - menu_item_role_access
+    - matomo
   when: item not in drupal_enabled_modules.stdout
   tags:
     - skip_ansible_lint
@@ -273,6 +274,7 @@
     - { src: language.entity.fi.yml.j2, dest: language.entity.fi.yml }
     - { src: language.entity.sv.yml.j2, dest: language.entity.sv.yml }
     - { src: protected_submissions.settings.yml.j2, dest: protected_submissions.settings.yml }
+    - { src: matomo.settings.yml.j2, dest: matomo.settings.yml }
 
 - name: Enable captcha
   template:

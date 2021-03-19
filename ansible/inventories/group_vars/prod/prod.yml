@@ -25,3 +25,8 @@ AWS:
   use_iam_role: true
   ckan_s3_bucket: avoindata-prod-datasets
   smtp_server_domain: "email-smtp.eu-west-1.amazonaws.com"
+
+matomo_analytics:
+  site_id: "20"
+  domain: "suomi.matomo.cloud"
+  script_domain: "//cdn.matomo.cloud/suomi.matomo.cloud/"

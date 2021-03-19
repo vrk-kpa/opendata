@@ -52,7 +52,4 @@ ckan_notifications_to_maintainers_enabled: true
 ckan_exempt_domains_from_broken_link_notifications:
   - fmi.fi
 
-ckan_matomo_analytics:
-  site_id: "20"
-  domain: "https://suomi.matomo.cloud/"
-  script_domain: "//cdn.matomo.cloud/suomi.matomo.cloud/"
+ckan_matomo_analytics: "{{ matomo_analytics }}"
