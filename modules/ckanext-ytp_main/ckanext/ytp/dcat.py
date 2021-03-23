@@ -1,8 +1,9 @@
+import six
 import json
 import threading
 from rdflib import URIRef, BNode, Literal, Namespace
 from rdflib.namespace import RDF, XSD
-from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX
+from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX, LOCN, GSP
 from ckanext.dcat.utils import resource_uri, url_quote
 from ckan.plugins import toolkit as p
 
@@ -10,7 +11,7 @@ import logging
 log = logging.getLogger(__name__)
 
 ADFI = Namespace('http://avoindata.fi/ns#')
-
+GEODCAT = Namespace('http://data.europa.eu/930/#')
 namespaces = {
     'dct': DCT,
     'dcat': DCAT,
@@ -20,14 +21,17 @@ namespaces = {
     'adms': ADMS,
     'xsd': XSD,
     'spdx': SPDX,
-    'adfi': ADFI
+    'adfi': ADFI,
+    'locn': LOCN,
+    'gsp': GSP,
+    'geodcat': GEODCAT,
 }
 
 
 def as_dict(value):
     if type(value) is dict:
         return value
-    elif type(value) in (str, unicode):
+    elif type(value) in (str, six.text_type):
         return as_dict(json.loads(value))
     else:
         raise ValueError()
@@ -35,6 +39,10 @@ def as_dict(value):
 
 def get_dict(d, key):
     return as_dict(d.get(key, {}))
+
+
+def uriref(uri, *args, **kwargs):
+    return URIRef(url_quote(uri.encode('utf-8')), *args, **kwargs)
 
 
 thread_local = threading.local()
@@ -103,6 +111,12 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.bind(prefix, namespace)
         g.add((dataset_ref, RDF.type, DCAT.Dataset))
 
+        # Flatten extras
+        for extra in dataset_dict.get('extras', []):
+            key = extra['key']
+            if key not in dataset_dict:
+                dataset_dict[key] = extra['value']
+
         # dct:title
         titles = set(t for t in get_dict(dataset_dict, 'title_translated').values() if t)
 
@@ -168,12 +182,12 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((distribution, DCT.rights, rights_statement))
 
             # dcat:accessUrl
-            g.add((distribution, DCAT.accessURL, URIRef(resource_uri(resource_dict))))
+            g.add((distribution, DCAT.accessURL, uriref(resource_uri(resource_dict))))
 
             # dcat:downloadUrl
             resource_url = resource_dict.get('url')
             if resource_url:
-                g.add((distribution, DCAT.downloadURL, URIRef(url_quote(resource_url))))
+                g.add((distribution, DCAT.downloadURL, uriref(resource_url)))
 
             # adms:status
             maturity = resource_dict.get('maturity')
@@ -188,7 +202,7 @@ class AvoindataDCATAPProfile(RDFProfile):
             license_url = dataset_dict.get('license_url')
 
             if license_url:
-                license_ref = URIRef(license_url)
+                license_ref = uriref(license_url)
                 g.add((license_ref, RDF.type, DCT.LicenseDocument))
                 g.add((distribution, DCT.license, license_ref))
 
@@ -203,11 +217,17 @@ class AvoindataDCATAPProfile(RDFProfile):
 
             # dct:conformsTo
             position_info = resource_dict.get('position_info')
-
             if position_info:
                 standard = BNode()
                 g.add((standard, RDF.type, DCT.Standard))
-                g.add((standard, RDF.value, Literal(position_info)))
+                g.add((standard, DCT.identifier, Literal(position_info)))
+                g.add((distribution, DCT.conformsTo, standard))
+
+            spatial_reference_system = dataset_dict.get('spatial-reference-system')
+            if spatial_reference_system:
+                standard = BNode()
+                g.add((standard, RDF.type, DCT.Standard))
+                g.add((standard, DCT.identifier, Literal(spatial_reference_system)))
                 g.add((distribution, DCT.conformsTo, standard))
 
             # dcat:byteSize
@@ -291,18 +311,68 @@ class AvoindataDCATAPProfile(RDFProfile):
         for external_url in external_urls:
             # some external urls have whitespace in them
             external_url = external_url.strip()
-            document = URIRef(url_quote(external_url))
+            document = URIRef(url_quote(external_url.encode('utf-8')))
             g.add((document, RDF.type, FOAF.Document))
             g.add((dataset_ref, DCAT.landingPage, document))
 
         # dct:spatial
+        locations = []
         geographical_coverages = set(g for g in dataset_dict.get('geographical_coverage', []) if g)
 
         for geographical_coverage in geographical_coverages:
+            locations.append((DCT.identifier, Literal(geographical_coverage)))
+
+        bbox_field_names = ['bbox-south-lat', 'bbox-west-long', 'bbox-north-lat', 'bbox-east-long']
+        bbox_fields = [dataset_dict.get(field) for field in bbox_field_names]
+
+        if all(bbox_fields):
+            log.debug('bbox fields are present: %s', bbox_fields)
+            from lxml import etree
+            gml = 'http://www.opengis.net/gml/3.2.1#'
+            nsmap = {'gml': gml}
+            envelope = etree.Element(etree.QName(gml, 'Envelope'), srsName='http://www.opengis.net/def/crs/OGC/1.3/CRS84', nsmap=nsmap)
+            lowerCorner = etree.SubElement(envelope, etree.QName(gml, 'lowerCorner'), nsmap=nsmap)
+            upperCorner = etree.SubElement(envelope, etree.QName(gml, 'upperCorner'), nsmap=nsmap)
+            lowerCorner.text = ' '.join(bbox_fields[:2])
+            upperCorner.text = ' '.join(bbox_fields[2:])
+
+            locations.append((DCAT.bbox, Literal(etree.tostring(envelope))))
+
+        spatial_field = dataset_dict.get('spatial')
+        if spatial_field:
+            log.debug('spatial field is present: %s', spatial_field)
+            locations.append((LOCN.geometry, Literal(spatial_field, datatype=GSP.geoJSONLiteral)))
+
+        if dataset_dict.get('name') == 'keski-suomen-maakuntakaavayhdistelma7':
+            from pprint import pformat
+            log.debug(pformat(dataset_dict))
+
+        if locations:
             location = BNode()
             g.add((dataset_ref, DCT.spatial, location))
             g.add((location, RDF.type, DCT.Location))
-            g.add((location, DCAT.centroid, Literal(geographical_coverage)))
+            for prop, value in locations:
+                g.add((location, prop, value))
+
+        # geodcat:custodian
+        responsible_party = dataset_dict.get('responsible-party')
+        if responsible_party:
+            try:
+                custodians_data = json.loads(responsible_party)
+                custodians_data = custodians_data if type(custodians_data) is list else [custodians_data]
+                for custodian_data in custodians_data:
+                    custodian = BNode()
+                    g.add((custodian, RDF.type, FOAF.Agent))
+                    custodian_fields = [('name', FOAF.name), ('email', VCARD.hasEmail)]
+
+                    for field, prop in custodian_fields:
+                        value = custodian_data.get(field)
+                        if value:
+                            g.add((custodian, prop, Literal(value)))
+
+                    g.add((dataset_ref, GEODCAT.custodian, custodian))
+            except ValueError:
+                log.debug('Invalid JSON value in field responsible-party')
 
         # dct:accuralPeriodicity
         update_frequencies = set(u for lang in get_dict(dataset_dict, 'update_frequency').values() for u in lang if u)
@@ -316,8 +386,11 @@ class AvoindataDCATAPProfile(RDFProfile):
         # dct:type
         content_types = set(t for lang in get_dict(dataset_dict, 'content_type').values() for t in lang if t)
 
-        for content_type in content_types:
-            concept = Literal(content_type)
+        if content_types:
+            concept = BNode()
+            g.add((concept, RDF.type, SKOS.Concept))
+            for content_type in content_types:
+                g.add((concept, SKOS.prefLabel, Literal(content_type)))
             g.add((dataset_ref, DCT.type, concept))
 
         # dct:identifier
