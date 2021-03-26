@@ -60,7 +60,7 @@ ckan.auth.roles_that_cascade_to_sub_groups = admin
 
 ckan.site_id = {{ ckan_site_id }}
 
-ckan.plugins = {{ ckan_plugins }} {% if ckan_google_analytics -%}googleanalytics{%- endif %} {% if ckan_enable_cloudstorage -%} cloudstorage {%- endif %} {{ ckan_plugins_default }}
+ckan.plugins = {{ ckan_plugins }} {% if ckan_google_analytics -%}googleanalytics{%- endif %} {% if ckan_matomo_analytics -%}matomo{%- endif %} {% if ckan_enable_cloudstorage -%} cloudstorage {%- endif %} {{ ckan_plugins_default }}
 
 scheming.dataset_schemas = ckanext.ytp.schemas:dataset.json
                            ckanext.sixodp_showcase.schemas:showcase.json
@@ -209,6 +209,12 @@ ckan.storage_path = {{ ckan_files_path }}
 googleanalytics.id = {{ ckan_google_analytics.id }}
 googleanalytics.account = {{ ckan_google_analytics.account }}
 googleanalytics.type = {{ ckan_google_analytics.type }}
+{%- endif %}
+
+{% if ckan_matomo_analytics -%}
+ckanext.matomo.site_id = {{ ckan_matomo_analytics.site_id }}
+ckanext.matomo.domain = https://{{ ckan_matomo_analytics.domain }}/
+ckanext.matomo.script_domain = {{ ckan_matomo_analytics.script_domain }}
 {%- endif %}
 
 ckanext.spatial.harvest.continue_on_validation_errors = true
