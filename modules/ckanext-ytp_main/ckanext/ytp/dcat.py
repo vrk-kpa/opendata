@@ -147,6 +147,10 @@ class AvoindataDCATAPProfile(RDFProfile):
 
         self._add_triple_from_dict(dataset_dict, contact_details, VCARD.hasUrl, 'maintainer_website', _type=URIRef)
 
+        contact_email = dataset_dict.get('contact_email')
+        if contact_email:
+            g.add((dataset_ref, DCAT.contactPoint, uriref(contact_email)))
+
         # dcat:distribution
         for resource_dict in dataset_dict.get('resources', []):
             resource_dict = as_dict(resource_dict)
@@ -376,6 +380,10 @@ class AvoindataDCATAPProfile(RDFProfile):
 
         # dct:accuralPeriodicity
         update_frequencies = set(u for lang in get_dict(dataset_dict, 'update_frequency').values() for u in lang if u)
+        spatial_frequency_of_update = dataset_dict.get('frequency-of-update')
+
+        if spatial_frequency_of_update:
+            update_frequencies.add(spatial_frequency_of_update)
 
         if update_frequencies:
             accrual_periodicity = BNode()
@@ -397,8 +405,8 @@ class AvoindataDCATAPProfile(RDFProfile):
         g.add((dataset_ref, DCT.identifier, Literal(dataset_dict.get('id'))))
 
         # dct:temporal
-        valid_from = dataset_dict.get('valid_from')
-        valid_till = dataset_dict.get('valid_till')
+        valid_from = dataset_dict.get('valid_from') or dataset_dict.get('temporal-extent-begin')
+        valid_till = dataset_dict.get('valid_till') or dataset_dict.get('temporal-extent-end')
 
         if valid_from or valid_till:
             period = BNode()
@@ -410,7 +418,7 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((period, DCAT.endDate, Literal(valid_till)))
 
         # dct:issued
-        date_released = dataset_dict.get('metadata_created')
+        date_released = dataset_dict.get('dataset-reference-date') or dataset_dict.get('metadata_created')
 
         if date_released:
             issued_date = Literal(date_released)
