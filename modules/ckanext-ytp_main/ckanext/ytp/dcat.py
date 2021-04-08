@@ -334,7 +334,9 @@ class AvoindataDCATAPProfile(RDFProfile):
             from lxml import etree
             gml = 'http://www.opengis.net/gml/3.2.1#'
             nsmap = {'gml': gml}
-            envelope = etree.Element(etree.QName(gml, 'Envelope'), srsName='http://www.opengis.net/def/crs/OGC/1.3/CRS84', nsmap=nsmap)
+            envelope = etree.Element(etree.QName(gml, 'Envelope'),
+                                     srsName='http://www.opengis.net/def/crs/OGC/1.3/CRS84',
+                                     nsmap=nsmap)
             lowerCorner = etree.SubElement(envelope, etree.QName(gml, 'lowerCorner'), nsmap=nsmap)
             upperCorner = etree.SubElement(envelope, etree.QName(gml, 'upperCorner'), nsmap=nsmap)
             lowerCorner.text = ' '.join(bbox_fields[:2])
