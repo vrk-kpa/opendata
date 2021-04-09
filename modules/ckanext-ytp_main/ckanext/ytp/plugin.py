@@ -586,25 +586,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
             else:
                 package_dict['license_id'] = license_from_source
 
-            if extra['key'] == 'dataset-reference-date' and len(extra['value']):
-                value = json.loads(extra['value'])
-                for dates in value:
-                    if dates.get("type") == "creation":
-                        package_dict['extras'].append({
-                            "key": 'resource_created',
-                            'value': dates.get("value")
-                        })
-                    elif dates.get("type") == "publication":
-                        package_dict['extras'].append({
-                            "key": 'resource_published',
-                            'value': dates.get("value")
-                        })
-                    elif dates.get("type") == "revision":
-                        package_dict['extras'].append({
-                            "key": 'resource_modified',
-                            'value': dates.get("value")
-                        })
-
         package_dict['keywords'] = {'fi': []}
 
         # Map tags to keywords
