@@ -209,7 +209,7 @@ jobs:
 
       - run:
           name: Copy private key for ec2 usage
-          command: aws s3 cp --quiet s3://$AWS_PRIVATE_KEY_S3_PATH ~/.ssh/id_rsa
+          command: aws s3 cp --quiet s3://$AWS_PRIVATE_KEY_S3_PATH ~/.ssh/opendata-buildtest-key.pem
           working_directory: ~/project/
 
       - run: |
