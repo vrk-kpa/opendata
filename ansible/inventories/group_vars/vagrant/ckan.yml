@@ -52,3 +52,5 @@ ckan_log_files:
 
 ckan_sentry_integration_enabled: false
 ckan_notifications_to_maintainers_enabled: true
+
+ckan_matomo_analytics: "{{ matomo_analytics }}"

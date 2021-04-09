@@ -51,3 +51,6 @@ ckan_deployment_environment_id: 'beta'
 ckan_sentry_dsn: "{{ secret_ckan_sentry_dsn }}"
 
 ckan_harvester_status_email_recipients: "{{ secret_ckan_harvester_status_email_recipients }}"
+
+ckan_matomo_analytics: "{{ matomo_analytics }}"
+
