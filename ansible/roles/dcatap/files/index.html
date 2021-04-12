@@ -42,6 +42,8 @@
       <tr><td>vann</td><td>http://purl.org/vocab/vann/</td></tr>
       <tr><td>voaf</td><td>http://purl.org/vocommons/voaf#</td></tr>
       <tr><td>vcard</td><td>http://www.w3.org/2006/vcard/ns#</td></tr>
+      <tr><td>geodcat</td><td>http://data.europa.eu/930/#</td></tr>
+      <tr><td>gsp</td><td>http://www.opengis.net/ont/geosparql#</td></tr>
       
       </tbody>
     </table>
@@ -267,7 +269,7 @@
       <tr>
           <td>dct:temporal </td>
           <td>dct:PeriodOfTime</td>
-          <td>0..n</td>
+          <td>0..1</td>
           <td>This property refers to a temporal period that the Dataset covers.</td>
         </tr>
       <tr>
@@ -441,6 +443,12 @@
           <td>prov:Activity</td>
           <td>0..n</td>
           <td>This property refers to an activity that generated, or provides the business context for, the creation of the dataset.</td>
+        </tr>
+      <tr>
+          <td>geodcat:custodian </td>
+          <td>foaf:Agent</td>
+          <td>0..n</td>
+          <td>Party that accepts accountability and responsibility for the data and ensures appropriate care and maintenance of the resource [ISO-19115].</td>
         </tr>
        
       </tbody>
