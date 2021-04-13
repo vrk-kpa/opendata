@@ -221,8 +221,8 @@ ckanext.matomo.script_domain = {{ ckan_matomo_analytics.script_domain }}
 ckanext.spatial.harvest.continue_on_validation_errors = true
 
 ckanext.spatial.common_map.type = custom
-ckanext.spatial.common_map.custom.url = https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png
-ckanext.spatial.common_map.attribution = Maps &copy; <a href="http://www.wikimedia.org">Wikimedia Foundation</a>, Data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>
+ckanext.spatial.common_map.custom.url = https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+ckanext.spatial.common_map.attribution = &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
 
 solr_url = http://{{ ckan_solr_host }}:{{ ckan_solr_port }}/{{ item.solr_path }}
 
