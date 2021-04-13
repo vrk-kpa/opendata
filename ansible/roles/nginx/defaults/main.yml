@@ -47,8 +47,12 @@ nginx_content_security_policy_frame_domains:
   - "*.disqus.com"
   - "https://www.google.com/recaptcha/"
 
+nginx_content_security_policy_default_domains:
+  - "*.disquscdn.com"
+  - "https://disqus.com"
+
 nginx_content_security_policy:
-  - "default-src 'self';"
+  - "default-src 'self' {{ nginx_content_security_policy_default_domains | join (' ') }};"
   - "script-src 'self' 'unsafe-inline' 'unsafe-eval' {{ nginx_content_security_policy_script_domains | join(' ') }};"
   - "img-src 'self' https: gravatar.com data:;"
   - "style-src 'self' 'unsafe-inline' {{ nginx_content_security_policy_style_domains | join(' ') }};"
