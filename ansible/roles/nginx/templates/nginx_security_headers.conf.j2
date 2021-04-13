@@ -2,7 +2,7 @@
 add_header X-XSS-Protection "1; mode=block";
 
 # Content security policies allowing content to be loaded from specified addresses
-add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' platform.twitter.com syndication.twitter.com cdn.syndication.twimg.com *.disqus.com https://disqus.com *.disquscdn.com www.google-analytics.com https://www.google.com/recaptcha/ https://www.gstatic.com/ https://www.google.com cdn.matomo.cloud suomi.matomo.cloud; img-src 'self' https: gravatar.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://platform.twitter.com https://ton.twimg.com *.disquscdn.com https://www.google.com https://ajax.googleapis.com  https://www.gstatic.com; font-src 'self' https://themes.googleusercontent.com https://fonts.gstatic.com; frame-src 'self' {% if nginx_domain is defined%}*.{{ nginx_domain }} {% endif %} {% if nginx_secondary_domain is defined %}*.{{ nginx_secondary_domain}} {% endif %}syndication.twitter.com https://platform.twitter.com https://disqus.com *.disqus.com https://www.google.com/recaptcha/; object-src 'none'; connect-src 'self' https://links.services.disqus.com wss://realtime.services.disqus.com https://epsg.io *";
+add_header Content-Security-Policy "{{ nginx_content_security_policy | join(' ') }}";
 
 # Strict Transport Security (use only https)
 add_header Strict-Transport-Security "max-age=31536000; preload";
