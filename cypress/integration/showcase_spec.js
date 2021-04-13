@@ -87,7 +87,7 @@ describe('Showcase tests', function() {
       '#field-notes_translated-fi': 'Dataset test description',
       '#s2id_autogen1': 'test_keyword {enter}',
       '#field-maintainer': 'test maintainer',
-      '#field-maintainer_email': 'test.maintainer@example.com',
+      '#field-maintainer_email-1': 'test.maintainer@example.com',
     }
     cy.get('nav a[href="/data/fi/dataset"]').click();
     // Dataset will be created with default resource_form_data

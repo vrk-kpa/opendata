@@ -248,6 +248,22 @@ def repeating_text_output(value):
         return [value]
 
 
+def repeating_email(key, data, errors, context):
+    if errors[key]:
+        return
+
+    value_json = data[key]
+    value = json.loads(value_json)
+
+    if not isinstance(value, list):
+        errors[key].append(_('expecting a list'))
+        return
+
+    email_validator = toolkit.get_validator('email_validator')
+    for item in value:
+        email_validator(item, context)
+
+
 @scheming_validator
 def only_default_lang_required(field, schema):
     default_lang = ''
