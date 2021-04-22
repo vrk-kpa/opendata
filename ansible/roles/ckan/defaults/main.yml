@@ -322,3 +322,4 @@ ckan_dynatrace_pip_packages:
 
 ckan_notifications_to_maintainers_enabled: false
 ckan_exempt_domains_from_broken_link_notifications: []
+ckan_harvester_instruction_url: ""

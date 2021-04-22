@@ -54,3 +54,4 @@ ckan_exempt_domains_from_broken_link_notifications:
   - fmi.fi
 
 ckan_matomo_analytics: "{{ matomo_analytics }}"
+ckan_harvester_instruction_url: "{{ secret_ckan_harvester_instruction_url }}"
