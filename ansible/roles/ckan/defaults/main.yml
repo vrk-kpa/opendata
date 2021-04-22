@@ -224,6 +224,7 @@ ckan_admins:
 # user who should run supervisord
 ckan_harvester_user: "{{ ckan_www_user }}"
 ckan_harvester_status_email_recipients: ""
+ckan_fault_recipients: ""
 ckan_sql_files_to_execute:
   - datastore_permissions.sql.j2
 
