@@ -20,6 +20,7 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcatap: <http://data.europa.eu/r5r> .
+@prefix geodcat: <http://data.europa.eu/930/#> .
 
 <http://data.europa.eu/r5r/shacl_shapes>
     dcat:accessURL <https://joinup.ec.europa.eu/solution/dcat-application-profile-data-portals-europe/distribution/dcat-ap-200-shacl-shapes>;
@@ -368,7 +369,7 @@
         sh:path dct:spatial ;
         sh:severity sh:Violation
     ], [
-	sh:class dct:PeriodOfTime ;
+	      sh:class dct:PeriodOfTime ;
         sh:path dct:temporal ;
         sh:severity sh:Violation
     ], [
@@ -481,6 +482,11 @@
         sh:class foaf:Agent ;
         sh:maxCount 1 ;
         sh:path dct:creator ;
+        sh:severity sh:Violation
+    ], [
+        sh:class foaf:Agent ;
+        sh:maxCount 1 ;
+        sh:path geodcat:custodian ;
         sh:severity sh:Violation
     ] ;
     sh:targetClass dcat:Dataset .

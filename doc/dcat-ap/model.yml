@@ -31,6 +31,10 @@ vocabularies:
     uri: "http://purl.org/vocommons/voaf#"
   - prefix: vcard
     uri: "http://www.w3.org/2006/vcard/ns#"
+  - prefix: geodcat
+    uri: "http://data.europa.eu/930/#"
+  - prefix: gsp
+    uri: "http://www.opengis.net/ont/geosparql#"
 classes:
   - title: Catalogue
     description: A catalogue or repository that hosts the Datasets being described.
@@ -202,7 +206,7 @@ classes:
           range: dct:PeriodOfTime
           description: This property refers to a temporal period that the Dataset covers.
           min: 0
-          max: n
+          max: 1
         - name: theme/ category
           term: dcat:theme, subproperty of dct:subject
           range: skos:Concept
@@ -365,6 +369,12 @@ classes:
           term: prov:wasGeneratedBy
           range: prov:Activity
           description: This property refers to an activity that generated, or provides the business context for, the creation of the dataset.
+          min: 0
+          max: n
+        - name: custodian
+          term: geodcat:custodian
+          range: foaf:Agent
+          description: Party that accepts accountability and responsibility for the data and ensures appropriate care and maintenance of the resource [ISO-19115].
           min: 0
           max: n
 
