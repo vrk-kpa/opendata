@@ -1,0 +1,36 @@
+version: 2
+registries:
+  npm-registry-npm-fontawesome-com:
+    type: npm-registry
+    url: https://npm.fontawesome.com
+    token: "${{secrets.NPM_REGISTRY_NPM_FONTAWESOME_COM_TOKEN}}"
+
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: flake8
+    versions:
+    - 3.8.4
+    - 3.9.0
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: cypress
+    versions:
+    - 6.3.0
+    - 6.5.0
+    - 6.7.1
+    - 6.8.0
+    - 7.0.0
+    - 7.0.1
+  registries:
+  - npm-registry-npm-fontawesome-com
