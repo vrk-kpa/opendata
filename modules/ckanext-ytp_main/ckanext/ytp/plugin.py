@@ -596,13 +596,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         # Remove tags
         package_dict.pop('tags')
 
-        # topic category for syke
-
-        topic_categories = data_dict['iso_values'].get('topic-category')
-        if topic_categories:
-            for category in topic_categories:
-                category = category[:50] if len(category) > 50 else category
-                package_dict['keywords']['fi'].append(category)
 
         package_dict['notes_translated'] = {"fi": package_dict['notes']}
         package_dict['title_translated'] = {"fi": package_dict['title']}
