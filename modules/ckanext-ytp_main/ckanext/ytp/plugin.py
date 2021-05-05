@@ -557,16 +557,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         license_from_source = config_obj.get("license", None)
 
         for extra in package_dict['extras']:
-            if extra['key'] == 'resource-type' and len(extra['value']):
-                if extra['value'] == 'dataset':
-                    package_dict['collection_type'] = 'Open Data'
-                elif extra['value'] == 'series':
-                    package_dict['collection_type'] = 'Open Data'
-                elif extra['value'] == 'service':
-                    package_dict['collection_type'] = 'Interoperability Tools'
-
-                else:
-                    continue
 
             if license_from_source is None:
                 if extra['key'] == 'licence':
@@ -615,6 +605,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         package_dict['notes_translated'] = {"fi": package_dict['notes']}
         package_dict['title_translated'] = {"fi": package_dict['title']}
+        package_dict['collection_type'] = 'Open Data'
 
         return package_dict
 
