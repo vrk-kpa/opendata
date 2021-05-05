@@ -526,7 +526,8 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
             for extra in package_dict['extras']:
                 if extra['key'] == source and len(extra['value']):
                     for target_key in target:
-                        package_dict[target_key] = extra['value']
+                        # some have multiple emails separated by ;
+                        package_dict[target_key] = [email.strip() for email in extra['value'].split(";")]
 
         map = {'responsible-party': ['maintainer']}
 
