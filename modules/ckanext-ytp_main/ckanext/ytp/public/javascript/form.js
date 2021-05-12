@@ -115,6 +115,11 @@ ckan.module("ytp_main_input_multiple", function ($) {
 
           // Add the 'remove link' to the cloned input container
           module.createRemoveLink($clonedInputContainer);
+
+          var $input = $clonedInputContainer.find("> input");
+          var $button = $clonedInputContainer.find("> button");
+          $input.outerWidth($multiValueContainer.outerWidth() - $button.outerWidth());
+
           e.stopPropagation();
           e.preventDefault();
           return false;
