@@ -109,6 +109,14 @@
     hour: "11"
     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-ytp_main opendata-harvest send-status-emails --config={{ ckan_ini }}"
 
+- name: Send stuck harvester report emails as a cron job
+  cron:
+    name: "Send stuck harvester report emails"
+    minute: "0"
+    hour: "11"
+    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-ytp_main opendata-harvest send-stuck-runs-report --config={{ ckan_ini }}"
+
+
 - name: Remove old beaker sessions from beaker_cache table
   cron:
     name: "Remove old beaker sessions"
