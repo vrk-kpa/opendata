@@ -1,3 +1,7 @@
+import datetime
+import iso8601
+import pytz
+
 import six
 from ckan.common import _
 import ckan.authz as authz
@@ -398,12 +402,24 @@ def from_date_is_before_until_date(field, schema):
 
         max_date_value = data.get(max_date_field, "")
         if max_date_field is not None and max_date_value != "" and max_date_value != missing:
-            if data[key] and data[key] > max_date_value:
+            if not isinstance(max_date_value, datetime.datetime):
+                try:
+                    max_date_value = iso8601.parse_date(max_date_value)
+                except iso8601.ParseError:
+                    log.info("Could not convert %s to datetime" % max_date_value)
+                    pass
+            if data[key] and data[key].replace(tzinfo=pytz.utc) > max_date_value:
                 errors[key].append(_('Start date is after end date'))
 
         min_date_value = data.get(min_date_field, "")
         if min_date_field is not None and min_date_value != "" and min_date_value != missing:
-            if data[key] and data[key] < min_date_value:
+            if not isinstance(min_date_value, datetime.datetime):
+                try:
+                    min_date_value = iso8601.parse_date(min_date_value)
+                except iso8601.ParseError:
+                    log.info("Could not convert %s to datetime" % min_date_value)
+                    pass
+            if data[key] and data[key].replace(tzinfo=pytz.utc) < min_date_value:
                 errors[key].append(_('End date is before start date'))
 
     return validator

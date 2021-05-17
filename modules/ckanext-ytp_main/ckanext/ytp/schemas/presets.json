@@ -203,7 +203,7 @@
       "values": {
         "form_snippet": "date.html",
         "display_snippet": "date.html",
-        "validators": "scheming_required from_date_is_before_until_date isodate convert_to_json_if_date",
+        "validators": "scheming_required isodate from_date_is_before_until_date convert_to_json_if_date",
         "form_attrs": {
           "data-datepicker": "",
           "class": "form-control"
@@ -215,7 +215,7 @@
       "values": {
         "form_snippet": "date_with_icon.html",
         "display_snippet": "date.html",
-        "validators": "scheming_required from_date_is_before_until_date isodate convert_to_json_if_date",
+        "validators": "scheming_required isodate from_date_is_before_until_date convert_to_json_if_date",
         "form_attrs": {
           "data-datepicker": "",
           "class": "form-control"

@@ -1,5 +1,7 @@
 import json
 import logging
+
+import iso8601
 import pylons
 import re
 import types
@@ -577,6 +579,20 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                 package_dict['license_id'] = 'other'
             else:
                 package_dict['license_id'] = license_from_source
+
+            if extra['key'] == 'temporal-extent-begin':
+                try:
+                    value = iso8601.parse_date(extra['value'])
+                    package_dict['valid_from'] = value
+                except iso8601.ParseError:
+                    log.info("Could not convert %s to datetime" % extra['value'])
+
+            if extra['key'] == 'temporal-extent-end':
+                try:
+                    value = iso8601.parse_date(extra['value'])
+                    package_dict['valid_till'] = value
+                except iso8601.ParseError:
+                    log.info("Could not convert %s to datetime" % extra['value'])
 
         package_dict['keywords'] = {'fi': []}
 
