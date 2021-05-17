@@ -192,7 +192,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
 
     def before_index(self, data_dict):
         if data_dict.get('platform'):
-            data_dict['vocab_platform'] = [tag for tag in json.loads(data_dict['platform'])]
+            data_dict['vocab_platform'] = [tag for tag in data_dict['platform'].split(',')]
 
         vocabs = ['keywords']
         languages = ['fi', 'sv', 'en']

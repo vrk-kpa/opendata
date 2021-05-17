@@ -50,6 +50,7 @@ Resources:
                   - lambda:ListTags
                   - lambda:TagResource
                   - lambda:UntagResource
+                  - lambda:GetFunction
                   - lambda:GetFunctionConfiguration
                   - lambda:AddPermission
                   - lambda:RemovePermission

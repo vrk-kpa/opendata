@@ -475,6 +475,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'override_field': validators.override_field,
             'repeating_text_output': validators.repeating_text_output,
             'repeating_text': validators.repeating_text,
+            'repeating_email': validators.repeating_email,
             'set_private_if_not_admin_or_showcase_admin': validators.set_private_if_not_admin_or_showcase_admin,
             'tag_list_output': validators.tag_list_output,
             'tag_string_or_tags_required': validators.tag_string_or_tags_required,
@@ -585,25 +586,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                 package_dict['license_id'] = 'other'
             else:
                 package_dict['license_id'] = license_from_source
-
-            if extra['key'] == 'dataset-reference-date' and len(extra['value']):
-                value = json.loads(extra['value'])
-                for dates in value:
-                    if dates.get("type") == "creation":
-                        package_dict['extras'].append({
-                            "key": 'resource_created',
-                            'value': dates.get("value")
-                        })
-                    elif dates.get("type") == "publication":
-                        package_dict['extras'].append({
-                            "key": 'resource_published',
-                            'value': dates.get("value")
-                        })
-                    elif dates.get("type") == "revision":
-                        package_dict['extras'].append({
-                            "key": 'resource_modified',
-                            'value': dates.get("value")
-                        })
 
         package_dict['keywords'] = {'fi': []}
 

@@ -31,6 +31,8 @@ xsd | http://www.w3.org/2001/XMLSchema#
 vann | http://purl.org/vocab/vann/
 voaf | http://purl.org/vocommons/voaf#
 vcard | http://www.w3.org/2006/vcard/ns#
+geodcat | http://data.europa.eu/930/#
+gsp | http://www.opengis.net/ont/geosparql#
 
 
 ## Classes
@@ -103,7 +105,7 @@ dcat:distribution | dcat:Distribution | 0..n | This property links the Dataset t
 dcat:keyword | rdfs:Literal | 0..n | This property contains a keyword or tag describing the Dataset.
 dct:publisher | foaf:Agent | 0..1 | This property refers to an entity (organisation) responsible for making the Dataset available.
 dct:spatial | dct:Location | 0..n | This property refers to a geographic region that is covered by the Dataset.
-dct:temporal | dct:PeriodOfTime | 0..n | This property refers to a temporal period that the Dataset covers.
+dct:temporal | dct:PeriodOfTime | 0..1 | This property refers to a temporal period that the Dataset covers.
 dcat:theme, subproperty of dct:subject | skos:Concept | 0..n | This property refers to a category of the Dataset. A Dataset may be associated with multiple themes.
  
 
@@ -136,6 +138,7 @@ dct:modified | rdfs:Literal typed as xsd:date or xsd:dateTime | 0..1 | This prop
 owl:versionInfo | rdfs:Literal | 0..1 | This property contains a version number or other version designation of the Dataset.
 adms:versionNotes | rdfs:Literal | 0..n | This property contains a description of the differences between this version and a previous version of the Dataset. This property can be repeated for parallel language versions of the version notes.
 prov:wasGeneratedBy | prov:Activity | 0..n | This property refers to an activity that generated, or provides the business context for, the creation of the dataset.
+geodcat:custodian | foaf:Agent | 0..n | Party that accepts accountability and responsibility for the data and ensures appropriate care and maintenance of the resource [ISO-19115].
  
  
 
