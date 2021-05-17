@@ -47,6 +47,6 @@ ckan_admins:
   - "{{ admin.username }}"
 
 
-ckan_google_analytics: "{{ google_analytics }}"
+ckan_matomo_analytics: "{{ matomo_analytics }}"
 
 ckan_show_postit_demo: false
