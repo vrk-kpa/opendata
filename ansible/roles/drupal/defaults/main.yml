@@ -73,6 +73,9 @@ drupal_removed_extensions:
   - search
   - contextual
   - page_cache
+  - migrate_tools
+  - migrate_plus
+  - migrate_upgrade
 
 drupal_modules_path: "../modules"
 drupal_admin_email: admin@localhost
