@@ -380,11 +380,12 @@ def keep_old_value_if_missing(field, schema):
     return validator
 
 
-ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
-
-
 def ignore_if_invalid_isodatetime(v):
-    return v if ISO_DATETIME_FORMAT.match(v) else None
+    try:
+        iso8601.parse_date(v)
+        return v
+    except iso8601.ParseError:
+        return None
 
 
 @scheming_validator
