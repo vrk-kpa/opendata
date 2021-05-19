@@ -154,6 +154,8 @@ target_group_options_url = file://{{ ckan_files_path }}/target_groups.json
 ckanext.ytp.default_organization_name = yksityishenkilo
 ckanext.ytp.default_organization_title = Yksityishenkil\u00f6
 ckanext.ytp.harvester_status_recipients = {{ ckan_harvester_status_email_recipients|join(' ') }}
+ckanext.ytp.fault_recipients = {{ ckan_fault_recipients|join(' ') }}
+ckanext.ytp.harvester_instruction_url = {{ ckan_harvester_instruction_url }}
 
 ckanext.prh_tools.mail_recipients = {{ ckan_harvester_status_email_recipients|join(' ') }}
 
@@ -221,8 +223,8 @@ ckanext.matomo.script_domain = {{ ckan_matomo_analytics.script_domain }}
 ckanext.spatial.harvest.continue_on_validation_errors = true
 
 ckanext.spatial.common_map.type = custom
-ckanext.spatial.common_map.custom.url = https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png
-ckanext.spatial.common_map.attribution = Maps &copy; <a href="http://www.wikimedia.org">Wikimedia Foundation</a>, Data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>
+ckanext.spatial.common_map.custom.url = https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+ckanext.spatial.common_map.attribution = &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
 
 solr_url = http://{{ ckan_solr_host }}:{{ ckan_solr_port }}/{{ item.solr_path }}
 
