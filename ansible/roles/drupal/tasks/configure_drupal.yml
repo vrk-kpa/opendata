@@ -122,7 +122,6 @@
     - search_api
     - search_api_db
     - search_api_db_defaults
-    - google_analytics
     - token
     - metatag
     - metatag_open_graph
@@ -253,7 +252,6 @@
     - { src: registration_validation.settings.yml.j2, dest: registration_validation.settings.yml }
     - { src: fontawesome.settings.yml.j2, dest: fontawesome.settings.yml }
     - { src: search_api.server.default_server.yml.j2, dest: search_api.server.default_server.yml }
-    - { src: google_analytics.settings.yml.j2, dest: google_analytics.settings.yml }
     - { src: update.settings.yml.j2, dest: update.settings.yml }
     - { src: metatag.settings.yml.j2, dest: metatag.settings.yml }
     - { src: metatag.metatag_defaults.front.yml.j2, dest: metatag.metatag_defaults.front.yml }

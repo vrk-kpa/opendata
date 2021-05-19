@@ -17,15 +17,6 @@
     remote_src: true
   when: ckan_sentry_integration_enabled|bool
 
-- name: Copy credentials token
-  copy:
-    src: "{{ ckan_google_credentials }}"
-    dest: "{{ ckan_cache_path }}/token.dat"
-    mode: "0644"
-    owner: root
-    group: "{{ ckan_www_group }}"
-  when: ckan_google_analytics
-
 - name: Configure logrotation for CKAN
   copy:
     dest: /etc/logrotate.d/ckan
