@@ -605,6 +605,11 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                 except json.JSONDecodeError:
                     pass
 
+            # TODO: Move to dataset level
+            if extra['key'] == "spatial-reference-system":
+                for resource in package_dict.get('resources', []):
+                    resource['position_info'] = extra['value']
+
         package_dict['keywords'] = {'fi': []}
 
         # Map tags to keywords
