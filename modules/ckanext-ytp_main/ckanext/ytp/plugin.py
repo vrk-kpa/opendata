@@ -594,14 +594,14 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                 except iso8601.ParseError:
                     log.info("Could not convert %s to datetime" % extra['value'])
 
-
             if extra['key'] == 'dataset-reference-date':
                 try:
                     value_list = json.loads(extra['value'])
                     for value in value_list:
                         if value.get('type') == "creation":
                             if not package_dict.get('date_released'):
-                                package_dict['date_released'] = iso8601.parse_date(value.get('value')).replace(tzinfo=None).isoformat()
+                                package_dict['date_released'] = iso8601.parse_date(value.get('value'))\
+                                    .replace(tzinfo=None).isoformat()
                 except json.JSONDecodeError:
                     pass
 
@@ -627,7 +627,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         # Remove tags
         package_dict.pop('tags')
-
 
         package_dict['notes_translated'] = {"fi": package_dict['notes']}
         package_dict['title_translated'] = {"fi": package_dict['title']}

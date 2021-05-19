@@ -12,7 +12,6 @@ import ckan.lib.navl.dictization_functions as df
 from ckan.logic import get_action
 from ckanext.showcase.model import ShowcaseAdmin
 
-import re
 import json
 import plugin
 import logging
