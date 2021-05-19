@@ -301,6 +301,8 @@ End of dropdown CSS
 #second-navbar {
   background-color: @navbar-background;
   min-height: @navbar-height;
+  border-top: @navbar-border;
+  border-bottom: @navbar-border;
 
   .navbar-header {
     float: left;
@@ -335,6 +337,24 @@ End of dropdown CSS
     a {
       background-color: @navbar-background;
       color: @navbar-color-links;
+    }
+  }
+  
+  li {
+    a {
+      &.is-active {
+        position: relative;
+
+        &::after {
+          position: absolute;
+          content: ' ';
+          bottom: 4px;
+          height: 4px;
+          left: 10px;
+          right: 10px;
+          background-color: @suomi-highlightBase;
+        }
+      }
     }
   }
 

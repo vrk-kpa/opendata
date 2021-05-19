@@ -13,6 +13,24 @@
       font-size: 14px;
       line-height: 20px;
       padding: 10px 0;
+
+      a {
+        color: @breadcrumb-color;
+      }
+
+      &.active a {
+        font-weight: normal;
+        color: @breadcrumbTextColor;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      &+li:before {
+        color: @breadcrumbTextColor;
+        content: ">\00a0";
+      }
     }
 
     li::after {
