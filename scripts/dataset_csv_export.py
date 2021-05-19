@@ -14,7 +14,7 @@ if len(args) != 1:
 
 CKAN_URL = args[0]
 PACKAGE_SEARCH_URL = "%s/api/action/package_search" % CKAN_URL
-GA_VIEWS_URL = "%s/api/action/googleanalytics_dataset_visits" % CKAN_URL
+GA_VIEWS_URL = "%s/api/action/matomo_dataset_visits" % CKAN_URL
 SOLR_Q = "extras_collection_type:Interoperability+Tools"
 
 def json_get(url, headers={}):

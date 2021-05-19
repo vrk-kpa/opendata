@@ -127,10 +127,10 @@
   tags:
     - skip_ansible_lint
 
-- name: Initialize googleanalytics database
+- name: Initialize matomo database
   shell: >-
     {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-googleanalytics googleanalytics init
+    --plugin=ckanext-matomo matomo init_db
     --config='{{ item.file }}'
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"

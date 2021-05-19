@@ -6,9 +6,9 @@
     hour: "1"
     job: >-
       {{ ckan_virtual_environment }}/bin/paster
-      --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{ ckan_cache_path }}/token.dat
+      --plugin=ckanext-matomo matomo fetch
       --config={{ ckan_ini }}
-  when: ckan_google_analytics
+  when: ckan_matomo_analytics
 
 - name: Check broken links cron job
   cron:

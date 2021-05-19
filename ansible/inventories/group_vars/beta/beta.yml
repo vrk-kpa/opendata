@@ -33,3 +33,4 @@ matomo_analytics:
   site_id: "21"
   domain: "suomi.matomo.cloud"
   script_domain: "//cdn.matomo.cloud/suomi.matomo.cloud/"
+  token_auth: {{ secret_matomo_analytics.token_auth }}

@@ -30,7 +30,6 @@
         "drupal/easy_breadcrumb": "^1.8",
         "drupal/easy_install": "^10.2",
         "drupal/fontawesome_menu_icons": "^1.3",
-        "drupal/google_analytics": "^2.3",
         "drupal/honeypot": "^1.29",
         "drupal/libraries": "^3.0@alpha",
         "drupal/matomo": "^1.11",
@@ -55,7 +54,8 @@
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3",
         "zaporylie/composer-drupal-optimizations": "^1.0",
-        "league/commonmark": "^1.5"
+        "league/commonmark": "^1.5",
+        "drupal/google_analytics": "^2.3"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",

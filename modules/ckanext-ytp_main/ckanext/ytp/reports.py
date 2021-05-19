@@ -1,5 +1,5 @@
 from ckan.logic import get_action
-from ckanext.googleanalytics.model import PackageStats
+from ckanext.matomo.model import PackageStats
 from commands import package_generator
 from datetime import timedelta, datetime
 import logging

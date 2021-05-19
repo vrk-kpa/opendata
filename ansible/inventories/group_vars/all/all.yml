@@ -27,9 +27,6 @@ ytp_users:
     password: 'test-user'
     email: 'user@localhost'
 
-google_analytics: false
-# enable: google_analytics: { 'id': "", 'account': "", 'username': "", 'password': "", 'type': "" }
-
 matomo_analytics: false
 
 database_ckan_password: pass
