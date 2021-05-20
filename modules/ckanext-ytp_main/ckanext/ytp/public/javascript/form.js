@@ -67,8 +67,8 @@ $(function () {
  * 
  * Examples
  *
- *   // <input name="example" data-module="ytp_main_input_multiple" data-module-link-text="Add link" data-module-link-icon="fa-globe" />
- *   // <input name="example" data-module="ytp_main_input_multiple" data-module-link-text="Add link" data-module-link-icon="false" />
+ *   // <input name="example" data-module="ytp_main_input_multiple" data-module-link-text="{{ _("Add link") }}" data-module-link-icon="fa-globe" />
+ *   // <input name="example" data-module="ytp_main_input_multiple" data-module-link-text="{{ _("Add link")}}" data-module-link-icon="false" />
  *
  */
 ckan.module("ytp_main_input_multiple", function ($) {
