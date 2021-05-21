@@ -589,7 +589,7 @@ def get_last_harvested_date(organization_name):
              for source in related_harvest_objects]) if finished_source.get('finished')]
 
         if finished_jobs:
-            latest =  max(finished_jobs, key=lambda item: datetime.datetime.strptime(item['finished'], "%Y-%m-%d %H:%M:%S.%f"))
+            latest = max(finished_jobs, key=lambda item: datetime.datetime.strptime(item['finished'], "%Y-%m-%d %H:%M:%S.%f"))
             harvest_source = get_action('harvest_source_show')({}, {'id': latest['source_id']})
             return {"source": harvest_source, "date": datetime.datetime.strptime(latest['finished'], "%Y-%m-%d %H:%M:%S.%f")}
         else:
