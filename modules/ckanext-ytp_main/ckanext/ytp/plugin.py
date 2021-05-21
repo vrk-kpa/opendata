@@ -18,7 +18,7 @@ from ckan.common import _, c, request, is_flask_request
 from ckan.config.routing import SubMapper
 from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
-from ckan.lib.navl.dictization_functions import Missing, flatten_dict, unflatten, Invalid
+from ckan.lib.navl.dictization_functions import Missing, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
 from ckan.logic import NotFound, NotAuthorized, get_action, check_access
 from ckan.model import Session
@@ -40,7 +40,7 @@ from views import dataset_autocomplete
 import auth
 import menu
 
-from converters import convert_to_tags_string, save_to_groups
+from converters import save_to_groups
 
 from helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
@@ -475,6 +475,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'override_field': validators.override_field,
             'repeating_text_output': validators.repeating_text_output,
             'repeating_text': validators.repeating_text,
+            'repeating_email': validators.repeating_email,
             'set_private_if_not_admin_or_showcase_admin': validators.set_private_if_not_admin_or_showcase_admin,
             'tag_list_output': validators.tag_list_output,
             'tag_string_or_tags_required': validators.tag_string_or_tags_required,
@@ -519,7 +520,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                             'value': value[0]
                         })
 
-        value_map = {'contact-email': ['maintainer_email', 'author_email']}
+        value_map = {'contact-email': ['maintainer_email']}
 
         for source, target in value_map.iteritems():
             for extra in package_dict['extras']:
@@ -527,7 +528,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                     for target_key in target:
                         package_dict[target_key] = extra['value']
 
-        map = {'responsible-party': ['maintainer', 'author']}
+        map = {'responsible-party': ['maintainer']}
 
         harvester_context = {'model': model, 'session': Session, 'user': 'harvest'}
         for source, target in map.iteritems():
@@ -541,8 +542,14 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                         # find responsible party from orgs
                         try:
                             name = munge_title_to_name(value[0]['name'])
-                            group = get_action('organization_show')(harvester_context, {'id': name})
-                            package_dict['owner_org'] = group['id']
+                            group = get_action('organization_show')(harvester_context, {'id': name,
+                                                                                        'include_users': False,
+                                                                                        'include_dataset_count': False,
+                                                                                        'include_groups': False,
+                                                                                        'include_tags': False,
+                                                                                        'include_followers': False})
+                            if group['state'] == 'active':
+                                package_dict['owner_org'] = group['id']
                         except NotFound:
                             pass
 
@@ -552,22 +559,14 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         for extra in package_dict['extras']:
             if extra['key'] == 'resource-type' and len(extra['value']):
                 if extra['value'] == 'dataset':
-                    value = 'paikkatietoaineisto'
                     package_dict['collection_type'] = 'Open Data'
                 elif extra['value'] == 'series':
-                    value = 'paikkatietoaineistosarja'
                     package_dict['collection_type'] = 'Open Data'
                 elif extra['value'] == 'service':
-                    value = 'paikkatietopalvelu'
                     package_dict['collection_type'] = 'Interoperability Tools'
 
                 else:
                     continue
-
-                package_dict['content_type'] = {"fi": [value]}
-                flattened = flatten_dict(package_dict)
-                convert_to_tags_string('content_type')(('content_type',), flattened, {}, context)
-                package_dict = unflatten(flattened)
 
             if license_from_source is None:
                 if extra['key'] == 'licence':
@@ -587,25 +586,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                 package_dict['license_id'] = 'other'
             else:
                 package_dict['license_id'] = license_from_source
-
-            if extra['key'] == 'dataset-reference-date' and len(extra['value']):
-                value = json.loads(extra['value'])
-                for dates in value:
-                    if dates.get("type") == "creation":
-                        package_dict['extras'].append({
-                            "key": 'resource_created',
-                            'value': dates.get("value")
-                        })
-                    elif dates.get("type") == "publication":
-                        package_dict['extras'].append({
-                            "key": 'resource_published',
-                            'value': dates.get("value")
-                        })
-                    elif dates.get("type") == "revision":
-                        package_dict['extras'].append({
-                            "key": 'resource_modified',
-                            'value': dates.get("value")
-                        })
 
         package_dict['keywords'] = {'fi': []}
 
@@ -666,13 +646,21 @@ def _configure(config=None):
 
 def _create_default_organization(context, organization_name, organization_title):
     default_locale = config.get('ckan.locale_default', 'fi')
-    values = {'name': organization_name,
-              'title': organization_title,
-              'title_translated': {default_locale: organization_title},
-              'id': organization_name}
+
     try:
-        return plugins.toolkit.get_action('organization_show')(context, values)
+        return plugins.toolkit.get_action('organization_show')(context, {'id': organization_name,
+                                                                         'include_users': False,
+                                                                         'include_dataset_count': False,
+                                                                         'include_groups': False,
+                                                                         'include_tags': False,
+                                                                         'include_followers': False})
     except NotFound:
+
+        values = {'name': organization_name,
+                  'title': organization_title,
+                  'title_translated': {default_locale: organization_title},
+                  'id': organization_name}
+
         return plugins.toolkit.get_action('organization_create')(context, values)
 
 

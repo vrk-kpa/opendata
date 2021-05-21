@@ -122,7 +122,6 @@
     - search_api
     - search_api_db
     - search_api_db_defaults
-    - google_analytics
     - token
     - metatag
     - metatag_open_graph
@@ -132,6 +131,8 @@
     - protected_submissions
     - recaptcha
     - unpublished_node_permissions
+    - menu_item_role_access
+    - matomo
   when: item not in drupal_enabled_modules.stdout
   tags:
     - skip_ansible_lint
@@ -251,9 +252,9 @@
     mode: "0644"
   with_items:
     - { src: disqus.settings.yml.j2, dest: disqus.settings.yml }
-    - { src: google_analytics.settings.yml.j2, dest: google_analytics.settings.yml }
     - { src: update.settings.yml.j2, dest: update.settings.yml }
     - { src: smtp.settings.yml.j2, dest: smtp.settings.yml}
+    - { src: matomo.settings.yml.j2, dest: matomo.settings.yml }
 
 - name: Enable captcha
   template:

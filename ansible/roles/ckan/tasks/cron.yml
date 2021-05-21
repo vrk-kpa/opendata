@@ -6,9 +6,9 @@
     hour: "1"
     job: >-
       {{ ckan_virtual_environment }}/bin/paster
-      --plugin=ckanext-googleanalytics googleanalytics loadanalytics {{ ckan_cache_path }}/token.dat
+      --plugin=ckanext-matomo matomo fetch
       --config={{ ckan_ini }}
-  when: ckan_google_analytics
+  when: ckan_matomo_analytics
 
 - name: Check broken links cron job
   cron:
@@ -108,6 +108,14 @@
     minute: "0"
     hour: "11"
     job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-ytp_main opendata-harvest send-status-emails --config={{ ckan_ini }}"
+
+- name: Send stuck harvester report emails as a cron job
+  cron:
+    name: "Send stuck harvester report emails"
+    minute: "0"
+    hour: "11"
+    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-ytp_main opendata-harvest send-stuck-runs-report --config={{ ckan_ini }}"
+
 
 - name: Remove old beaker sessions from beaker_cache table
   cron:

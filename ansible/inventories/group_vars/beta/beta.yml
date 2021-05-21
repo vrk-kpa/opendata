@@ -28,3 +28,9 @@ AWS:
   use_iam_role: true
   ckan_s3_bucket: avoindata-beta-datasets
   smtp_server_domain: "email-smtp.eu-west-1.amazonaws.com"
+
+matomo_analytics:
+  site_id: "21"
+  domain: "suomi.matomo.cloud"
+  script_domain: "//cdn.matomo.cloud/suomi.matomo.cloud/"
+  token_auth: "{{ secret_matomo_analytics.token_auth }}"

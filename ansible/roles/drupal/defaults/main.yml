@@ -73,6 +73,10 @@ drupal_removed_extensions:
   - search
   - contextual
   - page_cache
+  - google_analytics
+  - migrate_tools
+  - migrate_plus
+  - migrate_upgrade
 
 drupal_modules_path: "../modules"
 drupal_admin_email: admin@localhost
@@ -86,7 +90,7 @@ drupal_configure_instance: true
 drupal_search_engine_robots_filename: "robots_disallowed.txt"
 drupal_recaptcha_public_key: "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 drupal_recaptcha_private_key: "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
-drupal_google_analytics: false
+drupal_matomo_analytics: false
 drupal_server_path: /srv/ytp
 drupal_deployment_environment_id: ""
 

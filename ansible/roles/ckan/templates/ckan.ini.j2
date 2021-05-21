@@ -60,7 +60,7 @@ ckan.auth.roles_that_cascade_to_sub_groups = admin
 
 ckan.site_id = {{ ckan_site_id }}
 
-ckan.plugins = {{ ckan_plugins }} {% if ckan_google_analytics -%}googleanalytics{%- endif %} {% if ckan_enable_cloudstorage -%} cloudstorage {%- endif %} {{ ckan_plugins_default }}
+ckan.plugins = {{ ckan_plugins }} {% if ckan_matomo_analytics -%}matomo{%- endif %} {% if ckan_enable_cloudstorage -%} cloudstorage {%- endif %} {{ ckan_plugins_default }}
 
 scheming.dataset_schemas = ckanext.ytp.schemas:dataset.json
                            ckanext.sixodp_showcase.schemas:showcase.json
@@ -154,6 +154,8 @@ target_group_options_url = file://{{ ckan_files_path }}/target_groups.json
 ckanext.ytp.default_organization_name = yksityishenkilo
 ckanext.ytp.default_organization_title = Yksityishenkil\u00f6
 ckanext.ytp.harvester_status_recipients = {{ ckan_harvester_status_email_recipients|join(' ') }}
+ckanext.ytp.fault_recipients = {{ ckan_fault_recipients|join(' ') }}
+ckanext.ytp.harvester_instruction_url = {{ ckan_harvester_instruction_url }}
 
 ckanext.prh_tools.mail_recipients = {{ ckan_harvester_status_email_recipients|join(' ') }}
 
@@ -163,6 +165,7 @@ ckanext.forcetranslation.domain = ckanext-ytp_main
 
 ckanext.dcat.rdf.profiles = avoindata_dcat_ap
 ckanext.dcat.translate_keys = False
+ckanext.dcat.base_uri = {{ ckan_site_protocol }}://{{ item.hostname }}/data
 
 ckanext.geoview.ol_viewer.formats = wms wfs geojson
 
@@ -205,17 +208,18 @@ ofs.storage_dir = {{ ckan_files_path }}
 # 2.2 filestore:
 ckan.storage_path = {{ ckan_files_path }}
 
-{% if ckan_google_analytics -%}
-googleanalytics.id = {{ ckan_google_analytics.id }}
-googleanalytics.account = {{ ckan_google_analytics.account }}
-googleanalytics.type = {{ ckan_google_analytics.type }}
+{% if ckan_matomo_analytics -%}
+ckanext.matomo.site_id = {{ ckan_matomo_analytics.site_id }}
+ckanext.matomo.domain = https://{{ ckan_matomo_analytics.domain }}/
+ckanext.matomo.script_domain = {{ ckan_matomo_analytics.script_domain }}
+ckanext.matomo.token_auth = {{ ckan_matomo_analytics.token_auth }}
 {%- endif %}
 
 ckanext.spatial.harvest.continue_on_validation_errors = true
 
 ckanext.spatial.common_map.type = custom
-ckanext.spatial.common_map.custom.url = https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png
-ckanext.spatial.common_map.attribution = Maps &copy; <a href="http://www.wikimedia.org">Wikimedia Foundation</a>, Data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>
+ckanext.spatial.common_map.custom.url = https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+ckanext.spatial.common_map.attribution = &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
 
 solr_url = http://{{ ckan_solr_host }}:{{ ckan_solr_port }}/{{ item.solr_path }}
 

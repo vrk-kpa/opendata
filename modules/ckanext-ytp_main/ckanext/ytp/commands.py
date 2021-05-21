@@ -13,6 +13,7 @@ import polib
 import os
 import re
 import glob
+import six
 from tools import check_package_deprecation
 from logic import send_package_deprecation_emails
 
@@ -105,7 +106,7 @@ def migrate_author_email(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
     package_patches = []
 
-    for old_package_dict in package_generator('*:*', 1000):
+    for old_package_dict in package_generator('*:*', 10):
         if old_package_dict.get('author_email') is None:
             patch = {'id': old_package_dict['id'], 'author_email': ''}
             package_patches.append(patch)
@@ -132,7 +133,7 @@ def migrate(ctx, config, dryrun):
     package_patches = []
     resource_patches = []
 
-    for old_package_dict in package_generator('*:*', 1000):
+    for old_package_dict in package_generator('*:*', 10):
 
         if 'title_translated' in old_package_dict:
             continue
@@ -221,7 +222,7 @@ def migrate_temporal_granularity(ctx, config, dryrun):
 
     package_patches = []
 
-    for old_package_dict in package_generator('*:*', 1000):
+    for old_package_dict in package_generator('*:*', 10):
         resource_patches = []
         changes = False
         for resource in old_package_dict.get('resources', []):
@@ -258,7 +259,7 @@ def migrate_high_value_datasets(ctx, config, dryrun):
     load_config(config or ctx.obj['config'])
     package_patches = []
 
-    for old_package_dict in package_generator('*:*', 1000):
+    for old_package_dict in package_generator('*:*', 10):
         if old_package_dict.get('high_value_dataset_category'):
             patch = {'id': old_package_dict['id'], 'international_benchmarks': old_package_dict['high_value_dataset_category']}
             package_patches.append(patch)
@@ -345,7 +346,7 @@ def batch_edit(ctx, config, search_string, dryrun, group):
     if group:
         group_assigns[group] = []
 
-    for package_dict in package_generator(search_string, 1000):
+    for package_dict in package_generator(search_string, 10):
         if group:
             group_assigns[group].append(package_dict['name'])
 
@@ -370,7 +371,7 @@ def update_package_deprecation(ctx, config, dryrun):
     package_patches = []
 
     # Get only packages with a valid_till field and some value in the valid_till field
-    for old_package_dict in package_generator('valid_till:* AND -valid_till:""', 1000):
+    for old_package_dict in package_generator('valid_till:* AND -valid_till:""', 10):
         valid_till = old_package_dict.get('valid_till')
 
         # For packages that have a valid_till date set depracated field to true or false
@@ -407,7 +408,7 @@ def validate(ctx, config, verbose):
     no_errors = True
     user = t.get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
     context = {'model': model, 'session': model.Session, 'user': user['name'], 'ignore_auth': True}
-    for package_dict in package_generator('*:*', 1000):
+    for package_dict in package_generator('*:*', 10):
         if verbose:
             print "Validating %s" % package_dict['name']
 
@@ -621,22 +622,73 @@ def send_harvester_status_emails(ctx, config, dryrun, force, all_harvesters):
             'status': '\n'.join(status_string(title, values) for title, values in status.items())
             }
 
-    for recipient in email_notification_recipients:
+    subject = '%s - Harvester summary %s' % (site_title, today)
+    _send_harvester_notification(subject, msg, email_notification_recipients, dryrun)
+
+    if dryrun:
+        print msg
+
+
+@opendata_harvest_group.command(
+    u'send-stuck-runs-report',
+    help='Sends stuck runs report to configured recipients'
+)
+@click_config_option
+@click.option(u'--dryrun', is_flag=True)
+@click.option(u'--force', is_flag=True)
+@click.option(u'--all-harvesters', is_flag=True)
+@click.pass_context
+def send_stuck_runs_report(ctx, config, dryrun, force, all_harvesters):
+    load_config(config or ctx.obj['config'])
+
+    email_notification_recipients = t.aslist(t.config.get('ckanext.ytp.fault_recipients', ''))
+
+    if not email_notification_recipients and not dryrun:
+        print('No recipients configured')
+        return
+
+    status_opts = {} if not all_harvesters else {'include_manual': True, 'include_never_run': True}
+    status = get_action('harvester_status')({}, status_opts)
+
+    stuck_runs = [(title, job_status) for title, job_status in six.iteritems(status)
+                  if job_status.get('status') == 'running' and _elapsed_since(job_status.get('started')).days > 1]
+
+    if stuck_runs:
+        site_title = t.config.get('ckan.site_title', '')
+
+        msg = '%(site_title)s - Following harvesters have been running more than 24 hours: \n\n%(status)s\n\n' \
+              'Instructions to fix this can be found from here %(instructions)s' % \
+              {
+                  'site_title': site_title,
+                  'status': '\n'.join('%s has been stuck since %s' %
+                                      (title, status.get('started')) for title, status in stuck_runs),
+                  'instructions': t.config.get('ckanext.ytp.harvester_instruction_url', 'url not configured')
+              }
+
+        subject = '%s - There are stuck harvester runs that need to have a look at' % site_title
+        _send_harvester_notification(subject, msg, email_notification_recipients, dryrun)
+
+        if dryrun:
+            print(msg)
+    else:
+        print('Nothing to report')
+
+
+def _send_harvester_notification(subject, msg, recipients, dryrun):
+
+    for recipient in recipients:
         email = {'recipient_name': recipient,
                  'recipient_email': recipient,
-                 'subject': '%s - Harvester summary %s' % (site_title, today),
+                 'subject': subject,
                  'body': msg}
 
         if dryrun:
-            print 'to: %s' % recipient
+            print('to: %s' % recipient)
         else:
             try:
                 mailer.mail_recipient(**email)
             except mailer.MailerException as e:
-                print 'Sending harvester summary to %s failed: %s' % (recipient, e)
-
-    if dryrun:
-        print msg
+                print('Sending harvester notification to %s failed: %s' % (recipient, e))
 
 
 def _elapsed_since(t):

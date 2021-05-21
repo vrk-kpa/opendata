@@ -240,13 +240,14 @@
     {
       "field_name": "maintainer_email",
       "label": "Maintainer email",
+      "preset": "repeating_text",
       "form_placeholder": "e.g. avoindata@dvv.fi",
       "form_attrs": {
         "class": "form-control"
       },
       "display_property": "dc:contributor",
-      "display_snippet": "email.html",
-      "validators": "not_empty email_validator",
+      "display_snippet": "repeating_email.html",
+      "validators": "repeating_text repeating_email not_empty",
       "required": true
     },
     {

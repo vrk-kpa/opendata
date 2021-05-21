@@ -74,3 +74,9 @@
 [submodule "modules/ckanext-openapiviewer"]
 	path = modules/ckanext-openapiviewer
 	url = https://github.com/vrk-kpa/ckanext-openapiviewer.git
+[submodule "modules/ckanext-statistics"]
+	path = modules/ckanext-statistics
+	url = https://github.com/vrk-kpa/ckanext-statistics
+[submodule "modules/ckanext-matomo"]
+	path = modules/ckanext-matomo
+	url = https://github.com/vrk-kpa/ckanext-matomo.git

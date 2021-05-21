@@ -22,9 +22,9 @@
   },
   "homepage": "https://github.com/vrk-kpa/opendata#readme",
   "devDependencies": {
-    "cypress": "^6.4.0"
+    "cypress": "^7.3.0"
   },
   "dependencies": {
-    "pg": "^8.5.1"
+    "pg": "^8.6.0"
   }
 }

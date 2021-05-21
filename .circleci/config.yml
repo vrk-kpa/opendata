@@ -73,7 +73,7 @@ jobs:
 
   code-sniffer:
     docker:
-      - image: circleci/php:7.1
+      - image: circleci/php:7.4
 
     steps:
       - checkout
@@ -209,7 +209,7 @@ jobs:
 
       - run:
           name: Copy private key for ec2 usage
-          command: aws s3 cp --quiet s3://$AWS_PRIVATE_KEY_S3_PATH ~/.ssh/id_rsa
+          command: aws s3 cp --quiet s3://$AWS_PRIVATE_KEY_S3_PATH ~/.ssh/opendata-buildtest-key.pem
           working_directory: ~/project/
 
       - run: |
@@ -680,7 +680,8 @@ jobs:
               SlackPath=/clamav/slack_path \
               SlackChannel=/clamav/slack_channel \
               SlackUser=/clamav/slack_user \
-            --capabilities CAPABILITY_IAM
+            --capabilities CAPABILITY_IAM \
+            --no-fail-on-empty-changeset
           working_directory: ~/project/clamav
 
       - slack_notification

@@ -216,3 +216,27 @@ avoindata_header.dcat-ap_sv:
   menu_name: main-sv
   url: 'internal:/sv/dcat-ap/'
   weight: 5
+
+avoindata_header.statistics_link_fi:
+  title: 'Statistiikat'
+  description: 'Statistiikat'
+  parent: avoindata_header.moreoptions_fi
+  menu_name: main-fi
+  route_name: avoindata_header.statistics
+  weight: 5
+
+avoindata_header.statistics_link_en:
+  title: 'Statistics'
+  description: 'Statistics'
+  parent: avoindata_header.moreoptions_en
+  menu_name: main-en
+  route_name: avoindata_header.statistics
+  weight: 5
+
+avoindata_header.statistics_link_sv:
+  title: 'Statistik'
+  description: 'Statistik'
+  parent: avoindata_header.moreoptions_sv
+  menu_name: main-sv
+  route_name: avoindata_header.statistics
+  weight: 5

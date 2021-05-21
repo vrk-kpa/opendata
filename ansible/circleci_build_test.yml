@@ -31,7 +31,7 @@
 
     - name: Configure AWS private key permissions
       file:
-        path: ~/.ssh/id_rsa
+        path: ~/.ssh/opendata-buildtest-key.pem
         mode: 0600
 
     - name: Disable host key checking
@@ -40,7 +40,7 @@
         content: |
           Host *
               StrictHostKeyChecking no
-              IdentityFile ~/.ssh/id_rsa
+              IdentityFile ~/.ssh/opendata-buildtest-key.pem
 
     - name: Launch EC2 instance
       ec2:

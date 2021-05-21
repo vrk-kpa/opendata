@@ -59,6 +59,7 @@ ckan_plugin_order:
   #- rating
   - advancedsearch
   - openapi_view
+  - statistics
   - forcetranslation # Must be the last plugin in loading order to override translations with ckanext-ytp_main
 
 ckan_plugins: "{{ ckan_plugin_order|join(' ') }}"
@@ -81,7 +82,7 @@ ckan_extensions:
   - ckanext-ytp_request
   - ckanext-ytp_main
   - ckanext-hierarchy
-  - ckanext-googleanalytics
+  - ckanext-matomo
   - ckanext-datarequests
   - ckanext-harvest
   - ckanext-report
@@ -106,6 +107,7 @@ ckan_extensions:
   - ckanext-apis
   - ckanext-prh_tools
   - ckanext-openapiviewer
+  - ckanext-statistics
 
 ckan_extensions_with_translations:
   - ckanext-ytp_request
@@ -113,13 +115,13 @@ ckan_extensions_with_translations:
   - ckanext-ytp_main
   - ckanext-sixodp_showcase
   - ckanext-report
-  - ckanext-googleanalytics
   - ckanext-organizationapproval
   - ckanext-advancedsearch
   - ckanext-scheming
+  - ckanext-statistics
 
-# enable google analytics can either be false, or dict of id account type
-ckan_google_analytics: false
+# enable matomo analytics can either be false, or dict of id account type
+ckan_matomo_analytics: false
 
 # deployment environment id is used to decide on debugging level and such
 ckan_deployment_environment_id: ""
@@ -132,7 +134,7 @@ ckan_www_group: www-data
 
 ckan_log_path: /var/log/ckan
 ckan_loglevel: INFO
-ckan_extension_loglevel: INFO
+ckan_extension_loglevel: DEBUG
 
 ckan_logrotate_conf: |
   /var/log/ckan/ckan.log {
@@ -217,6 +219,7 @@ ckan_admins:
 # user who should run supervisord
 ckan_harvester_user: "{{ ckan_www_user }}"
 ckan_harvester_status_email_recipients: ""
+ckan_fault_recipients: ""
 ckan_sql_files_to_execute:
   - datastore_permissions.sql.j2
 
@@ -314,3 +317,4 @@ ckan_dynatrace_pip_packages:
 
 ckan_notifications_to_maintainers_enabled: false
 ckan_exempt_domains_from_broken_link_notifications: []
+ckan_harvester_instruction_url: ""

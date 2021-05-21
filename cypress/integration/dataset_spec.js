@@ -25,7 +25,7 @@ describe('Dataset tests', function() {
       '#field-notes_translated-fi': 'Dataset test description',
       '#s2id_autogen1': 'test_keyword {enter}',
       '#field-maintainer': 'test maintainer',
-      '#field-maintainer_email': 'test.maintainer@example.com'
+      '#field-maintainer_email-1': 'test.maintainer@example.com'
     };
 
     cy.get('a[href="/data/fi/dataset/new"]').click();
@@ -89,7 +89,7 @@ describe('Dataset tests', function() {
       '#s2id_autogen3': 'test {enter}',
       '#s2id_autogen4': 'test {enter}',
       '#field-maintainer': 'test maintainer',
-      '#field-maintainer_email': 'example@example.com',
+      '#field-maintainer_email-1': 'example@example.com',
       '#field-maintainer_website': 'www.example.com',
       '#field-copyright_notice_translated-fi': 'lisenssi test',
       '#field-copyright_notice_translated-en': 'lisenssi test',

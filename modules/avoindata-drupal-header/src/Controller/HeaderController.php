@@ -44,4 +44,15 @@ class HeaderController extends ControllerBase {
     return new RedirectResponse('/data/' . $lang . '/user/' . $accountName);
   }
 
+  /**
+   * Creates html response for statistics link.
+   *
+   * @return Symfony\Component\HttpFoundation\RedirectResponse
+   *   Returns html response.
+   */
+  public function ckanstatistics() {
+    $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    return new RedirectResponse('/data/' . $lang . '/statistics');
+  }
+
 }

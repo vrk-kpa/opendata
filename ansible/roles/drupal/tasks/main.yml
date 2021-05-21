@@ -43,11 +43,11 @@
     - "{{ drupal_root }}/config"
     - "{{ drupal_root }}/config/sync"
 
-- name: Update Drupal dependencies
+- name: Install Drupal dependencies
   become: true
   become_user: "{{ drupal_user }}"
   composer:
-    command: update
+    command: install
     working_dir: "{{ drupal_root }}"
 
 

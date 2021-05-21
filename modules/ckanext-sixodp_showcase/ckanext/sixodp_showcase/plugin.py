@@ -54,7 +54,6 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
     def before_map(self, map):
 
         with SubMapper(map, controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController') as m:
-
             m.connect('ckanext_showcase_new', '/showcase/new', action='new')
             m.connect('ckanext_showcase_edit', '/showcase/edit/{id}',
                       action='edit', ckan_icon='edit')
@@ -141,7 +140,8 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
             'get_featured_showcases': helpers.get_featured_showcases,
             'get_showcases_by_author': helpers.get_showcases_by_author,
             'get_vocabulary': helpers.get_vocabulary,
-            'translate_list_items': helpers.translate_list_items
+            'translate_list_items': helpers.translate_list_items,
+            'get_showcase_pkgs': helpers.get_showcase_pkgs
         }
 
     def _add_image_urls(self, pkg_dict):
@@ -192,7 +192,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
 
     def before_index(self, data_dict):
         if data_dict.get('platform'):
-            data_dict['vocab_platform'] = [tag for tag in json.loads(data_dict['platform'])]
+            data_dict['vocab_platform'] = [tag for tag in data_dict['platform'].split(',')]
 
         vocabs = ['keywords']
         languages = ['fi', 'sv', 'en']

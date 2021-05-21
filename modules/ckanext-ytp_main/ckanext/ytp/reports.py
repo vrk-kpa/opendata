@@ -1,5 +1,5 @@
 from ckan.logic import get_action
-from ckanext.googleanalytics.model import PackageStats
+from ckanext.matomo.model import PackageStats
 from commands import package_generator
 from datetime import timedelta, datetime
 import logging
@@ -102,7 +102,7 @@ administrative_branch_summary_report_info = {
 
 def deprecated_datasets_report():
     # Get packages that are deprecated
-    all_deprecated = package_generator('deprecated:true AND private:false', 1000, {})
+    all_deprecated = package_generator('deprecated:true AND private:false', 10, {})
 
     # Function to loop packages through
     # Get package visit and download data

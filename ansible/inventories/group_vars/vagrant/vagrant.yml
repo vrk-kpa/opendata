@@ -11,3 +11,9 @@ smtp_server_domain: "localhost"
 secrets_file: does_not_exist
 deployment_environment_id: vagrant
 disqus_name: "localhost-avoindata-fi"
+
+matomo_analytics:
+  site_id: "19"
+  domain: "suomi.matomo.cloud"
+  script_domain: "//cdn.matomo.cloud/suomi.matomo.cloud/"
+  token_auth: ""
