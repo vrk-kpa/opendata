@@ -584,16 +584,14 @@ def get_last_harvested_date(organization_name):
         harvest_sources = get_action('package_search')({}, data_dict)['results']
 
         related_harvest_objects = [source for source in harvest_sources if source.get('owner_org') == organization_name]
-        related_harvest_jobs = list(itertools.chain.from_iterable(
+        finished_jobs = [finished_source for finished_source in itertools.chain.from_iterable(
             [get_action('harvest_job_list')({'ignore_auth': True}, {'source_id': source['id'], 'status': "Finished"})
-             for source in related_harvest_objects]))
+             for source in related_harvest_objects]) if finished_source.get('finished')]
 
-        finished_dates = [{"source": get_action('harvest_source_show')({}, {'id': source['source_id']}),
-                           "date": datetime.datetime.strptime(source['finished'], "%Y-%m-%d %H:%M:%S.%f")}
-                          for source in related_harvest_jobs if source.get('finished')]
-
-        if finished_dates:
-            return max(finished_dates, key=lambda item: item['date'])
+        if finished_jobs:
+            latest = max(finished_jobs, key=lambda item: datetime.datetime.strptime(item['finished'], "%Y-%m-%d %H:%M:%S.%f"))
+            harvest_source = get_action('harvest_source_show')({}, {'id': latest['source_id']})
+            return {"source": harvest_source, "date": datetime.datetime.strptime(latest['finished'], "%Y-%m-%d %H:%M:%S.%f")}
         else:
             return
 
