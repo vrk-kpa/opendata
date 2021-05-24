@@ -1,6 +1,6 @@
 ---
 ckan_site_id: "default"
-ckan_version: "2.8.6"
+ckan_version: "2.8.8"
 ckan_site_protocol: "http"
 ckan_plugins_default: stats scheming_datasets scheming_groups scheming_organizations fluent
 # order matters, when templates call super()
@@ -278,12 +278,10 @@ ckan_patches:
   - remove_gravatar
   - json_serializable_lazyjsonobject # https://github.com/ckan/ckan/issues/4299
   - implement_is_required_for_image_upload
-  - side_effect_free-chained_action # https://github.com/ckan/ckan/issues/4597
   - add_drafts_to_search # https://github.com/ckan/ckan/pull/5088
   - add_group_extra_resource_db_indices
   - add_cache_control_headers_to_flask
   - add_autodynatrace
-  - fix_javascript_error_on_edge
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini
