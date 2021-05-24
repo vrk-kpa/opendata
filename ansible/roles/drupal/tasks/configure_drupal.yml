@@ -239,39 +239,21 @@
   tags:
     - skip_ansible_lint
 
+- name: Copy setting files
+  synchronize:
+    src: "site_config"
+    dest: "{{ drupal_root }}/"
+    recursive: yes
+
 - name: Copy setting template files
   template:
     src: "drupal_site_config/{{ item.src }}"
     dest: "{{ drupal_root }}/site_config/{{ item.dest }}"
     mode: "0644"
   with_items:
-    - { src: system.mail.yml.j2, dest: system.mail.yml }
-    - { src: smtp.settings.yml.j2, dest: smtp.settings.yml }
     - { src: disqus.settings.yml.j2, dest: disqus.settings.yml }
-    - { src: user.settings.yml.j2, dest: user.settings.yml }
-    - { src: registration_validation.settings.yml.j2, dest: registration_validation.settings.yml }
-    - { src: fontawesome.settings.yml.j2, dest: fontawesome.settings.yml }
-    - { src: search_api.server.default_server.yml.j2, dest: search_api.server.default_server.yml }
     - { src: update.settings.yml.j2, dest: update.settings.yml }
-    - { src: metatag.settings.yml.j2, dest: metatag.settings.yml }
-    - { src: metatag.metatag_defaults.front.yml.j2, dest: metatag.metatag_defaults.front.yml }
-    - { src: metatag.metatag_defaults.global.yml.j2, dest: metatag.metatag_defaults.global.yml }
-    - { src: metatag.metatag_defaults.node__avoindata_article.yml.j2, dest: metatag.metatag_defaults.node__avoindata_article.yml }
-    - { src: metatag.metatag_defaults.node__avoindata_event.yml.j2, dest: metatag.metatag_defaults.node__avoindata_event.yml }
-    - { src: metatag.metatag_defaults.node__avoindata_guide_page.yml.j2, dest: metatag.metatag_defaults.node__avoindata_guide_page.yml }
-    - { src: system.performance.yml.j2, dest: system.performance.yml }
-    - { src: ape.settings.yml.j2, dest: ape.settings.yml }
-    - { src: locale.settings.yml.j2, dest: locale.settings.yml }
-    - { src: user.role.administrator.yml.j2, dest: user.role.administrator.yml }
-    - { src: user.role.anonymous.yml.j2, dest: user.role.anonymous.yml }
-    - { src: user.role.authenticated.yml.j2, dest: user.role.authenticated.yml }
-    - { src: user.role.ckan_admin.yml.j2, dest: user.role.ckan_admin.yml }
-    - { src: user.role.editor.yml.j2, dest: user.role.editor.yml }
-    - { src: user.role.publisher.yml.j2, dest: user.role.publisher.yml }
-    - { src: language.entity.en.yml.j2, dest: language.entity.en.yml }
-    - { src: language.entity.fi.yml.j2, dest: language.entity.fi.yml }
-    - { src: language.entity.sv.yml.j2, dest: language.entity.sv.yml }
-    - { src: protected_submissions.settings.yml.j2, dest: protected_submissions.settings.yml }
+    - { src: smtp.settings.yml.j2, dest: smtp.settings.yml}
     - { src: matomo.settings.yml.j2, dest: matomo.settings.yml }
 
 - name: Enable captcha
