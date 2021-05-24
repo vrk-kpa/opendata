@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-20 09:45+0000\n"
+"POT-Creation-Date: 2021-05-24 11:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -259,7 +259,7 @@ msgstr ""
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:605
+#: ckanext/ytp/helpers.py:603
 msgid "-"
 msgstr ""
 
@@ -1421,11 +1421,11 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ckanext/ytp/public/javascript/form.js:65
+#: ckanext/ytp/public/javascript/form.js:66
 msgid "Add link"
 msgstr ""
 
-#: ckanext/ytp/public/javascript/form.js:124
+#: ckanext/ytp/public/javascript/form.js:122
 #: ckanext/ytp/templates/snippets/search_form.html:100
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:90
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:78
@@ -2082,7 +2082,7 @@ msgid ""
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:170
-msgid "Downloads during year"
+msgid "Downloads during this year"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:171
