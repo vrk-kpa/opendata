@@ -786,9 +786,9 @@ def action_organization_tree_list(context, data_dict):
     # Fetch details for organizations on current page
     page_orgs = (
             model.Session.query(model.Group.id, model.Group.name, model.Group.title,
-                                model.GroupExtra.value, sqlalchemy.func.count(model.Package.id),
+                                model.GroupExtra.value, sqlalchemy.func.count(sqlalchemy.distinct(model.Package.id)),
                                 parent_group.name, parent_group.title, parent_extra.value,
-                                sqlalchemy.func.count(child_group.id))
+                                sqlalchemy.func.count(sqlalchemy.distinct(child_group.id)))
             .join(model.GroupExtra, model.GroupExtra.group_id == model.Group.id)
             .outerjoin(model.Package, and_(model.Package.private == false(),
                                            or_(model.Package.owner_org == model.Group.name,
