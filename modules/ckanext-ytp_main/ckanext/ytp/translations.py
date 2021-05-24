@@ -34,6 +34,7 @@ def _translations():
     _("Size")
     _("Formats")
     _("Organization")
+    _("Key")
 
     _('Fullname')
     _('International benchmarks')
