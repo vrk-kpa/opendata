@@ -634,6 +634,7 @@ def get_field_from_resource_schema(schema, field_name):
     field = next(field for field in schema.get('resource_fields', []) if field.get('field_name') == field_name)
     return field
 
+
 def site_url_with_root_path():
     site_url = toolkit.config.get('ckan.site_url')
     root_path = toolkit.config.get('ckan.root_path')
