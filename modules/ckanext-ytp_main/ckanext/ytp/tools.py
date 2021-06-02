@@ -1,3 +1,5 @@
+import iso8601
+import six
 from ckan import model, plugins
 import sys
 import imp
@@ -6,6 +8,7 @@ from ckanext.ytp.converters import to_list_json, from_json_list
 from ckan.lib import helpers
 import os
 from datetime import datetime
+import pytz
 
 
 def create_system_context():
@@ -87,10 +90,16 @@ def get_organization_harvest_test_source():
 # Packages are deprecated if their valid_till date has passed
 # By default packages are not deprecated
 def check_package_deprecation(valid_till):
-    time_now = datetime.now().strftime("%Y-%m-%d")
-    if not valid_till:
+    time_now = datetime.now(pytz.utc)
+
+    if isinstance(valid_till, six.text_type):
+        try:
+            valid_till = iso8601.parse_date(valid_till)
+        except iso8601.ParseError:
+            return False
+
+    if not valid_till or valid_till == toolkit.missing:
         return False
-    # NOTE: comparing strings, but date format is: Y-m-d. So it should be correct always.
     elif valid_till < time_now:
         return True
     return False

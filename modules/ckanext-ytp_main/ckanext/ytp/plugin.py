@@ -1,5 +1,7 @@
 import json
 import logging
+
+import iso8601
 import pylons
 import re
 import types
@@ -528,7 +530,8 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
             for extra in package_dict['extras']:
                 if extra['key'] == source and len(extra['value']):
                     for target_key in target:
-                        package_dict[target_key] = extra['value']
+                        # some have multiple emails separated by ;
+                        package_dict[target_key] = [email.strip() for email in extra['value'].split(";")]
 
         map = {'responsible-party': ['maintainer']}
 
@@ -559,16 +562,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         license_from_source = config_obj.get("license", None)
 
         for extra in package_dict['extras']:
-            if extra['key'] == 'resource-type' and len(extra['value']):
-                if extra['value'] == 'dataset':
-                    package_dict['collection_type'] = 'Open Data'
-                elif extra['value'] == 'series':
-                    package_dict['collection_type'] = 'Open Data'
-                elif extra['value'] == 'service':
-                    package_dict['collection_type'] = 'Interoperability Tools'
-
-                else:
-                    continue
 
             if license_from_source is None:
                 if extra['key'] == 'licence':
@@ -589,6 +582,36 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
             else:
                 package_dict['license_id'] = license_from_source
 
+            if extra['key'] == 'temporal-extent-begin':
+                try:
+                    value = iso8601.parse_date(extra['value'])
+                    package_dict['valid_from'] = value
+                except iso8601.ParseError:
+                    log.info("Could not convert %s to datetime" % extra['value'])
+
+            if extra['key'] == 'temporal-extent-end':
+                try:
+                    value = iso8601.parse_date(extra['value'])
+                    package_dict['valid_till'] = value
+                except iso8601.ParseError:
+                    log.info("Could not convert %s to datetime" % extra['value'])
+
+            if extra['key'] == 'dataset-reference-date':
+                try:
+                    value_list = json.loads(extra['value'])
+                    for value in value_list:
+                        if value.get('type') == "creation":
+                            if not package_dict.get('date_released'):
+                                package_dict['date_released'] = iso8601.parse_date(value.get('value'))\
+                                    .replace(tzinfo=None).isoformat()
+                except json.JSONDecodeError:
+                    pass
+
+            # TODO: Move to dataset level
+            if extra['key'] == "spatial-reference-system":
+                for resource in package_dict.get('resources', []):
+                    resource['position_info'] = extra['value']
+
         package_dict['keywords'] = {'fi': []}
 
         # Map tags to keywords
@@ -607,16 +630,9 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         # Remove tags
         package_dict.pop('tags')
 
-        # topic category for syke
-
-        topic_categories = data_dict['iso_values'].get('topic-category')
-        if topic_categories:
-            for category in topic_categories:
-                category = category[:50] if len(category) > 50 else category
-                package_dict['keywords']['fi'].append(category)
-
         package_dict['notes_translated'] = {"fi": package_dict['notes']}
         package_dict['title_translated'] = {"fi": package_dict['title']}
+        package_dict['collection_type'] = 'Open Data'
 
         return package_dict
 
