@@ -27,7 +27,7 @@ class HeaderController extends ControllerBase {
       '#theme' => 'avoindata_header',
     ];
     $queryParams = \Drupal::request()->query->all();
-  
+
     if (isset($queryParams['activePath'])) {
       \Drupal::service('path.current')->setPath($queryParams['activePath']);
     }

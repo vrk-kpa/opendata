@@ -1190,7 +1190,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         result = self._drupal_snippet('api/header?activePath=%s' % path)
         if result:
             # Language switcher links will point to /api/header, fix them based on currently requested page
-            result = re.sub(u'\?activePath=/(\\w+)', u'', result)
+            result = re.sub(u'\\?activePath=/(\\w+)', u'', result)
             return re.sub(u'href="/(\\w+)/api/header"', u'href="/data/\\1%s"' % path, result)
         return result
 
