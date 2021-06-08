@@ -32,6 +32,12 @@ Copied from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-boo
               item.in_active_trail ? 'active',
             ]
           %}
+
+          {%
+            set anchor_classes = [
+              item.is_active ? 'is-active',
+            ]
+          %}
           {% if item.below %}
             {% if menu_level == 0 %}
               <li class="dropdown">
@@ -45,7 +51,7 @@ Copied from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-boo
               </li>
             {% endif %}
           {% else %}
-            <li {{ item.attributes.addClass(item_classes) }}>{{ link(item.title, item.url) }}</li>
+            <li {{ item.attributes.addClass(item_classes) }}>{{ link(item.title, item.url, {class: anchor_classes}) }}</li>
           {% endif %}
         {% endfor %}
         </ul>
