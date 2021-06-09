@@ -97,10 +97,11 @@ description - Additional description text between the label and the input
       </div>
       {% endif %}
       {% endfor %}
-      {% endif %}
+      {% else %}
       <div class="multiple-value-group">
-          <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="" placeholder="{{ placeholder }}" class="multiple-value form-control" {{ form.attributes(attrs) }} />
+        <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="" placeholder="{{ placeholder }}" class="multiple-value form-control" {{ form.attributes(attrs) }} />
       </div>
+      {% endif %}
   </div>
   {% endcall %}
 {% endmacro %}
