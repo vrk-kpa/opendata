@@ -1146,7 +1146,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             return {}
 
     def _drupal_snippet(self, path):
-        lang = helpers.lang() if helpers.lang() else "fi"  # Finnish as default language
+        lang = get_lang_prefix()
         import requests
         import hashlib
 
@@ -1181,15 +1181,16 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         return self._drupal_snippet('api/footer')
 
     def _drupal_header(self):
-        result = self._drupal_snippet('api/header')
+        # Path variable depends on request type
+        path = request.full_path if is_flask_request() else request.path_qs
+        try:
+            path = path.decode('utf8')
+        except UnicodeDecodeError:
+            path = path.decode('cp1252')
+        result = self._drupal_snippet('api/header?activePath=%s' % path)
         if result:
-            # Path variable depends on request type
-            path = request.full_path if is_flask_request() else request.path_qs
-            try:
-                path = path.decode('utf8')
-            except UnicodeDecodeError:
-                path = path.decode('cp1252')
             # Language switcher links will point to /api/header, fix them based on currently requested page
+            result = re.sub(u'\\?activePath=/(\\w+)', u'', result)
             return re.sub(u'href="/(\\w+)/api/header"', u'href="/data/\\1%s"' % path, result)
         return result
 
