@@ -170,6 +170,7 @@
       "form_snippet": "repeating.html",
       "form_placeholder": "e.g. www.dvv.fi",
       "description": "Add links to one or more websites with additional information about the data.",
+      "validators": "repeating_text repeating_url",
       "form_attrs": {
         "data-module": "ytp_main_input_multiple"
       }

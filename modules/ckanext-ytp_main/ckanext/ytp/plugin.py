@@ -480,6 +480,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'repeating_text_output': validators.repeating_text_output,
             'repeating_text': validators.repeating_text,
             'repeating_email': validators.repeating_email,
+            'repeating_url': validators.repeating_url,
             'set_private_if_not_admin_or_showcase_admin': validators.set_private_if_not_admin_or_showcase_admin,
             'tag_list_output': validators.tag_list_output,
             'tag_string_or_tags_required': validators.tag_string_or_tags_required,
