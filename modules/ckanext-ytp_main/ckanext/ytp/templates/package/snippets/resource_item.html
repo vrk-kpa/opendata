@@ -10,7 +10,9 @@
       <a class="heading " href="{{ url }}" title="{{ res.name or res.description }}">
         {{ h.resource_display_name(res) | truncate(50) }}
         <span class="format-label" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">{{ res.format }}</span>
+        {% if res.tracking_summary %}
         {{ h.popular('views', res.tracking_summary.total, min=10) }}
+        {% endif %}
       </a>
       {% endblock %}
 

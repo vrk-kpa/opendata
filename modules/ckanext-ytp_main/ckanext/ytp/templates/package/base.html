@@ -11,7 +11,7 @@
 
       <li>{% link_for _('Datasets'), controller='package', action='search' %}</li>
     {% endif %}
-    <li{{ self.breadcrumb_content_selected() }}>{% link_for h.extra_translation(pkg, 'title') or pkg.name|truncate(30), controller='package', action='read', id=pkg.name %}</li>
+    <li{{ self.breadcrumb_content_selected() }}>{{ h.link_to(h.extra_translation(pkg, 'title') or pkg.name|truncate(30), h.url_for(pkg.type + '_read', controller='package', action='read', id=pkg.name)) }}</li>
   {% else %}
     <li>{% link_for _('Datasets'), controller='package', action='search' %}</li>
     <li class="active"><a href="">{{ _('Create Dataset') }}</a></li>

@@ -65,6 +65,7 @@ ckan.plugins = {{ ckan_plugins }} {% if ckan_matomo_analytics -%}matomo{%- endif
 
 scheming.dataset_schemas = ckanext.ytp.schemas:dataset.json
                            ckanext.sixodp_showcase.schemas:showcase.json
+                           ckanext.apis.schemas:apiset.json
 scheming.presets = ckanext.ytp.schemas:presets.json
                    ckanext.scheming:presets.json
                    ckanext.fluent:presets.json
