@@ -399,6 +399,11 @@
       "field_name": "malware_check",
       "form_snippet": "hidden.html",
       "validators": "ignore_missing admin_only_field"
+    },
+    {
+      "field_name": "url_type",
+      "form_snippet": "hidden.html",
+      "validators": "ignore_missing"
     }
   ]
 }
