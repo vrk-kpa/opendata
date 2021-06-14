@@ -69,3 +69,23 @@ function avoindata_preprocess_html(array &$variables){
   global $base_url;
   $variables['base_url'] = $base_url;
 }
+
+/**
+ * Implements hook_preprocess_menu().
+ */
+function avoindata_preprocess_menu(&$variables, $hook){
+  if ($hook === 'menu__main_fi' || $hook === 'menu__main_sv' || $hook === 'menu__main_en') {
+    $variables['#cache']['max-age'] = 0;
+    $currentPath = preg_replace("/\//", "\\/", \Drupal::service('path.current')->getPath());
+    $items = $variables['items'];
+    $pattern = "/\/data\/(fi|sv|en)$currentPath/";
+    
+    foreach($items as $key => $item) {
+      if (preg_match($pattern, $item['url']->toString()) === 1) {
+        $variables['items'][$key]['is_active'] = true;
+      } else {
+        $variables['items'][$key]['is_active'] = false;
+      }
+    }
+  }
+}

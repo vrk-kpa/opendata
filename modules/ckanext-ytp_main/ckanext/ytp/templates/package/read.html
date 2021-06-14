@@ -51,7 +51,10 @@
         {% endblock %}
 
 
+        {% if dataset_type == 'dataset' %}
         {% snippet "package/snippets/dataset_showcase_list_embed.html", pkg=pkg %}
+        {% endif %}
+
         {{h.disqus_comments()}}
       </section>
 
