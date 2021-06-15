@@ -80,3 +80,6 @@
 [submodule "modules/ckanext-matomo"]
 	path = modules/ckanext-matomo
 	url = https://github.com/vrk-kpa/ckanext-matomo.git
+[submodule "modules/ckanext-sentry"]
+	path = modules/ckanext-sentry
+	url = https://github.com/vrk-kpa/ckanext-sentry.git
