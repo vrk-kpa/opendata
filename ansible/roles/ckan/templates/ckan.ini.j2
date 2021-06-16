@@ -200,6 +200,8 @@ ckanext.cloudstorage.driver_options = {"key": "{{ AWS.access_key }}", "secret": 
 {%- endif %}
 {%- endif %}
 
+sentry.dsn = {{ ckan_sentry_dsn }}
+sentry.environment = {{ ckan_deployment_environment_id }}
 
 
 ofs.impl = pairtree
