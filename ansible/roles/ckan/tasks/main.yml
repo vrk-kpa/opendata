@@ -130,12 +130,6 @@
       - pyasn1
     virtualenv: "{{ ckan_virtual_environment }}"
 
-- name: Install Sentry requirements
-  pip:
-    name: "{{ ckan_sentry_pip_packages }}"
-    virtualenv: "{{ ckan_virtual_environment }}"
-  when: ckan_sentry_integration_enabled|bool
-
 - name: Install autodynatrace
   pip:
     name: "{{ ckan_dynatrace_pip_packages }}"
