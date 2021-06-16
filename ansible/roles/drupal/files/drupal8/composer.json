@@ -54,8 +54,7 @@
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3",
         "zaporylie/composer-drupal-optimizations": "^1.0",
-        "league/commonmark": "^1.5",
-        "drupal/google_analytics": "^2.3"
+        "league/commonmark": "^1.5"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
