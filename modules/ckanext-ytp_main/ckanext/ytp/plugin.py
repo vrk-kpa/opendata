@@ -2,7 +2,6 @@ import json
 import logging
 
 import iso8601
-import pylons
 import re
 import types
 import urlparse
@@ -651,7 +650,8 @@ def action_user_create(original_action, context, data_dict):
         groups = plugins.toolkit.get_action('group_list')(context, {})
 
         for group in groups:
-            plugins.toolkit.get_action('group_member_create')(context, {'id': group, 'username': result['name'], 'role': 'editor'})
+            member_data = {'id': group, 'username': result['name'], 'role': 'editor'}
+            plugins.toolkit.get_action('group_member_create')(context, member_data)
 
     return result
 
