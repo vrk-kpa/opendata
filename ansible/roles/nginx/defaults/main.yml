@@ -22,7 +22,6 @@ nginx_content_security_policy_script_domains:
   - "*.disqus.com"
   - "https://disqus.com"
   - "*.disquscdn.com"
-  - "www.google-analytics.com"
   - "https://www.google.com/recaptcha/"
   - "https://www.gstatic.com/"
   - "https://www.google.com"

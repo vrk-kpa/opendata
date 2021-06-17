@@ -73,7 +73,6 @@ drupal_removed_extensions:
   - search
   - contextual
   - page_cache
-  - google_analytics
   - migrate_tools
   - migrate_plus
   - migrate_upgrade
