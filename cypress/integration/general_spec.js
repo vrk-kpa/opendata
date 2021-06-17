@@ -1,4 +1,9 @@
 describe("General tests", function(){
+  beforeEach(function () {
+    cy.reset_db();
+    cy.create_organization_for_user('testi_organisaatio', 'test-user');
+  });
+
   // 6. Käyttäjä valitsee haluamansa kielen
   it('Käyttäjä valitsee haluamansa kielen', function() {
       cy.visit('/')
@@ -127,7 +132,6 @@ describe("General tests", function(){
       // cy.visit('/data/fi/member-requests/list')
       cy.contains('Jäsenhakemukset').click();
       cy.go('back')
-      cy.contains('Yksityishenkilö').click();
       // cy.visit('/data/fi/organization/yksityishenkilö')
       cy.contains('Tietoaineistot').click();
 
@@ -147,7 +151,7 @@ describe("General tests", function(){
       cy.visit('/data/fi/user_list');
       cy.go('back')
       cy.contains('Tapahtumatiedot').click();
-      cy.contains('Data Requests').click();
+      cy.contains('Tietopyynnöt').click();
       cy.go('back')
       cy.contains('Tietoaineistot').click();
   })

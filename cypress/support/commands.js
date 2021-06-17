@@ -139,6 +139,16 @@ Cypress.Commands.add('approve_organization', (organization_id) => {
   });
 })
 
+Cypress.Commands.add('create_organization_for_user', (organization_name, user_name) => {
+    cy.login_post_request(user_name, user_name)
+    cy.create_new_organization(organization_name);
+    cy.logout_request();
+
+    cy.login_post_request('admin', 'administrator');
+    cy.approve_organization(organization_name);
+    cy.logout_request();
+});
+
 Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, resource_form_data, parent_organization) => {
 
   // Default values for dataset and resource forms

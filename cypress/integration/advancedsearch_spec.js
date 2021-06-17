@@ -14,6 +14,7 @@ describe('Advanced search tests', () => {
         cy.logout_request();
 
         // User things
+        cy.create_organization_for_user('testi_organisaatio', 'test-user');
         cy.login_post_request('test-user', 'test-user');
 
         // Create datasets
