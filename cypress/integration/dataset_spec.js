@@ -94,7 +94,7 @@ describe('Dataset tests', function() {
       '#field-copyright_notice_translated-fi': 'lisenssi test',
       '#field-copyright_notice_translated-en': 'lisenssi test',
       '#field-copyright_notice_translated-sv': 'lisenssi test',
-      '#field-external_urls': 'www.example.com',
+      '#field-external_urls': 'http://www.example.com',
       '#field-valid_from': '2019-02-04',
       '#field-valid_till': '2020-02-04'
     };

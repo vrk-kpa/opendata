@@ -576,3 +576,29 @@ def empty_string_if_value_missing(key, data, errors, context):
     value = data.get(key)
     if not value or value is missing:
         data[key] = ''
+
+
+def repeating_url(key, data, errors, context):
+    if errors[key]:
+        return
+
+    value_json = data[key]
+    value = json.loads(value_json)
+
+    if not isinstance(value, list):
+        errors[key].append(_('expecting a list'))
+        return
+
+    url_validator = toolkit.get_validator('url_validator')
+    for item in value:
+        url_validator(key, {key: item}, errors, context)
+
+
+def resource_url_validator(key, data, errors, context):
+    if errors[key]:
+        return
+
+    url_type = data[(key[0], key[1], 'url_type')]
+    if url_type != u'upload':
+        url_validator = toolkit.get_validator('url_validator')
+        url_validator(key, data, errors, context)
