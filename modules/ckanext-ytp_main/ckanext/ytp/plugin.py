@@ -480,6 +480,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'repeating_text_output': validators.repeating_text_output,
             'repeating_text': validators.repeating_text,
             'repeating_email': validators.repeating_email,
+            'repeating_url': validators.repeating_url,
             'set_private_if_not_admin_or_showcase_admin': validators.set_private_if_not_admin_or_showcase_admin,
             'tag_list_output': validators.tag_list_output,
             'tag_string_or_tags_required': validators.tag_string_or_tags_required,
@@ -487,7 +488,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'admin_only_field': validators.admin_only_field,
             'use_url_for_name_if_left_empty': validators.use_url_for_name_if_left_empty,
             'convert_to_json_compatible_str_if_str': validators.convert_to_json_compatible_str_if_str,
-            'empty_string_if_value_missing': validators.empty_string_if_value_missing
+            'empty_string_if_value_missing': validators.empty_string_if_value_missing,
+            'resource_url_validator': validators.resource_url_validator
         }
 
     def get_blueprint(self):
