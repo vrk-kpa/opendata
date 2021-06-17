@@ -6,6 +6,7 @@ ckan_plugins_default: stats scheming_datasets scheming_groups scheming_organizat
 # order matters, when templates call super()
 
 ckan_plugin_order:
+  - sentry
   - ckan_harvester
   - hri_harvester
   - syke_harvester
@@ -108,6 +109,7 @@ ckan_extensions:
   - ckanext-prh_tools
   - ckanext-openapiviewer
   - ckanext-statistics
+  - ckanext-sentry
 
 ckan_extensions_with_translations:
   - ckanext-ytp_request
@@ -307,8 +309,6 @@ ckan_log_files:
 
 ckan_sentry_integration_enabled: true
 ckan_sentry_dsn: ''
-ckan_sentry_pip_packages:
-  - sentry-sdk[flask]==0.18.0
 
 ckan_dynatrace_pip_packages:
   - autodynatrace
