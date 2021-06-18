@@ -50,6 +50,30 @@ Parameters:
   LogExpirationDays:
     Description: 'Days before removing ELB logs'
     Type: 'AWS::SSM::Parameter::Value<String>'
+  WafHighPriorityRateLimit:
+    Description: 'Max requests from high priority countries per 5 minute period for IP based rate limit rule'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  WafHighPriorityCountryCodes:
+    Description: 'Country codes for locations, from where request limits are higher'
+    Type: 'AWS::SSM::Parameter::Value<CommaDelimitedList>'
+  WafHighPriorityRequestSampling:
+    Description: 'Sample requests from high priority countries for viewing them in WAF console'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  WafRateLimit:
+    Description: 'Max requests from rest of the world per 5 minute period for IP based rate limit rule'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  WafRequestSampling:
+    Description: 'Sample requests from countries not in high priority list for viewing them in WAF console'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  WafAllTrafficRequestSampling:
+    Description: 'Sample all requests for viewing them in WAF console'
+    Type: 'AWS::SSM::Parameter::Value<String>'
+  BannedIPs:
+    Description: 'List of IP addresses to block (CIDR notation)'
+    Type: 'AWS::SSM::Parameter::Value<CommaDelimitedList>'
+  WafBannedIpsRequestSampling:
+    Description: 'Sample requests from bad IPs for viewing them in WAF console'
+    Type: 'AWS::SSM::Parameter::Value<String>'
 
 Conditions:
   NumberOfSubnets1:
@@ -351,6 +375,76 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}-web-lb
+
+  WAF:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Scope: REGIONAL
+      Name: DVVBasicRules
+      Description: Default WAF rules for DVV
+      DefaultAction:
+        Allow: {}
+      Rules:
+        - Name: rate-limit-finland
+          Priority: 1
+          Action:
+            Block: {}
+          Statement:
+            RateBasedStatement:
+              AggregateKeyType: IP
+              Limit: !Ref WafHighPriorityRateLimit
+              ScopeDownStatement:
+                GeoMatchStatement:
+                  CountryCodes: !Ref WafHighPriorityCountryCodes
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: True
+            MetricName: request-rate-limit-finland
+            SampledRequestsEnabled: !Ref WafHighPriorityRequestSampling
+        - Name: rate-limit-world
+          Priority: 2
+          Action:
+            Block: {}
+          Statement:
+              RateBasedStatement:
+                AggregateKeyType: IP
+                Limit: !Ref WafRateLimit
+                ScopeDownStatement:
+                  NotStatement:
+                    Statement:
+                      GeoMatchStatement:
+                        CountryCodes: !Ref WafHighPriorityCountryCodes
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: True
+            MetricName: request-rate-limit-world
+            SampledRequestsEnabled: !Ref WafRequestSampling
+        - Name: block-banned-ips
+          Priority: 3
+          Action:
+            Block: {}
+          Statement:
+            IPSetReferenceStatement:
+              Arn: !GetAtt WAFBannedIPSet.Arn
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: True
+            MetricName: banned-ips
+            SampledRequestsEnabled: !Ref WafBannedIpsRequestSampling
+      VisibilityConfig:
+        CloudWatchMetricsEnabled: True
+        MetricName: DVVWAF
+        SampledRequestsEnabled: !Ref WafAllTrafficRequestSampling
+
+  WAFBannedIPSet:
+    Type: AWS::WAFv2::IPSet
+    Properties:
+      Scope: REGIONAL
+      IPAddressVersion: IPV4
+      Addresses: !Ref BannedIPs
+
+  WAFAssociation:
+    Type: AWS::WAFv2::WebACLAssociation
+    Properties:
+      ResourceArn: !Sub 'arn:aws:elasticloadbalancing:${AWS::Region}:${AWS::AccountId}:loadbalancer/${PublicALB.LoadBalancerFullName}'
+      WebACLArn: !GetAtt WAF.Arn
 
   LogBucket:
     Type: AWS::S3::Bucket
