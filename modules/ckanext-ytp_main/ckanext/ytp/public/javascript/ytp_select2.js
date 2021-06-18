@@ -74,7 +74,7 @@ $(window).on("load", function() {
 var createTag = function(tag, container) {
   container.append(`
     <span class="avoindata-pill badge badge-pill" data-tag-id="${tag.id}" data-container-id="${tag.container}">
-      <span class="truncate-text">${tag.text}</span>
+      <span class="truncate-text">${escapeHTML(tag.text)}</span>
       <i class="fal fa-times"></i>
     </span>`);
 
@@ -113,3 +113,9 @@ var createTag = function(tag, container) {
 let removeTag = function(tag, container) {
   container.find(`[data-tag-id="${tag.id}"]`).remove();
 };
+
+let escapeHTML = (html) => {
+  let escape = document.createElement('textarea');
+  escape.textContent = html;
+  return escape.innerHTML;
+}
