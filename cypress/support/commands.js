@@ -139,7 +139,12 @@ Cypress.Commands.add('approve_organization', (organization_id) => {
   });
 })
 
-Cypress.Commands.add('create_organization_for_user', (organization_name, user_name) => {
+Cypress.Commands.add('create_organization_for_user', (organization_name, user_name, makeUnique) => {
+
+    if(makeUnique) {
+      const uuid = () => Cypress._.random(0, 1e6)
+      organization_name = `${organization_name}_${uuid()}`
+    }
     cy.login_post_request(user_name, user_name)
     cy.create_new_organization(organization_name);
     cy.logout_request();

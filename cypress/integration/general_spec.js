@@ -1,7 +1,7 @@
 describe("General tests", function(){
   beforeEach(function () {
     cy.reset_db();
-    cy.create_organization_for_user('testi_organisaatio', 'test-user');
+    cy.create_organization_for_user('general_test_organization', 'test-user', true);
   });
 
   // 6. Käyttäjä valitsee haluamansa kielen

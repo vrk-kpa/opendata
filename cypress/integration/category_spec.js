@@ -1,7 +1,7 @@
 describe('Category tests', function () {
   beforeEach(function () {
     cy.reset_db();
-    cy.create_organization_for_user('testi_organisaatio', 'test-user');
+    cy.create_organization_for_user('category_test_organization', 'test-user', true);
   });
 
   it('Add dataset to category during dataset creation', function () {
