@@ -2,6 +2,7 @@ describe('Showcase tests', function() {
 
   beforeEach(function () {
     cy.reset_db();
+    cy.create_organization_for_user('showcase_test_organization', 'test-publisher', true);
   });
 
   it('Create a new minimal showcase, edit it and delete it', function() {
@@ -65,7 +66,7 @@ describe('Showcase tests', function() {
 
     // Organization
     cy.login_post_request('admin', 'administrator');
-    const organization_name = 'testi_organisaatio';
+    const organization_name = 'testi_organisaatio_2';
     cy.create_new_organization(organization_name);
     cy.approve_organization(organization_name);
     cy.visit(`/data/fi/organization/member_new/${organization_name}`);

@@ -28,14 +28,6 @@ Add *ytp_user* *ytp_dataset* *ytp_organizations* *ytp_theme*  to CKAN plugins `/
 [See how to install CKAN extensions.](http://docs.ckan.org/en/latest/extensions/tutorial.html#installing-the-extension)
 
 
-Configuration
--------------
-
-Add *ckanext.ytp.organizations.default_organization_name* and *ckanext.ytp.organizations.default_organization_title* variables to ckan ini file.
-
-    ckanext.ytp.organizations.default_organization_name = "default_organization"
-    ckanext.ytp.organizations.default_organization_title = "Default Organization"
-
 Credits
 -------
 

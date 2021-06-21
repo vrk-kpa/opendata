@@ -5,12 +5,12 @@ describe('Articles search functionality', function() {
 
   // Without login
   //it('Articles search basic', function() {
-  it('Opens articles page!', function () {
+  it('Visitor opens article list', function () {
     cy.visit("/");
     // Articles page
     cy.visit("/fi/artikkelit");
   })
-  it('Search article', function () {
+  it('Visitor searches articles', function () {
     cy.get('#avoindata-articles-search-input').click();
     cy.get('#avoindata-articles-search-input').type('helsinki');
     cy.get('#avoindata-articles-search-btn').click();
@@ -18,16 +18,17 @@ describe('Articles search functionality', function() {
 
 
   // With login
-  it('Opens articles page!', function () {
+  it('Logged in user opens article list', function () {
     cy.login_post_request('test-publisher', 'test-publisher');
     cy.visit("/");
     // Articles page
     cy.visit("/fi/artikkelit");
   })
-  it('Search article while logged in.', function () {
-    cy.get('#avoindata-articles-search-input').click();
+  it('Logged in user searches articles', function () {
+    const options = {scrollBehavior: 'center'};
+    cy.get('#avoindata-articles-search-input').click(options);
     cy.get('#avoindata-articles-search-input').type('helsinki');
-    cy.get('#avoindata-articles-search-btn').click();
+    cy.get('#avoindata-articles-search-btn').click(options);
   })
 
 })

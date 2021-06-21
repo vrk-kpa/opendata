@@ -121,6 +121,7 @@ ckan_extensions_with_translations:
   - ckanext-advancedsearch
   - ckanext-scheming
   - ckanext-statistics
+  - ckanext-datarequests
 
 # enable matomo analytics can either be false, or dict of id account type
 ckan_matomo_analytics: false

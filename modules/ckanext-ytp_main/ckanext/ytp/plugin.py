@@ -2,7 +2,6 @@ import json
 import logging
 
 import iso8601
-import pylons
 import re
 import types
 import urlparse
@@ -639,65 +638,19 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         return package_dict
 
 
-_config_template = "ckanext.ytp.%s"
-_node_type = 'service_alert'
+# Adds new users to every group
+@chained_action
+def action_user_create(original_action, context, data_dict):
+    result = original_action(context, data_dict)
 
-_default_organization_name = None
-_default_organization_title = None
+    if result:
+        context = create_system_context()
 
+        groups = plugins.toolkit.get_action('group_list')(context, {})
 
-def _get_variable(config, name):
-    variable = _config_template % name
-    value = config.get(variable)
-    if not value:
-        raise Exception('YtpOrganizationsPlugin: required configuration variable missing: %s' % (variable))
-    return value.decode('unicode_escape')  # CKAN loads ini file as ascii. Parse unicode escapes here.
-
-
-def _configure(config=None):
-    global _default_organization_name, _default_organization_title
-    if _default_organization_name and _default_organization_title:
-        return
-    if not config:
-        config = pylons.config
-    _default_organization_name = _get_variable(config, "default_organization_name")
-    _default_organization_title = _get_variable(config, "default_organization_title")
-
-
-def _create_default_organization(context, organization_name, organization_title):
-    default_locale = config.get('ckan.locale_default', 'fi')
-
-    try:
-        return plugins.toolkit.get_action('organization_show')(context, {'id': organization_name,
-                                                                         'include_users': False,
-                                                                         'include_dataset_count': False,
-                                                                         'include_groups': False,
-                                                                         'include_tags': False,
-                                                                         'include_followers': False})
-    except NotFound:
-
-        values = {'name': organization_name,
-                  'title': organization_title,
-                  'title_translated': {default_locale: organization_title},
-                  'id': organization_name}
-
-        return plugins.toolkit.get_action('organization_create')(context, values)
-
-
-# Adds new users to default organization and to every group
-def action_user_create(context, data_dict):
-    _configure()
-
-    result = get_original_method('ckan.logic.action.create', 'user_create')(context, data_dict)
-    context = create_system_context()
-    organization = _create_default_organization(context, _default_organization_name, _default_organization_title)
-    plugins.toolkit.get_action('organization_member_create')(context, {"id": organization['id'],
-                                                                       "username": result['name'], "role": "editor"})
-
-    groups = plugins.toolkit.get_action('group_list')(context, {})
-
-    for group in groups:
-        plugins.toolkit.get_action('group_member_create')(context, {'id': group, 'username': result['name'], 'role': 'editor'})
+        for group in groups:
+            member_data = {'id': group, 'username': result['name'], 'role': 'editor'}
+            plugins.toolkit.get_action('group_member_create')(context, member_data)
 
     return result
 
@@ -846,7 +799,6 @@ def action_organization_tree_list(context, data_dict):
 
 class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, YtpMainTranslation):
     """ CKAN plugin to change how organizations work """
-    plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IRoutes, inherit=True)
@@ -864,9 +816,6 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
                          'street_address_unofficial_name', 'street_address_building_id', 'street_address_getting_there',
                          'street_address_parking', 'street_address_public_transport', 'street_address_url_public_transport',
                          'homepage']
-
-    def configure(self, config):
-        _configure(config)
 
     def get_auth_functions(self):
         return {'organization_create': auth.organization_create}
