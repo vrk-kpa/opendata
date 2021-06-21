@@ -4,7 +4,6 @@ import ckan.logic.auth as logic_auth
 import ckan.logic.auth.update as _auth_update
 from ckan.logic import get_action, check_access, NotAuthorized
 import ckan.authz as authz
-from ckan.plugins import toolkit
 
 import logging
 log = logging.getLogger(__name__)
