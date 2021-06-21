@@ -114,22 +114,6 @@ def organization_create(context, data_dict):
             'msg': _('User %s not authorized to create organizations') % context['user']}
 
 
-@toolkit.chained_auth_function
-def package_create(next_auth, context, data_dict):
-    """Amends CKAN auth function to restrict creating packages to organization members"""
-
-    user_id = context.get('user')
-
-    if user_id is not None:
-        user = logic_auth.get_user_object(context, {'id': user_id})
-        user_organization_ids = user.get_group_ids(group_type='organization')
-
-        if len(user_organization_ids) > 0:
-            return {'success': True}
-
-    return {'success': False, 'msg': _('A user must be a member of at least one organization to create packages')}
-
-
 def package_update(context, data_dict):
     """Overrides CKAN auth function to support personal datasets setting in organizations"""
 
