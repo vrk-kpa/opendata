@@ -49,6 +49,7 @@
   composer:
     command: install
     working_dir: "{{ drupal_root }}"
+    arguments: --no-cache
 
 
 - name: Ensure drupal public files directory exists
