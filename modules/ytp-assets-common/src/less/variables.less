@@ -1,24 +1,13 @@
 @import (reference) "../../node_modules/bootstrap/less/variables";
+@import "./variables/fonts";
+@import "./variables/palette";
+@import "./variables/spacing";
+@import "./variables/transition";
 
 // NOTE: these should be used with @media (max-width: @breakpoints.xs)
 // not min-width.
 @breakpoints: xs @screen-xs-max, sm @screen-sm-max, md @screen-md-max,
   lg 10000px;
-
-// Common color palette. These are the only colors that should be used!
-@opendata-brand-primary: #219ad3; // Primary navigation/interaction/focus color
-@opendata-brand-decorative: #2a8bb8; // Decorative secondary color
-@opendata-brand-complementary: #f09533;
-@opendata-brand-gray: #ebe7e7; //#88827A; // Neutral grayish elements
-@opendata-brand-dark: #302f2f; // Secondary background color
-@opendata-brand-success: #24b88e; // Interaction color, successful positive color
-@opendata-brand-info: #5bc0de; // Notification color, important but not critical
-@opendata-brand-warning: #f0ad4e; // Slightly dangerous and important element
-@opendata-brand-danger: #d9534f; // Very dangerous, error information and destructive interaction
-@opendata-brand-priority: #ec2727; // Priority content, like front page search button
-@opendata-ckan-list-item-header: #3a6eb5; // Used for ckan listitem headers and other similar bold texts.
-@opendata-ckan-unhighlight: #777777; // Additional non critical content display color.
-@opendata-ckan-unhighlight-background: #f8f8f8;
 
 @brand-primary: @opendata-brand-primary;
 @brand-info: @opendata-brand-decorative;
@@ -62,9 +51,6 @@
 @background-body-color: #fff;
 @background-hilight: #f5f5f5;
 @background-hero-image: url("/resources/images/logo/opendata.svg");
-
-// Bootstrap: Grid
-@grid-gutter-width: 50px;
 
 // Bootstrap: Alerts
 @alert-padding: 8px;
@@ -143,7 +129,7 @@
 @navbar-color: #123f52;
 @navbar-inverse-link-color: @opendata-brand-decorative;
 @navbar-color-background: @opendata-brand-primary;
-@navbar-color-links: #292929;
+@navbar-color-links: @color--black;
 @navbar-height: 50px;
 @navbar-responsive-toggle-background: #000;
 
@@ -220,7 +206,7 @@
 // ---------------
 // SUOMI.FI COLORS
 // ---------------
-@suomi-blackBase: #292929;
+@suomi-blackBase: @color--black;
 // NOTE: This name is madeup, suomi.fi color pallet didn't have a name for it
 @suomi-blackLight25: #949494;
 

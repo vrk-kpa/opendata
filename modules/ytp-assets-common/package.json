@@ -40,5 +40,8 @@
   },
   "browserslist": [
     "last 2 versions"
-  ]
+  ],
+  "scripts": {
+    "gulp": "gulp"
+  }
 }

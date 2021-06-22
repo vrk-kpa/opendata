@@ -1,0 +1,15 @@
+{% if categories %}
+<section class="categories">
+  {% block category_list %}
+  <ul class="categories__list">
+    {% for category in categories %}
+    <li class="categories__list__item">
+      {{category}}
+      <img src="{{category.get('image_display_url')}}" />
+      <h1>{{category.get('display_name')}}</h1>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endblock %}
+</section>
+{% endif %}

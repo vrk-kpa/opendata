@@ -10,6 +10,18 @@
         {% endif %}
     {% endblock %}
 
+    {% block info_tags %}
+        {{ layout.moduleBoxHead(_('Tags')) }}
+            {% snippet 'package/snippets/tags.html', tags=pkg.get('keywords', {}), field='keywords' %}
+        {{ layout.moduleBoxFoot() }}
+    {% endblock %}
+
+    {% block categories %}
+        {{ layout.moduleBoxHead(_('Categories')) }}
+            {% snippet 'package/snippets/categories.html', categories=pkg.get('groups', {}) %}
+        {{ layout.moduleBoxFoot() }}
+    {% endblock %}
+
     {% block collection_type %}
         {{ layout.moduleBoxHead(_('Collection Type')) }}
             <a href="/data/{{ h.lang() }}/dataset?collection_type={{ pkg.collection_type }}" >
@@ -24,12 +36,6 @@
                 <span><a href="/data/{{ h.lang() }}/organization/{{ pkg.organization.get('name') }}">
                 {{ h.extra_translation(pkg.organization, 'title') }}</a></span><br />
             {% endif %}
-        {{ layout.moduleBoxFoot() }}
-    {% endblock %}
-
-    {% block info_tags %}
-        {{ layout.moduleBoxHead(_('Tags')) }}
-            {% snippet 'package/snippets/tags.html', tags=pkg.get('keywords', {}), field='keywords' %}
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
