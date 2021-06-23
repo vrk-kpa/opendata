@@ -26,7 +26,7 @@
     "imagemin-jpegoptim": "^7.0.0",
     "less": "^3.12.2",
     "pump": "^3.0.0",
-    "stylelint": "^13.7.2",
+    "stylelint": "^13.13.1",
     "stylelint-config-standard": "^20.0.0"
   },
   "dependencies": {
