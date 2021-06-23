@@ -247,10 +247,13 @@
       "preset": "repeating_text",
       "form_placeholder": "e.g. avoindata@dvv.fi",
       "form_attrs": {
-        "class": "form-control"
+        "class": "form-control",
+        "data-module": "ytp_main_input_multiple",
+        "data-module-linktext": "Add email"
       },
       "display_property": "dc:contributor",
       "display_snippet": "repeating_email.html",
+      "form_snippet": "repeating.html",
       "validators": "repeating_text repeating_email not_empty",
       "required": true
     },
