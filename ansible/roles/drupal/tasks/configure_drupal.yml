@@ -33,6 +33,21 @@
     mode: 0444
   when: drupal_root is defined
 
+- name: Run database upgrades
+  shell: "{{ drupal_drush_path }} updatedb -y --no-cache-clear"
+  args:
+    chdir: "{{ drupal_root }}"
+  tags:
+    - skip_ansible_lint
+
+- name: Clear caches
+  shell: "{{ drupal_drush_path }} cache:rebuild"
+  args:
+    chdir: "{{ drupal_root }}"
+  tags:
+    - skip_ansible_lint
+
+
 - name: Check enabled drupal modules
   shell: "{{ drupal_drush_path }} pml --status enabled --field=name"
   args:
@@ -212,14 +227,6 @@
   tags:
     - skip_ansible_lint
 
-- name: Clear caches
-  shell: ./vendor/bin/drupal cr
-  args:
-    chdir: "{{ drupal_root }}"
-  tags:
-    - skip_ansible_lint
-
-
 - name: Reload theme configurations
   shell: "{{ drupal_drush_path }} -y cim --partial --source {{ drupal_root }}/web/themes/avoindata/config/install"
   args:
@@ -277,7 +284,7 @@
     - skip_ansible_lint
 
 - name: Clear caches again
-  shell: ./vendor/bin/drupal cr
+  shell: "{{ drupal_drush_path }} cache:rebuild"
   args:
     chdir: "{{ drupal_root }}"
   tags:
@@ -291,15 +298,6 @@
     - { src: "fi", dest: "fi" }
     - { src: "sv", dest: "sv" }
     - { src: "en_GB", dest: "en" }
-  tags:
-    - skip_ansible_lint
-
-# Without this, the added translatable status for content types like guide page, doesn't work and
-# fails because of an SQL error.
-- name: Run entity updates for database
-  shell: "{{ drupal_drush_path }} updatedb --entity-updates -y"
-  args:
-    chdir: "{{ drupal_root }}"
   tags:
     - skip_ansible_lint
 
