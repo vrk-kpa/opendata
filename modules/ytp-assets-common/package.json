@@ -27,7 +27,7 @@
     "less": "^3.12.2",
     "pump": "^3.0.0",
     "stylelint": "^13.13.1",
-    "stylelint-config-standard": "^20.0.0"
+    "stylelint-config-standard": "^22.0.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-pro": "^5.15.3",
