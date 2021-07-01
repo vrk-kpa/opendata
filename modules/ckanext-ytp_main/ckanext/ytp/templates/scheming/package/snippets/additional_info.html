@@ -13,6 +13,14 @@
     'license_id',
     'owner_org',
     'content_type',
+    'keywords',
+    'private',
+    'deprecated',
+    'copyright_notice_translated',
+    'collection_type',
+    'international_benchmarks',
+    'state',
+    'maintainer',
     ] -%}
   {%- for field in schema.dataset_fields -%}
     {%- if field.field_name not in exclude_fields
@@ -27,10 +35,23 @@
       </tr>
     {%- endif -%}
   {%- endfor -%}
+  <tr>
+    <th scope="row" class="dataset-label">{{ _("Last modified") }}</th>
+    <td class="dataset-details">
+      {{ h.render_datetime(pkg_dict.get('metadata_modified'), "%d.%m.%Y") }}<br />
+      <a href="/data/{{ h.lang() }}/dataset/activity/{{pkg_dict.get('name')}}">{{_('Show change log')}}</a>
+    </td>
+  </tr>
+  <tr>
+    <th scope="row" class="dataset-label">{{ _("Created on") }}</th>
+    <td class="dataset-details">{{ h.render_datetime(pkg_dict.get('metadata_created'), "%d.%m.%Y") }}</td>
+  </tr>
+  {# Deprecated layout
   {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
     <tr>
       <th scope="row" class="dataset-label">{{ _("State") }}</th>
       <td class="dataset-details">{{ _(pkg_dict.state) }}</td>
     </tr>
   {% endif %}
+  #}
 {% endblock %}

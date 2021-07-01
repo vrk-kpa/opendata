@@ -401,6 +401,14 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 if 'url_type' in resource and isinstance(resource['url_type'], Missing):
                     resource['url_type'] = None
 
+        if (pkg_dict.get(u'categories', None) and pkg_dict.get(u'groups', None)):
+            translation_dict = {
+                'all_fields': True,
+                'include_extras': True,
+                'groups': pkg_dict.get('categories')
+            }
+            pkg_dict['groups'] = get_action('group_list')(context, translation_dict)
+
     def before_index(self, pkg_dict):
         if 'tags' in pkg_dict:
             tags = pkg_dict['tags']

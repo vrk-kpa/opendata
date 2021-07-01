@@ -3,6 +3,7 @@
 @import "./variables/palette";
 @import "./variables/spacing";
 @import "./variables/transition";
+@import "./variables/components/form.less";
 
 // NOTE: these should be used with @media (max-width: @breakpoints.xs)
 // not min-width.
@@ -12,44 +13,7 @@
 @brand-primary: @opendata-brand-primary;
 @brand-info: @opendata-brand-decorative;
 
-@font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Arial",
-  "sans-serif";
-@font-family-sans-serif-light: "Source Sans Pro Light", "Helvetica Neue",
-  "Arial", "sans-serif";
-@font-family-sans-serif-semibold: "Source Sans Pro SemiBold", "Helvetica Neue",
-  "Arial", "sans-serif";
-@font-family-icon: "Fontawesome webfont", sans-serif;
-
-@font-weight-light: 300;
-@font-weight-normal: 400;
-@font-weight-heavier: 600;
-@font-weight-heavy: 700;
-
 @opendata-container-max-width: 1140px;
-
-@text-color: @new-layout-primary-text-color;
-@background-color: @new-layout-bg-color;
-
-// Button colors
-@btn-default-color: #333;
-@btn-default-bg: #fff;
-@btn-default-border: #e8e7e6;
-@btn-dark-bg: #2a6ebb;
-@btn-dark-text-color: #fff;
-@btn-black-color: #000;
-
-// Link colors
-@link-default-color: @opendata-brand-primary;
-@link-dark-color: #000000;
-
-// For very 'extra' information, meant for small text on white/light backgrounds
-@nonimportant-text-color: lighten(@opendata-brand-gray, 0%);
-
-// Light background to emphasize a subarea in main content, gives a "post-it note" feeling
-@background-hilight-primary: lighten(#d3cdc5, 16%);
-@background-hilight: lighten(#d3cdc5, 16%);
-@background-body-color: #fff;
-@background-hilight: #f5f5f5;
 @background-hero-image: url("/resources/images/logo/opendata.svg");
 
 // Bootstrap: Alerts
@@ -71,9 +35,6 @@
 
 // Borders for content: input fields, comments etc. on areas with gray background
 @content-border: lighten(@opendata-brand-gray, 25%);
-
-// Text color that is on a colored background (labels, buttons, carousel)
-@button-inverse-text-color: #fff;
 
 // Search box, carousel etc.
 @block-color-background: @opendata-brand-primary;
@@ -144,14 +105,6 @@
 @breadcrumb-color: #2a6ebb;
 @breadcrumb-color-background: transparent;
 
-// TODO workaround for having buttons with both 'a' and 'button' tags
-@button-background: #999999;
-@button-hilight: #747474;
-@button-primary-background: @opendata-brand-primary;
-@button-primary-hilight: #0f54a2;
-@button-primary-border: #7ca9cc;
-@button-border: #9a9d9e;
-
 // TODO remove if there is no footer
 @footer-color: @nonimportant-text-color;
 @footer-border: @section-border-color;
@@ -161,7 +114,6 @@
 @container-horizontal-padding: 40px;
 @grid-float-breakpoint: @screen-sm-min;
 
-@button-border-radius: 8px;
 @border-radius-large: 0;
 
 // Media grid

@@ -28,26 +28,26 @@
     {% block primary_content %}
       <section class="dataset-primary-content col-lg-8">
         {% block primary_content_inner %}
-        {% block package_description %}
-            {% block package_notes %}
-                {% set notes_formatted = h.extra_translation(pkg, 'notes', markdown=True) %}
-                {% if notes_formatted %}
-                <div class="notes embedded-content">
-                    {{ notes_formatted }}
-                </div>
-              {% endif %}
-            {% endblock %}
-        {% endblock %}
+          {% block package_description %}
+              {% block package_notes %}
+                  {% set notes_formatted = h.extra_translation(pkg, 'notes', markdown=True) %}
+                  {% if notes_formatted %}
+                  <div class="notes embedded-content">
+                      {{ notes_formatted }}
+                  </div>
+                {% endif %}
+              {% endblock %}
+          {% endblock %}
 
-        {% block package_tags %}
-        {% endblock %}
-        {% block package_resources %}
-            {% snippet "package/snippets/resources_list2.html", pkg=pkg, resources=pkg.resources %}
-        {% endblock %}
+          {% block package_tags %}
+          {% endblock %}
 
-        {% block package_additional_info %}
-        {% endblock %}
+          {% block package_resources %}
+              {% snippet "package/snippets/resources_list2.html", pkg=pkg, resources=pkg.resources %}
+          {% endblock %}
 
+          {% block package_additional_info %}
+          {% endblock %}
         {% endblock %}
 
 

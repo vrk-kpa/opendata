@@ -22,59 +22,6 @@
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
-    {% block collection_type %}
-        {{ layout.moduleBoxHead(_('Collection Type')) }}
-            <a href="/data/{{ h.lang() }}/dataset?collection_type={{ pkg.collection_type }}" >
-                {{ _(pkg.collection_type) }}
-            </a>
-        {{ layout.moduleBoxFoot() }}
-    {% endblock %}
-
-    {% block org_info %}
-        {{ layout.moduleBoxHead(_('Organization')) }}
-            {% if pkg.organization %}
-                <span><a href="/data/{{ h.lang() }}/organization/{{ pkg.organization.get('name') }}">
-                {{ h.extra_translation(pkg.organization, 'title') }}</a></span><br />
-            {% endif %}
-        {{ layout.moduleBoxFoot() }}
-    {% endblock %}
-
-    {% block material_type_info %}
-        {% if interoperability_tools %}
-            {%- if pkg.get( 'content_type') -%}
-                {% set lang = h.get_lang_prefix() %}
-                {% set con_list = pkg.get( 'content_type' ) %}
-                {% if con_list is mapping %}
-                    {% set con_list = con_list.get(lang, []) %}
-                {% else %}
-                    {% set con_list = con_list.split(',') %}
-                {% endif %}
-                
-                {%- if con_list -%}
-                    {{ layout.moduleBoxHead(_('Content Type')) }}
-                      {% snippet 'package/snippets/tags.html', tags=pkg.content_type, field='content_type' %}
-                    {{ layout.moduleBoxFoot() }}
-                {%- endif -%}
-            {%- endif -%}
-        {% endif %}
-    {% endblock %}
-
-    {% block material_link %}
-        {% set guid = h.get_value_from_extras_by_key(pkg, 'guid') %}
-        {% set original_url = h.get_value_from_extras_by_key(pkg, 'original_url') %}
-        {% if guid %}
-            {% set material_link = h.get_geonetwork_link(guid, pkg.organization.name)%}
-        {% elif original_url %}
-            {% set material_link = original_url %}
-        {% endif %}
-        {% if material_link %}
-            {{ layout.moduleBoxHead(_('Content Link')) }}
-                <a href="{{ material_link }}" class="licenseUrl">{{ material_link }}</a>
-            {{ layout.moduleBoxFoot() }}
-        {% endif %}
-
-    {% endblock %}
-
     {% block license_info %}
         {{ layout.moduleBoxHead(_('License')) }}
             {% if  pkg.license_id == 'cc-zero-1.0' or pkg.license_id == 'cc-by-4.0' or pkg.license_id == 'cc-by-4-fi' %}
@@ -118,51 +65,34 @@
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
-    {% block rating %}
-      {# Disable ratings
-      {{ layout.moduleBoxHead(_('Rating')) }}
-        {% snippet "rating/snippets/rating.html", package=pkg %}
-      {{ layout.moduleBoxFoot() }}
-      #}
-    {% endblock %}
-
-    {% block package_feedback %}
-        {% snippet "package/snippets/send_feedback.html", pkg_dict=pkg %}
-    {% endblock %}
-
-
-    {% block rating_info %}
-        {{ layout.moduleBoxHead(_('Dataset Quality')) }}
-            {% with stars,reason,last_updated = h.calculate_dataset_stars(pkg.id) %}
-            <div>
-                <span class="quality-label"> {{_('Resource Quality')}} </span>
-                {% for i in range(stars) %}
-                    <span class="fas fa-star"></span>
-                {% endfor %}
-                {% for i in range(5 - stars) %}
-                    <span class="far fa-star"></span>
-                {% endfor %}
-            </div>
-            {% endwith %}
-
-            {% with stars = h.calculate_metadata_stars(pkg.id) %}
-            <div>
-                <span class="quality-label"> {{_('Metadata Quality')}} </span>
-                {% for i in range(stars) %}
-                    <span class="icon-star"></span>
-                {% endfor %}
-                {% for i in range(5 - stars) %}
-                    <span class="icon-star-empty"></span>
-                {% endfor %}
-            </div>
-            {% snippet "package/snippets/info_tooltip.html", title=_("Dataset's Resource Quality is the highest rating from the resources. It is automatically calculated and if it is zero, resources are unavailable or unknown type. Metadata Quality rating takes field completeness, visits, resource downloads, comments and translations into consideration.") %}
-            {% endwith %}
+    {% block openness_score %}
+        {% if pkg['qa'] %}
+        {{ layout.moduleBoxHead(_('Openness score')) }}
+        <div class="openness-score">
+            {% for i in range(5)  %}
+                {% if i < pkg['qa']['openness_score'] %}
+                    <i class="fas fa-star"></i>
+                {% else %}
+                    <i class="far fa-star"></i>
+                {% endif %}
+            {% endfor %}
+        </div>
         {{ layout.moduleBoxFoot() }}
+        {% endif %}
     {% endblock %}
 
+    {#
+        {% block package_info %}
+            {% snippet 'package/snippets/info.html', pkg=pkg %}
+        {% endblock %}
+    #}
 
-    {% block package_info %}
-        {% snippet 'package/snippets/info.html', pkg=pkg %}
+    {% block follow %}
+        {{ layout.moduleBoxHead(_('Follow dataset')) }}
+        <div class="follow-dataset">
+            {% snippet 'package/snippets/follow.html', pkg=pkg %}
+        </div>
+        {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
 
@@ -194,13 +124,16 @@
                         textPosition: 'none',
                         format: 'dd.MM.yyyy',
                         gridlines: {
-                        count : 4
+                            count : 4
                         }
                     },
                     vAxis: {
                         minValue: 4
                     },
-                    legend: { position: 'bottom' }
+                    legend: { position: 'bottom' },
+                    chartArea: {
+                        left: 32
+                    }
                     };
 
                     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
@@ -215,6 +148,7 @@
         {% snippet "package/snippets/dataset_social.html" %}
     {% endblock %}
 
+    {#
     {% block changelog_info %}
 
         <!-- Dataset Creation and Modification dates-->
@@ -229,8 +163,5 @@
             <a href="/data/{{ h.lang() }}/dataset/activity/{{pkg.get('name')}}">{{_('Show change log')}} ></a>
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
-
-    {% block related_info %}
-        {# Related items deactivated until better defined and layouts updates #}
-    {% endblock %}
+    #}
 </aside>
