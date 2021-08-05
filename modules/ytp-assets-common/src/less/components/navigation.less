@@ -19,29 +19,30 @@
 
     &:hover {
       text-decoration: none;
+      background-color: transparent;
     }
   }
 
   &:hover {
-    border-left: 8px solid @sidebar-block-color-header;
+    background-color: @background-color--highlight;
   }
 
   width: 95%;
   margin-top: 0;
   margin-bottom: 0;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  padding-left: 7px;
+  padding-top: @padding-y__navigation;
+  padding-bottom: @padding-y__navigation;
+  padding-left: @padding-x__navigation;
   padding-right: 0;
   border-style: none none none solid;
-  border-left-width: 8px;
-  border-left-color: transparent;
+  border-left: none;
   font-size: 13px;
 
   &.active {
     a {
       background-color: transparent;
       color: @facet-link-text-color;
+      font-weight: @font-weight-heavier;
 
       &:hover {
         background-color: transparent;
@@ -50,7 +51,9 @@
     }
 
     color: #219ad3;
-    background-color: transparent;
+    border-left: 4px solid @sidebar-block-color-header;
+    padding-left: @padding-x__navigation - @border-width__navigation;
+    background-color: @background-color--highlight;
   }
 }
 
