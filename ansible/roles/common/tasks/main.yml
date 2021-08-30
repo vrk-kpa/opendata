@@ -32,10 +32,15 @@
     backup: true
   when: common_deployment_environment_id == "vagrant"
 
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+# Dist-upgrade is disabled in vagrant as it breaks virtualbox guest additions
 - name: Update packages
   apt:
     upgrade: "{{ common_apt_upgrade }}"
-    update_cache: true
+  when: common_deployment_environment_id != "vagrant"
 
 - name: Set locale
   lineinfile:
