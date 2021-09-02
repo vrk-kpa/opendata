@@ -123,6 +123,59 @@
       "description": "Describe how you want your organisation to be named when using CC BY 4 -license."
     },
     {
+      "field_name": "geographical_coverage",
+      "label": "Geographical coverage",
+      "form_placeholder": "e.g. Tampere",
+      "preset": "vocabulary_with_autocomplete",
+      "validators": "ignore_missing lowercase convert_to_list create_tags(geographical_coverage)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=geographical_coverage"
+      },
+      "description": "Select which municipalities/cities the data covers."
+    },
+    {
+      "field_name": "update_frequency",
+      "label": "Update frequency",
+      "form_placeholder": "e.g. monthly",
+      "form_languages": ["fi", "en", "sv"],
+      "preset": "fluent_vocabulary_with_autocomplete",
+      "validators": "fluent_tags create_fluent_tags(update_frequency)",
+      "form_attrs": {
+        "data-module": "autocomplete",
+        "data-module-tags": "",
+        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=update_frequency"
+      },
+      "description": "Describe how often your data is updated"
+    },
+    {
+      "field_name": "valid_from",
+      "label": "Valid from",
+      "preset": "date_opendata_with_icon",
+      "max_date_field": "valid_till"
+    },
+    {
+      "field_name": "valid_till",
+      "label": "Valid till",
+      "preset": "date_opendata_with_icon",
+      "min_date_field": "valid_from"
+    },
+    {
+      "field_name": "external_urls",
+      "preset": "repeating_text",
+      "label": "Links to additional information",
+      "form_blanks": 1,
+      "display_snippet": "repeating_link.html",
+      "form_snippet": "repeating.html",
+      "form_placeholder": "e.g. www.dvv.fi",
+      "description": "Add links to one or more websites with additional information about the data.",
+      "validators": "repeating_text repeating_url",
+      "form_attrs": {
+        "data-module": "ytp_main_input_multiple"
+      }
+    },
+    {
       "field_name": "collection_type",
       "label": "Collection type",
       "preset": "select",
@@ -178,6 +231,17 @@
       "group_title": "Dataset producer and maintainer"
     },
     {
+      "field_name": "maintainer",
+      "label": "Dataset maintainer",
+      "form_placeholder": "e.g. Digital and Population Data Services Agency",
+      "form_attrs": {
+        "class": "form-control"
+      },
+      "display_property": "dc:contributor",
+      "required": true,
+      "description": "The dataset maintainer will receive updates about the dataset to the email address specified in this form. We recommend using a general email address instead of the contact information of a single employee. Note that the dataset information can only be managed by registered users with Editor- or Admin-rights in the publishing organisation."
+    },
+    {
       "field_name": "maintainer_email",
       "label": "Maintainer email",
       "preset": "repeating_text",
@@ -191,17 +255,6 @@
       "required": true
     },
     {
-      "field_name": "maintainer",
-      "label": "Dataset maintainer",
-      "form_placeholder": "e.g. Digital and Population Data Services Agency",
-      "form_attrs": {
-        "class": "form-control"
-      },
-      "display_property": "dc:contributor",
-      "required": true,
-      "description": "The dataset maintainer will receive updates about the dataset to the email address specified in this form. We recommend using a general email address instead of the contact information of a single employee. Note that the dataset information can only be managed by registered users with Editor- or Admin-rights in the publishing organisation."
-    },
-    {
       "field_name": "maintainer_website",
       "label": "Maintainer website",
       "form_placeholder": "e.g. www.avoindata.fi",
@@ -210,59 +263,6 @@
       },
       "display_property": "dc:contributor",
       "display_snippet": "link.html"
-    },
-    {
-      "field_name": "external_urls",
-      "preset": "repeating_text",
-      "label": "Links to additional information",
-      "form_blanks": 1,
-      "display_snippet": "repeating_link.html",
-      "form_snippet": "repeating.html",
-      "form_placeholder": "e.g. www.dvv.fi",
-      "description": "Add links to one or more websites with additional information about the data.",
-      "validators": "repeating_text repeating_url",
-      "form_attrs": {
-        "data-module": "ytp_main_input_multiple"
-      }
-    },
-    {
-      "field_name": "geographical_coverage",
-      "label": "Geographical coverage",
-      "form_placeholder": "e.g. Tampere",
-      "preset": "vocabulary_with_autocomplete",
-      "validators": "ignore_missing lowercase convert_to_list create_tags(geographical_coverage)",
-      "form_attrs": {
-        "data-module": "autocomplete",
-        "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=geographical_coverage"
-      },
-      "description": "Select which municipalities/cities the data covers."
-    },
-    {
-      "field_name": "update_frequency",
-      "label": "Update frequency",
-      "form_placeholder": "e.g. monthly",
-      "form_languages": ["fi", "en", "sv"],
-      "preset": "fluent_vocabulary_with_autocomplete",
-      "validators": "fluent_tags create_fluent_tags(update_frequency)",
-      "form_attrs": {
-        "data-module": "autocomplete",
-        "data-module-tags": "",
-        "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=update_frequency"
-      },
-      "description": "Describe how often your data is updated"
-    },
-    {
-      "field_name": "valid_from",
-      "label": "Valid from",
-      "preset": "date_opendata_with_icon",
-      "max_date_field": "valid_till"
-    },
-    {
-      "field_name": "valid_till",
-      "label": "Valid till",
-      "preset": "date_opendata_with_icon",
-      "min_date_field": "valid_from"
     },
     {
       "field_name": "date_released",
