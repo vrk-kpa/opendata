@@ -14,12 +14,9 @@
   tasks:
   - name: Configure web stack
     cloudformation:
-      #stack_name: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/name') }}"
       stack_name: "{{ deployment_environment_id }}-web"
-      #state: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/status') }}"
       state: present
       region: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/region') }}"
-      #create_changeset: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/changeset') }}"
       create_changeset: true
       template: ../cloudformation/instances.yml
       template_parameters:
