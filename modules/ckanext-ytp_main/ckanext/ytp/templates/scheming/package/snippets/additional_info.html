@@ -2,26 +2,6 @@
 {% ckan_extends %}
 
 {% block package_additional_info %}
-  {%- set exclude_fields = [
-    'id',
-    'title',
-    'title_translated',
-    'name',
-    'notes',
-    'notes_translated',
-    'tag_string',
-    'license_id',
-    'owner_org',
-    'content_type',
-    'keywords',
-    'private',
-    'deprecated',
-    'copyright_notice_translated',
-    'collection_type',
-    'international_benchmarks',
-    'state',
-    'maintainer',
-    ] -%}
   {%- set ordered_dataset_fields = [
       'maintainer_email',
       'maintainer_website',
@@ -34,8 +14,6 @@
 
   {%- for field_key in ordered_dataset_fields -%}
     {%- set field = schema.dataset_fields | selectattr('field_name', 'equalto', field_key) | list -%}
-    {%- if field[0].field_name not in exclude_fields
-        and field[0].display_snippet is not none -%}
       <tr>
         <th scope="row" class="dataset-label">{{
           h.scheming_language_text(field[0].label) }}</th>
@@ -44,7 +22,6 @@
           }}"{% endif %}>{%- snippet 'scheming/snippets/display_field.html',
           field=field, data=pkg_dict, schema=schema -%}</td>
       </tr>
-    {%- endif -%}
   {%- endfor -%}
   <tr>
     <th scope="row" class="dataset-label">{{ _("Last modified") }}</th>
@@ -57,12 +34,4 @@
     <th scope="row" class="dataset-label">{{ _("Created on") }}</th>
     <td class="dataset-details">{{ h.render_datetime(pkg_dict.get('metadata_created'), "%d.%m.%Y") }}</td>
   </tr>
-  {# Deprecated layout
-  {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
-    <tr>
-      <th scope="row" class="dataset-label">{{ _("State") }}</th>
-      <td class="dataset-details">{{ _(pkg_dict.state) }}</td>
-    </tr>
-  {% endif %}
-  #}
 {% endblock %}
