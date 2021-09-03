@@ -136,6 +136,7 @@ Resources:
           Principal:
             AWS:
             - !Sub arn:aws:iam::${AWS::AccountId}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling
+            - !Sub arn:aws:iam::${ProdAccountId}:root
           Action:
           - kms:CreateGrant
           Resource: "*"
