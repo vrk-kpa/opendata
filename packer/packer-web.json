@@ -5,7 +5,8 @@
     "build": "{{env `CIRCLE_BUILD_NUM` }}",
     "packer_instance_profile": "{{env `AWS_PACKER_EC2_INSTANCE_PROFILE` }}",
     "aws_production_account_id": "{{env `AWS_PRODUCTION_ACCOUNT_ID` }}",
-    "builder_cidr": "{{env `BUILDER_CIDR`}}/32"
+    "builder_cidr": "{{env `BUILDER_CIDR`}}/32",
+    "aws_ami_encryption_key_id": "{{env `AWS_AMI_ENCRYPTION_ID` }}"
   },
   "builders": [{
     "type": "amazon-ebs",
@@ -23,6 +24,11 @@
       "{{user `builder_cidr` }}"
     ],
     "instance_type": "t3.medium",
+    "launch_block_device_mappings": [{
+      "device_name": "/dev/sda1",
+      "encrypted": true,
+      "kms_key_id": "{{ user `aws_ami_encryption_key_id` }}"
+    }],
     "shutdown_behavior": "terminate",
     "user_data": "#!/bin/bash\n/sbin/shutdown -h +60 \"Scheduled shutdown\"",
     "ssh_username": "ubuntu",
