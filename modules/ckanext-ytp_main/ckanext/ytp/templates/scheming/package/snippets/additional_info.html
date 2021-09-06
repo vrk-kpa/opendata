@@ -2,35 +2,36 @@
 {% ckan_extends %}
 
 {% block package_additional_info %}
-  {%- set exclude_fields = [
-    'id',
-    'title',
-    'title_translated',
-    'name',
-    'notes',
-    'notes_translated',
-    'tag_string',
-    'license_id',
-    'owner_org',
-    'content_type',
+  {%- set ordered_dataset_fields = [
+      'maintainer_email',
+      'maintainer_website',
+      'external_urls',
+      'geographical_coverage',
+      'update_frequency',
+      'valid_from',
+      'valid_till',
     ] -%}
-  {%- for field in schema.dataset_fields -%}
-    {%- if field.field_name not in exclude_fields
-        and field.display_snippet is not none -%}
+
+  {%- for field_key in ordered_dataset_fields -%}
+    {%- set field = schema.dataset_fields | selectattr('field_name', 'equalto', field_key) | list -%}
       <tr>
         <th scope="row" class="dataset-label">{{
-          h.scheming_language_text(field.label) }}</th>
+          h.scheming_language_text(field[0].label) }}</th>
         <td class="dataset-details"{%
-          if field.display_property %} property="{{ field.display_property
+          if field[0].display_property %} property="{{ field[0].display_property
           }}"{% endif %}>{%- snippet 'scheming/snippets/display_field.html',
-          field=field, data=pkg_dict, schema=schema -%}</td>
+          field=field[0], data=pkg_dict, schema=schema -%}</td>
       </tr>
-    {%- endif -%}
   {%- endfor -%}
-  {% if h.check_access('package_update',{'id':pkg_dict.id}) %}
-    <tr>
-      <th scope="row" class="dataset-label">{{ _("State") }}</th>
-      <td class="dataset-details">{{ _(pkg_dict.state) }}</td>
-    </tr>
-  {% endif %}
+  <tr>
+    <th scope="row" class="dataset-label">{{ _("Last modified") }}</th>
+    <td class="dataset-details">
+      {{ h.render_datetime(pkg_dict.get('metadata_modified'), "%d.%m.%Y") }}<br />
+      <a href="/data/{{ h.lang() }}/dataset/activity/{{pkg_dict.get('name')}}">{{_('Show change log')}}</a>
+    </td>
+  </tr>
+  <tr>
+    <th scope="row" class="dataset-label">{{ _("Created on") }}</th>
+    <td class="dataset-details">{{ h.render_datetime(pkg_dict.get('metadata_created'), "%d.%m.%Y") }}</td>
+  </tr>
 {% endblock %}

@@ -1,0 +1,37 @@
+.table {
+  &.table-striped {
+    tr:nth-of-type(even),
+    tr:nth-of-type(odd) {
+      background-color: transparent;
+      border: 1px solid @table-border-color;
+
+      &:not(:first-of-type) {
+        border-top: none;
+      }
+    }
+
+    tr:nth-of-type(even) {
+      th,
+      td {
+        background-color: transparent;
+      }
+    }
+
+    tr:nth-of-type(odd) {
+      th,
+      td {
+        background-color: @table-bg-accent;
+      }
+    }
+  }
+
+  &.table-bordered {
+    tbody,
+    thead {
+      th,
+      td {
+        border: 1px solid @table-border-color;
+      }
+    }
+  }
+}

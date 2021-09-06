@@ -10,16 +10,13 @@ aside.tertiary {
 
   .module,
   .opendata-card {
-    padding: 4px 22px 15px 0;
-    border-top: 6px solid @sidebar-block-color-header;
-    border-radius: 2px;
-    background-color: @sidebar-block-color-background;
-    color: @sidebar-block-color-text;
-    margin-bottom: 15px;
+    padding: 0;
+    color: @color--black;
+    margin-bottom: @margin__module;
     overflow: hidden;
 
     .module-content {
-      padding-left: 15px;
+      padding: 0 (@padding__module / 2);
 
       .nav > li > a {
         margin-left: -15px;
@@ -35,22 +32,15 @@ aside.tertiary {
 
     .module-heading {
       .flex-display(flex);
-
-      margin-top: 10px;
-      margin-right: 5px;
-      margin-bottom: 5px;
-      margin-left: 15px;
-      padding-right: 0;
-      padding-bottom: 8px;
-      padding-left: 0;
-      padding-top: 0;
       .align-items(center);
 
-      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-      border-top: none;
+      margin: 0;
+      margin-bottom: (@padding__module / 2);
+      padding: 0 (@padding__module / 2);
       background-color: transparent;
-      font-size: 14px;
-      line-height: 20px;
+      border: none;
+      font-size: @font-size__module-title;
+      line-height: @line-height__module-title;
       font-weight: bold;
     }
 

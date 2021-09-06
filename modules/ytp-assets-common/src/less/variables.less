@@ -1,70 +1,20 @@
 @import (reference) "../../node_modules/bootstrap/less/variables";
+@import "./variables/fonts";
+@import "./variables/palette";
+@import "./variables/spacing";
+@import "./variables/transition";
+@import "./variables/components/form.less";
 
 // NOTE: these should be used with @media (max-width: @breakpoints.xs)
 // not min-width.
 @breakpoints: xs @screen-xs-max, sm @screen-sm-max, md @screen-md-max,
   lg 10000px;
 
-// Common color palette. These are the only colors that should be used!
-@opendata-brand-primary: #219ad3; // Primary navigation/interaction/focus color
-@opendata-brand-decorative: #2a8bb8; // Decorative secondary color
-@opendata-brand-complementary: #f09533;
-@opendata-brand-gray: #ebe7e7; //#88827A; // Neutral grayish elements
-@opendata-brand-dark: #302f2f; // Secondary background color
-@opendata-brand-success: #24b88e; // Interaction color, successful positive color
-@opendata-brand-info: #5bc0de; // Notification color, important but not critical
-@opendata-brand-warning: #f0ad4e; // Slightly dangerous and important element
-@opendata-brand-danger: #d9534f; // Very dangerous, error information and destructive interaction
-@opendata-brand-priority: #ec2727; // Priority content, like front page search button
-@opendata-ckan-list-item-header: #3a6eb5; // Used for ckan listitem headers and other similar bold texts.
-@opendata-ckan-unhighlight: #777777; // Additional non critical content display color.
-@opendata-ckan-unhighlight-background: #f8f8f8;
-
 @brand-primary: @opendata-brand-primary;
 @brand-info: @opendata-brand-decorative;
 
-@font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Arial",
-  "sans-serif";
-@font-family-sans-serif-light: "Source Sans Pro Light", "Helvetica Neue",
-  "Arial", "sans-serif";
-@font-family-sans-serif-semibold: "Source Sans Pro SemiBold", "Helvetica Neue",
-  "Arial", "sans-serif";
-@font-family-icon: "Fontawesome webfont", sans-serif;
-
-@font-weight-light: 300;
-@font-weight-normal: 400;
-@font-weight-heavier: 600;
-@font-weight-heavy: 700;
-
 @opendata-container-max-width: 1140px;
-
-@text-color: @new-layout-primary-text-color;
-@background-color: @new-layout-bg-color;
-
-// Button colors
-@btn-default-color: #333;
-@btn-default-bg: #fff;
-@btn-default-border: #e8e7e6;
-@btn-dark-bg: #2a6ebb;
-@btn-dark-text-color: #fff;
-@btn-black-color: #000;
-
-// Link colors
-@link-default-color: @opendata-brand-primary;
-@link-dark-color: #000000;
-
-// For very 'extra' information, meant for small text on white/light backgrounds
-@nonimportant-text-color: lighten(@opendata-brand-gray, 0%);
-
-// Light background to emphasize a subarea in main content, gives a "post-it note" feeling
-@background-hilight-primary: lighten(#d3cdc5, 16%);
-@background-hilight: lighten(#d3cdc5, 16%);
-@background-body-color: #fff;
-@background-hilight: #f5f5f5;
 @background-hero-image: url("/resources/images/logo/opendata.svg");
-
-// Bootstrap: Grid
-@grid-gutter-width: 50px;
 
 // Bootstrap: Alerts
 @alert-padding: 8px;
@@ -86,16 +36,13 @@
 // Borders for content: input fields, comments etc. on areas with gray background
 @content-border: lighten(@opendata-brand-gray, 25%);
 
-// Text color that is on a colored background (labels, buttons, carousel)
-@button-inverse-text-color: #fff;
-
 // Search box, carousel etc.
 @block-color-background: @opendata-brand-primary;
 @block-color: @button-inverse-text-color;
 @block-color-hilight: lighten(@opendata-brand-primary, 0%);
 @block-color-light: #fff;
 
-@sidebar-block-color-header: #182b75;
+@sidebar-block-color-header: @opendata-brand-primary--highlight;
 @sidebar-block-color-background: #eee;
 @sidebar-block-color-text: #000;
 
@@ -143,7 +90,7 @@
 @navbar-color: #123f52;
 @navbar-inverse-link-color: @opendata-brand-decorative;
 @navbar-color-background: @opendata-brand-primary;
-@navbar-color-links: #292929;
+@navbar-color-links: @color--black;
 @navbar-height: 50px;
 @navbar-responsive-toggle-background: #000;
 
@@ -158,14 +105,6 @@
 @breadcrumb-color: #2a6ebb;
 @breadcrumb-color-background: transparent;
 
-// TODO workaround for having buttons with both 'a' and 'button' tags
-@button-background: #999999;
-@button-hilight: #747474;
-@button-primary-background: @opendata-brand-primary;
-@button-primary-hilight: #0f54a2;
-@button-primary-border: #7ca9cc;
-@button-border: #9a9d9e;
-
 // TODO remove if there is no footer
 @footer-color: @nonimportant-text-color;
 @footer-border: @section-border-color;
@@ -175,7 +114,6 @@
 @container-horizontal-padding: 40px;
 @grid-float-breakpoint: @screen-sm-min;
 
-@button-border-radius: 8px;
 @border-radius-large: 0;
 
 // Media grid
@@ -216,45 +154,3 @@
 @new-layout-secondary-text-color-dark: rgb(0, 52, 121);
 @new-layout-primary-text-color: rgb(41, 41, 41);
 @new-layout-nonimportant-text-color: rgb(95, 104, 109);
-
-// ---------------
-// SUOMI.FI COLORS
-// ---------------
-@suomi-blackBase: #292929;
-// NOTE: This name is madeup, suomi.fi color pallet didn't have a name for it
-@suomi-blackLight25: #949494;
-
-@suomi-brandBase: #003479;
-
-@suomi-highlightBase: #2a6ebb;
-@suomi-highlightLight53: #f7fafd;
-@suomi-highlightLight50: #eaf2fa;
-@suomi-highlightLight45: #d5e4f6;
-@suomi-highlightLight4: #2e78cc;
-@suomi-highlightDark9: #225896;
-
-@suomi-accentBase: #e97025;
-
-@suomi-accentSecondary: #34b5e5;
-@suomi-accentSecondaryLight40: #e8f7fc;
-
-@suomi-accentTertiary: #9f60b5;
-@suomi-accentTertiaryDark9: #87499d;
-
-@suomi-depthBase: #a5adb1;
-@suomi-depthLight30: #f7f7f8;
-@suomi-depthLight26: #edeeef;
-@suomi-depthLight13: #c8cdd0;
-@suomi-depthDark27: #5f686d;
-
-@suomi-depthSecondary: #f0f6ff;
-@suomi-depthSecondaryDark3: #e0edff;
-
-@suomi-successBase: #09ae87;
-@suomi-successLightTransparent50: rgba(9, 170, 132, 0.5);
-
-@suomi-warningBase: #faaf00;
-@suomi-warningLight47: #faebeb;
-
-@suomi-alertBase: #c33932;
-@suomi-whiteBase: #ffffff;

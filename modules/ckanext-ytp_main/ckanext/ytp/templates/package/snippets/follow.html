@@ -1,0 +1,17 @@
+{% block follow_button %}
+    {% if not hide_follow_button %}
+        <div class="follow_button">
+            {% set follow_button = h.follow_button('dataset', pkg.name) %}
+            {% if follow_button != "" %}
+                {{ follow_button }}
+            {% else %}
+                {% snippet "reminder/snippets/subscription_form.html", package=pkg %}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
+{% block nums %}
+    <div class="nums">
+        <span>{{ h.SI_number_span(h.follow_count('dataset', pkg.id)) }} {{ _('Followers') }}</span>
+    </div>
+{% endblock %}

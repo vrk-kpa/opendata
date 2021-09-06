@@ -15,6 +15,7 @@ ckan_plugin_order:
   - dcat_rdf_harvester
   - dcat_json_harvester
   - dcat_json_interface
+  - ytp_spatial
   - spatial_metadata
   - spatial_query
   - csw_harvester
@@ -31,7 +32,6 @@ ckan_plugin_order:
   - ytp_tasks
   - ytp_dataset
   - apis
-  - ytp_spatial
   - ytp_user
   - datastore
   - sixodp_showcase

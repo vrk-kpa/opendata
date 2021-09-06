@@ -23,7 +23,7 @@ Install dependencies with npm (might require sudo):
 
 Build assets with gulp:
 
-	gulp
+	`npm run gulp`
 
 Check out `resources` folder for results.
 

@@ -1,28 +1,41 @@
-@import '../variables.less';
-
 // Additional info resource list
 .resource-list {
-  padding: 10px;
+  margin: 0;
 
   .resource-item {
-    margin-top: 10px;
-    background-color: @resource-list-background;
+    border-bottom: 1px solid @color--extra-light-grey;
     border-radius: 0;
-    border: 1px solid darken(@resource-list-background, 15%);
+    padding: @padding__resource-list-item;
+    display: flex;
 
-    .resource-item-actions {
+    &:hover {
+      background: transparent;
+    }
+
+    .resource-item__icon {
+      position: static;
+      margin-right: @margin-x__common;
+      align-self: center;
+    }
+
+    .resource-item__info__description {
+      margin-bottom: 0;
+    }
+
+    .resource-item__actions {
       text-transform: uppercase;
       line-height: 35px;
       font-weight: 600;
-
-      .resource-action {
-        margin-left: 10px;
-      }
+      margin-left: auto;
     }
 
-    .format-label {
-      top: 2px;
-      left: -20px;
+    a {
+      color: @opendata-brand-primary;
+      transition: color @transition-duration--short @transition-timing-function--default;
+
+      &:hover {
+        color: @opendata-brand-primary--highlight;
+      }
     }
   }
 }
