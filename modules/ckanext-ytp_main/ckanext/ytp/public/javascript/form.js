@@ -74,12 +74,12 @@ $(function () {
 ckan.module("ytp_main_input_multiple", function ($) {
   return {
     options: {
-      linkText: 'Add link',
-      linkIcon: 'fa-globe',
+      linktext: 'Add link',
+      linkicon: 'fa-globe',
     },
     initialize: function () {
       var module = this;
-      var addLinkText = module._(module.options.linkText);
+      var addLinkText = module._(module.options.linktext);
       $(function () {
         /** Get container element of current multiple-value-group */
         var $multiValueContainer = $(module.el).parent().parent();
@@ -90,7 +90,7 @@ ckan.module("ytp_main_input_multiple", function ($) {
         }
         /** Create addLink after inputs */
         var $addLink = $(`
-          <button type="button" class="add-input-button suomifi-button-secondary">${module.options.linkIcon !== false ? `<i class="fa ${module.options.linkIcon}"></i>` : ''}
+          <button type="button" class="add-input-button suomifi-button-secondary">${module.options.linkicon !== false ? `<i class="fa ${module.options.linkicon}"></i>` : ''}
             ${addLinkText}
           </button>
         `);

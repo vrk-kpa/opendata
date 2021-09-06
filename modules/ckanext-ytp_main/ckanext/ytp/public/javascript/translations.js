@@ -10,6 +10,7 @@ _('Cancel');
 _('Subscribe to comments');
 _('Unsubscribe from comments');
 _('Add link');
+_('Add email');
 
 // Reorder resources
 _('Reorder resources');

@@ -163,7 +163,7 @@ Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, res
       '#field-notes_translated-fi': 'Dataset test description',
       '#s2id_autogen1': 'test_keyword {enter}',
       '#field-maintainer': 'test maintainer',
-      '#field-maintainer_email-1': 'test.maintainer@example.com'
+      '#field-maintainer_email': 'test.maintainer@example.com'
     }
   }
   if (!resource_form_data) {
