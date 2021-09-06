@@ -19,7 +19,7 @@ Resources:
           - Effect: Allow
             Action: sts:AssumeRole
             Principal:
-              AWS: 
+              AWS:
                 !Sub 'arn:aws:iam::${DevAccountId}:role/InvokeAmiCopyFunctionRole'
       RoleName: CopyAmiLambdaExecutionRole
       Policies:
@@ -46,5 +46,9 @@ Resources:
             - ec2:DescribeImageAttribute
             - ec2:DescribeTags
             - ec2:CreateTags
+            - kms:ReEncrypt*
+            - kms:GenerateDataKey*
+            - kms:CreateGrant
+            - kms:DescribeKey*
             Effect: Allow
             Resource: '*'

@@ -8,8 +8,15 @@ Parameters:
   BetaEnvironmentName:
     Description: Name of the deployment target environment for beta deployments (infratest, beta, prod)
     Type: 'AWS::SSM::Parameter::Value<String>'
-
-
+  CmkAdminArn:
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    Default: /build/cmk_admin_arn
+  BuildUserpArn:
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    Default: /build/build_user_arn
+  ProdAccountId:
+    Type: 'AWS::SSM::Parameter::Value<String>'
+    Default: /build/productionaccountid
 Resources:
   DeploymentRole:
     Type: AWS::IAM::Role
@@ -91,3 +98,80 @@ Resources:
                 - !Sub arn:aws:ec2:${AWS::Region}::image/*
                 - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:launch-template/*
                 - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:network-interface/*
+  AmiKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: "CMK for AMI encryption"
+      KeyPolicy:
+        Version: "2012-10-17"
+        Id: "ami-key-1"
+        Statement:
+        - Sid: "Enable IAM User Permissions"
+          Effect: "Allow"
+          Principal:
+            AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+          Action: "kms:*"
+          Resource: "*"
+        - Sid: "Allow access for Key Administrators"
+          Effect: "Allow"
+          Principal:
+            AWS: !Ref CmkAdminArn
+          Action: "kms:*"
+          Resource: "*"
+        - Sid: Allow use of the key
+          Effect: Allow
+          Principal:
+            AWS:
+            - !Sub arn:aws:iam::${AWS::AccountId}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling
+            - !Sub arn:aws:iam::${ProdAccountId}:root
+          Action:
+          - kms:Encrypt
+          - kms:Decrypt
+          - kms:ReEncrypt*
+          - kms:GenerateDataKey*
+          - kms:DescribeKey
+          Resource: '*'
+        - Sid: Allow attachment of persistent resources
+          Effect: Allow
+          Principal:
+            AWS:
+            - !Sub arn:aws:iam::${AWS::AccountId}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling
+            - !Sub arn:aws:iam::${ProdAccountId}:root
+          Action:
+          - kms:CreateGrant
+          Resource: "*"
+          Condition:
+            Bool:
+              kms:GrantIsForAWSResource: true
+        - Sid: "Allow access for build user"
+          Effect: "Allow"
+          Principal:
+            AWS: !Ref BuildUserpArn
+          Action:
+            - "kms:DescribeKey"
+            - "kms:Encrypt"
+            - "kms:Decrypt"
+            - "kms:ReEncrypt*"
+            - "kms:GenerateDataKey*"
+            - "kms:CreateGrant"
+          Resource: "*"
+        - Sid: "Allow use of the key for DeploymentRole"
+          Effect: "Allow"
+          Principal:
+            AWS: !GetAtt DeploymentRole.Arn
+          Action:
+            - "kms:DescribeKey"
+            - "kms:Encrypt"
+            - "kms:Decrypt"
+            - "kms:ReEncrypt*"
+            - "kms:GenerateDataKey*"
+            - "kms:CreateGrant"
+          Resource: "*"
+
+
+Outputs:
+  KeyID:
+    Description: "Encryption key for AMIs"
+    Value: !Ref AmiKey
+    Export:
+      Name: "ami-key"
