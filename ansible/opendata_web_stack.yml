@@ -8,16 +8,16 @@
   hosts: "localhost"
   connection: "local"
   gather_facts: no
-  environment:
-    AWS_PROFILE: "{{ aws_profile }}"
+  # environment:
+  #   AWS_PROFILE: "{{ aws_profile }}"
 
   tasks:
   - name: Configure web stack
     cloudformation:
-      stack_name: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/name', aws_profile=aws_profile ) }}"
-      state: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/status', aws_profile=aws_profile ) }}"
-      region: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/region', aws_profile=aws_profile ) }}"
-      create_changeset: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/changeset', aws_profile=aws_profile ) }}"
+      stack_name: "{{ deployment_environment_id }}-web"
+      state: present
+      region: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/web/region') }}"
+      create_changeset: true
       template: ../cloudformation/instances.yml
       template_parameters:
         DatabaseSecurityGroup: "/{{ deployment_environment_id }}/web/database_security_group"
@@ -34,3 +34,13 @@
         RedisNodeType: "/{{ deployment_environment_id }}/redis/node_type"
         RedisVersion: "/{{ deployment_environment_id }}/redis/version"
         Vpc: "/{{ deployment_environment_id }}/web/vpc"
+        WafAllTrafficRequestSampling: "/{{ deployment_environment_id }}/web/waf-request-sampling-all-traffic"
+        WafBannedIpsRequestSampling: "/{{ deployment_environment_id }}/web/waf-request-sampling-banned-ips"
+        WafHighPriorityCountryCodes: "/{{ deployment_environment_id }}/web/waf-high-priority-country-codes"
+        WafHighPriorityRateLimit: "/{{ deployment_environment_id }}/web/waf-rate-limit-high-priority"
+        WafHighPriorityRequestSampling: "/{{ deployment_environment_id }}/web/waf-request-sampling-high-priority"
+        WafRateLimit: "/{{ deployment_environment_id }}/web/waf-rate-limit"
+        WafRequestSampling: "/{{ deployment_environment_id }}/web/waf-request-sampling"
+        BannedIPs: "/{{ deployment_environment_id }}/web/banned-ips"
+        LogEnabled: "/{{ deployment_environment_id }}/web/log_enabled"
+        LogExpirationDays: "/{{ deployment_environment_id }}/web/log_expiration_days"
