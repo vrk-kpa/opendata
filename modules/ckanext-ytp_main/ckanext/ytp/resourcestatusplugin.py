@@ -17,7 +17,7 @@ class ResourceStatusPlugin(p.SingletonPlugin, DefaultTranslation):
 def resource_status(context=None, data_dict=None):
     resource = logic.get_action('resource_show')(context, data_dict)
 
-    if resource['url_type'] != 'upload':
+    if resource.get('url_type') != 'upload':
         return {'finished': True}
 
     sha256 = resource.get('sha256')
