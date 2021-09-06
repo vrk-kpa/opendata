@@ -26,7 +26,7 @@ describe('Advanced search tests', () => {
                     '#field-notes_translated-fi': 'First dataset description',
                     '#s2id_autogen1': 'test_keyword {enter}',
                     '#field-maintainer': 'test maintainer',
-                    '#field-maintainer_email-1': 'test.maintainer@example.com',
+                    '#field-maintainer_email': 'test.maintainer@example.com',
                     '#field-valid_from': '2019-02-04',
                     '#field-valid_till': '2020-02-04',
                     '#field-license_id': {
@@ -51,7 +51,7 @@ describe('Advanced search tests', () => {
                     '#field-notes_translated-fi': 'second dataset description with unicorns',
                     '#s2id_autogen1': 'another_keyword {enter} test_keyword {enter}',
                     '#field-maintainer': 'test maintainer',
-                    '#field-maintainer_email-1': 'test.maintainer@example.com',
+                    '#field-maintainer_email': 'test.maintainer@example.com',
                     '#field-valid_from': '2019-02-04',
                     '#field-valid_till': '2020-02-04'
                 },
