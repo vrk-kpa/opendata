@@ -20,7 +20,7 @@
         <td class="dataset-details"{%
           if field[0].display_property %} property="{{ field[0].display_property
           }}"{% endif %}>{%- snippet 'scheming/snippets/display_field.html',
-          field=field, data=pkg_dict, schema=schema -%}</td>
+          field=field[0], data=pkg_dict, schema=schema -%}</td>
       </tr>
   {%- endfor -%}
   <tr>
