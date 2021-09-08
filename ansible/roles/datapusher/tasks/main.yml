@@ -10,7 +10,7 @@
 
 - name: Install Datapusher
   pip:
-    name: "git+https://github.com/6aika/datapusher.git@master#egg=datapusher"
+    name: "git+https://github.com/ckan/datapusher.git@master#egg=datapusher"
     virtualenv: "{{ datapusher_env }}"
     extra_args: "--exists-action=s -e"
 
@@ -18,16 +18,8 @@
   pip:
     requirements: "{{ datapusher_env }}/src/datapusher/requirements.txt"
     virtualenv: "{{ datapusher_env }}"
+    virtualenv_python: "python3"
     state: present
-
-# TODO: Remove this when https://github.com/ckan/ckan-service-provider/pull/44
-# is merged and released and released version is updated to datapusher
-# requirements.txt file
-- name: Override ckan-service-provider requirement
-  pip:
-    name: git+http://github.com/vrk-kpa/ckan-service-provider#egg=ckanserviceprovider
-    virtualenv: "{{ datapusher_env }}"
-    state: forcereinstall
 
 - name: Link datapusher sources
   command: "{{ datapusher_env }}/bin/python setup.py develop"
