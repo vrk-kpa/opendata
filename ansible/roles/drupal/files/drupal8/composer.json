@@ -36,7 +36,7 @@
         "drupal/menu_item_role_access": "^2.0",
         "drupal/metatag": "^1.7",
         "drupal/pathauto": "^1.2",
-        "drupal/protected_submissions": "1.x-dev#86162df640161c9e54137fed23d13375b464fb91",
+        "drupal/protected_submissions": "^1.9",
         "drupal/recaptcha": "^3.0",
         "drupal/redirect": "^1.2",
         "drupal/registration_validation": "^1.2",
