@@ -74,6 +74,12 @@ Parameters:
   WafBannedIpsRequestSampling:
     Description: 'Sample requests from bad IPs for viewing them in WAF console'
     Type: 'AWS::SSM::Parameter::Value<String>'
+  AllowedIPs:
+    Description: 'List of IP addresses to allow (CIDR notation)'
+    Type: 'AWS::SSM::Parameter::Value<CommaDelimitedList>'
+  WafAllowedIpsRequestSampling:
+    Description: 'Sample requests from whitelisted IPs for viewing them in WAF console'
+    Type: 'AWS::SSM::Parameter::Value<String>'
 
 Conditions:
   NumberOfSubnets1:
@@ -380,13 +386,23 @@ Resources:
     Type: AWS::WAFv2::WebACL
     Properties:
       Scope: REGIONAL
-      Name: DVVBasicRules
       Description: Default WAF rules for DVV
       DefaultAction:
         Allow: {}
       Rules:
-        - Name: rate-limit-finland
+        - Name: allow-whitelisted-ips
           Priority: 1
+          Action:
+            Allow: {}
+          Statement:
+            IPSetReferenceStatement:
+              Arn: !GetAtt WAFAllowedIPSet.Arn
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: True
+            MetricName: allowed-ips
+            SampledRequestsEnabled: !Ref WafAllowedIpsRequestSampling
+        - Name: rate-limit-finland
+          Priority: 10
           Action:
             Block: {}
           Statement:
@@ -401,7 +417,7 @@ Resources:
             MetricName: request-rate-limit-finland
             SampledRequestsEnabled: !Ref WafHighPriorityRequestSampling
         - Name: rate-limit-world
-          Priority: 2
+          Priority: 20
           Action:
             Block: {}
           Statement:
@@ -418,7 +434,7 @@ Resources:
             MetricName: request-rate-limit-world
             SampledRequestsEnabled: !Ref WafRequestSampling
         - Name: block-banned-ips
-          Priority: 3
+          Priority: 30
           Action:
             Block: {}
           Statement:
@@ -439,6 +455,13 @@ Resources:
       Scope: REGIONAL
       IPAddressVersion: IPV4
       Addresses: !Ref BannedIPs
+
+  WAFAllowedIPSet:
+    Type: AWS::WAFv2::IPSet
+    Properties:
+      Scope: REGIONAL
+      IPAddressVersion: IPV4
+      Addresses: !Ref AllowedIPs
 
   WAFAssociation:
     Type: AWS::WAFv2::WebACLAssociation
