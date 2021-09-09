@@ -46,6 +46,7 @@
         "drupal/twig_field_value": "^1.1",
         "drupal/twig_tweak": "^2.0",
         "drupal/unpublished_node_permissions": "^1.0",
+        "drupal/upgrade_status": "^3.10",
         "drush/drush": "^10.0.0",
         "league/commonmark": "^1.5",
         "vlucas/phpdotenv": "^2.4",
