@@ -43,7 +43,7 @@
         "drupal/search_api": "^1.10",
         "drupal/smtp": "^1.0",
         "drupal/token": "^1.5",
-        "drupal/twig_field_value": "^1.1",
+        "drupal/twig_field_value": "^2.0",
         "drupal/twig_tweak": "^2.0",
         "drupal/unpublished_node_permissions": "^1.0",
         "drupal/upgrade_status": "^3.10",
