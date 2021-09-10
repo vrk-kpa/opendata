@@ -34,7 +34,7 @@
     "bootstrap": "^3.4.1",
     "bootstrap-table": "^1.18.3",
     "eonasdan-bootstrap-datetimepicker": "^4.17.49",
-    "jstree": "^3.3.11",
+    "jstree": "^3.3.12",
     "moment": "^2.29.1",
     "select2-bootstrap-css": "^1.4.6"
   },
