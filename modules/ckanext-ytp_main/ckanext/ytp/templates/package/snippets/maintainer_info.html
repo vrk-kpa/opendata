@@ -1,0 +1,16 @@
+<div class="maintainer-info">
+    <ul class="list-unstyled">
+        {% set guid = h.get_value_from_extras_by_key(pkg, 'guid') %}
+        {% set original_url = h.get_value_from_extras_by_key(pkg, 'original_url') %}
+        {% if guid %}
+            {% set material_link = h.get_geonetwork_link(guid, pkg.organization.name)%}
+        {% elif original_url %}
+            {% set material_link = original_url %}
+        {% endif %}
+        <li>{{ _('Collection') }}: {{ _(pkg.get('collection_type', '-')) }}</li>
+        <li>{{ _('Maintainer') }}: <a href="/data/{{ h.lang() }}/organization/{{ pkg.organization.get('name') }}">{{ pkg.organization.get('name') }}</a></li>
+        {% if material_link %}
+            <li><a href="{{ material_link }}">{{ _('Link to original dataset') }}</a></li>
+        {% endif %}
+    </ul>
+</div>
