@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fe316d0ca334255756838040cd7affc",
+    "content-hash": "9a18f03928e89442f183b86b6f22df47",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2955,6 +2955,59 @@
             "homepage": "http://drupal.org/project/disqus",
             "support": {
                 "source": "https://git.drupalcode.org/project/disqus"
+            }
+        },
+        {
+            "name": "drupal/domain_registration",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/domain_registration.git",
+                "reference": "8.x-1.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/domain_registration-8.x-1.6.zip",
+                "reference": "8.x-1.6",
+                "shasum": "72981d8a02f9a409cc45a4351298f4e6b48d45c1"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.6",
+                    "datestamp": "1622023989",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "arvinsingla",
+                    "homepage": "https://www.drupal.org/user/61137"
+                },
+                {
+                    "name": "pcambra",
+                    "homepage": "https://www.drupal.org/user/122101"
+                }
+            ],
+            "description": "Module Allows or restricts registration on your site based on the persons email address domain.",
+            "homepage": "http://drupal.org/project/domain_registration",
+            "keywords": [
+                "Drupal",
+                "domain_registration"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/domain_registration",
+                "issues": "http://drupal.org/project/issues/domain_registration"
             }
         },
         {

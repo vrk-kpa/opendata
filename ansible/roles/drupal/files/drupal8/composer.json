@@ -26,6 +26,7 @@
         "drupal/core-composer-scaffold": "^8.8.0",
         "drupal/core-recommended": "^8.9",
         "drupal/disqus": "^1.0@RC",
+        "drupal/domain_registration": "^1.6",
         "drupal/drush_language": "1.x-dev",
         "drupal/easy_breadcrumb": "^1.8",
         "drupal/easy_install": "^10.2",

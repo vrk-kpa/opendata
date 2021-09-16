@@ -142,7 +142,7 @@
     - metatag_open_graph
     - ape
     - honeypot
-    - registration_validation
+    - domain_registration
     - protected_submissions
     - recaptcha
     - unpublished_node_permissions
