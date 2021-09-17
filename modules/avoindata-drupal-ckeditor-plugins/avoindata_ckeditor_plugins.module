@@ -1,5 +1,6 @@
 <?php
 
+use Drupal\Core\Url;
 /**
  * @file
  * Contains avoindata_ckeditor_plugins.module.
@@ -19,7 +20,7 @@ function avoindata_ckeditor_plugins_help($route_name, RouteMatchInterface $route
       $output .= '<h3>' . t('Uses') . '</h3>';
       $output .= '<dl>';
       $output .= '<dt>' . t('Settings') . '</dt>';
-      $output .= '<dd>' . t('In the <a href=":text-formats">text formats</a> that use ckeditor, move the icon into the active toolbar.', [':text-formats' => \Drupal::url('filter.admin_overview')]) . '</dd>';
+      $output .= '<dd>' . t('In the <a href=":text-formats">text formats</a> that use ckeditor, move the icon into the active toolbar.', [':text-formats' => Url::fromRoute('filter.admin_overview')->toString()]) . '</dd>';
       $output .= '</dl>';
       return $output;
 
