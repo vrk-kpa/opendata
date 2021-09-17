@@ -40,7 +40,6 @@
         "drupal/protected_submissions": "^1.9",
         "drupal/recaptcha": "^3.0",
         "drupal/redirect": "^1.2",
-        "drupal/registration_validation": "^1.2",
         "drupal/search_api": "^1.10",
         "drupal/smtp": "^1.0",
         "drupal/token": "^1.5",
