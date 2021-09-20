@@ -20,7 +20,9 @@ class CategoriesBlock extends BlockBase {
    */
   public function build() {
     $categories = [
-      '#lazy_builder' => ['avoindata_categories', []],
+      '#lazy_builder' => [\AvoindataCategoriesHandler::class .
+        ':avoindata_categories', [],
+      ],
       '#create_placeholder' => FALSE,
     ];
 

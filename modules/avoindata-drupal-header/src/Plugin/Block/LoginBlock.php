@@ -20,7 +20,9 @@ class LoginBlock extends BlockBase {
    */
   public function build() {
     $avoindata_drupal_username = [
-      '#lazy_builder' => ['get_avoindata_drupal_username', []],
+      '#lazy_builder' => [\AvoindataHeaderHandler::class .
+        ':avoindata_drupal_username', [],
+      ],
       '#create_placeholder' => TRUE,
     ];
 

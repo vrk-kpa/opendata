@@ -7,6 +7,7 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Security\TrustedCallbackInterface;
 
 /**
  * Implements hook_help().
@@ -76,68 +77,81 @@ EOT;
   return $resultHTML;
 }
 
-/**
- * Gets recent datasets from Ckan and specifies that they won't be cached.
- */
-function avoindata_recent_datasets() {
-  $client = \Drupal::httpClient();
-  try {
-    $recentDatasetsResponse = $client->request('GET',
-      'http://localhost:8080/data/api/action/package_search?sort=metadata_modified%20desc&facet.limit=1&rows=3'
-    );
-    $recentDatasetsResult = Json::decode($recentDatasetsResponse->getBody());
-    $recentDatasets = $recentDatasetsResult['result']['results'];
-  }
-  catch (\Exception $e) {
-    $recentDatasets = NULL;
+class AvoindataDatasetHandler implements TrustedCallbackInterface
+{
+
+
+  /**
+   * Gets recent datasets from Ckan and specifies that they won't be cached.
+   */
+  function avoindata_recent_datasets()
+  {
+    $client = \Drupal::httpClient();
+    try {
+      $recentDatasetsResponse = $client->request('GET',
+        'http://localhost:8080/data/api/action/package_search?sort=metadata_modified%20desc&facet.limit=1&rows=3'
+      );
+      $recentDatasetsResult = Json::decode($recentDatasetsResponse->getBody());
+      $recentDatasets = $recentDatasetsResult['result']['results'];
+    } catch (\Exception $e) {
+      $recentDatasets = NULL;
+    }
+
+    return [
+      '#markup' => create_dataset_table_rows($recentDatasets, 'metadata_modified'),
+      '#cache' => ['max-age' => 0],
+    ];
   }
 
-  return [
-    '#markup' => create_dataset_table_rows($recentDatasets, 'metadata_modified'),
-    '#cache' => ['max-age' => 0],
-  ];
-}
+  /**
+   * Gets new datasets from Ckan and specifies that they won't be cached.
+   */
+  function avoindata_new_datasets()
+  {
+    $client = \Drupal::httpClient();
+    try {
+      $newDatasetsResponse = $client->request('GET',
+        'http://localhost:8080/data/api/action/package_search?sort=metadata_created%20desc&facet.limit=1&rows=3'
+      );
+      $newDatasetsResult = Json::decode($newDatasetsResponse->getBody());
+      $newDatasets = $newDatasetsResult['result']['results'];
+    } catch (\Exception $e) {
+      $newDatasets = NULL;
+    }
 
-/**
- * Gets new datasets from Ckan and specifies that they won't be cached.
- */
-function avoindata_new_datasets() {
-  $client = \Drupal::httpClient();
-  try {
-    $newDatasetsResponse = $client->request('GET',
-      'http://localhost:8080/data/api/action/package_search?sort=metadata_created%20desc&facet.limit=1&rows=3'
-    );
-    $newDatasetsResult = Json::decode($newDatasetsResponse->getBody());
-    $newDatasets = $newDatasetsResult['result']['results'];
-  }
-  catch (\Exception $e) {
-    $newDatasets = NULL;
-  }
-
-  return [
-    '#markup' => create_dataset_table_rows($newDatasets, NULL),
-    '#cache' => ['max-age' => 0],
-  ];
-}
-
-/**
- * Gets popular datasets from Ckan and specifies that they won't be cached.
- */
-function avoindata_popular_datasets() {
-  $client = \Drupal::httpClient();
-  try {
-    $popularDatasetsResponse = $client->request('GET',
-      'http://localhost:8080/data/api/action/package_search?sort=views_recent%20desc&facet.limit=1&rows=3'
-    );
-    $popularDatasetsResult = Json::decode($popularDatasetsResponse->getBody());
-    $popularDatasets = $popularDatasetsResult['result']['results'];
-  }
-  catch (\Exception $e) {
-    $popularDatasets = NULL;
+    return [
+      '#markup' => create_dataset_table_rows($newDatasets, NULL),
+      '#cache' => ['max-age' => 0],
+    ];
   }
 
-  return [
-    '#markup' => create_dataset_table_rows($popularDatasets, NULL),
-    '#cache' => ['max-age' => 0],
-  ];
+  /**
+   * Gets popular datasets from Ckan and specifies that they won't be cached.
+   */
+  function avoindata_popular_datasets()
+  {
+    $client = \Drupal::httpClient();
+    try {
+      $popularDatasetsResponse = $client->request('GET',
+        'http://localhost:8080/data/api/action/package_search?sort=views_recent%20desc&facet.limit=1&rows=3'
+      );
+      $popularDatasetsResult = Json::decode($popularDatasetsResponse->getBody());
+      $popularDatasets = $popularDatasetsResult['result']['results'];
+    } catch (\Exception $e) {
+      $popularDatasets = NULL;
+    }
+
+    return [
+      '#markup' => create_dataset_table_rows($popularDatasets, NULL),
+      '#cache' => ['max-age' => 0],
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function trustedCallbacks() {
+    return ['avoindata_recent_datasets', 'avoindata_new_datasets', 'avoindata_popular_datasets'];
+  }
+
 }

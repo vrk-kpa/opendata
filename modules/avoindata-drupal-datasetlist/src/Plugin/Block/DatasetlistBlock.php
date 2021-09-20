@@ -22,19 +22,25 @@ class DatasetlistBlock extends BlockBase {
 
     // Recently modified datasets.
     $recentDatasets = [
-      '#lazy_builder' => ['avoindata_recent_datasets', []],
+      '#lazy_builder' => [\AvoindataDatasetHandler::class .
+        ':avoindata_recent_datasets', [],
+      ],
       '#create_placeholder' => FALSE,
     ];
 
     // New datasets.
     $newDatasets = [
-      '#lazy_builder' => ['avoindata_new_datasets', []],
+      '#lazy_builder' => [\AvoindataDatasetHandler::class .
+        ':avoindata_new_datasets', [],
+      ],
       '#create_placeholder' => FALSE,
     ];
 
     // Popular datasets.
     $popularDatasets = [
-      '#lazy_builder' => ['avoindata_popular_datasets', []],
+      '#lazy_builder' => [\AvoindataDatasetHandler::class .
+        ':avoindata_popular_datasets', [],
+      ],
       '#create_placeholder' => FALSE,
     ];
 
