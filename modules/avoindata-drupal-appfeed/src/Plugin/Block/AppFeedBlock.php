@@ -21,7 +21,9 @@ class AppFeedBlock extends BlockBase {
   public function build() {
 
     $recentApplications = [
-      '#lazy_builder' => [\AvoindataApplicationHandler::class . ':avoindata_recent_applications', []],
+      '#lazy_builder' => [\AvoindataApplicationHandler::class .
+        ':avoindata_recent_applications', [],
+      ],
       '#create_placeholder' => FALSE,
     ];
 
