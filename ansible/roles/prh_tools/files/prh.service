@@ -1,6 +1,0 @@
-[Unit]
-Description=Runs PRH api crawler
-
-[Service]
-ExecStart=/usr/lib/ckan/default/bin/paster --plugin=ckanext-prh prh-tools fetch-data /srv/ytp/files/prh --package_id=yritykset --config=/etc/ckan/default/production.ini
-RuntimeMaxSec=18000

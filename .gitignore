@@ -71,3 +71,5 @@ server.key
 
 # MacOS related
 .DS_Store
+tmp
+.vim

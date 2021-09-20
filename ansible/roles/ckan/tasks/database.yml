@@ -2,9 +2,9 @@
 
 - name: Initialize CKAN database
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckan db init
-    --config='{{ item.file }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ item.file }}'
+    db init
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   tags:
@@ -16,14 +16,15 @@
     - skip_ansible_lint
 
 - name: Upgrade CKAN filestore
-  shell: ./bin/paster --plugin=ckan db migrate-filestore "--config={{ ckan_ini }}" chdir="{{ ckan_virtual_environment }}"
+  shell: ./bin/ckan --config {{ ckan_ini }} db migrate-filestore chdir="{{ ckan_virtual_environment }}"
   tags:
     - skip_ansible_lint
 
 - name: List existing CKAN users
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster --plugin=ckan user list
-    --config={{ ckan_ini }}
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config {{ ckan_ini }}
+    user list
     chdir={{ ckan_virtual_environment }}
   register: ckan_current_users
   environment:
@@ -33,8 +34,9 @@
 
 - name: Create initial CKAN users
   shell: >-
-    ./bin/paster --plugin=ckan user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}"
-    "--config={{ ckan_ini }}" chdir={{ ckan_virtual_environment }}
+    ./bin/ckan --config {{ ckan_ini }}
+     user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}"
+     chdir={{ ckan_virtual_environment }}
   ignore_errors: true
   with_flattened:
     - "{{ ckan_admin }}"
@@ -44,8 +46,9 @@
 
 - name: List existing CKAN admins
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster --plugin=ckan sysadmin list
-    --config={{ ckan_ini }}
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config {{ ckan_ini }}
+    sysadmin list
     chdir={{ ckan_virtual_environment }}
   register: ckan_current_sysadmins
   environment:
@@ -55,9 +58,9 @@
 
 - name: Add CKAN sysadmins
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckan sysadmin add "{{ item }}"
-    --config='{{ ckan_ini }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ ckan_ini }}'
+    sysadmin add "{{ item }}"
     chdir='{{ ckan_virtual_environment }}'
   ignore_errors: true
   with_items: "{{ ckan_admins }}"
@@ -67,9 +70,9 @@
 
 - name: Initialize request database
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-ytp_request initdb
-    --config='{{ item.file }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ item.file }}'
+    ytp_request initdb
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   tags:
@@ -77,9 +80,9 @@
 
 - name: Initialize Harvester database
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-harvest harvester initdb
-    --config='{{ item.file }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ item.file }}'
+    harvester initdb
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   tags:
@@ -87,9 +90,9 @@
 
 - name: Initialize spatial database
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-spatial spatial initdb
-    --config='{{ item.file }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ item.file }}'
+    spatial initdb
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   tags:
@@ -97,9 +100,9 @@
 
 - name: Initialize archiver database
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-archiver archiver init
-    --config='{{ item.file }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ item.file }}'
+    archiver init
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   when: "'ckanext-archiver' in ckan_extensions"
@@ -108,9 +111,9 @@
 
 - name: Initialize QA database
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-qa qa init
-    --config='{{ item.file }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ item.file }}'
+    qa init
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   when: "'ckanext-qa' in ckan_extensions"
@@ -119,9 +122,9 @@
 
 - name: Initialize report database
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-report report initdb
-    --config='{{ item.file }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ item.file }}'
+    report initdb
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   tags:
@@ -129,9 +132,9 @@
 
 - name: Initialize matomo database
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-matomo matomo init_db
-    --config='{{ item.file }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ item.file }}'
+    matomo init_db
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   tags:
@@ -139,18 +142,18 @@
 
 - name: Initialize cloudstorage database
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-cloudstorage cloudstorage initdb
-    --config='{{ ckan_ini }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ ckan_ini }}'
+    cloudstorage initdb
     chdir='{{ ckan_virtual_environment }}'
   tags:
     - skip_ansible_lint
 
 - name: Initialize rating database
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-rating rating init
-    --config='{{ item.file }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ item.file }}'
+    rating init
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   when: "'ckanext-rating' in ckan_extensions"
@@ -159,9 +162,9 @@
 
 - name: Initialize subscription database
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-reminder reminder init
-    --config='{{ item.file }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ item.file }}'
+    reminder init
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   tags:

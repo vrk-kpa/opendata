@@ -1,21 +1,9 @@
 ---
-# tasks file for apache
 
-- name: Ensure Apache is installed
+- name: Remove Apache
   apt:
-    name: "{{ apache_packages }}"
-    state: "{{ apache_packages_state }}"
-  notify: Stop Apache and disable apache service
+    package:
+      - apache2
+      - libapache2-mod-wsgi
+    state: absent
 
-# Ensure handlers are applied immediately
-- name: Force all notified handlers to run at this point
-  meta: flush_handlers
-
-- name: Import configuration tasks
-  import_tasks: configure.yml
-  tags:
-    - configure
-
-# Ensure apache settings (port changes) are applied immediately
-- name: Force all notified handlers to run at this point
-  meta: flush_handlers

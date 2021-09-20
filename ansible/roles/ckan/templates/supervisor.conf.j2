@@ -1,6 +1,6 @@
 [program:ckan_gather_consumer]
 
-command=nice -n 20 {{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester gather_consumer --config={{ ckan_ini }}
+command=nice -n 20 {{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} harvester gather_consumer
 user={{ ckan_harvester_user }}
 numprocs=1
 stdout_logfile={{ ckan_log_path }}/gather_consumer.log
@@ -12,7 +12,7 @@ startsecs=10
 
 [program:ckan_fetch_consumer]
 
-command=nice -n 20 {{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester fetch_consumer --config={{ ckan_ini }}
+command=nice -n 20 {{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} harvester fetch_consumer
 user={{ ckan_harvester_user }}
 numprocs=1
 stdout_logfile={{ ckan_log_path }}/fetch_consumer.log
@@ -24,7 +24,7 @@ startsecs=10
 
 [program:ckan-worker-bulk]
 
-command={{ ckan_virtual_environment }}/bin/paster --plugin=ckan jobs worker bulk --config=/etc/ckan/default/production.ini
+command={{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} jobs worker bulk
 user={{ ckan_www_user }}
 numprocs=1
 stdout_logfile=/var/log/ckan/ckan-worker-bulk.log
@@ -36,7 +36,7 @@ stopwaitsecs = 600
 
 [program:ckan-worker-priority]
 
-command={{ ckan_virtual_environment }}/bin/paster --plugin=ckan jobs worker priority --config=/etc/ckan/default/production.ini
+command={{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} jobs worker priority
 user={{ ckan_www_user }}
 numprocs=1
 stdout_logfile=/var/log/ckan/ckan-worker-priority.log

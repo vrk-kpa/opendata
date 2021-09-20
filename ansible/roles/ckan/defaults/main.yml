@@ -1,6 +1,6 @@
 ---
 ckan_site_id: "default"
-ckan_version: "2.8.8"
+ckan_version: "2.9.3"
 ckan_site_protocol: "http"
 ckan_plugins_default: stats scheming_datasets scheming_groups scheming_organizations fluent
 # order matters, when templates call super()
@@ -211,7 +211,7 @@ ckan_solr_path: solr/ckan
 ckan_max_resource_size: 5000
 
 # ckan setting file paths
-ckan_ini: /etc/ckan/default/production.ini
+ckan_ini: /etc/ckan/default/ckan.ini
 ckan_who_ini: /etc/ckan/default/who.ini
 
 
@@ -226,7 +226,10 @@ ckan_fault_recipients: ""
 ckan_sql_files_to_execute:
   - datastore_permissions.sql.j2
 
+ckan_supervisor_name: 'ckan'
+
 ckan_supervisor_services:
+  - "{{ ckan_supervisor_name }}:"
   - ckan_gather_consumer
   - ckan_fetch_consumer
   - ckan-worker-bulk
@@ -266,30 +269,35 @@ AWS:
 
 ckan_patches:
   - enable_multiple_image_uploads
-  - remove-ckan-fontawesome
-  - enforce-url-decoding  # CKAN issue #4619
-  - add_error_email_logger_to_flask  # https://github.com/ckan/ckan/pull/4623
-  - add_credentials_to_email_logger  # https://github.com/ckan/ckan/pull/4711
+  #!- remove-ckan-fontawesome
+  #!- enforce-url-decoding  # CKAN issue #4619
+  #!- add_error_email_logger_to_flask  # https://github.com/ckan/ckan/pull/4623
+  #!- add_credentials_to_email_logger  # https://github.com/ckan/ckan/pull/4711
   - remove_deprecated_resource_preview_call  # https://github.com/ckan/ckan/pull/4669
   - remove_members_from_group_read # https://github.com/ckan/ckan/pull/4717
   - fix_unicode_decode_error_in_error_page # https://github.com/ckan/ckan/pull/4829
   - remove_user_activity_from_group_activity_list # modification from ckan master, can be removed once 2.9 is released
-  - optimize_group_show
+  #!- optimize_group_show
   - optimize_template_loading # https://github.com/ckan/ckan/pull/4774
   - group_include_extras # https://github.com/ckan/ckan/pull/4774
-  - group_admin_protection # https://github.com/ckan/ckan/pull/4821
-  - remove_gravatar
+  #!- group_admin_protection # https://github.com/ckan/ckan/pull/4821
+  #!- remove_gravatar
   - json_serializable_lazyjsonobject # https://github.com/ckan/ckan/issues/4299
   - implement_is_required_for_image_upload
-  - add_drafts_to_search # https://github.com/ckan/ckan/pull/5088
+  #!- add_drafts_to_search # https://github.com/ckan/ckan/pull/5088
   - add_group_extra_resource_db_indices
-  - add_cache_control_headers_to_flask
-  - add_autodynatrace
-  - fix_invalid_search_facets_template_error # https://github.com/ckan/ckan/pull/6181
-  - remove_stacktraces_from_http_errors # https://github.com/ckan/ckan/pull/6345
+  #!- add_cache_control_headers_to_flask
+  #!- add_autodynatrace
+  #!- fix_invalid_search_facets_template_error # https://github.com/ckan/ckan/pull/6181
+  #!- remove_stacktraces_from_http_errors # https://github.com/ckan/ckan/pull/6345
+
+ckan_wsgi_script: /etc/ckan/default/wsgi.py
+ckan_uwsgi_conf: /etc/ckan/default/ckan-uwsgi.ini
+ckan_supervisor_conf: /etc/supervisor/conf.d/ckan-uwsgi.conf
 
 ckan_config_files:
-  - file: /etc/ckan/default/production.ini
+  - template: ckan.ini.j2
+    file: "{{ ckan_ini }}"
     db_server: "{{ ckan_postgres.server.host }}"
     db_ckan_username: "{{ ckan_postgres.users.ckan.username }}"
     db_ckan_password: "{{ ckan_postgres.users.ckan.password }}"
@@ -302,10 +310,17 @@ ckan_config_files:
     redis_db: "{{ ckan_redis_db }}"
     debug_enabled: "{{ ckan_debug_enabled }}"
 
-ckan_wsgi_config_files:
-  - file: "/etc/ckan/default/apache.wsgi"
-    logfile: "ckan.log"
-    config_file: production.ini
+wsgi_config_files:
+  - template: ckan-uwsgi.ini.j2
+    file: "{{ ckan_uwsgi_conf }}"
+    ckan_wsgi_script: "{{ ckan_wsgi_script }}"
+  - template: wsgi.py.j2
+    file: "{{ ckan_wsgi_script }}"
+  - template: ckan-uwsgi-supervisor.conf.j2
+    file: "{{ ckan_supervisor_conf }}"
+    ckan_supervisor_name: "{{ ckan_supervisor_name }}"
+    ckan_uwsgi_conf: "{{ ckan_uwsgi_conf }}"
+    ckan_log: "{{ ckan_log_path }}/ckan.log"
 
 ckan_log_files:
   - "{{ ckan_log_path }}/ckan.log"

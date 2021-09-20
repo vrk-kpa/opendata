@@ -1,0 +1,22 @@
+[uwsgi]
+
+http            =  127.0.0.1:8080
+uid             =  www-data
+gid             =  www-data
+wsgi-file       =  {{ ckan_wsgi_script }}
+virtualenv      =  /usr/lib/ckan/default
+module          =  wsgi:application
+master          =  true
+pidfile         =  /tmp/%n.pid
+harakiri        =  50
+max-requests    =  5000
+vacuum          =  true
+callable        =  application
+buffer-size     =  32768
+strict          =  true
+
+# Fix SQLAlchemy SSL errors
+# <https://stackoverflow.com/questions/22752521/uwsgi-flask-sqlalchemy-and-postgres-ssl-error-decryption-failed-or-bad-reco>
+lazy = true
+lazy-apps = true
+

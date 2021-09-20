@@ -5,9 +5,9 @@
     minute: "0"
     hour: "1"
     job: >-
-      {{ ckan_virtual_environment }}/bin/paster
-      --plugin=ckanext-matomo matomo fetch
-      --config={{ ckan_ini }}
+      {{ ckan_virtual_environment }}/bin/ckan
+      --config {{ ckan_ini }}
+      matomo fetch
   when: ckan_matomo_analytics
 
 - name: Check broken links cron job
@@ -17,15 +17,15 @@
     hour: "3"
     day: "*/3"
     job: >-
-      {{ ckan_virtual_environment }}/bin/paster
-      --plugin=ckanext-archiver archiver update
-      --config={{ ckan_ini }}
+      {{ ckan_virtual_environment }}/bin/ckan
+      --config {{ ckan_ini }}
+      archiver update
 
 - name: Ensure harvester cron job
   cron:
     name: "harvest"
     minute: "*/5"
-    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester run --config={{ ckan_ini }}"
+    job: "{{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} harvester run"
 
 - name: Ensure tracking cron job
   cron:
@@ -33,20 +33,20 @@
     minute: "0"
     hour: "22"
     job: >-
-      {{ ckan_virtual_environment }}/bin/paster
-      --plugin=ckan tracking update
-      --config={{ ckan_ini }}
+      {{ ckan_virtual_environment }}/bin/ckan
+      --config {{ ckan_ini }}
+      tracking update
       &&
-      {{ ckan_virtual_environment }}/bin/paster
-      --plugin=ckan search-index rebuild -r
-      --config={{ ckan_ini }}
+      {{ ckan_virtual_environment }}/bin/ckan
+      --config {{ ckan_ini }}
+      search-index rebuild -r
 
 - name: Ensure qa cron job
   cron:
     name: "qa"
     minute: "0"
     hour: "2"
-    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-qa qa update --config={{ ckan_ini }}"
+    job: "{{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} qa update"
   when: "'qa' in ckan_extensions"
 
 - name: Remove qa cron job if qa not enabled
@@ -60,14 +60,14 @@
     name: "report"
     minute: "0"
     hour: "5"
-    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-report report generate --config={{ ckan_ini }}"
+    job: "{{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} report generate"
 
 - name: Add email reminder about expiring datasets as a cron job
   cron:
     name: "Add email reminder"
     minute: "0"
     hour: "9"
-    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-reminder reminder send --config={{ ckan_ini }}"
+    job: "{{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} reminder send"
 
 - name: Send emails about broken resource links cron job
   cron:
@@ -76,23 +76,23 @@
     hour: "10"
     day: "1"
     job: >-
-      {{ ckan_virtual_environment }}/bin/paster
-      --plugin=ckanext-archiver archiver send_broken_link_notification
-      --config={{ ckan_ini }}
+      {{ ckan_virtual_environment }}/bin/ckan
+      --config {{ ckan_ini }}
+      archiver send_broken_link_notification
 
 - name: Send reminder about expiring datasets as a cron job
   cron:
     name: "Send expiring reminder"
     minute: "0"
     hour: "13"
-    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-reminder reminder notify-expiry --config={{ ckan_ini }}"
+    job: "{{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} reminder notify-expiry"
 
 - name: Send notification about updated datasets as a cron job
   cron:
     name: "Send notification of updated datasets"
     minute: "0"
     hour: "12"
-    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-reminder reminder notify --config={{ ckan_ini }}"
+    job: "{{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} reminder notify"
 
 
 - name: Send dataset deprecation emails as a cron job
@@ -100,21 +100,21 @@
     name: "Send deprecation emails"
     minute: "00"
     hour: "9"
-    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-ytp_main ytp-dataset update_package_deprecation --config={{ ckan_ini }}"
+    job: "{{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} ytp-dataset update_package_deprecation"
 
 - name: Send harvester status report emails as a cron job
   cron:
     name: "Send harvester status report emails"
     minute: "0"
     hour: "11"
-    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-ytp_main opendata-harvest send-status-emails --config={{ ckan_ini }}"
+    job: "{{ ckan_virtual_environment }}/bin/ckan --config={{ ckan_ini }} opendata-harvest send-status-emails"
 
 - name: Send stuck harvester report emails as a cron job
   cron:
     name: "Send stuck harvester report emails"
     minute: "0"
     hour: "11"
-    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-ytp_main opendata-harvest send-stuck-runs-report --config={{ ckan_ini }}"
+    job: "{{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} opendata-harvest send-stuck-runs-report"
 
 
 - name: Remove old beaker sessions from beaker_cache table
@@ -129,4 +129,4 @@
     name: "Send notification email"
     minute: "0"
     hour: "8"
-    job: "{{ ckan_virtual_environment }}/bin/paster --plugin=ckan post -c {{ ckan_ini }} /api/action/send_email_notifications > /dev/null"
+    job: "{{ ckan_virtual_environment }}/bin/ckan -c {{ ckan_ini }} post /api/action/send_email_notifications > /dev/null"

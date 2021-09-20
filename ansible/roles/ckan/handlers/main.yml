@@ -1,7 +1,7 @@
 ---
 
-- name: Restart Apache
-  service: name=apache2 state=restarted
+- name: Restart CKAN
+  shell: supervisorctl restart 'ckan:'
 
 - name: Restart supervisor services
   supervisorctl:
