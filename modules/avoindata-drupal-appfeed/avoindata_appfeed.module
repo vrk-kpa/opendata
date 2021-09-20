@@ -9,6 +9,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Component\Utility\Xss;
 use Drupal\Component\Serialization\Json;
 use League\CommonMark\CommonMarkConverter;
+use Drupal\Core\Security\TrustedCallbackInterface;
 
 /**
  * Implements hook_help().
@@ -35,51 +36,52 @@ function avoindata_appfeed_theme($existing, $type, $theme, $path) {
   ];
 }
 
-/**
- * Return HTML of app list.
- */
-function avoindata_recent_applications() {
-  $client = \Drupal::httpClient();
+class AvoindataApplicationHandler implements TrustedCallbackInterface
+{
 
-  try {
-    $recentApplicationsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?fq=dataset_type:showcase&sort=metadata_modified%20desc&rows=3');
-    $recentApplicationsResult = Json::decode($recentApplicationsResponse->getBody());
-    $recentApplications = $recentApplicationsResult['result']['results'];
-  }
-  catch (\Exception $e) {
-    $recentApplications = [];
-  }
 
-  $resultHTML = '';
-  $currentLang = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  /**
+   * Return HTML of app list.
+   */
+  function avoindata_recent_applications()
+  {
+    $client = \Drupal::httpClient();
 
-  foreach ($recentApplications as $app) {
-
-    if (strlen($app['featured_image']) != 0) {
-      $app_featured_image = $app['featured_image_display_url'];
-    }
-    elseif (strlen($app['icon_display_url']) != 0){
-      $app_featured_image = $app['icon_display_url'];
-    }
-    else {
-      $app_featured_image = '/data/images/showcase_placeholder.png';
+    try {
+      $recentApplicationsResponse = $client->request('GET', 'http://localhost:8080/data/api/action/package_search?fq=dataset_type:showcase&sort=metadata_modified%20desc&rows=3');
+      $recentApplicationsResult = Json::decode($recentApplicationsResponse->getBody());
+      $recentApplications = $recentApplicationsResult['result']['results'];
+    } catch (\Exception $e) {
+      $recentApplications = [];
     }
 
-    $app_date = \Drupal::service('date.formatter')->format(strtotime($app['metadata_created']), 'avoindata_long_date');
-    $app_notes = $app['notes_translated'][$currentLang] ?? "";
+    $resultHTML = '';
+    $currentLang = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
-    if (array_key_exists($currentLang, $app['category'])) {
-      $app_categories = implode(",", $app['category'][$currentLang]);
-    }
-    else {
-      $app_categories = "";
-    }
+    foreach ($recentApplications as $app) {
 
-    $converter = new CommonMarkConverter();
-    $renderedNotes = $converter->convertToHtml($app_notes);
-    $renderedNotesText = Xss::filter($renderedNotes, array('p'));
+      if (strlen($app['featured_image']) != 0) {
+        $app_featured_image = $app['featured_image_display_url'];
+      } elseif (strlen($app['icon_display_url']) != 0) {
+        $app_featured_image = $app['icon_display_url'];
+      } else {
+        $app_featured_image = '/data/images/showcase_placeholder.png';
+      }
 
-    $resultHTML .= <<<EOT
+      $app_date = \Drupal::service('date.formatter')->format(strtotime($app['metadata_created']), 'avoindata_long_date');
+      $app_notes = $app['notes_translated'][$currentLang] ?? "";
+
+      if (array_key_exists($currentLang, $app['category'])) {
+        $app_categories = implode(",", $app['category'][$currentLang]);
+      } else {
+        $app_categories = "";
+      }
+
+      $converter = new CommonMarkConverter();
+      $renderedNotes = $converter->convertToHtml($app_notes);
+      $renderedNotesText = Xss::filter($renderedNotes, array('p'));
+
+      $resultHTML .= <<<EOT
     <div class="avoindata-appfeed-application-box">
             <div class="application-item-logo">
               <a href="/data/{$currentLang}/showcase/{$app['name']}">
@@ -112,10 +114,18 @@ function avoindata_recent_applications() {
             </div>
           </div>
 EOT;
+    }
+
+    return [
+      '#markup' => $resultHTML,
+      '#cache' => ['max-age' => 0],
+    ];
   }
 
-  return [
-    '#markup' => $resultHTML,
-    '#cache' => ['max-age' => 0],
-  ];
+  /**
+   * {@inheritdoc}
+   */
+  public static function trustedCallbacks() {
+    return ['avoindata_recent_applications'];
+  }
 }
