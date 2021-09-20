@@ -7,7 +7,7 @@ on:
 
 jobs:
   flake8:
-    name: Python Lint using Flake8
+    name: Python linting using Flake8
     runs-on: ubuntu-latest
     container: python:2.7
     steps:
@@ -68,16 +68,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: "3.9"
-
-      - name: Set up environment
-        run: pip install ansible-lint[community]
-
       - name: Run ansible-lint for single-server.yml
-        run: ansible-lint single-server.yml
-        working-directory: ./ansible
+        uses: ansible/ansible-lint-action@v4.1.0
+        with:
+          targets: single-server.yml
+        working-directory: ansible
 
   stylelint:
     runs-on: ubuntu-latest
