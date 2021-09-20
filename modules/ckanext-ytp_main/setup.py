@@ -43,16 +43,10 @@ setup(
         ytp_resourcestatus=ckanext.ytp.resourcestatusplugin:ResourceStatusPlugin
         ytp_harvesterstatus=ckanext.ytp.harvesterstatusplugin:HarvesterStatusPlugin
         opendata_group=ckanext.ytp.plugin:OpenDataGroupPlugin
+        opendata_cli=ckanext.ytp.plugin:OpendataCliPlugin
 
         [ckan.celery_task]
         tasks = ckanext.ytp.celery_import:task_imports
-
-        [paste.paster_command]
-        ytp-facet-translations = ckanext.ytp.commands:YtpFacetTranslations
-        ytp-dataset = ckanext.ytp.commands:ytp_dataset_group
-        ytp-organization = ckanext.ytp.commands:ytp_org_group
-        opendata-group = ckanext.ytp.commands:opendata_group
-        opendata-harvest = ckanext.ytp.commands:opendata_harvest_group
 
         [ckan.rdf.profiles]
         avoindata_dcat_ap=ckanext.ytp.dcat:AvoindataDCATAPProfile

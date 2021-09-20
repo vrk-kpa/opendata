@@ -40,6 +40,7 @@ from views import dataset_autocomplete
 
 import auth
 import menu
+import cli
 
 from converters import save_to_groups
 
@@ -86,6 +87,15 @@ class YtpMainTranslation(DefaultTranslation):
 
     def i18n_domain(self):
         return "ckanext-ytp_main"
+
+
+class OpendataCliPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.IClick)
+
+    # IClick
+
+    def get_commands(self):
+        return cli.get_commands()
 
 
 def create_vocabulary(name, defer=False):

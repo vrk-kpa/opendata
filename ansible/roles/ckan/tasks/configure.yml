@@ -75,7 +75,7 @@
   command: >-
     {{ ckan_virtual_environment }}/bin/ckan
     -c {{ ckan_ini }}
-    ytp_main ytp-facet-translations "{{ ckan_server_path }}/ckanext-ytp_main/ckanext/ytp/i18n"
+    opendata add-facet-translations "{{ ckan_server_path }}/ckanext-ytp_main/ckanext/ytp/i18n"
   tags:
     - skip_ansible_lint
 
