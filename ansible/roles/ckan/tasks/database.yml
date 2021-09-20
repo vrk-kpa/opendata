@@ -11,12 +11,10 @@
     - skip_ansible_lint
 
 - name: Upgrade CKAN database
-  shell: ckan db upgrade
-  tags:
-    - skip_ansible_lint
-
-- name: Upgrade CKAN filestore
-  shell: ./bin/ckan --config {{ ckan_ini }} db migrate-filestore chdir="{{ ckan_virtual_environment }}"
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config {{ ckan_ini }}
+    db upgrade
   tags:
     - skip_ansible_lint
 
