@@ -32,9 +32,10 @@
 
 - name: Create initial CKAN users
   shell: >-
-    ./bin/ckan --config {{ ckan_ini }}
-     user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}"
-     chdir={{ ckan_virtual_environment }}
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config {{ ckan_ini }}
+    user add "{{ item.username }}" "password={{ item.password }}" "email={{ item.email }}"
+    chdir={{ ckan_virtual_environment }}
   ignore_errors: true
   with_flattened:
     - "{{ ckan_admin }}"
@@ -70,7 +71,7 @@
   shell: >-
     {{ ckan_virtual_environment }}/bin/ckan
     --config '{{ item.file }}'
-    ytp_request initdb
+    opendata-request init-db
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   tags:

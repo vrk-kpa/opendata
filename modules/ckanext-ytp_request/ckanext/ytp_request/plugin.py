@@ -2,6 +2,7 @@ import ckan.plugins as plugins
 from ckan.plugins import implements, toolkit
 from ckan.lib.plugins import DefaultTranslation
 import logging
+import cli
 
 log = logging.getLogger(__name__)
 
@@ -12,6 +13,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
     implements(plugins.IActions, inherit=True)
     implements(plugins.IAuthFunctions, inherit=True)
     implements(plugins.ITranslation)
+    implements(plugins.IClick)
 
     # IConfigurer #
     def update_config(self, config):
@@ -73,3 +75,7 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
         m.connect('member_request_show',
                   '/member-request/{mrequest_id}', action='show', controller=controller)
         return m
+
+    # IClick
+    def get_commands(self):
+        return cli.get_commands()
