@@ -12,7 +12,7 @@
 	url = https://github.com/yhteentoimivuuspalvelut/ckanext-hierarchy.git
 [submodule "modules/ckanext-spatial"]
 	path = modules/ckanext-spatial
-	url = https://github.com/yhteentoimivuuspalvelut/ckanext-spatial.git
+	url = https://github.com/vrk-kpa/ckanext-spatial.git
 	branch = ytp
 [submodule "modules/ckanext-cloudstorage"]
 	path = modules/ckanext-cloudstorage
