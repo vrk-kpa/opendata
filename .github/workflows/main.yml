@@ -69,10 +69,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run ansible-lint for single-server.yml
-        uses: ansible/ansible-lint-action@v4.1.0
+        uses: ansible/ansible-lint-action@master
         with:
           targets: ansible/single-server.yml
-        args: "-c  ansible/.ansible-lint"
+          args: "-c  ansible/.ansible-lint"
 
   stylelint:
     runs-on: ubuntu-latest
