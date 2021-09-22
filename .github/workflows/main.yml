@@ -93,7 +93,7 @@ jobs:
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
-        if: ${{ failure() && github.ref == refs/heads/AV-1466_linting_to_github_actions }}
+        if: ${{ failure() && github.ref == 'refs/heads/AV-1466_linting_to_github_actions' }}
 
   stylelint:
     name: stylelint
