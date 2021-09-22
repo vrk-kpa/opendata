@@ -3,8 +3,9 @@
 import uuid
 import os
 
+import click
 from ckan import model
-from ckan.lib import celery_app
+import ckan.lib.jobs as jobs
 from ckan.lib.cli import CkanCommand
 
 from ckanext.ytp_tasks.model import YtpTaskSource, YtpTaskTables
@@ -29,7 +30,6 @@ def _load_config():
     command._load_config()
 
 
-@celery_app.celery.task(name="ckanext.ytp_tasks.execute_all")
 def execute_all(stage=None):
     """ Execute all tasks from database """
     _load_config()
@@ -40,4 +40,4 @@ def execute_all(stage=None):
         query = query.filter(YtpTaskSource.frequency == stage)
 
     for task in query.all():
-        celery_app.celery.send_task(task.task, args=(unicode(task.data),), task_id=str(uuid.uuid4()))
+        jobs.enqueue(task.task, [unicode(task.data)])
