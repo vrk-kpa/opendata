@@ -72,7 +72,7 @@ jobs:
         uses: ansible/ansible-lint-action@master
         with:
           targets: ansible/single-server.yml
-          args: "-c  ansible/.ansible-lint"
+          args: "--version --vv -c  ansible/.ansible-lint"
 
   stylelint:
     runs-on: ubuntu-latest
