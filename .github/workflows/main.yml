@@ -21,14 +21,14 @@ jobs:
       - name: Run linting
         run: |
           flake8 modules --count --max-line-length=127 --statistics
-      - name: Slack notification
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
-        if: ${{ failure() && github.ref == 'refs/heads/master' }}
+      # - name: Slack notification
+      #   uses: 8398a7/action-slack@v3
+      #   with:
+      #     status: ${{ job.status }}
+      #     fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
+      #   if: ${{ failure() && github.ref == 'refs/heads/master' }}
 
   code-sniffer:
     name: code-sniffer
@@ -68,14 +68,14 @@ jobs:
       - name: Run codesniffer for drupal practice
         run: ./vendor/bin/phpcs --standard=DrupalPractice $GITHUB_WORKSPACE/modules --ignore=ckanext*,ytp-assets-common
         working-directory: ./ansible/roles/drupal/files/drupal8/
-      - name: Slack notification
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
-        if: ${{ failure() && github.ref == 'refs/heads/master' }}
+      # - name: Slack notification
+      #   uses: 8398a7/action-slack@v3
+      #   with:
+      #     status: ${{ job.status }}
+      #     fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
+      #   if: ${{ failure() && github.ref == 'refs/heads/master' }}
 
   ansible-lint:
     name: ansible-lint
@@ -90,14 +90,14 @@ jobs:
       - name: Run ansible-lint for single-server.yml
         run: ansible-lint single-server.yml
         working-directory: ./ansible
-      - name: Slack notification
-        uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
-        if: ${{ failure() && github.ref == 'refs/heads/master' }}
+      # - name: Slack notification
+      #   uses: 8398a7/action-slack@v3
+      #   with:
+      #     status: ${{ job.status }}
+      #     fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
+      #   if: ${{ failure() && github.ref == 'refs/heads/master' }}
 
   stylelint:
     name: stylelint
@@ -118,11 +118,29 @@ jobs:
       - name: run stylelint
         run: $(npm bin)/stylelint "src/less"
         working-directory: ./modules/ytp-assets-common
-      - name: Slack notification
-        uses: 8398a7/action-slack@v3
+      # - name: Slack notification
+      #   uses: 8398a7/action-slack@v3
+      #   with:
+      #     status: ${{ job.status }}
+      #     fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
+      #   if: ${{ failure() && github.ref == 'refs/heads/master' }}
+
+  slack:
+    name: Slack notification
+    runs-on: ubuntu-latest
+    needs:
+      - flake8
+      - code-sniffer
+      - stylelint
+      - ansible-lint
+    steps:
+      - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+          fields: repo,message,commit,author,action,eventName,ref
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
-        if: ${{ failure() && github.ref == 'refs/heads/master' }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: |
+          always() && github.ref == 'refs/heads/AV-1466_linting_to_github_actions' && ( needs.flake8.outputs.job_status == 'failure' || needs.code-sniffer.outputs.job_status == 'failure' || needs.stylelint.outputs.job_status == 'failure' || needs.ansible-lint.outputs.job_status == 'failure')
