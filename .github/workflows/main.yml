@@ -135,13 +135,13 @@ jobs:
       - code-sniffer
       - stylelint
       - ansible-lint
-    if: |
-      always() && github.ref == 'refs/heads/AV-1466_linting_to_github_actions' && ( needs.flake8.result == 'failure' || needs.code-sniffer.result == 'failure' || needs.stylelint.result == 'failure' || needs.ansible-lint.result == 'failure')
+    if: failure() && github.ref == 'refs/heads/AV-1466_linting_to_github_actions'
+      #always() && github.ref == 'refs/heads/AV-1466_linting_to_github_actions' && ( needs.flake8.result == 'failure' || needs.code-sniffer.result == 'failure' || needs.stylelint.result == 'failure' || needs.ansible-lint.result == 'failure')
     steps:
       - uses: 8398a7/action-slack@v3
         with:
           status: 'failure'
-          fields: repo,message,author,eventName,ref
+          fields: repo,message,author,action,ref
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
       - name: Needs context
