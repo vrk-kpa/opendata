@@ -7,17 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  debug:
-    name: Debug
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
   flake8:
-    name: Python linting using Flake8
+    name: flake8
     runs-on: ubuntu-latest
     container: python:2.7
     steps:
@@ -30,6 +21,14 @@ jobs:
       - name: Run linting
         run: |
           flake8 modules --count --max-line-length=127 --statistics
+      - name: Slack notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
+        if: ${{ failure() && github.ref == 'refs/heads/master' }}
 
   code-sniffer:
     name: code-sniffer
@@ -60,18 +59,23 @@ jobs:
           docker-php-ext-install gd
       - run: php -d memory_limit=-1 /usr/local/bin/composer install -n --prefer-dist
         working-directory: ./ansible/roles/drupal/files/drupal8/
-
       - name: Ignore warnings on exit code
         run: ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
         working-directory: ./ansible/roles/drupal/files/drupal8/
-
       - name: Run codesniffer for drupal standard
         run: ./vendor/bin/phpcs --standard=Drupal $GITHUB_WORKSPACE/modules --ignore=ckanext*,ytp-assets-common
         working-directory: ./ansible/roles/drupal/files/drupal8/
-
       - name: Run codesniffer for drupal practice
         run: ./vendor/bin/phpcs --standard=DrupalPractice $GITHUB_WORKSPACE/modules --ignore=ckanext*,ytp-assets-common
         working-directory: ./ansible/roles/drupal/files/drupal8/
+      - name: Slack notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
+        if: ${{ failure() && github.ref == 'refs/heads/master' }}
 
   ansible-lint:
     name: ansible-lint
@@ -101,7 +105,6 @@ jobs:
     container: node:14
     steps:
       - uses: actions/checkout@v2
-
       - name: Install Dependencies
         run: |
           cat <<EOT >> .npmrc
@@ -112,7 +115,14 @@ jobs:
         working-directory: ./modules/ytp-assets-common
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: run stylelint
         run: $(npm bin)/stylelint "src/less"
         working-directory: ./modules/ytp-assets-common
+      - name: Slack notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
+        if: ${{ failure() && github.ref == 'refs/heads/master' }}
