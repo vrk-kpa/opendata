@@ -1,6 +1,0 @@
-domains: "sina.com\r\n*.xyz\r\nbaridasari.ru\r\ntwilightparadox.com\r\nhostmailmonster.com\r\n*.top\r\n.idea.frienced.com\r\nkopqi.com\r\nhillproductions.com\r\nweb2mail.com"
-usernames: ''
-domains_message: 'Your account was not created. You are trying to register from a domain we have blocked due to multiple spam accounts.'
-usernames_message: 'The username contains %username, which has been blacklisted from being used when registering. Please enter a different username.'
-validation_counter: 3
-langcode: en
