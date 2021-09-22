@@ -86,14 +86,14 @@ jobs:
       - name: Run ansible-lint for single-server.yml
         run: ansible-lint single-server.yml
         working-directory: ./ansible
-      - name: Slack notification if failed
+      - name: Slack notification
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
-        if: ${{ failure() && github.ref == 'refs/heads/AV-1466_linting_to_github_actions' }}
+        if: ${{ failure() && github.ref == 'refs/heads/master' }}
 
   stylelint:
     name: stylelint
