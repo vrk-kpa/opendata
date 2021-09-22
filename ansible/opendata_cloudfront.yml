@@ -8,16 +8,14 @@
   hosts: "localhost"
   connection: "local"
   gather_facts: no
-  environment:
-    AWS_PROFILE: "{{ aws_profile }}"
 
   tasks:
-  - name: Configure web stack
+  - name: Configure CloudFront stack
     cloudformation:
       stack_name: "{{ deployment_environment_id }}-cloudfront"
-      state: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/cloudfront/status', aws_profile=aws_profile ) }}"
-      region: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/cloudfront/region', aws_profile=aws_profile ) }}"
-      create_changeset: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/cloudfront/changeset', aws_profile=aws_profile ) }}"
+      state: present
+      region: "{{ lookup('aws_ssm', '/{{ deployment_environment_id }}/cloudfront/region') }}"
+      create_changeset: true
       template: ../cloudformation/cloudfront.yml
       template_parameters:
         Aliases: "/{{ deployment_environment_id }}/cloudfront/aliases"
@@ -26,6 +24,8 @@
         DefaultTTL: "/{{ deployment_environment_id }}/cloudfront/default_ttl"
         EnvironmentName: "/{{ deployment_environment_id }}/cloudfront/environment_name"
         DNSHostName: "/{{ deployment_environment_id }}/cloudfront/dns_hostname"
+        DNSDomainName: "/{{ deployment_environment_id }}/cloudfront/domain"
+        AlternateDNSDomainName: "/{{ deployment_environment_id }}/cloudfront/alternate_domain"
         HostedZoneId: "/{{ deployment_environment_id }}/web/hosted_zone_id"
         HostedZoneIdAlternate: "/{{ deployment_environment_id }}/web/hosted_zone_id_alternate"
         LogIncludeCookies: "/{{ deployment_environment_id }}/cloudfront/log_include_cookies"

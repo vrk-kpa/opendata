@@ -401,6 +401,18 @@ Resources:
             CloudWatchMetricsEnabled: True
             MetricName: allowed-ips
             SampledRequestsEnabled: !Ref WafAllowedIpsRequestSampling
+        - Name: AWS-AWSManagedRulesAmazonIpReputationList
+          Priority: 5
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesAmazonIpReputationList
+          OverrideAction:
+            Count: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: True
+            CloudWatchMetricsEnabled: True
+            MetricName: AWS-AWSManagedRulesAmazonIpReputationList
         - Name: rate-limit-finland
           Priority: 10
           Action:
@@ -444,6 +456,34 @@ Resources:
             CloudWatchMetricsEnabled: True
             MetricName: banned-ips
             SampledRequestsEnabled: !Ref WafBannedIpsRequestSampling
+        - Name: AWS-AWSManagedRulesBotControlRuleSet
+          Priority: 40
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesBotControlRuleSet
+              ExcludedRules:
+              - Name: CategoryAdvertising
+              - Name: CategoryArchiver
+              - Name: CategoryContentFetcher
+              - Name: CategoryHttpLibrary
+              - Name: CategoryLinkChecker
+              - Name: CategoryMiscellaneous
+              - Name: CategoryMonitoring
+              - Name: CategoryScrapingFramework
+              - Name: CategorySearchEngine
+              - Name: CategorySecurity
+              - Name: CategorySeo
+              - Name: CategorySocialMedia
+              - Name: SignalAutomatedBrowser
+              - Name: SignalKnownBotDataCenter
+              - Name: SignalNonBrowserUserAgent
+          OverrideAction:
+            Count: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: True
+            CloudWatchMetricsEnabled: True
+            MetricName: AWS-AWSManagedRulesBotControlRuleSet
       VisibilityConfig:
         CloudWatchMetricsEnabled: True
         MetricName: DVVWAF
