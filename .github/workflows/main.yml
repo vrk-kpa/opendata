@@ -71,8 +71,8 @@ jobs:
       - name: Run ansible-lint for single-server.yml
         uses: ansible/ansible-lint-action@v4.1.0
         with:
-          targets: single-server.yml
-        working-directory: ansible
+          targets: ansible/single-server.yml
+        args: "-c  ansible/.ansible-lint"
 
   stylelint:
     runs-on: ubuntu-latest
