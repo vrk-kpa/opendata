@@ -68,11 +68,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run ansible-lint for single-server.yml
-        uses: ansible/ansible-lint-action@master
+      - uses: actions/setup-python@v2
         with:
-          targets: ansible/single-server.yml
-          args: "--version --vv -c  ansible/.ansible-lint"
+          python-version: "3.9"
+      - name: Set up environment
+        run: pip install ansible-lint[community]
+      - name: Run ansible-lint for single-server.yml
+        run: ansible-lint single-server.yml
+        working-directory: ./ansible
 
   stylelint:
     runs-on: ubuntu-latest
