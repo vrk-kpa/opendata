@@ -2,10 +2,20 @@ name: Code Quality Checks
 
 on:
   push:
+  pull-request:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
+  debug:
+    name: Debug
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
   flake8:
     name: Python linting using Flake8
     runs-on: ubuntu-latest
@@ -22,7 +32,7 @@ jobs:
           flake8 modules --count --max-line-length=127 --statistics
 
   code-sniffer:
-    name: PHP code analysis
+    name: code-sniffer
     runs-on: ubuntu-latest
     container: php:7.4
     steps:
@@ -64,7 +74,7 @@ jobs:
         working-directory: ./ansible/roles/drupal/files/drupal8/
 
   ansible-lint:
-    name: Ansible linting
+    name: ansible-lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -76,8 +86,17 @@ jobs:
       - name: Run ansible-lint for single-server.yml
         run: ansible-lint single-server.yml
         working-directory: ./ansible
+      - name: Slack notification if failed
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
+        if: ${{ failure() && github.ref == refs/heads/AV-1466_linting_to_github_actions }}
 
   stylelint:
+    name: stylelint
     runs-on: ubuntu-latest
     container: node:14
     steps:
