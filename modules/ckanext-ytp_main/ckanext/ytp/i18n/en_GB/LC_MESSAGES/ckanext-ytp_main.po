@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-06-23 12:02+0000\n"
+"POT-Creation-Date: 2021-09-16 13:19+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Meeri Hakala <meeri.hakala@dvv.fi>, 2020\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
@@ -370,7 +370,6 @@ msgid "International benchmarks"
 msgstr ""
 
 #: ckanext/ytp/plugin.py:269 ckanext/ytp/plugin.py:283
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 msgid "Collection Type"
 msgstr ""
 
@@ -379,12 +378,10 @@ msgid "Popular tags"
 msgstr ""
 
 #: ckanext/ytp/plugin.py:271 ckanext/ytp/plugin.py:285
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:48
 msgid "Content Type"
 msgstr ""
 
 #: ckanext/ytp/plugin.py:272
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:22
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
 #: ckanext/ytp/templates/snippets/organization.html:21
@@ -398,19 +395,19 @@ msgid "Formats"
 msgstr ""
 
 #: ckanext/ytp/plugin.py:275 ckanext/ytp/templates/package/search.html:58
-#: ckanext/ytp/templates/package/snippets/additional_info.html:19
+#: ckanext/ytp/templates/package/snippets/additional_info.html:12
 msgid "Source"
 msgstr ""
 
 #: ckanext/ytp/plugin.py:276
 #: ckanext/ytp/templates/package/resource_read.html:168
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:73
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:26
 #: ckanext/ytp/templates/snippets/license.html:21
 msgid "License"
 msgstr ""
 
 #: ckanext/ytp/plugin.py:284
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:31
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 msgid "Tags"
 msgstr ""
 
@@ -480,8 +477,7 @@ msgid "Internal"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:162
-#: ckanext/ytp/templates/package/snippets/additional_info.html:75
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:220
+#: ckanext/ytp/templates/package/snippets/additional_info.html:68
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:8
 #: ckanext/ytp/translations.py:28
 msgid "Created"
@@ -701,6 +697,7 @@ msgstr ""
 msgid "Showcase name"
 msgstr ""
 
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:20
 #: ckanext/ytp/translations.py:86
 msgid "Categories"
 msgstr ""
@@ -1504,6 +1501,10 @@ msgstr ""
 "Drag the resource box to the desired location on the list and let go. When "
 "you are done, select \"Save order\"."
 
+#: ckanext/ytp/templates/disqus_comments.html:2
+msgid "Give feedback"
+msgstr ""
+
 #: ckanext/ytp/templates/page.html:13
 #: ckanext/ytp/templates/snippets/search_form.html:82
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:72
@@ -1570,6 +1571,7 @@ msgid "Deleted"
 msgstr ""
 
 #: ckanext/ytp/templates/group/snippets/info.html:32
+#: ckanext/ytp/templates/package/snippets/follow.html:15
 #: ckanext/ytp/templates/package/snippets/info.html:23
 #: ckanext/ytp/templates/snippets/organization.html:48
 msgid "Followers"
@@ -1632,7 +1634,7 @@ msgstr ""
 #: ckanext/ytp/templates/organization/user_list.html:50
 #: ckanext/ytp/templates/package/resource_edit.html:11
 #: ckanext/ytp/templates/package/snippets/related_item.html:62
-#: ckanext/ytp/templates/package/snippets/resource_item.html:70
+#: ckanext/ytp/templates/package/snippets/resource_item.html:65
 msgid "Edit"
 msgstr ""
 
@@ -1877,7 +1879,7 @@ msgid "Open"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:45
-#: ckanext/ytp/templates/package/snippets/resource_item.html:54
+#: ckanext/ytp/templates/package/snippets/resource_item.html:49
 msgid "Download"
 msgstr ""
 
@@ -1962,27 +1964,27 @@ msgid "Technical extra information"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:251
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:164
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:100
 msgid "Stats"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:252
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:165
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:101
 msgid "Last 30 days, updated daily"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:255
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:172
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:108
 msgid "All time downloads:"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:265
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:180
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:116
 msgid "Year"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:265
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:180
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:116
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
 msgstr ""
@@ -2016,7 +2018,6 @@ msgid "Relevance"
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:55
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:219
 #: ckanext/ytp/templates/package/snippets/resource_form.html:45
 msgid "Last Modified"
 msgstr ""
@@ -2057,91 +2058,62 @@ msgid ""
 "%(api_doc_link)s). "
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/additional_info.html:11
-msgid "Field"
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/additional_info.html:12
-msgid "Value"
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/additional_info.html:30
-#: ckanext/ytp/templates/package/snippets/additional_info.html:35
+#: ckanext/ytp/templates/package/snippets/additional_info.html:23
+#: ckanext/ytp/templates/package/snippets/additional_info.html:28
 msgid "Author"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/additional_info.html:42
-#: ckanext/ytp/templates/package/snippets/additional_info.html:47
+#: ckanext/ytp/templates/package/snippets/additional_info.html:35
+#: ckanext/ytp/templates/package/snippets/additional_info.html:40
+#: ckanext/ytp/templates/package/snippets/maintainer_info.html:11
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:7
 msgid "Maintainer"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/additional_info.html:54
+#: ckanext/ytp/templates/package/snippets/additional_info.html:47
 msgid "Version"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/additional_info.html:61
-#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:32
+#: ckanext/ytp/templates/package/snippets/additional_info.html:54
 #: ckanext/ytp/templates/user/read_base.html:47
 msgid "State"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/additional_info.html:67
+#: ckanext/ytp/templates/package/snippets/additional_info.html:60
 msgid "Last Updated"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:65
-msgid "Content Link"
+#: ckanext/ytp/templates/package/snippets/categories.html:31
+msgid "Show more categories"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:108
+#: ckanext/ytp/templates/package/snippets/categories.html:34
+msgid "Show more"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:61
 msgid "License Not Specified"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:129
-msgid "Dataset Quality"
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:70
+msgid "Openness score"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:132
-msgid "Resource Quality"
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:91
+msgid "Follow dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:144
-msgid "Metadata Quality"
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:152
-msgid ""
-"Dataset's Resource Quality is the highest rating from the resources. It is "
-"automatically calculated and if it is zero, resources are unavailable or "
-"unknown type. Metadata Quality rating takes field completeness, visits, "
-"resource downloads, comments and translations into consideration."
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:170
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:106
 msgid "Downloads during year"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:171
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:107
 msgid "All time visits:"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:180
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:116
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
 msgid "Visits"
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:216
-msgid "Change log"
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:217
-#: ckanext/ytp/templates/report/deprecated_dataset_report.html:5
-msgid "Dataset"
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:223
-msgid "Show change log"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/dataset_showcase_list_embed.html:4
@@ -2177,6 +2149,14 @@ msgid ""
 "href=\"%(creator_url)s\" >%(creator)s</a> is licensed under a <a "
 "rel=\"license\" href=\"https://creativecommons.org/licenses/by/4.0/\"> "
 "Creative Commons Attribution 4.0 International License</a>. "
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/maintainer_info.html:10
+msgid "Collection"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/maintainer_info.html:13
+msgid "Link to original dataset"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/package_form.html:30
@@ -2311,28 +2291,24 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/resource_item.html:24
-msgid "No description for this resource"
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/resource_item.html:34
+#: ckanext/ytp/templates/package/snippets/resource_item.html:29
 msgid "Explore"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/resource_item.html:43
+#: ckanext/ytp/templates/package/snippets/resource_item.html:38
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:18
 msgid "Preview"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/resource_item.html:46
+#: ckanext/ytp/templates/package/snippets/resource_item.html:41
 msgid "More information"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/resource_item.html:57
+#: ckanext/ytp/templates/package/snippets/resource_item.html:52
 msgid "Go to resource"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/resource_item.html:63
+#: ckanext/ytp/templates/package/snippets/resource_item.html:58
 msgid "Download as CSV"
 msgstr ""
 
@@ -2459,6 +2435,10 @@ msgid ""
 "href=\"http://5stardata.info\">http://5stardata.info</a>."
 msgstr ""
 
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:5
+msgid "Dataset"
+msgstr ""
+
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:9
 msgid "Deprecated"
 msgstr "Outdated"
@@ -2552,6 +2532,18 @@ msgstr ""
 
 #: ckanext/ytp/templates/scheming/organization/group_form.html:33
 msgid "Save Organization"
+msgstr ""
+
+#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:27
+msgid "Last modified"
+msgstr ""
+
+#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:30
+msgid "Show change log"
+msgstr ""
+
+#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:34
+msgid "Created on"
 msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:6
@@ -2863,6 +2855,10 @@ msgid "{number} organization found"
 msgid_plural "{number} organizations found"
 msgstr[0] "{number} organisation found"
 msgstr[1] "{number} publishers"
+
+#: ckanext/ytp/templates/spatial/snippets/dataset_map_sidebar.html:17
+msgid "Dataset extent"
+msgstr ""
 
 #: ckanext/ytp/templates/user/dashboard.html:6
 msgid "Dashboard"
