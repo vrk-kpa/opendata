@@ -2,6 +2,7 @@
 
 namespace Drupal\avoindata_events\Controller;
 
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Datetime\DrupalDateTime;
@@ -28,8 +29,8 @@ class EventsController extends ControllerBase {
   public function events(Request $request) {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $currentDateTime = new DrupalDateTime('today');
-    $currentDateTime->setTimezone(new \DateTimezone(DATETIME_STORAGE_TIMEZONE));
-    $formattedcurrentDateTime = $currentDateTime->format(DATETIME_DATETIME_STORAGE_FORMAT);
+    $currentDateTime->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE));
+    $formattedcurrentDateTime = $currentDateTime->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
 
     $sort = $request->query->get('sort') ?: 'asc';
     $searchterm = $request->query->get('search');

@@ -7,6 +7,7 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Component\Serialization\Json;
+use Drupal\Core\Security\TrustedCallbackInterface;
 
 /**
  * Implements hook_help().
@@ -32,37 +33,40 @@ function avoindata_categories_theme($existing, $type, $theme, $path) {
   ];
 }
 
-/**
- * Gets categories from CKAN.
- */
-function avoindata_categories() {
-  $client = \Drupal::httpClient();
+class AvoindataCategoriesHandler implements TrustedCallbackInterface
+{
 
-  try {
-    $response = $client->request('GET', 'http://localhost:8080/data/api/3/action/group_list?all_fields=true&include_extras=true');
-    $result = Json::decode($response->getBody());
-    $categories = $result['result'];
-  }
-  catch (\Exception $e) {
-    $categories = NULL;
-  }
 
-  $category_markup = '';
-  $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
-  foreach ($categories as $category) {
+  /**
+   * Gets categories from CKAN.
+   */
+  public function avoindata_categories() : array
+  {
+    $client = \Drupal::httpClient();
 
-    $package_count = $category['package_count'];
-    $category_name = $category['name'];
-    $category_display_url = $category['image_display_url'];
-    $category_title = $category['title'];
-    if ($category['title_translated'][$language]) {
-      $category_title_translated = (substr($category['title_translated'][$language], 0, 55) . (strlen($category['title_translated'][$language]) > 55 ? '…' : ''));
-    }
-    else {
-      $category_title_translated = (substr($category['title'], 0, 55) . (strlen($category['title']) > 55 ? '…' : ''));
+    try {
+      $response = $client->request('GET', 'http://localhost:8080/data/api/3/action/group_list?all_fields=true&include_extras=true');
+      $result = Json::decode($response->getBody());
+      $categories = $result['result'];
+    } catch (\Exception $e) {
+      $categories = NULL;
     }
 
-    $category_markup .= <<<EOT
+    $category_markup = '';
+    $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    foreach ($categories as $category) {
+
+      $package_count = $category['package_count'];
+      $category_name = $category['name'];
+      $category_display_url = $category['image_display_url'];
+      $category_title = $category['title'];
+      if ($category['title_translated'][$language]) {
+        $category_title_translated = (substr($category['title_translated'][$language], 0, 55) . (strlen($category['title_translated'][$language]) > 55 ? '…' : ''));
+      } else {
+        $category_title_translated = (substr($category['title'], 0, 55) . (strlen($category['title']) > 55 ? '…' : ''));
+      }
+
+      $category_markup .= <<<EOT
         <div class="avoindata-category-box">
           <div class="avoindata-category-image-wrapper">
             <span class="avoindata-category-dataset-count">{$package_count}</span>
@@ -77,10 +81,20 @@ function avoindata_categories() {
           </div>
         </div>
 EOT;
+    }
+
+    return [
+      '#markup' => $category_markup,
+      '#cache' => ['max-age' => 0],
+    ];
   }
 
-  return [
-    '#markup' => $category_markup,
-    '#cache' => ['max-age' => 0],
-  ];
+  /**
+   * {@inheritdoc}
+   */
+  public static function trustedCallbacks() {
+    return ['avoindata_categories'];
+  }
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace Drupal\avoindata_newsfeed\Plugin\Block;
 
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Datetime\DrupalDateTime;
 
@@ -22,8 +23,8 @@ class NewsFeedBlock extends BlockBase {
   public function build() {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $currentDateTime = new DrupalDateTime('today');
-    $currentDateTime->setTimezone(new \DateTimezone(DATETIME_STORAGE_TIMEZONE));
-    $formattedcurrentDateTime = $currentDateTime->format(DATETIME_DATETIME_STORAGE_FORMAT);
+    $currentDateTime->setTimezone(new \DateTimezone(DateTimeItemInterface::STORAGE_TIMEZONE));
+    $formattedcurrentDateTime = $currentDateTime->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
 
     $articleNodeIds = \Drupal::entityQuery('node')
       ->condition('type', 'avoindata_article')

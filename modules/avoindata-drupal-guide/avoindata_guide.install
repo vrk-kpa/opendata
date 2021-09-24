@@ -18,8 +18,8 @@ function avoindata_guide_install() {
   $node = Node::create([
     'type' => 'avoindata_guide_page',
     'langcode' => 'fi',
-    'created' => REQUEST_TIME,
-    'changed' => REQUEST_TIME,
+    'created' => \Drupal::time()->getRequestTime(),
+    'changed' => \Drupal::time()->getRequestTime(),
     'uid' => 1,
     'title' => 'Oppaan etusivu. ',
     'field_content' => 'Oppaan etusivun sisältö',
