@@ -17,12 +17,12 @@ The ytp-develop.py script is provided to help with linking the modules. This scr
 Examples:
 
     sudo /src/scripts/ytp-develop.py ckanext-ytp_main # replace ckanext-ytp_main project
-    sudo /src/scripts/ytp-develop.py ckanext-ytp_main ytp-assets-common # replace both ckanext-ytp_main and ytp-assets-common projects 
+    sudo /src/scripts/ytp-develop.py ckanext-ytp_main ytp-assets-common # replace both ckanext-ytp_main and ytp-assets-common projects
 
 ### Notes
 
 - Serve command cannot reload all modification and need to restarted on some changes.
-- Serve cannot access asset files currently so the layout is broken. You can disable ytp_theme plugin from `/etc/ckan/default/production.ini`. 
+- Serve cannot access asset files currently so the layout is broken. You can disable ytp_theme plugin from `/etc/ckan/default/production.ini`.
 - For ckanext project if setup.py is changed or if some files are inserted you need to re-execute `ytp-develop.py` (executes correct python setup.py develop)a.
 
 ## Manually link Python packages (ckanext-*)
@@ -70,3 +70,17 @@ Now you can access CKAN at [http://10.10.10.10:5000/](http://10.10.10.10:5000/)
     nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --with-coverage --cover-package ckanext.ytp
     # or
     nosetests --ckan --with-pylons=test.ini `find -iname tests -type d` --nocapture --nologcapture
+
+## Translations ##
+
+First you need [transifex client](https://docs.transifex.com/client/introduction) for pushing translation keys.
+Navigate into the root folder of module which translation keys need to be updated and run following commands:
+
+```
+# Need to be ran only if it's first time to extract translations
+. /usr/lib/ckan/default/bin/activate
+python setup.py extract_messages
+tx push -s
+```
+
+After running commands above you should login to transifex and add translations for new keys (you can use date filder with updated after to make it easier to find new keys).
