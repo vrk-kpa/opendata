@@ -59,6 +59,7 @@ Resources:
                   - lambda:AddPermission
                   - lambda:RemovePermission
                   - lambda:UpdateFunctionConfiguration
+                Resource: "*"
               - Effect: Allow
                 Action:
                   - cloudformation:DescribeStacks
