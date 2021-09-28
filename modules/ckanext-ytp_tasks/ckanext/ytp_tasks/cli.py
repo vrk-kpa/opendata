@@ -2,14 +2,17 @@ import click
 from ckan.logic import get_action
 import ckan.model as model
 
+
 def get_commands():
     return [opendata_tasks]
+
 
 @click.group()
 def opendata_tasks():
     """Opendata tasks functions
     """
     pass
+
 
 @opendata_tasks.command()
 @click.argument(u"id")
@@ -59,6 +62,7 @@ def execute_all():
     click.echo("Execute all scheduled tasks")
     jobs.enqueue("ckanext.ytp_tasks.tasks.execute_all")
     click.echo("Execute all set to queue")
+
 
 @opendata_tasks.command()
 def init_db():

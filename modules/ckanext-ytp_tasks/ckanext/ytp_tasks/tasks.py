@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import uuid
-import os
 
-import click
+import os
 from ckan import model
 import ckan.lib.jobs as jobs
 from ckan.lib.cli import CkanCommand
