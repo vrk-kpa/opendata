@@ -50,6 +50,18 @@ Resources:
                   - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${BetaEnvironmentName}/*
               - Effect: Allow
                 Action:
+                  - lambda:UpdateFunctionCode
+                  - lambda:ListTags
+                  - lambda:TagResource
+                  - lambda:UntagResource
+                  - lambda:GetFunction
+                  - lambda:GetFunctionConfiguration
+                  - lambda:AddPermission
+                  - lambda:RemovePermission
+                  - lambda:UpdateFunctionConfiguration
+                Resource: "*"
+              - Effect: Allow
+                Action:
                   - cloudformation:DescribeStacks
                   - cloudformation:UpdateStack
                   - cloudformation:*ChangeSet

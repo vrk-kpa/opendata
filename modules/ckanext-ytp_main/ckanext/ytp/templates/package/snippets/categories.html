@@ -24,6 +24,7 @@
       {% endif %}
     </li>
     {% endfor %}
+    {% if categories | length > 3 %}
     <li class="categories__list__show-more">
       <button
         id="show-more-categories"
@@ -33,6 +34,7 @@
         {{_('Show more')}}
       </button>
     </li>
+    {% endif %}
   </ul>
   {% endblock %}
 </section>

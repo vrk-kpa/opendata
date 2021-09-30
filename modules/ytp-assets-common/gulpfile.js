@@ -80,6 +80,7 @@ gulp.task("ckan",(done) => {
     prefixer(),
     cleancss({ keepBreaks: false }),
     concat("ckan.css"),
+    sourcemaps.write("."),
     gulp.dest(paths.dist + "/styles")
   ], done)
 });
