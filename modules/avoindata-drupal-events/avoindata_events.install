@@ -9,6 +9,18 @@
  * These changes only take effect when the module is completely reinstalled.
  */
 function avoindata_events_install() {
-  \Drupal::service('path.alias_storage')->save("/events", "/tapahtumat", "fi");
-  \Drupal::service('path.alias_storage')->save("/events", "/evenemanger", "sv");
+  $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
+      'path' => "/events",
+      'alias' => "/tapahtumat",
+      'langcode' => "fi"
+  ]);
+  $path_alias->save();
+
+  $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
+      'path' => "/events",
+      'alias' => "/evenemanger",
+      'langcode' => "sv"
+  ]);
+  $path_alias->save();
+
 }
