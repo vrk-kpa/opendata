@@ -1,6 +1,6 @@
 [program:ckan_gather_consumer]
 
-command=nice -n 20 {{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} harvester gather_consumer
+command=nice -n 20 {{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} harvester gather-consumer
 user={{ ckan_harvester_user }}
 numprocs=1
 stdout_logfile={{ ckan_log_path }}/gather_consumer.log
@@ -12,7 +12,7 @@ startsecs=10
 
 [program:ckan_fetch_consumer]
 
-command=nice -n 20 {{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} harvester fetch_consumer
+command=nice -n 20 {{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} harvester fetch-consumer
 user={{ ckan_harvester_user }}
 numprocs=1
 stdout_logfile={{ ckan_log_path }}/fetch_consumer.log
