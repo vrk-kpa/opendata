@@ -164,7 +164,7 @@
   shell: >-
     {{ ckan_virtual_environment }}/bin/ckan
     --config '{{ item.file }}'
-    reminder init
+    reminder initdb
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   tags:
