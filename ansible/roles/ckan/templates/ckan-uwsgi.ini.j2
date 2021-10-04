@@ -1,6 +1,6 @@
 [uwsgi]
 
-http            =  127.0.0.1:8080
+http            =  127.0.0.1:{{ ckan_port }}
 uid             =  www-data
 gid             =  www-data
 wsgi-file       =  {{ ckan_wsgi_script }}
