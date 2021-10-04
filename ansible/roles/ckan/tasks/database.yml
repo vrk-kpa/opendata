@@ -145,6 +145,7 @@
     --config '{{ ckan_ini }}'
     cloudstorage initdb
     chdir='{{ ckan_virtual_environment }}'
+  when: ckan_enable_cloudstorage
   tags:
     - skip_ansible_lint
 
