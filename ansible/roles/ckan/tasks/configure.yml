@@ -83,7 +83,7 @@
   shell: >-
     {{ ckan_virtual_environment }}/bin/ckan
     --config '{{ item.file }}'
-    sixodp_showcase create_platform_vocabulary
+    sixodp-showcase create_platform_vocabulary
   with_items: "{{ ckan_config_files }}"
   tags:
     - skip_ansible_lint
@@ -92,7 +92,7 @@
   shell: >-
     {{ ckan_virtual_environment }}/bin/ckan
     --config '{{ item.file }}'
-    sixodp_showcase create_showcase_type_vocabulary
+    sixodp-showcase create_showcase_type_vocabulary
   with_items: "{{ ckan_config_files }}"
   tags:
     - skip_ansible_lint

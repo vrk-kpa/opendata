@@ -3,6 +3,7 @@ import ckan.plugins.toolkit as toolkit
 from ckanext.showcase.plugin import ShowcasePlugin
 import ckanext.showcase.logic.helpers as showcase_helpers
 from ckanext.showcase.logic import action as showcase_action
+from ckanext.sixodp_showcase import cli
 from logic.action import create, update, get
 from ckanext.sixodp_showcase import helpers
 from ckan.common import _
@@ -29,6 +30,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IFacets)
     plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.IClick)
 
     # IConfigurer
 
@@ -229,3 +231,8 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
             self._add_image_urls(result)
 
         return search_results
+
+    # IClick
+
+    def get_commands(self):
+        return cli.get_commands()
