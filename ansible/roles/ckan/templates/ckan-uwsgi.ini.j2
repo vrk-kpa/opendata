@@ -6,7 +6,7 @@ gid                 =  www-data
 wsgi-file           =  {{ ckan_wsgi_script }}
 virtualenv          =  /usr/lib/ckan/default
 chdir               =  /etc/ckan/default
-mount               =  /=wsgi:application
+mount               =  /data=wsgi:application
 manage-script-name  =  true
 master              =  true
 pidfile             =  /tmp/%n.pid
