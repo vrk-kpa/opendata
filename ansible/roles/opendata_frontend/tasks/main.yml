@@ -7,8 +7,8 @@
 
 - name: Update ca-certificates
   apt:
-    name: ca-certificates
-    state: latest
+    name: ca-certificates=20210119~18.04.2
+    state: present
 
 - name: Add NodeSource APT repository
   apt_repository:
