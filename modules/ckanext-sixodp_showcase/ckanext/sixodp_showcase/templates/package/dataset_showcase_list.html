@@ -3,6 +3,7 @@
 {% block subtitle %}{{ _('Showcases') }} - {{ super() }}{% endblock %}
 
 {% block primary_content_inner %}
+<h1>This is test</h1>
   {% if h.check_access('ckanext_showcase_update') and c.showcase_dropdown %}
     <form method="post" class="form-horizontal" id="showcase-add">
       <select id="field-add_showcase" name="showcase_added" data-module="autocomplete">
