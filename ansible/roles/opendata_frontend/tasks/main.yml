@@ -5,11 +5,6 @@
   apt_key:
     data: "{{ lookup('file', 'nodesource.gpg.key') }}"
 
-- name: Update ca-certificates
-  apt:
-    name: ca-certificates=20210119~18.04.2
-    state: present
-
 - name: Add NodeSource APT repository
   apt_repository:
     repo: 'deb https://deb.nodesource.com/node_12.x {{ ansible_distribution_release }} main'
