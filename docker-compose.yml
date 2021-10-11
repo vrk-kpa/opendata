@@ -1,0 +1,188 @@
+version: "2"
+
+# NOTE: ports are open for dev purposes
+# NOTE: /opt/drupal/web structure:
+# - /var/www/html/modules
+# - /var/www/html/profiles
+# - /var/www/html/themes
+# - /var/www/html/sites
+# NOTE: drupal holds control over its volumes and populates them
+#       nginx just mounts the volumes to specific paths as read-only
+
+services:
+  postgres:
+    build:
+      context: ./docker/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    environment:
+      - PGDATA=/var/lib/postgresql/data/db
+      - POSTGRES_DB=${DB_CKAN}
+      - POSTGRES_USER=${DB_CKAN_USER}
+      - POSTGRES_PASSWORD=${DB_CKAN_PASS}
+      - DB_DATASTORE_READONLY=${DB_DATASTORE_READONLY}
+      - DB_DATASTORE_READONLY_USER=${DB_DATASTORE_READONLY_USER}
+      - DB_DATASTORE_READONLY_PASS=${DB_DATASTORE_READONLY_PASS}
+      - DB_DRUPAL=${DB_DRUPAL}
+      - DB_DRUPAL_USER=${DB_DRUPAL_USER}
+      - DB_DRUPAL_PASS=${DB_DRUPAL_PASS}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DB_CKAN_USER}"]
+
+  redis:
+    image: redis:6.0.7
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+  solr:
+    build:
+      context: ./docker/solr
+    expose:
+      - 8983
+    networks:
+      - backend
+    volumes:
+      - solr_data:/opt/solr/server/solr/ckan/data
+
+  ckan:
+    build:
+      context: ./docker/ckan
+    restart: always
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - postgres
+      - redis
+      - solr
+    expose:
+      - 5000
+    env_file:
+      - ./docker/.env.ckan.local
+    environment:
+      - CKAN_SQLALCHEMY_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_CKAN}
+      - CKAN_DATASTORE_WRITE_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
+      - CKAN_DATASTORE_READ_URL=postgresql://${DB_DATASTORE_READONLY_USER}:${DB_DATASTORE_READONLY_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
+      - CKAN_SOLR_URL=http://${SOLR_HOST}:8983/solr/ckan
+      - CKAN_REDIS_URL=redis://${REDIS_HOST}:6379/1
+      - POSTGRES_PASSWORD=${DB_CKAN_PASS}
+      - DS_RO_PASS=${DB_DATASTORE_READONLY_PASS}
+      - CKAN__DATAPUSHER__URL=http://${DATAPUSHER_HOST}:8000
+      - CKAN__DATAPUSHER__CALLBACK_URL_BASE=http://${CKAN_HOST}:5000/data/
+      - CKAN_SYSADMIN_NAME=${SYSADMIN_USER}
+      - CKAN_SYSADMIN_PASSWORD=${SYSADMIN_PASS}
+      - CKAN_SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
+    volumes:
+      - ckan_data:/srv/app/data
+
+  datapusher:
+    build:
+      context: ./docker/datapusher
+    restart: always
+    networks:
+      - frontend
+      - backend
+    expose:
+      - 8000
+    env_file:
+      - ./docker/.env.datapusher.local
+    environment:
+      - DATAPUSHER_REWRITE_URL=http://${CKAN_HOST}:5000/data
+
+  drupal:
+    build:
+      context: ./
+      dockerfile: docker/drupal/Dockerfile
+    restart: always
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - postgres
+    expose:
+      - 9000
+    env_file:
+      - ./docker/.env.drupal.local
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_DRUPAL=${DB_DRUPAL}
+      - DB_DRUPAL_USER=${DB_DRUPAL_USER}
+      - DB_DRUPAL_PASS=${DB_DRUPAL_PASS}
+      - SITE_NAME=${SITE_NAME}
+      - SYSADMIN_USER=${SYSADMIN_USER}
+      - SYSADMIN_PASS=${SYSADMIN_PASS}
+      - SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
+      - CKAN_HOST=${CKAN_HOST}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASS=${SMTP_PASS}
+      - SMTP_FROM=${SMTP_FROM}
+      - SMTP_PROTOCOL=${SMTP_PROTOCOL}
+      - SMTP_PORT=${SMTP_PORT}
+      - MATOMO_SITE_ID=${MATOMO_SITE_ID}
+      - MATOMO_DOMAIN=${MATOMO_DOMAIN}
+      - MATOMO_SCRIPT_DOMAIN=${MATOMO_SCRIPT_DOMAIN}
+      - MATOMO_TOKEN=${MATOMO_TOKEN}
+    volumes:
+      - drupal_data:/opt/drupal/web
+      - drupal_resources:/opt/resources
+      - drupal_theme:/opt/modules/avoindata-drupal-theme
+
+  nginx:
+    build:
+      context: ./docker/nginx
+    restart: always
+    networks:
+      - frontend
+    depends_on:
+      - ckan
+      - drupal
+    ports:
+      - "80:80"
+    env_file:
+      - ./docker/.env.nginx.local
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - NAMESERVER=${NAMESERVER}
+      - CKAN_HOST=${CKAN_HOST}
+      - DRUPAL_HOST=${DRUPAL_HOST}
+    volumes:
+      - drupal_data:/var/www/html:ro
+      - drupal_resources:/var/www/resources:ro
+      - drupal_theme:/opt/modules/avoindata-drupal-theme:ro
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    networks:
+      - frontend
+      - backend
+    expose:
+      - 1025
+    ports:
+      - "8025:8025"
+    environment:
+      - MH_HOSTNAME=${SMTP_HOST}
+      - MH_STORAGE=memory
+      - MH_AUTH_FILE=/mailhog/auth
+    volumes:
+      - ./docker/.mh-auth:/mailhog/auth
+
+volumes:
+  postgres_data:
+  solr_data:
+  ckan_data:
+  drupal_data:
+  drupal_resources:
+  drupal_theme:
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
