@@ -66,6 +66,7 @@ services:
     env_file:
       - ./docker/.env.ckan.local
     environment:
+      - CKAN_PORT=${CKAN_PORT}
       - CKAN_SQLALCHEMY_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_CKAN}
       - CKAN_DATASTORE_WRITE_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
       - CKAN_DATASTORE_READ_URL=postgresql://${DB_DATASTORE_READONLY_USER}:${DB_DATASTORE_READONLY_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
@@ -74,7 +75,7 @@ services:
       - POSTGRES_PASSWORD=${DB_CKAN_PASS}
       - DS_RO_PASS=${DB_DATASTORE_READONLY_PASS}
       - CKAN__DATAPUSHER__URL=http://${DATAPUSHER_HOST}:8000
-      - CKAN__DATAPUSHER__CALLBACK_URL_BASE=http://${CKAN_HOST}:5000/data/
+      - CKAN__DATAPUSHER__CALLBACK_URL_BASE=http://${CKAN_HOST}:${CKAN_PORT}/data/
       - CKAN_SYSADMIN_NAME=${SYSADMIN_USER}
       - CKAN_SYSADMIN_PASSWORD=${SYSADMIN_PASS}
       - CKAN_SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
@@ -93,7 +94,7 @@ services:
     env_file:
       - ./docker/.env.datapusher.local
     environment:
-      - DATAPUSHER_REWRITE_URL=http://${CKAN_HOST}:5000/data
+      - DATAPUSHER_REWRITE_URL=http://${CKAN_HOST}:${CKAN_PORT}/data
 
   drupal:
     build:
@@ -119,6 +120,7 @@ services:
       - SYSADMIN_PASS=${SYSADMIN_PASS}
       - SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
       - CKAN_HOST=${CKAN_HOST}
+      - CKAN_PORT=${CKAN_PORT}
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASS=${SMTP_PASS}
@@ -151,6 +153,7 @@ services:
       - DOMAIN_NAME=${DOMAIN_NAME}
       - NAMESERVER=${NAMESERVER}
       - CKAN_HOST=${CKAN_HOST}
+      - CKAN_PORT=${CKAN_PORT}
       - DRUPAL_HOST=${DRUPAL_HOST}
     volumes:
       - drupal_data:/var/www/html:ro
