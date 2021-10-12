@@ -1,13 +1,12 @@
-from ckan.plugins.toolkit import get_action, check_access, c
+import json
+import logging
+
 from ckan import model
 from ckan.common import _
-
+from ckan.plugins.toolkit import c, check_access, get_action
 # TODO: Should not be cross dependant to ckanext.ytp
 # This is specific to ytp
 from ckanext.ytp.helpers import get_translated
-
-import json
-import logging
 
 log = logging.getLogger(__name__)
 
@@ -148,7 +147,7 @@ def make_options(items, value='id', label="title", has_translated=False):
 def advanced_multiselect_query(custom_key=None):
     def query_helper(key, all_params, schema, context):
         fq = ''
-        params = all_params.getall(key)
+        params = all_params.getlist(key)
 
         # use override key for query if available
         query_key = custom_key if custom_key else key
@@ -175,9 +174,9 @@ def advanced_search_and_target_query(keywords_field, target_field):
         phrase = None
         target = 'all'
         if keywords_field in all_params:
-            phrase = all_params.getone(keywords_field)
+            phrase = all_params.get(keywords_field)
         if target_field in all_params:
-            target = all_params.getone(target_field)
+            target = all_params.get(target_field)
 
         # Exit early
         if not phrase:
@@ -198,7 +197,7 @@ def advanced_search_query(keywords_field):
     def query_helper(key, all_params, schema, context):
         phrase = None
         if keywords_field in all_params:
-            phrase = all_params.getone(keywords_field)
+            phrase = all_params.get(keywords_field)
 
         # Exit early
         if not phrase:
@@ -214,9 +213,9 @@ def advanced_daterange_query(custom_key=None):
         after = ''
 
         if key + '-before' in all_params:
-            before = all_params.getone(key + '-before')
+            before = all_params.get(key + '-before')
         if key + '-after' in all_params:
-            after = all_params.getone(key + '-after')
+            after = all_params.get(key + '-after')
 
         # exit early
         if not before and not after:
