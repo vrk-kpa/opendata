@@ -1,0 +1,23 @@
+moment-with-locales:
+  filters: rjsmin
+  output: ytp-assets-common/%(version)s_moment-with-locales.js
+  contents:
+    - vendor/moment/dist/min/moment-with-locales.js
+
+bootstrap-datetimepicker:
+  filters: rjsmin
+  output: ytp-assets-common/%(version)s_bootstrap-datetimepicker.js
+  contents:
+    - vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.js
+
+jstree:
+  filters: rjsmin
+  output: ytp-assets-common/%(version)s_jstree.js
+  contents:
+    - vendor/jstree/dist/jstree.js
+
+offcanvas:
+  filters: rjsmin
+  output: ytp-assets-common/%(version)s_offcanvas.js
+  contents:
+    - scripts/offcanvas.js

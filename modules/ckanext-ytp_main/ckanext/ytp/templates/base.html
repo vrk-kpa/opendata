@@ -4,10 +4,10 @@
     {{ super() }}
     {# we already include bootstrap.js in ckan #}
     {#% resource "ytp_resources/vendor/bootstrap.js" %#}
-    {% asset "ytp_resources/vendor/moment/dist/min/moment-with-locales.js" %}
-    {% asset "ytp_resources/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.js" %}
-    {% asset "ytp_resources/vendor/jstree/dist/jstree.js" %}
-    {% asset "ytp_resources/scripts/offcanvas.js" %}
+    {% asset "ytp_resources/moment-with-locales" %}
+    {% asset "ytp_resources/bootstrap-datetimepicker" %}
+    {% asset "ytp_resources/jstree" %}
+    {% asset "ytp_resources/offcanvas" %}
 
 {% endblock %}
 {% block styles %}
@@ -28,5 +28,5 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:image" content="https://{{ base_url }}/resources/images/logo/avoindata_fb_{{ lang }}_600x600.jpg" />
     <meta property="og:image:width" content="600" />
-    <meta property="og:image:height" content="600" />      
+    <meta property="og:image:height" content="600" />
 {% endblock %}

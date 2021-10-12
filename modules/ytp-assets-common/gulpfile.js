@@ -285,6 +285,8 @@ gulp.task(
 gulp.task("config", (done) => {
   pump([
     gulp.src(paths.src.root + "/resource.config"),
+    gulp.dest(paths.dist),
+    gulp.src(paths.src.root + "/webassets.yml"),
     gulp.dest(paths.dist)
   ], done)
 });

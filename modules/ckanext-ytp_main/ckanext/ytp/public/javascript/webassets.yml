@@ -1,0 +1,5 @@
+form_js:
+  filters: rjsmin
+  output: ckanext-ytp_main/%(version)s_main.js
+  contents:
+    - form.js
