@@ -18,6 +18,9 @@ if [ $? -eq 0 ] && [[ -z "${DB_CHECK_RES// }" ]]; then
     --site-name="${SITE_NAME}"
 fi
 
+# apply jinja2 templates
+jinja2 /opt/templates/settings.php.j2 -o /opt/drupal/web/sites/default/settings.php
+
 # run database upgrades & rebuild cache
 drush updatedb -y --no-cache-clear
 drush cache:rebuild

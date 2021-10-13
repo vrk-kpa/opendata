@@ -6,6 +6,9 @@ echo "reinit_drupal() ..."
 # always init modules first
 . init_modules.sh
 
+# apply jinja2 templates
+jinja2 /opt/templates/settings.php.j2 -o /opt/drupal/web/sites/default/settings.php
+
 # run database upgrades & rebuild cache
 drush updatedb -y --no-cache-clear
 drush cache:rebuild

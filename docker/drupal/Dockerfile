@@ -67,9 +67,8 @@ COPY site_config /opt/drupal/site_config
 # install translations
 COPY i18n /opt/i18n
 
-# install services.yml and settings.php
+# install services.yml
 COPY services.yml /opt/drupal/web/sites/default/services.yml
-COPY settings.php /opt/drupal/web/sites/default/settings.php
 
 # install templates
 COPY templates /opt/templates
