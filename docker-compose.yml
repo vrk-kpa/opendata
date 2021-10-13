@@ -8,11 +8,22 @@ version: "2"
 # - /var/www/html/sites
 # NOTE: drupal holds control over its volumes and populates them
 #       nginx just mounts the volumes to specific paths as read-only
+# NOTE: uncomment the modules service bind-mount .npmrc for fontawesome-pro
 
 services:
+  modules:
+    build:
+      context: ./
+      dockerfile: docker/modules/Dockerfile
+    restart: on-failure
+    volumes:
+      - modules_data:/opt/modules
+      # - ./modules/ytp-assets-common/.npmrc:/opt/modules/ytp-assets-common/.npmrc
+
   postgres:
     build:
       context: ./docker/postgres
+    restart: on-failure
     ports:
       - "5432:5432"
     networks:
@@ -35,6 +46,7 @@ services:
 
   redis:
     image: redis:6.0.7
+    restart: on-failure
     ports:
       - "6379:6379"
     networks:
@@ -43,6 +55,7 @@ services:
   solr:
     build:
       context: ./docker/solr
+    restart: on-failure
     expose:
       - 8983
     networks:
@@ -61,6 +74,7 @@ services:
       - postgres
       - redis
       - solr
+      - modules
     expose:
       - 5000
     env_file:
@@ -98,14 +112,14 @@ services:
 
   drupal:
     build:
-      context: ./
-      dockerfile: docker/drupal/Dockerfile
+      context: ./docker/drupal
     restart: always
     networks:
       - frontend
       - backend
     depends_on:
       - postgres
+      - modules
     expose:
       - 9000
     env_file:
@@ -132,9 +146,8 @@ services:
       - MATOMO_SCRIPT_DOMAIN=${MATOMO_SCRIPT_DOMAIN}
       - MATOMO_TOKEN=${MATOMO_TOKEN}
     volumes:
+      - modules_data:/opt/modules
       - drupal_data:/opt/drupal/web
-      - drupal_resources:/opt/resources
-      - drupal_theme:/opt/modules/avoindata-drupal-theme
 
   nginx:
     build:
@@ -156,12 +169,12 @@ services:
       - CKAN_PORT=${CKAN_PORT}
       - DRUPAL_HOST=${DRUPAL_HOST}
     volumes:
+      - modules_data:/opt/modules:ro
       - drupal_data:/var/www/html:ro
-      - drupal_resources:/var/www/resources:ro
-      - drupal_theme:/opt/modules/avoindata-drupal-theme:ro
 
   mailhog:
     image: mailhog/mailhog:latest
+    restart: on-failure
     networks:
       - frontend
       - backend
@@ -177,12 +190,11 @@ services:
       - ./docker/.mh-auth:/mailhog/auth
 
 volumes:
+  modules_data:
   postgres_data:
   solr_data:
   ckan_data:
   drupal_data:
-  drupal_resources:
-  drupal_theme:
 
 networks:
   frontend:

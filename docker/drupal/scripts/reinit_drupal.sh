@@ -3,6 +3,13 @@ set -e
 
 echo "reinit_drupal() ..."
 
+# always init modules first
+. init_modules.sh
+
+# run database upgrades & rebuild cache
+drush updatedb -y --no-cache-clear
+drush cache:rebuild
+
 # apply jinja2 templates
 jinja2 --format=yaml /opt/templates/site_config/disqus.settings.yml.j2    -o /opt/drupal/site_config/disqus.settings.yml
 jinja2 --format=yaml /opt/templates/site_config/matomo.settings.yml.j2    -o /opt/drupal/site_config/matomo.settings.yml
