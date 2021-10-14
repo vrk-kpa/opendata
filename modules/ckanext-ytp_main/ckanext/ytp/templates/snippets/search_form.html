@@ -52,7 +52,7 @@
                 </h2>
             {% endif %}
         {% endblock %}
-        
+
         {% block search_sortby %}
             {% if disableable_sorting %}
                 <div class="form-select control-group control-order-by m-0">
@@ -83,7 +83,7 @@
             </button>
         {% endif %}
     </div>
-        
+
     {% block search_facets %}
         {% if facets %}
             <p class="filter-list">
@@ -97,7 +97,9 @@
                             {%- else -%}
                                 {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
                             {%- endif %}
-                            <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fas fa-times-circle"></i></a>
+                            {# FIXME: facets.remove_fields is undefined
+                                <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fas fa-times-circle"></i></a>
+                            #}
                         </span>
                     {% endfor %}
                 {% endfor %}

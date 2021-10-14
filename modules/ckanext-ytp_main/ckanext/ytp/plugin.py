@@ -37,6 +37,7 @@ from sqlalchemy.sql.expression import false
 from flask import Blueprint
 from logic import package_autocomplete
 from views import dataset_autocomplete
+import views_organization
 
 import auth
 import menu
@@ -818,7 +819,8 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
     """ CKAN plugin to change how organizations work """
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
-    plugins.implements(plugins.IRoutes, inherit=True)
+    # plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IValidators)
@@ -870,6 +872,11 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
                     ckan_icon='group')
 
         return map
+
+    def get_blueprint(self):
+        u'''Return a Flask Blueprint object to be registered by the app.'''
+
+        return views_organization.get_blueprints()
 
     # IValidators
     def get_validators(self):

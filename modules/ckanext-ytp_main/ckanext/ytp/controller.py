@@ -13,8 +13,7 @@ from ckan.lib import helpers as h
 from ckan.lib.base import abort, render
 from ckan.logic import get_action, NotFound, NotAuthorized, \
     check_access, clean_dict, tuplize_dict, parse_params, ValidationError
-from paste.deploy.converters import asbool
-from pylons import config
+from ckan.plugins.toolkit import asbool, config
 import ckan.authz as authz
 import ckan.lib.base as base
 import ckan.lib.navl.dictization_functions as dictization_functions
