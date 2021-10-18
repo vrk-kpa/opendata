@@ -6,7 +6,8 @@ FROM drupal:9-fpm-alpine
 
 # install required pkgs
 RUN apk add --no-cache unzip git postgresql-client py3-yaml && \
-    apk add --no-cache jinja2-cli --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
+    apk add --no-cache jinja2-cli --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+    apk add --no-cache python3
 
 # make sure config sync directory exists
 RUN mkdir -p /opt/drupal/web/sites/default/sync && \

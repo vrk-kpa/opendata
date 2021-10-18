@@ -147,6 +147,15 @@ services:
       - MATOMO_DOMAIN=${MATOMO_DOMAIN}
       - MATOMO_SCRIPT_DOMAIN=${MATOMO_SCRIPT_DOMAIN}
       - MATOMO_TOKEN=${MATOMO_TOKEN}
+      - USERS_0_USER=${USERS_0_USER}
+      - USERS_0_PASS=${USERS_0_PASS}
+      - USERS_0_EMAIL=${USERS_0_EMAIL}
+      - USERS_1_USER=${USERS_1_USER}
+      - USERS_1_PASS=${USERS_1_PASS}
+      - USERS_1_EMAIL=${USERS_1_EMAIL}
+      - USERS_2_USER=${USERS_2_USER}
+      - USERS_2_PASS=${USERS_2_PASS}
+      - USERS_2_EMAIL=${USERS_2_EMAIL}
     volumes:
       - modules_data:/opt/modules
       - drupal_data:/opt/drupal/web

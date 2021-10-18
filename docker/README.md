@@ -36,7 +36,7 @@ This folder contains dockerized versions of the opendata services.
 
 ### Build & run
 ```bash
-docker-compose build && docker-compose --env-file docker/.env.local up -d
+docker-compose --env-file docker/.env.local up --build -d
 ```
 
 ### Scale service X to N containers

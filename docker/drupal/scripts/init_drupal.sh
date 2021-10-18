@@ -25,6 +25,9 @@ jinja2 /opt/templates/settings.php.j2 -o /opt/drupal/web/sites/default/settings.
 drush updatedb -y --no-cache-clear
 drush cache:rebuild
 
+# init users
+python3 init_users.py
+
 # enable language modules, add languages and set default
 drush pm:enable -y config_translation
 drush pm:enable -y content_translation

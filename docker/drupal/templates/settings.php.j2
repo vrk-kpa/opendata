@@ -749,6 +749,11 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  */
 $settings['trusted_host_patterns'] = [
   '^{{ environ('DOMAIN_NAME')|replace(".", "\.") }}$',
+
+  {% if environ('DOMAIN_NAME') == 'localhost' %}
+  '^{{ "nginx" }}$',
+  {% endif %}
+
   {% if environ('SECONDARY_DOMAIN_NAME') is defined and environ('SECONDARY_DOMAIN_NAME')|length -%}
   '^{{ environ('SECONDARY_DOMAIN_NAME')|replace(".", "\.") }}$',
   {% endif -%}
