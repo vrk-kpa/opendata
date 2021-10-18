@@ -328,7 +328,12 @@ End of dropdown CSS
   a:hover {
     color: @navbar-color-links;
     background-color: @navbar-background;
-    text-decoration: underline;
+    border-bottom: 4px solid @main-nav-hover-border-bottom;
+    text-decoration: none;
+
+    &.is-active {
+      background-color: #e7e7e7;
+    }
   }
 
   li.active {
@@ -342,17 +347,15 @@ End of dropdown CSS
 
   li {
     a {
+      margin-right: 5px;
+
       &.is-active {
         position: relative;
+        border-bottom: 4px solid @main-nav-hover-border-bottom;
 
         &::after {
           position: absolute;
-          content: ' ';
-          bottom: 4px;
-          height: 4px;
-          left: 10px;
-          right: 10px;
-          background-color: @suomi-highlightBase;
+          border-bottom: 4px solid @main-nav-hover-border-bottom;
         }
       }
     }
@@ -366,7 +369,17 @@ End of dropdown CSS
     &:active {
       color: @navbar-color-links;
       background-color: @navbar-background;
-      text-decoration: underline;
+      text-decoration: none;
+    }
+  }
+
+  // Bit of a hack to not make the nav go crazy on resize.
+  @media (max-width: 1155px) {
+    li {
+      a {
+        margin: 5px 5px 5px 5px;
+        padding: 5px 5px 5px 5px;
+      }
     }
   }
 
@@ -411,6 +424,7 @@ End of dropdown CSS
 
       &:hover {
         border-left: 10px solid @menu-hover-border-color;
+        border-bottom: none;
         text-decoration: none;
       }
     }

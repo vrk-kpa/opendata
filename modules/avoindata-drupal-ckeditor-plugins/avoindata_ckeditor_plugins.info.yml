@@ -2,6 +2,7 @@ name: Avoindata Drupal CKEditor plugins
 type: module
 description: Adds several buttons for custom elements to CKEditor.
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: Custom
 dependencies:
   - drupal:ckeditor

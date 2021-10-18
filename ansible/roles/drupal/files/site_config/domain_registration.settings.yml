@@ -1,0 +1,4 @@
+method: 1
+pattern: "sina.com\r\nbaridasari.ru\r\ntwilightparadox.com\r\nhostmailmonster.com\r\n*.top\r\n*.idea.frienced.com\r\nkopqi.com\r\nhillproductions.com\r\nweb2mail.com"
+message: 'Your account was not created. You are trying to register from a domain we have blocked due to multiple spam accounts.'
+langcode: en

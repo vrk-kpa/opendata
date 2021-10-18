@@ -37,7 +37,7 @@
 
     {% if show_advanced_search  %}
       <div class="mt-2 d-flex justify-content-end">
-          <a href="{{ h.url_for(controller='ckanext.advancedsearch.controller:YtpAdvancedSearchController', action='search') }}" class="btn-avoindata-header">
+          <a href="{{ h.url_for('advanced_search_blueprint.search') }}" class="btn-avoindata-header">
               {% trans %}
                   Use advanced search
               {% endtrans %}

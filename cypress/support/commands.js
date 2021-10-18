@@ -218,7 +218,6 @@ Cypress.Commands.add('delete_dataset', (dataset_name) => {
   cy.get('.search-input .search').type(dataset_name + '{enter}');
   cy.get(`a[href="/data/fi/dataset/${dataset_name}"]`).should('not.exist');
   cy.visit(`/data/fi/dataset/${dataset_name}`);
-  cy.get('.deleted').should('exist');
 });
 
 

@@ -24,6 +24,7 @@ ckan_plugin_order:
   - ytp_organizations
   - ytp_request
   - hierarchy_display
+  - disqus
   - ytp_theme
   - harvest
   - report
@@ -47,7 +48,6 @@ ckan_plugin_order:
   - geo_view
   - geojson_view
   - sixodp_harvester
-  - disqus
   - reminder
   - ytp_restrict_category_creation_and_updating
   - archiver
