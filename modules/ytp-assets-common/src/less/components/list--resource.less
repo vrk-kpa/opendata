@@ -2,8 +2,12 @@
 .resource-list {
   margin: 0;
 
+  .resource-item:last-child {
+     border-bottom: 1px solid rgb(200, 205, 208);
+  }
+
   .resource-item {
-    border-bottom: 1px solid @color--extra-light-grey;
+    border-top: 1px solid @color--extra-light-grey;
     border-radius: 0;
     padding: @padding__resource-list-item;
     display: flex;
@@ -11,6 +15,7 @@
     &:hover {
       background: transparent;
     }
+
 
     .resource-item__icon {
       position: static;
@@ -27,11 +32,24 @@
       line-height: 35px;
       font-weight: 600;
       margin-left: auto;
-    }
 
+    }
+    .resource-item__info__title {
+      color: @opendata-brand-primary;
+      transition: color @transition-duration--short @transition-timing-function--default;
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 24px;
+      font-family: SourceSansPro-Regular;
+    }
     a {
       color: @opendata-brand-primary;
       transition: color @transition-duration--short @transition-timing-function--default;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+      font-family: SourceSansPro-Semibold;
+
 
       &:hover {
         color: @opendata-brand-primary--highlight;
