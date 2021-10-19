@@ -6,7 +6,7 @@ Main repository for Yhteentoimivuuspalvelut (_Interoperability services_ in Finn
 - [Avoindata.fi](https://www.avoindata.fi/), a search engine and metadata catalog for Finnish open data
 - A catalog of interoperability tools and guidelines
 
-The service is publicly available at [Avoindata.fi](https://www.avoindata.fi/). Free registration is required for features such as commenting and publishing of datasets. A developer sandbox is also available at [beta.avoindata.fi](http://beta.avoindata.fi) or [beta.opendata.fi](http://beta.opendata.fi).
+The service is publicly available at [Avoindata.fi](https://www.avoindata.fi/). Free registration is required for features such as commenting and publishing of datasets. A developer sandbox is also available at [betaavoindata.fi](http://betaavoindata.fi) or [betaopendata.fi](http://betaopendata.fi).
 
 This source repository contains:
 
@@ -31,7 +31,7 @@ Please file [issues at Github](https://github.com/vrk-kpa/ytp/issues).
 
 ### Copying and License
 
-This material is copyright (c) 2013-2020 Digital and Population Data Services Agency, Finland.
+This material is copyright (c) 2013-2021 Digital and Population Data Services Agency, Finland.
 
 CKAN extensions and Drupal components are licensed under the GNU Affero General Public License (AGPL) v3.0
 whose full text may be found at: http://www.fsf.org/licensing/licenses/agpl-3.0.html
