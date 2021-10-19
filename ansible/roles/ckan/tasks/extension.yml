@@ -43,16 +43,19 @@
 - name: Register extension requirements-py2.txt
   stat:
     path: "{{ ckan_extension_sync_path }}/{{ item }}/requirements-py2.txt"
+    follow: true
   register: requirements_py2
 
 - name: Register extension requirements.txt
   stat:
     path: "{{ ckan_extension_sync_path }}/{{ item }}/requirements.txt"
+    follow: true
   register: requirements
 
 - name: Register extension pip-requirements.txt
   stat:
     path: "{{ ckan_extension_sync_path }}/{{ item }}/pip-requirements.txt"
+    follow: true
   register: piprequirements
 
 - name: Install extension requirements-py2
@@ -71,7 +74,7 @@
   pip:
     requirements: "{{ ckan_extension_sync_path }}/{{ item }}/pip-requirements.txt"
     virtualenv: "{{ ckan_virtual_environment }}"
-  when: piprequirements.stat.exists
+  when: piprequirements.stat.exists and not requirements_py2.stat.exists
 
 - name: Install extension {{ item }}
   pip:
