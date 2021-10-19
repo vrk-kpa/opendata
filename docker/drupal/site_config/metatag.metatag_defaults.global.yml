@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies: {  }
+id: global
+label: Global
+tags:
+  canonical_url: '[current-page:url]'
+  title: '[current-page:title] | [site:name]'
+  og_title: '[current-page:title]'
+  og_url: '[current-page:url]'
+  og_image: /themes/avoindata/logo.png
+  og_type: website
+  og_site_name: '[site:name]'

@@ -1,0 +1,8 @@
+tag: i
+method: webfonts
+use_cdn: true
+external_svg_location: '/resources/vendor/@fortawesome/fontawesome/css/all.css'
+use_shim: true
+external_shim_location: '/resources/vendor/@fortawesome/fontawesome/css/v4-shims.css'
+langcode: en
+allow_pseudo_elements: false

@@ -1,0 +1,8 @@
+entity_type_groups:
+  node:
+    avoindata_article:
+      open_graph: open_graph
+    avoindata_event:
+      open_graph: open_graph
+    avoindata_guide_page:
+      open_graph: open_graph

@@ -1,0 +1,44 @@
+{
+  "//": "If this file is updated, remember to update ansible/roles/opendata_frontend/files/package.json too",
+  "name": "ytp-assets-common",
+  "version": "1.0.0",
+  "repository": "https://github.com/vrk-kpa/opendata/",
+  "devDependencies": {
+    "autoprefixer": "^10.0.1",
+    "del": "^6.0.0",
+    "extend": "^3.0.2",
+    "glob-watcher": "^5.0.5",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-base64-inline": "~1.0.6",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-inline-css": "^3.5.0",
+    "gulp-less": "^4.0.1",
+    "gulp-livereload": "~4.0.2",
+    "gulp-npm-dist": "^1.0.3",
+    "gulp-rename": "^2.0.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-stylelint": "^13.0.0",
+    "gulp-template": "^5.0.0",
+    "gulp-terser": "^1.4.0",
+    "imagemin-jpegoptim": "^7.0.0",
+    "less": "^3.12.2",
+    "pump": "^3.0.0",
+    "stylelint": "^13.7.2",
+    "stylelint-config-standard": "^20.0.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
+    "bootstrap": "^3.4.1",
+    "bootstrap-table": "^1.18.0",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
+    "jstree": "^3.3.10",
+    "moment": "^2.29.1",
+    "select2-bootstrap-css": "^1.4.6"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ]
+}
