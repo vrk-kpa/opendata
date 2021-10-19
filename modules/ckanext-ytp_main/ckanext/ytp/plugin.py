@@ -241,7 +241,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IConfigurer #
 
     def update_config(self, config):
-        toolkit.add_public_directory(config, '/var/www/resources')
         toolkit.add_resource('public/javascript/', 'ytp_dataset_js')
         toolkit.add_template_directory(config, 'templates')
 
@@ -1053,9 +1052,8 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
-        toolkit.add_template_directory(config, '/var/www/resources/templates')
-        toolkit.add_public_directory(config, '/var/www/resources')
-        toolkit.add_resource('/var/www/resources', 'ytp_resources')
+        toolkit.add_template_directory(config, 'resources/templates')
+        toolkit.add_resource('resources', 'ytp_resources')
         toolkit.add_public_directory(config, 'public')
         toolkit.add_resource('public/javascript', 'theme_javascript')
         toolkit.add_template_directory(config, 'postit')
