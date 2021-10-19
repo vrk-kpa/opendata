@@ -97,9 +97,7 @@
                             {%- else -%}
                                 {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
                             {%- endif %}
-                            {# FIXME: facets.remove_fields is undefined
-                                <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fas fa-times-circle"></i></a>
-                            #}
+                            <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fas fa-times-circle"></i></a>
                         </span>
                     {% endfor %}
                 {% endfor %}

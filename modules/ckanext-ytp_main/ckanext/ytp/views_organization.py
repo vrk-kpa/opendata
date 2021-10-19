@@ -6,13 +6,14 @@ import ckan.lib.base as base
 import ckan.logic as logic
 import ckan.lib.helpers as h
 import ckan.model as model
+import ckan.lib.navl.dictization_functions as dict_fns
 from ckan.common import g, request, _, c, config
 from ckan.views.group import BulkProcessView, CreateGroupView,\
                             EditGroupView, DeleteGroupView, MembersGroupView, \
-                            index, about, activity, set_org, _action, \
+                            about, activity, set_org, _action, _check_access, \
                             _db_to_form_schema, _read, _get_group_template, \
-                            member_delete, history, followers, follow, unfollow, admins, \
-                            _check_access
+                            member_delete, history, followers, follow, unfollow, admins  # noqa: F401
+from ckanext.organizationapproval.logic import send_new_organization_email_to_admin
 
 from flask import Blueprint
 
@@ -23,6 +24,64 @@ NotAuthorized = logic.NotAuthorized
 ValidationError = logic.ValidationError
 check_access = logic.check_access
 get_action = logic.get_action
+abort = base.abort
+tuplize_dict = logic.tuplize_dict
+clean_dict = logic.clean_dict
+parse_params = logic.parse_params
+
+
+class CreateOrganizationView(CreateGroupView):
+    u'''Create organization view '''
+
+    def _prepare(self, data=None):
+        group_type = u'organization'
+        if data:
+            data['type'] = group_type
+
+        context = {
+            u'model': model,
+            u'session': model.Session,
+            u'user': g.user,
+            u'save': u'save' in request.params,
+            u'parent': request.params.get(u'parent', None),
+            u'group_type': group_type
+        }
+
+        try:
+            _check_access(u'group_create', context)
+        except NotAuthorized:
+            base.abort(403, _(u'Unauthorized to create a group'))
+
+        return context
+
+    def post(self, group_type, is_organization):
+        set_org(is_organization)
+        context = self._prepare()
+        try:
+            data_dict = clean_dict(
+                dict_fns.unflatten(tuplize_dict(parse_params(request.form))))
+            data_dict.update(clean_dict(
+                dict_fns.unflatten(tuplize_dict(parse_params(request.files)))
+            ))
+            data_dict['type'] = group_type or u'group'
+            context['message'] = data_dict.get(u'log_message', u'')
+            data_dict['users'] = [{u'name': g.user, u'capacity': u'admin'}]
+            data_dict['approval_status'] = 'pending'
+
+            group = _action(u'group_create')(context, data_dict)
+            send_new_organization_email_to_admin()
+        except (NotFound, NotAuthorized):
+            base.abort(404, _(u'Group not found'))
+        except dict_fns.DataError:
+            base.abort(400, _(u'Integrity Error'))
+        except ValidationError as e:
+            errors = e.error_dict
+            error_summary = e.error_summary
+            return self.get(group_type, is_organization,
+                            data_dict, errors, error_summary)
+
+        return h.redirect_to(group['type'] + u'.read', id=group['name'])
+
 
 def read(group_type, is_organization, id=None, limit=20):
     extra_vars = {}
@@ -68,9 +127,7 @@ def read(group_type, is_organization, id=None, limit=20):
         return h.redirect_to(
             h.add_url_param(alternative_url=url_with_name))
 
-    # TODO: Remove
-    # ckan 2.9: Adding variables that were removed from c object for
-    # compatibility with templates in existing extensions
+    # Needed by ckan/views/group::_read
     g.q = q
     g.group_dict = group_dict
     g.group = group
@@ -83,6 +140,7 @@ def read(group_type, is_organization, id=None, limit=20):
     return base.render(
         _get_group_template(u'read_template', g.group_dict['type']),
         extra_vars)
+
 
 def members(id, group_type, is_organization):
     extra_vars = {}
@@ -108,18 +166,106 @@ def members(id, group_type, is_organization):
                    _(u'User %r not authorized to edit members of %s') %
                    (g.user, id))
 
-    # TODO: Remove
-    # ckan 2.9: Adding variables that were removed from c object for
-    # compatibility with templates in existing extensions
-    g.members = members
-    g.group_dict = group_dict
-
     extra_vars = {
         u"members": members,
         u"group_dict": group_dict,
         u"group_type": group_type
     }
     return base.render(u'group/members.html', extra_vars)
+
+
+def user_list(id, group_type, is_organization):
+    context = {'model': model, 'session': model.Session,
+               'user': c.user, 'userobj': c.userobj}
+    extra_vars = {}
+
+    try:
+        check_access('user_list', context, {})
+
+        q = model.Session.query(model.Group, model.Member, model.User). \
+            filter(model.Member.group_id == model.Group.id). \
+            filter(model.Member.table_id == model.User.id). \
+            filter(model.Member.table_name == 'user'). \
+            filter(model.User.name != 'harvest'). \
+            filter(model.User.name != 'default'). \
+            filter(model.User.state == 'active'). \
+            filter(model.Group.is_organization == 'true')
+
+        users = {}
+
+        for group, member, user in q.all():
+
+            user_obj = users.get(user.name, {})
+            if user_obj == {}:
+                user_obj = {
+                    'user_id': user.id,
+                    'username': user.name,
+                    'organizations': [group.display_name],
+                    'roles': [member.capacity],
+                    'email': user.email
+                }
+            else:
+                user_obj['organizations'].append(group.display_name)
+                if member.capacity not in user_obj['roles']:
+                    user_obj['roles'].append(member.capacity)
+
+            users[user.name] = user_obj
+
+        c.users = users
+        extra_vars['users'] = users
+
+        return base.render('organization/user_list.html', extra_vars)
+
+    except NotAuthorized:
+        abort(403, _('Only system administrators are allowed to view user list.'))
+
+
+def admin_list(id, group_type, is_organization):
+    context = {'model': model, 'session': model.Session,
+               'user': c.user, 'userobj': c.userobj}
+    extra_vars = {}
+
+    try:
+        check_access('user_list', context, {})
+
+        q = model.Session.query(model.Group, model.Member, model.User). \
+            filter(model.Member.group_id == model.Group.id). \
+            filter(model.Member.table_id == model.User.id). \
+            filter(model.Member.table_name == 'user'). \
+            filter(model.Member.capacity == 'admin'). \
+            filter(model.User.name != 'harvest'). \
+            filter(model.User.name != 'default'). \
+            filter(model.User.state == 'active'). \
+            filter(model.Group.is_organization == 'true')
+
+        users = {}
+
+        for group, member, user in q.all():
+
+            user_obj = users.get(user.name, {})
+            if user_obj == {}:
+                user_obj = {
+                    'user_id': user.id,
+                    'username': user.name,
+                    'organizations': [group.display_name],
+                    'roles': [member.capacity],
+                    'email': user.email
+                }
+            else:
+                user_obj['organizations'].append(group.display_name)
+                if member.capacity not in user_obj['roles']:
+                    user_obj['roles'].append(member.capacity)
+
+            users[user.name] = user_obj
+
+        c.users = users
+        extra_vars['users'] = users
+
+        return base.render('organization/admin_list.html', extra_vars)
+
+    except NotAuthorized:
+        abort(403, _('Only system administrators are allowed to view user list.'))
+
 
 def index(group_type, is_organization):
     extra_vars = {}
@@ -143,12 +289,6 @@ def index(group_type, is_organization):
 
     q = request.params.get(u'q', u'')
     sort_by = request.params.get(u'sort')
-
-    # TODO: Remove
-    # ckan 2.9: Adding variables that were removed from c object for
-    # compatibility with templates in existing extensions
-    g.q = q
-    g.sort_by_selected = sort_by
 
     extra_vars["q"] = q
     extra_vars["sort_by_selected"] = sort_by
@@ -179,7 +319,7 @@ def index(group_type, is_organization):
         return base.render(
             _get_group_template(u'index_template', group_type), extra_vars)
 
-    c.with_datasets = with_datasets = request.params.get('with_datasets', '').lower() in ('true', '1', 'yes')
+    extra_vars['with_datasets'] = with_datasets = request.params.get('with_datasets', '').lower() in ('true', '1', 'yes')
     tree_list_params = {
                     'q': q, 'sort_by': sort_by, 'with_datasets': with_datasets,
                     'page': page, 'items_per_page': items_per_page}
@@ -194,12 +334,67 @@ def index(group_type, is_organization):
     extra_vars["page"].items = page_results['page_results']
     extra_vars["group_type"] = group_type
 
-    # TODO: Remove
-    # ckan 2.9: Adding variables that were removed from c object for
-    # compatibility with templates in existing extensions
-    g.page = extra_vars["page"]
     return base.render(
         _get_group_template(u'index_template', group_type), extra_vars)
+
+
+def embed(id, group_type, is_organization, limit=5):
+    """
+        Fetch given organization's packages and show them in an embeddable list view.
+        See Nginx config for X-Frame-Options SAMEORIGIN header modifications.
+    """
+
+    def make_pager_url(q=None, page=None):
+        ctrlr = 'ckanext.ytp.controller:YtpOrganizationController'
+        url = h.url_for(controller=ctrlr, action='embed', id=id)
+        return url + u'?page=' + str(page)
+
+    extra_vars = {}
+
+    try:
+        context = {
+            'model': model,
+            'session': model.Session,
+            'user': c.user or c.author
+        }
+        check_access('group_show', context, {'id': id})
+    except NotFound:
+        abort(404, _('Group not found'))
+    except NotAuthorized:
+        g = model.Session.query(model.Group).filter(model.Group.name == id).first()
+        if g is None or g.state != 'active':
+            return base.render('group/organization_not_found.html')
+
+    page = h.get_page_number(request.params) or 1
+
+    group_dict = {'id': id}
+    group_dict['include_datasets'] = False
+    c.group_dict = _action('group_show')(context, group_dict)
+    c.group = context['group']
+
+    q = c.q = request.params.get('q', '')
+    q += ' owner_org:"%s"' % c.group_dict.get('id')
+
+    data_dict = {
+        'q': q,
+        'rows': limit,
+        'start': (page - 1) * limit,
+        'extras': {}
+    }
+
+    query = get_action('package_search')(context, data_dict)
+
+    c.page = h.Page(
+        collection=query['results'],
+        page=page,
+        url=make_pager_url,
+        item_count=query['count'],
+        items_per_page=limit
+    )
+
+    c.page.items = query['results']
+
+    return base.render("organization/embed.html", extra_vars)
 
 
 organization = Blueprint(u'ytp_organization', __name__,
@@ -207,43 +402,45 @@ organization = Blueprint(u'ytp_organization', __name__,
                          url_defaults={u'group_type': u'organization',
                                        u'is_organization': True})
 
+organization.add_url_rule(u'/', view_func=index, strict_slashes=False)
+organization.add_url_rule(
+    u'/new',
+    methods=[u'GET', u'POST'],
+    view_func=CreateOrganizationView.as_view(str(u'new')))
+organization.add_url_rule(u'/<id>', methods=[u'GET'], view_func=read)
+organization.add_url_rule(u'/<id>/embed', methods=[u'GET'], view_func=embed)
+organization.add_url_rule(
+    u'/edit/<id>', view_func=EditGroupView.as_view(str(u'edit')))
+organization.add_url_rule(
+    u'/activity/<id>/<int:offset>', methods=[u'GET'], view_func=activity)
+organization.add_url_rule(u'/about/<id>', methods=[u'GET'], view_func=about)
+organization.add_url_rule(
+    u'/members/<id>', methods=[u'GET', u'POST'], view_func=members)
+organization.add_url_rule(
+    u'/members/<id>/admin_list', methods=[u'GET'], view_func=admin_list)
+organization.add_url_rule(
+    u'/members/<id>/user_list', methods=[u'GET'], view_func=user_list)
+organization.add_url_rule(
+    u'/member_new/<id>',
+    view_func=MembersGroupView.as_view(str(u'member_new')))
+organization.add_url_rule(
+    u'/bulk_process/<id>',
+    view_func=BulkProcessView.as_view(str(u'bulk_process')))
+organization.add_url_rule(
+    u'/delete/<id>',
+    methods=[u'GET', u'POST'],
+    view_func=DeleteGroupView.as_view(str(u'delete')))
 
-def register_group_plugin_rules(blueprint):
-    actions = [
-        u'member_delete', u'history', u'followers', u'follow',
-        u'unfollow', u'admins', u'activity'
-    ]
-    blueprint.add_url_rule(u'/', view_func=index, strict_slashes=False)
-    blueprint.add_url_rule(
-        u'/new',
+actions = [
+    u'member_delete', u'history', u'followers', u'follow',
+    u'unfollow', u'admins', u'activity'
+]
+for action in actions:
+    organization.add_url_rule(
+        u'/{0}/<id>'.format(action),
         methods=[u'GET', u'POST'],
-        view_func=CreateGroupView.as_view(str(u'new')))
-    blueprint.add_url_rule(u'/<id>', methods=[u'GET'], view_func=read)
-    blueprint.add_url_rule(
-        u'/edit/<id>', view_func=EditGroupView.as_view(str(u'edit')))
-    blueprint.add_url_rule(
-        u'/activity/<id>/<int:offset>', methods=[u'GET'], view_func=activity)
-    blueprint.add_url_rule(u'/about/<id>', methods=[u'GET'], view_func=about)
-    blueprint.add_url_rule(
-        u'/members/<id>', methods=[u'GET', u'POST'], view_func=members)
-    blueprint.add_url_rule(
-        u'/member_new/<id>',
-        view_func=MembersGroupView.as_view(str(u'member_new')))
-    blueprint.add_url_rule(
-        u'/bulk_process/<id>',
-        view_func=BulkProcessView.as_view(str(u'bulk_process')))
-    blueprint.add_url_rule(
-        u'/delete/<id>',
-        methods=[u'GET', u'POST'],
-        view_func=DeleteGroupView.as_view(str(u'delete')))
-    for action in actions:
-        blueprint.add_url_rule(
-            u'/{0}/<id>'.format(action),
-            methods=[u'GET', u'POST'],
-            view_func=globals()[action])
+        view_func=globals()[action])
 
-
-register_group_plugin_rules(organization)
 
 def get_blueprints():
     return [organization]
