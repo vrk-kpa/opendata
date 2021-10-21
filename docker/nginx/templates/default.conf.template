@@ -1,10 +1,21 @@
+# auth token mapping, prevents caching
+map $http_cookie $no_cache {
+  default $cookie_auth_tkt;
+  ~SESS 1;
+}
+
+# http scheme mapping
+map "$http_cloudfront_forwarded_proto:$http_x_forwarded_proto" $real_scheme {
+  default "http";
+  "~https" "https";
+}
+
 server {
   listen ${NGINX_PORT};
   server_name ${DOMAIN_NAME};
   root ${NGINX_ROOT};
   client_max_body_size ${NGINX_MAX_BODY_SIZE};
   gzip_static on;
-  index index.php index.html index.htm;
 
   # error pages
   error_page 503 @maintenance;
@@ -40,52 +51,51 @@ server {
     rewrite ^(.*)$ $internal_error break;
   }
 
+  # disable ckan index, redirect to drupal
+  rewrite ^/data/?$ $real_scheme://$http_host/fi permanent;
+  rewrite ^/data/(fi|en|en_GB|sv)/?$ $real_scheme://$http_host/$1 permanent;
+
+  # disable ckan login/register/logout, redirect to drupal
+  location /data/user/login {
+    rewrite ^/.* $real_scheme://$http_host/user/login permanent;
+  }
+  location /data/user/register {
+    rewrite ^/.* $real_scheme://$http_host/user/register permanent;
+  }
+  location /data/user/_logout {
+    rewrite ^/.* $real_scheme://$http_host/user/logout permanent;
+  }
+
   location = /favicon.ico {
-    log_not_found off; access_log off;
+    log_not_found off;
+    access_log off;
   }
 
   location = /robots.txt {
-    log_not_found off; access_log off; allow all;
+    allow all;
+    log_not_found off;
+    access_log off;
   }
 
-  # deny access to some files
-  location ~* ^(?!/data/.*dataset/).*\.(txt|log)$ {
-#    allow 192.168.0.0/16; <-- what should we allow?
-    deny all;
-  }
-
-  location ~ \..*/.*\.php$ {
-    return 403;
-  }
-
-  location ~ ^/sites/.*/private/ {
-    return 403;
-  }
-
-  location ~ ^/sites/[^/]+/files/.*\.php$ {
-    deny all;
-  }
-
-  location ~ /sites/default/.*\.(php|yml|conf|config|cfg)$ {
-    deny all;
-    return 404;
-  }
-
-  location ~ /.*\.(conf|config|cfg)$ {
-    deny all;
-    return 404;
-  }
-
-  location ~ (^|/)\. {
-    return 403;
-  }
-
-  # assets at /resources
   location /resources {
     root /var/www;
     autoindex off;
     expires ${NGINX_EXPIRES};
     log_not_found off;
+  }
+
+  location /data/ {
+    proxy_pass http://${CKAN_HOST}:${CKAN_PORT}/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Url-Scheme $scheme;
+    proxy_cache cache;
+    proxy_cache_bypass $no_cache;
+    proxy_no_cache $no_cache;
+    proxy_cache_valid 30m;
+    proxy_cache_key $host$scheme$proxy_host$request_uri;
+    proxy_intercept_errors on;
+    proxy_read_timeout 120s;
   }
 
   # drupal at /
@@ -100,7 +110,7 @@ server {
   location ~ \.php$ {
     resolver_timeout 5s;
     resolver ${NAMESERVER} valid=5s;
-    set $drupal_backend "${DRUPAL_HOST}:9000";
+    set $drupal_backend "${DRUPAL_HOST}:${DRUPAL_PORT}";
 
     fastcgi_split_path_info ^(.+\.php)(/.+)$;
     include fastcgi_params;
@@ -116,5 +126,10 @@ server {
   location ~* ^(?!/data|/resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
     expires ${NGINX_EXPIRES};
     log_not_found off;
+  }
+
+  # RDF namespace
+  location /ns {
+    alias /var/www/ns/;
   }
 }
