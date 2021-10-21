@@ -87,6 +87,14 @@
         {% endblock %}
     #}
 
+    {% block recommendations %}
+        {{ layout.moduleBoxHead(_('Recommend dataset')) }}
+            <div class="recommendations-dataset">
+                {% snippet 'recommendations/snippets/recommendations.html', package=pkg %}
+            </div>
+        {{ layout.moduleBoxFoot() }}
+    {% endblock %}
+
     {% block follow %}
         {{ layout.moduleBoxHead(_('Follow dataset')) }}
         <div class="follow-dataset">
