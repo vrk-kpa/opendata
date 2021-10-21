@@ -1,0 +1,44 @@
+{#
+    Renders a counter of given recommendations per package and a 'recommend' button.
+    
+    Usage: {% snippet "recommendations/snippets/recommendations.html", package=pkg %}
+#}
+
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+<meta id="package-data"
+    data-current-user={% if h.current_user() %} "true" {% else %} "false" {% endif %}
+    data-package-id="{{ package.id }}"
+    data-url-recommendation-count="{{ h.url_for('recommendations_blueprint.get_recommendation_count_for_package', package_id=package.id) }}"
+    data-url-check-user="{{ h.url_for('recommendations_blueprint.check_user', package_id=package.id) }}"
+    data-sitekey="{{ h.get_ytp_recommendation_recaptcha_sitekey() }}"
+></meta>
+
+<span class="recommendation-count hidden">
+    <span class="recommendation-count-text">
+        <p id="js-recommendation-count">
+            <b id="count">{{ package.recommendation_count }}</b> {{ _("recommendations") }}
+        </p>
+    </span>
+
+    <span class="recommendation-count-button">
+        <form action="{{ h.url_for('recommendations_blueprint.submit_recommendation') }}"
+                method="post"
+                id="recommendation-form">
+            <input name="package-id" id="package-id" type="hidden" value="{{ package.id }}"></input>
+            <button type="submit"
+                    value="Submit"
+                    id="submit-btn"
+                    class="suomi-button suomi-button-secondary">
+                <b>{{ _("Recommend") }}</b>
+            </button>
+        </form>
+    </span>
+</span>
+
+{% resource "ytp_recommendation/get-recommendations-info.js" %}
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
