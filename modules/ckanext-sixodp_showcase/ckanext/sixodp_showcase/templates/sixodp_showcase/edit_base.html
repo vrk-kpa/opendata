@@ -39,8 +39,8 @@
             <h1>{{name}}</h1>
             <ul class="nav">
               {% block content_primary_nav %}
-                {{ h.build_nav_icon('ckanext_showcase_edit', _('Edit showcase'), id=pkg.name, icon=None) }}
-                {{ h.build_nav_icon('ckanext_showcase_manage_datasets', _('Manage datasets'), id=pkg.name, icon=None) }}
+                {{ h.build_nav_icon('showcase_blueprint.edit', _('Edit showcase'), id=pkg.name, icon=None) }}
+                {{ h.build_nav_icon('showcase_blueprint.manage_datasets', _('Manage datasets'), id=pkg.name, icon=None) }}
               {% endblock %}
             </ul>
           </header>

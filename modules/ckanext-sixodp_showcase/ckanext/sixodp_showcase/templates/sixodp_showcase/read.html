@@ -94,7 +94,7 @@
     {% block package_description %}
       {% if h.check_access('ckanext_showcase_update', {'id':pkg.id }) %}
         <div class="actions">
-        {% link_for _('Manage'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='edit', id=pkg.name, class_='btn', icon='wrench' %}
+        {% link_for _('Manage'), controller='showcase_blueprint', action='edit', id=pkg.name, class_='btn', icon='wrench' %}
         </div>
       {% endif %}
 
