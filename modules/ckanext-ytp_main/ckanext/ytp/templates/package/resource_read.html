@@ -5,6 +5,7 @@
 {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
 {% block head_extras -%}
   {{ super() }}
+
   {% set description = h.markdown_extract(res.description, extract_length=200) if res.description else h.markdown_extract(c.package.notes, extract_length=200) %}
   <meta property="og:title" content="{{ h.dataset_display_name(c.package) }} - {{ h.resource_display_name(res) }} - {{ g.site_title }}">
   <meta property="og:description" content="{{ description|forceescape }}">
@@ -13,7 +14,8 @@
 
 {% block subtitle %}{{ h.dataset_display_name(c.package) }} - {{ h.resource_display_name(res) }}{% endblock %}
 
-{% block breadcrumb_content_selected %}{% endblock %}
+{% block breadcrumb_content_selected %}
+{% endblock %}
 
 {% block breadcrumb_content %}
   {{ super() }}
@@ -30,11 +32,11 @@
               <ul>
                 {% block resource_actions_inner %}
                   {% if h.check_access('package_update', {'id':pkg.id }) %}
-                    <li>{% link_for _('Manage'), controller='package', action='resource_edit', id=pkg.name, resource_id=res.id, class_='btn', icon='wrench' %}</li>
+                    <li>{% link_for _('Manage'), controller='package', action='resource_edit', id=pkg.name, resource_id=res.id, class_='btn btn-menu-manage', icon='wrench' %}</li>
                   {% endif %}
                   {% if res.url %}
                     <li>
-                      <a class="btn btn-primary resource-url-analytics resource-type-{{ res.resource_type }}" href="{{ res.url }}">
+                      <a class="btn btn-menu-manage resource-url-analytics resource-type-{{ res.resource_type }}" href="{{ res.url }}">
                         {% if res.resource_type in ('listing', 'service') %}
                           <i class="fas fa-eye"></i> {{ _('View') }}
                         {% elif  res.resource_type == 'api' %}
@@ -247,7 +249,7 @@
       {% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}
     </div>
   </section>
-  
+
   <h3>{{ _('Stats') }}</h3>
   <span>{{ _('Last 30 days, updated daily') }}</span>
   <div id="chart_div"></div>

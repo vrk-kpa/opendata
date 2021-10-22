@@ -14,9 +14,9 @@
       </div>
       <div class="content_action">
         {% block content_action %}
-          {% link_for _('Groups'), controller='package', action='groups', id=pkg.name, class_='opendata-content-action', icon='users'%}
+          {% link_for _('Groups'), controller='package', action='groups', id=pkg.name, class_='btn btn-menu-manage', icon='users'%}
            {% if h.check_access('package_update', {'id':pkg.id }) %}
-               {% link_for _('Manage'), controller='package', action='edit', id=pkg.name, class_='opendata-content-action', icon='wrench' %}
+               {% link_for _('Manage'), controller='package', action='edit', id=pkg.name, class_='btn btn-menu-manage', icon='wrench' %}
            {% endif %}
         {% endblock %}
       </div>

@@ -2,6 +2,12 @@
     h1 {
         margin-top: 0;
         margin-bottom: 20px;
+        color: @navbarInverseBackgroundHighlight;
+        font-family: "Source Sans Pro","Helvetica Neue",Arial,sans-serif34;
+        font-size: 28px;
+        font-weight: 600;
+        height: 34px;
+        line-height: 34px;
     }
     .read-more {
         font-weight: bold;
@@ -31,11 +37,25 @@
 }
 
 .module-content {
-    padding: @grid-gutter-width;
+    padding: 0px;
+    margin-bottom:55px;
     &:empty {
         display: none;
     }
 }
+
+.btn-menu-manage{
+      border-radius: 2px;
+      border: 1px solid @opendata-brand-primary;
+      font-family: "Source Sans Pro","Helvetica Neue",Arial,sans-serif34;
+      color: @opendata-brand-primary;
+
+
+    }
+.btn-menu-manage:hover{
+      text-decoration: underline;
+      color: @opendata-brand-primary--highlight;
+  }
 
 .module-footer {
     padding: 7px @gutterX 7px;
@@ -139,7 +159,6 @@
     z-index: 5; // Fixes overlapping .secondary on the Resource view page
     position: relative; // Fixes overlapping .secondary on the Resource view page
     background-color: @layoutTrimBackgroundColor;
-    border-bottom: 1px solid @genericBorderColor;
     margin-top: 0;
     margin-bottom: 0;
     .border-radius(3px 3px 0 0);
@@ -174,4 +193,13 @@
         max-height: 50px;
         vertical-align: middle;
     }
+}
+
+.apiset-title {
+  color: rgb(34, 34, 34);
+  font-size: 40px;
+  font-weight: 300;
+  height: 48px;
+  line-height: 48px;
+  margin: 0 0 3px;
 }
