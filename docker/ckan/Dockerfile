@@ -11,7 +11,42 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
 RUN apt-get install -yq nodejs && npm install -g gulp
 
 # copy custom modules
-COPY modules /opt/ckan_extensions/
+COPY modules/ytp-assets-common              /opt/ckan_extensions/ytp-assets-common/
+COPY modules/ckanext-drupal8                /opt/ckan_extensions/ckanext-drupal8/
+COPY modules/ckanext-ytp_drupal             /opt/ckan_extensions/ckanext-ytp_drupal/
+COPY modules/ckanext-ytp_tasks              /opt/ckan_extensions/ckanext-ytp_tasks/
+COPY modules/ckanext-ytp_request            /opt/ckan_extensions/ckanext-ytp_request/
+COPY modules/ckanext-ytp_main               /opt/ckan_extensions/ckanext-ytp_main/
+COPY modules/ckanext-hierarchy              /opt/ckan_extensions/ckanext-hierarchy/
+COPY modules/ckanext-matomo                 /opt/ckan_extensions/ckanext-matomo/
+COPY modules/ckanext-datarequests           /opt/ckan_extensions/ckanext-datarequests/
+COPY modules/ckanext-harvest                /opt/ckan_extensions/ckanext-harvest/
+COPY modules/ckanext-report                 /opt/ckan_extensions/ckanext-report/
+COPY modules/ckanext-spatial                /opt/ckan_extensions/ckanext-spatial/
+COPY modules/ckanext-dcat                   /opt/ckan_extensions/ckanext-dcat/
+COPY modules/ckanext-cloudstorage           /opt/ckan_extensions/ckanext-cloudstorage/
+COPY modules/ckanext-scheming               /opt/ckan_extensions/ckanext-scheming/
+COPY modules/ckanext-fluent                 /opt/ckan_extensions/ckanext-fluent/
+COPY modules/ckanext-showcase               /opt/ckan_extensions/ckanext-showcase/
+COPY modules/ckanext-sixodp_showcase        /opt/ckan_extensions/ckanext-sixodp_showcase/
+COPY modules/ckanext-sixodp_showcasesubmit  /opt/ckan_extensions/ckanext-sixodp_showcasesubmit/
+COPY modules/ckanext-geoview                /opt/ckan_extensions/ckanext-geoview/
+COPY modules/ckanext-pdfview                /opt/ckan_extensions/ckanext-pdfview/
+COPY modules/ckanext-disqus                 /opt/ckan_extensions/ckanext-disqus/
+COPY modules/ckanext-reminder               /opt/ckan_extensions/ckanext-reminder/
+COPY modules/ckanext-archiver               /opt/ckan_extensions/ckanext-archiver/
+COPY modules/ckanext-qa                     /opt/ckan_extensions/ckanext-qa/
+COPY modules/ckanext-organizationapproval   /opt/ckan_extensions/ckanext-organizationapproval/
+COPY modules/ckanext-advancedsearch         /opt/ckan_extensions/ckanext-advancedsearch/
+COPY modules/ckanext-forcetranslation       /opt/ckan_extensions/ckanext-forcetranslation/
+COPY modules/ckanext-apis                   /opt/ckan_extensions/ckanext-apis/
+COPY modules/ckanext-prh_tools              /opt/ckan_extensions/ckanext-prh_tools/
+COPY modules/ckanext-openapiviewer          /opt/ckan_extensions/ckanext-openapiviewer/
+COPY modules/ckanext-statistics             /opt/ckan_extensions/ckanext-statistics/
+COPY modules/ckanext-sentry                 /opt/ckan_extensions/ckanext-sentry/
+
+# frontend requires some common components
+COPY modules/avoindata-drupal-header        /opt/ckan_extensions/avoindata-drupal-header/
 
 # set workdir to frontend module & copy package.json
 WORKDIR /opt/ckan_extensions/ytp-assets-common
@@ -42,6 +77,7 @@ RUN apt-get update -yq && \
                     libssl-dev \
                     libffi-dev \
                     postgresql-client \
+                    cron \
                     -yq && \
     pip install cryptography pyOpenSSL ndg-httpsclient pyasn1 jinja2-cli polib
 
@@ -143,6 +179,14 @@ COPY docker/ckan/data ${DATA_DIR}
 
 # install templates
 COPY docker/ckan/templates ${APP_DIR}/templates
+
+# install crontab
+COPY --chown=ckan:ckan docker/ckan/cron/crontab /home/ckan/cron.d/crontab
+COPY --chmod=+x --chown=ckan:ckan docker/ckan/cron/scripts /opt/cron_scripts/
+RUN crontab -u ckan /home/ckan/cron.d/crontab && chmod u+s /usr/sbin/cron
+
+# install cron entrypoint
+COPY --chmod=+x --chown=ckan:ckan docker/ckan/cron/start_cron.sh ${APP_DIR}/start_cron.sh
 
 # finalize installation
 RUN rm -f ${APP_DIR}/production.ini && \

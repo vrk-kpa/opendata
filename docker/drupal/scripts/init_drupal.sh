@@ -128,6 +128,14 @@ jinja2 --format=yaml /opt/templates/site_config/recaptcha.settings.yml.j2 -o /op
 jinja2 --format=yaml /opt/templates/site_config/smtp.settings.yml.j2      -o /opt/drupal/site_config/smtp.settings.yml
 jinja2 --format=yaml /opt/templates/site_config/update.settings.yml.j2    -o /opt/drupal/site_config/update.settings.yml
 
+# disable captcha conditionally
+if [ "${CAPTCHA_ENABLED}" != "true" ]; then
+  rm -f /opt/drupal/site_config/captcha.settings.yml
+  rm -f /opt/drupal/site_config/captcha.captcha_point.user_register_form.yml
+  rm -f /opt/drupal/site_config/captcha.captcha_point.contact_message_event_form.yml
+  rm -f /opt/drupal/site_config/captcha.captcha_point.contact_message_feedback_form.yml
+fi
+
 # import settings
 drush config:import -y --partial --source /opt/drupal/site_config
 

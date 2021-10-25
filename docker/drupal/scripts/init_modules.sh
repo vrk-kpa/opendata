@@ -3,6 +3,7 @@ set -e
 
 echo "init_modules() ..."
 
+# cleanup
 rm -rf /opt/drupal/web/modules/avoindata-header
 rm -rf /opt/drupal/web/modules/avoindata-servicemessage
 rm -rf /opt/drupal/web/modules/avoindata-hero
@@ -19,6 +20,7 @@ rm -rf /opt/drupal/web/modules/avoindata-user
 rm -rf /opt/drupal/web/modules/avoindata-ckeditor-plugins
 rm -rf /opt/drupal/web/themes/avoindata
 
+# install
 /bin/cp -rf ${MOD_DIR}/avoindata-drupal-header/.            /opt/drupal/web/modules/avoindata-header
 /bin/cp -rf ${MOD_DIR}/avoindata-drupal-servicemessage/.    /opt/drupal/web/modules/avoindata-servicemessage
 /bin/cp -rf ${MOD_DIR}/avoindata-drupal-hero/.              /opt/drupal/web/modules/avoindata-hero
