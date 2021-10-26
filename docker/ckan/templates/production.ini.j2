@@ -140,6 +140,7 @@ disqus.notify.email_field = maintainer_email
 
 ckanext-datarequests.datarequest_notifications_admin_email = None
 
+ckanext.drupal8.site_url = http://{{ environ('NGINX_HOST') }}
 ckanext.drupal8.domain = {{ environ('DOMAIN_NAME') }},{{ environ('SECONDARY_HOST_NAME') }}
 # TODO: create roles properly in drupal and map to ckan
 ckanext.drupal8.sysadmin_role = {{ environ('ROLES_CKAN_ADMIN') }}

@@ -1111,7 +1111,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
         try:
             # Call our custom Drupal API to get drupal block content
-            hostname = config.get('ckan.site_url', '')
+            hostname = config.get('ckanext.drupal8.site_url', config.get('ckan.site_url', ''))
             domains = config.get('ckanext.drupal8.domain').split(",")
             verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
             cookies = {}
