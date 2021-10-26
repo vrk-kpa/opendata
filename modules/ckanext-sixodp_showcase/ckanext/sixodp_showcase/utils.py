@@ -37,16 +37,16 @@ def drill_down_url(alternative_url=None, **by):
         new_params=by
     )
 
+
 def remove_field(package_type, key, value=None, replace=None):
-    if not package_type:
-        package_type = u'dataset'
-    url = h.url_for(u'sixodp_showcase.search'.format(package_type))
+    url = h.url_for(u'sixodp_showcase.search')
     return h.remove_url_param(
         key,
         value=value,
         replace=replace,
         alternative_url=url
     )
+
 
 def index(package_type):
     extra_vars = {}
@@ -248,4 +248,4 @@ def read(id):
 
     package_type = showcase_utils.DATASET_TYPE_NAME
     return toolkit.render('sixodp_showcase/read.html',
-                    extra_vars={'dataset_type': package_type})
+                          extra_vars={'dataset_type': package_type})

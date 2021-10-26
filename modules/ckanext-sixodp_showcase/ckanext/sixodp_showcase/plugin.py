@@ -12,8 +12,6 @@ import json
 
 import ckan.lib.helpers as h
 
-from routes.mapper import SubMapper
-
 try:
     from collections import OrderedDict  # 2.7
 except ImportError:

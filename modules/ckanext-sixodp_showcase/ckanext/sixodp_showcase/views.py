@@ -24,11 +24,14 @@ flatten_to_string_key = logic.flatten_to_string_key
 NotFound = logic.NotFound
 NotAuthorized = logic.NotAuthorized
 
+
 def read(id):
     return utils.read(id)
 
+
 def search():
     return utils.index(showcase_utils.DATASET_TYPE_NAME)
+
 
 class CreateView(views.CreateView):
 
@@ -126,6 +129,7 @@ class CreateView(views.CreateView):
         url = h.url_for('sixodp_showcase.manage_datasets',
                         id=pkg_dict['name'])
         return h.redirect_to(url)
+
 
 class EditView(views.EditView):
     def get(self, id, data=None, errors=None, error_summary=None):
@@ -246,12 +250,14 @@ class EditView(views.EditView):
         url = h.url_for('sixodp_showcase.read', id=pkg['name'])
         return h.redirect_to(url)
 
+
 def manage_datasets(id):
     return showcase_utils.manage_datasets_view(id)
 
 
 def delete(id):
     return showcase_utils.delete_view(id)
+
 
 def dataset_showcase_list(id):
     return showcase_utils.dataset_showcase_list(id)
@@ -268,8 +274,8 @@ def admin_remove():
 def upload():
     return showcase_utils.upload()
 
-showcase = Blueprint(u'sixodp_showcase', __name__)
 
+showcase = Blueprint(u'sixodp_showcase', __name__)
 showcase.add_url_rule('/showcase', view_func=search)
 showcase.add_url_rule('/showcase/new', view_func=CreateView.as_view('new'))
 showcase.add_url_rule('/showcase/edit/<id>',
@@ -295,6 +301,7 @@ showcase.add_url_rule('/showcase_upload',
                       view_func=upload,
                       methods=[u'POST'])
 showcase.add_url_rule('/showcase/<id>', view_func=read)
+
 
 def get_blueprints():
     return [showcase]
