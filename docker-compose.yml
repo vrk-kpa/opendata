@@ -295,6 +295,7 @@ services:
       - ./docker/.env.nginx.local
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
+      - SECONDARY_DOMAIN_NAME=${SECONDARY_DOMAIN_NAME}
       - NAMESERVER=${NAMESERVER}
       - CKAN_HOST=${CKAN_HOST}
       - CKAN_PORT=${CKAN_PORT}

@@ -1,0 +1,24 @@
+# auth token mapping, prevents caching
+map $http_cookie $no_cache {
+  default $cookie_auth_tkt;
+  ~SESS 1;
+}
+
+# http scheme mapping
+map "$http_cloudfront_forwarded_proto:$http_x_forwarded_proto" $real_scheme {
+  default "http";
+  "~https" "https";
+}
+
+# listeners
+server {
+  listen ${NGINX_PORT};
+  server_name ${DOMAIN_NAME};
+  include /etc/nginx/conf.d/server.conf;
+}
+
+server {
+  listen ${NGINX_PORT};
+  server_name ${SECONDARY_DOMAIN_NAME};
+  include /etc/nginx/conf.d/server.conf;
+}
