@@ -5,4 +5,4 @@ set -e
 . /home/ckan/.environment
 
 # run commands
-[[ "${CKAN_PLUGINS}" == *"report"* ]] && paster --plugin=ckanext-report report generate -c ${APP_DIR}/production.ini
+[[ "${CKAN_PLUGINS}" == *" report "* ]] && paster --plugin=ckanext-report report generate -c ${APP_DIR}/production.ini

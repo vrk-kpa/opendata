@@ -5,4 +5,4 @@ set -e
 . /home/ckan/.environment
 
 # run commands
-[[ "${CKAN_PLUGINS}" == *"harvest"* ]] && paster --plugin=ckanext-harvest harvester run -c ${APP_DIR}/production.ini
+[[ "${CKAN_PLUGINS}" == *" harvest "* ]] && paster --plugin=ckanext-harvest harvester run -c ${APP_DIR}/production.ini

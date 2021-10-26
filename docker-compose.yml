@@ -201,6 +201,8 @@ services:
       - CKAN_SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
     volumes:
       - ckan_data:/srv/app/data
+    healthcheck:
+      disable: true
 
   datapusher:
     image: opendata/datapusher:latest

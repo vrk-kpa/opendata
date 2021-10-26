@@ -11,17 +11,17 @@
 # Redirecting the cron's commands output into the docker stdout and stderr
 # which are located respectively in /proc/1/fd/1 and /proc/1/fd/2
 #
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/matomo-fetch.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/archiver-update.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/harvester-run.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/tracking-update.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/qa-update.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/report-generate.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/reminder-send.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/archiver-notifications.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/reminder-notify-expiry.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/reminder-notify.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/ytp-dataset-update-package-deprecation.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/opendata-harvest-send-status-emails.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/opendata-harvest-send-stuck-runs-report.sh > /proc/1/fd/1 2> /proc/1/fd/2
-* * * * * cd ${APP_DIR} && /opt/cron_scripts/send-email-notifications.sh > /proc/1/fd/1 2> /proc/1/fd/2
+*   1   *   *   *   cd ${APP_DIR} && /opt/cron_scripts/matomo-fetch.sh > /proc/1/fd/1 2> /proc/1/fd/2
+*   3   */3 *   *   cd ${APP_DIR} && /opt/cron_scripts/archiver-update.sh > /proc/1/fd/1 2> /proc/1/fd/2
+*/5 *   *   *   *   cd ${APP_DIR} && /opt/cron_scripts/harvester-run.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   22  *   *   *   cd ${APP_DIR} && /opt/cron_scripts/tracking-update.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   2   *   *   *   cd ${APP_DIR} && /opt/cron_scripts/qa-update.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   5   *   *   *   cd ${APP_DIR} && /opt/cron_scripts/report-generate.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   9   *   *   *   cd ${APP_DIR} && /opt/cron_scripts/reminder-send.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   10  1   *   *   cd ${APP_DIR} && /opt/cron_scripts/archiver-notifications.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   13  *   *   *   cd ${APP_DIR} && /opt/cron_scripts/reminder-notify-expiry.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   12  *   *   *   cd ${APP_DIR} && /opt/cron_scripts/reminder-notify.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   9   *   *   *   cd ${APP_DIR} && /opt/cron_scripts/ytp-dataset-update-package-deprecation.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   11  *   *   *   cd ${APP_DIR} && /opt/cron_scripts/opendata-harvest-send-status-emails.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   11  *   *   *   cd ${APP_DIR} && /opt/cron_scripts/opendata-harvest-send-stuck-runs-report.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   8   *   *   *   cd ${APP_DIR} && /opt/cron_scripts/send-email-notifications.sh > /proc/1/fd/1 2> /proc/1/fd/2
