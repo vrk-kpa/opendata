@@ -5,8 +5,7 @@ import ckanext.showcase.logic.helpers as showcase_helpers
 from ckanext.showcase.logic import action as showcase_action
 from ckanext.sixodp_showcase import cli
 from logic.action import create, update, get
-from ckanext.sixodp_showcase import helpers
-from ckanext.sixodp_showcase import views
+from ckanext.sixodp_showcase import helpers, views
 from ckan.common import _
 from ckan.lib import i18n
 import json
@@ -30,7 +29,6 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IFacets)
-    plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IClick)
     plugins.implements(plugins.IBlueprint)
 
@@ -57,35 +55,6 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
 
     def get_blueprint(self):
         return views.get_blueprints()
-
-    # def before_map(self, map):
-
-    #     with SubMapper(map, controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController') as m:
-    #         m.connect('ckanext_showcase_new', '/showcase/new', action='new')
-    #         m.connect('ckanext_showcase_edit', '/showcase/edit/{id}',
-    #                   action='edit', ckan_icon='edit')
-    #         m.connect('ckanext_showcase_index', '/showcase', action='search',
-    #                   highlight_actions='index search')
-    #         m.connect('ckanext_showcase_admins', '/ckan-admin/showcase_admins',
-    #                   action='manage_showcase_admins', ckan_icon='picture'),
-    #         m.connect('ckanext_showcase_delete', '/showcase/delete/{id}',
-    #                   action='delete')
-
-    #     with SubMapper(map, controller='ckanext.showcase.controller:ShowcaseController') as m:
-    #         m.connect('ckanext_showcase_manage_datasets',
-    #                   '/showcase/manage_datasets/{id}',
-    #                   action="manage_datasets", ckan_icon="sitemap")
-    #         m.connect('dataset_showcase_list', '/dataset/showcases/{id}',
-    #                   action='dataset_showcase_list', ckan_icon='picture')
-    #         # m.connect('ckanext_showcase_admins', '/ckan-admin/showcase_admins',
-    #         #          action='manage_showcase_admins', ckan_icon='picture'),
-    #         m.connect('ckanext_showcase_admin_remove',
-    #                   '/ckan-admin/showcase_admin_remove',
-    #                   action='remove_showcase_admin')
-    #     map.redirect('/showcases', '/showcase')
-    #     map.redirect('/showcases/{url:.*}', '/showcase/{url}')
-
-    #     return map
 
     # IFacets #
 

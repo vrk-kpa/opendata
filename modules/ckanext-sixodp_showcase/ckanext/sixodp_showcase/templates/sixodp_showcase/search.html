@@ -9,7 +9,7 @@
 {% block subtitle %}{{ _("Showcases") }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Showcases'), controller='sixodp_showcase', action='index', highlight_actions = 'new index') }}</li>
+  <li class="active">{{ h.nav_link(_('Showcases'), controller='sixodp_showcase', action='search', highlight_actions = 'new index') }}</li>
 {% endblock %}
 
 
@@ -33,7 +33,7 @@
 
   <div class="search-form-container search-form-container-borderless row">
     <div>
-      {{ h.snippet('sixodp_showcase/snippets/showcase_search_input.html', query=q, placeholder=_('Search applications...'), query_params=fields_grouped, sorting=sort_by_selected, page=page) }}
+      {{ h.snippet('sixodp_showcase/snippets/showcase_search_input.html', query=q, placeholder=_('Search applications...'), query_params=fields_grouped, sort_by_selected=sort_by_selected, page=page) }}
     </div>
   </div>
 {% endblock %}

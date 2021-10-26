@@ -32,7 +32,7 @@ log = logging.getLogger(__name__)
 def drill_down_url(alternative_url=None, **by):
     return h.add_url_param(
         alternative_url=alternative_url,
-        controller=u'showcase_blueprint',
+        controller=u'sixodp_showcase',
         action=u'search',
         new_params=by
     )
@@ -40,7 +40,7 @@ def drill_down_url(alternative_url=None, **by):
 def remove_field(package_type, key, value=None, replace=None):
     if not package_type:
         package_type = u'dataset'
-    url = h.url_for(u'sixodp_showcase.index'.format(package_type))
+    url = h.url_for(u'sixodp_showcase.search'.format(package_type))
     return h.remove_url_param(
         key,
         value=value,
@@ -162,7 +162,8 @@ def index(package_type):
     try:
         query = get_action(u'package_search')(context, data_dict)
 
-        extra_vars[u'sort_by_selected'] = query[u'sort']
+        extra_vars[u'sort_by_selected'] = sort_by
+        g.sort_by_selected = sort_by
 
         extra_vars[u'page'] = h.Page(
             collection=query[u'results'],
@@ -172,6 +173,7 @@ def index(package_type):
             items_per_page=limit
         )
         extra_vars[u'search_facets'] = query[u'search_facets']
+        g.search_facets = query['search_facets']
         g.facets = query[u'facets']
         extra_vars[u'page'].items = query[u'results']
     except SearchQueryError as se:
@@ -220,7 +222,7 @@ def index(package_type):
     )
 
 
-def read_view(id):
+def read(id):
     context = {
         'model': model,
         'session': model.Session,
@@ -247,4 +249,3 @@ def read_view(id):
     package_type = showcase_utils.DATASET_TYPE_NAME
     return toolkit.render('sixodp_showcase/read.html',
                     extra_vars={'dataset_type': package_type})
-
