@@ -1,5 +1,6 @@
 ---
 
+project_root: "{{ playbook_dir }}/.."
 base_hostname: "avoindata.fi"
 secondary_base_hostname: "opendata.fi"
 virtual_environment: /usr/lib/ckan/default

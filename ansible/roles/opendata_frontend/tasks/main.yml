@@ -12,32 +12,28 @@
 
 - name: Add NodeSource APT repository
   apt_repository:
-    repo: 'deb https://deb.nodesource.com/node_12.x {{ ansible_distribution_release }} main'
+    repo: 'deb https://deb.nodesource.com/node_17.x {{ ansible_distribution_release }} main'
 
 - name: Ensure required packages are present
   package:
     name: "{{ opendata_frontend_packages }}"
     state: present
 
-- name: Install gulp
-  npm:
-    name: gulp-cli
-    global: true
+- name: Install resource dependencies
+  command: npm install
+  args:
+    chdir: "{{ project_root }}"
+  tags:
+    - skip_ansible_lint
+  environment:
+    CYPRESS_INSTALL_BINARY: 0
 
-- name: Ensure common assets target path is present
-  file:
-    path: "{{ opendata_frontend_server_path }}"
-    state: directory
-    mode: "0755"
-
-- name: Copy assets common
-  synchronize:
-    src: "{{ opendata_frontend_modules_path }}/ytp-assets-common/"
-    dest: "{{ opendata_frontend_server_path }}/ytp-assets-common"
-    rsync_opts:
-      - "--exclude=node_modules"
-      - "--exclude=src/vendor"
-      - "--exclude=resources"
+- name: Run gulp
+  command: "{{ project_root }}/node_modules/gulp/bin/gulp.js"
+  args:
+    chdir: "{{ project_root }}"
+  tags:
+    - skip_ansible_lint
 
 - name: Ensure www path is present
   file:
@@ -52,19 +48,5 @@
 
 - include_tasks: nonvagrant.yml
   when: opendata_frontend_deployment_environment_id != "vagrant"
-
-- name: Install resource dependencies
-  command: npm install --unsafe-perm=true --allow-root
-  args:
-    chdir: "{{ opendata_frontend_server_path }}/ytp-assets-common"
-  tags:
-    - skip_ansible_lint
-
-- name: Run gulp
-  command: gulp
-  args:
-    chdir: "{{ opendata_frontend_server_path }}/ytp-assets-common"
-  tags:
-    - skip_ansible_lint
 
 - include: pip.yml
