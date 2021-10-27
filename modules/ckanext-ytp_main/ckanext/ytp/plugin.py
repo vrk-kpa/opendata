@@ -16,7 +16,6 @@ from ckan import authz as authz
 from ckan import plugins, model, logic
 from ckan.common import _, c, request, is_flask_request
 
-from ckan.config.routing import SubMapper
 from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
 from ckan.lib.navl.dictization_functions import Missing, Invalid
@@ -37,6 +36,7 @@ from sqlalchemy.sql.expression import false
 from flask import Blueprint
 from logic import package_autocomplete
 from views import dataset_autocomplete
+import views_organization
 
 import auth
 import menu
@@ -114,7 +114,7 @@ def create_vocabulary(name, defer=False):
         if defer:
             context['defer_commit'] = True
         return toolkit.get_action('vocabulary_create')(context, data)
-    except Exception, e:
+    except Exception as e:
         log.error('%s' % e)
 
 
@@ -818,7 +818,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
     """ CKAN plugin to change how organizations work """
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
-    plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IValidators)
@@ -841,35 +841,10 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
         return {'user_create': action_user_create, 'organization_show': action_organization_show,
                 'organization_tree_list': action_organization_tree_list}
 
-    def before_map(self, map):
-        organization_controller = 'ckanext.ytp.controller:YtpOrganizationController'
+    def get_blueprint(self):
+        u'''Return a Flask Blueprint object to be registered by the app.'''
 
-        with SubMapper(map, controller=organization_controller) as m:
-            m.connect('organization_members', '/organization/members/{id}', action='members', ckan_icon='group')
-            m.connect('/user_list', action='user_list', ckan_icon='user')
-            m.connect('/admin_list', action='admin_list', ckan_icon='user')
-
-        map.connect('/organization/new',
-                    controller=organization_controller,
-                    action='new')
-
-        map.connect('/organization',
-                    controller=organization_controller,
-                    action='index')
-
-        map.connect('organization_read_extended',
-                    '/organization/{id}',
-                    controller=organization_controller,
-                    action='read',
-                    ckan_icon='group')
-
-        map.connect('organization_embed',
-                    '/organization/{id}/embed',
-                    controller=organization_controller,
-                    action='embed',
-                    ckan_icon='group')
-
-        return map
+        return views_organization.get_blueprints()
 
     # IValidators
     def get_validators(self):
@@ -1135,10 +1110,10 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
             response = requests.get('%s/%s/%s' % (hostname, lang, path), cookies=cookies, verify=verify_cert)
             return response.text
-        except requests.exceptions.RequestException, e:
+        except requests.exceptions.RequestException as e:
             log.error('%s' % e)
             return ''
-        except Exception, e:
+        except Exception as e:
             log.error('%s' % e)
             return ''
 
