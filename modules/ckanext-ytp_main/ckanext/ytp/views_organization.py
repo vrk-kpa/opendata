@@ -12,7 +12,7 @@ from ckan.views.group import BulkProcessView, CreateGroupView,\
                             EditGroupView, DeleteGroupView, MembersGroupView, \
                             about, activity, set_org, _action, _check_access, \
                             _db_to_form_schema, _read, _get_group_template, \
-                            member_delete, history, followers, follow, unfollow, admins  # noqa: F401
+                            member_delete, history, followers, follow, unfollow, admins  # type: ignore # noqa: F401
 from ckanext.organizationapproval.logic import send_new_organization_email_to_admin
 
 from flask import Blueprint
