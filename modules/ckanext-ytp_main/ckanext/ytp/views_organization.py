@@ -12,7 +12,7 @@ from ckan.views.group import BulkProcessView, CreateGroupView,\
                             EditGroupView, DeleteGroupView, MembersGroupView, \
                             about, activity, set_org, _action, _check_access, \
                             _db_to_form_schema, _read, _get_group_template, \
-                            member_delete, history, followers, follow, unfollow, admins  # type: ignore # noqa: F401
+                            member_delete, history, followers, follow, unfollow, admins
 from ckanext.organizationapproval.logic import send_new_organization_email_to_admin
 
 from flask import Blueprint
@@ -430,16 +430,34 @@ organization.add_url_rule(
     u'/delete/<id>',
     methods=[u'GET', u'POST'],
     view_func=DeleteGroupView.as_view(str(u'delete')))
-
-actions = [
-    u'member_delete', u'history', u'followers', u'follow',
-    u'unfollow', u'admins', u'activity'
-]
-for action in actions:
-    organization.add_url_rule(
-        u'/{0}/<id>'.format(action),
-        methods=[u'GET', u'POST'],
-        view_func=globals()[action])
+organization.add_url_rule(
+    u'/member_delete/<id>',
+    methods=[u'GET', u'POST'],
+    view_func=member_delete)
+organization.add_url_rule(
+    u'/history/<id>',
+    methods=[u'GET', u'POST'],
+    view_func=history)
+organization.add_url_rule(
+    u'/followers/<id>',
+    methods=[u'GET', u'POST'],
+    view_func=followers)
+organization.add_url_rule(
+    u'/follow/<id>',
+    methods=[u'GET', u'POST'],
+    view_func=follow)
+organization.add_url_rule(
+    u'/unfollow/<id>',
+    methods=[u'GET', u'POST'],
+    view_func=unfollow)
+organization.add_url_rule(
+    u'/admins/<id>',
+    methods=[u'GET', u'POST'],
+    view_func=admins)
+organization.add_url_rule(
+    u'/activity/<id>',
+    methods=[u'GET', u'POST'],
+    view_func=activity)
 
 
 def get_blueprints():
