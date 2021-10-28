@@ -73,7 +73,13 @@ export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 ```
 
-## Basic local environment operations
+## Local environment configuration
+
+Common configuration template is contained in `docker/.env.local.template`. Developers must copy this file into `docker/.env.local` and edit it to their likings. The `docker/.env.local` file is ignored in version control.
+
+The template contains an already working configuration to get started.
+
+## Local environment operations
 
 ### Build & run
 ```bash
