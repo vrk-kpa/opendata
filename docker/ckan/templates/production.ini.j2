@@ -142,15 +142,10 @@ ckanext-datarequests.datarequest_notifications_admin_email = None
 
 ckanext.drupal8.site_url = http://{{ environ('NGINX_HOST') }}
 ckanext.drupal8.domain = {{ environ('DOMAIN_NAME') }},{{ environ('SECONDARY_HOST_NAME') }}
-# TODO: create roles properly in drupal and map to ckan
 ckanext.drupal8.sysadmin_role = {{ environ('ROLES_CKAN_ADMIN') }}
 ckanext.drupal8.connection = postgres://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DRUPAL') }}
 ckanext.drupal8.allow_edit = true
 
-# TODO: what is ckan_files_path exactly?
-#       it most probably is ckan_storage_path
-# TODO: what is ckan_files_root exactly?
-# TODO: what is ckan_resource_cache_path exactly?
 licenses_group_url = file://{{ environ('CKAN_STORAGE_PATH') }}/license.json
 service_classes_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/service_classes.json
 municipalities_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/municipalities.json
@@ -191,19 +186,11 @@ ckanext.reminder.email_field = maintainer_email
 
 ckanext.cloudstorage.driver_options = {}
 
-{# {% if environ('') -%}
-ckanext.cloudstorage.driver = {{ environ('') }}
-ckanext.cloudstorage.container_name = {{ environ('') }}
-ckanext.cloudstorage.use_secure_urls = 1
-{% if not environ('') -%}
-ckanext.cloudstorage.driver_options = {}
-{%- endif %} #}
-
-{# {% if environ('') -%}
-ckanext.cloudstorage.driver_options = {"key": "{{ environ('') }}", "secret": "{{ environ('') }}", "token": ""}
-
-{%- endif %}
-{%- endif %} #}
+{% if environ('AWS_ENABLED') == true %}
+ckanext.cloudstorage.driver = {{ environ('CKAN_CLOUDSTORAGE_DRIVER') }}
+ckanext.cloudstorage.container_name = {{ environ('CKAN_CLOUDSTORAGE_CONTAINER_NAME') }}
+ckanext.cloudstorage.use_secure_urls = {{ environ('CKAN_CLOUDSTORAGE_USE_SECURE_URLS') }}
+{% endif %}
 
 sentry.dsn = {{ environ('SENTRY_DSN') }}
 sentry.environment = {{ environ('SENTRY_ENV') }}
