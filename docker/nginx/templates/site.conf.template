@@ -10,6 +10,10 @@ map "$http_cloudfront_forwarded_proto:$http_x_forwarded_proto" $real_scheme {
   "~https" "https";
 }
 
+# resolvers
+resolver_timeout 5s;
+resolver ${NAMESERVER} valid=5s;
+
 # listeners
 server {
   listen ${NGINX_PORT};

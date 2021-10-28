@@ -68,8 +68,8 @@ services:
       - postgres
       - redis
       - solr
-    ports:
-      - "5000:5000"
+    expose:
+      - 5000
     env_file:
       - ./docker/.env.ckan.local
     environment:

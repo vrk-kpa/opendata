@@ -70,7 +70,6 @@ location /resources {
 }
 
 location /data/ {
-  proxy_pass http://${CKAN_HOST}:${CKAN_PORT}/;
   proxy_set_header Host $host;
   proxy_set_header X-Forwarded-For $remote_addr;
   proxy_set_header X-Url-Scheme $scheme;
@@ -81,6 +80,8 @@ location /data/ {
   proxy_cache_key $host$scheme$proxy_host$request_uri;
   proxy_intercept_errors on;
   proxy_read_timeout 120s;
+
+  proxy_pass http://${CKAN_HOST}:${CKAN_PORT}/;
 }
 
 # drupal at /
@@ -93,15 +94,13 @@ location @rewrite {
 }
 
 location ~ \.php$ {
-  resolver_timeout 5s;
-  resolver ${NAMESERVER} valid=5s;
-  set $drupal_backend "${DRUPAL_HOST}:${DRUPAL_PORT}";
-
   fastcgi_split_path_info ^(.+\.php)(/.+)$;
   include fastcgi_params;
   fastcgi_param SCRIPT_FILENAME $request_filename;
   fastcgi_intercept_errors on;
-  fastcgi_pass $drupal_backend;
+
+  set $drupal_target ${DRUPAL_HOST}:${DRUPAL_PORT};
+  fastcgi_pass $drupal_target;
 }
 
 location ~ ^/sites/.*/files/styles/ {

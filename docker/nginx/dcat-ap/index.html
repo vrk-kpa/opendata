@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Avoindata.fi DCAT-AP extension</title>
+    <link rel="stylesheet" href="/resources/vendor/bootstrap.min.css">
+  </head>
+  <body class="container">
+    <h1>Avoindata.fi DCAT-AP extension</h1>
+
+    <h2>Validation</h2>
+    <p>Documents can be validated against this specification with a <a href="https://www.w3.org/TR/shacl/">SHACL</a> processor using these schema files:
+      <ul>
+        <li><a href="avoindata_dcat-ap_shacl.ttl">avoindata_dcat-ap_shacl.ttl</a></li>
+        <li><a href="FOAF.ttl">FOAF.ttl</a></li>
+      </ul>
+    </p>
+    <p>For example, using <a href="https://pypi.org/project/pyshacl/">pyshacl</a>:
+    <code>pyshacl -s avoindata_dcat-ap_shacl.ttl -e FOAF.ttl --imports -i rdfs catalog.xml</code>
+    </p>
+
+    <h2>Vocabularies</h2>
+
+    <table class="table table-striped">
+      <thead>
+        <tr><th>Prefix</th><th>URI</th></tr>
+      </thead>
+      <tbody>
+      <tr><td>adms</td><td>http://www.w3.org/ns/adms#</td></tr>
+      <tr><td>dcat</td><td>http://www.w3.org/ns/dcat#</td></tr>
+      <tr><td>dcatap</td><td>http://data.europa.eu/r5r/</td></tr>
+      <tr><td>dct</td><td>http://purl.org/dc/terms/</td></tr>
+      <tr><td>foaf</td><td>http://xmlns.com/foaf/0.1/</td></tr>
+      <tr><td>locn</td><td>http://www.w3.org/ns/locn#</td></tr>
+      <tr><td>owl</td><td>http://www.w3.org/2002/07/owl#</td></tr>
+      <tr><td>odrl</td><td>http://www.w3.org/ns/odrl/2/</td></tr>
+      <tr><td>rdfs</td><td>http://www.w3.org/2000/01/rdf-schema#</td></tr>
+      <tr><td>schema</td><td>http://schema.org/</td></tr>
+      <tr><td>skos</td><td>http://www.w3.org/2004/02/skos/core#</td></tr>
+      <tr><td>spdx</td><td>http://spdx.org/rdf/terms#</td></tr>
+      <tr><td>xsd</td><td>http://www.w3.org/2001/XMLSchema#</td></tr>
+      <tr><td>vann</td><td>http://purl.org/vocab/vann/</td></tr>
+      <tr><td>voaf</td><td>http://purl.org/vocommons/voaf#</td></tr>
+      <tr><td>vcard</td><td>http://www.w3.org/2006/vcard/ns#</td></tr>
+      <tr><td>geodcat</td><td>http://data.europa.eu/930/#</td></tr>
+      <tr><td>gsp</td><td>http://www.opengis.net/ont/geosparql#</td></tr>
+      
+      </tbody>
+    </table>
+
+    <h2>Classes</h2>
+
+    
+    <h3 id="Catalog">Catalog</h3>
+
+    <h4>Catalogue</h4>
+
+    <p>A catalogue or repository that hosts the Datasets being described.</p>
+
+    <h4>Properties</h4>
+
+    
+    <table class="table table-striped">
+      <caption>Mandatory properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dcat:dataset </td>
+          <td>dcat:Dataset</td>
+          <td>1..n</td>
+          <td>This property links the Catalogue with a Dataset that is part of the Catalogue.</td>
+        </tr>
+      <tr>
+          <td>dct:description </td>
+          <td>rdfs:Literal</td>
+          <td>1..n</td>
+          <td>This property contains a free-text account of the Catalogue. This property can be repeated for parallel language versions of the description. For further information on multilingual issues, please refer to section 8.</td>
+        </tr>
+      <tr>
+          <td>dct:publisher </td>
+          <td>foaf:Agent</td>
+          <td>1..1</td>
+          <td>This property refers to an entity (organisation) responsible for making the Catalogue available.</td>
+        </tr>
+      <tr>
+          <td>dct:title </td>
+          <td>rdfs:Literal</td>
+          <td>1..n</td>
+          <td>This property contains a name given to the Catalogue. This property can be repeated for parallel language versions of the name.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    <table class="table table-striped">
+      <caption>Recommended properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>foaf:homepage </td>
+          <td>foaf:Document</td>
+          <td>0..1</td>
+          <td>This property refers to a web page that acts as the main page for the Catalogue.</td>
+        </tr>
+      <tr>
+          <td>dct:language </td>
+          <td>dct:LinguisticSystem</td>
+          <td>0..n</td>
+          <td>This property refers to a language used in the textual metadata describing titles, descriptions, etc. of the Datasets in the Catalogue. This property can be repeated if the metadata is provided in multiple languages.</td>
+        </tr>
+      <tr>
+          <td>dct:license </td>
+          <td>dct:LicenseDocument</td>
+          <td>0..1</td>
+          <td>This property refers to the licence under which the Catalogue can be used or reused.</td>
+        </tr>
+      <tr>
+          <td>dct:issued </td>
+          <td>rdfs:Literal typed as xsd:date or xsd:dateTime</td>
+          <td>0..1</td>
+          <td>This property contains the date of formal issuance (e.g., publication) of the Catalogue.</td>
+        </tr>
+      <tr>
+          <td>dct:spatial </td>
+          <td>dct:Location</td>
+          <td>0..n</td>
+          <td>This property refers to a geographical area covered by the Catalogue.</td>
+        </tr>
+      <tr>
+          <td>dcat:themeTaxonomy </td>
+          <td>skos:ConceptScheme</td>
+          <td>0..n</td>
+          <td>This property refers to a knowledge organization system used to classify the Catalogue's Datasets.</td>
+        </tr>
+      <tr>
+          <td>dct:modified </td>
+          <td>rdfs:Literal typed as xsd:date or xsd:dateTime</td>
+          <td>0..1</td>
+          <td>This property contains the most recent date on which the Catalogue was modified.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    <table class="table table-striped">
+      <caption>Optional properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dct:hasPart </td>
+          <td>dcat:Catalog</td>
+          <td>0..n</td>
+          <td>This property refers to a related Catalogue that is part of the described Catalogue</td>
+        </tr>
+      <tr>
+          <td>dct:isPartOf </td>
+          <td>dcat:Catalog</td>
+          <td>0..1</td>
+          <td>This property refers to a related Catalogue in which the described Catalogue is physically or logically included.</td>
+        </tr>
+      <tr>
+          <td>dcat:record </td>
+          <td>dcat:CatalogRecord</td>
+          <td>0..n</td>
+          <td>This property refers to a Catalogue Record that is part of the Catalogue</td>
+        </tr>
+      <tr>
+          <td>dct:rights </td>
+          <td>dct:RightsStatement</td>
+          <td>0..1</td>
+          <td>This property refers to a statement that specifies rights associated with the Catalogue.</td>
+        </tr>
+      <tr>
+          <td>dcat:service </td>
+          <td>dcat:DataService</td>
+          <td>0..n</td>
+          <td>This property refers to a site or end-point that is listed in the catalog.</td>
+        </tr>
+      <tr>
+          <td>dcat:catalog </td>
+          <td>dcat:Catalog</td>
+          <td>0..n</td>
+          <td>This property refers to a catalog whose contents are of interest in the context of this catalog</td>
+        </tr>
+      <tr>
+          <td>dct:creator </td>
+          <td>foaf:Agent</td>
+          <td>0..1</td>
+          <td>This property refers to the  entity primarily responsible for producing the catalogue</td>
+        </tr>
+       
+      </tbody>
+    </table>
+     
+    
+    <h3 id="Dataset">Dataset</h3>
+
+    <h4>Dataset</h4>
+
+    <p>A conceptual entity that represents the information published.</p>
+
+    <h4>Properties</h4>
+
+    
+    <table class="table table-striped">
+      <caption>Mandatory properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dct:description </td>
+          <td>rdfs:Literal</td>
+          <td>1..n</td>
+          <td>This property contains a free-text account of the Dataset. This property can be repeated for parallel language versions of the description.</td>
+        </tr>
+      <tr>
+          <td>dct:title </td>
+          <td>rdfs:Literal</td>
+          <td>1..n</td>
+          <td>This property contains a name given to the Dataset. This property can be repeated for parallel language versions of the name.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    <table class="table table-striped">
+      <caption>Recommended properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dcat:contactPoint </td>
+          <td>vcard:Kind</td>
+          <td>0..n</td>
+          <td>This property contains contact information that can be used for sending comments about the Dataset.</td>
+        </tr>
+      <tr>
+          <td>dcat:distribution </td>
+          <td>dcat:Distribution</td>
+          <td>0..n</td>
+          <td>This property links the Dataset to an available Distribution.</td>
+        </tr>
+      <tr>
+          <td>dcat:keyword </td>
+          <td>rdfs:Literal</td>
+          <td>0..n</td>
+          <td>This property contains a keyword or tag describing the Dataset.</td>
+        </tr>
+      <tr>
+          <td>dct:publisher </td>
+          <td>foaf:Agent</td>
+          <td>0..1</td>
+          <td>This property refers to an entity (organisation) responsible for making the Dataset available.</td>
+        </tr>
+      <tr>
+          <td>dct:spatial </td>
+          <td>dct:Location</td>
+          <td>0..n</td>
+          <td>This property refers to a geographic region that is covered by the Dataset.</td>
+        </tr>
+      <tr>
+          <td>dct:temporal </td>
+          <td>dct:PeriodOfTime</td>
+          <td>0..1</td>
+          <td>This property refers to a temporal period that the Dataset covers.</td>
+        </tr>
+      <tr>
+          <td>dcat:theme, subproperty of dct:subject </td>
+          <td>skos:Concept</td>
+          <td>0..n</td>
+          <td>This property refers to a category of the Dataset. A Dataset may be associated with multiple themes.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    <table class="table table-striped">
+      <caption>Optional properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dct:accessRights </td>
+          <td>dct:RightsStatement</td>
+          <td>0..1</td>
+          <td>This property refers to information that indicates whether the Dataset is open data, has access restrictions or is not public. A controlled vocabulary with three members (:public, :restricted, :non-public) will be created and maintained by the Publications Office of the EU.</td>
+        </tr>
+      <tr>
+          <td>dct:creator </td>
+          <td>foaf:Agent</td>
+          <td>0..1</td>
+          <td>This property refers to the  entity primarily responsible for producing the dataset</td>
+        </tr>
+      <tr>
+          <td>dct:conformsTo </td>
+          <td>dct:Standard</td>
+          <td>0..n</td>
+          <td>This property refers to an implementing rule or other specification.</td>
+        </tr>
+      <tr>
+          <td>foaf:page </td>
+          <td>foaf:Document</td>
+          <td>0..n</td>
+          <td>This property refers to a page or document about this Dataset.</td>
+        </tr>
+      <tr>
+          <td>dct:accrualPeriodicity </td>
+          <td>dct:Frequency</td>
+          <td>0..1</td>
+          <td>This property refers to the frequency at which the Dataset is updated.</td>
+        </tr>
+      <tr>
+          <td>dct:hasVersion </td>
+          <td>dcat:Dataset</td>
+          <td>0..n</td>
+          <td>This property refers to a related Dataset that is a version, edition, or adaptation of the described Dataset.</td>
+        </tr>
+      <tr>
+          <td>dct:identifier </td>
+          <td>rdfs:Literal</td>
+          <td>0..n</td>
+          <td>This property contains the main identifier for the Dataset, e.g. the URI or other unique identifier in the context of the Catalogue.</td>
+        </tr>
+      <tr>
+          <td>dct:isReferencedBy </td>
+          <td>rdfs:Resource</td>
+          <td>0..n</td>
+          <td>This property provides a link to a description of a relationship with another resource</td>
+        </tr>
+      <tr>
+          <td>dct:isVersionOf </td>
+          <td>dcat:Dataset</td>
+          <td>0..n</td>
+          <td>This property refers to a related Dataset of which the described Dataset is a version, edition, or adaptation.</td>
+        </tr>
+      <tr>
+          <td>dcat:landingPage </td>
+          <td>foaf:Document</td>
+          <td>0..n</td>
+          <td>This property refers to a web page that provides access to the Dataset, its Distributions and/or additional information. It is intended to point to a landing page at the original data provider, not to a page on a site of a third party, such as an aggregator.</td>
+        </tr>
+      <tr>
+          <td>dct:language </td>
+          <td>dct:LinguisticSystem</td>
+          <td>0..n</td>
+          <td>This property refers to a language of the Dataset. This property can be repeated if there are multiple languages in the Dataset.</td>
+        </tr>
+      <tr>
+          <td>adms:identifier </td>
+          <td>adms:Identifier</td>
+          <td>0..n</td>
+          <td>This property refers to a secondary identifier of the Dataset, such as MAST/ADS1, DataCite2, DOI3, EZID4 or W3ID5.</td>
+        </tr>
+      <tr>
+          <td>dct:provenance </td>
+          <td>dct:ProvenanceStatement</td>
+          <td>0..n</td>
+          <td>This property contains a statement about the lineage of a Dataset.</td>
+        </tr>
+      <tr>
+          <td>prov:qualifiedAttribution </td>
+          <td>prov:Attribution</td>
+          <td>0..n</td>
+          <td>This property refers to a liink to an Agent having some form of responsibility for the resource</td>
+        </tr>
+      <tr>
+          <td>dcat:qualifiedRelation </td>
+          <td>dcat:Relationship</td>
+          <td>0..n</td>
+          <td>This property is about a  related resource, such as a publication, that references, cites, or otherwise points to the dataset.</td>
+        </tr>
+      <tr>
+          <td>dct:relation </td>
+          <td>rdfs:Resource</td>
+          <td>0..n</td>
+          <td>This property refers to a related resource.</td>
+        </tr>
+      <tr>
+          <td>dct:issued </td>
+          <td>rdfs:Literal typed as xsd:date or xsd:dateTime</td>
+          <td>0..1</td>
+          <td>This property contains the date of formal issuance (e.g., publication) of the Dataset.</td>
+        </tr>
+      <tr>
+          <td>adms:sample </td>
+          <td>dcat:Distribution</td>
+          <td>0..n</td>
+          <td>This property refers to a sample distribution of the dataset</td>
+        </tr>
+      <tr>
+          <td>dct:source </td>
+          <td>dcat:Dataset</td>
+          <td>0..n</td>
+          <td>This property refers to a related Dataset from which the described Dataset is derived.</td>
+        </tr>
+      <tr>
+          <td>dcat:spatialResolutionInMeters </td>
+          <td>xsd:decimal</td>
+          <td>0..n</td>
+          <td>This property refers to the minimum spatial separation resolvable in a dataset, measured in meters.</td>
+        </tr>
+      <tr>
+          <td>dcat:temporalResolution </td>
+          <td>xsd:duration</td>
+          <td>0..n</td>
+          <td>This property refers to the minimum time period resolvable in the dataset.</td>
+        </tr>
+      <tr>
+          <td>dct:type </td>
+          <td>skos:Concept</td>
+          <td>0..1</td>
+          <td>This property refers to the type of the Dataset. A controlled vocabulary for the values has not been established.</td>
+        </tr>
+      <tr>
+          <td>dct:modified </td>
+          <td>rdfs:Literal typed as xsd:date or xsd:dateTime</td>
+          <td>0..1</td>
+          <td>This property contains the most recent date on which the Dataset was changed or modified.</td>
+        </tr>
+      <tr>
+          <td>owl:versionInfo </td>
+          <td>rdfs:Literal</td>
+          <td>0..1</td>
+          <td>This property contains a version number or other version designation of the Dataset.</td>
+        </tr>
+      <tr>
+          <td>adms:versionNotes </td>
+          <td>rdfs:Literal</td>
+          <td>0..n</td>
+          <td>This property contains a description of the differences between this version and a previous version of the Dataset. This property can be repeated for parallel language versions of the version notes.</td>
+        </tr>
+      <tr>
+          <td>prov:wasGeneratedBy </td>
+          <td>prov:Activity</td>
+          <td>0..n</td>
+          <td>This property refers to an activity that generated, or provides the business context for, the creation of the dataset.</td>
+        </tr>
+      <tr>
+          <td>geodcat:custodian </td>
+          <td>foaf:Agent</td>
+          <td>0..n</td>
+          <td>Party that accepts accountability and responsibility for the data and ensures appropriate care and maintenance of the resource [ISO-19115].</td>
+        </tr>
+       
+      </tbody>
+    </table>
+     
+    
+    <h3 id="Distribution">Distribution</h3>
+
+    <h4>Distribution</h4>
+
+    <p>A physical embodiment of the Dataset in a particular format.</p>
+
+    <h4>Properties</h4>
+
+    
+    <table class="table table-striped">
+      <caption>Mandatory properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dcat:accessURL </td>
+          <td>rdfs:Resource</td>
+          <td>1..n</td>
+          <td>This property contains a URL that gives access to a Distribution of the Dataset. The resource at the access URL may contain information about how to get the Dataset.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    <table class="table table-striped">
+      <caption>Recommended properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dcatap:availability </td>
+          <td>skos:Concept</td>
+          <td>0..1</td>
+          <td>This property indicates how long it is planned to keep the Distribution of the Dataset available.</td>
+        </tr>
+      <tr>
+          <td>dct:description </td>
+          <td>rdfs:Literal</td>
+          <td>0..n</td>
+          <td>This property contains a free-text account of the Distribution. This property can be repeated for parallel language versions of the description.</td>
+        </tr>
+      <tr>
+          <td>dct:format </td>
+          <td>dct:MediaTypeOrExtent</td>
+          <td>0..1</td>
+          <td>This property refers to the file format of the Distribution.</td>
+        </tr>
+      <tr>
+          <td>dct:license </td>
+          <td>dct:LicenseDocument</td>
+          <td>0..1</td>
+          <td>This property refers to the licence under which the Distribution is made available.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    <table class="table table-striped">
+      <caption>Optional properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dcat:accessService </td>
+          <td>dcat:DataService</td>
+          <td>0..n</td>
+          <td>This property refers to a data service that gives access to the distribution of the dataset</td>
+        </tr>
+      <tr>
+          <td>dcat:byteSize </td>
+          <td>rdfs:Literal typed as xsd:decimal</td>
+          <td>0..1</td>
+          <td>This property contains the size of a Distribution in bytes.</td>
+        </tr>
+      <tr>
+          <td>spdx:checksum </td>
+          <td>spdx:Checksum</td>
+          <td>0..1</td>
+          <td>This property provides a mechanism that can be used to verify that the contents of a distribution have not changed. The checksum is related to the downloadURL.</td>
+        </tr>
+      <tr>
+          <td>dcat:compressFormat </td>
+          <td>dct:MediaType</td>
+          <td>0..1</td>
+          <td>This property refers to the format of the file in which the data is contained in a compressed form, e.g. to reduce the size of the downloadable file. It SHOULD be expressed using a media type as defined in the official register of media types managed by IANA.</td>
+        </tr>
+      <tr>
+          <td>foaf:page </td>
+          <td>foaf:Document</td>
+          <td>0..n</td>
+          <td>This property refers to a page or document about this Distribution.</td>
+        </tr>
+      <tr>
+          <td>dcat:downloadURL </td>
+          <td>rdfs:Resource</td>
+          <td>0..n</td>
+          <td>This property contains a URL that is a direct link to a downloadable file in a given format.</td>
+        </tr>
+      <tr>
+          <td>odrl:hasPolicy </td>
+          <td>odrl:Policy</td>
+          <td>0..1</td>
+          <td>This property refers to the policy expressing the rights associated with the distribution if using the ODRL vocabulary</td>
+        </tr>
+      <tr>
+          <td>dct:language </td>
+          <td>dct:LinguisticSystem</td>
+          <td>0..n</td>
+          <td>This property refers to a language used in the Distribution. This property can be repeated if the metadata is provided in multiple languages.</td>
+        </tr>
+      <tr>
+          <td>dct:conformsTo </td>
+          <td>dct:Standard</td>
+          <td>0..n</td>
+          <td>This property refers to an established schema to which the described Distribution conforms.</td>
+        </tr>
+      <tr>
+          <td>dcat:mediaType, subproperty of dct:format </td>
+          <td>dct:MediaType</td>
+          <td>0..1</td>
+          <td>This property refers to the media type of the Distribution as defined in the official register of media types managed by IANA.</td>
+        </tr>
+      <tr>
+          <td>dcat:packageFormat </td>
+          <td>dct:MediaType</td>
+          <td>0..1</td>
+          <td>This property refers to the format of the file in which one or more data files are grouped together, e.g. to enable a set of related files to be downloaded together. It SHOULD be expressed using a media type as defined in the official register of media types managed by IANA.</td>
+        </tr>
+      <tr>
+          <td>dct:issued </td>
+          <td>rdfs:Literal typed as xsd:date or xsd:dateTime</td>
+          <td>0..1</td>
+          <td>This property contains the date of formal issuance (e.g., publication) of the Distribution.</td>
+        </tr>
+      <tr>
+          <td>dct:rights </td>
+          <td>dct:RightsStatement</td>
+          <td>0..1</td>
+          <td>This property refers to a statement that specifies rights associated with the Distribution.</td>
+        </tr>
+      <tr>
+          <td>dcat:spatialResolutionInMeters </td>
+          <td>xsd:decimal</td>
+          <td>0..n</td>
+          <td>This property refers to the  minimum spatial separation resolvable in a dataset distribution, measured in meters.</td>
+        </tr>
+      <tr>
+          <td>adms:status </td>
+          <td>skos:Concept</td>
+          <td>0..1</td>
+          <td>This property refers to the maturity of the Distribution. It MUST take one of the values Completed, Deprecated, Under Development, Withdrawn.</td>
+        </tr>
+      <tr>
+          <td>dcat:temporalResolution </td>
+          <td>xsd:duration</td>
+          <td>0..n</td>
+          <td>This property refers to the minimum time period resolvable in the dataset distribution.</td>
+        </tr>
+      <tr>
+          <td><strong>dct:temporal</strong></td>
+          <td>dct:PeriodOfTime</td>
+          <td>0..n</td>
+          <td>This property refers to a temporal period that the Distribution covers.</td>
+        </tr>
+      <tr>
+          <td>dct:title </td>
+          <td>rdfs:Literal</td>
+          <td>0..n</td>
+          <td>This property contains a name given to the Distribution. This property can be repeated for parallel language versions of the description.</td>
+        </tr>
+      <tr>
+          <td>dct:modified </td>
+          <td>rdfs:Literal typed as xsd:date or xsd:dateTime</td>
+          <td>0..1</td>
+          <td>This property contains the most recent date on which the Distribution was changed or modified.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+     
+    
+    <h3 id="CatalogueRecord">CatalogueRecord</h3>
+
+    <h4>Catalogue Record</h4>
+
+    <p>A description of a Dataset’s entry in the Catalogue.</p>
+
+    <h4>Properties</h4>
+
+    
+    <table class="table table-striped">
+      <caption>Mandatory properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>foaf:primaryTopic </td>
+          <td>dcat:Dataset or dcat:Dataservice or dcat:Catalog</td>
+          <td>1..1</td>
+          <td>This property links the Catalogue Record to the Dataset, Data service or Catalog described in the record.</td>
+        </tr>
+      <tr>
+          <td>dct:modified </td>
+          <td>rdfs:Literal typed as xsd:date or xsd:dateTime</td>
+          <td>1..1</td>
+          <td>This property contains the most recent date on which the Catalogue entry was changed or modified.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    <table class="table table-striped">
+      <caption>Recommended properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dct:conformsTo </td>
+          <td>dct:Standard</td>
+          <td>0..1</td>
+          <td>This property refers to an Application Profile that the Dataset’s metadata conforms to</td>
+        </tr>
+      <tr>
+          <td>adms:status </td>
+          <td>skos:Concept</td>
+          <td>0..1</td>
+          <td>This property refers to the type of the latest revision of a Dataset's entry in the Catalogue.</td>
+        </tr>
+      <tr>
+          <td>dct:issued </td>
+          <td>rdfs:Literal typed as xsd:date or xsd:dateTime</td>
+          <td>0..1</td>
+          <td>This property contains the date on which the description of the Dataset was included in the Catalogue.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    <table class="table table-striped">
+      <caption>Optional properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dct:description </td>
+          <td>rdfs:Literal</td>
+          <td>0..n</td>
+          <td>This property contains a free-text account of the record. This property can be repeated for parallel language versions of the description.</td>
+        </tr>
+      <tr>
+          <td>dct:language </td>
+          <td>dct:LinguisticSystem</td>
+          <td>0..n</td>
+          <td>This property refers to a language used in the textual metadata describing titles, descriptions, etc. of the Dataset. This property can be repeated if the metadata is provided in multiple languages.</td>
+        </tr>
+      <tr>
+          <td>dct:source </td>
+          <td>dcat:CatalogRecord</td>
+          <td>0..1</td>
+          <td>This property refers to the original metadata that was used in creating metadata for the Dataset</td>
+        </tr>
+      <tr>
+          <td>dct:title </td>
+          <td>rdfs:Literal</td>
+          <td>0..n</td>
+          <td>This property contains a name given to the Catalogue Record. This property can be repeated for parallel language versions of the name.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+     
+    
+    <h3 id="DataService">DataService</h3>
+
+    <h4>Data Service</h4>
+
+    <p>A collection of operations that provides access to one or more datasets or data processing functions.</p>
+
+    <h4>Properties</h4>
+
+    
+    <table class="table table-striped">
+      <caption>Mandatory properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dcat:endpointURL </td>
+          <td>rdfs:Resource</td>
+          <td>1..n</td>
+          <td>The root location or primary endpoint of the service (an IRI).</td>
+        </tr>
+      <tr>
+          <td>dct:title </td>
+          <td>rdfs:Literal</td>
+          <td>1..n</td>
+          <td>This property contains a name given to the Data Service. This property can be repeated for parallel language versions of the name.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    <table class="table table-striped">
+      <caption>Recommended properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dcat:endpointDescription </td>
+          <td>rdfs:Resource</td>
+          <td>0..n</td>
+          <td>This property contains a  description of the services available via the end-points, including their operations, parameters etc.The property gives specific details of the actual endpoint instances, while dct:conformsTo is used to indicate the general standard or specification that the endpoints implement.</td>
+        </tr>
+      <tr>
+          <td>dcat:servesDataset </td>
+          <td>dcat:Dataset</td>
+          <td>0..n</td>
+          <td>This property refers to a collection of data that this data service can distribute.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    <table class="table table-striped">
+      <caption>Optional properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dct:accessRights </td>
+          <td>dct:RightsStatement</td>
+          <td>0..1</td>
+          <td>This property MAY include information regarding access or restrictions based on privacy, security, or other policies.</td>
+        </tr>
+      <tr>
+          <td>dct:description </td>
+          <td>rdfs:Literal</td>
+          <td>0..n</td>
+          <td>This property contains a free-text account of the Data Service. This property can be repeated for parallel language versions of the description.</td>
+        </tr>
+      <tr>
+          <td>dct:license </td>
+          <td>dct:LicenseDocument</td>
+          <td>0..1</td>
+          <td>This property contains  the licence under which the Data service is made available.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+     
+     
+
+</body>
+</html>
+ 
