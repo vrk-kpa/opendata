@@ -109,3 +109,4 @@ docker-compose -p opendata --env-file docker/.env.local up --scale drupal=5 -d
 ## Services that currently support scaling in local environment
 
 * drupal
+* ckan

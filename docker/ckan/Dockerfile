@@ -185,9 +185,6 @@ COPY --chown=ckan:ckan docker/ckan/cron/crontab /home/ckan/cron.d/crontab
 COPY --chmod=+x --chown=ckan:ckan docker/ckan/cron/scripts /opt/cron_scripts/
 RUN crontab -u ckan /home/ckan/cron.d/crontab && chmod u+s /usr/sbin/cron
 
-# install cron entrypoint
-COPY --chmod=+x --chown=ckan:ckan docker/ckan/cron/start_cron.sh ${APP_DIR}/start_cron.sh
-
 # finalize installation
 RUN rm -f ${APP_DIR}/production.ini && \
     rm -f ${APP_DIR}/who.ini && \
@@ -195,3 +192,5 @@ RUN rm -f ${APP_DIR}/production.ini && \
 
 # switch back to ckan
 USER ckan
+
+ENTRYPOINT ["/srv/app/entrypoint_ckan.sh"]

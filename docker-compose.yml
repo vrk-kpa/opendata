@@ -135,7 +135,7 @@ services:
   ckan_cron:
     image: opendata/ckan:latest
     restart: always
-    entrypoint: /srv/app/start_cron.sh
+    entrypoint: /srv/app/entrypoint_cron.sh
     networks:
       - frontend
       - backend
