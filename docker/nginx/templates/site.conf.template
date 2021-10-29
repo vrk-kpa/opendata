@@ -12,7 +12,21 @@ map "$http_cloudfront_forwarded_proto:$http_x_forwarded_proto" $real_scheme {
 
 # resolvers
 resolver_timeout 5s;
-resolver ${NAMESERVER} valid=5s;
+resolver ${NAMESERVER} valid=60s;
+
+# upstream servers
+# NOTE: doesn't work without NGINX Plus
+#       left here as an example...
+#upstream ckan_backend {
+#  ip_hash;
+#
+#  server ${CKAN_HOST}:${CKAN_PORT} max_fails=3 resolve;
+#}
+#upstream drupal_backend {
+#  ip_hash;
+#
+#  server ${DRUPAL_HOST}:${DRUPAL_PORT} max_fails=3 resolve;
+#}
 
 # listeners
 server {

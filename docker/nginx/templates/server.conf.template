@@ -69,7 +69,14 @@ location /resources {
   log_not_found off;
 }
 
-location /data/ {
+# upstream targets
+set $ckan_target "${CKAN_HOST}:${CKAN_PORT}";
+set $drupal_target "${DRUPAL_HOST}:${DRUPAL_PORT}";
+
+# ckan at /data/
+location ~ ^/data/(.*)$ {
+  proxy_pass http://$ckan_target/$1$is_args$args;
+
   proxy_set_header Host $host;
   proxy_set_header X-Forwarded-For $remote_addr;
   proxy_set_header X-Url-Scheme $scheme;
@@ -80,8 +87,6 @@ location /data/ {
   proxy_cache_key $host$scheme$proxy_host$request_uri;
   proxy_intercept_errors on;
   proxy_read_timeout 120s;
-
-  proxy_pass http://${CKAN_HOST}:${CKAN_PORT}/;
 }
 
 # drupal at /
@@ -94,13 +99,12 @@ location @rewrite {
 }
 
 location ~ \.php$ {
+  fastcgi_pass $drupal_target;
+
   fastcgi_split_path_info ^(.+\.php)(/.+)$;
   include fastcgi_params;
   fastcgi_param SCRIPT_FILENAME $request_filename;
   fastcgi_intercept_errors on;
-
-  set $drupal_target ${DRUPAL_HOST}:${DRUPAL_PORT};
-  fastcgi_pass $drupal_target;
 }
 
 location ~ ^/sites/.*/files/styles/ {
