@@ -15,10 +15,12 @@ main_js:
     preload:
       - base/main
   contents:
+    - scripts/offcanvas.js
+    - scripts/avoindata_header.js
+    - scripts/inject_responsive_tables.js
     - vendor/moment/dist/min/moment-with-locales.js
     - vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.js
     - vendor/jstree/dist/jstree.js
-    - scripts/offcanvas.js
 
 openapi_view_css:
   output: ckanext-ytp_main%(version)s_openapi_view.css

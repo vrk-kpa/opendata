@@ -63,8 +63,8 @@ gulp.task("clean", done => {
 
     paths.ckanResources + '/styles',
     paths.ckanResources + '/templates',
-    paths.ckanResources + '/js',
     paths.ckanResources + '/vendor',
+    paths.ckanResources + '/scripts',
 
     paths.ckanPublic +  '/fonts',
     paths.ckanPublic +  '/vendor',
@@ -243,6 +243,7 @@ gulp.task("scripts", (done) => {
   pump([
     gulp.src([paths.src.scripts, paths.src.drupal_avoindata_header]),
     gulp.dest(paths.drupalTheme + "/js"),
+    gulp.dest(paths.ckanResources + "/scripts"),
   ], done)
 });
 
@@ -328,7 +329,7 @@ gulp.task("config", (done) => {
 gulp.task(
   "default",
   gulp.series(
-    //"clean",
+    "clean",
     "config",
     "copy:fontawesomeLess",
     "lint",
