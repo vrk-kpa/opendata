@@ -1,10 +1,10 @@
 const { Client } = require('pg');
 
 const client = new Client({
-  user: 'ckan_test',
-  host: '10.10.10.10',
-  database: 'ckan_test',
-  password: 'pass',
+  user: process.env.DB_CKAN_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_CKAN,
+  password: process.env.DB_CKAN_PASS,
   port: 5432,
 });
 
@@ -25,7 +25,7 @@ client.query('CREATE OR REPLACE FUNCTION truncate_tables(username IN VARCHAR) RE
   if (err){
     return;
   }
-  client.query("SELECT truncate_tables('ckan_test');", (err, res) => {
+  client.query("SELECT truncate_tables('" + process.env.DB_CKAN + "');", (err, res) => {
     console.log(err, res);
     console.log("truncated");
     client.end()
