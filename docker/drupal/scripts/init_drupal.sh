@@ -25,9 +25,6 @@ jinja2 /opt/templates/settings.php.j2 -o /opt/drupal/web/sites/default/settings.
 drush updatedb -y --no-cache-clear
 drush cache:rebuild
 
-# init users
-python3 init_users.py
-
 # enable language modules, add languages and set default
 drush pm:enable -y config_translation
 drush pm:enable -y content_translation
@@ -131,6 +128,14 @@ jinja2 --format=yaml /opt/templates/site_config/recaptcha.settings.yml.j2 -o /op
 jinja2 --format=yaml /opt/templates/site_config/smtp.settings.yml.j2      -o /opt/drupal/site_config/smtp.settings.yml
 jinja2 --format=yaml /opt/templates/site_config/update.settings.yml.j2    -o /opt/drupal/site_config/update.settings.yml
 
+# disable captcha conditionally
+if [ "${CAPTCHA_ENABLED}" != "true" ]; then
+  rm -f /opt/drupal/site_config/captcha.settings.yml
+  rm -f /opt/drupal/site_config/captcha.captcha_point.user_register_form.yml
+  rm -f /opt/drupal/site_config/captcha.captcha_point.contact_message_event_form.yml
+  rm -f /opt/drupal/site_config/captcha.captcha_point.contact_message_feedback_form.yml
+fi
+
 # import settings
 drush config:import -y --partial --source /opt/drupal/site_config
 
@@ -141,6 +146,9 @@ drush cache:rebuild
 drush language:import:translations /opt/i18n/fi/drupal8.po     --langcode "fi"
 drush language:import:translations /opt/i18n/sv/drupal8.po     --langcode "sv"
 drush language:import:translations /opt/i18n/en_GB/drupal8.po  --langcode "en"
+
+# init users and roles
+python3 init_users.py
 
 # make sure file permissions are correct
 chown -R www-data:www-data /opt/drupal/web/sites/default/sync

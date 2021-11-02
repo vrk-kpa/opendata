@@ -8,19 +8,10 @@ version: "2"
 # - /var/www/html/sites
 # NOTE: drupal holds control over its volumes and populates them
 #       nginx just mounts the volumes to specific paths as read-only
-# NOTE: uncomment the modules service bind-mount .npmrc for fontawesome-pro
 
 services:
-  modules:
-    build:
-      context: ./
-      dockerfile: docker/modules/Dockerfile
-    restart: on-failure
-    volumes:
-      - modules_data:/opt/modules
-      # - ./modules/ytp-assets-common/.npmrc:/opt/modules/ytp-assets-common/.npmrc
-
   postgres:
+    image: opendata/postgres:latest
     build:
       context: ./docker/postgres
     restart: on-failure
@@ -53,6 +44,7 @@ services:
       - backend
 
   solr:
+    image: opendata/solr:latest
     build:
       context: ./docker/solr
     restart: on-failure
@@ -64,8 +56,10 @@ services:
       - solr_data:/opt/solr/server/solr/ckan/data
 
   ckan:
+    image: opendata/ckan:latest
     build:
-      context: ./docker/ckan
+      context: ./
+      dockerfile: docker/ckan/Dockerfile
     restart: always
     networks:
       - frontend
@@ -74,29 +68,144 @@ services:
       - postgres
       - redis
       - solr
-      - modules
     expose:
       - 5000
     env_file:
       - ./docker/.env.ckan.local
     environment:
+      - CKAN_HOST=${CKAN_HOST}
       - CKAN_PORT=${CKAN_PORT}
+      - DATAPUSHER_HOST=${DATAPUSHER_HOST}
+      - DATAPUSHER_PORT=${DATAPUSHER_PORT}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_DB=${REDIS_DB}
+      - SOLR_HOST=${SOLR_HOST}
+      - SOLR_PORT=${SOLR_PORT}
+      - SOLR_PATH=${SOLR_PATH}
+      - NGINX_HOST=${NGINX_HOST}
+      - DB_HOST=${DB_HOST}
+      - DB_CKAN=${DB_CKAN}
+      - DB_CKAN_USER=${DB_CKAN_USER}
+      - DB_CKAN_PASS=${DB_CKAN_PASS}
+      - DB_DATASTORE_READONLY=${DB_DATASTORE_READONLY}
+      - DB_DATASTORE_READONLY_USER=${DB_DATASTORE_READONLY_USER}
+      - DB_DATASTORE_READONLY_PASS=${DB_DATASTORE_READONLY_PASS}
+      - DB_DRUPAL=${DB_DRUPAL}
+      - DB_DRUPAL_USER=${DB_DRUPAL_USER}
+      - DB_DRUPAL_PASS=${DB_DRUPAL_PASS}
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - SECONDARY_DOMAIN_NAME=${SECONDARY_DOMAIN_NAME}
+      - SITE_PROTOCOL=${SITE_PROTOCOL}
+      - ROLES_CKAN_ADMIN=${ROLES_CKAN_ADMIN}
+      - SYSADMIN_USER=${SYSADMIN_USER}
+      - SYSADMIN_PASS=${SYSADMIN_PASS}
+      - SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASS=${SMTP_PASS}
+      - SMTP_FROM=${SMTP_FROM}
+      - SMTP_TO=${SMTP_TO}
+      - SMTP_FROM_ERROR=${SMTP_FROM_ERROR}
+      - SMTP_TO_ERROR=${SMTP_TO_ERROR}
+      - SMTP_PROTOCOL=${SMTP_PROTOCOL}
+      - SMTP_PORT=${SMTP_PORT}
+      - MATOMO_ENABLED=${MATOMO_ENABLED}
+      - MATOMO_SITE_ID=${MATOMO_SITE_ID}
+      - MATOMO_DOMAIN=${MATOMO_DOMAIN}
+      - MATOMO_SCRIPT_DOMAIN=${MATOMO_SCRIPT_DOMAIN}
+      - MATOMO_TOKEN=${MATOMO_TOKEN}
+      - CAPTCHA_ENABLED=${CAPTCHA_ENABLED}
+      - RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY}
+      - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY}
+      - DISQUS_DOMAIN=${DISQUS_DOMAIN}
+      - SENTRY_DSN=${SENTRY_DSN}
+      - SENTRY_ENV=${SENTRY_ENV}
       - CKAN_SQLALCHEMY_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_CKAN}
       - CKAN_DATASTORE_WRITE_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
       - CKAN_DATASTORE_READ_URL=postgresql://${DB_DATASTORE_READONLY_USER}:${DB_DATASTORE_READONLY_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
-      - CKAN_SOLR_URL=http://${SOLR_HOST}:8983/solr/ckan
-      - CKAN_REDIS_URL=redis://${REDIS_HOST}:6379/1
-      - POSTGRES_PASSWORD=${DB_CKAN_PASS}
-      - DS_RO_PASS=${DB_DATASTORE_READONLY_PASS}
-      - CKAN__DATAPUSHER__URL=http://${DATAPUSHER_HOST}:8000
-      - CKAN__DATAPUSHER__CALLBACK_URL_BASE=http://${CKAN_HOST}:${CKAN_PORT}/data/
+      - CKAN_SOLR_URL=http://${SOLR_HOST}:${SOLR_PORT}/${SOLR_PATH}
       - CKAN_SYSADMIN_NAME=${SYSADMIN_USER}
       - CKAN_SYSADMIN_PASSWORD=${SYSADMIN_PASS}
       - CKAN_SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
     volumes:
       - ckan_data:/srv/app/data
+      - ckan_resources:/var/www/resources
+
+  ckan_cron:
+    image: opendata/ckan:latest
+    restart: always
+    entrypoint: /srv/app/entrypoint_cron.sh
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - ckan
+    env_file:
+      - ./docker/.env.ckan.local
+    environment:
+      - CKAN_HOST=${CKAN_HOST}
+      - CKAN_PORT=${CKAN_PORT}
+      - DATAPUSHER_HOST=${DATAPUSHER_HOST}
+      - DATAPUSHER_PORT=${DATAPUSHER_PORT}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_DB=${REDIS_DB}
+      - SOLR_HOST=${SOLR_HOST}
+      - SOLR_PORT=${SOLR_PORT}
+      - SOLR_PATH=${SOLR_PATH}
+      - NGINX_HOST=${NGINX_HOST}
+      - DB_HOST=${DB_HOST}
+      - DB_CKAN=${DB_CKAN}
+      - DB_CKAN_USER=${DB_CKAN_USER}
+      - DB_CKAN_PASS=${DB_CKAN_PASS}
+      - DB_DATASTORE_READONLY=${DB_DATASTORE_READONLY}
+      - DB_DATASTORE_READONLY_USER=${DB_DATASTORE_READONLY_USER}
+      - DB_DATASTORE_READONLY_PASS=${DB_DATASTORE_READONLY_PASS}
+      - DB_DRUPAL=${DB_DRUPAL}
+      - DB_DRUPAL_USER=${DB_DRUPAL_USER}
+      - DB_DRUPAL_PASS=${DB_DRUPAL_PASS}
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - SECONDARY_DOMAIN_NAME=${SECONDARY_DOMAIN_NAME}
+      - SITE_PROTOCOL=${SITE_PROTOCOL}
+      - ROLES_CKAN_ADMIN=${ROLES_CKAN_ADMIN}
+      - SYSADMIN_USER=${SYSADMIN_USER}
+      - SYSADMIN_PASS=${SYSADMIN_PASS}
+      - SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASS=${SMTP_PASS}
+      - SMTP_FROM=${SMTP_FROM}
+      - SMTP_TO=${SMTP_TO}
+      - SMTP_FROM_ERROR=${SMTP_FROM_ERROR}
+      - SMTP_TO_ERROR=${SMTP_TO_ERROR}
+      - SMTP_PROTOCOL=${SMTP_PROTOCOL}
+      - SMTP_PORT=${SMTP_PORT}
+      - MATOMO_ENABLED=${MATOMO_ENABLED}
+      - MATOMO_SITE_ID=${MATOMO_SITE_ID}
+      - MATOMO_DOMAIN=${MATOMO_DOMAIN}
+      - MATOMO_SCRIPT_DOMAIN=${MATOMO_SCRIPT_DOMAIN}
+      - MATOMO_TOKEN=${MATOMO_TOKEN}
+      - CAPTCHA_ENABLED=${CAPTCHA_ENABLED}
+      - RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY}
+      - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY}
+      - DISQUS_DOMAIN=${DISQUS_DOMAIN}
+      - SENTRY_DSN=${SENTRY_DSN}
+      - SENTRY_ENV=${SENTRY_ENV}
+      - CKAN_SQLALCHEMY_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_CKAN}
+      - CKAN_DATASTORE_WRITE_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
+      - CKAN_DATASTORE_READ_URL=postgresql://${DB_DATASTORE_READONLY_USER}:${DB_DATASTORE_READONLY_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
+      - CKAN_SOLR_URL=http://${SOLR_HOST}:${SOLR_PORT}/${SOLR_PATH}
+      - CKAN_SYSADMIN_NAME=${SYSADMIN_USER}
+      - CKAN_SYSADMIN_PASSWORD=${SYSADMIN_PASS}
+      - CKAN_SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
+    volumes:
+      - ckan_data:/srv/app/data
+    healthcheck:
+      disable: true
 
   datapusher:
+    image: opendata/datapusher:latest
     build:
       context: ./docker/datapusher
     restart: always
@@ -111,15 +220,16 @@ services:
       - DATAPUSHER_REWRITE_URL=http://${CKAN_HOST}:${CKAN_PORT}/data
 
   drupal:
+    image: opendata/drupal:latest
     build:
-      context: ./docker/drupal
+      context: ./
+      dockerfile: docker/drupal/Dockerfile
     restart: always
     networks:
       - frontend
       - backend
     depends_on:
       - postgres
-      - modules
     expose:
       - 9000
     env_file:
@@ -132,9 +242,14 @@ services:
       - DOMAIN_NAME=${DOMAIN_NAME}
       - SECONDARY_DOMAIN_NAME=${SECONDARY_DOMAIN_NAME}
       - SITE_NAME=${SITE_NAME}
+      - ROLES_CKAN_ADMIN=${ROLES_CKAN_ADMIN}
+      - ROLES_EDITOR=${ROLES_EDITOR}
+      - ROLES_PUBLISHER=${ROLES_PUBLISHER}
       - SYSADMIN_USER=${SYSADMIN_USER}
       - SYSADMIN_PASS=${SYSADMIN_PASS}
       - SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
+      - SYSADMIN_ROLES=${SYSADMIN_ROLES}
+      - NGINX_HOST=${NGINX_HOST}
       - CKAN_HOST=${CKAN_HOST}
       - CKAN_PORT=${CKAN_PORT}
       - SMTP_HOST=${SMTP_HOST}
@@ -143,24 +258,31 @@ services:
       - SMTP_FROM=${SMTP_FROM}
       - SMTP_PROTOCOL=${SMTP_PROTOCOL}
       - SMTP_PORT=${SMTP_PORT}
+      - MATOMO_ENABLED=${MATOMO_ENABLED}
       - MATOMO_SITE_ID=${MATOMO_SITE_ID}
       - MATOMO_DOMAIN=${MATOMO_DOMAIN}
       - MATOMO_SCRIPT_DOMAIN=${MATOMO_SCRIPT_DOMAIN}
       - MATOMO_TOKEN=${MATOMO_TOKEN}
+      - CAPTCHA_ENABLED=${CAPTCHA_ENABLED}
+      - RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY}
+      - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY}
       - USERS_0_USER=${USERS_0_USER}
       - USERS_0_PASS=${USERS_0_PASS}
       - USERS_0_EMAIL=${USERS_0_EMAIL}
+      - USERS_0_ROLES=${USERS_0_ROLES}
       - USERS_1_USER=${USERS_1_USER}
       - USERS_1_PASS=${USERS_1_PASS}
       - USERS_1_EMAIL=${USERS_1_EMAIL}
+      - USERS_1_ROLES=${USERS_1_ROLES}
       - USERS_2_USER=${USERS_2_USER}
       - USERS_2_PASS=${USERS_2_PASS}
       - USERS_2_EMAIL=${USERS_2_EMAIL}
     volumes:
-      - modules_data:/opt/modules
       - drupal_data:/opt/drupal/web
+      - drupal_resources:/var/www/resources
 
   nginx:
+    image: opendata/nginx:latest
     build:
       context: ./docker/nginx
     restart: always
@@ -174,14 +296,18 @@ services:
     env_file:
       - ./docker/.env.nginx.local
     environment:
+      - NGINX_PORT=${NGINX_PORT}
       - DOMAIN_NAME=${DOMAIN_NAME}
+      - SECONDARY_DOMAIN_NAME=${SECONDARY_DOMAIN_NAME}
       - NAMESERVER=${NAMESERVER}
       - CKAN_HOST=${CKAN_HOST}
       - CKAN_PORT=${CKAN_PORT}
       - DRUPAL_HOST=${DRUPAL_HOST}
+      - DRUPAL_PORT=${DRUPAL_PORT}
     volumes:
-      - modules_data:/opt/modules:ro
       - drupal_data:/var/www/html:ro
+      - ckan_resources:/var/www/ckan_resources:ro
+      - drupal_resources:/var/www/drupal_resources:ro
 
   mailhog:
     image: mailhog/mailhog:latest
@@ -201,11 +327,12 @@ services:
       - ./docker/.mh-auth:/mailhog/auth
 
 volumes:
-  modules_data:
   postgres_data:
   solr_data:
   ckan_data:
   drupal_data:
+  ckan_resources:
+  drupal_resources:
 
 networks:
   frontend:

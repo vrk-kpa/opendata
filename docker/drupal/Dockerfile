@@ -1,3 +1,28 @@
+#
+# Frontend build
+#
+FROM ubuntu:focal AS frontend_builder
+
+# install required packages
+RUN apt-get update -yq && apt-get install curl libjpeg-turbo8 build-essential autoconf -yq
+
+# install nodejs via nodesource
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+RUN apt-get install -yq nodejs && npm install -g gulp
+
+# copy custom modules
+COPY modules /opt/drupal_modules/
+
+# set workdir to frontend module & copy package.json
+WORKDIR /opt/drupal_modules/ytp-assets-common
+COPY docker/package.default.json /opt/drupal_modules/ytp-assets-common/package.json
+
+# build frontend
+RUN npm install --unsafe-perm=true --allow-root && gulp
+
+#
+# Drupal build
+#
 FROM drupal:9-fpm-alpine
 
 # NOTE: workdir is /opt/drupal
@@ -62,20 +87,29 @@ RUN composer require --dev --no-cache \
     cweagans/composer-patches \
     league/commonmark ^1.5
 
+# install custom modules
+ENV MOD_DIR=/opt/drupal_modules
+COPY --from=frontend_builder /opt/drupal_modules ${MOD_DIR}/
+
+# install static resources
+ENV WWW_DIR=/var/www
+ENV RES_DIR=${WWW_DIR}/resources
+RUN mkdir -p ${WWW_DIR} && mv ${MOD_DIR}/ytp-assets-common/resources ${WWW_DIR}/
+
 # install site config
-COPY site_config /opt/drupal/site_config
+COPY docker/drupal/site_config /opt/drupal/site_config
 
 # install translations
-COPY i18n /opt/i18n
+COPY docker/drupal/i18n /opt/i18n
 
 # install services.yml
-COPY services.yml /opt/drupal/web/sites/default/services.yml
+COPY docker/drupal/services.yml /opt/drupal/web/sites/default/services.yml
 
 # install templates
-COPY templates /opt/templates
+COPY docker/drupal/templates /opt/templates
 
 # install entrypoint.sh
-COPY scripts/ ./
+COPY docker/drupal/scripts/ ./
 RUN chmod +x *.sh
 
 ENTRYPOINT ["./entrypoint.sh"]

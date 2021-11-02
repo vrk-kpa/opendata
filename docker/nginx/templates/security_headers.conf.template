@@ -1,0 +1,11 @@
+# XSS-Protection - Enables XSS filtering. Rather than sanitizing the page, the browser will prevent rendering of the page if an attack is detected.
+add_header X-XSS-Protection "1; mode=block";
+
+# Content security policies allowing content to be loaded from specified addresses
+add_header Content-Security-Policy "default-src 'self' ${NGINX_CSP_DEFAULT_SRC}; script-src 'self' 'unsafe-inline' 'unsafe-eval' ${NGINX_CSP_SCRIPT_SRC}; img-src 'self' https: gravatar.com data:; style-src 'self' 'unsafe-inline' ${NGINX_CSP_STYLE_SRC}; font-src 'self' https://themes.googleusercontent.com https://fonts.gstatic.com; frame-src 'self' *.${DOMAIN_NAME} *.${SECONDARY_DOMAIN_NAME} ${NGINX_CSP_FRAME_SRC}; object-src 'none'; connect-src 'self' https://links.services.disqus.com wss://realtime.services.disqus.com https://epsg.io *;";
+
+# Strict Transport Security (use only https)
+add_header Strict-Transport-Security "max-age=31536000; preload";
+
+# Referer Policy "Send a full URL when performing a same-origin request, only send the origin when the protocol security level stays the same (HTTPS→HTTPS), and send no header to a less secure destination (HTTPS→HTTP)."
+add_header Referrer-Policy "strict-origin-when-cross-origin";

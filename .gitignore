@@ -71,3 +71,6 @@ server.key
 
 # MacOS related
 .DS_Store
+
+# Docker related
+docker/.env.local

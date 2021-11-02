@@ -1,0 +1,158 @@
+root ${NGINX_ROOT};
+client_max_body_size ${NGINX_MAX_BODY_SIZE};
+gzip_static on;
+
+# error pages
+error_page 503 @maintenance;
+location @maintenance {
+  root /var/www/resources;
+  set $maintenance /static/maintenance.fi.html;
+  if ( $request_uri ~* "/(fi|en|sv)/" ){
+      set $maintenance /static/maintenance.$1.html;
+  }
+
+  rewrite ^(.*)$ $maintenance break;
+}
+
+error_page 404 @not_found;
+location @not_found {
+  root /var/www/resources;
+  set $not_found /static/404.fi.html;
+  if ( $request_uri ~* "/(fi|en|sv)/" ){
+      set $not_found /static/404.$1.html;
+  }
+
+  rewrite ^(.*)$ $not_found break;
+}
+
+error_page 500 @internal_error;
+location @internal_error {
+  root /var/www/resources;
+  set $internal_error /static/500.fi.html;
+  if ( $request_uri ~* "/(fi|en|sv)/" ){
+      set $internal_error /static/500.$1.html;
+  }
+
+  rewrite ^(.*)$ $internal_error break;
+}
+
+# fix old ckan file upload paths
+rewrite ^/dataset/(.*)$ $real_scheme://$http_host/data/dataset/$1 permanent;
+
+# disable ckan index, redirect to drupal
+rewrite ^/data/?$ $real_scheme://$http_host/fi permanent;
+rewrite ^/data/(fi|en|en_GB|sv)/?$ $real_scheme://$http_host/$1 permanent;
+
+# disable ckan login/register/logout, redirect to drupal
+location /data/user/login {
+  rewrite ^/.* $real_scheme://$http_host/user/login permanent;
+}
+location /data/user/register {
+  rewrite ^/.* $real_scheme://$http_host/user/register permanent;
+}
+location /data/user/_logout {
+  rewrite ^/.* $real_scheme://$http_host/user/logout permanent;
+}
+
+location = /favicon.ico {
+  log_not_found off;
+  access_log off;
+}
+
+location = /robots.txt {
+  allow all;
+  log_not_found off;
+  access_log off;
+}
+
+location /resources {
+  root /var/www;
+  autoindex off;
+  expires ${NGINX_EXPIRES};
+  log_not_found off;
+}
+
+# upstream targets
+set $ckan_target "${CKAN_HOST}:${CKAN_PORT}";
+set $drupal_target "${DRUPAL_HOST}:${DRUPAL_PORT}";
+
+# ckan at /data/
+location ~ ^/data/(.*)$ {
+  proxy_pass http://$ckan_target/$1$is_args$args;
+
+  # common security headers
+  include /etc/nginx/conf.d/security_headers.conf;
+  # always enforce same origin policy
+  add_header X-Frame-Options SAMEORIGIN;
+  # content type options https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+  add_header X-Content-Type-Options "nosniff" always;
+
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-For $remote_addr;
+  proxy_set_header X-Url-Scheme $scheme;
+  proxy_cache cache;
+  proxy_cache_bypass $no_cache;
+  proxy_no_cache $no_cache;
+  proxy_cache_valid 30m;
+  proxy_cache_key $host$scheme$proxy_host$request_uri;
+  proxy_intercept_errors on;
+  proxy_read_timeout 120s;
+
+  location ~ ^/data/en($|/.*) {
+    return 301 /data/en_GB$1;
+  }
+
+  location ~ /data/(fi|en_GB|sv)/organization/(.*)/embed {
+    proxy_pass http://$ckan_target/$1/organization/$2/embed$is_args$args;
+
+    add_header Bypass-Sameorigin-Policy 1;
+  }
+
+  location ~ /data/(fi/|en_GB/|sv/)?(api/)(.*) {
+    proxy_pass http://$ckan_target/$1$2$3$is_args$args;
+
+    proxy_no_cache 1;
+    proxy_cache_bypass 1;
+    proxy_intercept_errors off;
+  }
+
+  location ~ /data/(fi/|en_GB/|sv/)?feeds {
+    return 404;
+  }
+}
+
+# drupal at /
+location ~ ^/en_GB($|/.*) {
+  return 301 /en$1;
+}
+
+location / {
+  try_files $uri @rewrite;
+}
+
+location @rewrite {
+  rewrite ^ /index.php;
+}
+
+location ~ \.php$ {
+  fastcgi_pass $drupal_target;
+
+  fastcgi_split_path_info ^(.+\.php)(/.+)$;
+  include /etc/nginx/conf.d/fastcgi_params.conf;
+  fastcgi_param SCRIPT_FILENAME $request_filename;
+  fastcgi_intercept_errors on;
+}
+
+location ~ ^/sites/.*/files/styles/ {
+  try_files $uri @rewrite;
+}
+
+location ~* ^(?!/data|/resources).*\.(js|css|png|jpg|jpeg|gif|ico)$ {
+  expires ${NGINX_EXPIRES};
+  log_not_found off;
+}
+
+# RDF namespace
+location /ns {
+  alias /var/www/ns/;
+}
