@@ -296,6 +296,7 @@ services:
     env_file:
       - ./docker/.env.nginx.local
     environment:
+      - NGINX_PORT=${NGINX_PORT}
       - DOMAIN_NAME=${DOMAIN_NAME}
       - SECONDARY_DOMAIN_NAME=${SECONDARY_DOMAIN_NAME}
       - NAMESERVER=${NAMESERVER}
