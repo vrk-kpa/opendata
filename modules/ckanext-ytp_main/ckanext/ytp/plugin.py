@@ -33,9 +33,7 @@ from webhelpers.html.tags import link_to
 from sqlalchemy import and_, or_
 from sqlalchemy.sql.expression import false
 
-from flask import Blueprint
 from logic import package_autocomplete
-from views import dataset_autocomplete
 import views_organization
 import views_dataset
 
@@ -476,13 +474,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     def get_blueprint(self):
         u'''Return a Flask Blueprint object to be registered by the app.'''
 
-        # Create Blueprint for plugin
-        blueprint = Blueprint(self.name, self.__module__)
-
-        # Add plugin url rules to Blueprint object
-        blueprint.add_url_rule(u'/api/util/dataset/autocomplete', view_func=dataset_autocomplete)
-
-        return [blueprint] + views_dataset.get_blueprints()
+        return views_dataset.get_blueprints()
 
 
 class YTPSpatialHarvester(plugins.SingletonPlugin):

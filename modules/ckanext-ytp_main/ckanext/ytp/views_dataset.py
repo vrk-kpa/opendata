@@ -1,35 +1,20 @@
 # encoding: utf-8
 import logging
-from collections import OrderedDict
-from functools import partial
-from six.moves.urllib.parse import urlencode
-from datetime import datetime
+import sqlalchemy
+
 from ckan.plugins import toolkit
-
 from flask import Blueprint
-from flask.views import MethodView
-from werkzeug.datastructures import MultiDict
-from ckan.common import asbool
 from ckan.views import dataset as dataset_views
+from ckan.views.api import _finish_ok
 
-import six
-from six import string_types, text_type
 import re
 import urllib2
-import urllib
-
 import ckan.lib.base as base
 import ckan.lib.helpers as h
-import ckan.lib.navl.dictization_functions as dict_fns
 import ckan.logic as logic
 import ckan.model as model
-import ckan.plugins as plugins
 import ckan.authz as authz
-from ckan.common import _, config, g, request, response
-from ckan.views.home import CACHE_PARAMETERS
-from ckan.lib.plugins import lookup_package_plugin
-from ckan.lib.render import TemplateNotFound
-from ckan.lib.search import SearchError, SearchQueryError, SearchIndexError
+from ckan.common import _, config, g, request
 from ckan.views import LazyView
 
 
@@ -42,12 +27,33 @@ tuplize_dict = logic.tuplize_dict
 clean_dict = logic.clean_dict
 parse_params = logic.parse_params
 flatten_to_string_key = logic.flatten_to_string_key
+_or_ = sqlalchemy.or_
+_and_ = sqlalchemy.and_
 _tag_string_to_list = dataset_views._tag_string_to_list
 _form_save_redirect = dataset_views._form_save_redirect
 _setup_template_variables = dataset_views._setup_template_variables
 _get_pkg_template = dataset_views._get_pkg_template
 
 log = logging.getLogger(__name__)
+
+
+def dataset_autocomplete():
+    q = request.args.get(u'incomplete', u'')
+    limit = request.args.get(u'limit', 10)
+    package_type = request.args.get(u'package_type', '')
+    package_dicts = []
+    if q:
+        context = {u'model': model, u'session': model.Session,
+                   u'user': g.user, u'auth_user_obj': g.userobj}
+
+        data_dict = {u'q': q, u'limit': limit, u'package_type': package_type}
+
+        package_dicts = get_action(
+            u'package_autocomplete')(context, data_dict)
+
+    resultSet = {u'ResultSet': {u'Result': package_dicts}}
+    return _finish_ok(resultSet)
+
 
 def create_vocabulary(name, defer=False):
     user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})
@@ -67,6 +73,7 @@ def create_vocabulary(name, defer=False):
         return toolkit.get_action('vocabulary_create')(context, data)
     except Exception as e:
         log.error('%s' % e)
+
 
 def ytp_tag_autocomplete():
     """ CKAN autocomplete discards vocabulary_id from request.
@@ -95,16 +102,13 @@ def ytp_tag_autocomplete():
         }
     }
 
-    status_int = 200
-    response.status_int = status_int
-    response.headers['Content-Type'] = 'application/json;charset=utf-8'
-    return h.json.dumps(resultSet)
+    return _finish_ok(resultSet)
 
 
 def new_metadata(id, data=None, errors=None, error_summary=None):
     """ Fake metadata creation. Change status to active and redirect to read. """
     context = {'model': model, 'session': model.Session,
-                'user': g.user or g.author, 'auth_user_obj': g.userobj}
+               'user': g.user or g.author, 'auth_user_obj': g.userobj}
 
     data_dict = get_action('package_show')(context, {'id': id})
     data_dict['id'] = id
@@ -113,15 +117,77 @@ def new_metadata(id, data=None, errors=None, error_summary=None):
 
     get_action('package_update')(context, data_dict)
     success_message = ('<div style="display: inline-block"><p>' + _("Dataset was saved successfully.") + '</p>' +
-                        '<p>' + _("Fill additional info") + ':</p>' +
-                        '<p><a href="/data/' + h.lang() + '/dataset/' + data_dict.get('name') + '/related/new">>'
-                        + _("Add related") + '</a></p>' +
-                        '<p><a href="/data/' + h.lang() + '/dataset/edit/' + data_dict.get('name') + '">>'
-                        + _("Edit or add language versions") + '</a> ' +
-                        '<a href="/data/' + h.lang() + '/dataset/delete/' + id + '">>' + _('Delete') + '</a></p>' +
-                        '<p><a href="/data/' + h.lang() + '/dataset/new/">' + _('Create Dataset') + '</a></p></div>')
+                       '<p>' + _("Fill additional info") + ':</p>' +
+                       '<p><a href="/data/' + h.lang() + '/dataset/' + data_dict.get('name') + '/related/new">>'
+                       + _("Add related") + '</a></p>' +
+                       '<p><a href="/data/' + h.lang() + '/dataset/edit/' + data_dict.get('name') + '">>'
+                       + _("Edit or add language versions") + '</a> ' +
+                       '<a href="/data/' + h.lang() + '/dataset/delete/' + id + '">>' + _('Delete') + '</a></p>' +
+                       '<p><a href="/data/' + h.lang() + '/dataset/new/">' + _('Create Dataset') + '</a></p></div>')
     h.flash_success(success_message, True)
     h.redirect_to(controller='ytp_dataset_blueprint', action='read', id=id)
+
+
+def _package_autocomplete(context, data_dict):
+    print(data_dict)
+    model = context['model']
+
+    check_access('package_autocomplete', context, data_dict)
+
+    limit = data_dict.get('limit', None)
+    q = data_dict.get('q', '')
+
+    like_q = u'%%%s%%' % q
+
+    query = model.Session.query(model.Package)
+    query = query.filter(model.Package.state == 'active')
+    query = query.filter(model.Package.private == 'False')  # noqa
+    query = query.filter(_or_(model.Package.name.ilike(like_q),
+                         model.Package.title.ilike(like_q)))
+
+    collection_type = data_dict.get('collection_type', None)
+
+    if collection_type is not None:
+        query = query.join(model.PackageExtra) \
+            .filter(_and_(model.PackageExtra.key == 'collection_type'),
+                    model.PackageExtra.value == collection_type)
+
+    if limit is not None:
+        query = query.limit(limit)
+    q_lower = q.lower()
+    pkg_list = []
+    for package in query:
+        if package.name.startswith(q_lower):
+            match_field = 'name'
+            match_displayed = package.name
+        else:
+            match_field = 'title'
+            match_displayed = '%s (%s)' % (package.title, package.name)
+        result_dict = {
+            'name': package.name,
+            'title': package.title,
+            'match_field': match_field,
+            'match_displayed': match_displayed}
+        pkg_list.append(result_dict)
+
+    return pkg_list
+
+
+def autocomplete_packages_by_collection_type(collection_type=None, q=None):
+    q = request.params.get('incomplete', '')
+    collection_type = request.params.get('collection_type', '')
+    limit = request.params.get('limit', None)
+    package_dicts = []
+
+    context = {'model': model, 'session': model.Session,
+               'user': g.user or g.author, 'auth_user_obj': g.userobj}
+
+    data_dict = {'q': q, 'limit': limit, 'collection_type': collection_type}
+
+    package_dicts = _package_autocomplete(context, data_dict)
+
+    resultSet = {'ResultSet': {'Result': package_dicts}}
+    return _finish_ok(resultSet)
 
 
 def healthcheck():
@@ -129,7 +195,6 @@ def healthcheck():
     FAILURE_MESSAGE = "An error has occurred, check the server log for details"
     SUCCESS_MESSAGE = "OK"
     check_site_urls = ['/fi', '/data/fi/dataset']
-
 
     def check_url(host, url):
         try:
@@ -166,8 +231,9 @@ api_blueprints = Blueprint(
     url_prefix=u'/api'
 )
 api_blueprints.add_url_rule(u'/2/util/tag/autocomplete', view_func=ytp_tag_autocomplete)
-# NOTE: Is dataset_autocomplete deprecated as there was no function for that in package-controller or ytpDatasetController
-# api_blueprints.add_url_rule(u'/util/dataset/autocomplete', view_func=dataset_autocomplete)
+api_blueprints.add_url_rule(u'/util/dataset/autocomplete_by_collection_type',
+                            view_func=autocomplete_packages_by_collection_type)
+api_blueprints.add_url_rule(u'/util/dataset/autocomplete', view_func=dataset_autocomplete)
 
 dataset = Blueprint(
     u'ytp_dataset_blueprint',
@@ -239,5 +305,6 @@ if authz.check_config_permission(u'allow_dataset_collaborators'):
     )
 dataset.add_url_rule(u'/<id>', view_func=dataset_views.read)
 
+
 def get_blueprints():
-    return [dataset, healthcheck_blueprints]
+    return [dataset, healthcheck_blueprints, api_blueprints]
