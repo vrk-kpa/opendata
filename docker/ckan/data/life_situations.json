@@ -1,0 +1,32 @@
+[
+    {"text": "Asevelvollisuus"},
+    {"text": "Avioero"},
+    {"text": "Eläkkeelle jääminen"},
+    {
+        "text": "Lapsen saaminen",
+        "state": {
+            "opened": true
+        },
+        "children" : [
+            {"text": "Adoptio"}
+        ]
+    },
+    {"text": "Lähiomaisen kuolema"},
+    {
+        "text": "Muuttaminen",
+        "state": {
+            "opened": true
+        },
+        "children": [
+            {"text": "Maan sisällä"},
+            {"text": "Maastamuutto"},
+            {"text": "Maahanmuutto"}
+        ]
+    },
+    {"text": "Omaishoitajana toimiminen"},
+    {"text": "Opiskelu"},
+    {"text": "Talon rakentaminen"},
+    {"text": "Työttömäksi jääminen"},
+    {"text": "Vakava sairastuminen"},
+    {"text": "Velkaantuminen"}
+]

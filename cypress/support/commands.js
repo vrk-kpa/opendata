@@ -328,11 +328,33 @@ Cypress.Commands.add('add_showcase_user', () => {
 
 Cypress.Commands.add('reset_db', () => {
     if (Cypress.env('resetDB') === true){
-      cy.exec('npm run reset:db');
-      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckan search-index clear --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
-      // Init vocaularies
-      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_platform_vocabulary --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
-      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_showcase_type_vocabulary --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
+      if (Cypress.env('docker') !== true){
+        cy.exec('npm run reset:db', {
+          env: {
+            DB_HOST: '10.10.10.10',
+            DB_CKAN: 'ckan_test',
+            DB_CKAN_USER: 'ckan_test',
+            DB_CKAN_PASS: 'pass'
+          }
+        });
+        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckan search-index clear --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
+        // Init vocaularies
+        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_platform_vocabulary --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
+        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_showcase_type_vocabulary --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
+      } else {
+        cy.exec('npm run reset:db', {
+          env: {
+            DB_HOST: 'localhost',
+            DB_CKAN: 'ckan',
+            DB_CKAN_USER: 'ckan',
+            DB_CKAN_PASS: 'ckan_pass'
+          }
+        });
+        cy.exec('docker exec -i opendata_ckan_1 sh -c "paster --plugin=ckan search-index clear --config=/srv/app/production.ini"');
+        // Init vocaularies
+        cy.exec('docker exec -i opendata_ckan_1 sh -c "paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_platform_vocabulary --config=/srv/app/production.ini"');
+        cy.exec('docker exec -i opendata_ckan_1 sh -c "paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_showcase_type_vocabulary --config=/srv/app/production.ini"');
+      }
     }
 });
 

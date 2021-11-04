@@ -1,0 +1,7 @@
+protected_submissions:
+  reject_message: 'It looks like your post contains spam content. If you believe otherwise, please contact us.'
+  reject_patterns: "ftp://, mailto:, smb://, afp://, file://, gopher://, news://, ssl://, sslv2://, sslv3://, tls://, tcp://, udp://\r\nsex, porn, fuck, free, win, captcha, spam\r\nhttps?://(?!.*avoindata\\.fi/?)"
+  rejected: 0
+_core:
+  default_config_hash: _69387v-wmyvmNJxEiA6t2tUEPTelm2G3MfdZ_pKye8
+langcode: fi

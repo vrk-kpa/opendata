@@ -96,13 +96,13 @@
         <div class="col-sm-4">
             {% if not logged_in %}
             <div class="login-link">
-              <a href="{{ url('user.login') }}">
+              <a href="{{ path('user.login') }}">
                 <i class="far fa-sign-in"></i>
                 <span>&nbsp;&nbsp;{% trans %}Log in{%  endtrans %}</span>
               </a>
             </div>
             <div class="register-link clearfix">
-              <a class="pull-right" href="{{ url('user.register') }}">
+              <a class="pull-right" href="{{ path('user.register') }}">
                 <span>{%  trans with {'context': 'datasetlist offer data register'} %}Become publisher{% endtrans %}</span>
               </a>
             </div>

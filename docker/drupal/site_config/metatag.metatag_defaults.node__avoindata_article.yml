@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies: {  }
+id: node__avoindata_article
+label: 'Content: Avoindata Article'
+tags:
+  og_title: '[current-page:title]'
+  og_url: '[current-page:url]'
+  og_image: '[node:field_image:entity:url]'
+  og_type: website
+  og_site_name: '[site:name]'
