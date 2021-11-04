@@ -37,6 +37,7 @@ from flask import Blueprint
 from logic import package_autocomplete
 from views import dataset_autocomplete
 import views_organization
+import views_dataset
 
 import auth
 import menu
@@ -170,9 +171,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
     plugins.implements(plugins.IConfigurer, inherit=True)
-    plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITemplateHelpers)
-    plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.IAuthFunctions)
@@ -203,40 +202,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def i18n_domain(self):
         return "ckanext-ytp_main"
-
-    # IRoutes #
-
-    def before_map(self, m):
-        health_controller = 'ckanext.ytp.health:HealthController'
-        m.connect('/health', action='check', controller=health_controller)
-        """ Override ckan api for autocomplete """
-        controller = 'ckanext.ytp.controller:YtpDatasetController'
-        m.connect('/api/2/util/tag/autocomplete', action='ytp_tag_autocomplete',
-                  controller=controller,
-                  conditions=dict(method=['GET']))
-        m.connect('/api/util/dataset/autocomplete', action='dataset_autocomplete',
-                  controller=controller,
-                  conditions=dict(method=['GET']))
-        m.connect('/dataset/new_metadata/{id}', action='new_metadata',
-                  controller=controller)  # override metadata step at new package
-        # m.connect('dataset_edit', '/dataset/edit/{id}',
-        # action='edit', controller=controller, ckan_icon='edit')
-        # m.connect('new_resource', '/dataset/new_resource/{id}',
-        # action='new_resource', controller=controller, ckan_icon='new')
-        m.connect('resource_edit', '/dataset/{id}/resource_edit/{resource_id}', action='resource_edit',
-                  controller=controller, ckan_icon='edit')
-
-        # Mapping of new dataset is needed since, remapping on read overwrites it
-        m.connect('add dataset', '/dataset/new', controller='package', action='new')
-        m.connect('/dataset/{id}.{format}', action='read', controller=controller)
-        m.connect('related_new', '/dataset/{id}/related/new', action='new_related', controller=controller)
-        m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
-                  action='edit_related', controller=controller)
-        # m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
-        m.connect('dataset_groups', '/dataset/groups/{id}', action="groups", controller=controller)
-        m.connect('/api/util/dataset/autocomplete_by_collection_type', action='autocomplete_packages_by_collection_type',
-                  controller=controller)
-        return m
 
     # IConfigurer #
 
@@ -517,7 +482,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         # Add plugin url rules to Blueprint object
         blueprint.add_url_rule(u'/api/util/dataset/autocomplete', view_func=dataset_autocomplete)
 
-        return blueprint
+        return [blueprint] + views_dataset.get_blueprints()
 
 
 class YTPSpatialHarvester(plugins.SingletonPlugin):

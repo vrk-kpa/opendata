@@ -16,25 +16,19 @@ Example:
 {% set s2 = stages[1] or 'uncomplete' %}
 {% if s1 != 'uncomplete' %}{% set class = 'stage-1' %}{% endif %}
 {% if s2 != 'uncomplete' %}{% set class = 'stage-2' %}{% endif %}
-
 <ol class="stages {{ class }}">
   <li class="first {{ s1 }}">
     {% if s1 != 'complete' %}
       <span class="highlight">{{ _('Create dataset') }}</span>
     {% else %}
-      {% link_for _('Create dataset'), controller='package', action='edit', id=pkg_name, class_="highlight" %}
+      {% link_for _('Create dataset'), controller='ytp_dataset_blueprint', action='edit', id=pkg_name, class_="highlight" %}
     {% endif %}
   </li>
   <li class="last {{ s2 }}">
     {% if s2 != 'complete' %}
       <span class="highlight">{{ _('Add data') }}</span>
     {% else %}
-      {% if s1 == 'active' %}
-        {# stage 1 #}
-        {% link_for _('Add data'), controller='package', action='new_resource', id=pkg_name, class_="highlight" %}
-      {% else %}
-        {% link_for _('Add data'), controller='package', action='new_resource', id=pkg_name, class_="highlight" %}
-      {% endif %}
+      {% link_for _('Add data'), controller='ytp_dataset_blueprint', action='new_resource', id=pkg_name, class_="highlight" %}
     {% endif %}
   </li>
 </ol>
