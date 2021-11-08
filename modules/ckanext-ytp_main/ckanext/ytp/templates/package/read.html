@@ -2,33 +2,7 @@
 
 {% block primary %}
 
-    {% if pkg.private %}
-      <div class="well private-or-draft-dataset">
-        <div>
-          <img src="/resources/images/avoindata-closed-eye.svg">
-          <span>{{ _('Private mode. The dataset is only visible to logged in users of the producer organisation.') }}</span>
-        </div>
-        <a href="{% url_for controller='package', action='edit', id=pkg.name %}">{{ _('Edit dataset') }}</a>
-      </div>
-    {% endif %}
-    {% if pkg.get('state', '').startswith('deleted') %}
-      <div class="well private-or-draft-dataset deleted-dataset">
-        <div>
-          <img src="/resources/images/avoindata-closed-eye.svg">
-          <span>{{ _('Deleted. The dataset is only visible to logged in users of the producer organisation.') }}</span>
-        </div>
-        <a href="{% url_for controller='package', action='edit', id=pkg.name %}">{{ _('Edit dataset') }}</a>
-      </div>
-    {% endif %}
-  {% if pkg.state.startswith('draft') %}
-      <div class="well private-or-draft-dataset">
-        <div>
-          <img src="/resources/images/avoindata-closed-eye.svg">
-          <span>{{ _('In draft state. The dataset is only visible to logged in users of the producer organisation.') }}</span>
-        </div>
-        <a href="{% url_for controller='package', action='edit', id=pkg.name %}">{{ _('Edit dataset') }}</a>
-      </div>
-    {% endif %}
+    {% snippet "package/snippets/dataset_state_banner.html", pkg=pkg %}
 
     <div class="dataset-header-row d-flex mt-4 align-items-end justify-content-between flex-wrap">
       <div>
