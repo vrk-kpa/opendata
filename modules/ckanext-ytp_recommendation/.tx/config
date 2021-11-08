@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[ytp.ckanext-ytp-recommendation]
+file_filter = ckanext/ytp_recommendation/i18n/<lang>/LC_MESSAGES/ckanext-ytp_recommendation.po
+source_file = ckanext/ytp_recommendation/i18n/ckanext-ytp_recommendation.pot
+source_lang = en
+type = PO
+

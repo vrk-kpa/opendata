@@ -1,16 +1,6 @@
-<<<<<<< HEAD
 import ckan.plugins as plugins
 from ckan.plugins import toolkit
 
-import ckan.lib.helpers as h
-
-=======
-import os
-
-import ckan.plugins as plugins
-from ckan.plugins import toolkit
-
->>>>>>> a44d0a189 (fixup! AV-1311: Implement actions, helpers and plugin)
 from ckanext.ytp_recommendation import controller, helpers
 from ckanext.ytp_recommendation.logic.action import create, get
 
