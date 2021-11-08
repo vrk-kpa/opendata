@@ -1,6 +1,16 @@
 {% ckan_extends %}
 
 {% block primary %}
+
+    {% if pkg.private %}
+      <div class="well private-dataset">
+        <div>
+          <img src="/resources/images/avoindata-closed-eye.svg">
+          <span>{{ _('Private mode. The dataset is only visible to other logged in users of the same organisation.') }}</span>
+        </div>
+        <a href="{% url_for controller='package', action='edit', id=pkg.name %}">{{ _('Edit dataset') }}</a>
+      </div>
+    {% endif %}
     <div class="dataset-header-row d-flex mt-4 align-items-end justify-content-between flex-wrap">
       <div>
         <h1 class="dataset-title m-0">
@@ -14,10 +24,6 @@
       </div>
       <div class="content_action">
         {% block content_action %}
-          {% link_for _('Groups'), controller='package', action='groups', id=pkg.name, class_='opendata-content-action', icon='users'%}
-           {% if h.check_access('package_update', {'id':pkg.id }) %}
-               {% link_for _('Manage'), controller='package', action='edit', id=pkg.name, class_='opendata-content-action', icon='wrench' %}
-           {% endif %}
         {% endblock %}
       </div>
     </div>
