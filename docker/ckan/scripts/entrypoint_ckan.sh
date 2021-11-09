@@ -15,12 +15,12 @@ export UWSGI_OPTS="--socket /tmp/uwsgi.sock --uid 92 --gid 92 --http :5000 --mas
 
 # init ckan if not done, otherwise run re-init
 if [ ! -f ${DATA_DIR}/.init-done ]; then
-  flock -x ${DATA_DIR}/.init-lock -c './init_ckan.sh'
+  flock -s ${DATA_DIR}/.init-lock -c './init_ckan.sh'
 
   # set init flag to done
   touch ${DATA_DIR}/.init-done
 else
-  flock -x ${DATA_DIR}/.init-lock -c './reinit_ckan.sh'
+  flock -s ${DATA_DIR}/.init-lock -c './reinit_ckan.sh'
 fi
 
 # run uwsgi

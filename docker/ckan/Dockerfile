@@ -78,6 +78,7 @@ RUN apt-get update -yq && \
                     libffi-dev \
                     postgresql-client \
                     cron \
+                    rsync \
                     -yq && \
     pip install cryptography pyOpenSSL ndg-httpsclient pyasn1 jinja2-cli polib
 
@@ -189,6 +190,19 @@ RUN crontab -u ckan /home/ckan/cron.d/crontab && chmod u+s /usr/sbin/cron
 RUN rm -f ${APP_DIR}/production.ini && \
     rm -f ${APP_DIR}/who.ini && \
     chown -R ckan:ckan /srv/app
+
+# setup shared base directories
+RUN mkdir -p /opt/base && \
+    mv /srv/app/data /opt/base/data && \
+    mv /var/www/resources /opt/base/resources && \
+    chown -R ckan:ckan /opt/base/data && \
+    chown -R ckan:ckan /opt/base/resources
+
+# make sure permissions are correct
+RUN mkdir -p /srv/app/data && \
+    mkdir -p /var/www/resources && \
+    chown -R ckan:ckan /srv/app/data && \
+    chown -R ckan:ckan /var/www/resources
 
 # switch back to ckan
 USER ckan

@@ -3,6 +3,9 @@ set -e
 
 echo "init_ckan() ..."
 
+# init filesystems
+. init_filesystems.sh
+
 # create destination dirs
 mkdir -p ${APP_DIR}/sql
 

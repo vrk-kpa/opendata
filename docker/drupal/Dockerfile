@@ -30,7 +30,7 @@ FROM drupal:9-fpm-alpine
 # NOTE: modules is /opt/drupal/modules
 
 # install required pkgs
-RUN apk add --no-cache unzip git postgresql-client py3-yaml && \
+RUN apk add --no-cache unzip git postgresql-client py3-yaml rsync && \
     apk add --no-cache jinja2-cli --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
     apk add --no-cache python3
 
@@ -111,5 +111,10 @@ COPY docker/drupal/templates /opt/templates
 # install entrypoint.sh
 COPY docker/drupal/scripts/ ./
 RUN chmod +x *.sh
+
+# setup shared base directories
+RUN mkdir -p /opt/base && \
+    mv /opt/drupal/web /opt/base/web && \
+    mv /var/www/resources /opt/base/resources
 
 ENTRYPOINT ["./entrypoint.sh"]

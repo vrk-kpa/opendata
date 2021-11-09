@@ -3,7 +3,10 @@ set -e
 
 echo "init_drupal() ..."
 
-# always init modules first
+# init filesystems
+. init_filesystems.sh
+
+# init modules
 . init_modules.sh
 
 # init database if not exists (return value is 0 and result is 0 rows)

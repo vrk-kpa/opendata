@@ -3,7 +3,7 @@ set -e
 
 echo "reinit_drupal() ..."
 
-# always init modules first
+# init modules
 . init_modules.sh
 
 # apply jinja2 templates
