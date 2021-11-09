@@ -5,7 +5,7 @@
       <span>{{ _('Private mode. The dataset is only visible to logged in users of the producer organisation.') }}</span>
     </div>
     {% if h.check_access('package_update', {'id':pkg.id }) %}
-      <a href="{% url_for controller='package', action='edit', id=pkg.name %}">{{ _('Edit dataset') }}</a>
+      {% link_for _('Edit dataset'), controller='package', action='edit', id=pkg.name %}"
     {% endif %}
   </div>
 {% elif pkg.get('state', '').startswith('deleted') %}
@@ -15,7 +15,7 @@
       <span>{{ _('Deleted. The dataset is only visible to logged in users of the producer organisation.') }}</span>
     </div>
     {% if h.check_access('package_update', {'id':pkg.id }) %}
-      <a href="{% url_for controller='package', action='edit', id=pkg.name %}">{{ _('Edit dataset') }}</a>
+      {% link_for _('Edit dataset'), controller='package', action='edit', id=pkg.name %}"
     {% endif %}
   </div>
 {% elif pkg.state.startswith('draft') %}
