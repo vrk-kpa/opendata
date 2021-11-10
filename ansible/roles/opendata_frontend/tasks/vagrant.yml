@@ -7,7 +7,7 @@
 
 - name: Check existance of .npmrc
   stat:
-    path: "{{ opendata_frontend_modules_path }}/ytp-assets-common/.npmrc"
+    path: "{{ project_root }}/.npmrc"
   register: npmrc
 
 - name: Copy fallback package.json if npmrc does not exist
@@ -36,4 +36,20 @@
     state: link
     src: "{{ playbook_dir }}/../modules/avoindata-drupal-ckeditor-plugins"
     dest: "{{ opendata_frontend_server_path }}/avoindata-drupal-ckeditor-plugins"
+    force: true
+
+
+- name: Ensure resources directory
+  file:
+    path: /var/www/resources
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Symlink avoindata static pages
+  file:
+    state: link
+    src: "{{ playbook_dir }}/../modules/ytp-assets-common/src/static_pages"
+    dest: "/var/www/resources/static"
     force: true

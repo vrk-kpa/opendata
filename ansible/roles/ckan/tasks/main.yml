@@ -66,7 +66,7 @@
 
 - name: Install CKAN
   pip:
-    name: "git+https://github.com/ckan/ckan.git@ckan-{{ ckan_version }}#egg=ckan[requirements-py2]"
+    name: "git+https://github.com/ckan/ckan.git@ckan-{{ ckan_version }}#egg=ckan[requirements]"
     virtualenv: "{{ ckan_virtual_environment }}"
     extra_args: "--exists-action=s -e"
 

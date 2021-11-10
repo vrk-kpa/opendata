@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from pylons import config
-from avoindata_signature import signature
+from .avoindata_signature import signature
 
 """
     A template file for datasets that have been deprecated.
@@ -29,9 +29,9 @@ def messageBody(user, packages):
 
 
 
-subject = u"Tietoaineistojesi viimeinen voimassaolopäivä Avoindata.fi-palvelussa umpeutui {valid_till} - You have datasets in Avoindata.fi that were marked as deprecated on {valid_till}" # noqa
+subject = "Tietoaineistojesi viimeinen voimassaolopäivä Avoindata.fi-palvelussa umpeutui {valid_till} - You have datasets in Avoindata.fi that were marked as deprecated on {valid_till}" # noqa
 
-messageBodyTemplate = u"""
+messageBodyTemplate = """
 Hei,
 
 Ylläpidät tietoaineistoja Avoindata.fi-palvelussa ja olet merkinnyt niille viimeisen voimassaolopäivän.
@@ -65,6 +65,6 @@ Should you have any questions or need help, please get in touch with us at avoin
 ---
 """ # noqa
 
-deprecatedItem = u"""---
+deprecatedItem = """---
 Tietoaineisto - Dataset:
 {title} ( {url} )"""

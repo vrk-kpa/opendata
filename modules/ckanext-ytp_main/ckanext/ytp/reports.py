@@ -1,8 +1,9 @@
 from ckan.logic import get_action
 from ckanext.matomo.model import PackageStats
-from commands import package_generator
+from .commands import package_generator
 from datetime import timedelta, datetime
 import logging
+from functools import reduce
 
 log = logging.getLogger(__name__)
 
@@ -135,7 +136,7 @@ def deprecated_datasets_report():
         return resolved_dict
 
     # Loop through all packages and run them through resolver
-    map_iterator = map(handle_package, all_deprecated)
+    map_iterator = list(map(handle_package, all_deprecated))
     packages = list(map_iterator)
 
     # Filter package output to table:

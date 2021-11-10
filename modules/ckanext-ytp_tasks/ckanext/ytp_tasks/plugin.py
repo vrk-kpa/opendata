@@ -1,6 +1,6 @@
 from ckan import plugins
 from ckanext.ytp_tasks import logic
-import cli
+from .cli import get_commands
 
 
 class YtpTasksPlugin(plugins.SingletonPlugin):
@@ -20,4 +20,4 @@ class YtpTasksPlugin(plugins.SingletonPlugin):
         return {'ytp_tasks_add': logic.auth_ytp_tasks_add}
 
     def get_commands(self):
-        return cli.get_commands()
+        return get_commands()

@@ -13,8 +13,8 @@ import os
 import re
 import glob
 import six
-from tools import check_package_deprecation
-from logic import send_package_deprecation_emails
+from .tools import check_package_deprecation
+from .logic import send_package_deprecation_emails
 
 from ckan.plugins.toolkit import config as c
 
@@ -81,10 +81,10 @@ def opendata_dataset():
 
 
 @opendata_dataset.command(
-    u'migrate_author_email',
-    help=u'Migrates empty author emails that caused problems in updating datasets'
+    'migrate_author_email',
+    help='Migrates empty author emails that caused problems in updating datasets'
 )
-@click.option(u'--dryrun', is_flag=True)
+@click.option('--dryrun', is_flag=True)
 @click.pass_context
 def migrate_author_email(ctx, dryrun):
     package_patches = []
@@ -102,10 +102,10 @@ def migrate_author_email(ctx, dryrun):
 
 
 @opendata_dataset.command(
-    u'migrate',
-    help=u'Migrates datasets to scheming based model'
+    'migrate',
+    help='Migrates datasets to scheming based model'
 )
-@click.option(u'--dryrun', is_flag=True)
+@click.option('--dryrun', is_flag=True)
 @click.pass_context
 def migrate(ctx, dryrun):
     default_lang = c.get('ckan.locale_default', 'en')
@@ -191,10 +191,10 @@ def migrate(ctx, dryrun):
 
 
 @opendata_dataset.command(
-    u'migrate_temporal_granularity',
-    help=u'Migrates old schema temporal granularity (string) to the new time_series_precision format (["string"])'
+    'migrate_temporal_granularity',
+    help='Migrates old schema temporal granularity (string) to the new time_series_precision format (["string"])'
 )
-@click.option(u'--dryrun', is_flag=True)
+@click.option('--dryrun', is_flag=True)
 @click.pass_context
 def migrate_temporal_granularity(ctx, dryrun):
     package_patches = []
@@ -205,7 +205,7 @@ def migrate_temporal_granularity(ctx, dryrun):
         for resource in old_package_dict.get('resources', []):
             temporal_granularity = resource.get('temporal_granularity')
             if temporal_granularity and len(temporal_granularity) > 0:
-                for k, v in temporal_granularity.items():
+                for k, v in list(temporal_granularity.items()):
                     if isinstance(v, six.text_type) and len(v) > 0:
                         temporal_granularity[k] = [v]
                         changes = True
@@ -226,10 +226,10 @@ def migrate_temporal_granularity(ctx, dryrun):
 
 
 @opendata_dataset.command(
-    u'migrate_high_value_datasets',
-    help=u'Migrates high value datasets to international benchmarks'
+    'migrate_high_value_datasets',
+    help='Migrates high value datasets to international benchmarks'
 )
-@click.option(u'--dryrun', is_flag=True)
+@click.option('--dryrun', is_flag=True)
 @click.pass_context
 def migrate_high_value_datasets(ctx, dryrun):
     package_patches = []
@@ -274,7 +274,7 @@ def apply_group_assigns(group_packages_map):
         member_create = get_action('member_create')
         context = {'ignore_auth': True}
 
-        for group, packages in group_packages_map.items():
+        for group, packages in list(group_packages_map.items()):
             for package in packages:
                 data = {'id': group,
                         'object': package,
@@ -306,12 +306,12 @@ def package_generator(query, page_size, context={'ignore_auth': True}, dataset_t
 
 
 @opendata_dataset.command(
-    u'batch_edit',
-    help=u'Make modifications to many datasets at once'
+    'batch_edit',
+    help='Make modifications to many datasets at once'
 )
 @click.argument('search_string')
-@click.option(u'--dryrun', is_flag=True)
-@click.option(u'--group', help="Make datasets members of a group")
+@click.option('--dryrun', is_flag=True)
+@click.option('--group', help="Make datasets members of a group")
 @click.pass_context
 def batch_edit(ctx, search_string, dryrun, group):
     group_assigns = {}
@@ -324,17 +324,17 @@ def batch_edit(ctx, search_string, dryrun, group):
             group_assigns[group].append(package_dict['name'])
 
     if dryrun:
-        click.echo('\n'.join('Add %s to group %s' % (p, g) for (g, ps) in group_assigns.items() for p in ps))
+        click.echo('\n'.join('Add %s to group %s' % (p, g) for (g, ps) in list(group_assigns.items()) for p in ps))
     else:
         if group:
             apply_group_assigns(group_assigns)
 
 
 @opendata_dataset.command(
-    u'update_package_deprecation',
-    help=u'Checks package deprecation and updates it if it need updating, and sends emails to users'
+    'update_package_deprecation',
+    help='Checks package deprecation and updates it if it need updating, and sends emails to users'
 )
-@click.option(u'--dryrun', is_flag=True)
+@click.option('--dryrun', is_flag=True)
 @click.pass_context
 def update_package_deprecation(ctx, dryrun):
     # deprecation emails will be sent to items inside deprecated_now array
@@ -367,10 +367,10 @@ def update_package_deprecation(ctx, dryrun):
 
 
 @opendata_dataset.command(
-    u'validate',
-    help=u'Validate datasets'
+    'validate',
+    help='Validate datasets'
 )
-@click.option(u'--verbose', is_flag=True)
+@click.option('--verbose', is_flag=True)
 @click.pass_context
 def validate(ctx, verbose):
     no_errors = True
@@ -447,10 +447,10 @@ def opendata_group():
 
 
 @opendata_group.command(
-    u'add',
+    'add',
     help="Adds all users to all groups as editors"
 )
-@click.option(u'--dryrun', is_flag=True)
+@click.option('--dryrun', is_flag=True)
 @click.pass_context
 def add_to_groups(ctx, dryrun):
     context = {'ignore_auth': True}
@@ -478,12 +478,12 @@ def opendata_harvest():
 
 
 @opendata_harvest.command(
-    u'send-status-emails',
+    'send-status-emails',
     help='Sends harvester status emails to configured recipients'
 )
-@click.option(u'--dryrun', is_flag=True)
-@click.option(u'--force', is_flag=True)
-@click.option(u'--all-harvesters', is_flag=True)
+@click.option('--dryrun', is_flag=True)
+@click.option('--force', is_flag=True)
+@click.option('--all-harvesters', is_flag=True)
 @click.pass_context
 def send_harvester_status_emails(ctx, dryrun, force, all_harvesters):
     email_notification_recipients = t.aslist(t.config.get('ckanext.ytp.harvester_status_recipients', ''))
@@ -495,8 +495,8 @@ def send_harvester_status_emails(ctx, dryrun, force, all_harvesters):
     status_opts = {} if not all_harvesters else {'include_manual': True, 'include_never_run': True}
     status = get_action('harvester_status')({}, status_opts)
 
-    errored_runs = any(item.get('errors') != 0 for item in status.values())
-    running = (item.get('started') for item in status.values() if item.get('status') == 'running')
+    errored_runs = any(item.get('errors') != 0 for item in list(status.values()))
+    running = (item.get('started') for item in list(status.values()) if item.get('status') == 'running')
     stuck_runs = any(_elapsed_since(started).days > 1 for started in running)
 
     if not (errored_runs or stuck_runs) and not force:
@@ -531,7 +531,7 @@ def send_harvester_status_emails(ctx, dryrun, force, all_harvesters):
     msg = '%(site_title)s - Harvester summary %(today)s\n\n%(status)s' % {
             'site_title': site_title,
             'today': today,
-            'status': '\n'.join(status_string(title, values) for title, values in status.items())
+            'status': '\n'.join(status_string(title, values) for title, values in list(status.items()))
             }
 
     subject = '%s - Harvester summary %s' % (site_title, today)
@@ -542,12 +542,12 @@ def send_harvester_status_emails(ctx, dryrun, force, all_harvesters):
 
 
 @opendata_harvest.command(
-    u'send-stuck-runs-report',
+    'send-stuck-runs-report',
     help='Sends stuck runs report to configured recipients'
 )
-@click.option(u'--dryrun', is_flag=True)
-@click.option(u'--force', is_flag=True)
-@click.option(u'--all-harvesters', is_flag=True)
+@click.option('--dryrun', is_flag=True)
+@click.option('--force', is_flag=True)
+@click.option('--all-harvesters', is_flag=True)
 def send_stuck_runs_report(ctx, dryrun, force, all_harvesters):
     email_notification_recipients = t.aslist(t.config.get('ckanext.ytp.fault_recipients', ''))
 

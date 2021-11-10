@@ -2,7 +2,7 @@ import ckan.plugins as plugins
 from ckan.plugins import implements, toolkit
 from ckan.lib.plugins import DefaultTranslation
 import logging
-import cli
+from .cli import get_commands
 
 log = logging.getLogger(__name__)
 
@@ -78,4 +78,4 @@ class YtpRequestPlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     # IClick
     def get_commands(self):
-        return cli.get_commands()
+        return get_commands()

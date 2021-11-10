@@ -1,7 +1,7 @@
 from ckan.common import config
 import ckan.lib.base as base
 import re
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import logging
 log = logging.getLogger(__name__)
 
@@ -12,11 +12,11 @@ SUCCESS_MESSAGE = "OK"
 
 def check_url(host, url):
     try:
-        req = urllib2.Request('http://localhost%s' % url)
+        req = urllib.request.Request('http://localhost%s' % url)
         req.add_header('Host', host)
-        response = urllib2.urlopen(req, timeout=30)
+        response = urllib.request.urlopen(req, timeout=30)
         return response.getcode() == 200
-    except urllib2.URLError:
+    except urllib.error.URLError:
         return False
 
 

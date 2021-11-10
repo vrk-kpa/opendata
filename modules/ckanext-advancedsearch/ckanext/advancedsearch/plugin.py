@@ -129,11 +129,11 @@ def _load_schema_module_path(url):
 
 
 def _load_schema_url(url):
-    import urllib2
+    import urllib.request, urllib.error, urllib.parse
     try:
-        res = urllib2.urlopen(url)
+        res = urllib.request.urlopen(url)
         tables = res.read()
-    except urllib2.URLError:
+    except urllib.error.URLError:
         raise Exception("Could not load %s" % url)
 
     return loader.loads(tables, url)

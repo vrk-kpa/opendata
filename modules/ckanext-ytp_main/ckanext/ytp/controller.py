@@ -19,7 +19,7 @@ import ckan.lib.navl.dictization_functions as dictization_functions
 import ckan.lib.render
 
 
-from plugin import create_vocabulary
+from .plugin import create_vocabulary
 
 log = logging.getLogger(__name__)
 unflatten = dictization_functions.unflatten
@@ -181,7 +181,7 @@ class YtpDatasetController(PackageController):
 
             # see if we have any data that we are trying to save
             data_provided = False
-            for key, value in data.iteritems():
+            for key, value in data.items():
                 if (value or isinstance(value, cgi.FieldStorage)) and key != 'resource_type':
                     data_provided = True
                     break
@@ -357,18 +357,18 @@ class YtpDatasetController(PackageController):
 
     def groups(self, id):
         context = {
-            u'model': model,
-            u'session': model.Session,
-            u'user': g.user,
-            u'for_view': True,
-            u'auth_user_obj': g.userobj,
-            u'use_cache': False
+            'model': model,
+            'session': model.Session,
+            'user': g.user,
+            'for_view': True,
+            'auth_user_obj': g.userobj,
+            'use_cache': False
         }
 
         if request.method == "POST":
             group_list = []
             category_list = []
-            for key, val in request.params.iteritems():
+            for key, val in request.params.items():
                 if key == 'categories':
                     group_list.append({'name': val})
                     category_list.append(val)
@@ -376,38 +376,38 @@ class YtpDatasetController(PackageController):
                 get_action('package_patch')(context, {"id": id, "groups": group_list, "categories": category_list})
                 h.redirect_to('dataset_groups', id=id)
             except (NotFound, NotAuthorized):
-                return base.abort(404, _(u'Dataset not found'))
+                return base.abort(404, _('Dataset not found'))
 
         try:
-            pkg_dict = get_action(u'package_show')(context, {u'id': id})
+            pkg_dict = get_action('package_show')(context, {'id': id})
         except (NotFound, NotAuthorized):
-            return base.abort(404, _(u'Dataset not found'))
+            return base.abort(404, _('Dataset not found'))
 
-        dataset_type = pkg_dict[u'type']
-        context[u'is_member'] = True
-        users_groups = get_action(u'group_list_authz')(context, {u'id': id})
+        dataset_type = pkg_dict['type']
+        context['is_member'] = True
+        users_groups = get_action('group_list_authz')(context, {'id': id})
 
         pkg_group_ids = set(
-            group[u'id'] for group in pkg_dict.get(u'groups', [])
+            group['id'] for group in pkg_dict.get('groups', [])
         )
 
-        user_group_ids = set(group[u'id'] for group in users_groups)
+        user_group_ids = set(group['id'] for group in users_groups)
 
-        group_dropdown = [[group[u'id'], group[u'display_name']]
+        group_dropdown = [[group['id'], group['display_name']]
                           for group in users_groups
-                          if group[u'id'] not in pkg_group_ids]
+                          if group['id'] not in pkg_group_ids]
 
-        for group in pkg_dict.get(u'groups', []):
-            group[u'user_member'] = (group[u'id'] in user_group_ids)
+        for group in pkg_dict.get('groups', []):
+            group['user_member'] = (group['id'] in user_group_ids)
 
         c.pkg_dict = pkg_dict
         c.group_dropdown = group_dropdown
 
         return base.render(
-            u'package/group_list.html', {
-                u'dataset_type': dataset_type,
-                u'pkg_dict': pkg_dict,
-                u'group_dropdown': group_dropdown
+            'package/group_list.html', {
+                'dataset_type': dataset_type,
+                'pkg_dict': pkg_dict,
+                'group_dropdown': group_dropdown
             }
         )
 
@@ -472,7 +472,7 @@ class YtpDatasetController(PackageController):
                 h.redirect_to(
                     controller='package', action='read', id=c.pkg_dict['name'])
             except DataError:
-                abort(400, _(u'Integrity Error'))
+                abort(400, _('Integrity Error'))
             except ValidationError as e:
                 errors = e.error_dict
                 error_summary = e.error_summary
@@ -526,7 +526,7 @@ class YtpDatasetController(PackageController):
         limit = data_dict.get('limit', None)
         q = data_dict.get('q', '')
 
-        like_q = u'%%%s%%' % q
+        like_q = '%%%s%%' % q
 
         query = model.Session.query(model.Package)
         query = query.filter(model.Package.state == 'active')
@@ -744,7 +744,7 @@ class YtpUserController(UserController):
         except NotFound:
             abort(404, _('User not found'))
         except DataError:
-            abort(400, _(u'Integrity Error'))
+            abort(400, _('Integrity Error'))
         except ValidationError as e:
             errors = e.error_dict
             error_summary = e.error_summary

@@ -40,12 +40,6 @@
 # Install dependencies for the extension. Depending on the extension, deps
 # are listed either in requirements.txt or pip-requirements.txt. Both are covered here.
 
-- name: Register extension requirements-py2.txt
-  stat:
-    path: "{{ ckan_extension_sync_path }}/{{ item }}/requirements-py2.txt"
-    follow: true
-  register: requirements_py2
-
 - name: Register extension requirements.txt
   stat:
     path: "{{ ckan_extension_sync_path }}/{{ item }}/requirements.txt"
@@ -58,23 +52,17 @@
     follow: true
   register: piprequirements
 
-- name: Install extension requirements-py2
-  pip:
-    requirements: "{{ ckan_extension_sync_path }}/{{ item }}/requirements-py2.txt"
-    virtualenv: "{{ ckan_virtual_environment }}"
-  when: requirements_py2.stat.exists
-
 - name: Install extension requirements
   pip:
     requirements: "{{ ckan_extension_sync_path }}/{{ item }}/requirements.txt"
     virtualenv: "{{ ckan_virtual_environment }}"
-  when: requirements.stat.exists and not requirements_py2.stat.exists
+  when: requirements.stat.exists
 
 - name: Install extension piprequirements
   pip:
     requirements: "{{ ckan_extension_sync_path }}/{{ item }}/pip-requirements.txt"
     virtualenv: "{{ ckan_virtual_environment }}"
-  when: piprequirements.stat.exists and not requirements_py2.stat.exists
+  when: piprequirements.stat.exists
 
 - name: Install extension {{ item }}
   pip:
