@@ -1095,14 +1095,15 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             for domain in domains:
                 # Split domain from : and expect first part to be hostname and second part be port.
                 # Here we ignore the port as drupal seems to ignore the port when generating cookiename hashes
-                domain_hash = hashlib.sha256(domain.split(':')[0]).hexdigest()[:32]
+                domain_hash = hashlib.sha256(domain.split(':')[0].encode('utf-8')).hexdigest()[:32]
                 cookienames = (template % domain_hash for template in ('SESS%s', 'SSESS%s'))
                 named_cookies = ((name, p.toolkit.request.cookies.get(name)) for name in cookienames)
                 for cookiename, cookie in named_cookies:
                     if cookie is not None:
                         cookies.update({cookiename: cookie})
 
-            response = requests.get('%s/%s/%s' % (hostname, lang, path), cookies=cookies, verify=verify_cert)
+            snippet_url = '%s/%s/%s' % (hostname, lang, path)
+            response = requests.get(snippet_url, cookies=cookies, verify=verify_cert)
             return response.text
         except requests.exceptions.RequestException as e:
             log.error('%s' % e)
@@ -1119,11 +1120,6 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
     def _drupal_header(self):
         # Path variable depends on request type
         path = request.full_path if is_flask_request() else request.path_qs
-        log.debug('_drupal_header: %s', path)
-        try:
-            path = path.decode('utf8')
-        except UnicodeDecodeError:
-            path = path.decode('cp1252')
         result = self._drupal_snippet('api/header?activePath=%s' % path)
         if result:
             # Language switcher links will point to /api/header, fix them based on currently requested page
