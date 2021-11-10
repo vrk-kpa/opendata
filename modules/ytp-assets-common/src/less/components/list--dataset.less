@@ -13,6 +13,10 @@
     color: #6e6e6e;
     font-size: 14px;
     font-family: @font-family-sans-serif-semibold;
+
+    .organization {
+      clear: both;
+    }
   }
 
   .dataset-heading {
@@ -59,4 +63,29 @@
       color: @new-layout-nonimportant-text-color;
     }
   }
+}
+
+.dataset-title {
+  float: left;
+}
+
+.private,
+.draft,
+.deleted {
+  float: right;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600;
+  text-align: center;
+  line-height: 18px;
+  background: #00347a;
+  border: 1px solid #00347a;
+  padding: 5px 10px 5px 10px;
+}
+
+.deleted {
+  background: #c33932;
+  border: 1px solid #c33932;
 }
