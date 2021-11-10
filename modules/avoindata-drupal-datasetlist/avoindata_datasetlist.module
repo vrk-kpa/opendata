@@ -6,7 +6,9 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Component\Utility\Xss;
 use Drupal\Component\Serialization\Json;
+use League\CommonMark\CommonMarkConverter;
 use Drupal\Core\Security\TrustedCallbackInterface;
 
 /**
@@ -61,6 +63,10 @@ function create_dataset_table_rows($dataset_list, $date_type) {
         ? $dataset['notes_translated'][$currentLang]
         : $dataset['notes_translated']['fi']
       );
+
+      $converter = new CommonMarkConverter();
+      $translated_description = $converter->convertToHtml($translated_description);
+      $translated_description = Xss::filter($translated_description, array('p'));
 
       $translated_label = strtoupper(t('Modified'));
 
