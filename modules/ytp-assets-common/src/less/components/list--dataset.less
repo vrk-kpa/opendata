@@ -13,10 +13,6 @@
     color: #6e6e6e;
     font-size: 14px;
     font-family: @font-family-sans-serif-semibold;
-
-    .organization {
-      clear: both;
-    }
   }
 
   .dataset-heading {
@@ -65,6 +61,10 @@
   }
 }
 
+.float-clearer {
+  clear: both;
+}
+
 .dataset-title {
   float: left;
 }
@@ -76,8 +76,8 @@
   color: #fff;
   text-transform: uppercase;
   font-size: 14px;
-  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-  font-weight: 600;
+  font-family: @font-family-sans-serif-semibold;
+  font-weight: @font-weight-heavier;
   text-align: center;
   line-height: 18px;
   background: #00347a;
