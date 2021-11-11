@@ -83,16 +83,29 @@ The template contains an already working configuration to get started.
 
 ### Build & run
 ```bash
+# bring docker compose stack up with current latest images + force rebuild of all images
 docker-compose -p opendata --env-file docker/.env.local up --build -d
+```
+
+### Build with secrets & run
+```bash
+# build drupal image using BuildKit secrets
+docker build --no-cache -t opendata/drupal:latest --secret id=npmrc,src=./modules/ytp-assets-common/.npmrc --file=./docker/drupal/Dockerfile .
+# build ckan image using BuildKit secrets
+docker build --no-cache -t opendata/ckan:latest --secret id=npmrc,src=./modules/ytp-assets-common/.npmrc --file=./docker/ckan/Dockerfile .
+# bring docker compose stack up with current latest images
+docker-compose -p opendata --env-file docker/.env.local up -d
 ```
 
 ### Stop
 ```bash
+# bring docker compose stack down, not destroying persistent volumes
 docker-compose -p opendata down
 ```
 
 ### Destroy
 ```bash
+# destroy docker compose stack, destroys persistent volumes
 docker-compose -p opendata down --volumes
 ```
 

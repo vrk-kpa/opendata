@@ -48,12 +48,11 @@ COPY modules/ckanext-sentry                 /opt/ckan_extensions/ckanext-sentry/
 # frontend requires some common components
 COPY modules/avoindata-drupal-header        /opt/ckan_extensions/avoindata-drupal-header/
 
-# set workdir to frontend module & copy package.json
+# set workdir, copy default package.json, import .npmrc as secret and run build script
 WORKDIR /opt/ckan_extensions/ytp-assets-common
-COPY docker/package.default.json /opt/ckan_extensions/ytp-assets-common/package.json
-
-# build frontend
-RUN npm install --unsafe-perm=true --allow-root && gulp
+COPY docker/package.default.json /opt/ckan_extensions/ytp-assets-common/package.default.json
+COPY --chmod=+x docker/build_frontend.sh /opt/ckan_extensions/ytp-assets-common/build_frontend.sh
+RUN --mount=type=secret,id=npmrc ./build_frontend.sh
 
 #
 # CKAN build

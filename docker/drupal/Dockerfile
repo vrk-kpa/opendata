@@ -13,12 +13,11 @@ RUN apt-get install -yq nodejs && npm install -g gulp
 # copy custom modules
 COPY modules /opt/drupal_modules/
 
-# set workdir to frontend module & copy package.json
+# set workdir, copy default package.json, import .npmrc as secret and run build script
 WORKDIR /opt/drupal_modules/ytp-assets-common
-COPY docker/package.default.json /opt/drupal_modules/ytp-assets-common/package.json
-
-# build frontend
-RUN npm install --unsafe-perm=true --allow-root && gulp
+COPY docker/package.default.json /opt/drupal_modules/ytp-assets-common/package.default.json
+COPY --chmod=+x docker/build_frontend.sh /opt/drupal_modules/ytp-assets-common/build_frontend.sh
+RUN --mount=type=secret,id=npmrc ./build_frontend.sh
 
 #
 # Drupal build
