@@ -1,14 +1,5 @@
 version: "2"
 
-# NOTE: ports are open for dev purposes
-# NOTE: /opt/drupal/web structure:
-# - /var/www/html/modules
-# - /var/www/html/profiles
-# - /var/www/html/themes
-# - /var/www/html/sites
-# NOTE: drupal holds control over its volumes and populates them
-#       nginx just mounts the volumes to specific paths as read-only
-
 services:
   postgres:
     image: opendata/postgres:latest
@@ -242,8 +233,6 @@ services:
       - SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
       - SYSADMIN_ROLES=${SYSADMIN_ROLES}
       - NGINX_HOST=${NGINX_HOST}
-      - CKAN_HOST=${CKAN_HOST}
-      - CKAN_PORT=${CKAN_PORT}
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASS=${SMTP_PASS}
