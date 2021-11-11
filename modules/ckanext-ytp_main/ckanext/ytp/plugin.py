@@ -667,9 +667,10 @@ def action_user_create(original_action, context, data_dict):
 
 
 @logic.side_effect_free
-def action_organization_show(context, data_dict):
+@toolkit.chained_action
+def action_organization_show(original_action, context, data_dict):
     try:
-        result = get_original_method('ckan.logic.action.get', 'organization_show')(context, data_dict)
+        result = original_action(context, data_dict)
     except NotAuthorized:
         raise NotFound
 
