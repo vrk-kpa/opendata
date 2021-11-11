@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+echo "entrypoint_ckan() ..."
+
 # set env vars for base image prerun.py script
 export CKAN_SQLALCHEMY_URL="postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_CKAN}"
 export CKAN_DATASTORE_WRITE_URL="postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}"
