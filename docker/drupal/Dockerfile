@@ -30,9 +30,8 @@ FROM drupal:9-fpm-alpine
 # NOTE: modules is /opt/drupal/modules
 
 # install required pkgs
-RUN apk add --no-cache unzip git postgresql-client py3-yaml rsync && \
-    apk add --no-cache jinja2-cli --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
-    apk add --no-cache python3
+RUN apk add --no-cache unzip git postgresql-client py3-yaml rsync python3 && \
+    apk add --no-cache jinja2-cli --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
 
 # make sure config sync directory exists
 RUN mkdir -p /opt/drupal/web/sites/default/sync && \
@@ -54,38 +53,38 @@ RUN composer require --dev --no-cache \
     dealerdirect/phpcodesniffer-composer-installer \
 && \
     composer require --no-cache \
-    drupal/ape \
-    drupal/bootstrap \
-    drupal/coder \
-    drupal/console \
-    drupal/disqus \
-    drupal/domain_registration \
-    drupal/drush_language \
-    drupal/easy_breadcrumb \
-    drupal/easy_install \
-    drupal/fontawesome_menu_icons \
-    drupal/honeypot \
-    drupal/libraries \
-    drupal/matomo \
-    drupal/menu_item_role_access \
-    drupal/metatag \
-    drupal/pathauto \
-    drupal/protected_submissions \
-    drupal/recaptcha \
-    drupal/redirect \
-    drupal/search_api \
-    drupal/smtp \
-    drupal/token \
-    drupal/twig_field_value \
-    drupal/twig_tweak \
-    drupal/unpublished_node_permissions \
-    drupal/upgrade_status \
-    drush/drush \
-    vlucas/phpdotenv \
-    webflo/drupal-finder \
-    webmozart/path-util \
-    cweagans/composer-patches \
-    league/commonmark ^1.5
+    "cweagans/composer-patches:^1.7" \
+    "drupal/ape:^1.4" \
+    "drupal/bootstrap:^3.9" \
+    "drupal/coder:^8.2" \
+    "drupal/console:^1.0.2" \
+    "drupal/disqus:^1.0@RC" \
+    "drupal/domain_registration:^1.6" \
+    "drupal/drush_language:1.x-dev" \
+    "drupal/easy_breadcrumb:^1.8" \
+    "drupal/easy_install:^10.2" \
+    "drupal/fontawesome_menu_icons:^1.3" \
+    "drupal/honeypot:^2.0" \
+    "drupal/libraries:^3.0@alpha" \
+    "drupal/matomo:^1.11" \
+    "drupal/menu_item_role_access:^2.0" \
+    "drupal/metatag:^1.7" \
+    "drupal/pathauto:^1.2" \
+    "drupal/protected_submissions:^1.9" \
+    "drupal/recaptcha:^3.0" \
+    "drupal/redirect:^1.2" \
+    "drupal/search_api:^1.10" \
+    "drupal/smtp:^1.0" \
+    "drupal/token:^1.5" \
+    "drupal/twig_field_value:^2.0" \
+    "drupal/twig_tweak:^2.0" \
+    "drupal/unpublished_node_permissions:^1.0" \
+    "drupal/upgrade_status:^3.10" \
+    "drush/drush:^10.0.0" \
+    "league/commonmark:^1.5" \
+    "vlucas/phpdotenv:^2.4" \
+    "webflo/drupal-finder:^1.0.0" \
+    "webmozart/path-util:^2.3"
 
 # install custom modules
 ENV MOD_DIR=/opt/drupal_modules
