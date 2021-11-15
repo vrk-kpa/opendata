@@ -3,11 +3,11 @@ set -e
 
 echo "init_drupal() ..."
 
-# init filesystems
-. init_filesystems.sh
-
 # enable nginx maintenance mode
 touch /var/www/resources/.init-progress
+
+# init filesystems
+. init_filesystems.sh
 
 # init modules
 . init_modules.sh

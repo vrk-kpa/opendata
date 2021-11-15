@@ -21,6 +21,9 @@ export class DrupalStack extends cdk.Stack {
     super(scope, id, props);
 
     // get params
+    const pDrupalImageVersion = ssm.StringParameter.fromStringParameterAttributes(this, 'pDrupalImageVersion', {
+      parameterName: `/${props.environment}/opendata/drupal/image_version`,
+    });
     const pDbHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbHost', {
       parameterName: `/${props.environment}/opendata/common/db_host`,
     });
@@ -131,6 +134,7 @@ export class DrupalStack extends cdk.Stack {
 
     let drupalContainerEnv: { [key: string]: string; } = {
       // .env.drupal
+      DRUPAL_IMAGE_VERSION: pDrupalImageVersion.stringValue,
       DRUPAL_CONFIG_SYNC_DIRECTORY: '/opt/drupal/web/sites/default/sync',
       // .env
       DB_HOST: pDbHost.stringValue,
@@ -215,7 +219,7 @@ export class DrupalStack extends cdk.Stack {
     }
 
     const drupalContainer = drupalTaskDef.addContainer('drupal', {
-      image: ecs.ContainerImage.fromEcrRepository(props.repositories['drupal'], 'latest'),
+      image: ecs.ContainerImage.fromEcrRepository(props.repositories['drupal'], pDrupalImageVersion.stringValue),
       environment: drupalContainerEnv,
       secrets: drupalContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
@@ -242,6 +246,7 @@ export class DrupalStack extends cdk.Stack {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
       taskDefinition: drupalTaskDef,
+      desiredCount: 1,
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,

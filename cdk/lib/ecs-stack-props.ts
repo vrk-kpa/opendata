@@ -22,9 +22,9 @@ export interface EcsStackProps extends CommonStackProps {
   cacheCluster: ec.CfnCacheCluster;
   drupalService?: ecs.FargateService;
   ckanService?: ecs.FargateService;
-  captchaEnabled: boolean;
-  analyticsEnabled: boolean;
-  cloudStorageEnabled: boolean;
+  captchaEnabled?: boolean;
+  analyticsEnabled?: boolean;
+  cloudStorageEnabled?: boolean;
 }
 
 export interface EcsStackPropsTaskDef {

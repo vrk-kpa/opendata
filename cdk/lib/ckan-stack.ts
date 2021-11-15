@@ -21,6 +21,15 @@ export class CkanStack extends cdk.Stack {
     super(scope, id, props);
 
     // get params
+    const pCkanImageVersion = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanImageVersion', {
+      parameterName: `/${props.environment}/opendata/ckan/image_version`,
+    });
+    const pDatapusherImageVersion = ssm.StringParameter.fromStringParameterAttributes(this, 'pDatapusherImageVersion', {
+      parameterName: `/${props.environment}/opendata/datapusher/image_version`,
+    });
+    const pSolrImageVersion = ssm.StringParameter.fromStringParameterAttributes(this, 'pSolrImageVersion', {
+      parameterName: `/${props.environment}/opendata/solr/image_version`,
+    });
     const pDbHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbHost', {
       parameterName: `/${props.environment}/opendata/common/db_host`,
     });
@@ -207,6 +216,7 @@ export class CkanStack extends cdk.Stack {
 
     const ckanContainerEnv: { [key: string]: string; } = {
       // .env.ckan
+      CKAN_IMAGE_VERSION: pCkanImageVersion.stringValue,
       CKAN_SITE_URL: `https://${props.domainName}`,
       CKAN_SITE_ID: 'default',
       CKAN_PLUGINS_DEFAULT: ckanPluginsDefault.join(' '),
@@ -319,8 +329,31 @@ export class CkanStack extends cdk.Stack {
       ckanContainerEnv['RECAPTCHA_PRIVATE_KEY'] = '';
     }
 
+    if (props.cloudStorageEnabled) {
+      // get params
+      const pCkanCloudstorageDriver = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanCloudstorageDriver', {
+        parameterName: `/${props.environment}/opendata/ckan/cloudstorage_driver`,
+      });
+      const pCkanCloudstorageContainerName = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanCloudstorageContainerName', {
+        parameterName: `/${props.environment}/opendata/ckan/cloudstorage_container_name`,
+      });
+      const pCkanCloudstorageUseSecureUrls = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanCloudstorageUseSecureUrls', {
+        parameterName: `/${props.environment}/opendata/ckan/cloudstorage_use_secure_urls`,
+      });
+
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_ENABLED'] = 'true';
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = pCkanCloudstorageDriver.stringValue;
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = pCkanCloudstorageContainerName.stringValue;
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = pCkanCloudstorageUseSecureUrls.stringValue;
+    } else {
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_ENABLED'] = 'false';
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = '';
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = '';
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = '';
+    }
+
     const ckanContainer = ckanTaskDef.addContainer('ckan', {
-      image: ecs.ContainerImage.fromEcrRepository(props.repositories['ckan'], 'latest'),
+      image: ecs.ContainerImage.fromEcrRepository(props.repositories['ckan'], pCkanImageVersion.stringValue),
       environment: ckanContainerEnv,
       secrets: ckanContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
@@ -347,6 +380,7 @@ export class CkanStack extends cdk.Stack {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
       taskDefinition: ckanTaskDef,
+      desiredCount: 1,
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,
@@ -431,7 +465,7 @@ export class CkanStack extends cdk.Stack {
     });
 
     const datapusherContainer = datapusherTaskDef.addContainer('datapusher', {
-      image: ecs.ContainerImage.fromEcrRepository(props.repositories['datapusher'], 'latest'),
+      image: ecs.ContainerImage.fromEcrRepository(props.repositories['datapusher'], pDatapusherImageVersion.stringValue),
       environment: {
         // .env.datapusher
         DATAPUSHER_MAX_CONTENT_LENGTH: '10485760',
@@ -508,7 +542,7 @@ export class CkanStack extends cdk.Stack {
     });
 
     const solrContainer = solrTaskDef.addContainer('solr', {
-      image: ecs.ContainerImage.fromEcrRepository(props.repositories['solr'], 'latest'),
+      image: ecs.ContainerImage.fromEcrRepository(props.repositories['solr'], pSolrImageVersion.stringValue),
       logging: ecs.LogDrivers.awsLogs({
         streamPrefix: 'solr-service',
       }),
@@ -530,6 +564,8 @@ export class CkanStack extends cdk.Stack {
       cluster: props.cluster,
       taskDefinition: solrTaskDef,
       desiredCount: 1,
+      minHealthyPercent: 0,
+      maxHealthyPercent: 100,
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,

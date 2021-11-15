@@ -184,13 +184,13 @@ ckanext.reminder.date_field = valid_till
 ckanext.reminder.recipient_name = maintainer
 ckanext.reminder.email_field = maintainer_email
 
-ckanext.cloudstorage.driver_options = {}
-
-{% if environ('AWS_ENABLED') == true %}
+{% if environ('CKAN_CLOUDSTORAGE_ENABLED') == 'true' %}
 ckanext.cloudstorage.driver = {{ environ('CKAN_CLOUDSTORAGE_DRIVER') }}
 ckanext.cloudstorage.container_name = {{ environ('CKAN_CLOUDSTORAGE_CONTAINER_NAME') }}
 ckanext.cloudstorage.use_secure_urls = {{ environ('CKAN_CLOUDSTORAGE_USE_SECURE_URLS') }}
 {% endif %}
+
+ckanext.cloudstorage.driver_options = {}
 
 sentry.dsn = {{ environ('SENTRY_DSN') }}
 sentry.environment = {{ environ('SENTRY_ENV') }}
@@ -204,7 +204,7 @@ ofs.storage_dir = {{ environ('CKAN_STORAGE_PATH') }}
 # 2.2 filestore:
 ckan.storage_path = {{ environ('CKAN_STORAGE_PATH') }}
 
-{% if environ('MATOMO_ENABLED') == true %}
+{% if environ('MATOMO_ENABLED') == 'true' %}
 ckanext.matomo.site_id = {{ environ('MATOMO_SITE_ID') }}
 ckanext.matomo.domain = https://{{ environ('MATOMO_DOMAIN') }}/
 ckanext.matomo.script_domain = {{ environ('MATOMO_SCRIPT_DOMAIN') }}
@@ -228,7 +228,7 @@ ckanext.ytp.theme.show_postit_demo = {{ environ('CKAN_SHOW_POSTIT_DEMO') }}
 ckan.datapusher.url = http://{{ environ('DATAPUSHER_HOST') }}:{{ environ('DATAPUSHER_PORT') }}/
 ckan.datapusher.callback_url_base = http://{{ environ('CKAN_HOST') }}:{{ environ('CKAN_PORT') }}/
 
-{% if environ('CKAN_PROFILING_ENABLED') == true %}
+{% if environ('CKAN_PROFILING_ENABLED') == 'true' %}
 filter-with = linesman
 {% endif %}
 
@@ -266,7 +266,7 @@ formatter = generic
 [formatter_generic]
 format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
 
-{% if environ('CKAN_PROFILING_ENABLED') == true %}
+{% if environ('CKAN_PROFILING_ENABLED') == 'true' %}
 [filter:linesman]
 use = egg:linesman#profiler
 filename = /tmp/linesman.sqlite

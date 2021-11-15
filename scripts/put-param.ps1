@@ -7,7 +7,7 @@ while ($key -ne "exit")
     $val = Read-Host "Value"
     $path = "/$env/opendata/$key"
 
-    aws-vault exec "$prf" -- aws ssm put-parameter --name "$path" --type "String" --value "$val"
+    aws-vault exec "$prf" -- aws ssm put-parameter --name "$path" --type "String" --value "$val" --overwrite
 
     Write-Output "Set parameter $path to $val"
 }

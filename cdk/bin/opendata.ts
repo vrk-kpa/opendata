@@ -116,7 +116,7 @@ const ckanStackDev = new CkanStack(app, 'CkanStack-dev', {
   cacheCluster: cacheStackDev.cacheCluster,
   captchaEnabled: false,
   analyticsEnabled: false,
-  cloudStorageEnabled: false,
+  cloudStorageEnabled: true,
   ckanTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
@@ -161,7 +161,6 @@ const drupalStackDev = new DrupalStack(app, 'DrupalStack-dev', {
   cacheCluster: cacheStackDev.cacheCluster,
   captchaEnabled: false,
   analyticsEnabled: false,
-  cloudStorageEnabled: false,
   drupalTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
@@ -193,9 +192,6 @@ const webStackDev = new WebStack(app, 'WebStack-dev', {
   cachePort: cacheStackDev.cachePort,
   cacheSecurityGroup: cacheStackDev.cacheSecurityGroup,
   cacheCluster: cacheStackDev.cacheCluster,
-  captchaEnabled: false,
-  analyticsEnabled: false,
-  cloudStorageEnabled: false,
   nginxTaskDef: {
     taskCpu: 512,
     taskMem: 1024,

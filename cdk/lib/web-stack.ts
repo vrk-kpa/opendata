@@ -16,6 +16,9 @@ export class WebStack extends cdk.Stack {
     super(scope, id, props);
 
     // get params
+    const pNginxImageVersion = ssm.StringParameter.fromStringParameterAttributes(this, 'pNginxImageVersion', {
+      parameterName: `/${props.environment}/opendata/nginx/image_version`,
+    });
     const pNameserver = ssm.StringParameter.fromStringParameterAttributes(this, 'pNameserver', {
       parameterName: `/${props.environment}/opendata/common/nameserver`,
     });
@@ -84,7 +87,7 @@ export class WebStack extends cdk.Stack {
     ];
 
     const nginxContainer = nginxTaskDef.addContainer('nginx', {
-      image: ecs.ContainerImage.fromEcrRepository(props.repositories['nginx'], 'latest'),
+      image: ecs.ContainerImage.fromEcrRepository(props.repositories['nginx'], pNginxImageVersion.stringValue),
       environment: {
         // .env.nginx
         NGINX_ROOT: '/var/www/html',
@@ -171,6 +174,7 @@ export class WebStack extends cdk.Stack {
 
     nginxService.targetGroup.configureHealthCheck({
       path: '/health',
+      healthyHttpCodes: '200',
     });
 
     nginxService.service.connections.allowFrom(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
