@@ -304,4 +304,4 @@ showcase.add_url_rule('/showcase/<id>', view_func=read)
 
 
 def get_blueprints():
-    return [showcase]
+    return [showcase] + views.get_blueprints()

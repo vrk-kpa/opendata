@@ -33,8 +33,8 @@
             {% endif %}
             <ul class="nav nav-tabs">
               {% block content_primary_nav %}
-                {{ h.build_nav_icon('showcase_blueprint.edit', _('Edit showcase'), id=pkg.name) }}
-                {{ h.build_nav_icon('ckanext_showcase_manage_datasets', _('Manage datasets'), id=pkg.name) }}
+                {{ h.build_nav_icon('sixodp_showcase.edit', _('Edit showcase'), id=pkg.name) }}
+                {{ h.build_nav_icon('sixodp_showcase.manage_datasets', _('Manage datasets'), id=pkg.name) }}
               {% endblock %}
             </ul>
           </header>

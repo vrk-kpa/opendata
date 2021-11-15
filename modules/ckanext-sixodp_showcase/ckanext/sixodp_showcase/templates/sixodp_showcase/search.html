@@ -9,7 +9,7 @@
 {% block subtitle %}{{ _("Showcases") }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Showcases'), controller='sixodp_showcase', action='search', highlight_actions = 'new index') }}</li>
+  <li class="active">{{ h.nav_link(_('Showcases'), named_route='sixodp_showcase.search', highlight_actions = 'new index') }}</li>
 {% endblock %}
 
 
