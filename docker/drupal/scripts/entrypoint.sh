@@ -8,7 +8,6 @@ if [ ! -f /opt/drupal/web/.init-done ]; then
   # set init flag to done
   touch /opt/drupal/web/.init-done
 else
-  # apply templates
   flock -s /opt/drupal/web/.init-lock -c './reinit_drupal.sh'
 fi
 

@@ -79,6 +79,37 @@ Common configuration template is contained in `docker/.env.local.template`. Deve
 
 The template contains an already working configuration to get started.
 
+## Local environment secrets
+
+By default, the local setup will build the ckan and drupal image frontends using free version of fontawesome.
+
+To use the pro version, you must provide a valid .npmrc file either via BuildKit secrets or Dockerfile build-time ARG. BuildKit secrets are meant for production image builds because they provide a secure way to use secrets during image builds. For local development, use the build-time ARG option instead because it is supported in docker-compose builds.
+
+### Example docker-compose.override.yml for local development
+
+Create a file `docker-compose.override.yml` to the project root directory and populate its contents with the example below and edit your .npmrc file contents in it appropriately.
+
+This file is automatically detected by docker-compose so you don't need to pass it in commands, it just works.
+
+```yml
+# NOTE: This file is also in .gitignore, please keep it that way!
+
+services:
+  ckan:
+    build:
+      args:
+        SECRET_NPMRC: |
+          *multiline contents of the .npmrc file...*
+          *...*
+
+  drupal:
+    build:
+      args:
+        SECRET_NPMRC: |
+          *multiline contents of the .npmrc file...*
+          *...*
+```
+
 ## Local environment operations
 
 ### Build & run
@@ -87,14 +118,12 @@ The template contains an already working configuration to get started.
 docker-compose -p opendata --env-file docker/.env.local up --build -d
 ```
 
-### Build with secrets & run
+### Build ckan & drupal images with BuildKit secrets
 ```bash
 # build drupal image using BuildKit secrets
 docker build --no-cache -t opendata/drupal:latest --secret id=npmrc,src=./modules/ytp-assets-common/.npmrc --file=./docker/drupal/Dockerfile .
 # build ckan image using BuildKit secrets
 docker build --no-cache -t opendata/ckan:latest --secret id=npmrc,src=./modules/ytp-assets-common/.npmrc --file=./docker/ckan/Dockerfile .
-# bring docker compose stack up with current latest images
-docker-compose -p opendata --env-file docker/.env.local up -d
 ```
 
 ### Stop

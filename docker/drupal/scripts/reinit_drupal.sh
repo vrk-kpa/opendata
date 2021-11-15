@@ -9,8 +9,7 @@ echo "reinit_drupal() ..."
 # apply jinja2 templates
 jinja2 /opt/templates/settings.php.j2 -o /opt/drupal/web/sites/default/settings.php
 
-# run database upgrades & rebuild cache
-drush updatedb -y --no-cache-clear
+# rebuild cache
 drush cache:rebuild
 
 # apply jinja2 templates

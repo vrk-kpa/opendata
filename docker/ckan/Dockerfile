@@ -49,9 +49,11 @@ COPY modules/ckanext-sentry                 /opt/ckan_extensions/ckanext-sentry/
 COPY modules/avoindata-drupal-header        /opt/ckan_extensions/avoindata-drupal-header/
 
 # set workdir, copy default package.json, import .npmrc as secret and run build script
+# NOTE: SECRET_NPMRC arg is only for local development use, for production use buildkit secrets
 WORKDIR /opt/ckan_extensions/ytp-assets-common
 COPY docker/package.default.json /opt/ckan_extensions/ytp-assets-common/package.default.json
 COPY --chmod=+x docker/build_frontend.sh /opt/ckan_extensions/ytp-assets-common/build_frontend.sh
+ARG SECRET_NPMRC
 RUN --mount=type=secret,id=npmrc ./build_frontend.sh
 
 #
