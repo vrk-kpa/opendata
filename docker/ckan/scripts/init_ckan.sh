@@ -6,6 +6,9 @@ echo "init_ckan() ..."
 # init filesystems
 . init_filesystems.sh
 
+# enable nginx maintenance mode
+touch /var/www/resources/.init-progress
+
 # create destination dirs
 mkdir -p ${APP_DIR}/sql
 
@@ -37,3 +40,6 @@ paster --plugin=ckanext-matomo matomo init_db -c ${APP_DIR}/production.ini
 paster --plugin=ckanext-cloudstorage cloudstorage initdb -c ${APP_DIR}/production.ini
 [[ "${CKAN_PLUGINS}" == *" rating "* ]]       && paster --plugin=ckanext-rating rating init -c ${APP_DIR}/production.ini
 paster --plugin=ckanext-reminder reminder init -c ${APP_DIR}/production.ini
+
+# disable nginx maintenance mode
+rm -f /var/www/resources/.init-progress

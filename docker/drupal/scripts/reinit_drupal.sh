@@ -32,3 +32,6 @@ drush config:import -y --partial --source /opt/drupal/site_config
 
 # rebuild cache
 drush cache:rebuild
+
+# make sure nginx maintenance mode is disabled
+rm -f /var/www/resources/.init-progress

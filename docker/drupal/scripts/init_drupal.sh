@@ -6,6 +6,9 @@ echo "init_drupal() ..."
 # init filesystems
 . init_filesystems.sh
 
+# enable nginx maintenance mode
+touch /var/www/resources/.init-progress
+
 # init modules
 . init_modules.sh
 
@@ -156,3 +159,6 @@ python3 init_users.py
 # make sure file permissions are correct
 chown -R www-data:www-data /opt/drupal/web/sites/default/sync
 chown -R www-data:www-data /opt/drupal/web/sites/default/files
+
+# disable nginx maintenance mode
+rm -f /var/www/resources/.init-progress

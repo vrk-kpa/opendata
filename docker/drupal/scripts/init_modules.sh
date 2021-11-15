@@ -24,6 +24,5 @@ wait
 
 # sync fonts to final installation directory in parallel
 echo "syncing fonts..."
-rsync -au ${RES_DIR}/vendor/@fortawesome/fontawesome/webfonts/      /opt/drupal/web/themes/avoindata/fonts &
-rsync -au ${RES_DIR}/vendor/bootstrap/dist/fonts/                   /opt/drupal/web/themes/avoindata/fonts &
-wait
+rsync -au ${RES_DIR}/vendor/@fortawesome/fontawesome/webfonts/      /opt/drupal/web/themes/avoindata/fonts
+rsync -au ${RES_DIR}/vendor/bootstrap/dist/fonts/                   /opt/drupal/web/themes/avoindata/fonts
