@@ -246,7 +246,6 @@ export class DrupalStack extends cdk.Stack {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
       taskDefinition: drupalTaskDef,
-      desiredCount: 1,
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,

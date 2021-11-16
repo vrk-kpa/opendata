@@ -1,4 +1,5 @@
 import * as cdk from '@aws-cdk/core';
+import * as iam from '@aws-cdk/aws-iam';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecs from '@aws-cdk/aws-ecs';
 import * as sd from '@aws-cdk/aws-servicediscovery';
@@ -345,6 +346,17 @@ export class CkanStack extends cdk.Stack {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = pCkanCloudstorageDriver.stringValue;
       ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = pCkanCloudstorageContainerName.stringValue;
       ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = pCkanCloudstorageUseSecureUrls.stringValue;
+
+      const ckanTaskExecPolicyAllowCloudstorage = new iam.PolicyStatement({
+        actions: ['*'],
+        resources: [
+          `arn:aws:s3:::${pCkanCloudstorageContainerName.stringValue}`,
+          `arn:aws:s3:::${pCkanCloudstorageContainerName.stringValue}/*`,
+        ],
+        effect: iam.Effect.ALLOW,
+      });
+
+      ckanTaskDef.addToExecutionRolePolicy(ckanTaskExecPolicyAllowCloudstorage);
     } else {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_ENABLED'] = 'false';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = '';
@@ -380,7 +392,6 @@ export class CkanStack extends cdk.Stack {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
       taskDefinition: ckanTaskDef,
-      desiredCount: 1,
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,
@@ -408,55 +419,57 @@ export class CkanStack extends cdk.Stack {
     });
 
     // ckan cron service
-    // const ckanCronTaskDef = new ecs.FargateTaskDefinition(this, 'ckanCronTaskDef', {
-    //   volumes: [
-    //     {
-    //       name: 'ckan_data',
-    //       efsVolumeConfiguration: {
-    //         fileSystemId: props.fileSystems['ckan'].fileSystemId,
-    //         authorizationConfig: {
-    //           accessPointId: this.ckanFsDataAccessPoint.accessPointId,
-    //         },
-    //         transitEncryption: 'ENABLED',
-    //       },
-    //     }
-    //   ],
-    // });
+    const ckanCronTaskDef = new ecs.FargateTaskDefinition(this, 'ckanCronTaskDef', {
+      cpu: props.ckanCronTaskDef.taskCpu,
+      memoryLimitMiB: props.ckanCronTaskDef.taskMem,
+      volumes: [
+        {
+          name: 'ckan_data',
+          efsVolumeConfiguration: {
+            fileSystemId: props.fileSystems['ckan'].fileSystemId,
+            authorizationConfig: {
+              accessPointId: this.ckanFsDataAccessPoint.accessPointId,
+            },
+            transitEncryption: 'ENABLED',
+          },
+        }
+      ],
+    });
 
-    // const ckanCronContainer = ckanCronTaskDef.addContainer('ckan_cron', {
-    //   image: ecs.ContainerImage.fromEcrRepository(props.repositories['ckan'], 'latest'),
-    //   environment: ckanContainerEnv,
-    //   secrets: ckanContainerSecrets,
-    //   entryPoint: ['/srv/app/entrypoint_cron.sh'],
-    //   logging: ecs.LogDrivers.awsLogs({
-    //     streamPrefix: 'ckan_cron-service',
-    //   }),
-    // });
+    const ckanCronContainer = ckanCronTaskDef.addContainer('ckan_cron', {
+      image: ecs.ContainerImage.fromEcrRepository(props.repositories['ckan'], pCkanImageVersion.stringValue),
+      environment: ckanContainerEnv,
+      secrets: ckanContainerSecrets,
+      entryPoint: ['/srv/app/entrypoint_cron.sh'],
+      logging: ecs.LogDrivers.awsLogs({
+        streamPrefix: 'ckan_cron-service',
+      }),
+    });
 
-    // ckanCronContainer.addMountPoints({
-    //   containerPath: '/srv/app/data',
-    //   readOnly: false,
-    //   sourceVolume: 'ckan_data',
-    // });
+    ckanCronContainer.addMountPoints({
+      containerPath: '/srv/app/data',
+      readOnly: false,
+      sourceVolume: 'ckan_data',
+    });
 
-    // const ckanCronService = new ecs.FargateService(this, 'ckanCronService', {
-    //   platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
-    //   cluster: props.cluster,
-    //   taskDefinition: ckanCronTaskDef,
-    //   desiredCount: 1,
-    // });
+    const ckanCronService = new ecs.FargateService(this, 'ckanCronService', {
+      platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
+      cluster: props.cluster,
+      taskDefinition: ckanCronTaskDef,
+      desiredCount: 1,
+      minHealthyPercent: 0,
+      maxHealthyPercent: 100,
+    });
 
-    // ckanCronService.connections.allowFrom(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
-    // ckanCronService.connections.allowTo(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
+    ckanCronService.connections.allowFrom(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
+    ckanCronService.connections.allowTo(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
+    ckanCronService.connections.allowTo(props.databaseSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (ckan cron)');
+    ckanCronService.connections.allowTo(props.cacheSecurityGroup, ec2.Port.tcp(props.cachePort), 'Redis connection (ckan cron)');
 
-    // ckanCronService.connections.allowTo(props.databaseSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (ckan cron)');
-
-    // ckanCronService.connections.allowTo(props.cacheSecurityGroup, ec2.Port.tcp(props.cachePort), 'Redis connection (ckan cron)');
-
-    // const ckanCronServiceAsg = ckanCronService.autoScaleTaskCount({
-    //   minCapacity: 0,
-    //   maxCapacity: 1,
-    // });
+    const ckanCronServiceAsg = ckanCronService.autoScaleTaskCount({
+      minCapacity: 0,
+      maxCapacity: 1,
+    });
 
     // datapusher service
     const datapusherTaskDef = new ecs.FargateTaskDefinition(this, 'datapusherTaskDef', {
@@ -506,7 +519,7 @@ export class CkanStack extends cdk.Stack {
     datapusherService.connections.allowTo(this.ckanService, ec2.Port.tcp(5000), 'datapusher - ckan connection');
 
     const datapusherServiceAsg = datapusherService.autoScaleTaskCount({
-      minCapacity: 0,
+      minCapacity: 1,
       maxCapacity: 1,
     });
 
@@ -579,7 +592,7 @@ export class CkanStack extends cdk.Stack {
     solrService.connections.allowFrom(props.fileSystems['solr'], ec2.Port.tcp(2049), 'EFS connection (solr)');
     solrService.connections.allowTo(props.fileSystems['solr'], ec2.Port.tcp(2049), 'EFS connection (solr)');
     solrService.connections.allowFrom(this.ckanService, ec2.Port.tcp(8983), 'ckan - solr connection');
-    // solrService.connections.allowFrom(ckanCronService, ec2.Port.tcp(8983), 'ckan_cron - solr connection');
+    solrService.connections.allowFrom(ckanCronService, ec2.Port.tcp(8983), 'ckan_cron - solr connection');
 
     const solrServiceAsg = solrService.autoScaleTaskCount({
       minCapacity: 0,
