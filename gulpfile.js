@@ -301,7 +301,7 @@ gulp.task("vendor",
     pump([
       gulp.src(paths.src.root + "/vendor/**/*"),
       gulp.dest(paths.drupalTheme + "/vendor"),
-      gulp.dest(paths.ckanVendor + "/vendor"),
+      gulp.dest(paths.ckanResources + "/vendor"),
       gulp.dest(paths.ckanPublic + "/vendor"),
     ], done)
   })
