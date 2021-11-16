@@ -142,8 +142,9 @@ def _prettify(field_name):
 
 
 @logic.side_effect_free
-def action_package_show(context, data_dict):
-    result = get_original_method('ckan.logic.action.get', 'package_show')(context, data_dict)
+@toolkit.chained_action
+def action_package_show(original_action, context, data_dict):
+    result = original_action(context, data_dict)
     organization_data = result.get('organization', None)
     if organization_data:
         organization_id = organization_data.get('id', None)
