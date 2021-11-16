@@ -26,17 +26,17 @@ Example:
                 {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type + '_read', controller='package', action='read', id=package.name)) }}
                 {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
             </h3>
-            {% if package.private %}
-              <span class="collection-type private">
-                {{ _('Private') }}
+            {% if package.get('state', '').startswith('deleted') %}
+              <span class="collection-type deleted">
+                {{ _('Deleted') }}
               </span>
             {% elif package.get('state', '').startswith('draft') %}
               <span class="collection-type draft">
                 {{_('Draft')}}
               </span>
-            {% elif package.get('state', '').startswith('deleted') %}
-              <span class="collection-type deleted">
-                {{_('Deleted')}}
+            {% elif package.private %}
+              <span class="collection-type private">
+                {{_('Private')}}
               </span>
             {% endif %}
           </div>
