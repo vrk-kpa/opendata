@@ -40,14 +40,14 @@
 
   a {
     float: right;
-    color: rgb(42, 110, 187);
+    color: @opendata-brand-primary;
     height: 40px;
-    font-size: 14px;
+    font-size: @font-size-smaller-base;
     font-family: @font-family-sans-serif-semibold;
     font-weight: @font-weight-heavier;
     letter-spacing: 0.4px;
     line-height: 20px;
-    border: 1px solid rgb(42, 110, 187);
+    border: 1px solid @opendata-brand-primary;
     border-radius: 2px;
     padding: 10px 15px 0 15px;
     text-decoration: none;
@@ -55,7 +55,7 @@
 }
 
 .private-or-draft-dataset {
-  background: #00347a;
+  background: @opendata-brand-blue;
   height: 80px;
 
   div {
@@ -74,9 +74,9 @@
   }
 
   span {
-    color: #fff;
+    color: @suomi-whiteBase;
     font-family: @font-family-sans-serif;
-    font-size: 16px;
+    font-size: @font-size-slightly-smaller-base;
     font-weight: @font-weight-normal;
     line-height: 24px;
     display: inline-block;
@@ -84,11 +84,11 @@
   }
 
   a {
-    color: #fff;
-    border: 1px solid #fff;
+    color: @suomi-whiteBase;
+    border: 1px solid @suomi-whiteBase;
   }
 }
 
 .deleted-dataset {
-  background: #c33932;
+  background: @suomi-alertBase;
 }
