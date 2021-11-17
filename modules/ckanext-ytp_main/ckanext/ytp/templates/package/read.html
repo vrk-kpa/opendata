@@ -4,6 +4,7 @@
 
     {% snippet "package/snippets/dataset_state_banner.html", pkg=pkg %}
 
+  <div class="dataset-container">
     <div class="dataset-header-row d-flex mt-4 align-items-end justify-content-between flex-wrap">
       <div>
         <h1 class="dataset-title m-0">
@@ -66,5 +67,6 @@
       {% block package_organization %}{% endblock %}
 
     {% endblock %}
-</div>
+    </div>
+  </div>
 {% endblock %}
