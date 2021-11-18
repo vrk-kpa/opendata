@@ -7,4 +7,4 @@ set -e
 echo "opendata-harvest-send-status-emails"
 
 # run commands
-paster --plugin=ytp_main opendata-harvest send-status-emails -c ${APP_DIR}/production.ini
+paster --plugin=ckanext-ytp_main opendata-harvest send-status-emails -c ${APP_DIR}/production.ini
