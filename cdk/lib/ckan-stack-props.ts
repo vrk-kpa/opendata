@@ -14,4 +14,8 @@ export interface CkanStackProps extends EcsStackProps {
   ckanCronTaskDef: EcsStackPropsTaskDef,
   datapusherTaskDef: EcsStackPropsTaskDef,
   solrTaskDef: EcsStackPropsTaskDef,
+  ckanCronEnabled: boolean;
+  archiverSendNotificationEmailsToMaintainers: boolean;
+  archiverExemptDomainsFromBrokenLinkNotifications: string[];
+  cloudstorageEnabled: boolean;
 }

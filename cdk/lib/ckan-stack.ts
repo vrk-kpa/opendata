@@ -17,6 +17,7 @@ export class CkanStack extends cdk.Stack {
   readonly ckanFsResourcesAccessPoint: efs.IAccessPoint;
   readonly solrFsDataAccessPoint: efs.IAccessPoint;
   readonly ckanService: ecs.FargateService;
+  readonly ckanCronService?: ecs.FargateService;
 
   constructor(scope: cdk.Construct, id: string, props: CkanStackProps) {
     super(scope, id, props);
@@ -24,6 +25,15 @@ export class CkanStack extends cdk.Stack {
     // get params
     const pCkanImageVersion = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanImageVersion', {
       parameterName: `/${props.environment}/opendata/ckan/image_version`,
+    });
+    const pCkanHarvesterStatusRecipients = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanHarvesterStatusRecipients', {
+      parameterName: `/${props.environment}/opendata/ckan/harvester_status_recipients`,
+    });
+    const pCkanHarvesterFaultRecipients = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanHarvesterFaultRecipients', {
+      parameterName: `/${props.environment}/opendata/ckan/harvester_fault_recipients`,
+    });
+    const pCkanHarvesterInstructionUrl = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanHarvesterInstructionUrl', {
+      parameterName: `/${props.environment}/opendata/ckan/harvester_instruction_url`,
     });
     const pDatapusherImageVersion = ssm.StringParameter.fromStringParameterAttributes(this, 'pDatapusherImageVersion', {
       parameterName: `/${props.environment}/opendata/datapusher/image_version`,
@@ -223,19 +233,16 @@ export class CkanStack extends cdk.Stack {
       CKAN_STORAGE_PATH: '/srv/app/data',
       CKAN_ARCHIVER_PATH: '/srv/app/data/archiver',
       CKAN_WEBASSETS_PATH: '/srv/app/data/webassets',
-      CKAN_ARCHIVER_SEND_NOTIFICATIONS: 'false',
-      CKAN_ARCHIVER_EXEMPT_DOMAINS_FROM_BROKEN_LINK_NOTIFICATIONS: '',
-      CKAN_HARVESTER_STATUS_RECIPIENTS: '',
-      CKAN_HARVESTER_FAULT_RECIPIENTS: '',
-      CKAN_HARVESTER_INSTRUCTION_URL: '',
+      CKAN_ARCHIVER_SEND_NOTIFICATION_EMAILS_TO_MAINTAINERS: String(props.archiverSendNotificationEmailsToMaintainers),
+      CKAN_ARCHIVER_EXEMPT_DOMAINS_FROM_BROKEN_LINK_NOTIFICATIONS: props.archiverExemptDomainsFromBrokenLinkNotifications.join(' '),
+      CKAN_HARVESTER_STATUS_RECIPIENTS: pCkanHarvesterStatusRecipients.stringValue,
+      CKAN_HARVESTER_FAULT_RECIPIENTS: pCkanHarvesterFaultRecipients.stringValue,
+      CKAN_HARVESTER_INSTRUCTION_URL: pCkanHarvesterInstructionUrl.stringValue,
       CKAN_MAX_RESOURCE_SIZE: '5000',
       CKAN_SHOW_POSTIT_DEMO: 'true',
       CKAN_PROFILING_ENABLED: 'false',
       CKAN_LOG_LEVEL: 'INFO',
       CKAN_EXT_LOG_LEVEL: 'INFO',
-      CKAN_CLOUDSTORAGE_DRIVER: 'S3_EU_WEST',
-      CKAN_CLOUDSTORAGE_CONTAINER_NAME: 'bucket-name',
-      CKAN_CLOUDSTORAGE_USE_SECURE_URLS: '1',
       // .env
       CKAN_HOST: `ckan.${props.namespace.namespaceName}`,
       CKAN_PORT: '5000',
@@ -328,7 +335,7 @@ export class CkanStack extends cdk.Stack {
       ckanContainerEnv['RECAPTCHA_PRIVATE_KEY'] = '';
     }
 
-    if (props.cloudStorageEnabled) {
+    if (props.cloudstorageEnabled) {
       // get params
       const pCkanCloudstorageDriver = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanCloudstorageDriver', {
         parameterName: `/${props.environment}/opendata/ckan/cloudstorage_driver`,
@@ -419,57 +426,59 @@ export class CkanStack extends cdk.Stack {
     });
 
     // ckan cron service
-    const ckanCronTaskDef = new ecs.FargateTaskDefinition(this, 'ckanCronTaskDef', {
-      cpu: props.ckanCronTaskDef.taskCpu,
-      memoryLimitMiB: props.ckanCronTaskDef.taskMem,
-      volumes: [
-        {
-          name: 'ckan_data',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['ckan'].fileSystemId,
-            authorizationConfig: {
-              accessPointId: this.ckanFsDataAccessPoint.accessPointId,
+    if (props.ckanCronEnabled) {
+      const ckanCronTaskDef = new ecs.FargateTaskDefinition(this, 'ckanCronTaskDef', {
+        cpu: props.ckanCronTaskDef.taskCpu,
+        memoryLimitMiB: props.ckanCronTaskDef.taskMem,
+        volumes: [
+          {
+            name: 'ckan_data',
+            efsVolumeConfiguration: {
+              fileSystemId: props.fileSystems['ckan'].fileSystemId,
+              authorizationConfig: {
+                accessPointId: this.ckanFsDataAccessPoint.accessPointId,
+              },
+              transitEncryption: 'ENABLED',
             },
-            transitEncryption: 'ENABLED',
-          },
-        }
-      ],
-    });
+          }
+        ],
+      });
 
-    const ckanCronContainer = ckanCronTaskDef.addContainer('ckan_cron', {
-      image: ecs.ContainerImage.fromEcrRepository(props.repositories['ckan'], pCkanImageVersion.stringValue),
-      environment: ckanContainerEnv,
-      secrets: ckanContainerSecrets,
-      entryPoint: ['/srv/app/entrypoint_cron.sh'],
-      logging: ecs.LogDrivers.awsLogs({
-        streamPrefix: 'ckan_cron-service',
-      }),
-    });
+      const ckanCronContainer = ckanCronTaskDef.addContainer('ckan_cron', {
+        image: ecs.ContainerImage.fromEcrRepository(props.repositories['ckan'], pCkanImageVersion.stringValue),
+        environment: ckanContainerEnv,
+        secrets: ckanContainerSecrets,
+        entryPoint: ['/srv/app/entrypoint_cron.sh'],
+        logging: ecs.LogDrivers.awsLogs({
+          streamPrefix: 'ckan_cron-service',
+        }),
+      });
 
-    ckanCronContainer.addMountPoints({
-      containerPath: '/srv/app/data',
-      readOnly: false,
-      sourceVolume: 'ckan_data',
-    });
+      ckanCronContainer.addMountPoints({
+        containerPath: '/srv/app/data',
+        readOnly: false,
+        sourceVolume: 'ckan_data',
+      });
 
-    const ckanCronService = new ecs.FargateService(this, 'ckanCronService', {
-      platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
-      cluster: props.cluster,
-      taskDefinition: ckanCronTaskDef,
-      desiredCount: 1,
-      minHealthyPercent: 0,
-      maxHealthyPercent: 100,
-    });
+      this.ckanCronService = new ecs.FargateService(this, 'ckanCronService', {
+        platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
+        cluster: props.cluster,
+        taskDefinition: ckanCronTaskDef,
+        desiredCount: 1,
+        minHealthyPercent: 0,
+        maxHealthyPercent: 100,
+      });
 
-    ckanCronService.connections.allowFrom(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
-    ckanCronService.connections.allowTo(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
-    ckanCronService.connections.allowTo(props.databaseSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (ckan cron)');
-    ckanCronService.connections.allowTo(props.cacheSecurityGroup, ec2.Port.tcp(props.cachePort), 'Redis connection (ckan cron)');
+      this.ckanCronService.connections.allowFrom(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
+      this.ckanCronService.connections.allowTo(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
+      this.ckanCronService.connections.allowTo(props.databaseSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (ckan cron)');
+      this.ckanCronService.connections.allowTo(props.cacheSecurityGroup, ec2.Port.tcp(props.cachePort), 'Redis connection (ckan cron)');
 
-    const ckanCronServiceAsg = ckanCronService.autoScaleTaskCount({
-      minCapacity: 0,
-      maxCapacity: 1,
-    });
+      const ckanCronServiceAsg = this.ckanCronService.autoScaleTaskCount({
+        minCapacity: 0,
+        maxCapacity: 1,
+      });
+    }
 
     // datapusher service
     const datapusherTaskDef = new ecs.FargateTaskDefinition(this, 'datapusherTaskDef', {
@@ -592,7 +601,9 @@ export class CkanStack extends cdk.Stack {
     solrService.connections.allowFrom(props.fileSystems['solr'], ec2.Port.tcp(2049), 'EFS connection (solr)');
     solrService.connections.allowTo(props.fileSystems['solr'], ec2.Port.tcp(2049), 'EFS connection (solr)');
     solrService.connections.allowFrom(this.ckanService, ec2.Port.tcp(8983), 'ckan - solr connection');
-    solrService.connections.allowFrom(ckanCronService, ec2.Port.tcp(8983), 'ckan_cron - solr connection');
+    if (props.ckanCronEnabled) {
+      this.ckanCronService?.connections.allowTo(solrService, ec2.Port.tcp(8983), 'ckan_cron - solr connection');
+    }
 
     const solrServiceAsg = solrService.autoScaleTaskCount({
       minCapacity: 0,

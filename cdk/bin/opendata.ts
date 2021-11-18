@@ -116,7 +116,6 @@ const ckanStackDev = new CkanStack(app, 'CkanStack-dev', {
   cacheCluster: cacheStackDev.cacheCluster,
   captchaEnabled: false,
   analyticsEnabled: false,
-  cloudStorageEnabled: true,
   ckanTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
@@ -133,6 +132,10 @@ const ckanStackDev = new CkanStack(app, 'CkanStack-dev', {
     taskCpu: 512,
     taskMem: 1024,
   },
+  ckanCronEnabled: false,
+  archiverSendNotificationEmailsToMaintainers: false,
+  archiverExemptDomainsFromBrokenLinkNotifications: [],
+  cloudstorageEnabled: true,
 });
 
 const drupalStackDev = new DrupalStack(app, 'DrupalStack-dev', {
