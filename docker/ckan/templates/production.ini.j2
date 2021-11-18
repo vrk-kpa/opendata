@@ -61,7 +61,7 @@ ckan.auth.public_user_details = False
 
 ckan.site_id = {{ environ('CKAN_SITE_ID') }}
 
-ckan.plugins = {{ environ('CKAN_PLUGINS') }} {{ environ('CKAN_PLUGINS_DEFAULT') }}
+ckan.plugins = {{ environ('CKAN_PLUGINS') }} {% if environ('MATOMO_ENABLED') == 'true' %}matomo{% endif %} {% if environ('CKAN_CLOUDSTORAGE_ENABLED') == 'true' %}cloudstorage{% endif %} {{ environ('CKAN_PLUGINS_DEFAULT') }}
 
 scheming.dataset_schemas = ckanext.ytp.schemas:dataset.json
                            ckanext.sixodp_showcase.schemas:showcase.json
@@ -188,9 +188,9 @@ ckanext.reminder.email_field = maintainer_email
 ckanext.cloudstorage.driver = {{ environ('CKAN_CLOUDSTORAGE_DRIVER') }}
 ckanext.cloudstorage.container_name = {{ environ('CKAN_CLOUDSTORAGE_CONTAINER_NAME') }}
 ckanext.cloudstorage.use_secure_urls = {{ environ('CKAN_CLOUDSTORAGE_USE_SECURE_URLS') }}
-{% endif %}
-
+ckanext.cloudstorage.aws_use_boto3_sessions = {{ environ('CKAN_CLOUDSTORAGE_AWS_USE_BOTO3_SESSIONS') }}
 ckanext.cloudstorage.driver_options = {}
+{% endif %}
 
 sentry.dsn = {{ environ('SENTRY_DSN') }}
 sentry.environment = {{ environ('SENTRY_ENV') }}

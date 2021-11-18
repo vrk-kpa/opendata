@@ -156,8 +156,6 @@ export class CkanStack extends cdk.Stack {
     ];
 
     const ckanPlugins: string[] = [
-      props.analyticsEnabled ? 'matomo' : '',
-      props.cloudStorageEnabled ? 'cloudstorage' : '',
       'sentry',
       'ckan_harvester',
       'hri_harvester',
@@ -346,6 +344,7 @@ export class CkanStack extends cdk.Stack {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = pCkanCloudstorageDriver.stringValue;
       ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = pCkanCloudstorageContainerName.stringValue;
       ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = pCkanCloudstorageUseSecureUrls.stringValue;
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_AWS_USE_BOTO3_SESSIONS'] = '1';
 
       const ckanTaskExecPolicyAllowCloudstorage = new iam.PolicyStatement({
         actions: ['*'],
@@ -356,12 +355,13 @@ export class CkanStack extends cdk.Stack {
         effect: iam.Effect.ALLOW,
       });
 
-      ckanTaskDef.addToExecutionRolePolicy(ckanTaskExecPolicyAllowCloudstorage);
+      ckanTaskDef.addToTaskRolePolicy(ckanTaskExecPolicyAllowCloudstorage);
     } else {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_ENABLED'] = 'false';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = '';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = '';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = '';
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_AWS_USE_BOTO3_SESSIONS'] = '0';
     }
 
     const ckanContainer = ckanTaskDef.addContainer('ckan', {
