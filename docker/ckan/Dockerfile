@@ -59,7 +59,7 @@ RUN --mount=type=secret,id=npmrc ./build_frontend.sh
 #
 # CKAN build
 #
-FROM ghcr.io/keitaroinc/ckan:2.8.9-focal
+FROM ghcr.io/keitaroinc/ckan:2.8.8-focal
 
 # switch to root
 USER root
@@ -81,7 +81,7 @@ RUN apt-get update -yq && \
                     cron \
                     rsync \
                     -yq && \
-    pip install cryptography pyOpenSSL ndg-httpsclient pyasn1 jinja2-cli polib
+    pip install cryptography ndg-httpsclient pyasn1 jinja2-cli polib
 
 # install custom modules
 ENV EXT_DIR=/opt/ckan_extensions
@@ -190,6 +190,10 @@ RUN patch --strip=1 --input=patches/enable_multiple_image_uploads.patch && \
     patch --strip=1 --input=patches/remove_stacktraces_from_http_errors.patch
 
 WORKDIR ${APP_DIR}
+
+# lock some python package versions + make sure ca certs are up-to-date
+RUN pip install flask==0.12 flask-login==0.3.0 simplejson==3.16.0 six==1.13.0 pyOpenSSL==20.0.0 && \
+    pip install --upgrade certifi
 
 # install data for CKAN UI options
 COPY docker/ckan/data ${DATA_DIR}
