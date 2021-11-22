@@ -7,24 +7,31 @@
     might not be compatible with ckanext-scheming
     </p>
   {%- endif -%}
+
   {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
+
   {%- for field in schema.dataset_fields -%}
-  {% if field.group_title %}
-    {% if loop.index > 1 %}
-      <div class="ytp-group-divider"></div>
+    {% if field.group_title %}
+      <h3 class="ytp-group-title">{{_(field.group_title)}}</h3>
     {% endif %}
-    <h3 class="ytp-group-title">{{_(field.group_title)}}</h3>
-  {% endif %}
-  {% if field.group_description %}
-    <h5 class="ytp-group-description">{{_(field.group_description)}}</h5>
-  {% endif %}
+
+    {% if field.group_description %}
+      <h5 class="ytp-group-description">{{_(field.group_description)}}</h5>
+    {% endif %}
+
     {%- if field.form_snippet is not none -%}
       {%- snippet 'scheming/snippets/form_field.html',
         field=field, data=data, errors=errors, licenses=c.licenses,
         entity_type='dataset', object_type=dataset_type -%}
+
+      {% if field.divider %}
+        <div class="ytp-group-divider"></div>
+      {% endif %}
+
     {%- endif -%}
   {%- endfor -%}
-  <div class="ytp-group-divider"></div>
+
+<div class="ytp-group-divider"></div>
   {%- if 'resource_fields' not in schema -%}
     <!-- force controller to skip resource-editing step for this type -->
     <input type="hidden" name="_ckan_phase" value="" />
