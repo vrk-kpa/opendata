@@ -1,4 +1,5 @@
 import * as cdk from '@aws-cdk/core';
+import * as iam from '@aws-cdk/aws-iam';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecs from '@aws-cdk/aws-ecs';
 import * as sd from '@aws-cdk/aws-servicediscovery';
@@ -131,6 +132,8 @@ export class DrupalStack extends cdk.Stack {
         }
       ],
     });
+
+    props.fileSystems['drupal'].grant(drupalTaskDef.taskRole, 'elasticfilesystem:ClientRootAccess');
 
     let drupalContainerEnv: { [key: string]: string; } = {
       // .env.drupal

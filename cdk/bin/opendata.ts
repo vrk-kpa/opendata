@@ -56,6 +56,7 @@ const fileSystemStackDev = new FileSystemStack(app, 'FileSystemStack-dev', {
   domainName: devProps.domainName,
   secondaryDomainName: devProps.secondaryDomainName,
   vpc: clusterStackDev.vpc,
+  importMigrationFs: true,
 });
 
 const databaseStackDev = new DatabaseStack(app, 'DatabaseStack-dev', {
@@ -108,6 +109,10 @@ const ckanStackDev = new CkanStack(app, 'CkanStack-dev', {
   fileSystems: {
     'ckan': fileSystemStackDev.ckanFs,
     'solr': fileSystemStackDev.solrFs,
+  },
+  migrationFileSystemProps: {
+    securityGroup: fileSystemStackDev.migrationFsSg!,
+    fileSystem: fileSystemStackDev.migrationFs!,
   },
   databaseSecurityGroup: databaseStackDev.databaseSecurityGroup,
   databaseInstance: databaseStackDev.databaseInstance,

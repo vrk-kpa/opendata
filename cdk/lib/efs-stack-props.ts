@@ -7,4 +7,5 @@ import { CommonStackProps } from './common-stack-props';
 
 export interface EfsStackProps extends CommonStackProps {
   vpc: ec2.IVpc;
+  importMigrationFs: boolean;
 }

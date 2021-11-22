@@ -49,3 +49,6 @@ paster --plugin=ckan search-index rebuild -c ${APP_DIR}/production.ini
 
 # disable nginx maintenance mode
 rm -f /var/www/resources/.init-progress
+
+# set init flag to done
+echo "$CKAN_IMAGE_VERSION" > ${DATA_DIR}/.init-done

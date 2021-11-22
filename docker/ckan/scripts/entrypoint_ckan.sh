@@ -16,11 +16,9 @@ export CKAN_SYSADMIN_EMAIL="${SYSADMIN_EMAIL}"
 export UWSGI_OPTS="--socket /tmp/uwsgi.sock --uid 92 --gid 92 --http :5000 --master --enable-threads --paste config:/srv/app/production.ini --paste-logger /srv/app/production.ini --lazy-apps --gevent 2000 -p 2 -L --gevent-early-monkey-patch"
 
 # init ckan if not done or version updated, otherwise run re-init
+flock -x ${DATA_DIR}/.init-lock -c 'echo "waiting for .init-lock to be released ..."'
 if [[ "$(cat ${DATA_DIR}/.init-done)" != "$CKAN_IMAGE_VERSION" ]]; then
   flock -x ${DATA_DIR}/.init-lock -c './init_ckan.sh'
-
-  # set init flag to done
-  echo "$CKAN_IMAGE_VERSION" > ${DATA_DIR}/.init-done
 else
   flock -x ${DATA_DIR}/.init-lock -c './reinit_ckan.sh'
 fi

@@ -15,6 +15,7 @@ export interface EcsStackProps extends CommonStackProps {
   cluster: ecs.ICluster;
   namespace: sd.IPrivateDnsNamespace;
   fileSystems: { [key: string]: efs.FileSystem };
+  migrationFileSystemProps?: MigrationFsProps;
   databaseSecurityGroup: ec2.ISecurityGroup,
   databaseInstance: rds.IDatabaseInstance,
   cachePort: number,
@@ -24,6 +25,11 @@ export interface EcsStackProps extends CommonStackProps {
   ckanService?: ecs.FargateService;
   captchaEnabled?: boolean;
   analyticsEnabled?: boolean;
+}
+
+export interface MigrationFsProps {
+  securityGroup: ec2.ISecurityGroup;
+  fileSystem: efs.IFileSystem;
 }
 
 export interface EcsStackPropsTaskDef {
