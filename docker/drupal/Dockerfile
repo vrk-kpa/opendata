@@ -39,15 +39,21 @@ RUN --mount=type=secret,id=npmrc ./build_frontend.sh
 #
 # Drupal build
 #
-FROM drupal:9-fpm-alpine
+FROM drupal:9-fpm-buster
 
 # NOTE: workdir is /opt/drupal
 # NOTE: webroot is /opt/drupal/web
 # NOTE: modules is /opt/drupal/modules
 
 # install required pkgs
-RUN apk add --no-cache unzip git postgresql-client py3-yaml rsync python3 && \
-    apk add --no-cache jinja2-cli --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
+RUN apt-get update -yq && \
+    apt-get install -yq unzip \
+                    git \
+                    postgresql-client \
+                    rsync \
+                    python3 \
+                    python3-pip && \
+    pip3 install jinja2-cli
 
 # make sure config sync directory exists
 RUN mkdir -p /opt/drupal/web/sites/default/sync && \

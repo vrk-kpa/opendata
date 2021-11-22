@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 echo "init_drupal() ..."
@@ -162,3 +162,6 @@ chown -R www-data:www-data /opt/drupal/web/sites/default/files
 
 # disable nginx maintenance mode
 rm -f /var/www/resources/.init-progress
+
+# set init flag to done
+echo "$DRUPAL_IMAGE_VERSION" > /opt/drupal/web/.init-done
