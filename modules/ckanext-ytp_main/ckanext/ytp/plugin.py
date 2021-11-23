@@ -236,10 +236,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IConfigurer #
 
     def update_config(self, config):
-        toolkit.add_resource('public/javascript/', 'ytp_dataset_js')
         toolkit.add_template_directory(config, 'templates')
-
-        toolkit.add_resource('public/javascript/', 'ytp_common_js')
         toolkit.add_template_directory(config, '../common/templates')
 
     # IDatasetForm
@@ -1026,7 +1023,6 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         toolkit.add_template_directory(config, 'resources/templates')
         toolkit.add_resource('resources', 'ytp_resources')
         toolkit.add_public_directory(config, 'public')
-        toolkit.add_resource('public/javascript', 'theme_javascript')
         toolkit.add_template_directory(config, 'postit')
 
     # IConfigurable #
@@ -1173,7 +1169,6 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
-        toolkit.add_resource('public/javascript/', 'ytp_common_js')
         toolkit.add_public_directory(config, 'public')
 
     def configure(self, config):

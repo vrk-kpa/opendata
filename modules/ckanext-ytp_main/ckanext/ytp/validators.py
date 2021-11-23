@@ -143,6 +143,7 @@ def add_to_vocab(context, tags, vocab):
         log.info("creating vocab")
         v = plugin.create_vocabulary(vocab, defer)
 
+    assert(v is not None)
     context['vocabulary'] = model.Vocabulary.get(v.get('id'))
     if isinstance(tags, str):
         tags = [tags]
@@ -198,17 +199,17 @@ def repeating_text(key, data, errors, context):
 
         out = []
         for element in value:
-            if not isinstance(element, str):
-                errors[key].append(_('invalid type for repeating text: %r')
-                                   % element)
-                continue
-            if isinstance(element, str):
+            if isinstance(element, bytes):
                 try:
                     element = element.decode('utf-8')
                 except UnicodeDecodeError:
                     errors[key]. append(_('invalid encoding for "%s" value')
                                         % toolkit.lang)
                     continue
+            elif not isinstance(element, str):
+                errors[key].append(_('invalid type for repeating text: %r')
+                                   % element)
+                continue
             out.append(element)
 
         if not errors[key]:

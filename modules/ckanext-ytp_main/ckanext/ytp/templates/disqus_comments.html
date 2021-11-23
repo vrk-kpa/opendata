@@ -8,7 +8,7 @@
             this.callbacks.onNewComment = [function (comment) {
                 $.ajax({
                         method: "POST",
-                        url: "{{ h.url_for(controller='ckanext.disqus.controllers.disqus:DisqusController', action='notify') }}",
+                        url: "{{ h.url_for('disqus.notify') }}",
                         data: {
                             "comment": comment.text,
                             "comment_id": comment.id,

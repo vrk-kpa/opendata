@@ -30,7 +30,7 @@
               <ul>
                 {% block resource_actions_inner %}
                   {% if h.check_access('package_update', {'id':pkg.id }) %}
-                    <li>{% link_for _('Manage'), controller='package', action='resource_edit', id=pkg.name, resource_id=res.id, class_='btn', icon='wrench' %}</li>
+                    <li>{% link_for _('Manage'), named_route=pkg.type ~ '_resource.edit', id=pkg.name, resource_id=res.id, class_='btn', icon='wrench' %}</li>
                   {% endif %}
                   {% if res.url %}
                     <li>
@@ -81,7 +81,7 @@
                 {% if notes %}
                   <h3>{{ _('From the dataset abstract') }}</h3>
                   <blockquote>{{ notes }}</blockquote>
-                  <p>{% trans dataset=c.package.title, url=h.url_for(controller='package', action='read', id=c.package['name']) %}Source: <a href="{{ url }}">{{ dataset }}</a>{% endtrans %}
+                  <p>{% trans dataset=c.package.title, url=h.url_for(pkg.type ~ '.read', id=c.package['name']) %}Source: <a href="{{ url }}">{{ dataset }}</a>{% endtrans %}
                 {% endif %}
               {% endif %}
             </div>

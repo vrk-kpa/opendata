@@ -5,15 +5,15 @@
     {% set dataset = pkg.title or pkg.name %}
     {% if pkg.organization %}
       {% set organization = h.extra_translation(pkg.organization, 'title') or pkg.organization.name %}
-      <li>{% link_for _('Organizations'), controller='organization', action='index' %}</li>
-      <li>{% link_for organization|truncate(30), controller='organization', action='read', id=pkg.organization.name %}</li>
+      <li>{% link_for _('Organizations'), named_route='organization.index' %}</li>
+      <li>{% link_for organization|truncate(30), named_route='organization.read', id=pkg.organization.name %}</li>
     {% else %}
 
-      <li>{% link_for _('Datasets'), controller='package', action='search' %}</li>
+      <li>{% link_for _('Datasets'), named_route='package.search' %}</li>
     {% endif %}
-    <li{{ self.breadcrumb_content_selected() }}>{{ h.link_to(h.extra_translation(pkg, 'title') or pkg.name|truncate(30), h.url_for(pkg.type + '_read', controller='package', action='read', id=pkg.name)) }}</li>
+    <li{{ self.breadcrumb_content_selected() }}>{{ h.link_to(h.extra_translation(pkg, 'title') or pkg.name|truncate(30), h.url_for(pkg.type + '_read', id=pkg.name)) }}</li>
   {% else %}
-    <li>{% link_for _('Datasets'), controller='package', action='search' %}</li>
+    <li>{% link_for _('Datasets'), named_route='dataset.search' %}</li>
     <li class="active"><a href="">{{ _('Create Dataset') }}</a></li>
   {% endif %}
 {% endblock %}

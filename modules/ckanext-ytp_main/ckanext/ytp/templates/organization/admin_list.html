@@ -14,7 +14,7 @@
 {% block primary_content_inner %}
     {% asset "ytp_resources/bootstrap_table_css" %}
     {% asset "ytp_resources/bootstrap_table_js" %}
-    {% asset "ytp_common_js/table.js" %}
+    {% asset "ytp_resources/table_js" %}
     <h3 class="page-heading">{{ _('{0} admins'.format(c.users|length)) }}</h3>
     <div><a href="user_list">{{ _('Show all users') }}</a></div>
     <table class="table table-header table-hover table-bordered" data-toggle="table" data-sort-order="asc" data-sort-name="username">
