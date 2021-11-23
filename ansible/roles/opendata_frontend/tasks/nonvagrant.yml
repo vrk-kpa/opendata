@@ -3,7 +3,7 @@
 - name: Copy secret .npmrc
   copy:
     src: "/root/avoindata-secrets/{{ deployment_environment_id }}/.npmrc"
-    dest: "{{ opendata_frontend_server_path }}/ytp-assets-common/.npmrc"
+    dest: "{{ project_root }}/.npmrc"
     mode: "preserve"
     remote_src: true
   when: opendata_frontend_copy_secret_npmrc
@@ -11,7 +11,7 @@
 - name: Copy fallback package.json if npmrc does not exist
   copy:
     src: package.json
-    dest: "{{ opendata_frontend_server_path }}/ytp-assets-common/package.json"
+    dest: "{{ project_root }}/package.json"
     mode: "0644"
   when: not opendata_frontend_copy_secret_npmrc
 
