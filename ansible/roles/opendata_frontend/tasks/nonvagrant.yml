@@ -3,7 +3,7 @@
 - name: Copy secret .npmrc
   copy:
     src: "/root/avoindata-secrets/{{ deployment_environment_id }}/.npmrc"
-    dest: "{{ project_root }}/.npmrc"
+    dest: "{{ opendata_frontend_server_path }}/.npmrc"
     mode: "preserve"
     remote_src: true
   when: opendata_frontend_copy_secret_npmrc
@@ -11,7 +11,7 @@
 - name: Copy fallback package.json if npmrc does not exist
   copy:
     src: package.json
-    dest: "{{ project_root }}/package.json"
+    dest: "{{ opendata_frontend_server_path }}/package.json"
     mode: "0644"
   when: not opendata_frontend_copy_secret_npmrc
 
@@ -32,16 +32,16 @@
 - name: Install resource dependencies
   command: npm install
   args:
-    chdir: "{{ project_root }}"
+    chdir: "{{ opendata_frontend_server_path }}"
   tags:
     - skip_ansible_lint
   environment:
     CYPRESS_INSTALL_BINARY: 0
 
 - name: Run gulp
-  command: "{{ project_root }}/node_modules/gulp/bin/gulp.js"
+  command: "{{ opendata_frontend_server_path }}/node_modules/gulp/bin/gulp.js"
   args:
-    chdir: "{{ project_root }}"
+    chdir: "{{ opendata_frontend_server_path }}"
   tags:
     - skip_ansible_lint
 
