@@ -3,6 +3,10 @@ name: Docker E2E tests
 on:
   push:
 
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
 jobs:
   compose-and-test:
     name: compose-and-test
@@ -64,10 +68,7 @@ jobs:
 
       - name: build and start services
         run: |
-          docker-compose -p opendata --env-file docker/.env.local up --build -d
-        env:
-          DOCKER_BUILDKIT: 1
-          COMPOSE_DOCKER_CLI_BUILD: 1
+          docker-compose --env-file docker/.env.local up --build -d
 
       - name: wait until services have started
         shell: bash
@@ -89,7 +90,7 @@ jobs:
 
       - name: destroy services
         run: |
-          docker-compose -p opendata down --volumes
+          docker-compose down --volumes
 
       - name: upload cypress screenshot artifacts on failure
         uses: actions/upload-artifact@v2
