@@ -2,17 +2,19 @@
 
 .dataset-list {
   padding: 0;
-}
-
-.dataset-item:last-of-type {
-  border: 1px solid @opendata-brand-border-gray;
+  background-color: @background-color__content;
 }
 
 .dataset-item {
   position: relative;
   border: 1px solid @opendata-brand-border-gray;
+  border-bottom: none;
   margin-bottom: 0;
-  padding: 0 15px 0 15px;
+  padding: @padding__content;
+
+  &:last-of-type {
+    border-bottom: 1px solid @opendata-brand-border-gray;
+  }
 
   .dataset-content {
     margin-top: 10px;

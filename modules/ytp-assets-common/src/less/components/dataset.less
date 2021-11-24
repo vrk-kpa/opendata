@@ -1,12 +1,35 @@
 @import "../variables.less";
 
 .dataset-container {
-  border: 1px solid #ced2d5;
-  padding-left: 10px;
-  padding-bottom: 80px;
+  background-color: @background-color__content;
+  border: 1px solid @border-color__content;
+  padding: @padding__content;
+
+  > .row {
+    margin-left: -@padding-x--common;
+    margin-right: -@padding-x--common;
+  }
+
+  .dataset-primary-content,
+  .dataset-sidebar {
+    padding: 0 @padding-x--common;
+
+    .embedded-content,
+    .resources,
+    .additional-info,
+    .disqus-comments {
+      margin-bottom: @margin__module--large;
+
+      h3 {
+        margin-bottom: @padding-y--common;
+      }
+    }
+  }
 }
 
 .dataset-header-row {
+  margin-bottom: @padding-y--common;
+
   .content_action {
     font-weight: 600;
     font-size: 16px;
@@ -36,13 +59,13 @@
 }
 
 .admin-banner {
-  min-height: 40px;
+  display: flex;
   margin-bottom: 20px;
 
   a {
-    float: right;
+    display: block;
+    margin-left: auto;
     color: @opendata-brand-primary;
-    height: 40px;
     font-size: @font-size-smaller-base;
     font-family: @font-family-sans-serif-semibold;
     font-weight: @font-weight-heavier;
@@ -50,28 +73,23 @@
     line-height: 20px;
     border: 1px solid @opendata-brand-primary;
     border-radius: 2px;
-    padding: 10px 15px 0 15px;
+    padding: @padding-y--small @padding-x--common;
     text-decoration: none;
   }
 }
 
 .private-or-draft-dataset {
   background: @opendata-brand-blue;
-  height: 80px;
 
   div {
-    width: 100%;
-
-    div {
-      width: auto;
-      float: left;
-      padding-top: 10px;
-    }
+    display: flex;
+    align-items: center;
   }
 
   img {
     height: 20px;
     width: 20px;
+    margin-right: 10px;
   }
 
   span {
@@ -82,7 +100,6 @@
     line-height: 24px;
     display: inline-block;
     vertical-align: middle;
-    padding-left: 5px;
   }
 
   a {
