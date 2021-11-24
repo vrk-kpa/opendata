@@ -11,6 +11,11 @@
     border-radius: 0;
     padding: @padding__resource-list-item;
     display: flex;
+    align-items: center;
+
+    &:first-child {
+      border-top: 1px solid @color--extra-light-grey;
+    }
 
     &:hover {
       background: transparent;
@@ -18,7 +23,7 @@
 
     .resource-item__icon {
       position: static;
-      margin-right: @margin-x__common;
+      margin-right: @padding-x--common;
       align-self: center;
     }
 
@@ -31,6 +36,14 @@
       line-height: 14px;
       font-weight: 600;
       margin-left: auto;
+
+      a {
+        margin: @margin__action-buttons;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
     }
 
     .resource-item__info__title {

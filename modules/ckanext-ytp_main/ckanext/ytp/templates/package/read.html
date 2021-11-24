@@ -5,7 +5,7 @@
     {% snippet "package/snippets/dataset_state_banner.html", pkg=pkg %}
 
   <div class="dataset-container">
-    <div class="dataset-header-row d-flex mt-3 align-items-end justify-content-between flex-wrap">
+    <div class="dataset-header-row d-flex align-items-end justify-content-between flex-wrap">
       <div>
         <h1 class="dataset-title m-0">
           {% block page_heading %}
@@ -19,9 +19,6 @@
       </div>
     </div>
 
-    {% block maintainer_info %}
-      {% snippet "package/snippets/maintainer_info.html", pkg=pkg %}
-    {% endblock %}
     <div id="dataset-primary" class="row">
     {% block primary_content %}
       <section class="dataset-primary-content col-lg-8">
