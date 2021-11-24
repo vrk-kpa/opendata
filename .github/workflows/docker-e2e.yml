@@ -1,0 +1,102 @@
+name: Docker E2E tests
+
+on:
+  push:
+
+jobs:
+  compose-and-test:
+    name: compose-and-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: install nodejs v12
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: cache cypress binary
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            cypress-${{ runner.os }}-cypress-
+
+      - name: install cypress npm packages and verify installation
+        run: |
+          npm install
+          $(npm bin)/cypress verify
+          $(npm bin)/cypress info
+          $(npm bin)/cypress version
+        env:
+          CI: 1
+
+      - name: configure cypress
+        shell: bash
+        run: |
+          cat <<EOT > cypress.json
+          {
+            "baseUrl": "http://localhost",
+            "projectId": "ssb2ut",
+            "env": {
+              "resetDB": true,
+              "cloudStorageEnabled": false,
+              "docker": true
+            }
+          }
+          EOT
+
+      - name: build and start services
+        run: |
+          docker-compose -p opendata --env-file docker/.env.local up --build -d
+        env:
+          DOCKER_BUILDKIT: 1
+          COMPOSE_DOCKER_CLI_BUILD: 1
+
+      - name: wait until services have started
+        shell: bash
+        run: |
+          # wait for services to start properly
+          while [[ $(curl -L --write-out '%{http_code}' --silent --output /dev/null http://localhost) != "200" ]]; do
+            echo "waiting for services to start up and initialize ..."
+            sleep 5s
+          done
+          # print the list of containers
+          docker ps -a
+
+      - name: run cypress e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          start: $(npm bin)/cypress run --record
+        env:
+          TERM: xterm
+
+      - name: destroy services
+        run: |
+          docker-compose -p opendata down --volumes
+
+      - name: upload cypress screenshot artifacts on failure
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: cypress/screenshots
+          if: failure()
+
+      - name: upload cypress video artifacts always
+        uses: actions/upload-artifact@v2
+        with:
+          name: videos
+          path: cypress/videos
