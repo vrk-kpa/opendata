@@ -81,6 +81,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: false
+          load: true
           tags: opendata/ckan:latest
           context: .
           file: docker/ckan/Dockerfile
@@ -91,6 +92,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: false
+          load: true
           tags: opendata/drupal:latest
           context: .
           file: docker/drupal/Dockerfile
@@ -101,6 +103,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: false
+          load: true
           tags: opendata/datapusher:latest
           context: ./docker/datapusher
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -110,6 +113,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: false
+          load: true
           tags: opendata/solr:latest
           context: ./docker/solr
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -119,6 +123,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: false
+          load: true
           tags: opendata/nginx:latest
           context: ./docker/nginx
           cache-from: type=local,src=/tmp/.buildx-cache
@@ -128,6 +133,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: false
+          load: true
           tags: opendata/postgres:latest
           context: ./docker/postgres
           cache-from: type=local,src=/tmp/.buildx-cache
