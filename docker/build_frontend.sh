@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -eo pipefail
 
 # NOTE: this file is executed by BuildKit secrets system
 #       this means that the secrets won't be leaked into
