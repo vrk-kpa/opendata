@@ -44,9 +44,10 @@ jobs:
         env:
           CI: 1
 
-      - name: configure cypress
+      - name: configure cypress and docker
         shell: bash
         run: |
+          # configure cypress
           cat <<EOT > cypress.json
           {
             "baseUrl": "http://localhost",
@@ -58,6 +59,8 @@ jobs:
             }
           }
           EOT
+          # configure docker
+          cp -f docker/.env.local.template docker/.env.local
 
       - name: build and start services
         run: |
