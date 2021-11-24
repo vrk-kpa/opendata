@@ -32,7 +32,8 @@ COPY modules/avoindata-drupal-theme             /opt/drupal_modules/avoindata-dr
 # NOTE: SECRET_NPMRC arg is only for local development use, for production use buildkit secrets
 WORKDIR /opt/drupal_modules/ytp-assets-common
 COPY docker/package.default.json /opt/drupal_modules/ytp-assets-common/package.default.json
-COPY --chmod=+x docker/build_frontend.sh /opt/drupal_modules/ytp-assets-common/build_frontend.sh
+COPY docker/build_frontend.sh /opt/drupal_modules/ytp-assets-common/build_frontend.sh
+RUN chmod +x /opt/drupal_modules/ytp-assets-common/*.sh
 ARG SECRET_NPMRC
 RUN --mount=type=secret,id=npmrc ./build_frontend.sh
 

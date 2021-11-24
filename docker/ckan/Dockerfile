@@ -52,7 +52,8 @@ COPY modules/avoindata-drupal-header        /opt/ckan_extensions/avoindata-drupa
 # NOTE: SECRET_NPMRC arg is only for local development use, for production use buildkit secrets
 WORKDIR /opt/ckan_extensions/ytp-assets-common
 COPY docker/package.default.json /opt/ckan_extensions/ytp-assets-common/package.default.json
-COPY --chmod=+x docker/build_frontend.sh /opt/ckan_extensions/ytp-assets-common/build_frontend.sh
+COPY docker/build_frontend.sh /opt/ckan_extensions/ytp-assets-common/build_frontend.sh
+RUN chmod +x /opt/ckan_extensions/ytp-assets-common/*.sh
 ARG SECRET_NPMRC
 RUN --mount=type=secret,id=npmrc ./build_frontend.sh
 
@@ -162,7 +163,8 @@ RUN cd ${EXT_DIR}/ckanext-ytp_request && python setup.py compile_catalog -f && \
     cd ${EXT_DIR}/ckanext-datarequests && python setup.py compile_catalog -f
 
 # install scripts
-COPY --chmod=+x docker/ckan/scripts/ ${APP_DIR}/
+COPY docker/ckan/scripts/ ${APP_DIR}/
+RUN chmod +x ${APP_DIR}/*.sh
 
 WORKDIR ${SRC_DIR}/ckan
 
@@ -203,8 +205,10 @@ COPY docker/ckan/templates ${APP_DIR}/templates
 
 # install crontab
 COPY --chown=ckan:ckan docker/ckan/cron/crontab /home/ckan/cron.d/crontab
-COPY --chmod=+x --chown=ckan:ckan docker/ckan/cron/scripts /opt/cron_scripts/
-RUN crontab -u ckan /home/ckan/cron.d/crontab && chmod u+s /usr/sbin/cron
+COPY --chown=ckan:ckan docker/ckan/cron/scripts /opt/cron_scripts/
+RUN chmod +x /opt/cron_scripts/*.sh && \
+    crontab -u ckan /home/ckan/cron.d/crontab && \
+    chmod u+s /usr/sbin/cron
 
 # finalize installation
 RUN rm -f ${APP_DIR}/production.ini && \
