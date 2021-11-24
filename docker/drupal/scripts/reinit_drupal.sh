@@ -1,16 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 echo "reinit_drupal() ..."
 
-# always init modules first
+# init modules
 . init_modules.sh
 
 # apply jinja2 templates
 jinja2 /opt/templates/settings.php.j2 -o /opt/drupal/web/sites/default/settings.php
 
-# run database upgrades & rebuild cache
-drush updatedb -y --no-cache-clear
+# rebuild cache
 drush cache:rebuild
 
 # apply jinja2 templates
@@ -33,3 +32,6 @@ drush config:import -y --partial --source /opt/drupal/site_config
 
 # rebuild cache
 drush cache:rebuild
+
+# make sure nginx maintenance mode is disabled
+rm -f /var/www/resources/.init-progress

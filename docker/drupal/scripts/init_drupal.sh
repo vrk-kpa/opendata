@@ -1,9 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 echo "init_drupal() ..."
 
-# always init modules first
+# enable nginx maintenance mode
+touch /var/www/resources/.init-progress
+
+# init filesystems
+. init_filesystems.sh
+
+# init modules
 . init_modules.sh
 
 # init database if not exists (return value is 0 and result is 0 rows)
@@ -153,3 +159,9 @@ python3 init_users.py
 # make sure file permissions are correct
 chown -R www-data:www-data /opt/drupal/web/sites/default/sync
 chown -R www-data:www-data /opt/drupal/web/sites/default/files
+
+# disable nginx maintenance mode
+rm -f /var/www/resources/.init-progress
+
+# set init flag to done
+echo "$DRUPAL_IMAGE_VERSION" > /opt/drupal/web/.init-done

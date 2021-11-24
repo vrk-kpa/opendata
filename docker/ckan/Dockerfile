@@ -48,17 +48,18 @@ COPY modules/ckanext-sentry                 /opt/ckan_extensions/ckanext-sentry/
 # frontend requires some common components
 COPY modules/avoindata-drupal-header        /opt/ckan_extensions/avoindata-drupal-header/
 
-# set workdir to frontend module & copy package.json
+# set workdir, copy default package.json, import .npmrc as secret and run build script
+# NOTE: SECRET_NPMRC arg is only for local development use, for production use buildkit secrets
 WORKDIR /opt/ckan_extensions/ytp-assets-common
-COPY docker/package.default.json /opt/ckan_extensions/ytp-assets-common/package.json
-
-# build frontend
-RUN npm install --unsafe-perm=true --allow-root && gulp
+COPY docker/package.default.json /opt/ckan_extensions/ytp-assets-common/package.default.json
+COPY --chmod=+x docker/build_frontend.sh /opt/ckan_extensions/ytp-assets-common/build_frontend.sh
+ARG SECRET_NPMRC
+RUN --mount=type=secret,id=npmrc ./build_frontend.sh
 
 #
 # CKAN build
 #
-FROM ghcr.io/keitaroinc/ckan:2.8.9-focal
+FROM ghcr.io/keitaroinc/ckan:2.8.8-focal
 
 # switch to root
 USER root
@@ -78,8 +79,9 @@ RUN apt-get update -yq && \
                     libffi-dev \
                     postgresql-client \
                     cron \
+                    rsync \
                     -yq && \
-    pip install cryptography pyOpenSSL ndg-httpsclient pyasn1 jinja2-cli polib
+    pip install cryptography ndg-httpsclient pyasn1 jinja2-cli polib
 
 # install custom modules
 ENV EXT_DIR=/opt/ckan_extensions
@@ -147,10 +149,6 @@ RUN pip install -e ${EXT_DIR}/ckanext-drupal8 && \
     pip install -e ${EXT_DIR}/ckanext-statistics && \
     pip install -e ${EXT_DIR}/ckanext-sentry
 
-# install override requirements
-# TODO: why is this done in the ansible playbook??
-#RUN pip install flask==0.12 flask-login==0.3.0 simplejson==3.16.0 six==1.13.0 pyOpenSSL==20.0.0 psycopg2==2.8.6
-
 # compile extension translations
 RUN cd ${EXT_DIR}/ckanext-ytp_request && python setup.py compile_catalog -f && \
     cd ${EXT_DIR}/ckanext-ytp_drupal && python setup.py compile_catalog -f && \
@@ -166,13 +164,36 @@ RUN cd ${EXT_DIR}/ckanext-ytp_request && python setup.py compile_catalog -f && \
 # install scripts
 COPY --chmod=+x docker/ckan/scripts/ ${APP_DIR}/
 
-WORKDIR ${SRC_DIR}
+WORKDIR ${SRC_DIR}/ckan
 
 # apply patches
 COPY docker/ckan/patches ${SRC_DIR}/ckan/patches
-RUN ${SRC_DIR}/ckan/patches.sh
+RUN patch --strip=1 --input=patches/enable_multiple_image_uploads.patch && \
+    patch --strip=1 --input=patches/remove-ckan-fontawesome.patch && \
+    patch --strip=1 --input=patches/enforce-url-decoding.patch && \
+    patch --strip=1 --input=patches/add_error_email_logger_to_flask.patch && \
+    patch --strip=1 --input=patches/add_credentials_to_email_logger.patch && \
+    patch --strip=1 --input=patches/remove_deprecated_resource_preview_call.patch && \
+    patch --strip=1 --input=patches/remove_members_from_group_read.patch && \
+    patch --strip=1 --input=patches/remove_user_activity_from_group_activity_list.patch && \
+    patch --strip=1 --input=patches/optimize_group_show.patch && \
+    patch --strip=1 --input=patches/optimize_template_loading.patch && \
+    patch --strip=1 --input=patches/group_include_extras.patch && \
+    patch --strip=1 --input=patches/group_admin_protection.patch && \
+    patch --strip=1 --input=patches/remove_gravatar.patch && \
+    patch --strip=1 --input=patches/json_serializable_lazyjsonobject.patch && \
+    patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
+    patch --strip=1 --input=patches/add_drafts_to_search.patch && \
+    patch --strip=1 --input=patches/add_group_extra_resource_db_indices.patch && \
+    patch --strip=1 --input=patches/add_cache_control_headers_to_flask.patch && \
+    patch --strip=1 --input=patches/fix_invalid_search_facets_template_error.patch && \
+    patch --strip=1 --input=patches/remove_stacktraces_from_http_errors.patch
 
 WORKDIR ${APP_DIR}
+
+# lock some python package versions + make sure ca certs are up-to-date
+RUN pip install flask==0.12 flask-login==0.3.0 simplejson==3.16.0 six==1.13.0 pyOpenSSL==20.0.0 && \
+    pip install --upgrade certifi
 
 # install data for CKAN UI options
 COPY docker/ckan/data ${DATA_DIR}
@@ -189,6 +210,19 @@ RUN crontab -u ckan /home/ckan/cron.d/crontab && chmod u+s /usr/sbin/cron
 RUN rm -f ${APP_DIR}/production.ini && \
     rm -f ${APP_DIR}/who.ini && \
     chown -R ckan:ckan /srv/app
+
+# setup shared base directories
+RUN mkdir -p /opt/base && \
+    mv /srv/app/data /opt/base/data && \
+    mv /var/www/resources /opt/base/resources && \
+    chown -R ckan:ckan /opt/base/data && \
+    chown -R ckan:ckan /opt/base/resources
+
+# make sure permissions are correct
+RUN mkdir -p /srv/app/data && \
+    mkdir -p /var/www/resources && \
+    chown -R ckan:ckan /srv/app/data && \
+    chown -R ckan:ckan /var/www/resources
 
 # switch back to ckan
 USER ckan

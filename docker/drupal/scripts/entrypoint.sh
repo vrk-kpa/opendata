@@ -1,14 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-# init drupal if not done, otherwise run re-init
-if [ ! -f /opt/drupal/web/.init-done ]; then
-  flock -x /opt/drupal/web/.init-lock -c './init_drupal.sh'
+echo "entrypoint() ..."
 
-  # set init flag to done
-  touch /opt/drupal/web/.init-done
+# init drupal if not done or version updated, otherwise run re-init
+flock -x /opt/drupal/web/.init-lock -c 'echo "waiting for .init-lock to be released ..."'
+if [[ "$(cat /opt/drupal/web/.init-done)" != "$DRUPAL_IMAGE_VERSION" ]]; then
+  flock -x /opt/drupal/web/.init-lock -c './init_drupal.sh'
 else
-  # apply templates
   flock -x /opt/drupal/web/.init-lock -c './reinit_drupal.sh'
 fi
 

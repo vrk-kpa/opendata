@@ -61,7 +61,7 @@ ckan.auth.public_user_details = False
 
 ckan.site_id = {{ environ('CKAN_SITE_ID') }}
 
-ckan.plugins = {{ environ('CKAN_PLUGINS') }} {{ environ('CKAN_PLUGINS_DEFAULT') }}
+ckan.plugins = {{ environ('CKAN_PLUGINS') }} {% if environ('MATOMO_ENABLED') == 'true' %}matomo{% endif %} {% if environ('CKAN_CLOUDSTORAGE_ENABLED') == 'true' %}cloudstorage{% endif %} {{ environ('CKAN_PLUGINS_DEFAULT') }}
 
 scheming.dataset_schemas = ckanext.ytp.schemas:dataset.json
                            ckanext.sixodp_showcase.schemas:showcase.json
@@ -125,7 +125,7 @@ ckanext-archiver.max_content_length = 50000000
 ckanext-archiver.cache_url_root = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_NAME') }}/resource-cache/
 ckanext-archiver.user_agent_string = {{ environ('CKAN_HOST') }} archiver
 ckanext-archiver.archive_cloud = True
-ckanext-archiver.send_notification_emails_to_maintainers = {{ environ('CKAN_ARCHIVER_SEND_NOTIFICATIONS') }}
+ckanext-archiver.send_notification_emails_to_maintainers = {{ environ('CKAN_ARCHIVER_SEND_NOTIFICATION_EMAILS_TO_MAINTAINERS') }}
 ckanext-archiver.exempt_domains_from_broken_link_notifications = {{ environ('CKAN_ARCHIVER_EXEMPT_DOMAINS_FROM_BROKEN_LINK_NOTIFICATIONS') }}
 
 ckanext.sixodp_showcasesubmit.creating_user_username = {{ environ('SYSADMIN_USER') }}
@@ -154,11 +154,11 @@ producer_type_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/producer_t
 producer_type_private_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/producer_types_private.json
 target_group_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/target_groups.json
 
-ckanext.ytp.harvester_status_recipients = {{ environ('CKAN_HARVESTER_STATUS_RECIPIENTS') }}
-ckanext.ytp.fault_recipients = {{ environ('CKAN_HARVESTER_FAULT_RECIPIENTS') }}
-ckanext.ytp.harvester_instruction_url = {{ environ('CKAN_HARVESTER_INSTRUCTION_URL') }}
+ckanext.ytp.harvester_status_recipients = {% if environ('CKAN_HARVESTER_STATUS_RECIPIENTS') != 'null' %} {{ environ('CKAN_HARVESTER_STATUS_RECIPIENTS') }} {% else %} '' {% endif %}
+ckanext.ytp.fault_recipients = {% if environ('CKAN_HARVESTER_FAULT_RECIPIENTS') != 'null' %} {{ environ('CKAN_HARVESTER_FAULT_RECIPIENTS') }} {% else %} '' {% endif %}
+ckanext.ytp.harvester_instruction_url = {% if environ('CKAN_HARVESTER_INSTRUCTION_URL') != 'null' %} {{ environ('CKAN_HARVESTER_INSTRUCTION_URL') }} {% else %} '' {% endif %}
 
-ckanext.prh_tools.mail_recipients = {{ environ('CKAN_HARVESTER_STATUS_RECIPIENTS') }}
+ckanext.prh_tools.mail_recipients = {% if environ('CKAN_HARVESTER_STATUS_RECIPIENTS') != 'null' %} {{ environ('CKAN_HARVESTER_STATUS_RECIPIENTS') }} {% else %} '' {% endif %}
 
 ckanext.forcetranslation.module = ckanext.ytp
 ckanext.forcetranslation.path = i18n
@@ -184,12 +184,12 @@ ckanext.reminder.date_field = valid_till
 ckanext.reminder.recipient_name = maintainer
 ckanext.reminder.email_field = maintainer_email
 
-ckanext.cloudstorage.driver_options = {}
-
-{% if environ('AWS_ENABLED') == true %}
+{% if environ('CKAN_CLOUDSTORAGE_ENABLED') == 'true' %}
 ckanext.cloudstorage.driver = {{ environ('CKAN_CLOUDSTORAGE_DRIVER') }}
 ckanext.cloudstorage.container_name = {{ environ('CKAN_CLOUDSTORAGE_CONTAINER_NAME') }}
 ckanext.cloudstorage.use_secure_urls = {{ environ('CKAN_CLOUDSTORAGE_USE_SECURE_URLS') }}
+ckanext.cloudstorage.aws_use_boto3_sessions = {{ environ('CKAN_CLOUDSTORAGE_AWS_USE_BOTO3_SESSIONS') }}
+ckanext.cloudstorage.driver_options = {}
 {% endif %}
 
 sentry.dsn = {{ environ('SENTRY_DSN') }}
@@ -204,7 +204,7 @@ ofs.storage_dir = {{ environ('CKAN_STORAGE_PATH') }}
 # 2.2 filestore:
 ckan.storage_path = {{ environ('CKAN_STORAGE_PATH') }}
 
-{% if environ('MATOMO_ENABLED') == true %}
+{% if environ('MATOMO_ENABLED') == 'true' %}
 ckanext.matomo.site_id = {{ environ('MATOMO_SITE_ID') }}
 ckanext.matomo.domain = https://{{ environ('MATOMO_DOMAIN') }}/
 ckanext.matomo.script_domain = {{ environ('MATOMO_SCRIPT_DOMAIN') }}
@@ -228,7 +228,7 @@ ckanext.ytp.theme.show_postit_demo = {{ environ('CKAN_SHOW_POSTIT_DEMO') }}
 ckan.datapusher.url = http://{{ environ('DATAPUSHER_HOST') }}:{{ environ('DATAPUSHER_PORT') }}/
 ckan.datapusher.callback_url_base = http://{{ environ('CKAN_HOST') }}:{{ environ('CKAN_PORT') }}/
 
-{% if environ('CKAN_PROFILING_ENABLED') == true %}
+{% if environ('CKAN_PROFILING_ENABLED') == 'true' %}
 filter-with = linesman
 {% endif %}
 
@@ -266,7 +266,7 @@ formatter = generic
 [formatter_generic]
 format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
 
-{% if environ('CKAN_PROFILING_ENABLED') == true %}
+{% if environ('CKAN_PROFILING_ENABLED') == 'true' %}
 [filter:linesman]
 use = egg:linesman#profiler
 filename = /tmp/linesman.sqlite

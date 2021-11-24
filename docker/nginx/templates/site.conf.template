@@ -32,11 +32,25 @@ resolver ${NAMESERVER} valid=60s;
 server {
   listen ${NGINX_PORT};
   server_name ${DOMAIN_NAME};
+
+  location /health {
+    access_log off;
+    default_type text/plain;
+    return 200 "health ok";
+  }
+
   include /etc/nginx/conf.d/server.conf;
 }
 
 server {
   listen ${NGINX_PORT};
   server_name ${SECONDARY_DOMAIN_NAME};
+
+  location /health {
+    access_log off;
+    default_type text/plain;
+    return 200 "health ok";
+  }
+
   include /etc/nginx/conf.d/server.conf;
 }

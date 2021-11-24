@@ -1,14 +1,5 @@
 version: "2"
 
-# NOTE: ports are open for dev purposes
-# NOTE: /opt/drupal/web structure:
-# - /var/www/html/modules
-# - /var/www/html/profiles
-# - /var/www/html/themes
-# - /var/www/html/sites
-# NOTE: drupal holds control over its volumes and populates them
-#       nginx just mounts the volumes to specific paths as read-only
-
 services:
   postgres:
     image: opendata/postgres:latest
@@ -121,10 +112,6 @@ services:
       - DISQUS_DOMAIN=${DISQUS_DOMAIN}
       - SENTRY_DSN=${SENTRY_DSN}
       - SENTRY_ENV=${SENTRY_ENV}
-      - CKAN_SQLALCHEMY_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_CKAN}
-      - CKAN_DATASTORE_WRITE_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
-      - CKAN_DATASTORE_READ_URL=postgresql://${DB_DATASTORE_READONLY_USER}:${DB_DATASTORE_READONLY_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
-      - CKAN_SOLR_URL=http://${SOLR_HOST}:${SOLR_PORT}/${SOLR_PATH}
       - CKAN_SYSADMIN_NAME=${SYSADMIN_USER}
       - CKAN_SYSADMIN_PASSWORD=${SYSADMIN_PASS}
       - CKAN_SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
@@ -192,10 +179,6 @@ services:
       - DISQUS_DOMAIN=${DISQUS_DOMAIN}
       - SENTRY_DSN=${SENTRY_DSN}
       - SENTRY_ENV=${SENTRY_ENV}
-      - CKAN_SQLALCHEMY_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_CKAN}
-      - CKAN_DATASTORE_WRITE_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
-      - CKAN_DATASTORE_READ_URL=postgresql://${DB_DATASTORE_READONLY_USER}:${DB_DATASTORE_READONLY_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
-      - CKAN_SOLR_URL=http://${SOLR_HOST}:${SOLR_PORT}/${SOLR_PATH}
       - CKAN_SYSADMIN_NAME=${SYSADMIN_USER}
       - CKAN_SYSADMIN_PASSWORD=${SYSADMIN_PASS}
       - CKAN_SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
@@ -250,8 +233,6 @@ services:
       - SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
       - SYSADMIN_ROLES=${SYSADMIN_ROLES}
       - NGINX_HOST=${NGINX_HOST}
-      - CKAN_HOST=${CKAN_HOST}
-      - CKAN_PORT=${CKAN_PORT}
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASS=${SMTP_PASS}

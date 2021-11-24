@@ -2,6 +2,14 @@ root ${NGINX_ROOT};
 client_max_body_size ${NGINX_MAX_BODY_SIZE};
 gzip_static on;
 
+# maintenance break flags
+if (-f /var/www/drupal_resources/.init-progress) {
+  return 503;
+}
+if (-f /var/www/ckan_resources/.init-progress) {
+  return 503;
+}
+
 # error pages
 error_page 503 @maintenance;
 location @maintenance {
