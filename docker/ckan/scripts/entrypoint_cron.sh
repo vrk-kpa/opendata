@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "entrypoint_cron() ..."
+
 # create destination dirs
 mkdir -p ${APP_DIR}/sql
 

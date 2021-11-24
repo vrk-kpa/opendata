@@ -13,3 +13,6 @@ jinja2 ${APP_DIR}/templates/sql/00_datastore_permissions.sql.j2 -o ${APP_DIR}/sq
 
 # run prerun script that checks connections and inits db
 python prerun.py || { echo '[CKAN prerun] FAILED. Exiting...' ; exit 1; }
+
+# make sure nginx maintenance mode is disabled
+rm -f /var/www/resources/.init-progress

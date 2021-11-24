@@ -74,3 +74,4 @@ server.key
 
 # Docker related
 docker/.env.local
+docker-compose.override.yml

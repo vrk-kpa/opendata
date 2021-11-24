@@ -1,0 +1,53 @@
+{
+  "vpc-provider:account=156418131626:region=eu-west-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0162f60213eb96ab2",
+    "vpcCidrBlock": "10.20.0.0/20",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-064a6ea90f58003e6",
+            "cidr": "10.20.0.0/24",
+            "availabilityZone": "eu-west-1a",
+            "routeTableId": "rtb-0afcf4ab2ebbbebef"
+          },
+          {
+            "subnetId": "subnet-0e6bef6fca46574f0",
+            "cidr": "10.20.2.0/24",
+            "availabilityZone": "eu-west-1b",
+            "routeTableId": "rtb-05a0c593a2da0b966"
+          }
+        ]
+      },
+      {
+        "name": "Private",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-06b0916ea718082be",
+            "cidr": "10.20.1.0/24",
+            "availabilityZone": "eu-west-1a",
+            "routeTableId": "rtb-0804026386e3b7b99"
+          },
+          {
+            "subnetId": "subnet-0c26edfc8bd996870",
+            "cidr": "10.20.3.0/24",
+            "availabilityZone": "eu-west-1b",
+            "routeTableId": "rtb-036e6d6e548faf27c"
+          }
+        ]
+      }
+    ]
+  },
+  "hosted-zone:account=156418131626:domainName=betaavoindata.fi:privateZone=false:region=eu-west-1": {
+    "Id": "/hostedzone/Z3OJDCRUB0USZF",
+    "Name": "betaavoindata.fi."
+  },
+  "hosted-zone:account=156418131626:domainName=betaopendata.fi:privateZone=false:region=eu-west-1": {
+    "Id": "/hostedzone/Z13YOD1EHMX76M",
+    "Name": "betaopendata.fi."
+  }
+}
