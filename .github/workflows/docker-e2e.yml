@@ -127,7 +127,10 @@ jobs:
 
       - name: bring services up
         run: |
-          docker-compose --env-file docker/.env.local up --no-build -d
+          # list local images
+          docker image ls
+          # bring services up
+          docker-compose -p opendata --env-file docker/.env.local up --no-build -d
 
       - name: wait until services have started
         shell: bash
