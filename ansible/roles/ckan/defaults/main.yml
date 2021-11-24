@@ -290,6 +290,7 @@ ckan_patches:
   #!- add_autodynatrace
   #!- fix_invalid_search_facets_template_error # https://github.com/ckan/ckan/pull/6181
   #!- remove_stacktraces_from_http_errors # https://github.com/ckan/ckan/pull/6345
+  - add_root_path_middleware
 
 ckan_wsgi_script: /etc/ckan/default/wsgi.py
 ckan_uwsgi_conf: /etc/ckan/default/ckan-uwsgi.ini

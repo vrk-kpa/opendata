@@ -1,8 +1,10 @@
 [uwsgi]
 
-http            =  127.0.0.1:{{ ckan_port }}
+http                =  127.0.0.1:{{ ckan_port }}
 uid                 =  www-data
 gid                 =  www-data
+processes           =  4
+enable-threads      =  true
 wsgi-file           =  {{ ckan_wsgi_script }}
 virtualenv          =  /usr/lib/ckan/default
 chdir               =  /etc/ckan/default
