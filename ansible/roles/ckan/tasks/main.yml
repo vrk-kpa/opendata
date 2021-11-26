@@ -44,6 +44,8 @@
     mode: "0755"
   when: ckan_deployment_environment_id == "vagrant"
 
+- include: pip.yml
+
 - include: extension.yml
   with_items: "{{ ckan_extensions }}"
 
@@ -64,7 +66,6 @@
     mode: 0640
   with_items: "{{ ckan_log_files }}"
 
-- include: pip.yml
 
 - name: Install CKAN
   pip:
