@@ -64,6 +64,8 @@
     mode: 0640
   with_items: "{{ ckan_log_files }}"
 
+- include: pip.yml
+
 - name: Install CKAN
   pip:
     name: "git+https://github.com/ckan/ckan.git@ckan-{{ ckan_version }}#egg=ckan[requirements]"

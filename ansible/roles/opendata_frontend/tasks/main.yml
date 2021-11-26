@@ -31,4 +31,3 @@
 - include_tasks: nonvagrant.yml
   when: opendata_frontend_deployment_environment_id != "vagrant"
 
-- include: pip.yml
