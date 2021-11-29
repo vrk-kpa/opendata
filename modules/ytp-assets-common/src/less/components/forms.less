@@ -14,7 +14,10 @@
 // ------------------------
 .form-control {
   border: 1px solid @opendata-ckan-unhighlight;
-  font-size: 14px;
+  font-size: @font-size-slightly-smaller-base;
+  border-radius: @border-radius__input;
+  border-color: @border-color__input;
+  padding: @padding-y__input @padding-x__input;
 
   &[type="file"] {
     height: auto;
@@ -141,6 +144,8 @@ label.group-label {
 
 .search-form {
   padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
 
   .search-input {
     &.search-giant {
@@ -148,10 +153,27 @@ label.group-label {
         margin-top: -14px;
       }
     }
+
+    button i {
+      color: @color--black;
+    }
+  }
+
+  .filter-list {
+    margin: 0;
+    margin-left: @padding-x--common;
+  }
+
+  .search-form__result-summary {
+    padding: @padding-y--common @padding-x--common;
+    background-color: @background-color__content;
+    border: 1px solid @opendata-brand-border-gray;
+    border-bottom: none;
   }
 
   .search-form__result-text {
     font-size: @font-size-h3-alt;
+    line-height: @line-height-h3-alt;
     font-weight: @font-weight-normal;
   }
 }

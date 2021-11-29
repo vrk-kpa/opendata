@@ -5,22 +5,63 @@
 }
 
 .secondary,
+[role=main] .secondary,
 aside.tertiary {
-  padding-left: 0;
+  background-color: @background-color__content;
+  padding: @padding__content;
+  padding: 0 (@grid-gutter-width / 2);
+  padding-left: (@grid-gutter-width / 2);
+  padding-right: (@grid-gutter-width / 2);
+  margin-top: 0;
+
+  &.sidebar-offcanvas {
+    border: 1px solid @border-color__content;
+  }
+
+  .secondary__header {
+    background-color: @opendata-brand-primary;
+    color: @color--white;
+    padding: @padding-y--common @padding-x--common;
+    margin: 0 -@padding-y--common;
+    margin-bottom: @padding-y--common;
+    text-transform: uppercase;
+
+    .secondary__title {
+      margin: 0;
+    }
+  }
+
+  &.sidebar-offcanvas .module ~ .module {
+    // Section divider in list
+    &::before {
+      content: ' ';
+      display: block;
+      height: 1px;
+      position: absolute;
+      left: @grid-gutter-width / 2;
+      right: @grid-gutter-width / 2;
+      top: 0;
+      background-color: @table-border-color;
+    }
+  }
 
   .module,
   .opendata-card {
     padding: 0;
     color: @color--black;
-    margin-bottom: @margin__module;
+    margin: 0 (-@grid-gutter-width / 2);
+    // @NOTE: 1 pixel difference for top- & bottom-padding to make divider between modules middle-aligned
+    padding-top: @padding-y--common + 1;
+    padding-bottom: @padding-y--common;
     overflow: hidden;
+    position: relative;
 
     .module-content {
-      padding: 0 (@padding__module / 2);
+      padding: @padding-y__navigation @padding-x__navigation;
 
       .nav > li > a {
-        margin-left: -15px;
-        padding: 10px 15px;
+        margin: 0 (-@padding-x__navigation);
+        padding: @padding-y--common @padding-x__navigation;
         color: @sidebar-block-color-text;
         border-left: 8px solid @sidebar-block-color-background;
 
@@ -30,13 +71,13 @@ aside.tertiary {
       }
     }
 
-    .module-heading {
+    .module-heading,
+    .module-subheading {
       .flex-display(flex);
       .align-items(center);
 
       margin: 0;
-      margin-bottom: (@padding__module / 2);
-      padding: 0 (@padding__module / 2);
+      padding: @padding-y__navigation @padding-x__navigation;
       background-color: transparent;
       border: none;
       font-size: @font-size__module-title;
@@ -45,50 +86,39 @@ aside.tertiary {
     }
 
     .module-footer {
+      padding: 0;
       border: none;
+
+      &,
+      a {
+        display: block;
+        font-size: @font-size-slightly-smaller-base;
+        color: @opendata-brand-primary;
+      }
+
+      a {
+        padding-left: @padding-x__navigation;
+        padding-right: @padding-x__navigation;
+        padding-top: @padding-y__navigation;
+        padding-bottom: @padding-y__navigation;
+      }
     }
 
     nav > ul > li.nav-item.active {
       font-weight: 700;
     }
   }
+
+  .secondary-heading-container {
+    padding: @padding-y__navigation @padding-x__navigation;
+  }
 }
 
 .module.suomifi-filters {
   padding: 0;
   border: none;
-
-  .module-heading {
-    margin: 0;
-    color: white;
-    background-color: @suomi-highlightBase;
-    font-size: 18px;
-    padding: 27px 20px 26px 20px;
-    text-transform: uppercase;
-  }
-
-  .module-subheading {
-    color: @suomi-blackBase;
-    font-size: 16px;
-    margin-top: 0;
-  }
-
-  .module-content {
-    margin: 0;
-    padding: 30px 20px;
-    border: 1px solid @suomi-depthLight13;
-    background-color: white;
-
-    .module-section {
-      padding-bottom: 30px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid @suomi-depthLight13;
-    }
-  }
-
-  .suomifi-filter-links {
-    font-size: 16px;
-  }
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .module-narrow > .btn,

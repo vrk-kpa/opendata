@@ -68,69 +68,73 @@
           {% block primary %}
             {% block primary_content %}
               <div class="primary col-sm-8">
-                {%- set filters = c.advanced_search.filters -%}
-                {% if filters|length > 0 %}
-                  <div class="filter-bar clearfix">
-                    <span id="filter-bar-title">{{_('Filters')}}</span>
-                    {% for key in filters %}
-                      {% if loop.index > 1 %}
-                      <div class="avoindata-vertical-divider clearfix"></div>
-                        <span class="avoindata-filter-group-and">{{_('and')}}</span>
-                      {% endif %}
-                      <!-- <span class="avoindata-filter-group-title">{{_(key|replace('-', ' ')|capitalize)}}</span> -->
-                      {% for value in filters[key] %}
-                        {% if loop.index > 1 %}
-                          <span class="avoindata-filter-group-or">{{_('or')}}</span>
-                        {% endif %}
-                        <span class="avoindata-pill badge badge-pill" data-module="clear-filter" data-query="{{c.advanced_search.json_query}}" data-key="{{key}}" data-value="{{value.value}}"><span class="truncate-text">{{_(value.label)}}</span><i class="fal fa-times"></i>
-                        </span>
-                      {% endfor %}
-                    {% endfor %}
-                  </div>
-                {% endif %}
-                <div class="clearfix">
-                  {% snippet 'advanced_search/display_field.html', field=schema.input_fields.search_query, prev_query=c.advanced_search.last_query %}
-                </div>
-                {% set sorting = [
-                  (_('Relevance'), 'score desc, metadata_modified desc'),
-                  (_('Name Ascending'), 'title_string asc'),
-                  (_('Name Descending'), 'title_string desc'),
-                  (_('Last Modified'), 'metadata_modified desc'),
-                  (_('Date Created Ascending'), 'metadata_created asc'),
-                  (_('Date Created Descending'), 'metadata_created desc'),
-                  (_('Source'), 'source asc'),
-                  (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
-                %}
-                {% set sorting_selected = c.advanced_search.sort_string %}
-                <div id="search-results">
-                  <div id="search-results-header">{{_('Found {count} datasets').format(count=c.advanced_search.item_count)}}
-                    <div class="pull-right form-inline">
-                      <div class="form-select form-group control-order-by">
-                        <label for="field-order-by">{{ _('Sorting') }}</label>
-                        <span class="select-wrapper">
-                          <select id="field-order-by" name="sort" class="form-control ytp-input-element avoindata-order-by" data-module="avoindata-utils">
-                            {% for label, value in sorting %}
-                              {% if label and value %}
-                                <option value="{{ value }}" {% if sorting_selected == value %} selected="selected" {% endif %}>{{ label }}</option>
-                              {% endif %}
-                            {% endfor %}
-                          </select>
-                        </span>
+                <section class="module">
+                  <div class="module-content">
+                    {%- set filters = c.advanced_search.filters -%}
+                    {% if filters|length > 0 %}
+                      <div class="filter-bar clearfix">
+                        <span id="filter-bar-title">{{_('Filters')}}</span>
+                        {% for key in filters %}
+                          {% if loop.index > 1 %}
+                          <div class="avoindata-vertical-divider clearfix"></div>
+                            <span class="avoindata-filter-group-and">{{_('and')}}</span>
+                          {% endif %}
+                          <!-- <span class="avoindata-filter-group-title">{{_(key|replace('-', ' ')|capitalize)}}</span> -->
+                          {% for value in filters[key] %}
+                            {% if loop.index > 1 %}
+                              <span class="avoindata-filter-group-or">{{_('or')}}</span>
+                            {% endif %}
+                            <span class="avoindata-pill badge badge-pill" data-module="clear-filter" data-query="{{c.advanced_search.json_query}}" data-key="{{key}}" data-value="{{value.value}}"><span class="truncate-text">{{_(value.label)}}</span><i class="fal fa-times"></i>
+                            </span>
+                          {% endfor %}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                    <div class="clearfix">
+                      {% snippet 'advanced_search/display_field.html', field=schema.input_fields.search_query, prev_query=c.advanced_search.last_query %}
+                    </div>
+                    {% set sorting = [
+                      (_('Relevance'), 'score desc, metadata_modified desc'),
+                      (_('Name Ascending'), 'title_string asc'),
+                      (_('Name Descending'), 'title_string desc'),
+                      (_('Last Modified'), 'metadata_modified desc'),
+                      (_('Date Created Ascending'), 'metadata_created asc'),
+                      (_('Date Created Descending'), 'metadata_created desc'),
+                      (_('Source'), 'source asc'),
+                      (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
+                    %}
+                    {% set sorting_selected = c.advanced_search.sort_string %}
+                    <div id="search-results">
+                      <div id="search-results-header" class="d-flex flex-wrap justify-content-between align-items-center mt-3">{{_('Found {count} datasets').format(count=c.advanced_search.item_count)}}
+                        <div class="form-inline">
+                          <div class="form-select form-group control-order-by">
+                            <label for="field-order-by">{{ _('Sorting') }}</label>
+                            <span class="select-wrapper">
+                              <select id="field-order-by" name="sort" class="form-control ytp-input-element avoindata-order-by" data-module="avoindata-utils">
+                                {% for label, value in sorting %}
+                                  {% if label and value %}
+                                    <option value="{{ value }}" {% if sorting_selected == value %} selected="selected" {% endif %}>{{ label }}</option>
+                                  {% endif %}
+                                {% endfor %}
+                              </select>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="search-results-content">
+                        {% snippet 'snippets/package_list.html', packages=c.advanced_search.collection %}
                       </div>
                     </div>
+                    {% if c.advanced_search.item_count > 0 %}
+                      <div>
+                        {% snippet 'advanced_search/snippets/post_pagination.html',
+                          page=c.advanced_search.last_query.page,
+                          total_pages=c.advanced_search.total_pages,
+                          prev_query=c.advanced_search.last_query %}
+                      </div>
+                    {% endif %}
                   </div>
-                  <div id="search-results-content">
-                    {% snippet 'snippets/package_list.html', packages=c.advanced_search.collection %}
-                  </div>
-                </div>
-                {% if c.advanced_search.item_count > 0 %}
-                  <div>
-                    {% snippet 'advanced_search/snippets/post_pagination.html',
-                      page=c.advanced_search.last_query.page,
-                      total_pages=c.advanced_search.total_pages,
-                      prev_query=c.advanced_search.last_query %}
-                  </div>
-                {% endif %}
+                </section>
               </div>
             {% endblock %}
           {% endblock %}

@@ -47,6 +47,10 @@ body {
 }
 
 .wrapper {
+  &::before {
+    content: none;
+  }
+
   @media (min-width: @screen-sm-min) {
     &::before {
       border-right: transparent;
@@ -59,24 +63,6 @@ body {
   .dataset > .row.equal {
     .flex-display(flex);
     .flex-wrap(wrap);
-  }
-}
-
-.context-info .module-content {
-  padding: 0;
-}
-
-#content > .wrapper > .primary {
-  > .module > .module-content {
-    padding-top: 32px;
-  }
-
-  &:first-child > .module > .module-content {
-    padding-left: 0;
-  }
-
-  &:last-child > .module > .module-content {
-    padding-right: 0;
   }
 }
 
@@ -105,10 +91,6 @@ body {
 
   .container > h1 {
     margin-top: 0;
-  }
-
-  .module-content {
-    padding: 0;
   }
 }
 
@@ -146,10 +128,6 @@ body {
   .controls input {
     border: 1px solid @suomi-depthLight13;
   }
-}
-
-.primary .module-content {
-  padding-top: 0;
 }
 
 .suomifi-button-text {
@@ -308,12 +286,6 @@ body {
   }
 }
 
-.sidebar ~ .primary {
-  .page-container {
-    margin-top: 0;
-  }
-
-  > .module > .module-content:not(#just-increase-specificity) {
-    padding-top: 0;
-  }
+.module-content {
+  padding: 0 15px;
 }

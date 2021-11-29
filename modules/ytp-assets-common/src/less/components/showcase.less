@@ -24,10 +24,18 @@
 }
 
 .showcase-content {
-  margin-top: 35px;
-  margin-left: 10px;
+  background-color: @background-color__content;
+  border: 1px solid @border-color__content;
+  padding: @padding__content;
+  margin: 0;
   overflow-wrap: break-word;
   hyphens: auto;
+
+  .dataset-list .dataset-item {
+    border: none;
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .showcase-heading-icon {

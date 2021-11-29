@@ -3,8 +3,10 @@
 {%- set prev_query = c.advanced_search.last_query -%}
 {%- set field_options = c.advanced_search.field_options -%}
 
-<aside id="advanced-search-options" class="secondary col-sm-4">
-  <div id="search-options-header">{{_("Filter search")}}</div>
+<aside id="advanced-search-options" class="secondary sidebar-offcanvas col-sm-4">
+  <div id="search-options-header" class="d-flex flex-wrap justify-content-between align-items-center mt-3 search-form__result-summary">
+    <h3 class="advanced-search__title">{{_("Filter search")}}</h3>
+  </div>
   <div id="search-options-content">
     <div>
       {% snippet 'advanced_search/display_field.html', field=input_fields.dataset_type, prev_query=prev_query, options=field_options['dataset_type'] %}

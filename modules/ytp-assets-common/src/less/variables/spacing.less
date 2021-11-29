@@ -1,16 +1,21 @@
 /**
  * Bootstrap
  */
-@grid-gutter-width: 50px;
+@grid-gutter-width: 40px;
 
 /**
  * Common spacings
  */
-@padding-x--common: 20px;
-@padding-y--common: 20px;
-@padding-x--small: 10px;
-@padding-y--small: 10px;
+@padding-y--common: @grid-gutter-width / 2;
+@padding-x--common: @grid-gutter-width / 2;
+@padding-y--small: @grid-gutter-width / 4;
+@padding-x--small: @grid-gutter-width / 4;
 @padding-y__text: 16px;
+@padding-y__input: 8px;
+@padding-x__input: 10px;
+@padding-y__pagination__item: 6px;
+@padding-x__pagination__item: 12px;
+@margin-bottom-h3: 8px;
 
 /**
  * Modules
@@ -22,9 +27,15 @@
 @padding__breadcrumb-item: @padding-y__text 0;
 
 /**
+ * Pills
+ */
+@padding__pill: 2px 16px;
+
+/**
  * Tags
  */
 @margin__tag: 10px;
+@padding__tag: 5px 10px;
 
 /**
  * Resource list
@@ -35,6 +46,6 @@
 /**
  * Navigation
  */
-@border-width__navigation: 4px;
-@padding-x__navigation: 15px;
+@border-width__navigation: 5px;
+@padding-x__navigation: @padding-x--common;
 @padding-y__navigation: 10px;
