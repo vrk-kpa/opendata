@@ -8,8 +8,20 @@ body {
 
 .label-default {
   a {
-    color: #fff;
+    color: @suomi-whiteBase;
   }
+}
+
+#content {
+  background: @suomi-highlightLight53;
+}
+
+#content .wrapper {
+  background: @suomi-whiteBase;
+}
+
+.dataset-primary-content section {
+  margin-top: 50px;
 }
 
 .additional-info {
@@ -23,5 +35,24 @@ body {
     .dataset-details {
       word-break: break-all;
     }
+
+    th,
+    td {
+      padding-top: 6px;
+      padding-left: 15px;
+      padding-bottom: 8px;
+    }
+
+    td {
+      padding-right: 25px;
+    }
   }
+}
+
+.apiset-description {
+  margin-top: 20px;
+}
+
+.dataset-title {
+  font-family: @font-family-sans-serif-light;
 }
