@@ -23,6 +23,32 @@
   }
 }
 
+.showcase-list {
+  background-color: @background-color__content;
+  // @NOTE: These should be same as @grid-gutter-width / 2 but because bootstrap isn't compiled from less sources
+  // with overwritten customized variables these are partly hardcoded now.
+  margin-left: -15px;
+  margin-right: -15px;
+  width: auto;
+  // @NOTE: Reduce showcase-items margin from both sides of padding
+  padding: @padding-y--common (@padding-x--common - (@margin-x__showcase-item / 2));
+  border: 1px solid @border-color__content;
+  border-top: 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  .showcase-item {
+    // Because margin is added on both sides, make it only half of margin
+    margin-left: @margin-x__showcase-item / 2;
+    margin-right: @margin-x__showcase-item / 2;
+    margin-bottom: @margin-y__showcase-item;
+    margin-top: 0;
+    float: none;
+    flex: 0 0 @width__showcase-item;
+    width: auto;
+  }
+}
+
 .showcase-content {
   background-color: @background-color__content;
   border: 1px solid @border-color__content;

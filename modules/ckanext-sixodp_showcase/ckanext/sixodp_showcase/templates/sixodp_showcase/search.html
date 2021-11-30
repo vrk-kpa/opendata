@@ -17,29 +17,31 @@
     </div>
   {% endif %}
   #}
-{% endblock %}
 
-{% block page_primary_action %}
+  {% block page_primary_action %}
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
         {{ h.snippet('sixodp_showcase/snippets/showcase_greeting.html') }}
     </div>
   </div>
+  {% endblock %}
+{% endblock %}
 
-  <div class="search-form-container search-form-container-borderless row">
-    <div>
-      {{ h.snippet('sixodp_showcase/snippets/showcase_search_input.html', query=c.q, placeholder=_('Search applications...'), query_params=c.fields_grouped, sorting=c.sort_by_selected) }}
+
+{% block primary_content %}
+  <section class="module">
+    <div class="module-content">
+      {% block form %}
+        <div class="search-form-container search-form-container-borderless row">
+          {{ h.snippet('sixodp_showcase/snippets/showcase_search_input.html', query=c.q, placeholder=_('Search applications...'), query_params=c.fields_grouped, sorting=c.sort_by_selected) }}
+        </div>
+      {% endblock %}
+
+      {% block package_search_results_list %}
+        {{ h.snippet('sixodp_showcase/snippets/showcase_list.html', packages=c.page.items) }}
+      {% endblock %}
     </div>
-  </div>
-{% endblock %}
-
-{% block form %}
-{% endblock %}
-
-{% block package_search_results_list %}
-  <div>
-    {{ h.snippet('sixodp_showcase/snippets/showcase_list.html', packages=c.page.items) }}
-  </div>
+  </section>
 {% endblock %}
 
 {% block package_search_results_api %}

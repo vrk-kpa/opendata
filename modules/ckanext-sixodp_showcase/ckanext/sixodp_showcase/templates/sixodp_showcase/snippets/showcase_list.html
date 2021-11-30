@@ -11,7 +11,7 @@ show_remove    - If True, show the remove button to remove the showcase/dataset 
 #}
 {% block package_list %}
   {% if packages %}
-    <ul class="media-grid" data-module="media-grid">
+    <ul class="showcase-list">
         {% block package_list_inner %}
           {% for package in packages %}
             {% snippet 'sixodp_showcase/snippets/showcase_item.html', package=package, item_class=item_class, truncate=truncate, truncate_title=truncate_title, show_remove=show_remove %}
