@@ -1,13 +1,14 @@
 {% ckan_extends %}
 
 {% block primary %}
+
+    {% snippet "package/snippets/dataset_state_banner.html", pkg=pkg %}
+
+  <div class="dataset-container">
     <div class="dataset-header-row d-flex mt-3 align-items-end justify-content-between flex-wrap">
       <div>
         <h1 class="dataset-title m-0">
           {% block page_heading %}
-            {% if pkg.private %}
-              <i class="fa fa-xs fa-lock icon-private" title="{{ _('Private') }}"></i>
-            {% endif %}
             {{ h.get_translated(pkg, 'title') or pkg.name }}
           {% endblock %}
         </h1>
@@ -71,5 +72,6 @@
       {% block package_organization %}{% endblock %}
 
     {% endblock %}
-</div>
+    </div>
+  </div>
 {% endblock %}
