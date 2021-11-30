@@ -30,7 +30,7 @@
     "stylelint-config-standard": "^22.0.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-pro": "^5.15.3",
+    "@fortawesome/fontawesome-pro": "^5.15.4",
     "bootstrap": "^3.4.1",
     "bootstrap-table": "^1.18.3",
     "eonasdan-bootstrap-datetimepicker": "^4.17.49",
