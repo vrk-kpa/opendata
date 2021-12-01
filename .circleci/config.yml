@@ -178,7 +178,7 @@ jobs:
           name: Install Dependencies
           command: |
             echo '@fortawesome:registry=https://npm.fontawesome.com/' >> .npmrc
-            echo '//npm.fontawesome.com/:_authToken=$NPM_TOKEN' >> .npmrc
+            echo '//npm.fontawesome.com/:_authToken=${NPM_TOKEN}' >> .npmrc
             npm ci
           working_directory: ~/project/
           env:
