@@ -174,14 +174,3 @@
     - configure
     - configure_ckan
 
-- name: Update supervisor configuration
-  shell: supervisorctl update
-
-- name: Start supervisor services
-  supervisorctl:
-    name: "{{ item }}"
-    state: started
-  with_flattened:
-    - "{{ ckan_supervisor_services }}"
-  tags:
-    - supervisor

@@ -46,11 +46,6 @@ wsgi_config_files:
     ckan_wsgi_script: "{{ ckan_wsgi_script }}"
   - template: wsgi.py.j2
     file: "{{ ckan_wsgi_script }}"
-  - template: ckan-uwsgi-supervisor.conf.j2
-    file: "{{ ckan_supervisor_conf }}"
-    ckan_supervisor_name: "{{ ckan_supervisor_name }}"
-    ckan_uwsgi_conf: "{{ ckan_uwsgi_conf }}"
-    ckan_log: "{{ ckan_log_path }}/ckan.log"
 
 ckan_log_files:
   - "{{ ckan_log_path }}/ckan.log"
