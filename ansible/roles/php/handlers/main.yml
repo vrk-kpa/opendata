@@ -1,7 +1,7 @@
 ---
 # handlers file for php
 
-- name: restart php-fmp service
+- name: restart php-fpm service
   systemd:
     name: "{{ php_fpm_service }}"
     state: restarted
