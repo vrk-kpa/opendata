@@ -3,7 +3,7 @@
   margin: 0;
 
   .resource-item:last-child {
-     border-bottom: 1px solid rgb(200, 205, 208);
+    border-bottom: 1px solid rgb(200, 205, 208);
   }
 
   .resource-item {
@@ -15,7 +15,6 @@
     &:hover {
       background: transparent;
     }
-
 
     .resource-item__icon {
       position: static;
@@ -32,24 +31,24 @@
       line-height: 35px;
       font-weight: 600;
       margin-left: auto;
-
     }
+
     .resource-item__info__title {
       color: @opendata-brand-primary;
       transition: color @transition-duration--short @transition-timing-function--default;
       font-size: 16px;
       font-weight: normal;
       line-height: 24px;
-      font-family: SourceSansPro-Regular;
+      font-family: @font-family-sans-serif;
     }
+
     a {
       color: @opendata-brand-primary;
       transition: color @transition-duration--short @transition-timing-function--default;
       font-size: 16px;
       font-weight: 600;
       line-height: 24px;
-      font-family: SourceSansPro-Semibold;
-
+      font-family: @font-family-sans-serif;
 
       &:hover {
         color: @opendata-brand-primary--highlight;
