@@ -36,8 +36,8 @@
     .resource-item__info__title {
       color: @opendata-brand-primary;
       transition: color @transition-duration--short @transition-timing-function--default;
-      font-size: 16px;
-      font-weight: normal;
+      font-size: @font-size__module-title;
+      font-weight: @font-weight-normal;
       line-height: 24px;
       font-family: @font-family-sans-serif;
     }
@@ -54,5 +54,19 @@
         color: @opendata-brand-primary--highlight;
       }
     }
+  }
+}
+
+.resource-list-apiset {
+  .resource-item {
+    padding: 11px 10px 11px 15px !important;
+  }
+
+  .resource-item__info {
+    margin-top: 4px;
+  }
+
+  .resource-item__actions {
+    margin-top: 4px;
   }
 }
