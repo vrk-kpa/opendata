@@ -1995,11 +1995,11 @@ msgid ""
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:82
-msgid "RAJAA LISTAA"
+msgid "FILTER LIST"
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:109
-msgid "Rajapinnat"
+msgid "Resources"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/additional_info.html:23
