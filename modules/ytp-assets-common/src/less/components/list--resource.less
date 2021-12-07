@@ -45,8 +45,8 @@
     a {
       color: @opendata-brand-primary;
       transition: color @transition-duration--short @transition-timing-function--default;
-      font-size: 16px;
-      font-weight: 600;
+      font-size: @font-size__module-title;
+      font-weight: @font-weight-heavier;
       line-height: 24px;
       font-family: @font-family-sans-serif;
 
@@ -59,7 +59,7 @@
 
 .resource-list-apiset {
   .resource-item {
-    padding: 11px 10px 11px 15px !important;
+    padding: @padding__resource-list-item !important;
   }
 
   .resource-item__info {
