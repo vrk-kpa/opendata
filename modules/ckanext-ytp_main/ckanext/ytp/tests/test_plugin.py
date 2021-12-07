@@ -13,7 +13,7 @@ from ckan.tests import TestCase
 from paste.deploy.converters import asbool
 from pylons import config
 
-import tools
+from . import tools
 from ckanext.ytp.converters import is_url, to_list_json, from_json_list
 from ckanext.ytp.tasks import organization_import
 
@@ -162,11 +162,11 @@ class TestYtpOrganizationPlugin(TestCase):
         """ Test organization import """
         organization_url = tools.get_organization_test_source()
         data = simplejson.dumps({'url': organization_url, 'public_organization': True})
-        for _ in xrange(2):
+        for _ in range(2):
             result = organization_import.apply((data,))
             self.assert_true(result.successful())
-            for title in u"Kainuun ty\u00f6- ja elinkeinotoimisto", u"Lapin ty\u00f6- ja elinkeinotoimisto",\
-                         u"Suomen ymp\u00e4rist\u00f6keskus":
+            for title in "Kainuun ty\u00f6- ja elinkeinotoimisto", "Lapin ty\u00f6- ja elinkeinotoimisto",\
+                         "Suomen ymp\u00e4rist\u00f6keskus":
                 organization = tests.call_action_api(self.app, 'organization_show', id=munge_title_to_name(title).lower())
                 self.assert_equal(organization['title'], title)
                 public_org = 'false'
@@ -185,20 +185,20 @@ class TestYtpOrganizationPlugin(TestCase):
                 data['public_organization'] = True
             result = organization_import.apply((simplejson.dumps(data),))
             self.assert_true(result.successful())
-            for title in u"Kainuun ty\u00f6- ja elinkeinotoimisto", u"Lapin ty\u00f6- ja elinkeinotoimisto",\
-                         u"Suomen ymp\u00e4rist\u00f6keskus":
+            for title in "Kainuun ty\u00f6- ja elinkeinotoimisto", "Lapin ty\u00f6- ja elinkeinotoimisto",\
+                         "Suomen ymp\u00e4rist\u00f6keskus":
                 organization = tests.call_action_api(self.app, 'organization_show', id=munge_title_to_name(title).lower())
                 self.assert_equal(organization['title'], title)
                 self.assert_true('public_adminstration_organization' not in organization)  # We do not want this to be updated
 
     def test_organization_import_with_name(self):
         """ Test organization import """
-        expected = (u"hri", u"Ulkoinen lähde: Hri.fi",
-                    u"Tähän organisaatioon harvestoidaan tietoaineistoja Helsinki Region Infosharesta."), \
-            (u"datagovuk", u"Data.Gov.UK", u"")
+        expected = ("hri", "Ulkoinen lähde: Hri.fi",
+                    "Tähän organisaatioon harvestoidaan tietoaineistoja Helsinki Region Infosharesta."), \
+            ("datagovuk", "Data.Gov.UK", "")
         organization_url = tools.get_organization_harvest_test_source()
         data = simplejson.dumps({'url': organization_url})
-        for _ in xrange(2):
+        for _ in range(2):
             result = organization_import.apply((data,))
             self.assert_true(result.successful())
             for name, title, description in expected:
@@ -259,7 +259,7 @@ class TestYtpUserPlugin(TestCase):
         user_show_data = toolkit.get_action('user_show')(context, {'id': user_object.name})
         updated_user = model.User.get('tester')
 
-        for key, value in data_dict_extras.iteritems():
+        for key, value in data_dict_extras.items():
             self.assert_equal(user_data[key], value)
             self.assert_equal(user_show_data[key], value)
             self.assert_equal(updated_user.extras[key], value)

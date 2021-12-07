@@ -136,6 +136,7 @@
     matomo init_db
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
+  when: ckan_matomo_analytics
   tags:
     - skip_ansible_lint
 

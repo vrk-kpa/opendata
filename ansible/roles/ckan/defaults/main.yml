@@ -20,7 +20,7 @@ ckan_plugin_order:
   - spatial_query
   - csw_harvester
   - drupal8
-  - datarequests
+  #- datarequests
   - ytp_organizations
   - ytp_request
   - hierarchy_display
@@ -51,7 +51,7 @@ ckan_plugin_order:
   - reminder
   - ytp_restrict_category_creation_and_updating
   - archiver
-  - qa
+  # - qa
   - ytp_ipermission_labels
   - organizationapproval
   - ytp_resourcestatus
@@ -101,7 +101,7 @@ ckan_extensions:
   - ckanext-disqus
   - ckanext-reminder
   - ckanext-archiver
-  - ckanext-qa
+  # - ckanext-qa
   - ckanext-organizationapproval
   - ckanext-advancedsearch
   #- ckanext-rating
@@ -122,7 +122,7 @@ ckan_extensions_with_translations:
   - ckanext-advancedsearch
   - ckanext-scheming
   - ckanext-statistics
-  - ckanext-datarequests
+  # - ckanext-datarequests
 
 # enable matomo analytics can either be false, or dict of id account type
 ckan_matomo_analytics: false
@@ -290,6 +290,7 @@ ckan_patches:
   #!- add_autodynatrace
   #!- fix_invalid_search_facets_template_error # https://github.com/ckan/ckan/pull/6181
   #!- remove_stacktraces_from_http_errors # https://github.com/ckan/ckan/pull/6345
+  - add_root_path_middleware
 
 ckan_wsgi_script: /etc/ckan/default/wsgi.py
 ckan_uwsgi_conf: /etc/ckan/default/ckan-uwsgi.ini
@@ -316,11 +317,6 @@ wsgi_config_files:
     ckan_wsgi_script: "{{ ckan_wsgi_script }}"
   - template: wsgi.py.j2
     file: "{{ ckan_wsgi_script }}"
-  - template: ckan-uwsgi-supervisor.conf.j2
-    file: "{{ ckan_supervisor_conf }}"
-    ckan_supervisor_name: "{{ ckan_supervisor_name }}"
-    ckan_uwsgi_conf: "{{ ckan_uwsgi_conf }}"
-    ckan_log: "{{ ckan_log_path }}/ckan.log"
 
 ckan_log_files:
   - "{{ ckan_log_path }}/ckan.log"

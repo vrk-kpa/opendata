@@ -1,6 +1,6 @@
 {% import 'scheming/macros/form.html' as form %}
 
-{% resource "ytp_common_js/ytp_select2.js" %}
+{% asset "ytp_resources/ytp_select2_js" %}
 
 {% call form.input_block(field.field_name,
   label=h.scheming_language_text(field.label),

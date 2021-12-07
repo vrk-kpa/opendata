@@ -1,7 +1,9 @@
 import os
 import logging
 import json
-import urllib2
+import urllib.request
+import urllib.error
+import urllib.parse
 import datetime
 import itertools
 from ckan.common import _, c, request
@@ -10,8 +12,6 @@ from ckan.logic import get_action
 from ckan import model
 from ckan.plugins import toolkit
 from ckanext.scheming.helpers import lang
-from pylons import config
-from pylons.i18n import gettext
 
 log = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ _LOCALE_ALIASES = {'en_GB': 'en'}
 
 def _markdown(translation, length):
     return (helpers.markdown_extract(translation, extract_length=length)
-            if length is not True and isinstance(length, (int, long))
+            if length is not True and isinstance(length, int)
             else helpers.render_markdown(translation))
 
 
@@ -36,7 +36,7 @@ def get_field(obj_or_dict, field, default=None):
 
 
 def get_translation(translated):
-    if isinstance(translated, unicode):
+    if isinstance(translated, str):
         translated = get_json_value(translated)
 
     if isinstance(translated, dict):
@@ -113,9 +113,9 @@ def extra_translation(values, field, markdown=False, fallback=None):
 def get_dict_tree_from_json(fileurl_variable_name):
     """ Parse a JSON file and return it for constructing UI trees. """
 
-    file_url = config.get(fileurl_variable_name, None)
+    file_url = toolkit.config.get(fileurl_variable_name, None)
     if file_url:
-        return json.load(urllib2.urlopen(file_url))
+        return json.load(urllib.request.urlopen(file_url))
     else:
         return []
 
@@ -127,7 +127,7 @@ def render_date(datetime_):
 
 
 def service_database_enabled():
-    return config.get('ckanext.ytp.service_database_enabled', 'true') == 'true'
+    return toolkit.config.get('ckanext.ytp.service_database_enabled', 'true') == 'true'
 
 
 def get_json_value(value):
@@ -206,7 +206,7 @@ def get_sorted_facet_items_dict(facet, limit=50, exclude_active=False):
     for facet_item in c.search_facets.get(facet)['items']:
         if not len(facet_item['name'].strip()):
             continue
-        if not (facet, facet_item['name']) in request.params.items():
+        if not (facet, facet_item['name']) in list(request.params.items()):
             facets.append(dict(active=False, **facet_item))
         elif not exclude_active:
             facets.append(dict(active=True, **facet_item))
@@ -303,11 +303,11 @@ def calculate_metadata_stars(dataset_id):
 
 
 def is_plugin_enabled(plugin_name):
-    return plugin_name in config.get('ckan.plugins', '').split()
+    return plugin_name in toolkit.config.get('ckan.plugins', '').split()
 
 
 def get_upload_size():
-    size = config.get('ckan.max_resource_size', 10)
+    size = toolkit.config.get('ckan.max_resource_size', 10)
 
     return size
 
@@ -318,7 +318,7 @@ def get_license(license_id):
 
     for license_obj in licenses:
         license_obj_id = license_obj.get('id', None)
-        print license_obj
+        print(license_obj)
         if license_obj_id and license_obj_id == license_id:
             return license_obj
 
@@ -384,14 +384,14 @@ def get_geonetwork_link(uuid, organization, lang=None):
 
 
 def unquote_url(url):
-    from urllib import quote, unquote
+    from urllib.parse import quote, unquote
 
     # leading slash may be interpreted as unicode marker, so remove temporarily
     if url[0:1] == '/':
         url = url[1:]
 
     unquoted = unquote(url)
-    if not isinstance(unquoted, unicode):
+    if not isinstance(unquoted, str):
         unquoted = unquoted.decode('utf8')
 
     try:
@@ -407,7 +407,7 @@ def unquote_url(url):
 
 def scheming_field_only_default_required(field, lang):
 
-    if field and field.get('only_default_lang_required') and lang == config.get('ckan.locale_default', 'en'):
+    if field and field.get('only_default_lang_required') and lang == toolkit.config.get('ckan.locale_default', 'en'):
         return True
 
     return False
@@ -430,7 +430,7 @@ def scheming_language_text_or_empty(text, prefer_lang=None):
     language in dict or using gettext if not a dict
     """
     if not text:
-        return u''
+        return ''
 
     if hasattr(text, 'get'):
         try:
@@ -446,7 +446,7 @@ def scheming_language_text_or_empty(text, prefer_lang=None):
             except KeyError:
                 return ''
 
-    t = gettext(text)
+    t = _(text)
     if isinstance(t, str):
         return t.decode('utf-8')
     return t
@@ -495,7 +495,7 @@ def scheming_category_list(args):
             'model': model, 'session': model.Session, 'user': c.user
         }, {})
 
-        user_group_ids = set(group[u'name'] for group in group_authz)
+        user_group_ids = set(group['name'] for group in group_authz)
         group_ids = [group for group in group_ids if group in user_group_ids]
 
         for group in group_ids:
@@ -519,7 +519,7 @@ def scheming_category_list(args):
 
 
 def check_group_selected(val, data):
-    if filter(lambda x: x['name'] == val, data):
+    if [x for x in data if x['name'] == val]:
         return True
     return False
 
@@ -549,8 +549,8 @@ def group_list_with_selected(package_groups):
         'model': model, 'session': model.Session, 'user': c.user
     }, {})
 
-    user_group_ids = set(group[u'id'] for group in group_authz)
-    all_groups = [group for group in all_groups if group[u'id'] in user_group_ids]
+    user_group_ids = set(group['id'] for group in group_authz)
+    all_groups = [group for group in all_groups if group['id'] in user_group_ids]
 
     # Check which groups are selected
     groups_with_selected = []
@@ -614,7 +614,7 @@ def get_groups_where_user_is_admin():
 
 
 def get_value_from_extras_by_key(object_with_extras, key):
-    extras = object_with_extras.get(u'extras', [])
+    extras = object_with_extras.get('extras', [])
 
     for k, v in [(extra['key'], extra['value']) for extra in extras]:
         if k == key:

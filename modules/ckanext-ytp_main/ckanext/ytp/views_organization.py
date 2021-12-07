@@ -31,26 +31,26 @@ parse_params = logic.parse_params
 
 
 class CreateOrganizationView(CreateGroupView):
-    u'''Create organization view '''
+    '''Create organization view '''
 
     def _prepare(self, data=None):
-        group_type = u'organization'
+        group_type = 'organization'
         if data:
             data['type'] = group_type
 
         context = {
-            u'model': model,
-            u'session': model.Session,
-            u'user': g.user,
-            u'save': u'save' in request.params,
-            u'parent': request.params.get(u'parent', None),
-            u'group_type': group_type
+            'model': model,
+            'session': model.Session,
+            'user': g.user,
+            'save': 'save' in request.params,
+            'parent': request.params.get('parent', None),
+            'group_type': group_type
         }
 
         try:
-            _check_access(u'group_create', context)
+            _check_access('group_create', context)
         except NotAuthorized:
-            base.abort(403, _(u'Unauthorized to create a group'))
+            base.abort(403, _('Unauthorized to create a group'))
 
         return context
 
@@ -63,40 +63,40 @@ class CreateOrganizationView(CreateGroupView):
             data_dict.update(clean_dict(
                 dict_fns.unflatten(tuplize_dict(parse_params(request.files)))
             ))
-            data_dict['type'] = group_type or u'group'
-            context['message'] = data_dict.get(u'log_message', u'')
-            data_dict['users'] = [{u'name': g.user, u'capacity': u'admin'}]
+            data_dict['type'] = group_type or 'group'
+            context['message'] = data_dict.get('log_message', '')
+            data_dict['users'] = [{'name': g.user, 'capacity': 'admin'}]
             data_dict['approval_status'] = 'pending'
 
-            group = _action(u'group_create')(context, data_dict)
+            group = _action('group_create')(context, data_dict)
             send_new_organization_email_to_admin()
         except (NotFound, NotAuthorized):
-            base.abort(404, _(u'Group not found'))
+            base.abort(404, _('Group not found'))
         except dict_fns.DataError:
-            base.abort(400, _(u'Integrity Error'))
+            base.abort(400, _('Integrity Error'))
         except ValidationError as e:
             errors = e.error_dict
             error_summary = e.error_summary
             return self.get(group_type, is_organization,
                             data_dict, errors, error_summary)
 
-        return h.redirect_to(group['type'] + u'.read', id=group['name'])
+        return h.redirect_to(group['type'] + '.read', id=group['name'])
 
 
 def read(group_type, is_organization, id=None, limit=20):
     extra_vars = {}
     set_org(is_organization)
     context = {
-        u'model': model,
-        u'session': model.Session,
-        u'user': g.user,
-        u'schema': _db_to_form_schema(group_type=group_type),
-        u'for_view': True
+        'model': model,
+        'session': model.Session,
+        'user': g.user,
+        'schema': _db_to_form_schema(group_type=group_type),
+        'for_view': True
     }
-    data_dict = {u'id': id, u'type': group_type}
+    data_dict = {'id': id, 'type': group_type}
 
     # unicode format (decoded from utf8)
-    q = request.params.get(u'q', u'')
+    q = request.params.get('q', '')
 
     extra_vars["q"] = q
 
@@ -108,10 +108,10 @@ def read(group_type, is_organization, id=None, limit=20):
         # Do not query group members as they aren't used in the view
         data_dict['include_users'] = False
 
-        group_dict = _action(u'group_show')(context, data_dict)
+        group_dict = _action('group_show')(context, data_dict)
         group = context['group']
     except NotFound:
-        base.abort(404, _(u'Group not found'))
+        base.abort(404, _('Group not found'))
     except NotAuthorized:
         group = model.Session.query(model.Group).filter(model.Group.name == id).first()
         if group is None or group.state != 'active':
@@ -121,7 +121,7 @@ def read(group_type, is_organization, id=None, limit=20):
     if data_dict['id'] == group_dict['id'] and \
             data_dict['id'] != group_dict['name']:
 
-        url_with_name = h.url_for(u'{}.read'.format(group_type),
+        url_with_name = h.url_for('{}.read'.format(group_type),
                                   id=group_dict['name'])
 
         return h.redirect_to(
@@ -138,40 +138,40 @@ def read(group_type, is_organization, id=None, limit=20):
     extra_vars["group_dict"] = group_dict
 
     return base.render(
-        _get_group_template(u'read_template', g.group_dict['type']),
+        _get_group_template('read_template', g.group_dict['type']),
         extra_vars)
 
 
 def members(id, group_type, is_organization):
     extra_vars = {}
     set_org(is_organization)
-    context = {u'model': model, u'session': model.Session, u'user': g.user}
+    context = {'model': model, 'session': model.Session, 'user': g.user}
 
     try:
-        data_dict = {u'id': id}
-        check_access(u'group_edit_permissions', context, data_dict)
-        members = get_action(u'member_list')(context, {
-            u'id': id,
-            u'object_type': u'user'
+        data_dict = {'id': id}
+        check_access('group_edit_permissions', context, data_dict)
+        members = get_action('member_list')(context, {
+            'id': id,
+            'object_type': 'user'
         })
         data_dict['include_datasets'] = False
         data_dict['include_users'] = True
-        group_dict = _action(u'group_show')(context, data_dict)
+        group_dict = _action('group_show')(context, data_dict)
         context['keep_email'] = True
         context['auth_user_obj'] = c.userobj
     except NotFound:
-        base.abort(404, _(u'Group not found'))
+        base.abort(404, _('Group not found'))
     except NotAuthorized:
         base.abort(403,
-                   _(u'User %r not authorized to edit members of %s') %
+                   _('User %r not authorized to edit members of %s') %
                    (g.user, id))
 
     extra_vars = {
-        u"members": members,
-        u"group_dict": group_dict,
-        u"group_type": group_type
+        "members": members,
+        "group_dict": group_dict,
+        "group_type": group_type
     }
-    return base.render(u'group/members.html', extra_vars)
+    return base.render('group/members.html', extra_vars)
 
 
 def user_list(id, group_type, is_organization):
@@ -271,24 +271,24 @@ def index(group_type, is_organization):
     extra_vars = {}
     set_org(is_organization)
     page = h.get_page_number(request.params) or 1
-    items_per_page = int(config.get(u'ckan.datasets_per_page', 20))
+    items_per_page = int(config.get('ckan.datasets_per_page', 20))
 
     context = {
-        u'model': model,
-        u'session': model.Session,
-        u'user': g.user,
-        u'for_view': True,
-        u'with_private': False
+        'model': model,
+        'session': model.Session,
+        'user': g.user,
+        'for_view': True,
+        'with_private': False
     }
 
     try:
-        _check_access(u'site_read', context)
-        _check_access(u'group_list', context)
+        _check_access('site_read', context)
+        _check_access('group_list', context)
     except NotAuthorized:
-        base.abort(403, _(u'Not authorized to see this page'))
+        base.abort(403, _('Not authorized to see this page'))
 
-    q = request.params.get(u'q', u'')
-    sort_by = request.params.get(u'sort')
+    q = request.params.get('q', '')
+    sort_by = request.params.get('sort')
 
     extra_vars["q"] = q
     extra_vars["sort_by_selected"] = sort_by
@@ -301,15 +301,15 @@ def index(group_type, is_organization):
 
     try:
         data_dict_global_results = {
-            u'all_fields': False,
-            u'q': q,
-            u'sort': sort_by,
-            u'type': group_type or u'group',
+            'all_fields': False,
+            'q': q,
+            'sort': sort_by,
+            'type': group_type or 'group',
         }
-        global_results = _action(u'group_list')(context,
+        global_results = _action('group_list')(context,
                                                 data_dict_global_results)
     except ValidationError as e:
-        if e.error_dict and e.error_dict.get(u'message'):
+        if e.error_dict and e.error_dict.get('message'):
             msg = e.error_dict['message']
         else:
             msg = str(e)
@@ -317,13 +317,13 @@ def index(group_type, is_organization):
         extra_vars["page"] = h.Page([], 0)
         extra_vars["group_type"] = group_type
         return base.render(
-            _get_group_template(u'index_template', group_type), extra_vars)
+            _get_group_template('index_template', group_type), extra_vars)
 
     extra_vars['with_datasets'] = with_datasets = request.params.get('with_datasets', '').lower() in ('true', '1', 'yes')
     tree_list_params = {
                     'q': q, 'sort_by': sort_by, 'with_datasets': with_datasets,
                     'page': page, 'items_per_page': items_per_page}
-    page_results = _action(u'organization_tree_list')(context, tree_list_params)
+    page_results = _action('organization_tree_list')(context, tree_list_params)
 
     extra_vars["page"] = h.Page(
         collection=global_results,
@@ -335,7 +335,7 @@ def index(group_type, is_organization):
     extra_vars["group_type"] = group_type
 
     return base.render(
-        _get_group_template(u'index_template', group_type), extra_vars)
+        _get_group_template('index_template', group_type), extra_vars)
 
 
 def embed(id, group_type, is_organization, limit=5):
@@ -347,7 +347,7 @@ def embed(id, group_type, is_organization, limit=5):
     def make_pager_url(q=None, page=None):
         ctrlr = 'ckanext.ytp.controller:YtpOrganizationController'
         url = h.url_for(controller=ctrlr, action='embed', id=id)
-        return url + u'?page=' + str(page)
+        return url + '?page=' + str(page)
 
     extra_vars = {}
 
@@ -397,66 +397,66 @@ def embed(id, group_type, is_organization, limit=5):
     return base.render("organization/embed.html", extra_vars)
 
 
-organization = Blueprint(u'ytp_organization', __name__,
-                         url_prefix=u'/organization',
-                         url_defaults={u'group_type': u'organization',
-                                       u'is_organization': True})
+organization = Blueprint('ytp_organization', __name__,
+                         url_prefix='/organization',
+                         url_defaults={'group_type': 'organization',
+                                       'is_organization': True})
 
-organization.add_url_rule(u'/', view_func=index, strict_slashes=False)
+organization.add_url_rule('/', view_func=index, strict_slashes=False)
 organization.add_url_rule(
-    u'/new',
-    methods=[u'GET', u'POST'],
-    view_func=CreateOrganizationView.as_view(str(u'new')))
-organization.add_url_rule(u'/<id>', methods=[u'GET'], view_func=read)
-organization.add_url_rule(u'/<id>/embed', methods=[u'GET'], view_func=embed)
+    '/new',
+    methods=['GET', 'POST'],
+    view_func=CreateOrganizationView.as_view(str('new')))
+organization.add_url_rule('/<id>', methods=['GET'], view_func=read)
+organization.add_url_rule('/<id>/embed', methods=['GET'], view_func=embed)
 organization.add_url_rule(
-    u'/edit/<id>', view_func=EditGroupView.as_view(str(u'edit')))
+    '/edit/<id>', view_func=EditGroupView.as_view(str('edit')))
 organization.add_url_rule(
-    u'/activity/<id>/<int:offset>', methods=[u'GET'], view_func=activity)
-organization.add_url_rule(u'/about/<id>', methods=[u'GET'], view_func=about)
+    '/activity/<id>/<int:offset>', methods=['GET'], view_func=activity)
+organization.add_url_rule('/about/<id>', methods=['GET'], view_func=about)
 organization.add_url_rule(
-    u'/members/<id>', methods=[u'GET', u'POST'], view_func=members)
+    '/members/<id>', methods=['GET', 'POST'], view_func=members)
 organization.add_url_rule(
-    u'/members/<id>/admin_list', methods=[u'GET'], view_func=admin_list)
+    '/members/<id>/admin_list', methods=['GET'], view_func=admin_list)
 organization.add_url_rule(
-    u'/members/<id>/user_list', methods=[u'GET'], view_func=user_list)
+    '/members/<id>/user_list', methods=['GET'], view_func=user_list)
 organization.add_url_rule(
-    u'/member_new/<id>',
-    view_func=MembersGroupView.as_view(str(u'member_new')))
+    '/member_new/<id>',
+    view_func=MembersGroupView.as_view(str('member_new')))
 organization.add_url_rule(
-    u'/bulk_process/<id>',
-    view_func=BulkProcessView.as_view(str(u'bulk_process')))
+    '/bulk_process/<id>',
+    view_func=BulkProcessView.as_view(str('bulk_process')))
 organization.add_url_rule(
-    u'/delete/<id>',
-    methods=[u'GET', u'POST'],
-    view_func=DeleteGroupView.as_view(str(u'delete')))
+    '/delete/<id>',
+    methods=['GET', 'POST'],
+    view_func=DeleteGroupView.as_view(str('delete')))
 organization.add_url_rule(
-    u'/member_delete/<id>',
-    methods=[u'GET', u'POST'],
+    '/member_delete/<id>',
+    methods=['GET', 'POST'],
     view_func=member_delete)
 organization.add_url_rule(
-    u'/history/<id>',
-    methods=[u'GET', u'POST'],
+    '/history/<id>',
+    methods=['GET', 'POST'],
     view_func=history)
 organization.add_url_rule(
-    u'/followers/<id>',
-    methods=[u'GET', u'POST'],
+    '/followers/<id>',
+    methods=['GET', 'POST'],
     view_func=followers)
 organization.add_url_rule(
-    u'/follow/<id>',
-    methods=[u'GET', u'POST'],
+    '/follow/<id>',
+    methods=['GET', 'POST'],
     view_func=follow)
 organization.add_url_rule(
-    u'/unfollow/<id>',
-    methods=[u'GET', u'POST'],
+    '/unfollow/<id>',
+    methods=['GET', 'POST'],
     view_func=unfollow)
 organization.add_url_rule(
-    u'/admins/<id>',
-    methods=[u'GET', u'POST'],
+    '/admins/<id>',
+    methods=['GET', 'POST'],
     view_func=admins)
 organization.add_url_rule(
-    u'/activity/<id>',
-    methods=[u'GET', u'POST'],
+    '/activity/<id>',
+    methods=['GET', 'POST'],
     view_func=activity)
 
 

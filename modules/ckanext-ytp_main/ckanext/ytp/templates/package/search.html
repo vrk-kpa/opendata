@@ -9,7 +9,7 @@
 {% block subtitle %}{{ _("Datasets") }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Datasets'), controller='package', action='search', highlight_actions = 'new index') }}</li>
+<li class="active">{{ h.nav_link(_('Datasets'), named_route='dataset.search', highlight_actions = 'new index') }}</li>
 {% endblock %}
 
 {% block primary_content %}
@@ -27,7 +27,7 @@
               <div>
                 <div class="btn-group d-flex align-items-center flex-wrap">
                   {% link_for _('My Datasets'), named_route='dashboard.datasets', class_='btn btn-avoindata-header', icon='star-empty' %}
-                  {% link_for _('Add Dataset'), controller='package', action='new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
+                  {% link_for _('Add Dataset'), named_route='dataset.new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
                 </div>
               </div>
             {% elif c.user %}

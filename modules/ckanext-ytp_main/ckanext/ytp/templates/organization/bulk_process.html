@@ -3,7 +3,7 @@
 
 {% block form %}
     {% if c.page.item_count %}
-        {% resource "ytp_common_js/bulk-confirm-action.js" %}
+        {% asset "ytp_resources/bulk-confirm-action_js" %}
         <form method="POST" data-module="basic-form">
             <table class="table table-bordered table-header table-hover table-bulk-edit table-edit-hover" data-module="table-selectable-rows">
                 <col width="8">

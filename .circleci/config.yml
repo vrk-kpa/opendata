@@ -176,8 +176,13 @@ jobs:
 
       - run:
           name: Install Dependencies
-          command: npm ci
+          command: |
+            echo '@fortawesome:registry=https://npm.fontawesome.com/' >> .npmrc
+            echo '//npm.fontawesome.com/:_authToken=${NPM_TOKEN}' >> .npmrc
+            npm ci
           working_directory: ~/project/
+          env:
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - save_cache:
           key: v2-cypress-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}

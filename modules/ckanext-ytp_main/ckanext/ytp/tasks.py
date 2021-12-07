@@ -14,7 +14,8 @@ import json
 import os
 import re
 import simplejson
-import urllib2
+import urllib.request, urllib.error, urllib.parse
+from functools import reduce
 
 _config_loaded = False
 
@@ -73,7 +74,7 @@ def parse_tag_list(data_url, data_format, tag_limit):
         for label, label_pred, label_obj in graph.triples((concept, SKOS.prefLabel, None)):
             if len(tag_list) < tag_limit:
                 if label_obj.language == 'fi':
-                    tag_list.append(unicode(cleanup_tag(label_obj)))
+                    tag_list.append(str(cleanup_tag(label_obj)))
             else:
                 break
     return tag_list
@@ -89,7 +90,7 @@ def cleanup_tag(unclean_tag):
     tag = re.sub(', ', ' ', tag)
 
     # Clean up everything else not so nicely
-    tag = re.sub(u'[^0-9a-zA-ZöäåÖÄÅ\\-\\.\\_\\ ]+', u'_', tag)
+    tag = re.sub('[^0-9a-zA-ZöäåÖÄÅ\\-\\.\\_\\ ]+', '_', tag)
 
     # Shorten very long tags
     tag = tag[:40]
@@ -116,14 +117,14 @@ def tags_import(data):
     try:
         create_metadata_organization_and_dataset(args['meta_name'], context)
     except ValidationError as e:
-        print(repr(e))
+        print((repr(e)))
 
     topic_tags = parse_tag_list(args['topic_url'], args['data_format'], max_number_of_tags)
     contenttype_tags = parse_tag_list(args['contenttype_url'], args['data_format'], max_number_of_tags)
 
     # Update tags of meta dataset
     get_action('package_update')(context, {'id': args['meta_name'],
-                                           'tags': map((lambda tag: {'name': tag}), topic_tags),
+                                           'tags': list(map((lambda tag: {'name': tag}), topic_tags)),
                                            'content_type': reduce((lambda combined, next: combined + ',' + next), contenttype_tags),  # noqa: E501
                                            'license_id': ' ',
                                            'notes': ' ',
@@ -144,19 +145,19 @@ def organization_import(data):
     data_url = configuration.get('url')
     public_organization = configuration.get('public_organization', False)
 
-    with closing(urllib2.urlopen(data_url)) as source:
+    with closing(urllib.request.urlopen(data_url)) as source:
         data = simplejson.load(source)
 
         for item in data:
             values = {}
-            if isinstance(item, basestring):
+            if isinstance(item, str):
                 values['title'] = item.strip()
                 values['name'] = munge_title_to_name(values['title']).lower()
             else:
                 values['name'] = item.pop('name')
                 values['title'] = item.pop('title')
                 values['description'] = item.pop('description', None)
-                for key, value in item.iteritems():
+                for key, value in item.items():
                     values[key] = value
             values['id'] = values['name']
 

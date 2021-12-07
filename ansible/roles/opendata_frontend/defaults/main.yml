@@ -6,7 +6,8 @@ opendata_frontend_packages:
 
 opendata_frontend_modules_path: "../modules"
 
-opendata_frontend_server_path: "/srv/ytp"
+opendata_frontend_server_path: "/root/ytp"
+opendata_frontend_cache_path: "/srv/ytp"
+
 opendata_frontend_deployment_environment_id: ""
-opendata_frontend_virtual_environment: /usr/lib/ckan/default
 opendata_frontend_copy_secret_npmrc: false

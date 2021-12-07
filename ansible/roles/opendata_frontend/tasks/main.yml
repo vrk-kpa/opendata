@@ -1,43 +1,25 @@
 ---
 # tasks file for opendata_frontend
 
-- name: Add NodeSource GPG key
-  apt_key:
-    data: "{{ lookup('file', 'nodesource.gpg.key') }}"
-
-- name: Update ca-certificates
-  apt:
-    name: ca-certificates
-    state: latest
-
-- name: Add NodeSource APT repository
-  apt_repository:
-    repo: 'deb https://deb.nodesource.com/node_17.x {{ ansible_distribution_release }} main'
-
-- name: Ensure required packages are present
-  package:
-    name: "{{ opendata_frontend_packages }}"
-    state: present
-
-- name: Install resource dependencies
-  command: npm install
-  args:
-    chdir: "{{ project_root }}"
-  tags:
-    - skip_ansible_lint
-  environment:
-    CYPRESS_INSTALL_BINARY: 0
-
-- name: Run gulp
-  command: "{{ project_root }}/node_modules/gulp/bin/gulp.js"
-  args:
-    chdir: "{{ project_root }}"
-  tags:
-    - skip_ansible_lint
-
 - name: Ensure www path is present
   file:
     path: "/var/www"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Ensure opendata frontend server path is present
+  file:
+    path: "{{ opendata_frontend_server_path }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Ensure opendata frontend cache path is present
+  file:
+    path: "{{ opendata_frontend_cache_path }}"
     state: directory
     mode: "0755"
     owner: root
@@ -49,4 +31,3 @@
 - include_tasks: nonvagrant.yml
   when: opendata_frontend_deployment_environment_id != "vagrant"
 
-- include: pip.yml

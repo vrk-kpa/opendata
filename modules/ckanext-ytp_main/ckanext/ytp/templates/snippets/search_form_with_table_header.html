@@ -62,7 +62,7 @@
         {% endblock %}
 
         {% if type == "dataset" %}
-            {% resource 'ytp_common_js/search_filtering.js' %}
+            {% asset 'ytp_resources/search_filtering_js' %}
             <button type="button" class="btn" id="search-filter-show-button"><i class="far fa-filter"></i> {{ _('Filter search') }}</button>
             <button type="button" class="btn" id="search-filter-lower-hide-button">
                 <span class="fa-stack">
