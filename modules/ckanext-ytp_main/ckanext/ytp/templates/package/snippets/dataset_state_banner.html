@@ -35,9 +35,9 @@
     {% endif %}
   </div>
 {% else %}
-  <div class="admin-banner">
-    {% if h.check_access('package_update', {'id':pkg.id }) %}
-      {% link_for _('Edit dataset'), controller='package', action='edit', id=pkg.name %}
-    {% endif %}
-  </div>
+  {% if h.check_access('package_update', {'id':pkg.id }) %}
+    <div class="admin-banner">
+        {% link_for _('Edit dataset'), controller='package', action='edit', id=pkg.name %}
+    </div>
+  {% endif %}
 {% endif %}
