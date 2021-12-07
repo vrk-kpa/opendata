@@ -15,6 +15,8 @@
       </div>
       <div class="content_action">
         {% block content_action %}
+          {% link_for _('Groups'), controller='package', action='groups', id=pkg.name, class_='btn btn-menu-manage', icon='users'%}
+               {% link_for _('Manage'), controller='package', action='edit', id=pkg.name, class_='btn btn-menu-manage', icon='wrench' %}
         {% endblock %}
       </div>
     </div>
