@@ -1,9 +1,9 @@
 {# example use of this template
-    {% snippet 'package/snippets/license_rdf.html', 
-                  license_id=pkg.license_id, 
-                  content_title=pkg.title, 
-                  creator=creator_user.display_name, 
-                  creator_url=creator_user.url, 
+    {% snippet 'package/snippets/license_rdf.html',
+                  license_id=pkg.license_id,
+                  content_title=pkg.title,
+                  creator=creator_user.display_name,
+                  creator_url=creator_user.url,
                   attribution_url=h.url_for('', qualified=True) %}
 #}
 
@@ -17,8 +17,8 @@
   {% trans %}
 To the extent possible under law
   <a rel="dct:publisher" href="{{creator_url}}" >
-    <span property="dct:title">{{creator}}</span></a> 
-    has waived all copyright and related or neighboring rights to 
+    <span property="dct:title">{{creator}}</span></a>
+    has waived all copyright and related or neighboring rights to
     <a href="{{content_url}}" >
   <span property="dct:title">{{content_title}}</span></a>.
     {% endtrans %}
@@ -27,21 +27,21 @@ To the extent possible under law
 
 {% if license_id=='cc-by-4.0' or license_id=='cc-by-4-fi' %}
 
+<div class="small license-smallprint">
+{% trans %}
+<span xmlns:dct="https://purl.org/dc/terms/"
+  href="https://purl.org/dc/dcmitype/Dataset"
+  property="dct:title" rel="dct:type">
+  <a xmlns:cc="https://creativecommons.org/ns#" href="{{attribution_url}}" property="cc:attributionName"
+  rel="cc:attributionURL">{{content_title}}</a></span>
+  by <a  href="{{creator_url}}" >{{creator}}</a>
+  is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+    Creative Commons Attribution 4.0 International License</a>.
+{% endtrans %}
+</div>
 <div class="license-icon">
 <a rel="license" href="{{ _('https://creativecommons.org/licenses/by/4.0/') }}">
     <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
 </a>
-</div>
-<div class="small license-smallprint">
-{% trans %}
-<span xmlns:dct="https://purl.org/dc/terms/" 
-	href="https://purl.org/dc/dcmitype/Dataset" 
-	property="dct:title" rel="dct:type">
-	<a xmlns:cc="https://creativecommons.org/ns#" href="{{attribution_url}}" property="cc:attributionName" 
-	rel="cc:attributionURL">{{content_title}}</a></span> 
-	by <a  href="{{creator_url}}" >{{creator}}</a> 
-	is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
-  	Creative Commons Attribution 4.0 International License</a>.
-{% endtrans %}
 </div>
 {% endif %}
