@@ -24,23 +24,18 @@ body {
   max-width: none;
 }
 
-#page_wrapper #content {
+#content {
   width: inherit;
   padding: 0;
-  background: #fafafa;
 }
 
 #content > .wrapper {
+  background: transparent;
   box-shadow: none;
   margin: 0 auto;
   max-width: 1140px;
   padding: 0 15px;
-  border-radius: none;
-}
-
-#page_wrapper #content .search-dataset-wrapper {
-  border: none;
-  background: #fafafa;
+  border: 1px solid @color--extra-light-grey;
 }
 
 .container-fluid .wrapper {
@@ -71,8 +66,6 @@ body {
 }
 
 #content > .wrapper > .primary {
-  padding-left: 45px;
-
   > .module > .module-content {
     padding-top: 32px;
   }

@@ -37,7 +37,6 @@ within_tertiary
   page and not the left column.
 
 #}
-
 {% block facet_list %}
   {% set hide_empty = hide_empty or false %}
   {% with items = items or h.get_facet_items_dict(name) %}
@@ -66,7 +65,6 @@ within_tertiary
                     {% set label = label_function(item) if label_function else item.display_name %}
                     {% set label_truncated = h.truncate(label, 50) if not label_function else label %}
                     {% set count = count_label(item['count']) if count_label else ('(%d)' % item['count']) %}
-
                       <li class="{{ nav_item_class or 'nav-item' }}{% if item.active %} active{% endif %}">
                         <a href="{{ href }}" title="{{ label if label != label_truncated else '' }}" rel="nofollow">
                           <span>{{ _(label_truncated) }} {{ count }}</span>
