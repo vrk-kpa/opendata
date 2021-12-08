@@ -15,8 +15,10 @@ def get_formats(context, data_dict=None):
     query = (session.query(
         model.Resource.format,
         _func.count(model.Resource.format).label('total'))
+        .join(model.Package, model.Resource.package_id == model.Package.id)
         .filter(_and_(
             model.Resource.state == 'active',
+            model.Package.state == 'active'
         ))
         .filter(model.Resource.format != '')
         .group_by(model.Resource.format)

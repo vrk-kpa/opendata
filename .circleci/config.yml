@@ -32,7 +32,7 @@ commands:
 jobs:
   packer-web:
     docker:
-      - image: circleci/python
+      - image: circleci/python:2.7-stretch
 
     steps:
       - checkout
@@ -214,7 +214,7 @@ jobs:
 
   packer-scheduled:
     docker:
-      - image: circleci/python
+      - image: circleci/python:2.7-stretch
 
     steps:
       - checkout
