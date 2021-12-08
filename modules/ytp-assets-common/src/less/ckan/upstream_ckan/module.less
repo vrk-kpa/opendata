@@ -31,11 +31,25 @@
 }
 
 .module-content {
-    padding: @grid-gutter-width;
+    padding: 0px;
+    margin-bottom:55px;
     &:empty {
         display: none;
     }
 }
+
+.btn-menu-manage{
+      border-radius: 2px;
+      border: 1px solid @opendata-brand-primary;
+      font-family: "Source Sans Pro","Helvetica Neue",Arial,sans-serif34;
+      color: @opendata-brand-primary;
+
+
+    }
+.btn-menu-manage:hover{
+      text-decoration: underline;
+      color: @opendata-brand-primary--highlight;
+  }
 
 .module-footer {
     padding: 7px @gutterX 7px;
@@ -139,7 +153,6 @@
     z-index: 5; // Fixes overlapping .secondary on the Resource view page
     position: relative; // Fixes overlapping .secondary on the Resource view page
     background-color: @layoutTrimBackgroundColor;
-    border-bottom: 1px solid @genericBorderColor;
     margin-top: 0;
     margin-bottom: 0;
     .border-radius(3px 3px 0 0);
