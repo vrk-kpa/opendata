@@ -13,12 +13,14 @@
       {% endif %}
     </a>
   {% endblock %}
+  {% block resource_item_description %}
     <p class="resource-item__info__description">
       {% set description = h.extra_translation(res, 'description', markdown=80) %}
       {% if description %}
         {{ description }}
       {% endif %}
     </p>
+  {% endblock %}
   </div>
     <div class="resource-item__actions">
       {% block resource_item_explore %}
