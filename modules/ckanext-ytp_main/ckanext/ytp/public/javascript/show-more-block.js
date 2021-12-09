@@ -1,7 +1,7 @@
 'use strict';
 
 ckan.module('show-more-block', function ($) {
-    /* An multi-input module that allows to add repeating text-inputs on form
+    /* A module that allows developer to hide rest of content when max-height is exceeded
     *
     * maxHeight - Maximum height (in pixels) of block before adding show-more-button
     *

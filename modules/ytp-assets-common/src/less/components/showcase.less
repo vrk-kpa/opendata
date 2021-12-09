@@ -27,8 +27,6 @@
   background-color: @background-color__content;
   // @NOTE: These should be same as @grid-gutter-width / 2 but because bootstrap isn't compiled from less sources
   // with overwritten customized variables these are partly hardcoded now.
-  margin-left: -15px;
-  margin-right: -15px;
   width: auto;
   // @NOTE: Reduce showcase-items margin from both sides of padding
   padding: @padding-y--common (@padding-x--common - (@margin-x__showcase-item / 2));
@@ -53,7 +51,9 @@
   background-color: @background-color__content;
   border: 1px solid @border-color__content;
   padding: @padding__content;
-  margin: 0;
+  position: relative;
+  // @NOTE: Hardcoded 15px as that matches with bootstraps @grid-gutter-width which couldn't be replaced
+  margin: 0 15px;
   overflow-wrap: break-word;
   hyphens: auto;
 

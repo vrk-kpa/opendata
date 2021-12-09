@@ -32,7 +32,7 @@
   <section class="module">
     <div class="module-content">
       {% block form %}
-        <div class="search-form-container search-form-container-borderless row">
+        <div class="search-form-container search-form-container-borderless">
           {{ h.snippet('sixodp_showcase/snippets/showcase_search_input.html', query=c.q, placeholder=_('Search applications...'), query_params=c.fields_grouped, sorting=c.sort_by_selected) }}
         </div>
       {% endblock %}
