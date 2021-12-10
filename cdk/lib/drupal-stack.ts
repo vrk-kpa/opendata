@@ -2,6 +2,7 @@ import * as cdk from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecs from '@aws-cdk/aws-ecs';
+import * as ecr from '@aws-cdk/aws-ecr';
 import * as sd from '@aws-cdk/aws-servicediscovery';
 import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as ecsp from '@aws-cdk/aws-ecs-patterns';
@@ -14,7 +15,9 @@ import { DrupalStackProps } from './drupal-stack-props';
 import { DrupalUser } from './drupal-user';
 
 export class DrupalStack extends cdk.Stack {
-  readonly drupalFsDataAccessPoint: efs.IAccessPoint;
+  readonly drupalFsCoreAccessPoint: efs.IAccessPoint;
+  readonly drupalFsSitesAccessPoint: efs.IAccessPoint;
+  readonly drupalFsThemesAccessPoint: efs.IAccessPoint;
   readonly drupalFsResourcesAccessPoint: efs.IAccessPoint;
   readonly drupalService: ecs.FargateService;
 
@@ -22,9 +25,6 @@ export class DrupalStack extends cdk.Stack {
     super(scope, id, props);
 
     // get params
-    const pDrupalImageVersion = ssm.StringParameter.fromStringParameterAttributes(this, 'pDrupalImageVersion', {
-      parameterName: `/${props.environment}/opendata/drupal/image_version`,
-    });
     const pDbHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbHost', {
       parameterName: `/${props.environment}/opendata/common/db_host`,
     });
@@ -80,8 +80,37 @@ export class DrupalStack extends cdk.Stack {
     const sDrupalSecrets = sm.Secret.fromSecretNameV2(this, 'sDrupalSecrets', `/${props.environment}/opendata/drupal`);
     const sCommonSecrets = sm.Secret.fromSecretNameV2(this, 'sCommonSecrets', `/${props.environment}/opendata/common`);
 
-    this.drupalFsDataAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsDataAccessPoint', {
-      path: '/drupal_data',
+    // get repositories
+    const drupalRepo = ecr.Repository.fromRepositoryArn(this, 'drupalRepo', `${props.envProps.REGISTRY_ARN}:repository/${props.envProps.REPOSITORY}/drupal`);
+
+    this.drupalFsCoreAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsCoreAccessPoint', {
+      path: '/drupal_core',
+      createAcl: {
+        ownerGid: '0',
+        ownerUid: '0',
+        permissions: '0755',
+      },
+      posixUser: {
+        gid: '0',
+        uid: '0',
+      },
+    });
+
+    this.drupalFsSitesAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsSitesAccessPoint', {
+      path: '/drupal_sites',
+      createAcl: {
+        ownerGid: '0',
+        ownerUid: '0',
+        permissions: '0755',
+      },
+      posixUser: {
+        gid: '0',
+        uid: '0',
+      },
+    });
+
+    this.drupalFsThemesAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsThemesAccessPoint', {
+      path: '/drupal_themes',
       createAcl: {
         ownerGid: '0',
         ownerUid: '0',
@@ -111,15 +140,35 @@ export class DrupalStack extends cdk.Stack {
       memoryLimitMiB: props.drupalTaskDef.taskMem,
       volumes: [
         {
-          name: 'drupal_data',
+          name: 'drupal_core',
           efsVolumeConfiguration: {
             fileSystemId: props.fileSystems['drupal'].fileSystemId,
             authorizationConfig: {
-              accessPointId: this.drupalFsDataAccessPoint.accessPointId,
+              accessPointId: this.drupalFsCoreAccessPoint.accessPointId,
             },
             transitEncryption: 'ENABLED',
           },
-        }, 
+        },
+        {
+          name: 'drupal_sites',
+          efsVolumeConfiguration: {
+            fileSystemId: props.fileSystems['drupal'].fileSystemId,
+            authorizationConfig: {
+              accessPointId: this.drupalFsSitesAccessPoint.accessPointId,
+            },
+            transitEncryption: 'ENABLED',
+          },
+        },
+        {
+          name: 'drupal_themes',
+          efsVolumeConfiguration: {
+            fileSystemId: props.fileSystems['drupal'].fileSystemId,
+            authorizationConfig: {
+              accessPointId: this.drupalFsThemesAccessPoint.accessPointId,
+            },
+            transitEncryption: 'ENABLED',
+          },
+        },
         {
           name: 'drupal_resources',
           efsVolumeConfiguration: {
@@ -137,7 +186,7 @@ export class DrupalStack extends cdk.Stack {
 
     let drupalContainerEnv: { [key: string]: string; } = {
       // .env.drupal
-      DRUPAL_IMAGE_VERSION: pDrupalImageVersion.stringValue,
+      DRUPAL_IMAGE_TAG: props.envProps.DRUPAL_IMAGE_TAG,
       DRUPAL_CONFIG_SYNC_DIRECTORY: '/opt/drupal/web/sites/default/sync',
       // .env
       DB_HOST: pDbHost.stringValue,
@@ -222,12 +271,19 @@ export class DrupalStack extends cdk.Stack {
     }
 
     const drupalContainer = drupalTaskDef.addContainer('drupal', {
-      image: ecs.ContainerImage.fromEcrRepository(props.repositories['drupal'], pDrupalImageVersion.stringValue),
+      image: ecs.ContainerImage.fromEcrRepository(drupalRepo, props.envProps.DRUPAL_IMAGE_TAG),
       environment: drupalContainerEnv,
       secrets: drupalContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
         streamPrefix: 'drupal-service',
       }),
+      healthCheck: {
+        command: ['CMD-SHELL', 'ps -aux | grep -o "[p]hp-fpm: master"'],
+        interval: cdk.Duration.seconds(15),
+        timeout: cdk.Duration.seconds(5),
+        retries: 5,
+        startPeriod: cdk.Duration.seconds(300),
+      },
     });
 
     drupalContainer.addPortMappings({
@@ -236,9 +292,17 @@ export class DrupalStack extends cdk.Stack {
     });
 
     drupalContainer.addMountPoints({
-      containerPath: '/opt/drupal/web',
+      containerPath: '/opt/drupal/web/core',
       readOnly: false,
-      sourceVolume: 'drupal_data',
+      sourceVolume: 'drupal_core',
+    }, {
+      containerPath: '/opt/drupal/web/sites',
+      readOnly: false,
+      sourceVolume: 'drupal_sites',
+    }, {
+      containerPath: '/opt/drupal/web/themes',
+      readOnly: false,
+      sourceVolume: 'drupal_themes',
     }, {
       containerPath: '/var/www/resources',
       readOnly: false,
@@ -249,6 +313,8 @@ export class DrupalStack extends cdk.Stack {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
       taskDefinition: drupalTaskDef,
+      minHealthyPercent: 50,
+      maxHealthyPercent: 200,
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,
@@ -270,8 +336,8 @@ export class DrupalStack extends cdk.Stack {
 
     drupalServiceAsg.scaleOnCpuUtilization('drupalServiceAsgPolicy', {
       targetUtilizationPercent: 50,
-      scaleInCooldown: cdk.Duration.seconds(150),
-      scaleOutCooldown: cdk.Duration.seconds(150),
+      scaleInCooldown: cdk.Duration.seconds(60),
+      scaleOutCooldown: cdk.Duration.seconds(60),
     });
   }
 }

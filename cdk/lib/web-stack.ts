@@ -1,6 +1,7 @@
 import * as cdk from '@aws-cdk/core';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecs from '@aws-cdk/aws-ecs';
+import * as ecr from '@aws-cdk/aws-ecr';
 import * as sd from '@aws-cdk/aws-servicediscovery';
 import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as ecsp from '@aws-cdk/aws-ecs-patterns';
@@ -23,15 +24,32 @@ export class WebStack extends cdk.Stack {
       parameterName: `/${props.environment}/opendata/common/nameserver`,
     });
 
+    // get repositories
+    const nginxRepo = ecr.Repository.fromRepositoryArn(this, 'nginxRepo', `${props.envProps.REGISTRY_ARN}:repository/${props.envProps.REPOSITORY}/nginx`);
+
     const nginxTaskDef = new ecs.FargateTaskDefinition(this, 'nginxTaskDef', {
       cpu: props.nginxTaskDef.taskCpu,
       memoryLimitMiB: props.nginxTaskDef.taskMem,
       volumes: [
         {
-          name: 'drupal_data',
+          name: 'drupal_core',
           efsVolumeConfiguration: {
             fileSystemId: props.fileSystems['drupal'].fileSystemId,
-            rootDirectory: '/drupal_data',
+            rootDirectory: '/drupal_core',
+          },
+        },
+        {
+          name: 'drupal_sites',
+          efsVolumeConfiguration: {
+            fileSystemId: props.fileSystems['drupal'].fileSystemId,
+            rootDirectory: '/drupal_sites',
+          },
+        },
+        {
+          name: 'drupal_themes',
+          efsVolumeConfiguration: {
+            fileSystemId: props.fileSystems['drupal'].fileSystemId,
+            rootDirectory: '/drupal_themes',
           },
         },
         {
@@ -87,7 +105,7 @@ export class WebStack extends cdk.Stack {
     ];
 
     const nginxContainer = nginxTaskDef.addContainer('nginx', {
-      image: ecs.ContainerImage.fromEcrRepository(props.repositories['nginx'], pNginxImageVersion.stringValue),
+      image: ecs.ContainerImage.fromEcrRepository(nginxRepo, props.envProps.NGINX_IMAGE_TAG),
       environment: {
         // .env.nginx
         NGINX_ROOT: '/var/www/html',
@@ -118,9 +136,17 @@ export class WebStack extends cdk.Stack {
     });
 
     nginxContainer.addMountPoints({
-      containerPath: '/var/www/html',
+      containerPath: '/var/www/html/core',
       readOnly: true,
-      sourceVolume: 'drupal_data',
+      sourceVolume: 'drupal_core',
+    }, {
+      containerPath: '/var/www/html/sites',
+      readOnly: true,
+      sourceVolume: 'drupal_sites',
+    }, {
+      containerPath: '/var/www/html/themes',
+      readOnly: true,
+      sourceVolume: 'drupal_themes',
     }, {
       containerPath: '/var/www/drupal_resources',
       readOnly: true,
@@ -170,12 +196,16 @@ export class WebStack extends cdk.Stack {
       redirectHTTP: true,
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       taskDefinition: nginxTaskDef,
+      minHealthyPercent: 50,
+      maxHealthyPercent: 200,
     });
 
     nginxService.targetGroup.configureHealthCheck({
       path: '/health',
       healthyHttpCodes: '200',
     });
+
+    nginxService.targetGroup.setAttribute('deregistration_delay.timeout_seconds', '60');
 
     nginxService.service.connections.allowFrom(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
     nginxService.service.connections.allowTo(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
@@ -193,8 +223,8 @@ export class WebStack extends cdk.Stack {
 
     nginxServiceAsg.scaleOnCpuUtilization('nginxServiceAsgPolicy', {
       targetUtilizationPercent: 50,
-      scaleInCooldown: cdk.Duration.minutes(1),
-      scaleOutCooldown: cdk.Duration.minutes(1),
+      scaleInCooldown: cdk.Duration.seconds(60),
+      scaleOutCooldown: cdk.Duration.seconds(60),
     });
   }
 }

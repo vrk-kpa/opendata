@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
+import * as dotenv from 'dotenv';
+import { EnvProps, parseEnv } from '../lib/env-props';
 import * as cdk from '@aws-cdk/core';
-import { RegistryStack } from '../lib/registry-stack';
 import { DatabaseStack } from '../lib/database-stack';
 import { CacheStack } from '../lib/cache-stack';
 import { ClusterStack } from '../lib/cluster-stack';
@@ -10,14 +11,27 @@ import { DrupalStack } from '../lib/drupal-stack';
 import { CkanStack } from '../lib/ckan-stack';
 import { WebStack } from '../lib/web-stack';
 
+// load .env file, shared with docker setup
+// mainly for ECR repo and image tag information
+dotenv.config({
+  path: '../docker/.env',
+});
+
 const app = new cdk.App();
 
-const opendataRegistryStack = new RegistryStack(app, 'OpendataRegistryStack', {
-  env: {
-    account: '156418131626',
-    region: 'eu-west-1',
-  },
-});
+const envProps: EnvProps = {
+  // docker
+  REGISTRY: parseEnv('REGISTRY'),
+  REGISTRY_ARN: parseEnv('REGISTRY_ARN'),
+  REPOSITORY: parseEnv('REPOSITORY'),
+  // opendata images
+  CKAN_IMAGE_TAG: parseEnv('CKAN_IMAGE_TAG'),
+  DRUPAL_IMAGE_TAG: parseEnv('DRUPAL_IMAGE_TAG'),
+  SOLR_IMAGE_TAG: parseEnv('SOLR_IMAGE_TAG'),
+  NGINX_IMAGE_TAG: parseEnv('NGINX_IMAGE_TAG'),
+  // 3rd party images
+  DATAPUSHER_IMAGE_TAG: parseEnv('DATAPUSHER_IMAGE_TAG'),
+};
 
 //
 // dev env
@@ -34,6 +48,7 @@ const devProps = {
 };
 
 const clusterStackDev = new ClusterStack(app, 'ClusterStack-dev', {
+  envProps: envProps,
   env: {
     account: devProps.account,
     region: devProps.region,
@@ -46,6 +61,7 @@ const clusterStackDev = new ClusterStack(app, 'ClusterStack-dev', {
 });
 
 const fileSystemStackDev = new FileSystemStack(app, 'FileSystemStack-dev', {
+  envProps: envProps,
   env: {
     account: devProps.account,
     region: devProps.region,
@@ -60,6 +76,7 @@ const fileSystemStackDev = new FileSystemStack(app, 'FileSystemStack-dev', {
 });
 
 const databaseStackDev = new DatabaseStack(app, 'DatabaseStack-dev', {
+  envProps: envProps,
   env: {
     account: devProps.account,
     region: devProps.region,
@@ -73,6 +90,7 @@ const databaseStackDev = new DatabaseStack(app, 'DatabaseStack-dev', {
 });
 
 const cacheStackDev = new CacheStack(app, 'CacheStack-dev', {
+  envProps: envProps,
   env: {
     account: devProps.account,
     region: devProps.region,
@@ -89,6 +107,7 @@ const cacheStackDev = new CacheStack(app, 'CacheStack-dev', {
 });
 
 const ckanStackDev = new CkanStack(app, 'CkanStack-dev', {
+  envProps: envProps,
   env: {
     account: devProps.account,
     region: devProps.region,
@@ -98,11 +117,6 @@ const ckanStackDev = new CkanStack(app, 'CkanStack-dev', {
   secondaryFqdn: devProps.secondaryFqdn,
   domainName: devProps.domainName,
   secondaryDomainName: devProps.secondaryDomainName,
-  repositories: {
-    'ckan': opendataRegistryStack.ckanRepository,
-    'datapusher': opendataRegistryStack.datapusherRepository,
-    'solr': opendataRegistryStack.solrRepository,
-  },
   vpc: clusterStackDev.vpc,
   cluster: clusterStackDev.cluster,
   namespace: clusterStackDev.namespace,
@@ -144,6 +158,7 @@ const ckanStackDev = new CkanStack(app, 'CkanStack-dev', {
 });
 
 const drupalStackDev = new DrupalStack(app, 'DrupalStack-dev', {
+  envProps: envProps,
   env: {
     account: devProps.account,
     region: devProps.region,
@@ -153,9 +168,6 @@ const drupalStackDev = new DrupalStack(app, 'DrupalStack-dev', {
   secondaryFqdn: devProps.secondaryFqdn,
   domainName: devProps.domainName,
   secondaryDomainName: devProps.secondaryDomainName,
-  repositories: {
-    'drupal': opendataRegistryStack.drupalRepository,
-  },
   vpc: clusterStackDev.vpc,
   cluster: clusterStackDev.cluster,
   namespace: clusterStackDev.namespace,
@@ -176,6 +188,7 @@ const drupalStackDev = new DrupalStack(app, 'DrupalStack-dev', {
 });
 
 const webStackDev = new WebStack(app, 'WebStack-dev', {
+  envProps: envProps,
   env: {
     account: devProps.account,
     region: devProps.region,
@@ -185,9 +198,6 @@ const webStackDev = new WebStack(app, 'WebStack-dev', {
   secondaryFqdn: devProps.secondaryFqdn,
   domainName: devProps.domainName,
   secondaryDomainName: devProps.secondaryDomainName,
-  repositories: {
-    'nginx': opendataRegistryStack.nginxRepository,
-  },
   vpc: clusterStackDev.vpc,
   cluster: clusterStackDev.cluster,
   namespace: clusterStackDev.namespace,

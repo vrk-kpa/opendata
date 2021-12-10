@@ -2,6 +2,7 @@ import * as cdk from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecs from '@aws-cdk/aws-ecs';
+import * as ecr from '@aws-cdk/aws-ecr';
 import * as sd from '@aws-cdk/aws-servicediscovery';
 import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as ecsp from '@aws-cdk/aws-ecs-patterns';
@@ -24,9 +25,6 @@ export class CkanStack extends cdk.Stack {
     super(scope, id, props);
 
     // get params
-    const pCkanImageVersion = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanImageVersion', {
-      parameterName: `/${props.environment}/opendata/ckan/image_version`,
-    });
     const pCkanHarvesterStatusRecipients = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanHarvesterStatusRecipients', {
       parameterName: `/${props.environment}/opendata/ckan/harvester_status_recipients`,
     });
@@ -35,12 +33,6 @@ export class CkanStack extends cdk.Stack {
     });
     const pCkanHarvesterInstructionUrl = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanHarvesterInstructionUrl', {
       parameterName: `/${props.environment}/opendata/ckan/harvester_instruction_url`,
-    });
-    const pDatapusherImageVersion = ssm.StringParameter.fromStringParameterAttributes(this, 'pDatapusherImageVersion', {
-      parameterName: `/${props.environment}/opendata/datapusher/image_version`,
-    });
-    const pSolrImageVersion = ssm.StringParameter.fromStringParameterAttributes(this, 'pSolrImageVersion', {
-      parameterName: `/${props.environment}/opendata/solr/image_version`,
     });
     const pDbHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbHost', {
       parameterName: `/${props.environment}/opendata/common/db_host`,
@@ -103,6 +95,10 @@ export class CkanStack extends cdk.Stack {
     // get secrets
     const sCkanSecrets = sm.Secret.fromSecretNameV2(this, 'sCkanSecrets', `/${props.environment}/opendata/ckan`);
     const sCommonSecrets = sm.Secret.fromSecretNameV2(this, 'sCommonSecrets', `/${props.environment}/opendata/common`);
+
+    // get repositories
+    const ckanRepo = ecr.Repository.fromRepositoryArn(this, 'ckanRepo', `${props.envProps.REGISTRY_ARN}:repository/${props.envProps.REPOSITORY}/ckan`);
+    const solrRepo = ecr.Repository.fromRepositoryArn(this, 'solrRepo', `${props.envProps.REGISTRY_ARN}:repository/${props.envProps.REPOSITORY}/solr`);
 
     // ckan service
     this.ckanFsDataAccessPoint = props.fileSystems['ckan'].addAccessPoint('ckanFsDataAccessPoint', {
@@ -226,7 +222,7 @@ export class CkanStack extends cdk.Stack {
 
     const ckanContainerEnv: { [key: string]: string; } = {
       // .env.ckan
-      CKAN_IMAGE_VERSION: pCkanImageVersion.stringValue,
+      CKAN_IMAGE_TAG: props.envProps.CKAN_IMAGE_TAG,
       CKAN_SITE_URL: `https://${props.domainName}`,
       CKAN_SITE_ID: 'default',
       CKAN_PLUGINS_DEFAULT: ckanPluginsDefault.join(' '),
@@ -373,12 +369,19 @@ export class CkanStack extends cdk.Stack {
     }
 
     const ckanContainer = ckanTaskDef.addContainer('ckan', {
-      image: ecs.ContainerImage.fromEcrRepository(props.repositories['ckan'], pCkanImageVersion.stringValue),
+      image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG),
       environment: ckanContainerEnv,
       secrets: ckanContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
         streamPrefix: 'ckan-service',
       }),
+      healthCheck: {
+        command: ['CMD-SHELL', 'curl --fail http://localhost:5000/api/3/action/status_show || exit 1'],
+        interval: cdk.Duration.seconds(15),
+        timeout: cdk.Duration.seconds(5),
+        retries: 5,
+        startPeriod: cdk.Duration.seconds(300),
+      },
     });
 
     ckanContainer.addPortMappings({
@@ -400,6 +403,8 @@ export class CkanStack extends cdk.Stack {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
       taskDefinition: ckanTaskDef,
+      minHealthyPercent: 50,
+      maxHealthyPercent: 200,
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,
@@ -422,8 +427,8 @@ export class CkanStack extends cdk.Stack {
 
     ckanServiceAsg.scaleOnCpuUtilization('ckanServiceAsgPolicy', {
       targetUtilizationPercent: 50,
-      scaleInCooldown: cdk.Duration.seconds(150),
-      scaleOutCooldown: cdk.Duration.seconds(150),
+      scaleInCooldown: cdk.Duration.seconds(60),
+      scaleOutCooldown: cdk.Duration.seconds(60),
     });
 
     // mount migration filesystem if given
@@ -481,13 +486,20 @@ export class CkanStack extends cdk.Stack {
       });
 
       const ckanCronContainer = ckanCronTaskDef.addContainer('ckan_cron', {
-        image: ecs.ContainerImage.fromEcrRepository(props.repositories['ckan'], pCkanImageVersion.stringValue),
+        image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG),
         environment: ckanContainerEnv,
         secrets: ckanContainerSecrets,
         entryPoint: ['/srv/app/entrypoint_cron.sh'],
         logging: ecs.LogDrivers.awsLogs({
           streamPrefix: 'ckan_cron-service',
         }),
+        healthCheck: {
+          command: ['CMD-SHELL', 'ps -aux | grep -o "[c]ron -f"'],
+          interval: cdk.Duration.seconds(15),
+          timeout: cdk.Duration.seconds(5),
+          retries: 5,
+          startPeriod: cdk.Duration.seconds(15),
+        },
       });
 
       ckanCronContainer.addMountPoints({
@@ -523,7 +535,7 @@ export class CkanStack extends cdk.Stack {
     });
 
     const datapusherContainer = datapusherTaskDef.addContainer('datapusher', {
-      image: ecs.ContainerImage.fromEcrRepository(props.repositories['datapusher'], pDatapusherImageVersion.stringValue),
+      image: ecs.ContainerImage.fromRegistry(`keitaro/ckan-datapusher:${props.envProps.DATAPUSHER_IMAGE_TAG}`),
       environment: {
         // .env.datapusher
         DATAPUSHER_MAX_CONTENT_LENGTH: '10485760',
@@ -538,6 +550,13 @@ export class CkanStack extends cdk.Stack {
       logging: ecs.LogDrivers.awsLogs({
         streamPrefix: 'datapusher-service',
       }),
+      healthCheck: {
+        command: ['CMD-SHELL', 'curl --fail http://localhost:8000/status || exit 1'],
+        interval: cdk.Duration.seconds(15),
+        timeout: cdk.Duration.seconds(5),
+        retries: 5,
+        startPeriod: cdk.Duration.seconds(15),
+      },
     });
 
     datapusherContainer.addPortMappings({
@@ -550,6 +569,8 @@ export class CkanStack extends cdk.Stack {
       cluster: props.cluster,
       taskDefinition: datapusherTaskDef,
       desiredCount: 1,
+      minHealthyPercent: 50,
+      maxHealthyPercent: 200,
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,
@@ -565,7 +586,7 @@ export class CkanStack extends cdk.Stack {
 
     const datapusherServiceAsg = datapusherService.autoScaleTaskCount({
       minCapacity: 1,
-      maxCapacity: 1,
+      maxCapacity: 2,
     });
 
     // solr service
@@ -600,10 +621,17 @@ export class CkanStack extends cdk.Stack {
     });
 
     const solrContainer = solrTaskDef.addContainer('solr', {
-      image: ecs.ContainerImage.fromEcrRepository(props.repositories['solr'], pSolrImageVersion.stringValue),
+      image: ecs.ContainerImage.fromEcrRepository(solrRepo, props.envProps.SOLR_IMAGE_TAG),
       logging: ecs.LogDrivers.awsLogs({
         streamPrefix: 'solr-service',
       }),
+      healthCheck: {
+        command: ['CMD-SHELL', 'curl --fail -s http://localhost:8983/solr/ckan/admin/ping?wt=json | grep -o "OK"'],
+        interval: cdk.Duration.seconds(15),
+        timeout: cdk.Duration.seconds(5),
+        retries: 5,
+        startPeriod: cdk.Duration.seconds(15),
+      },
     });
 
     solrContainer.addPortMappings({

@@ -10,7 +10,6 @@ import * as ec from '@aws-cdk/aws-elasticache';
 import { CommonStackProps } from './common-stack-props';
 
 export interface EcsStackProps extends CommonStackProps {
-  repositories: { [key: string]: ecr.IRepository };
   vpc: ec2.IVpc;
   cluster: ecs.ICluster;
   namespace: sd.IPrivateDnsNamespace;
