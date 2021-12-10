@@ -12,9 +12,9 @@
 - name: Upgrade pip packages
   pip:
     name:
-      - pip
+      #- pip
       - setuptools==44.1.0
-      - boto
+      #- boto
     virtualenv: "{{ ckan_virtual_environment }}"
     state: present
   tags:
