@@ -1,8 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-id: sv
-label: 'På Svenska'
-direction: ltr
-weight: -9
-locked: false
