@@ -67,6 +67,9 @@ ckan_plugin_order:
 ckan_plugins: "{{ ckan_plugin_order|join(' ') }}"
 ckan_aws_plugins: cloudstorage
 
+# path to source files on server
+ckan_source_server_path: "/root/ytp"
+
 # path to use for all installed components
 ckan_server_path: "/srv/ytp"
 
