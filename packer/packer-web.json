@@ -70,7 +70,8 @@
         "sudo pip3 install --upgrade pip",
         "sudo pip3 install awscli ansible==2.9.13 markupsafe",
         "sudo git clone --recursive https://github.com/yhteentoimivuuspalvelut/ytp.git /root/ytp",
-        "sudo git -C /root/ytp checkout {{ user `commit` }}"
+        "sudo git -C /root/ytp checkout {{ user `commit` }}",
+        "sudo git -C /root/ytp submodule update"
       ]
     },
     {
