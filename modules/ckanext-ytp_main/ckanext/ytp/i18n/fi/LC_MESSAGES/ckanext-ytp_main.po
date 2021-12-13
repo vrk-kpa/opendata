@@ -1778,7 +1778,7 @@ msgid "Filter list"
 msgstr "Rajaa listaa"
 
 #: ckanext/ytp/templates/organization/index.html:96
-msgid "Show organizations without datasets"
+msgid "Show all organizations"
 msgstr "Näytä dataa julkaisemattomat tuottajat"
 
 #: ckanext/ytp/templates/organization/index.html:100

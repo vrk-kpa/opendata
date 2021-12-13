@@ -1724,7 +1724,7 @@ msgid "Filter list"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/index.html:96
-msgid "Show organizations without datasets"
+msgid "Show all organizations"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/index.html:100

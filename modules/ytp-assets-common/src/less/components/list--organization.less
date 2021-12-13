@@ -1,0 +1,77 @@
+@import "../variables.less";
+
+#page_wrapper #content .search-organization-wrapper{
+  border: 0;
+  background: #fafafa;
+
+  .row {
+    background: #fafafa;
+  }
+
+  .search-form .search-input {
+    margin-bottom: 20px;
+  }
+
+  .search-header,
+  ul {
+    background: #fff;
+  }
+
+  .search {
+    border-radius: 0px;
+    box-shadow: 0px 0px 3px 2px rgba(41, 41, 41, 0);
+    height: 40px;
+  }
+
+  .organization-list li {
+    padding: 16px 22px 12px 20px;
+  }
+
+  .parent-organization {
+    color: @suomi-highlightBase;
+    font-family: @font-family-sans-serif;
+    font-size: @font-size-smaller-base;
+    font-weight: @font-weight-normal;
+    height: 22px;
+    line-height: 18px;
+  }
+
+  .organization-title {
+    color: @suomi-highlightBase;
+    font-family: SourceSansPro-Semibold;
+    font-size: @font-size__medium-base;
+    font-weight: @font-weight-heavier;
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .child-count {
+    margin-top: 15px;
+    line-height: 18px;
+  }
+
+  .package-count {
+    color: @navbarInverseBackgroundHighlight;
+    font-family: @font-family-sans-serif;
+    font-size: @font-size__module-title;
+    font-weight: @font-weight-normal;
+    height: 24px;
+    line-height: 24px;
+    text-align: right;
+  }
+
+  .module.suomifi-filters .module-content .module-section {
+    border: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .module.suomifi-filters .module-content .module-section a {
+    display: block;
+  }
+
+}
+.organization-filter-active {
+  font-weight: @font-weight-heavier;
+  font-family: @font-family-sans-serif-semibold;
+}

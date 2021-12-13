@@ -643,3 +643,20 @@ def site_url_with_root_path():
         return site_url + root_path.replace('{{LANG}}', '').rstrip('/')
     else:
         return site_url.rstrip('/')
+
+def get_organization_filters_count():
+    organizations = get_action('organization_tree_list')({}, {
+                                                        'include_datasets': False,
+                                                        'include_dataset_count': True,
+                                                        'include_extras': False,
+                                                        'include_users': False,
+                                                        'include_groups': False,
+                                                        'include_tags  ': False,
+                                                        'include_tags  ': False})
+
+
+    with_dataset_count = len(list(filter(lambda x: (x["package_count"] > 0), organizations["page_results"])))
+    all_count = len(organizations["page_results"])
+
+
+    return { 'with_dataset_count': with_dataset_count, 'all_count': all_count }

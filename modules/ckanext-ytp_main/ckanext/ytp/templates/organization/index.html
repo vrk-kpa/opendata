@@ -5,6 +5,8 @@
 {% block page_primary_action %}
 {% endblock %}
 
+{% block wrapper_class %} search-organization-wrapper{% endblock %}
+
 {% block prelude %}
   <div class="d-flex justify-content-between align-items-end flex-wrap">
       <h1 class="mb-0">{% block page_heading %}{{ _('Organizations') }}{% endblock %}</h1>
@@ -91,15 +93,15 @@
         {{ _('Datasets') }}
       </h3>
       <div class="module-section suomifi-filter-links">
-        {% if c.with_datasets %}
-        <a href="{{ h.url_for(controller='organization', action='index', q=c.q, sort=c.sort_by_selected) }}">
-          {{ _('Show organizations without datasets') }}
+        {% set count = h.get_organization_filters_count() %}
+
+        <a class="{% if not c.with_datasets %} organization-filter-active{% endif %}" href="{{ h.url_for(controller='organization', action='index', q=c.q, sort=c.sort_by_selected) }}">
+          {{ _('Show all organizations') }} ({{ count['all_count'] }})
         </a>
-        {% else %}
-        <a href="{{ h.url_for(controller='organization', action='index', q=c.q, sort=c.sort_by_selected, with_datasets=True) }}">
-          {{ _('Show only organizations with datasets') }}
+
+        <a class="{% if c.with_datasets %} organization-filter-active{% endif %}" href="{{ h.url_for(controller='organization', action='index', q=c.q, sort=c.sort_by_selected, with_datasets=True) }}">
+          {{ _('Show only organizations with datasets') }} ({{ count['with_dataset_count'] }})
         </a>
-        {% endif %}
       </div>
     </div>
   </section>

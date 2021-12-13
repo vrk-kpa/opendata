@@ -55,7 +55,7 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
     get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin, \
     get_value_from_extras_by_key, get_field_from_dataset_schema, get_field_from_resource_schema, is_boolean_selected, \
-    site_url_with_root_path
+    site_url_with_root_path, get_organization_filters_count
 
 from tools import create_system_context, get_original_method
 
@@ -385,6 +385,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_field_from_resource_schema': get_field_from_resource_schema,
                 "is_boolean_selected": is_boolean_selected,
                 'site_url_with_root_path': site_url_with_root_path,
+                'get_organization_filters_count': get_organization_filters_count
                 }
 
     def get_auth_functions(self):
