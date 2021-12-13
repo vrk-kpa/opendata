@@ -1,21 +1,8 @@
 diff --git a/ckan/lib/helpers.py b/ckan/lib/helpers.py
-index 8f50ef7cd..3f6ed6ad6 100644
+index 0d9a2ed8c..38d753c49 100644
 --- a/ckan/lib/helpers.py
 +++ b/ckan/lib/helpers.py
-@@ -1283,11 +1283,7 @@ def dict_list_reduce(list_, key, unique=True):
- 
- @core_helper
- def linked_gravatar(email_hash, size=100, default=None):
--    return literal(
--        '<a href="https://gravatar.com/" target="_blank" ' +
--        'title="%s" alt="">' % _('Update your avatar at gravatar.com') +
--        '%s</a>' % gravatar(email_hash, size, default)
--    )
-+    return ''
- 
- 
- _VALID_GRAVATAR_DEFAULTS = ['404', 'mm', 'identicon', 'monsterid',
-@@ -1296,18 +1292,7 @@ _VALID_GRAVATAR_DEFAULTS = ['404', 'mm', 'identicon', 'monsterid',
+@@ -1503,17 +1503,7 @@ _VALID_GRAVATAR_DEFAULTS = ['404', 'mm', 'identicon', 'monsterid',
  
  @core_helper
  def gravatar(email_hash, size=100, default=None):
@@ -24,14 +11,13 @@ index 8f50ef7cd..3f6ed6ad6 100644
 -
 -    if default not in _VALID_GRAVATAR_DEFAULTS:
 -        # treat the default as a url
--        default = urllib.quote(default, safe='')
+-        default = quote(default, safe='')
 -
 -    return literal('''<img src="//gravatar.com/avatar/%s?s=%d&amp;d=%s"
--        class="gravatar" width="%s" height="%s" alt="Gravatar" />'''
+-        class="user-image" width="%s" height="%s" alt="Gravatar" />'''
 -                   % (email_hash, size, default, size, size)
 -                   )
--
 +    return ''
  
- @core_helper
- def pager_url(page, partial=None, **kwargs):
+ 
+ _PLAUSIBLE_HOST_IDNA = re.compile(r'^[-\w.:\[\]]*$')

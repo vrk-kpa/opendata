@@ -273,26 +273,18 @@ AWS:
 
 ckan_patches:
   - enable_multiple_image_uploads
-  #!- remove-ckan-fontawesome
-  #!- enforce-url-decoding  # CKAN issue #4619
-  #!- add_error_email_logger_to_flask  # https://github.com/ckan/ckan/pull/4623
-  #!- add_credentials_to_email_logger  # https://github.com/ckan/ckan/pull/4711
-  - remove_deprecated_resource_preview_call  # https://github.com/ckan/ckan/pull/4669
-  - remove_members_from_group_read # https://github.com/ckan/ckan/pull/4717
-  - fix_unicode_decode_error_in_error_page # https://github.com/ckan/ckan/pull/4829
-  - remove_user_activity_from_group_activity_list # modification from ckan master, can be removed once 2.9 is released
-  #!- optimize_group_show
+  - remove-ckan-fontawesome
+  #!- enforce-url-decoding  # CKAN issue #4619, probably fixed by python 3 encoding handling
+  - optimize_group_show
   - optimize_template_loading # https://github.com/ckan/ckan/pull/4774
   - group_include_extras # https://github.com/ckan/ckan/pull/4774
-  #!- group_admin_protection # https://github.com/ckan/ckan/pull/4821
-  #!- remove_gravatar
+  - remove_gravatar
   - json_serializable_lazyjsonobject # https://github.com/ckan/ckan/issues/4299
   - implement_is_required_for_image_upload
-  #!- add_drafts_to_search # https://github.com/ckan/ckan/pull/5088
-  #!- add_cache_control_headers_to_flask
-  #!- add_autodynatrace
-  #!- fix_invalid_search_facets_template_error # https://github.com/ckan/ckan/pull/6181
-  #!- remove_stacktraces_from_http_errors # https://github.com/ckan/ckan/pull/6345
+  - add_drafts_to_search # https://github.com/ckan/ckan/pull/5088
+  - add_cache_control_headers_to_flask
+  - add_autodynatrace
+  - remove_stacktraces_from_http_errors # https://github.com/ckan/ckan/pull/6345, merged but not in 2.9.4
   - add_root_path_middleware
   - set_error_email_logging_level_to_error # https://github.com/ckan/ckan/pull/6577
 
