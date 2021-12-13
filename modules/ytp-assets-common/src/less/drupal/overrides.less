@@ -1247,11 +1247,6 @@ p:last-child,
   }
 }
 
-//Breadcrumb style, copied and modified from ckan css files
-.toolbar {
-  background-color: @breadcrumb-color-background;
-}
-
 .toolbar .breadcrumb {
   max-width: @opendata-container-max-width;
   margin: 0 auto;
@@ -1271,12 +1266,12 @@ p:last-child,
     font-weight: 700;
 
     a {
-      color: @breadcrumbTextColor;
+      color: @color__breadcrumb-current;
     }
   }
 
   a {
-    color: @breadcrumb-color;
+    color: @color__breadcrumb-link;
   }
 }
 
@@ -1361,7 +1356,7 @@ p:last-child,
     + li::before {
       content: '@{breadcrumb-separator}\00a0';
       padding: 0 5px;
-      color: @breadcrumb-color;
+      color: @color__breadcrumb-link;
     }
   }
 
@@ -1478,7 +1473,7 @@ p:last-child,
 }
 
 .user-form {
-  max-width: 1140px;
+  max-width: @opendata-container-max-width;
   margin: 0 auto;
   padding: 25px;
 }

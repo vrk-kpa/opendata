@@ -1,0 +1,49 @@
+[data-module="show-more-block"] {
+  &.show-less {
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: " ";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      background: linear-gradient(transparent, @background-color__content);
+      height: @padding-y--common * 2;
+    }
+  }
+}
+
+.show-more-block__btn {
+  position: relative;
+  z-index: 11;
+  padding-left: 0;
+  padding-right: 0;
+  transition: color @transition-duration--short @transition-timing-function--default;
+  color: @opendata-brand-primary;
+
+  &:hover {
+    color: @opendata-brand-primary--highlight;
+    text-decoration: none;
+
+    i {
+      border-color: @opendata-brand-primary--highlight;
+      color: @opendata-brand-primary--highlight;
+    }
+  }
+
+  i {
+    transition: all @transition-duration--short @transition-timing-function--default;
+    transition-property: color, border-color;
+    font-size: @font-size-small;
+    width: @font-size-slightly-smaller-base;
+    // @NOTE: Make font-awesome icon centered in bordered square
+    height: @font-size-slightly-smaller-base + 1;
+    line-height: @font-size-slightly-smaller-base;
+    border: 1px solid @opendata-brand-primary;
+    color: @opendata-brand-primary;
+    margin-right: @padding-x--small;
+  }
+}

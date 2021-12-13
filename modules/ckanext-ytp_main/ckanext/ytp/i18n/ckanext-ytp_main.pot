@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-11-16 09:46+0000\n"
+"POT-Creation-Date: 2021-09-16 13:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -169,7 +169,7 @@ msgstr ""
 msgid "Integrity Error"
 msgstr ""
 
-#: ckanext/ytp/controller.py:498 ckanext/ytp/templates/package/search.html:61
+#: ckanext/ytp/controller.py:498 ckanext/ytp/templates/package/search.html:80
 #: ckanext/ytp/templates/package/snippets/related_item.html:21
 msgid "API"
 msgstr ""
@@ -292,7 +292,7 @@ msgstr ""
 msgid "News feed"
 msgstr ""
 
-#: ckanext/ytp/menu.py:70
+#: ckanext/ytp/menu.py:70 ckanext/ytp/templates/package/search.html:29
 msgid "My Datasets"
 msgstr ""
 
@@ -383,12 +383,12 @@ msgstr ""
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:275 ckanext/ytp/templates/package/search.html:39
+#: ckanext/ytp/plugin.py:275 ckanext/ytp/templates/package/search.html:58
 #: ckanext/ytp/templates/package/snippets/additional_info.html:12
 msgid "Source"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:276 ckanext/ytp/templates/package/resource_read.html:170
+#: ckanext/ytp/plugin.py:276 ckanext/ytp/templates/package/resource_read.html:168
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:26
 #: ckanext/ytp/templates/snippets/license.html:21
 msgid "License"
@@ -464,7 +464,7 @@ msgstr ""
 msgid "Internal"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:164
+#: ckanext/ytp/templates/package/resource_read.html:162
 #: ckanext/ytp/templates/package/snippets/additional_info.html:68
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:8
 #: ckanext/ytp/translations.py:28
@@ -640,7 +640,7 @@ msgstr ""
 msgid "Home page"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:68
+#: ckanext/ytp/templates/package/resource_read.html:66
 #: ckanext/ytp/translations.py:77
 msgid "Maturity"
 msgstr ""
@@ -1466,8 +1466,8 @@ msgstr ""
 msgid "Give feedback"
 msgstr ""
 
-#: ckanext/ytp/templates/page.html:19
-#: ckanext/ytp/templates/snippets/search_form.html:110
+#: ckanext/ytp/templates/page.html:13
+#: ckanext/ytp/templates/snippets/search_form.html:82
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:72
 msgid "Hide search filters"
 msgstr ""
@@ -1527,7 +1527,7 @@ msgstr ""
 #: ckanext/ytp/templates/group/snippets/info.html:16
 #: ckanext/ytp/templates/organization/bulk_process.html:54
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:9
-#: ckanext/ytp/templates/snippets/package_item.html:48
+#: ckanext/ytp/templates/snippets/package_item.html:58
 msgid "Deleted"
 msgstr ""
 
@@ -1544,7 +1544,7 @@ msgstr ""
 #: ckanext/ytp/templates/package/base.html:12
 #: ckanext/ytp/templates/package/base.html:16
 #: ckanext/ytp/templates/package/search.html:9
-#: ckanext/ytp/templates/package/search.html:14
+#: ckanext/ytp/templates/package/search.html:12
 #: ckanext/ytp/templates/snippets/organization.html:52
 #: ckanext/ytp/templates/user/dashboard_datasets.html:6
 #: ckanext/ytp/templates/user/read.html:5
@@ -1613,7 +1613,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/bulk_process.html:52
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:7
-#: ckanext/ytp/templates/snippets/package_item.html:44
+#: ckanext/ytp/templates/snippets/package_item.html:54
 msgid "Draft"
 msgstr ""
 
@@ -1636,16 +1636,16 @@ msgid "Close without saving"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/index.html:3
-#: ckanext/ytp/templates/package/search.html:34
-#: ckanext/ytp/templates/snippets/search_form.html:61
+#: ckanext/ytp/templates/package/search.html:53
+#: ckanext/ytp/templates/snippets/search_form.html:35
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:30
 msgid "Name Ascending"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/index.html:3
-#: ckanext/ytp/templates/package/search.html:35
-#: ckanext/ytp/templates/snippets/search_form.html:61
+#: ckanext/ytp/templates/package/search.html:54
+#: ckanext/ytp/templates/snippets/search_form.html:35
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:30
 msgid "Name Descending"
@@ -1656,20 +1656,20 @@ msgid "Search organizations..."
 msgstr ""
 
 #: ckanext/ytp/templates/organization/index.html:23
-#: ckanext/ytp/templates/snippets/search_form.html:42
+#: ckanext/ytp/templates/snippets/search_form.html:18
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:17
 msgid "Submit"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/index.html:30
-#: ckanext/ytp/templates/snippets/search_form.html:88
+#: ckanext/ytp/templates/snippets/search_form.html:60
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:50
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:36
 msgid "Order by"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/index.html:39
-#: ckanext/ytp/templates/snippets/search_form.html:97
+#: ckanext/ytp/templates/snippets/search_form.html:69
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:59
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:44
 msgid "Go"
@@ -1713,7 +1713,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/read_base.html:6
 #: ckanext/ytp/templates/package/read.html:19
-#: ckanext/ytp/templates/package/resource_read.html:35
+#: ckanext/ytp/templates/package/resource_read.html:33
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:9
 msgid "Manage"
 msgstr ""
@@ -1824,182 +1824,198 @@ msgstr ""
 msgid "Views"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:41
+#: ckanext/ytp/templates/package/resource_read.html:39
 msgid "View"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:43
+#: ckanext/ytp/templates/package/resource_read.html:41
 msgid "API Endpoint"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:45
+#: ckanext/ytp/templates/package/resource_read.html:43
 #: ckanext/ytp/templates/package/snippets/related_item.html:65
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:11
 msgid "Open"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:47
+#: ckanext/ytp/templates/package/resource_read.html:45
 #: ckanext/ytp/templates/package/snippets/resource_item.html:49
 msgid "Download"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:74
+#: ckanext/ytp/templates/package/resource_read.html:72
 msgid "URL:"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:84
+#: ckanext/ytp/templates/package/resource_read.html:82
 msgid "From the dataset abstract"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:86
+#: ckanext/ytp/templates/package/resource_read.html:84
 #, python-format
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:127
+#: ckanext/ytp/templates/package/resource_read.html:125
 msgid "There are no views created for this resource yet."
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:131
+#: ckanext/ytp/templates/package/resource_read.html:129
 msgid "Not seeing the views you were expecting?"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:133
+#: ckanext/ytp/templates/package/resource_read.html:131
 #: ckanext/ytp/templates/package/snippets/resource_view.html:26
 msgid "Click here for more information."
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:136
+#: ckanext/ytp/templates/package/resource_read.html:134
 msgid "Here are some reasons you may not be seeing expected views:"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:138
+#: ckanext/ytp/templates/package/resource_read.html:136
 msgid "No view has been created that is suitable for this resource"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:139
+#: ckanext/ytp/templates/package/resource_read.html:137
 msgid "The site administrators may not have enabled the relevant view plugins"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:140
+#: ckanext/ytp/templates/package/resource_read.html:138
 msgid ""
 "If a view requires the DataStore, the DataStore plugin may not be enabled, or"
 " the data may not have been pushed to the DataStore, or the DataStore hasn't "
 "finished processing the data yet"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:157
+#: ckanext/ytp/templates/package/resource_read.html:155
 msgid "Extra information"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:161
+#: ckanext/ytp/templates/package/resource_read.html:159
 msgid "Last updated"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:162
-#: ckanext/ytp/templates/package/resource_read.html:165
-#: ckanext/ytp/templates/package/resource_read.html:168
+#: ckanext/ytp/templates/package/resource_read.html:160
+#: ckanext/ytp/templates/package/resource_read.html:163
+#: ckanext/ytp/templates/package/resource_read.html:166
 msgid "unknown"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:167
+#: ckanext/ytp/templates/package/resource_read.html:165
 #: ckanext/ytp/templates/package/snippets/resource_form.html:31
 msgid "Format"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:173
+#: ckanext/ytp/templates/package/resource_read.html:171
 msgid "Temporal Granularity"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:180
+#: ckanext/ytp/templates/package/resource_read.html:178
 msgid "Update Frequency"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:185
+#: ckanext/ytp/templates/package/resource_read.html:183
 msgid "Temporal Coverage"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:194
+#: ckanext/ytp/templates/package/resource_read.html:192
 msgid "Technical extra information"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:253
+#: ckanext/ytp/templates/package/resource_read.html:251
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:100
 msgid "Stats"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:254
+#: ckanext/ytp/templates/package/resource_read.html:252
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:101
 msgid "Last 30 days, updated daily"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:257
+#: ckanext/ytp/templates/package/resource_read.html:255
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:108
 msgid "All time downloads:"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:267
+#: ckanext/ytp/templates/package/resource_read.html:265
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:116
 msgid "Year"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:267
+#: ckanext/ytp/templates/package/resource_read.html:265
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:116
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:33
-msgid "Relevance"
+#: ckanext/ytp/templates/package/search.html:22
+msgid " Datasets "
+msgstr ""
+
+#: ckanext/ytp/templates/package/search.html:30
+#: ckanext/ytp/templates/user/dashboard_datasets.html:14
+msgid "Add Dataset"
+msgstr ""
+
+#: ckanext/ytp/templates/package/search.html:35
+msgid ""
+"The Opendata.fi service does not have an organization where you can upload a "
+"data set."
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:36
+msgid ""
+"Ask your employer's open data administrator to add your user account in your "
+"organization. If your employer's organization has not been created yet on "
+"Opendata.fi, ask the service administration to create it before you can "
+"continue. Alternatively, you can also ask the data to be published as a "
+"private individual."
+msgstr ""
+
+#: ckanext/ytp/templates/package/search.html:52
+msgid "Relevance"
+msgstr ""
+
+#: ckanext/ytp/templates/package/search.html:55
 #: ckanext/ytp/templates/package/snippets/resource_form.html:45
 msgid "Last Modified"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:37
+#: ckanext/ytp/templates/package/search.html:56
 msgid "Date Created Ascending"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:38
+#: ckanext/ytp/templates/package/search.html:57
 msgid "Date Created Descending"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:40
-#: ckanext/ytp/templates/snippets/package_item.html:33
+#: ckanext/ytp/templates/package/search.html:59
+#: ckanext/ytp/templates/snippets/package_item.html:43
 #: ckanext/ytp/templates/snippets/popular.html:3
 msgid "Popular"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:62
+#: ckanext/ytp/templates/package/search.html:81
 msgid "API Docs"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:64
+#: ckanext/ytp/templates/package/search.html:83
 msgid "full {format} dump"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:65
+#: ckanext/ytp/templates/package/search.html:84
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s) or download a %(dump_link)s. "
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:69
+#: ckanext/ytp/templates/package/search.html:88
 #, python-format
 msgid ""
 " You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s). "
-msgstr ""
-
-#: ckanext/ytp/templates/package/search.html:82
-msgid "FILTER LIST"
-msgstr ""
-
-#: ckanext/ytp/templates/package/search.html:109
-msgid "Resources"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/additional_info.html:23
@@ -2472,15 +2488,15 @@ msgstr ""
 msgid "Save Organization"
 msgstr ""
 
-#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:26
+#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:27
 msgid "Last modified"
 msgstr ""
 
-#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:29
+#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:30
 msgid "Show change log"
 msgstr ""
 
-#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:33
+#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:34
 msgid "Created on"
 msgstr ""
 
@@ -2656,15 +2672,15 @@ msgstr ""
 msgid "Height:"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/facet_list.html:82
+#: ckanext/ytp/templates/snippets/facet_list.html:80
 msgid "Show More"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/facet_list.html:85
+#: ckanext/ytp/templates/snippets/facet_list.html:83
 msgid "Show Less"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/facet_list.html:89
+#: ckanext/ytp/templates/snippets/facet_list.html:87
 msgid "There are no {facet_type} that match this search"
 msgstr ""
 
@@ -2694,27 +2710,27 @@ msgstr ""
 msgid "Search datasets..."
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:23
+#: ckanext/ytp/templates/snippets/search_form.html:41
+msgid " Use advanced search "
+msgstr ""
+
+#: ckanext/ytp/templates/snippets/search_form.html:76
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:66
+msgid "Filter search"
+msgstr ""
+
+#: ckanext/ytp/templates/snippets/search_form.html:100
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:90
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:78
 msgid "Remove"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:67
-msgid " Use advanced search "
-msgstr ""
-
-#: ckanext/ytp/templates/snippets/search_form.html:104
-#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:66
-msgid "Filter search"
-msgstr ""
-
-#: ckanext/ytp/templates/snippets/search_form.html:121
+#: ckanext/ytp/templates/snippets/search_form.html:112
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:102
 msgid " Please try another search or change search facets. "
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:129
+#: ckanext/ytp/templates/snippets/search_form.html:120
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:110
 msgid " <strong>There was an error while searching.</strong> Please try again. "
 msgstr ""
@@ -2799,10 +2815,6 @@ msgstr ""
 
 #: ckanext/ytp/templates/user/dashboard.html:27
 msgid "Activity from items that I'm following"
-msgstr ""
-
-#: ckanext/ytp/templates/user/dashboard_datasets.html:14
-msgid "Add Dataset"
 msgstr ""
 
 #: ckanext/ytp/templates/user/dashboard_organizations.html:32
