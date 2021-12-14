@@ -124,7 +124,6 @@ jobs:
         with:
           name: screenshots
           path: cypress/screenshots
-          if: failure()
 
       - name: upload cypress video artifacts
         uses: actions/upload-artifact@v2
