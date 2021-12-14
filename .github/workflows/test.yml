@@ -18,6 +18,9 @@ jobs:
     concurrency:
       group: ${{ github.ref }}
       cancel-in-progress: true
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: checkout
         uses: actions/checkout@v2
