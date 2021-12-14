@@ -48,15 +48,43 @@ Resources:
               - Effect: Allow
                 Action: "ecr:GetAuthorizationToken"
                 Resource: "*"
+
         - PolicyName: ecr-access
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
                 Action:
-                  - ecr:GetDownloadUrlForLayer
-                  - ecr:BatchGetImage
+                  - "ecr:GetDownloadUrlForLayer"
+                  - "ecr:BatchGetImage"
                 Resource: "*"
+
+        - PolicyName: cfn-access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "cloudformation:*"
+                Resource: "*"
+
+        - PolicyName: s3-cdk-bucket-access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "s3:*"
+                Resource: "arn:aws:s3:::cdktoolkit-stagingbucket-*"
+
+        - PolicyName: cfn-service-access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
+                Condition:
+                  ForAnyValue:StringEquals:
+                    aws:CalledVia: cloudformation.amazonaws.com
 
   GitHubOIDC:
     Type: AWS::IAM::OIDCProvider

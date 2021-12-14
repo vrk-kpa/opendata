@@ -11,132 +11,132 @@ env:
   COMPOSE_DOCKER_CLI_BUILD: 1
 
 jobs:
-  # test:
-  #   name: test
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 60
-  #   concurrency:
-  #     group: ${{ github.ref }}
-  #     cancel-in-progress: true
-  #   permissions:
-  #     id-token: write
-  #     contents: read
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v2
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
 
-  #     - name: setup docker buildx
-  #       uses: docker/setup-buildx-action@v1
+      - name: setup docker buildx
+        uses: docker/setup-buildx-action@v1
 
-  #     - name: install nodejs v16
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: 16
+      - name: install nodejs v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
 
-  #     - name: cache node_modules
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: ~/.npm
-  #         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-node-
+      - name: cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-  #     - name: cache cypress binary
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: ~/.cache/Cypress
-  #         key: ${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-cypress-
+      - name: cache cypress binary
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
 
-  #     - name: install cypress npm packages and verify installation
-  #       run: |
-  #         npm install
-  #         $(npm bin)/cypress verify
-  #         $(npm bin)/cypress info
-  #         $(npm bin)/cypress version
-  #       env:
-  #         CI: 1
+      - name: install cypress npm packages and verify installation
+        run: |
+          npm install
+          $(npm bin)/cypress verify
+          $(npm bin)/cypress info
+          $(npm bin)/cypress version
+        env:
+          CI: 1
 
-  #     - name: configure environment
-  #       shell: bash
-  #       run: |
-  #         # configure cypress
-  #         cat <<EOT > cypress.json
-  #         {
-  #           "baseUrl": "http://localhost",
-  #           "projectId": "ssb2ut",
-  #           "env": {
-  #             "resetDB": true,
-  #             "cloudStorageEnabled": false,
-  #             "docker": true
-  #           }
-  #         }
-  #         EOT
-  #         # configure docker
-  #         cp -f docker/.env.template docker/.env
-  #         sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
-  #         sed -i.bak -E 's/^(REGISTRY_ARN[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY_ARN}"'\"/' docker/.env
-  #         sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
-  #       env:
-  #         REGISTRY: ${{ secrets.REGISTRY }}
-  #         REGISTRY_ARN: ${{ secrets.REGISTRY_ARN }}
-  #         REPOSITORY: ${{ secrets.REPOSITORY }}
+      - name: configure environment
+        shell: bash
+        run: |
+          # configure cypress
+          cat <<EOT > cypress.json
+          {
+            "baseUrl": "http://localhost",
+            "projectId": "ssb2ut",
+            "env": {
+              "resetDB": true,
+              "cloudStorageEnabled": false,
+              "docker": true
+            }
+          }
+          EOT
+          # configure docker
+          cp -f docker/.env.template docker/.env
+          sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
+          sed -i.bak -E 's/^(REGISTRY_ARN[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY_ARN}"'\"/' docker/.env
+          sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
+        env:
+          REGISTRY: ${{ secrets.REGISTRY }}
+          REGISTRY_ARN: ${{ secrets.REGISTRY_ARN }}
+          REPOSITORY: ${{ secrets.REPOSITORY }}
 
-  #     - name: configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
-  #         role-session-name: github-actions
-  #         aws-region: eu-west-1
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
 
-  #     - name: login to AWS ECR
-  #       id: login
-  #       uses: aws-actions/amazon-ecr-login@v1
-  #       with:
-  #         registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
+      - name: login to AWS ECR
+        id: login
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
 
-  #     - name: bring services up
-  #       working-directory: docker
-  #       run: |
-  #         docker-compose -p opendata up --build -d
+      - name: bring services up
+        working-directory: docker
+        run: |
+          docker-compose -p opendata up --build -d
 
-  #     - name: wait until services have started
-  #       shell: bash
-  #       run: |
-  #         # wait for services to start properly
-  #         while [[ $(curl -L --write-out '%{http_code}' --silent --output /dev/null http://localhost) != "200" ]]; do
-  #           echo "waiting for services to start up and initialize ..."
-  #           sleep 5s
-  #         done
-  #         # print the list of containers
-  #         docker ps -a
+      - name: wait until services have started
+        shell: bash
+        run: |
+          # wait for services to start properly
+          while [[ $(curl -L --write-out '%{http_code}' --silent --output /dev/null http://localhost) != "200" ]]; do
+            echo "waiting for services to start up and initialize ..."
+            sleep 5s
+          done
+          # print the list of containers
+          docker ps -a
 
-  #     - name: run cypress e2e tests
-  #       uses: cypress-io/github-action@v2
-  #       with:
-  #         start: $(npm bin)/cypress run --record
-  #       env:
-  #         TERM: xterm
+      - name: run cypress e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          start: $(npm bin)/cypress run --record
+        env:
+          TERM: xterm
 
-  #     - name: upload cypress screenshot artifacts
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: screenshots
-  #         path: cypress/screenshots
+      - name: upload cypress screenshot artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: cypress/screenshots
 
-  #     - name: upload cypress video artifacts
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: videos
-  #         path: cypress/videos
+      - name: upload cypress video artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: videos
+          path: cypress/videos
 
   deploy-dev:
     name: deploy-dev
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    # needs:
-    #   - test
+    needs:
+      - test
     # if: github.ref == "refs/heads/master"
     concurrency:
       group: ${{ github.ref }}/deploy-dev
