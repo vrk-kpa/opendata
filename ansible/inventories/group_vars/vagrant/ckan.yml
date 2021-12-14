@@ -9,8 +9,7 @@ ckan_postgres_installed_locally: true
 ckan_debug_enabled: true
 ckan_deployment_environment_id: 'vagrant'
 
-ckan_testing_ports:
-  - 9090
+ckan_test_port: 9090
 
 ckan_config_files:
   - template: ckan.ini.j2
@@ -44,6 +43,11 @@ wsgi_config_files:
   - template: ckan-uwsgi.ini.j2
     file: "{{ ckan_uwsgi_conf }}"
     ckan_wsgi_script: "{{ ckan_wsgi_script }}"
+    ckan_port: "{{ ckan_port }}"
+  - template: ckan-uwsgi.ini.j2
+    file: "{{ ckan_uwsgi_test_conf }}"
+    ckan_wsgi_script: "{{ ckan_wsgi_script }}"
+    ckan_port: "{{ ckan_test_port }}"
   - template: wsgi.py.j2
     file: "{{ ckan_wsgi_script }}"
 

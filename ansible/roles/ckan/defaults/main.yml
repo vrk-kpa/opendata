@@ -290,6 +290,7 @@ ckan_patches:
 
 ckan_wsgi_script: /etc/ckan/default/wsgi.py
 ckan_uwsgi_conf: /etc/ckan/default/ckan-uwsgi.ini
+ckan_uwsgi_test_conf: /etc/ckan/default/ckan-uwsgi_test.ini
 ckan_supervisor_conf: /etc/supervisor/conf.d/ckan-uwsgi.conf
 
 ckan_config_files:

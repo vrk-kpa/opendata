@@ -1,6 +1,6 @@
 [uwsgi]
 
-http                =  127.0.0.1:{{ ckan_port }}
+http                =  127.0.0.1:{{ item.ckan_port }}
 uid                 =  www-data
 gid                 =  www-data
 processes           =  4
