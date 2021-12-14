@@ -1,0 +1,21 @@
+From a2fd9fd35f59980abd70729e20c503d3df175c06 Mon Sep 17 00:00:00 2001
+From: Jari Voutilainen <jari.voutilainen@iki.fi>
+Date: Tue, 7 Dec 2021 10:26:39 +0200
+Subject: [PATCH] Set logging level to error in error mail handler
+
+---
+ ckan/config/middleware/flask_app.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/ckan/config/middleware/flask_app.py b/ckan/config/middleware/flask_app.py
+index f4cb9d8bae..98856be9da 100644
+--- a/ckan/config/middleware/flask_app.py
++++ b/ckan/config/middleware/flask_app.py
+@@ -551,6 +551,7 @@ def filter(self, log_record):
+         secure=secure
+     )
+
++    mail_handler.setLevel(logging.ERROR)
+     mail_handler.setFormatter(logging.Formatter('''
+ Time:               %(asctime)s
+ URL:                %(url)s
