@@ -42,6 +42,7 @@ export class LoadBalancerStack extends cdk.Stack {
       securityGroupId: pLbSgId.stringValue,
       loadBalancerCanonicalHostedZoneId: pLbCanonicalHostedZoneId.stringValue,
       loadBalancerDnsName: pLbDnsName.stringValue,
+      securityGroupAllowsAllOutbound: true,
       vpc: props.vpc,
     });
 
