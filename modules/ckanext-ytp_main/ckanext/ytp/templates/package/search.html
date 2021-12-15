@@ -15,10 +15,29 @@
 {% endblock %}
 
 {% block primary_content %}
-  <div class="container-apiset mt-4">
+  <div class="container-apiset mt-1">
     <section class="module">
       <div class="module-content">
         {% block page_primary_action %}
+          <div class="mb-2">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+              <h1 class="mb-0">
+              </h1>
+              {% if h.check_access('package_create') %}
+                <div>
+                  <div class="btn-group d-flex align-items-center flex-wrap">
+                    {% link_for _('My Datasets'), named_route='dashboard.datasets', class_='btn btn-avoindata-header', icon='star-empty' %}
+                    {% link_for _('Add Dataset'), controller='package', action='new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
+                  </div>
+                </div>
+              {% elif c.user %}
+                <div class="alert alert-info">
+                  <p> {{ _('The Opendata.fi service does not have an organization where you can upload a data set.') }} </p>
+                  <p>{{ _('Ask your employer\'s open data administrator to add your user account in your organization. If your employer\'s organization has not been created yet on Opendata.fi, ask the service administration to create it before you can continue. Alternatively, you can also ask the data to be published as a private individual.') }}</p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
         {% endblock %}
         {% block form %}
         <div class="container-search-input">
