@@ -368,11 +368,16 @@ export class CkanStack extends cdk.Stack {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_AWS_USE_BOTO3_SESSIONS'] = '0';
     }
 
+    const ckanLogGroup = new logs.LogGroup(this, 'ckanLogGroup', {
+      logGroupName: `/${props.environment}/opendata/ckan`,
+    });
+
     const ckanContainer = ckanTaskDef.addContainer('ckan', {
       image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG),
       environment: ckanContainerEnv,
       secrets: ckanContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
+        logGroup: ckanLogGroup,
         streamPrefix: 'ckan-service',
       }),
       healthCheck: {
@@ -421,8 +426,8 @@ export class CkanStack extends cdk.Stack {
     this.ckanService.connections.allowTo(props.cacheSecurityGroup, ec2.Port.tcp(props.cachePort), 'Redis connection (ckan)');
     
     const ckanServiceAsg = this.ckanService.autoScaleTaskCount({
-      minCapacity: 1,
-      maxCapacity: 2,
+      minCapacity: props.ckanTaskDef.taskMinCapacity,
+      maxCapacity: props.ckanTaskDef.taskMaxCapacity,
     });
 
     ckanServiceAsg.scaleOnCpuUtilization('ckanServiceAsgPolicy', {
@@ -485,12 +490,17 @@ export class CkanStack extends cdk.Stack {
         ],
       });
 
+      const ckanCronLogGroup = new logs.LogGroup(this, 'ckanCronLogGroup', {
+        logGroupName: `/${props.environment}/opendata/ckan_cron`,
+      });
+
       const ckanCronContainer = ckanCronTaskDef.addContainer('ckan_cron', {
         image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG),
         environment: ckanContainerEnv,
         secrets: ckanContainerSecrets,
         entryPoint: ['/srv/app/entrypoint_cron.sh'],
         logging: ecs.LogDrivers.awsLogs({
+          logGroup: ckanCronLogGroup,
           streamPrefix: 'ckan_cron-service',
         }),
         healthCheck: {
@@ -523,8 +533,8 @@ export class CkanStack extends cdk.Stack {
       this.ckanCronService.connections.allowTo(props.cacheSecurityGroup, ec2.Port.tcp(props.cachePort), 'Redis connection (ckan cron)');
 
       const ckanCronServiceAsg = this.ckanCronService.autoScaleTaskCount({
-        minCapacity: 0,
-        maxCapacity: 1,
+        minCapacity: props.ckanCronTaskDef.taskMinCapacity,
+        maxCapacity: props.ckanCronTaskDef.taskMaxCapacity,
       });
     }
 
@@ -532,6 +542,10 @@ export class CkanStack extends cdk.Stack {
     const datapusherTaskDef = new ecs.FargateTaskDefinition(this, 'datapusherTaskDef', {
       cpu: props.datapusherTaskDef.taskCpu,
       memoryLimitMiB: props.datapusherTaskDef.taskMem,
+    });
+
+    const datapusherLogGroup = new logs.LogGroup(this, 'datapusherLogGroup', {
+      logGroupName: `/${props.environment}/opendata/datapusher`,
     });
 
     const datapusherContainer = datapusherTaskDef.addContainer('datapusher', {
@@ -548,6 +562,7 @@ export class CkanStack extends cdk.Stack {
         DATAPUSHER_REWRITE_URL: `http://ckan.${props.namespace.namespaceName}:5000/data`,
       },
       logging: ecs.LogDrivers.awsLogs({
+        logGroup: datapusherLogGroup,
         streamPrefix: 'datapusher-service',
       }),
       healthCheck: {
@@ -585,8 +600,8 @@ export class CkanStack extends cdk.Stack {
     datapusherService.connections.allowTo(this.ckanService, ec2.Port.tcp(5000), 'datapusher - ckan connection');
 
     const datapusherServiceAsg = datapusherService.autoScaleTaskCount({
-      minCapacity: 1,
-      maxCapacity: 2,
+      minCapacity: props.datapusherTaskDef.taskMinCapacity,
+      maxCapacity: props.datapusherTaskDef.taskMaxCapacity,
     });
 
     // solr service
@@ -620,9 +635,14 @@ export class CkanStack extends cdk.Stack {
       ],
     });
 
+    const solrLogGroup = new logs.LogGroup(this, 'solrLogGroup', {
+      logGroupName: `/${props.environment}/opendata/solr`,
+    });
+
     const solrContainer = solrTaskDef.addContainer('solr', {
       image: ecs.ContainerImage.fromEcrRepository(solrRepo, props.envProps.SOLR_IMAGE_TAG),
       logging: ecs.LogDrivers.awsLogs({
+        logGroup: solrLogGroup,
         streamPrefix: 'solr-service',
       }),
       healthCheck: {
@@ -670,8 +690,8 @@ export class CkanStack extends cdk.Stack {
     }
 
     const solrServiceAsg = solrService.autoScaleTaskCount({
-      minCapacity: 0,
-      maxCapacity: 1,
+      minCapacity: props.solrTaskDef.taskMinCapacity,
+      maxCapacity: props.solrTaskDef.taskMaxCapacity,
     });
   }
 }

@@ -1,4 +1,4 @@
-name: Test and/or deploy
+name: CI/CD
 
 on:
   push:
@@ -131,15 +131,15 @@ jobs:
           name: videos
           path: cypress/videos
 
-  deploy-dev:
-    name: deploy-dev
+  deploy-infratest:
+    name: deploy-infratest
     runs-on: ubuntu-latest
     timeout-minutes: 60
     needs:
       - test
     # if: github.ref == "refs/heads/master"
     concurrency:
-      group: ${{ github.ref }}/deploy-dev
+      group: ${{ github.ref }}/deploy-infratest
     permissions:
       id-token: write
       contents: read
@@ -199,9 +199,9 @@ jobs:
       - name: synthesize cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk synth WebStack-dev
+          $(npm bin)/cdk synth WebStack-infratest
 
       - name: deploy cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk deploy WebStack-dev --require-approval=never
+          $(npm bin)/cdk deploy WebStack-infratest --require-approval=never

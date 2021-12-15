@@ -18,8 +18,8 @@ export class ClusterStack extends cdk.Stack {
     });
 
     this.cluster = new ecs.Cluster(this, 'cluster', {
-        vpc: this.vpc,
-        enableFargateCapacityProviders: true,
+      vpc: this.vpc,
+      enableFargateCapacityProviders: true,
     });
 
     this.namespace = new sd.PrivateDnsNamespace(this, 'namespace', {

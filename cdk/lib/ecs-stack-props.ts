@@ -46,4 +46,12 @@ export interface EcsStackPropsTaskDef {
    * 4.0  vCPU: 8192MB, 30720MB in increments of 1024MB
    */
   taskMem: number;
+  /**
+   * Minimum number of tasks at a time.
+   */
+  taskMinCapacity: number;
+  /**
+   * Maximum number of tasks at a time.
+   */
+  taskMaxCapacity: number;
 }

@@ -270,11 +270,16 @@ export class DrupalStack extends cdk.Stack {
       drupalContainerEnv['RECAPTCHA_PRIVATE_KEY'] = '';
     }
 
+    const drupalLogGroup = new logs.LogGroup(this, 'drupalLogGroup', {
+      logGroupName: `/${props.environment}/opendata/drupal`,
+    });
+
     const drupalContainer = drupalTaskDef.addContainer('drupal', {
       image: ecs.ContainerImage.fromEcrRepository(drupalRepo, props.envProps.DRUPAL_IMAGE_TAG),
       environment: drupalContainerEnv,
       secrets: drupalContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
+        logGroup: drupalLogGroup,
         streamPrefix: 'drupal-service',
       }),
       healthCheck: {
@@ -330,8 +335,8 @@ export class DrupalStack extends cdk.Stack {
     this.drupalService.connections.allowTo(props.databaseSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (drupal)');
 
     const drupalServiceAsg = this.drupalService.autoScaleTaskCount({
-      minCapacity: 1,
-      maxCapacity: 2,
+      minCapacity: props.drupalTaskDef.taskMinCapacity,
+      maxCapacity: props.drupalTaskDef.taskMaxCapacity,
     });
 
     drupalServiceAsg.scaleOnCpuUtilization('drupalServiceAsgPolicy', {
