@@ -1,11 +1,14 @@
 ---
 
-# On servers, symlink sources from source path
-- name: "Symlink extension {{ item }} sources from server path"
-  file:
+# On servers, copy the sources to final path
+- name: "Copy extension {{ item }} from server path"
+  copy:
     src: "{{ ckan_source_server_path }}/modules/{{ item }}"
-    path: "{{ ckan_extension_sync_path }}/{{ item }}"
-    state: link
+    dest: "{{ ckan_extension_sync_path }}/"
+    owner: root
+    group: root
+    mode: "0755"
+    remote_src: yes
   when: ckan_deployment_environment_id != "vagrant"
 
 # On Vagrant, symlink sources from host so that they can be edited live
