@@ -11,12 +11,12 @@ env:
   COMPOSE_DOCKER_CLI_BUILD: 1
 
 jobs:
-  test:
-    name: test
+  test-e2e:
+    name: test-e2e
     runs-on: ubuntu-latest
     timeout-minutes: 60
     concurrency:
-      group: ${{ github.ref }}
+      group: ${{ github.ref }}/test-e2e
       cancel-in-progress: true
     permissions:
       id-token: write
@@ -131,13 +131,57 @@ jobs:
           name: videos
           path: cypress/videos
 
+  test-cdk:
+    name: test-cdk
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: ${{ github.ref }}/test-cdk
+      cancel-in-progress: true
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install nodejs v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: install cdk npm packages and verify installation
+        working-directory: cdk
+        run: |
+          npm install
+          $(npm bin)/cdk doctor
+
+      - name: build cdk project
+        working-directory: cdk
+        run: |
+          npm run build
+
+      - name: test cdk project
+        working-directory: cdk
+        run: |
+          npm run test
+
   deploy-infratest:
     name: deploy-infratest
     runs-on: ubuntu-latest
     timeout-minutes: 60
     needs:
-      - test
-    # if: github.ref == "refs/heads/master"
+      - test-e2e
+      - test-cdk
+    if: github.ref == "refs/heads/master"
     concurrency:
       group: ${{ github.ref }}/deploy-infratest
     permissions:
@@ -190,11 +234,6 @@ jobs:
         working-directory: cdk
         run: |
           npm run build
-
-      - name: test cdk project
-        working-directory: cdk
-        run: |
-          npm run test
 
       - name: synthesize cdk stacks
         working-directory: cdk

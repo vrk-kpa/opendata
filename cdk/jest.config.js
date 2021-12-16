@@ -4,5 +4,10 @@ module.exports = {
   testMatch: ['**/*.test.ts'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
-  }
+  },
+  testPathIgnorePatterns: [
+    '/node_modules/'
+  ],
+  collectCoverage: true,
+  coverageDirectory: 'coverage'
 };
