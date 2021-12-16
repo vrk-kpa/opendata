@@ -181,7 +181,7 @@ jobs:
     needs:
       - test-e2e
       - test-cdk
-    if: github.ref == "refs/heads/master"
+    if: github.ref == 'refs/heads/master'
     concurrency:
       group: ${{ github.ref }}/deploy-infratest
     permissions:
