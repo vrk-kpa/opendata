@@ -57,7 +57,7 @@ administrative_branch_summary_js:
   extra:
     preload:
       - ytp_resources/main_js
-    contents:
+  contents:
       - opendata/scripts/administrative_branch_summary.js
 
 bulk-confirm-action_js:
@@ -66,7 +66,7 @@ bulk-confirm-action_js:
   extra:
     preload:
       - ytp_resources/main_js
-    contents:
+  contents:
       - opendata/scripts/bulk-confirm-action.js
 
 categories_js:
@@ -75,7 +75,7 @@ categories_js:
   extra:
     preload:
       - ytp_resources/main_js
-    contents:
+  contents:
       - opendata/scripts/categories.js
 
 d3_js:
@@ -93,7 +93,7 @@ form_js:
   extra:
     preload:
       - ytp_resources/main_js
-    contents:
+  contents:
       - opendata/scripts/form.js
 
 jquerysorting_js:
@@ -102,7 +102,7 @@ jquerysorting_js:
   extra:
     preload:
       - ytp_resources/main_js
-    contents:
+  contents:
       - opendata/scripts/jquerysorting.js
 
 jspdf_js:
@@ -111,7 +111,7 @@ jspdf_js:
   extra:
     preload:
       - ytp_resources/main_js
-    contents:
+  contents:
       - opendata/scripts/jspdf.js
 
 related_js:
@@ -120,7 +120,7 @@ related_js:
   extra:
     preload:
       - ytp_resources/main_js
-    contents:
+  contents:
       - opendata/scripts/related.js
 
 search_filtering_js:
@@ -129,7 +129,7 @@ search_filtering_js:
   extra:
     preload:
       - ytp_resources/main_js
-    contents:
+  contents:
       - opendata/scripts/search_filtering.js
 
 table_js:
@@ -138,7 +138,7 @@ table_js:
   extra:
     preload:
       - ytp_resources/main_js
-    contents:
+  contents:
       - opendata/scripts/table.js
 
 translations_js:
@@ -147,7 +147,7 @@ translations_js:
   extra:
     preload:
       - ytp_resources/main_js
-    contents:
+  contents:
       - opendata/scripts/translations.js
 
 ytp_form_js:
@@ -156,6 +156,6 @@ ytp_form_js:
   extra:
     preload:
       - ytp_resources/main_js
-    contents:
+  contents:
       - opendata/scripts/ytp_form.js
 
