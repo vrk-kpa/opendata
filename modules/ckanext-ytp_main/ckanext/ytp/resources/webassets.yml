@@ -58,7 +58,7 @@ administrative_branch_summary_js:
     preload:
       - ytp_resources/main_js
   contents:
-      - opendata/scripts/administrative_branch_summary.js
+    - opendata/scripts/administrative_branch_summary.js
 
 bulk-confirm-action_js:
   output: ckanext-ytp_main%(version)s_bulk-confirm-action.js
@@ -67,7 +67,7 @@ bulk-confirm-action_js:
     preload:
       - ytp_resources/main_js
   contents:
-      - opendata/scripts/bulk-confirm-action.js
+    - opendata/scripts/bulk-confirm-action.js
 
 categories_js:
   output: ckanext-ytp_main%(version)s_categories.js
@@ -76,7 +76,7 @@ categories_js:
     preload:
       - ytp_resources/main_js
   contents:
-      - opendata/scripts/categories.js
+    - opendata/scripts/categories.js
 
 d3_js:
   output: ckanext-ytp_main%(version)s_d3.js
@@ -84,8 +84,8 @@ d3_js:
   extra:
     preload:
       - ytp_resources/main_js
-    contents:
-      - opendata/scripts/d3.js
+  contents:
+    - opendata/scripts/d3.js
 
 form_js:
   output: ckanext-ytp_main%(version)s_form.js
@@ -94,7 +94,7 @@ form_js:
     preload:
       - ytp_resources/main_js
   contents:
-      - opendata/scripts/form.js
+    - opendata/scripts/form.js
 
 jquerysorting_js:
   output: ckanext-ytp_main%(version)s_jquerysorting.js
@@ -103,7 +103,7 @@ jquerysorting_js:
     preload:
       - ytp_resources/main_js
   contents:
-      - opendata/scripts/jquerysorting.js
+    - opendata/scripts/jquerysorting.js
 
 jspdf_js:
   output: ckanext-ytp_main%(version)s_jspdf.js
@@ -112,7 +112,7 @@ jspdf_js:
     preload:
       - ytp_resources/main_js
   contents:
-      - opendata/scripts/jspdf.js
+    - opendata/scripts/jspdf.js
 
 related_js:
   output: ckanext-ytp_main%(version)s_related.js
@@ -121,7 +121,7 @@ related_js:
     preload:
       - ytp_resources/main_js
   contents:
-      - opendata/scripts/related.js
+    - opendata/scripts/related.js
 
 search_filtering_js:
   output: ckanext-ytp_main%(version)s_search_filtering.js
@@ -130,7 +130,7 @@ search_filtering_js:
     preload:
       - ytp_resources/main_js
   contents:
-      - opendata/scripts/search_filtering.js
+    - opendata/scripts/search_filtering.js
 
 table_js:
   output: ckanext-ytp_main%(version)s_table.js
@@ -139,7 +139,7 @@ table_js:
     preload:
       - ytp_resources/main_js
   contents:
-      - opendata/scripts/table.js
+    - opendata/scripts/table.js
 
 translations_js:
   output: ckanext-ytp_main%(version)s_translations.js
@@ -148,7 +148,7 @@ translations_js:
     preload:
       - ytp_resources/main_js
   contents:
-      - opendata/scripts/translations.js
+    - opendata/scripts/translations.js
 
 ytp_form_js:
   output: ckanext-ytp_main%(version)s_ytp_form.js
@@ -157,5 +157,5 @@ ytp_form_js:
     preload:
       - ytp_resources/main_js
   contents:
-      - opendata/scripts/ytp_form.js
+    - opendata/scripts/ytp_form.js
 
