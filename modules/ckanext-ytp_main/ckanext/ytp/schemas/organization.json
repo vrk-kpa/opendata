@@ -9,7 +9,11 @@
       "preset": "fluent_core_title_translated",
       "form_languages": [ "fi", "sv", "en" ],
       "form_placeholder": "My Organization",
-      "only_default_lang_required": true
+      "only_default_lang_required": true,
+      "group_title": "Organization name",
+      "form_attrs": {
+        "class": "form-control"
+      }
     },
     {
       "field_name": "name",
@@ -25,7 +29,8 @@
       "field_name": "parent_org",
       "form_snippet": "org_hierarchy.html",
       "label": "Parent organization",
-      "validators": "is_admin_in_parent_if_changed"
+      "validators": "is_admin_in_parent_if_changed",
+      "divider": true
     },
     {
       "field_name": "description_translated",
@@ -35,7 +40,10 @@
       "label": "Description",
       "form_attrs": {
         "class": "form-control"
-      }
+      },
+      "divider": true,
+      "group_title": "Organization description",
+      "group_description": "General, concise and easy-to-understand description of the organization."
     },
     {
       "field_name": "homepage",
@@ -44,7 +52,8 @@
       "label": "Home page",
       "form_attrs": {
         "class": "form-control"
-      }
+      },
+      "group_title": "Other information"
     },
     {
       "field_name": "features",

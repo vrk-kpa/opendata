@@ -14,12 +14,26 @@
 
   {%- set schema = h.scheming_get_organization_schema(c.group_type) -%}
     {%- for field in schema['fields'] -%}
-        {%- if field.form_snippet is not none -%}
-          {%- snippet 'scheming/snippets/form_field.html',
-          field=field, data=data, errors=errors, licenses=licenses,
-          entity_type='organization', object_type=c.group_type -%}
-        {%- endif -%}
+      {% if field.group_title %}
+        <h3 class="ytp-group-title">{{_(field.group_title)}}</h3>
+      {% endif %}
+
+      {% if field.group_description %}
+        <h5 class="ytp-group-description">{{_(field.group_description)}}</h5>
+      {% endif %}
+
+      {%- if field.form_snippet is not none -%}
+        {%- snippet 'scheming/snippets/form_field.html',
+        field=field, data=data, errors=errors, licenses=licenses,
+        entity_type='organization', object_type=c.group_type -%}
+      {%- endif -%}
+
+      {% if field.divider %}
+        <div class="ytp-group-divider"></div>
+      {% endif %}
     {%- endfor -%}
+
+    <div class="ytp-group-divider"></div>
 
     <div class="form-actions">
         {% block delete_button %}
