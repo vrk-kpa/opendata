@@ -75,8 +75,8 @@ stopwaitsecs = 600
 ; Required for uWSGI as it does not obey SIGTERM.
 stopsignal=QUIT
 
-{% if ckan_test_port is defined %}
-[program:{{ ckan_supervisor_name }}_test]
+{% if ckan_test_port is defined and ckan_test_supervisor_name is defined %}
+[program:{{ ckan_test_supervisor_name }}]
 
 command=/usr/lib/ckan/default/bin/uwsgi -i {{ ckan_uwsgi_test_conf }}
 

@@ -10,6 +10,8 @@ ckan_debug_enabled: true
 ckan_deployment_environment_id: 'vagrant'
 
 ckan_test_port: 9090
+ckan_test_ini: /etc/ckan/default/test.ini
+ckan_test_supervisor_name: ckan_test
 
 ckan_config_files:
   - template: ckan.ini.j2
@@ -44,16 +46,26 @@ wsgi_config_files:
     file: "{{ ckan_uwsgi_conf }}"
     ckan_wsgi_script: "{{ ckan_wsgi_script }}"
     ckan_port: "{{ ckan_port }}"
+    ckan_ini: "{{ ckan_ini }}"
   - template: ckan-uwsgi.ini.j2
     file: "{{ ckan_uwsgi_test_conf }}"
     ckan_wsgi_script: "{{ ckan_wsgi_script }}"
     ckan_port: "{{ ckan_test_port }}"
+    ckan_ini: "{{ ckan_test_ini }}"
   - template: wsgi.py.j2
     file: "{{ ckan_wsgi_script }}"
 
 ckan_log_files:
   - "{{ ckan_log_path }}/ckan.log"
   - "{{ ckan_log_path }}/ckan_test.log"
+
+ckan_supervisor_services:
+  - "{{ ckan_supervisor_name }}:"
+  - "{{ ckan_test_supervisor_name }}:"
+  - ckan_gather_consumer
+  - ckan_fetch_consumer
+  - ckan-worker-bulk
+  - ckan-worker-priority
 
 ckan_sentry_integration_enabled: false
 ckan_notifications_to_maintainers_enabled: true

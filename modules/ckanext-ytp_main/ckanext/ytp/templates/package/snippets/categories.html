@@ -37,6 +37,6 @@
     {% endif %}
   </ul>
   {% endblock %}
-  {% link_for _('Edit categories'), controller='package', action='groups', id=pkg.name %}
+  {% link_for _('Edit categories'), named_route='dataset.groups', id=pkg.name %}
 </section>
 {% endif %}

@@ -115,7 +115,8 @@ Cypress.Commands.add('create_new_organization', (organization_name, organization
   // Default values for organization form
   if (!organization_form_data) {
     organization_form_data = {
-      "#field-title_translated-fi": organization_name
+      "#field-title_translated-fi": organization_name,
+      "#field-producer_type": {type: 'select', value: "education-research"}
     }
   }
   cy.visit("/data/fi/organization");
@@ -169,7 +170,8 @@ Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, res
   if (!resource_form_data) {
     resource_form_data = {
       "#field-name_translated-fi": 'test data',
-      '#field-image-url': 'http://example.com'
+      '#field-image-url': 'http://example.com',
+      '#field-maturity': {type: 'select', value: 'current'}
     }
   }
 
@@ -329,10 +331,10 @@ Cypress.Commands.add('add_showcase_user', () => {
 Cypress.Commands.add('reset_db', () => {
     if (Cypress.env('resetDB') === true){
       cy.exec('npm run reset:db');
-      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckan search-index clear --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
-      // Init vocaularies
-      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_platform_vocabulary --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
-      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_showcase_type_vocabulary --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
+      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini search-index clear\'", {timeout: 120*1000});
+      // Init vocabularies
+      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini sixodp-showcase create_platform_vocabulary \'", {timeout: 120*1000});
+      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini sixodp-showcase create_showcase_type_vocabulary\'", {timeout: 120*1000});
     }
 });
 
