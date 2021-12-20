@@ -38,8 +38,7 @@ describe('Dataset tests', function() {
 
     const resource_name = 'sample file';
     const resource_form_data = {
-      "#field-name_translated-fi": resource_name,
-      '#field-maturity': {type: 'select', value: 'current'}
+      "#field-name_translated-fi": resource_name
     };
     cy.fill_form_fields(resource_form_data);
 

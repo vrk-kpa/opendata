@@ -115,8 +115,7 @@ Cypress.Commands.add('create_new_organization', (organization_name, organization
   // Default values for organization form
   if (!organization_form_data) {
     organization_form_data = {
-      "#field-title_translated-fi": organization_name,
-      "#field-producer_type": {type: 'select', value: "education-research"}
+      "#field-title_translated-fi": organization_name
     }
   }
   cy.visit("/data/fi/organization");
@@ -170,8 +169,7 @@ Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, res
   if (!resource_form_data) {
     resource_form_data = {
       "#field-name_translated-fi": 'test data',
-      '#field-image-url': 'http://example.com',
-      '#field-maturity': {type: 'select', value: 'current'}
+      '#field-image-url': 'http://example.com'
     }
   }
 

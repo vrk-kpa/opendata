@@ -35,8 +35,7 @@ describe('Category tests', function () {
 
     const resource_form_data = {
       "#field-name_translated-fi": 'test data',
-      '#field-image-url': 'http://example.com',
-      '#field-maturity': {type: 'select', value: 'current'}
+      '#field-image-url': 'http://example.com'
     };
 
     cy.contains('a', 'Linkki').click();

@@ -42,7 +42,6 @@ describe('Advanced search tests', () => {
                         value: 'CSV',
                         force: true
                     },
-                    '#field-maturity': {type: 'select', value: 'current'}
                 }
             },
             {
@@ -64,7 +63,6 @@ describe('Advanced search tests', () => {
                         value: 'XML',
                         force: true
                     },
-                    '#field-maturity': {type: 'select', value: 'current'}
                 }
             },
         ];
