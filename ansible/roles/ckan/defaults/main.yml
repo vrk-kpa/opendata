@@ -314,6 +314,7 @@ wsgi_config_files:
     file: "{{ ckan_uwsgi_conf }}"
     ckan_wsgi_script: "{{ ckan_wsgi_script }}"
     ckan_port: "{{ ckan_port }}"
+    ckan_ini: "{{ ckan_ini }}"
   - template: wsgi.py.j2
     file: "{{ ckan_wsgi_script }}"
 
