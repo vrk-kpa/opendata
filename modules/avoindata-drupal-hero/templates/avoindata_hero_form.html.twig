@@ -13,18 +13,10 @@
     {{ form.form_id }}
     <div class="avoindata-hero-search-container">
         <div>
-            <div class="d-inline-block mr-4">
-                <h1>
-                    <img class="avoindata-hero-logo mr-2" src="/resources/images/logo/opendata.svg"/>
-                    {% trans %}
-                    Avoindata.fi
-                    {% endtrans %}
-                </h1>
-            </div>
-            <div class="d-inline-block">
+            <div class="d-inline-block avoindata-frontpage-header-text-container">
                 <h2>
                     {% trans %}
-                        All Finnish open data from one place.
+                        All Finnish open data from one place
                     {% endtrans %}
                 </h2>
             </div>
@@ -69,8 +61,32 @@
             {% endfor %}
         </div>
         <div class="bg-highlight-base d-flex p-3 mt-4">
+            <div class="flex-1">
+                <div class="ytp-input-with-icon-frontpage">
+                    {% set placeholder %}
+                        {%- trans -%}
+                        Type what are you searching for
+                        {%- endtrans -%}
+                    {% endset %}
+                    <input
+                        id="edit-search"
+                        name="search"
+                        type="text"
+                        class="ytp-input-element-frontpage color-depth-dark27"
+                        placeholder="{{ placeholder }}"
+                    >
+                  <button type="submit">
+                    <span>
+                      {% trans %}
+                      Submit
+                    {% endtrans %}
+                    </span>
+                    <i class="fa fa-2x fa-search color-depth-base"></i>
+                  </button>
+                </div>
+            </div>
             <div class="position-relative">
-                <button id="type-dropdown" type="button" class="suomi-button suomi-button-custom mr-2" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="false">
+                <button id="type-dropdown" type="button" class="suomifi-button-secondary-black-text" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-3">
                         {% trans %}
                             Datasets
@@ -101,32 +117,6 @@
                         </a>
                     </li>
                 </ul>
-            </div>
-            <div class="flex-1">
-                <div class="ytp-input-with-icon">
-                    {% set placeholder %}
-                        {%- trans -%}
-                        Type what are you searching for
-                        {%- endtrans -%}
-                    {% endset %}
-                    <input
-                        id="edit-search"
-                        name="search"
-                        type="text"
-                        class="ytp-input-element color-depth-dark27"
-                        placeholder="{{ placeholder }}"
-                    >
-
-                  <button type="submit">
-                    <span>
-                      {% trans %}
-                      Submit
-                    {% endtrans %}
-                    </span>
-                    <i class="fa fa-2x fa-search color-depth-base"></i>
-                  </button>
-                </div>
-
             </div>
         </div>
         {{ form.searchfilter }}
