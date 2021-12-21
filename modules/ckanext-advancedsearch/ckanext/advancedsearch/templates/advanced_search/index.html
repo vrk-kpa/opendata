@@ -49,7 +49,6 @@
           {% endblock %}
         </div>
       {% endblock %}
-
       <div class="row wrapper{% block wrapper_class %} advanced-search-wrapper {% endblock %}{% if self.secondary()|trim == '' or c.action=='resource_read' %} no-nav{% endif %}">
         {% block pre_primary %}
           <h1 id="advanced-search-title">
@@ -119,7 +118,7 @@
                       </div>
                     </div>
                   </div>
-                  <div id="search-results-content">
+                  <div id="search-results-content" class="container-search-result">
                     {% snippet 'snippets/package_list.html', packages=c.advanced_search.collection %}
                   </div>
                 </div>

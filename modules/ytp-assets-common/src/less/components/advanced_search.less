@@ -10,6 +10,7 @@
 
 #advanced-search-title {
   margin-bottom: 50px;
+  line-height: 20px;
 }
 
 #advanced-search-options {
@@ -79,6 +80,7 @@
   font-weight: normal;
   line-height: 28px;
   padding: 27px 20px;
+  margin-bottom: -1px;
 
   label,
   input {
@@ -91,7 +93,15 @@
 }
 
 #search-results-content {
-  padding: 20px;
+  .row {
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 21px 20px 21px 20px;
+    border-bottom: 1px solid #c8cdd0;
+    border-top: 1px solid #c8cdd0;
+    background: #fff;
+    margin-bottom: -1px;
+  }
 }
 
 .ytp-input-label {
@@ -296,3 +306,21 @@ select.avoindata-order-by {
     line-height: 1;
   }
 }
+
+#search-options-content .calendar-icon {
+  margin-left: -26px;
+}
+
+#search-options-content .released-date .calendar-icon{
+  background: rgb(42, 110, 187);
+  border-radius: 0px 1px 1px 0px;
+  height: 40px;
+  width: 44px;
+  padding: 9px;
+  margin-left: 0;
+
+  i {
+    color: white;
+  }
+}
+
