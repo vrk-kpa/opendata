@@ -240,10 +240,11 @@ p:last-child,
   }
 
   .avoindata-categories-container {
-    max-width: @opendata-container-max-width;
+    max-width: @opendata-categories-container-max-width;
     float: none;
     display: block;
     margin: 0 auto;
+    flex: 2;
 
     .avoindata-categories-items {
       .flex-display(flex);
@@ -252,7 +253,7 @@ p:last-child,
     }
 
     .avoindata-category-box {
-      height: 13em;
+      height: 10em;
       width: 10em;
       text-align: center;
       justify-content: center;
@@ -557,8 +558,7 @@ p:last-child,
 
     .avoindata-datasetlist-offer-data {
       .login-link {
-        width: 120px;
-        height: 40px;
+        width: 160px;
         margin: 44px 50px 16px auto;
         background: #2a6ebb;
         line-height: 20px;
@@ -1476,4 +1476,9 @@ p:last-child,
   max-width: @opendata-container-max-width;
   margin: 0 auto;
   padding: 25px;
+}
+
+.avoindata-frontpage-header-text-container {
+  text-align: center;
+  width: 100%;
 }
