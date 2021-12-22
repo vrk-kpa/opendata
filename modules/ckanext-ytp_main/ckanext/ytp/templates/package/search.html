@@ -1,5 +1,6 @@
 {% extends "page.html" %}
 {% import 'macros/form.html' as form %}
+{% if page is not defined %}{% set page = c.page %}{% endif %}
 
 {% block meta %}
 {{ super() }}
@@ -58,18 +59,18 @@
           (_('Source'), 'source asc'),
           (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
         %}
-        {% snippet 'snippets/search_form.html', type='dataset', query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, query_params=c.fields_grouped, show_advanced_search=true %}
+        {% snippet 'snippets/search_form.html', type='dataset', query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=page.item_count, facets=facets, show_empty=request.params, error=c.query_error, query_params=c.fields_grouped, show_advanced_search=true %}
       </div>
       {% endblock %}
       <div class="row">
         {% block package_search_results_list %}
-        {{ h.snippet('snippets/package_list.html', packages=c.page.items) }}
+        {{ h.snippet('snippets/package_list.html', packages=page.items) }}
         {% endblock %}
       </div>
     </div>
 
     {% block page_pagination %}
-      {{ c.page.pager(q=c.q) }}
+      {{ page.pager(q=c.q) }}
     {% endblock %}
   </section>
 
