@@ -355,62 +355,6 @@ class YtpDatasetController(PackageController):
     def edit_related(self, id, related_id):
         return self._edit_or_new(id, related_id, True)
 
-    def groups(self, id):
-        context = {
-            'model': model,
-            'session': model.Session,
-            'user': g.user,
-            'for_view': True,
-            'auth_user_obj': g.userobj,
-            'use_cache': False
-        }
-
-        if request.method == "POST":
-            group_list = []
-            category_list = []
-            for key, val in request.params.items():
-                if key == 'categories':
-                    group_list.append({'name': val})
-                    category_list.append(val)
-            try:
-                get_action('package_patch')(context, {"id": id, "groups": group_list, "categories": category_list})
-                h.redirect_to('dataset_groups', id=id)
-            except (NotFound, NotAuthorized):
-                return base.abort(404, _('Dataset not found'))
-
-        try:
-            pkg_dict = get_action('package_show')(context, {'id': id})
-        except (NotFound, NotAuthorized):
-            return base.abort(404, _('Dataset not found'))
-
-        dataset_type = pkg_dict['type']
-        context['is_member'] = True
-        users_groups = get_action('group_list_authz')(context, {'id': id})
-
-        pkg_group_ids = set(
-            group['id'] for group in pkg_dict.get('groups', [])
-        )
-
-        user_group_ids = set(group['id'] for group in users_groups)
-
-        group_dropdown = [[group['id'], group['display_name']]
-                          for group in users_groups
-                          if group['id'] not in pkg_group_ids]
-
-        for group in pkg_dict.get('groups', []):
-            group['user_member'] = (group['id'] in user_group_ids)
-
-        c.pkg_dict = pkg_dict
-        c.group_dropdown = group_dropdown
-
-        return base.render(
-            'package/group_list.html', {
-                'dataset_type': dataset_type,
-                'pkg_dict': pkg_dict,
-                'group_dropdown': group_dropdown
-            }
-        )
-
     def _edit_or_new(self, id, related_id, is_edit):
         """
         Edit and New were too similar and so I've put the code together

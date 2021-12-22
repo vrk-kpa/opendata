@@ -33,7 +33,7 @@ from sqlalchemy.sql.expression import false
 from flask import Blueprint
 
 from ckanext.ytp.logic import package_autocomplete
-from ckanext.ytp.views import dataset_autocomplete
+import ckanext.ytp.views as views
 from ckanext.ytp import auth, menu, cli, validators, views_organization
 
 from .converters import save_to_groups
@@ -501,15 +501,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         }
 
     def get_blueprint(self):
-        '''Return a Flask Blueprint object to be registered by the app.'''
-
-        # Create Blueprint for plugin
-        blueprint = Blueprint(self.name, self.__module__)
-
-        # Add plugin url rules to Blueprint object
-        blueprint.add_url_rule('/api/util/dataset/autocomplete', view_func=dataset_autocomplete)
-
-        return blueprint
+        return views.get_blueprint()
 
 
 class YTPSpatialHarvester(plugins.SingletonPlugin):
