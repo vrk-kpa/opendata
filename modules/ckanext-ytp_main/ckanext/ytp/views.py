@@ -5,18 +5,18 @@ from ckan.views.api import _finish_ok
 
 
 def dataset_autocomplete():
-    q = request.args.get(u'incomplete', u'')
-    limit = request.args.get(u'limit', 10)
-    package_type = request.args.get(u'package_type', '')
+    q = request.args.get('incomplete', '')
+    limit = request.args.get('limit', 10)
+    package_type = request.args.get('package_type', '')
     package_dicts = []
     if q:
-        context = {u'model': model, u'session': model.Session,
-                   u'user': g.user, u'auth_user_obj': g.userobj}
+        context = {'model': model, 'session': model.Session,
+                   'user': g.user, 'auth_user_obj': g.userobj}
 
-        data_dict = {u'q': q, u'limit': limit, u'package_type': package_type}
+        data_dict = {'q': q, 'limit': limit, 'package_type': package_type}
 
         package_dicts = get_action(
-            u'package_autocomplete')(context, data_dict)
+            'package_autocomplete')(context, data_dict)
 
-    resultSet = {u'ResultSet': {u'Result': package_dicts}}
+    resultSet = {'ResultSet': {'Result': package_dicts}}
     return _finish_ok(resultSet)

@@ -1,4 +1,4 @@
-@import "../../node_modules/bootstrap/less/variables.less";
+@import "../../../../node_modules/bootstrap/less/variables.less";
 @import "variables.less";
 @import "mixins/mixins.less";
 
@@ -328,7 +328,7 @@ End of dropdown CSS
   a:hover {
     color: @navbar-color-links;
     background-color: @navbar-background;
-    border-bottom: 4px solid @main-nav-hover-border-bottom;
+    border-bottom: @border-width__navigation solid @border-bottom-color__main-nav--active;
     text-decoration: none;
 
     &.is-active {
@@ -348,14 +348,18 @@ End of dropdown CSS
   li {
     a {
       margin-right: 5px;
+      padding-top: @padding-x__navigation;
+      // Because border-bottom adds "padding" to bottom, subtract border-width from bottom padding
+      padding-bottom: @padding-x__navigation - @border-width__navigation;
+      border-bottom: @border-width__navigation solid transparent;
 
       &.is-active {
         position: relative;
-        border-bottom: 4px solid @main-nav-hover-border-bottom;
+        border-bottom: @border-width__navigation solid @border-bottom-color__main-nav--active;
 
         &::after {
           position: absolute;
-          border-bottom: 4px solid @main-nav-hover-border-bottom;
+          border-bottom: @border-width__navigation solid @border-bottom-color__main-nav--active;
         }
       }
     }

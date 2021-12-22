@@ -28,3 +28,64 @@
   vertical-align: middle;
   height: 1.3em;
 }
+
+.admin-banner {
+  min-height: 40px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+
+  a {
+    float: right;
+    color: @opendata-brand-primary;
+    height: 40px;
+    font-size: @font-size-smaller-base;
+    font-family: @font-family-sans-serif-semibold;
+    font-weight: @font-weight-heavier;
+    letter-spacing: 0.4px;
+    line-height: 20px;
+    border: 1px solid @opendata-brand-primary;
+    border-radius: 2px;
+    padding: 10px 15px 0 15px;
+    text-decoration: none;
+  }
+}
+
+.private-or-draft-dataset {
+  background: @opendata-brand-blue;
+  height: 80px;
+
+  div {
+    width: 100%;
+
+    div {
+      width: auto;
+      float: left;
+      padding-top: 10px;
+    }
+  }
+
+  img {
+    height: 20px;
+    width: 20px;
+  }
+
+  span {
+    color: @suomi-whiteBase;
+    font-family: @font-family-sans-serif;
+    font-size: @font-size-slightly-smaller-base;
+    font-weight: @font-weight-normal;
+    line-height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 5px;
+  }
+
+  a {
+    color: @suomi-whiteBase;
+    border: 1px solid @suomi-whiteBase;
+  }
+}
+
+.deleted-dataset {
+  background: @suomi-alertBase;
+}

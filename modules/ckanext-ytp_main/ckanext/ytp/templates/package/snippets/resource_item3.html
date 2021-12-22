@@ -1,0 +1,16 @@
+{% extends "package/snippets/resource_item.html" %}
+{% block resource_item_description %}{% endblock %}
+{% block resource_item_explore %}
+
+
+  {% if not url_is_edit %}
+    <div class="pull-right resource-item-actions">
+        {% if can_edit and res.id != false and res.id != resource_under_edit %}
+            <a href="{{ h.url_for('dataset_resource.edit', id=pkg.name, resource_id=res.id) }}" class="resource-action">{{ _('Manage') }}</a>
+        {% endif %}
+      <a href="{{ res.url }}" target="_blank" class="resource-url-analytics resource-type-{{ res.resource_type }} resource-action">{{ _('Open') }}</a>
+    </div>
+  {% endif %}
+
+
+{% endblock %}

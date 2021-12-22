@@ -21,23 +21,27 @@ Example:
 <li class="{{ item_class or 'dataset-item' }}">
     {% block package_item_content %}
         <div class="dataset-content">
-            <h3 class="dataset-heading">
-                {% if package.private %}
-                    <i class="fa fa-lock icon-private" title="{{ _('Private') }}"></i>
-                {% endif %}
-                {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type + '_read', controller='package', action='read', id=package.name)) }}
+          <div>
+            <h3 class="dataset-heading dataset-title">
+                {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type + '_read', id=package.name)) }}
                 {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
             </h3>
+            {% if package.get('state', '').startswith('deleted') %}
+              <span class="collection-type deleted">
+                {{ _('Deleted') }}
+              </span>
+            {% elif package.get('state', '').startswith('draft') %}
+              <span class="collection-type draft">
+                {{_('Draft')}}
+              </span>
+            {% elif package.private %}
+              <span class="collection-type private">
+                {{_('Private')}}
+              </span>
+            {% endif %}
+          </div>
 
-            <div class="organization byline-dataset dataset-item-organization">
-                {% if package.organization -%}
-                    <a href="/data/{{ h.lang() }}/organization/{{package.organization.get('name')}}">
-                        {{ package.organization.get('title') }}
-                    </a>
-                    &nbsp;/&nbsp;
-                {%- endif -%}
-                {{- h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") -}}
-            </div>
+            <div class="clearfix"></div>
 
             {% if banner %}
                 <span class="banner">{{ _('Popular') }}</span>
@@ -47,18 +51,6 @@ Example:
                     {{ notes | urlize }}
                 </p>
             {% endif %}
-
-            <div>
-                {% if package.get('state', '').startswith('draft') %}
-                    <span class="collection-type draft label label-info">
-                        {{_('Draft')}}
-                    </span>
-                {% elif package.get('state', '').startswith('deleted') %}
-                    <span class="collection-type deleted label label-important">
-                        {{_('Deleted')}}
-                    </span>
-                {% endif %}
-            </div>
 
             <div class="d-flex justify-content-between flex-wrap mt-2">
                 {% if package.organization.producer_type | length != 0 and h.get_label_for_producer(package.organization.producer_type) | length != 0%}

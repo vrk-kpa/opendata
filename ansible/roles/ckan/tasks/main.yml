@@ -44,6 +44,8 @@
     mode: "0755"
   when: ckan_deployment_environment_id == "vagrant"
 
+- include: pip.yml
+
 - include: extension.yml
   with_items: "{{ ckan_extensions }}"
 
@@ -64,9 +66,10 @@
     mode: 0640
   with_items: "{{ ckan_log_files }}"
 
+
 - name: Install CKAN
   pip:
-    name: "git+https://github.com/ckan/ckan.git@ckan-{{ ckan_version }}#egg=ckan[requirements-py2]"
+    name: "git+https://github.com/ckan/ckan.git@ckan-{{ ckan_version }}#egg=ckan[requirements]"
     virtualenv: "{{ ckan_virtual_environment }}"
     extra_args: "--exists-action=s -e"
 
@@ -171,14 +174,3 @@
     - configure
     - configure_ckan
 
-- name: Update supervisor configuration
-  shell: supervisorctl update
-
-- name: Start supervisor services
-  supervisorctl:
-    name: "{{ item }}"
-    state: started
-  with_flattened:
-    - "{{ ckan_supervisor_services }}"
-  tags:
-    - supervisor

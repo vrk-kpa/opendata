@@ -13,10 +13,10 @@ from ckan.logic import get_action
 from ckanext.showcase.model import ShowcaseAdmin
 
 import json
-import plugin
+from . import plugin
 import logging
 import collections
-from tools import check_package_deprecation
+from .tools import check_package_deprecation
 
 
 try:
@@ -42,7 +42,7 @@ ObjectNotFound = toolkit.ObjectNotFound
 c = toolkit.c
 
 missing = toolkit.missing
-ISO_639_LANGUAGE = u'^[a-z][a-z][a-z]?[a-z]?$'
+ISO_639_LANGUAGE = '^[a-z][a-z][a-z]?[a-z]?$'
 
 
 def lower_if_exists(s):
@@ -54,13 +54,13 @@ def upper_if_exists(s):
 
 
 def list_to_string(list):
-    if isinstance(list, collections.Sequence) and not isinstance(list, basestring):
+    if isinstance(list, collections.Sequence) and not isinstance(list, str):
         return ','.join(list)
     return list
 
 
 def string_to_list(value):
-    if isinstance(value, basestring):
+    if isinstance(value, str):
         tags = [tag.strip()
                 for tag in value.split(',')
                 if tag.strip()]
@@ -91,7 +91,7 @@ def set_private_if_not_admin_or_showcase_admin(private):
 
 
 def convert_to_list(value):
-    if isinstance(value, basestring):
+    if isinstance(value, str):
         tags = [tag.strip()
                 for tag in value.split(',')
                 if tag.strip()]
@@ -143,8 +143,9 @@ def add_to_vocab(context, tags, vocab):
         log.info("creating vocab")
         v = plugin.create_vocabulary(vocab, defer)
 
+    assert(v is not None)
     context['vocabulary'] = model.Vocabulary.get(v.get('id'))
-    if isinstance(tags, basestring):
+    if isinstance(tags, str):
         tags = [tags]
 
     for tag in tags:
@@ -190,7 +191,7 @@ def repeating_text(key, data, errors, context):
     value = data[key]
     # 1. list of strings or 2. single string
     if value is not toolkit.missing:
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             value = [value]
         if not isinstance(value, list):
             errors[key].append(_('expecting list of strings'))
@@ -198,17 +199,17 @@ def repeating_text(key, data, errors, context):
 
         out = []
         for element in value:
-            if not isinstance(element, basestring):
-                errors[key].append(_('invalid type for repeating text: %r')
-                                   % element)
-                continue
-            if isinstance(element, str):
+            if isinstance(element, bytes):
                 try:
                     element = element.decode('utf-8')
                 except UnicodeDecodeError:
                     errors[key]. append(_('invalid encoding for "%s" value')
                                         % toolkit.lang)
                     continue
+            elif not isinstance(element, str):
+                errors[key].append(_('invalid type for repeating text: %r')
+                                   % element)
+                continue
             out.append(element)
 
         if not errors[key]:
@@ -220,7 +221,7 @@ def repeating_text(key, data, errors, context):
     prefix = key[-1] + '-'
     extras = data.get(key[:-1] + ('__extras',), {})
 
-    for name, text in extras.iteritems():
+    for name, text in extras.items():
         if not name.startswith(prefix):
             continue
         if not text:
@@ -280,7 +281,7 @@ def only_default_lang_required(field, schema):
         value = data[key]
 
         if value is not missing:
-            if isinstance(value, basestring):
+            if isinstance(value, str):
                 try:
                     value = json.loads(value)
                 except ValueError:
@@ -336,7 +337,7 @@ def override_field_with_default_translation(overridden_field_name):
             override_value = missing
 
             if value is not missing:
-                if isinstance(value, basestring):
+                if isinstance(value, str):
                     try:
                         value = json.loads(value)
                     except ValueError:
@@ -401,7 +402,7 @@ def from_date_is_before_until_date(field, schema):
     def validator(key, data, errors, context):
 
         max_date_value = data.get(max_date_field, "")
-        if max_date_field is not None and max_date_value != "" and max_date_value != missing:
+        if max_date_field is not None and max_date_value != "" and max_date_value != missing and max_date_value is not None:
             if not isinstance(max_date_value, datetime.datetime):
                 try:
                     max_date_value = iso8601.parse_date(max_date_value)
@@ -412,7 +413,7 @@ def from_date_is_before_until_date(field, schema):
                 errors[key].append(_('Start date is after end date'))
 
         min_date_value = data.get(min_date_field, "")
-        if min_date_field is not None and min_date_value != "" and min_date_value != missing:
+        if min_date_field is not None and min_date_value != "" and min_date_value != missing and min_date_value is not None:
             if not isinstance(min_date_value, datetime.datetime):
                 try:
                     min_date_value = iso8601.parse_date(min_date_value)
@@ -562,7 +563,7 @@ def use_url_for_name_if_left_empty(field, schema):
 
 
 def convert_to_json_compatible_str_if_str(value):
-    if isinstance(value, basestring):
+    if isinstance(value, str):
         if value == "":
             return json.dumps({})
         try:
@@ -599,6 +600,6 @@ def resource_url_validator(key, data, errors, context):
         return
 
     url_type = data[(key[0], key[1], 'url_type')]
-    if url_type != u'upload':
+    if url_type != 'upload':
         url_validator = toolkit.get_validator('url_validator')
         url_validator(key, data, errors, context)

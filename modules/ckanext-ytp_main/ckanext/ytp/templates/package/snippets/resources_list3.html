@@ -1,0 +1,29 @@
+<section id="dataset-resources" class="resources">
+  <h3>{{ list_title or _('Resources') }} ({{ resources|count }})</h3>
+
+  {% block resource_list %}
+  {% if resources %}
+    <ul class="resource-list resource-list-apiset">
+      {% block resource_list_inner %}
+      {% for resource in resources %}
+        {% snippet 'package/snippets/resource_item3.html', pkg=pkg, res=resource, draft=draft or false, resource_under_edit=resource_under_edit or false %}
+      {% endfor %}
+      {% endblock %}
+    </ul>
+  {% else %}
+    <p class="empty">
+      {% if h.check_access('package_update', {'id':pkg.id }) %}
+        {% set url = h.url_for(named_route='dataset.new_resource', id=pkg.name) %}
+        {% trans %}
+        This dataset has no data, <a href="{{ url }}">why not add some?</a>
+        {% endtrans %}
+      {% else %}
+        {% set maintainer_email = pkg.maintainer_email %}
+        {% trans %}
+        This dataset has no data. <a href="mailto:{{ maintainer_email }}">Ask the dataset's maintainer to add data.</a>
+        {% endtrans %}
+      {% endif %}
+    </p>
+  {% endif %}
+  {% endblock %}
+</section>

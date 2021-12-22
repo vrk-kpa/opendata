@@ -1,6 +1,6 @@
 {% set can_edit = h.check_access('package_update', {'id':pkg.id }) %}
-{% set url_action = 'resource_edit' if (url_is_edit or draft) and can_edit else 'resource_read' %}
-{% set url = h.url_for(controller='package', action=url_action, id=pkg.name, resource_id=res.id) %}
+{% set url_action = 'dataset_resource.edit' if (url_is_edit or draft) and can_edit else 'dataset_resource.read' %}
+{% set url = h.url_for(url_action, id=pkg.name, resource_id=res.id) %}
 
 <li class="resource-item" data-id="{{ res.id }}">
   <span class="resource-item__icon format-label" property="dc:format" data-format="{{ res.format.lower() or 'data' }}">{{ res.format }}</span>
@@ -13,12 +13,14 @@
       {% endif %}
     </a>
   {% endblock %}
+  {% block resource_item_description %}
     <p class="resource-item__info__description">
       {% set description = h.extra_translation(res, 'description', markdown=80) %}
       {% if description %}
         {{ description }}
       {% endif %}
     </p>
+  {% endblock %}
   </div>
     <div class="resource-item__actions">
       {% block resource_item_explore %}
@@ -60,7 +62,7 @@
           </li>
           {% if can_edit %}
           <li>
-            <a href="{{ h.url_for(controller='package', action='resource_edit', id=pkg.name, resource_id=res.id) }}">
+            <a href="{{ h.url_for('dataset_resource.edit', id=pkg.name, resource_id=res.id) }}">
               <i class="icon-edit"></i>
               {{ _('Edit') }}
             </a>

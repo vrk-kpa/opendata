@@ -94,10 +94,10 @@ def advanced_publisher_options(field=None):
     check_access('organization_list', {'user': c.user, 'model': model, 'session': model.Session})
     data = model.Session.query(model.Group.name, model.Group.title, model.GroupExtra.value) \
         .join(model.GroupExtra, model.GroupExtra.group_id == model.Group.id) \
-        .filter(model.Group.state == u'active') \
+        .filter(model.Group.state == 'active') \
         .filter(model.Group.is_organization.is_(True)) \
-        .filter(model.GroupExtra.state == u'active')\
-        .filter(model.GroupExtra.key == u'title_translated')\
+        .filter(model.GroupExtra.state == 'active')\
+        .filter(model.GroupExtra.key == 'title_translated')\
         .all()
 
     publishers = [
@@ -155,7 +155,7 @@ def advanced_multiselect_query(custom_key=None):
         def create_single_fq(param, key=query_key):
             return key + ':' + param
 
-        if isinstance(params, basestring): # noqa
+        if isinstance(params, str): # noqa
             fq = create_single_fq(params)
         elif isinstance(params, list):
             # If all is selected we don't want to return anything

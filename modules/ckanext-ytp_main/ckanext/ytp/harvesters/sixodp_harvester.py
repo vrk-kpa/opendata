@@ -1,6 +1,6 @@
-import urllib
-import urllib2
-import httplib
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
+import http.client
 import datetime
 import socket
 
@@ -124,7 +124,7 @@ GROUP_MAP = group_map()
 
 def sixodp_to_opendata_preprocess(package_dict):
     sixodp_groups = set(g.get('name') for g in package_dict.get('groups', []))
-    sixodp_keywords = set('keyword:%s' % keyword for language in package_dict.get('keywords').values() for keyword in language)
+    sixodp_keywords = set('keyword:%s' % keyword for language in list(package_dict.get('keywords').values()) for keyword in language)
     mapping_values = sixodp_groups.union(sixodp_keywords)
     groups = evaluate_group_map(GROUP_MAP, mapping_values)
 
@@ -188,26 +188,26 @@ class SixodpHarvester(HarvesterBase):
         return '%s/package_search' % self._get_action_api_offset()
 
     def _get_content(self, url):
-        http_request = urllib2.Request(url=url)
+        http_request = urllib.request.Request(url=url)
 
         api_key = self.config.get('api_key')
         if api_key:
             http_request.add_header('Authorization', api_key)
 
         try:
-            http_response = urllib2.urlopen(http_request)
-        except urllib2.HTTPError, e:
+            http_response = urllib.request.urlopen(http_request)
+        except urllib.error.HTTPError as e:
             if e.getcode() == 404:
                 raise ContentNotFoundError('HTTP error: %s' % e.code)
             else:
                 raise ContentFetchError('HTTP error: %s' % e.code)
-        except urllib2.URLError, e:
+        except urllib.error.URLError as e:
             raise ContentFetchError('URL error: %s' % e.reason)
-        except httplib.HTTPException, e:
+        except http.client.HTTPException as e:
             raise ContentFetchError('HTTP Exception: %s' % e)
-        except socket.error, e:
+        except socket.error as e:
             raise ContentFetchError('HTTP socket error: %s' % e)
-        except Exception, e:
+        except Exception as e:
             raise ContentFetchError('HTTP general exception: %s' % e)
         return http_response.read()
 
@@ -281,7 +281,7 @@ class SixodpHarvester(HarvesterBase):
                                      ' names/ids')
                 if config_obj['default_groups'] and \
                         not isinstance(config_obj['default_groups'][0],
-                                       basestring):
+                                       str):
                     raise ValueError('default_groups must be a list of group '
                                      'names/ids (i.e. strings)')
 
@@ -295,7 +295,7 @@ class SixodpHarvester(HarvesterBase):
                         # save the dict to the config object, as we'll need it
                         # in the import_stage of every dataset
                         config_obj['default_group_dicts'].append(group)
-                    except NotFound, e:
+                    except NotFound as e:
                         raise ValueError('Default group not found')
                 config = json.dumps(config_obj)
 
@@ -322,7 +322,7 @@ class SixodpHarvester(HarvesterBase):
                     if not isinstance(config_obj[key], bool):
                         raise ValueError('%s must be boolean' % key)
 
-        except ValueError, e:
+        except ValueError as e:
             raise e
 
         return config
@@ -376,7 +376,7 @@ class SixodpHarvester(HarvesterBase):
                 pkg_dicts = self._search_for_datasets(
                     remote_ckan_base_url,
                     fq_terms + [fq_since_last_time])
-            except SearchError, e:
+            except SearchError as e:
                 log.info('Searching for datasets changed since last time '
                          'gave an error: %s', e)
                 get_all_packages = True
@@ -393,7 +393,7 @@ class SixodpHarvester(HarvesterBase):
             try:
                 pkg_dicts = self._search_for_datasets(remote_ckan_base_url,
                                                       fq_terms)
-            except SearchError, e:
+            except SearchError as e:
                 log.info('Searching for all datasets gave an error: %s', e)
                 self._save_gather_error(
                     'Unable to search remote CKAN for datasets:%s url:%s'
@@ -409,7 +409,7 @@ class SixodpHarvester(HarvesterBase):
 
         deleted_ids = set()
         if delete_missing:
-            received_ids = set(unicode(p['id']) for p in pkg_dicts)
+            received_ids = set(str(p['id']) for p in pkg_dicts)
             existing_ids = set(row[0] for row in model.Session.query(HarvestObject.guid)
                                .filter(HarvestObject.current == True)  # noqa
                                .filter(HarvestObject.harvest_source_id == harvest_job.source_id))
@@ -458,7 +458,7 @@ class SixodpHarvester(HarvesterBase):
                 object_ids.append(obj.id)
 
             return object_ids
-        except Exception, e:
+        except Exception as e:
             self._save_gather_error('%r' % e.message, harvest_job)
 
     def _search_for_datasets(self, remote_ckan_base_url, fq_terms=None):
@@ -493,11 +493,11 @@ class SixodpHarvester(HarvesterBase):
         pkg_ids = set()
         previous_content = None
         while True:
-            url = base_search_url + '?' + urllib.urlencode(params)
+            url = base_search_url + '?' + urllib.parse.urlencode(params)
             log.debug('Searching for CKAN datasets: %s', url)
             try:
                 content = self._get_content(url)
-            except ContentFetchError, e:
+            except ContentFetchError as e:
                 raise SearchError(
                     'Error sending request to search remote '
                     'CKAN instance %s using URL %r. Error: %s' %
@@ -608,7 +608,7 @@ class SixodpHarvester(HarvesterBase):
                             else:
                                 raise NotFound
 
-                        except NotFound, e:
+                        except NotFound as e:
                             if 'name' in group_:
                                 data_dict = {'id': group_['name']}
                                 group = get_action('group_show')(base_context.copy(), data_dict)
@@ -617,7 +617,7 @@ class SixodpHarvester(HarvesterBase):
                         # Found local group
                         validated_groups.append({'id': group['id'], 'name': group['name']})
 
-                    except NotFound, e:
+                    except NotFound as e:
                         log.info('Group %s is not available', group_)
                         if remote_groups == 'create':
                             try:
@@ -665,7 +665,7 @@ class SixodpHarvester(HarvesterBase):
                             log.info("Organization %s is not active, not assigning it.", remote_org)
                         else:
                             validated_org = org['id']
-                    except NotFound, e:
+                    except NotFound as e:
                         log.info('Organization %s is not available', remote_org)
                         if remote_orgs == 'create':
                             try:
@@ -710,14 +710,14 @@ class SixodpHarvester(HarvesterBase):
                 override_extras = self.config.get('override_extras', False)
                 if 'extras' not in package_dict:
                     package_dict['extras'] = []
-                for key, value in default_extras.iteritems():
+                for key, value in default_extras.items():
                     existing_extra = get_extra(key, package_dict)
                     if existing_extra and not override_extras:
                         continue  # no need for the default
                     if existing_extra:
                         package_dict['extras'].remove(existing_extra)
                     # Look for replacement strings
-                    if isinstance(value, basestring):
+                    if isinstance(value, str):
                         value = value.format(
                             harvest_source_id=harvest_object.job.source.id,
                             harvest_source_url=harvest_object.job.source.url.strip('/'),
@@ -790,12 +790,12 @@ class SixodpHarvester(HarvesterBase):
                 get_action('organization_patch')(base_context.copy(), last_harvested_dict)
 
             return result
-        except ValidationError, e:
+        except ValidationError as e:
             log.error("ValidationError: %s" % e)
             self._save_object_error('Invalid package with GUID %s: %r' %
                                     (harvest_object.guid, e.error_dict),
                                     harvest_object, 'Import')
-        except Exception, e:
+        except Exception as e:
             log.error("Exception: %s" % e)
             self._save_object_error('%s' % e, harvest_object, 'Import')
 

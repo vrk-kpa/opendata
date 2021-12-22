@@ -18,7 +18,7 @@
 
     {% block categories %}
         {{ layout.moduleBoxHead(_('Categories')) }}
-            {% snippet 'package/snippets/categories.html', categories=pkg.get('groups', {}) %}
+            {% snippet 'package/snippets/categories.html', categories=pkg.get('groups', {}), pkg=pkg %}
         {{ layout.moduleBoxFoot() }}
     {% endblock %}
 

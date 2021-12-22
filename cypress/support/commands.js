@@ -329,10 +329,10 @@ Cypress.Commands.add('add_showcase_user', () => {
 Cypress.Commands.add('reset_db', () => {
     if (Cypress.env('resetDB') === true){
       cy.exec('npm run reset:db');
-      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckan search-index clear --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
-      // Init vocaularies
-      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_platform_vocabulary --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
-      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_showcase_type_vocabulary --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
+      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini search-index clear\'", {timeout: 120*1000});
+      // Init vocabularies
+      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini sixodp-showcase create_platform_vocabulary \'", {timeout: 120*1000});
+      cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini sixodp-showcase create_showcase_type_vocabulary\'", {timeout: 120*1000});
     }
 });
 

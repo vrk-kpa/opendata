@@ -72,8 +72,9 @@ describe('Dataset tests', function() {
     });
 
     // File size should be calculated automatically
+    // Use 'contain' because of surrounding whitespace
     cy.get('dt').contains('Tiedostokoko').next()
-      .should('have.text', '4123652');
+      .should('contain.text', '4123652');
   });
 
   it('Create a dataset with all fields', function() {
@@ -130,11 +131,5 @@ describe('Dataset tests', function() {
     cy.visit('/');
     cy.get('nav a[href="/data/fi/dataset"]').click();
     cy.get('a[href="/data/fi/dataset/new"]').should('not.exist');
-  })
-
-  it('Dataset should not render as showcase', function (){
-    cy.create_new_dataset("test_dataset_render");
-    cy.visit('/data/fi/showcase/test_dataset_render');
-    cy.get('#dataset-resources').should('exist');
   })
 })

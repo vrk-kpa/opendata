@@ -52,7 +52,7 @@
                 </h2>
             {% endif %}
         {% endblock %}
-        
+
         {% block search_sortby %}
             {% if disableable_sorting %}
                 <div class="form-select control-group control-order-by m-0">
@@ -72,7 +72,7 @@
         {% endblock %}
 
         {% if type == "dataset" %}
-            {% resource 'ytp_common_js/search_filtering.js' %}
+            {% asset 'ytp_resources/search_filtering_js' %}
             <button type="button" class="btn" id="search-filter-show-button"><i class="far fa-filter"></i> {{ _('Filter search') }}</button>
             <button type="button" class="btn" id="search-filter-lower-hide-button">
                 <span class="fa-stack">
@@ -83,7 +83,7 @@
             </button>
         {% endif %}
     </div>
-        
+
     {% block search_facets %}
         {% if facets %}
             <p class="filter-list">

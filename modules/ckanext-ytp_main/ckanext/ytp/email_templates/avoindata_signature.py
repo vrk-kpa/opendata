@@ -3,10 +3,10 @@
 
 def signature(lang):
     if lang == 'fi':
-        return u"""Ystävällisin terveisin,
+        return """Ystävällisin terveisin,
 Avoindata.fi tuki
 """
 
-    return u"""Best regards,
+    return """Best regards,
 Avoindata.fi support
 """

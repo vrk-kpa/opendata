@@ -1,7 +1,7 @@
 from ckan import model, logic
 from ckan.lib.dictization import model_dictize
 from ckan.common import _
-from pylons import config
+from ckan.plugins.toolkit import config
 from ckanext.ytp_request.model import MemberRequest
 from ckan.lib.helpers import url_for
 from ckanext.ytp_request.mail import mail_new_membership_request

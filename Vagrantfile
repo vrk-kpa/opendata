@@ -22,6 +22,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ytp.vm.synced_folder ".", "/vagrant", type:"virtualbox", :mount_options => ["dmode=755","fmode=644"]
     end
 
+    ytp.vm.provision "shell",
+      inline: "apt-get update && apt-get install -y --only-upgrade ca-certificates"
+
     ytp.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "ansible/single-server.yml"
       ansible.verbose = "v"

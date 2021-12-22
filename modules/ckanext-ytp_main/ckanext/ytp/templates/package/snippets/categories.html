@@ -1,4 +1,4 @@
-{% resource "ytp_common_js/categories.js" %} {% set lang = h.get_lang_prefix()
+{% asset "ytp_resources/categories_js" %} {% set lang = h.get_lang_prefix()
 %} {% if categories %}
 <section class="categories">
   {% block category_list %}
@@ -37,5 +37,6 @@
     {% endif %}
   </ul>
   {% endblock %}
+  {% link_for _('Edit categories'), named_route='dataset.groups', id=pkg.name %}
 </section>
 {% endif %}

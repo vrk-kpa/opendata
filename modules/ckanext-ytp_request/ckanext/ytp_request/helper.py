@@ -2,7 +2,7 @@ from ckan import model
 from ckan.common import c
 from ckan.lib import helpers
 from sqlalchemy.sql.expression import or_
-from pylons import config
+from ckan.plugins.toolkit import config
 
 
 def get_user_member(organization_id, state=None):
