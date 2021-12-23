@@ -1,26 +1,23 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import sys
-import os
 import inspect
 import logging
+import os
+import sys
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+from ckanext.advancedsearch import action, controller, helpers, loader
 
 from paste.reloader import watch_file
-
-from ckanext.advancedsearch import loader
-from ckanext.advancedsearch import helpers
-from ckanext.advancedsearch import action
 
 log = logging.getLogger(__name__)
 
 
 class AdvancedsearchPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.IConfigurer)
-    plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IActions, inherit=True)
     plugins.implements(plugins.ITranslation)
@@ -67,14 +64,9 @@ class AdvancedsearchPlugin(plugins.SingletonPlugin):
             'advanced_dataset_types_options': helpers.advanced_dataset_types_options
         }
 
-    # IRoutes
-    def before_map(self, m):
-        m.connect(
-            '/advanced_search',
-            action='search',
-            controller='ckanext.advancedsearch.controller:YtpAdvancedSearchController'
-        )
-        return m
+    # IBlueprint
+    def get_blueprint(self):
+        return controller.get_blueprints()
 
     # ITranslator
 

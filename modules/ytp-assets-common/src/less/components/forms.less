@@ -160,6 +160,7 @@ label.group-label {
     border-bottom: 0;
     padding: 20px;
     display: flex;
+    background-color: @background-color__content;
   }
 
   .search-result-count {
@@ -367,6 +368,20 @@ fieldset.checkboxes {
   }
 }
 
+// Frontpage search bar input.
+.ytp-input-element-frontpage {
+  .ytp-input-element;
+
+  &::placeholder {
+    color: rgb(109, 120, 126);
+    font-style: italic;
+    opacity: 1;
+  }
+
+  height: 40px;
+  border-radius: 1px;
+}
+
 .ytp-search-bar {
   &::before {
     content: "\f002";
@@ -456,6 +471,14 @@ fieldset.checkboxes {
       display: none;
     }
   }
+}
+
+// Frontpage search bar.
+.ytp-input-with-icon-frontpage {
+  .ytp-input-with-icon;
+
+  height: 40px;
+  margin-right: 10px;
 }
 
 .ytp-group-title {

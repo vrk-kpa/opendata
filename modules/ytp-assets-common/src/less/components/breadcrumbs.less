@@ -1,10 +1,12 @@
 @import '../variables.less';
 
 .toolbar {
-  background-color: @breadcrumb-color-background;
+  background-color: @background-color__toolbar;
+  padding: 0;
+  margin: 0;
 
   .breadcrumb {
-    max-width: 1140px;
+    max-width: @opendata-container-max-width;
     margin: 0 auto;
     float: none;
     padding: 0 15px;
@@ -12,15 +14,16 @@
     li {
       font-size: 14px;
       line-height: 20px;
-      padding: 10px 0;
+      padding: @padding__breadcrumb-item;
 
       a {
-        color: @breadcrumb-color;
+        color: @color__breadcrumb-link;
       }
 
+      &:last-of-type,
       &.active a {
-        font-weight: normal;
-        color: @breadcrumbTextColor;
+        font-weight: @font-weight-normal;
+        color: @color__breadcrumb-current;
 
         &:hover {
           text-decoration: none;
@@ -28,7 +31,7 @@
       }
 
       & + li::before {
-        color: @breadcrumbTextColor;
+        color: @color__breadcrumb-current;
         content: ">\00a0";
       }
     }

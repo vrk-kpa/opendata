@@ -8,7 +8,7 @@ then
     rm composer-setup.php
     exit 1
 fi
-php composer-setup.php --quiet
+php composer-setup.php --quiet --version=2.1.14
 RESULT=$?
 rm composer-setup.php
 exit $RESULT

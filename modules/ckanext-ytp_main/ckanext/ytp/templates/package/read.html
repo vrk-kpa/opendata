@@ -1,28 +1,23 @@
 {% ckan_extends %}
 
 {% block primary %}
-    <div class="dataset-header-row d-flex mt-4 align-items-end justify-content-between flex-wrap">
+
+    {% snippet "package/snippets/dataset_state_banner.html", pkg=pkg %}
+
+  <div class="dataset-container">
+    <div class="dataset-header-row d-flex align-items-end justify-content-between flex-wrap">
       <div>
         <h1 class="dataset-title m-0">
           {% block page_heading %}
-            {% if pkg.private %}
-              <i class="fa fa-xs fa-lock icon-private" title="{{ _('Private') }}"></i>
-            {% endif %}
             {{ h.get_translated(pkg, 'title') or pkg.name }}
           {% endblock %}
         </h1>
       </div>
       <div class="content_action">
         {% block content_action %}
-          {% link_for _('Groups'), controller='package', action='groups', id=pkg.name, class_='opendata-content-action', icon='users'%}
-           {% if h.check_access('package_update', {'id':pkg.id }) %}
-               {% link_for _('Manage'), controller='package', action='edit', id=pkg.name, class_='opendata-content-action', icon='wrench' %}
-           {% endif %}
         {% endblock %}
       </div>
     </div>
-
-    {% snippet "package/snippets/maintainer_info.html", pkg=pkg %}
 
     <div id="dataset-primary" class="row">
     {% block primary_content %}
@@ -70,5 +65,6 @@
       {% block package_organization %}{% endblock %}
 
     {% endblock %}
-</div>
+    </div>
+  </div>
 {% endblock %}

@@ -73,7 +73,6 @@ drupal_removed_extensions:
   - search
   - contextual
   - page_cache
-  - registration_validation
 
 drupal_modules_path: "../modules"
 drupal_admin_email: admin@localhost

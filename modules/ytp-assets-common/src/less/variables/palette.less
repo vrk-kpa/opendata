@@ -1,73 +1,3 @@
-/*
- * Text colors
- */
-@color--black: #292929;
-@color--white: #fff;
-@color--light-grey: #6d787e;
-@color--extra-light-grey: #ced2d5;
-
-/**
- * Brand colors (these should be used around the styles)
- */
-@opendata-brand-primary: #2a6ebb; // Primary navigation/interaction/focus color
-@opendata-brand-primary--highlight: #235a9a; // Primary higlight color
-@opendata-brand-decorative: #2a8bb8; // Decorative secondary color
-@opendata-brand-complementary: #e97025;
-@opendata-brand-gray: #ebe7e7; //#88827A; // Neutral grayish elements
-@opendata-brand-dark: #302f2f; // Secondary background color
-@opendata-brand-success: #24b88e; // Interaction color, successful positive color
-@opendata-brand-info: #5bc0de; // Notification color, important but not critical
-@opendata-brand-warning: #f0ad4e; // Slightly dangerous and important element
-@opendata-brand-danger: #d9534f; // Very dangerous, error information and destructive interaction
-@opendata-brand-priority: #ec2727; // Priority content, like front page search button
-@opendata-ckan-list-item-header: #3a6eb5; // Used for ckan listitem headers and other similar bold texts.
-@opendata-ckan-unhighlight: #777777; // Additional non critical content display color.
-@opendata-ckan-unhighlight-background: #f8f8f8;
-
-/**
- * Common
- */
-@text-color: @new-layout-primary-text-color;
-@background-color: @new-layout-bg-color;
-@background-color--highlight: #eef5ff; // Background highlight color
-// For very 'extra' information, meant for small text on white/light backgrounds
-@nonimportant-text-color: lighten(@opendata-brand-gray, 0%);
-// Light background to emphasize a subarea in main content, gives a "post-it note" feeling
-@background-hilight-primary: lighten(#d3cdc5, 16%);
-@background-hilight: lighten(#d3cdc5, 16%);
-@background-body-color: #fff;
-@background-hilight: #f5f5f5;
-
-/**
- * Buttons
- */
-@btn-default-color: #333;
-@btn-default-bg: #fff;
-@btn-default-border: #e8e7e6;
-@btn-dark-bg: @opendata-brand-primary;
-@btn-dark-text-color: #fff;
-@btn-black-color: #000;
-// Text color that is on a colored background (labels, buttons, carousel)
-@button-inverse-text-color: #fff;
-// TODO workaround for having buttons with both 'a' and 'button' tags
-@button-background: #999999;
-@button-hilight: #747474;
-@button-primary-background: @opendata-brand-primary;
-@button-primary-hilight: #0f54a2;
-@button-primary-border: #7ca9cc;
-@button-border: #9a9d9e;
-
-/**
- * Links
- */
-@link-default-color: @opendata-brand-primary;
-@link-dark-color: #000000;
-
-/**
- * Tables
- */
-@table-bg-accent: #f7f7f8;
-@table-border-color: #c8cdd0;
 
 // ---------------
 // SUOMI.FI COLORS
@@ -110,3 +40,88 @@
 
 @suomi-alertBase: #c33932;
 @suomi-whiteBase: #ffffff;
+
+/**
+ * Brand colors (these should be used around the styles)
+ */
+@opendata-brand-primary: #2a6ebb; // Primary navigation/interaction/focus color
+@opendata-brand-primary--highlight: #235a9a; // Primary higlight color
+@opendata-brand-decorative: #2a8bb8; // Decorative secondary color
+@opendata-brand-complementary: #e97025;
+@opendata-brand-gray: #ebe7e7; //#88827A; // Neutral grayish elements
+@opendata-brand-border-gray: #c9cdcf; // Gray used in many borders
+@opendata-brand-blue: #00347a; // Blue used in many elements and backgrounds
+@opendata-brand-dark: #302f2f; // Secondary background color
+@opendata-brand-success: #24b88e; // Interaction color, successful positive color
+@opendata-brand-info: #5bc0de; // Notification color, important but not critical
+@opendata-brand-warning: #f0ad4e; // Slightly dangerous and important element
+@opendata-brand-danger: #d9534f; // Very dangerous, error information and destructive interaction
+@opendata-brand-priority: #ec2727; // Priority content, like front page search button
+@opendata-ckan-list-item-header: #3a6eb5; // Used for ckan listitem headers and other similar bold texts.
+@opendata-ckan-unhighlight: #777777; // Additional non critical content display color.
+@opendata-ckan-unhighlight-background: #f8f8f8;
+
+/*
+ * Text colors
+ */
+@color--black: #292929;
+@color--white: #fff;
+@color--light-grey: #6d787e;
+@color--extra-light-grey: #ced2d5;
+@color__breadcrumb-link: @opendata-brand-primary;
+@color__breadcrumb-current: @suomi-depthDark27;
+
+/**
+ * Common
+ */
+@text-color: @new-layout-primary-text-color;
+@background-color: @new-layout-bg-color;
+@background-color__body: #fafafa;
+@background-color__content: #fff;
+@background-color__toolbar: transparent;
+@border-color__content: #ced2d5;
+@background-color--highlight: #eef5ff; // Background highlight color
+// For very 'extra' information, meant for small text on white/light backgrounds
+@nonimportant-text-color: lighten(@opendata-brand-gray, 0%);
+// Light background to emphasize a subarea in main content, gives a "post-it note" feeling
+@background-hilight-primary: lighten(#d3cdc5, 16%);
+@background-hilight: lighten(#d3cdc5, 16%);
+@background-body-color: #fff;
+@background-hilight: #f5f5f5;
+
+/**
+ * Buttons
+ */
+@btn-default-color: #333;
+@btn-default-bg: #fff;
+@btn-default-border: #e8e7e6;
+@btn-dark-bg: @opendata-brand-primary;
+@btn-dark-text-color: #fff;
+@btn-black-color: #000;
+// Text color that is on a colored background (labels, buttons, carousel)
+@button-inverse-text-color: #fff;
+// TODO workaround for having buttons with both 'a' and 'button' tags
+@button-background: #999999;
+@button-hilight: #747474;
+@button-primary-background: @opendata-brand-primary;
+@button-primary-hilight: #0f54a2;
+@button-primary-border: #7ca9cc;
+@button-border: #9a9d9e;
+
+/**
+ * Links
+ */
+@link-default-color: @opendata-brand-primary;
+@link-dark-color: #000000;
+
+/**
+ * Tables
+ */
+@table-bg-accent: #f7f7f8;
+@table-border-color: #c8cdd0;
+
+/**
+ * Navbars
+ */
+@border-bottom-color__main-nav--active: @opendata-brand-primary;
+@navbarInverseBackgroundHighlight: #222222;

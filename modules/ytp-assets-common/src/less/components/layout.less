@@ -9,6 +9,7 @@ body {
   .flex-direction(column);
 
   min-height: 100vh;
+  background-color: @background-color__body;
 
   a {
     word-break: break-word;
@@ -31,11 +32,11 @@ body {
 
 #content > .wrapper {
   background: transparent;
-  border: none;
   box-shadow: none;
   margin: 0 auto;
-  max-width: 1140px;
+  max-width: @opendata-container-max-width;
   padding: 0 15px;
+  border: none;
 }
 
 .container-fluid .wrapper {
@@ -199,6 +200,16 @@ body {
     margin-right: 8px;
     font-size: 16px;
     margin-top: 1px;
+  }
+}
+
+.suomifi-button-secondary-black-text {
+  .suomifi-button-secondary;
+
+  color: rgb(41, 41, 41);
+
+  i {
+    margin-left: 8px;
   }
 }
 

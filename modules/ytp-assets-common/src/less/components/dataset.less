@@ -1,6 +1,35 @@
 @import "../variables.less";
 
+.dataset-container {
+  background-color: @background-color__content;
+  border: 1px solid @border-color__content;
+  padding: @padding__content;
+
+  > .row {
+    margin-left: -@padding-x--common;
+    margin-right: -@padding-x--common;
+  }
+
+  .dataset-primary-content,
+  .dataset-sidebar {
+    padding: 0 @padding-x--common;
+
+    .embedded-content,
+    .resources,
+    .additional-info,
+    .disqus-comments {
+      margin-bottom: @margin__module--large;
+
+      h3 {
+        margin-bottom: @padding-y--common;
+      }
+    }
+  }
+}
+
 .dataset-header-row {
+  margin-bottom: @padding-y--common;
+
   .content_action {
     font-weight: 600;
     font-size: 16px;
@@ -27,4 +56,58 @@
   color: @opendata-brand-danger;
   vertical-align: middle;
   height: 1.3em;
+}
+
+.admin-banner {
+  display: flex;
+  margin-bottom: 20px;
+
+  a {
+    display: block;
+    margin-left: auto;
+    color: @opendata-brand-primary;
+    font-size: @font-size-smaller-base;
+    font-family: @font-family-sans-serif-semibold;
+    font-weight: @font-weight-heavier;
+    letter-spacing: 0.4px;
+    line-height: 20px;
+    border: 1px solid @opendata-brand-primary;
+    border-radius: 2px;
+    padding: @padding-y--small @padding-x--common;
+    text-decoration: none;
+  }
+}
+
+.private-or-draft-dataset {
+  background: @opendata-brand-blue;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+  }
+
+  span {
+    color: @suomi-whiteBase;
+    font-family: @font-family-sans-serif;
+    font-size: @font-size-slightly-smaller-base;
+    font-weight: @font-weight-normal;
+    line-height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  a {
+    color: @suomi-whiteBase;
+    border: 1px solid @suomi-whiteBase;
+  }
+}
+
+.deleted-dataset {
+  background: @suomi-alertBase;
 }

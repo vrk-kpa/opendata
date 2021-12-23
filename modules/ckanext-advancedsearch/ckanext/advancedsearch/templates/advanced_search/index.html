@@ -39,7 +39,7 @@
                 {% snippet 'snippets/home_breadcrumb_item.html' %}
                 {% block breadcrumb_content %}
                   <li class="active">
-                    <a href="{{ h.url_for(controller='ckanext.advancedsearch.controller:YtpAdvancedSearchController', action='search') }}" title="{{ _('Advanced search') }}">
+                    <a href="{{ h.url_for('advanced_search_blueprint.search') }}" title="{{ _('Advanced search') }}">
                       {{_('Advanced search')}}
                     </a>
                   </li>

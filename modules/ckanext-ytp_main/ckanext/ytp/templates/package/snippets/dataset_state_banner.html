@@ -1,0 +1,37 @@
+{% if pkg.get('state', '').startswith('deleted') %}
+  <div class="well admin-banner private-or-draft-dataset deleted-dataset">
+    <div>
+      <img src="/resources/images/avoindata-closed-eye.svg">
+      <span>{{ _('Deleted. The dataset is only visible to logged in users of the producer organization.') }}</span>
+    </div>
+    {% if h.check_access('package_update', {'id':pkg.id }) %}
+      {% link_for _('Edit dataset'), controller='package', action='edit', id=pkg.name %}"
+    {% endif %}
+  </div>
+{% elif pkg.state.startswith('draft') %}
+  <div class="well admin-banner private-or-draft-dataset">
+    <div>
+      <img src="/resources/images/avoindata-closed-eye.svg">
+      <span>{{ _('In draft state. The dataset is only visible to logged in users of the producer organization.') }}</span>
+    </div>
+    {% if h.check_access('package_update', {'id':pkg.id }) %}
+      {% link_for _('Edit dataset'), controller='package', action='edit', id=pkg.name %}"
+    {% endif %}
+  </div>
+{% elif pkg.private %}
+  <div class="well admin-banner private-or-draft-dataset">
+    <div>
+      <img src="/resources/images/avoindata-closed-eye.svg">
+      <span>{{ _('Private mode. The dataset is only visible to logged in users of the producer organization.') }}</span>
+    </div>
+    {% if h.check_access('package_update', {'id':pkg.id }) %}
+      {% link_for _('Edit dataset'), controller='package', action='edit', id=pkg.name %}
+    {% endif %}
+  </div>
+{% else %}
+  {% if h.check_access('package_update', {'id':pkg.id }) %}
+    <div class="admin-banner">
+      {% link_for _('Edit dataset'), controller='package', action='edit', id=pkg.name %}
+    </div>
+  {% endif %}
+{% endif %}
