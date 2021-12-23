@@ -112,21 +112,19 @@
   background: @suomi-alertBase;
 }
 
-.container-apiset {
-
+#content .container-apiset {
   .filter-list .pill {
-    line-height: 21px!important;
     font-size: 16px;
     font-weight: 600;
     height: 24px;
-    line-height: 24px;
+    line-height: 21px;
     color: rgb(255, 255, 255);
     background: @opendata-brand-primary;
     border-radius: 14px;
-    padding: 0px 13px 0px 13px;
+    padding: 0 13px 0 13px;
 
     i {
-      margin-left:5px;
+      margin-left: 5px;
     }
   }
 
@@ -150,9 +148,8 @@
   }
 
   .facet {
-    font-family: @font-family-sans-serif-semibold!important;
+    font-family: @font-family-sans-serif-semibold;
     color: @navbarInverseBackgroundHighlight;
-    font-family: SourceSansPro-Semibold;
     font-size: 16px;
     font-weight: 600;
     height: 20px;
@@ -172,14 +169,13 @@
     margin-left: -15px;
   }
 
-  .search-dataset {
-    border-radius: 0px;
-    height: 40px!important;
+  .search-form .search-dataset {
+    border-radius: 0;
+    height: 40px;
   }
 }
 
 .container-search-result {
-
   .dataset-heading a {
     color: @opendata-brand-primary;
     font-family: @font-family-sans-serif-semibold;
@@ -211,9 +207,10 @@
   .search-item-tag-type {
     padding: 3px 7px;
   }
+  
   .search-item-tag span {
     color: @suomi-depthDark27;
-    font-family:  @font-family-sans-serif-semibold;
+    font-family: @font-family-sans-serif-semibold;
     font-size: 14px;
     font-weight: 600;
     line-height: 18px;
@@ -227,5 +224,5 @@
   font-size: 40px;
   font-weight: 300;
   line-height: 0px;
-  height: 0px;
+  height: 0;
 }
