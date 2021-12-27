@@ -1,0 +1,6 @@
+[Unit]
+Description=Clears PRH data
+
+[Service]
+ExecStart=/usr/lib/ckan/default/bin/ckan --config {{ ckan_ini }} prh-tools clear /srv/ytp/files/prh
+
