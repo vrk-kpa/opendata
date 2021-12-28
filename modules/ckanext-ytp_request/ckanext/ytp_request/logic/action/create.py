@@ -68,10 +68,6 @@ def _create_member_request(context, data_dict):
     member.state = 'pending'
     member.capacity = role
 
-    revision = model.repo.new_revision()
-    revision.author = user
-    revision.message = u'New member request'
-
     model.Session.add(member)
     # We need to flush since we need membership_id (member.id) already
     model.Session.flush()
@@ -83,7 +79,7 @@ def _create_member_request(context, data_dict):
 
     url = config.get('ckan.site_url', "")
     if url:
-        url = url + url_for('member_request_show', mrequest_id=member.id)
+        url = url + url_for('member_request.show', mrequest_id=member.id)
     # Locale should be admin locale since mail is sent to admins
     if role == 'admin':
         for admin in _get_ckan_admins():

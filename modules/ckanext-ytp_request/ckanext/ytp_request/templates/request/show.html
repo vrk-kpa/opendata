@@ -3,7 +3,7 @@
 {% block subtitle %}{{ _('Organization membership request') }}{% endblock %}
 
 {% block secondary_content %}
-{% resource  "request_js/request.js" %}
+{% asset "request_js/request_js" %}
 
   <section class="module module-narrow">
     <h2 class="module-heading"><i class="icon-large icon-info-sign"></i> {{ _('Organization membership request') }}</h2>
@@ -23,12 +23,12 @@
           <tbody>
               <tr>
                   <th>{% trans %}Organization{% endtrans %}</th>
-                  <td><a href="{{ h.url('organization_read', id=membership.organization_name) }}">({{ membership.organization_name }})</a></td>
+                  <td><a href="{{ h.url('organization.read', id=membership.organization_name) }}">({{ membership.organization_name }})</a></td>
               </tr>
               <tr>
                   <th>{% trans %}User{% endtrans %}</th>
                   <td>
-                      <a href="{{ h.url_for('user_datasets', controller='user', id=member_user.name) }}">
+                      <a href="{{ h.url_for('user.read', id=member_user.name) }}">
                         {% if member_user.fullname %}
                         {{ member_user.fullname }} ({{ member_user.name }})
                         {% else %}
@@ -60,10 +60,10 @@
       </table>
       <div class="form-actions">
       {% set locale = h.dump_json({'content': _('Are you sure you want approve this request?')}) %}
-     <a id="request_approve_url" href="{{ h.url_for('member_request_approve', mrequest_id=membership.id) }}" class="btn btn-primary  pull-left" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Approve') }}</a>
+     <a id="request_approve_url" href="{{ h.url_for('member_request.approve', mrequest_id=membership.id) }}" class="btn btn-primary  pull-left" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Approve') }}</a>
       
       {% set locale = h.dump_json({'content': _('Are you sure you want reject this request?')}) %}
-          <a id="request_reject_url" href="{{ h.url_for('member_request_reject', mrequest_id=membership.id) }}" class="btn btn-danger" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Reject') }}</a>
+          <a id="request_reject_url" href="{{ h.url_for('member_request.reject', mrequest_id=membership.id) }}" class="btn btn-danger" data-module="confirm-action" data-module-i18n="{{ locale }}">{{ _('Reject') }}</a>
 
      </div>
 

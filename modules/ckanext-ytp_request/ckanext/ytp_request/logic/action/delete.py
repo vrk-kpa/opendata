@@ -66,7 +66,7 @@ def _process_request(context, organization_id, member, status):
     # Fetch the newest member_request associated to this membership (sort by
     # last modified field)
     member_request = model.Session.query(MemberRequest).filter(
-        MemberRequest.membership_id == member.id).order_by('request_date desc').limit(1).first()
+        MemberRequest.membership_id == member.id).order_by(MemberRequest.request_date.desc()).limit(1).first()
 
     # BFW: Create a new instance every time membership status is changed
     message = u'MemberRequest cancelled by own user'
@@ -79,10 +79,6 @@ def _process_request(context, organization_id, member, status):
     member_request = MemberRequest(membership_id=member.id, role=member.capacity, status="cancel", request_date=mrequest_date,
                                    language=locale, handling_date=func.now(), handled_by=c.userobj.name, message=message)
     model.Session.add(member_request)
-
-    revision = model.repo.new_revision()
-    revision.author = user
-    revision.message = u'Member request deleted by user'
 
     member.save()
     model.repo.commit()

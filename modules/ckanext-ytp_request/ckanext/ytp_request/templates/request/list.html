@@ -2,7 +2,7 @@
 
 {% block breadcrumb_content %}
   <li>{{ h.nav_link(_('Organizations'), named_route='organizations_index') }}</li>
-  <li class="active">{{ h.nav_link(_('Received membership requests'), named_route='member_requests_list') }}</li>
+  <li class="active">{{ h.nav_link(_('Received membership requests'), named_route='member_request.member_requests_list') }}</li>
 {% endblock %}
 
 {% block subtitle %}{{ _('Received membership requests') }}{% endblock %}
@@ -51,9 +51,9 @@
             <td>{{ member_request.user_email }}</td>
             <td>{{ member_request.role }}</td>
             <td>{{ member_request.request_date }}</td>
-            <td><a href="{{ h.url_for('member_request_approve', mrequest_id=member_request.mid) }}" class="btn btn-success">{% trans %}Approve{% endtrans %}</a></td>
-            <td><a href="{{ h.url_for('member_request_reject', mrequest_id=member_request.mid) }}" class="btn btn-danger">{% trans %}Reject{% endtrans %}</a></td>
-            <td><a href="{{ h.url_for('member_request_show', mrequest_id=member_request.mid) }}" class="btn btn-primary">{% trans %}Modify{% endtrans %}</a></td>
+            <td><a href="{{ h.url_for('member_request.approve', mrequest_id=member_request.mid) }}" class="btn btn-success">{% trans %}Approve{% endtrans %}</a></td>
+            <td><a href="{{ h.url_for('member_request.reject', mrequest_id=member_request.mid) }}" class="btn btn-danger">{% trans %}Reject{% endtrans %}</a></td>
+            <td><a href="{{ h.url_for('member_request.show', mrequest_id=member_request.mid) }}" class="btn btn-primary">{% trans %}Modify{% endtrans %}</a></td>
           </tr>
         {% endfor %}
         </tbody>

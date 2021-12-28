@@ -1,4 +1,4 @@
-from ckan.lib.i18n import set_lang, get_lang
+from flask.ext.babel import force_locale
 from ckan.lib.mailer import mail_user
 from ckan.common import _
 import logging
@@ -59,40 +59,32 @@ avoindata@dvv.fi
 def mail_new_membership_request(locale, admin, group_name, url, user_name, user_email):
     # TODO: Set admin locale. Admin/user locale is stored at drupal database so may be a bit challenging to fetch it.
     # We default to finnish for the time being
-    current_locale = get_lang()
-    set_lang("fi")
 
-    subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
-        'organization': group_name
-    }
-    message = _MESSAGE_MEMBERSHIP_REQUEST() % {
-        'user': user_name,
-        'email': user_email,
-        'organization': group_name,
-        'link': url
-    }
+    with force_locale('fi'):
+        subject = _SUBJECT_MEMBERSHIP_REQUEST() % {
+            'organization': group_name
+        }
+        message = _MESSAGE_MEMBERSHIP_REQUEST() % {
+            'user': user_name,
+            'email': user_email,
+            'organization': group_name,
+            'link': url
+        }
 
     try:
         mail_user(admin, subject, message)
     except Exception:
         log.exception("Mail could not be sent")
-    finally:
-        set_lang(current_locale)
 
 
 def mail_process_status(locale, member_user, approve, group_name, capacity):
-    current_locale = get_lang()
-    if locale == 'en':
-        _reset_lang()
-    else:
-        set_lang(locale)
+    with force_locale(locale):
+        role_name = _(capacity)
 
-    role_name = _(capacity)
-
-    subject_template = _SUBJECT_MEMBERSHIP_APPROVED(
-    ) if approve else _SUBJECT_MEMBERSHIP_REJECTED()
-    message_template = _MESSAGE_MEMBERSHIP_APPROVED(
-    ) if approve else _MESSAGE_MEMBERSHIP_REJECTED()
+        subject_template = _SUBJECT_MEMBERSHIP_APPROVED(
+        ) if approve else _SUBJECT_MEMBERSHIP_REJECTED()
+        message_template = _MESSAGE_MEMBERSHIP_APPROVED(
+        ) if approve else _MESSAGE_MEMBERSHIP_REJECTED()
 
     subject = subject_template % {
         'organization': group_name
@@ -107,12 +99,3 @@ def mail_process_status(locale, member_user, approve, group_name, capacity):
     except Exception:
         log.exception("Mail could not be sent")
         # raise MailerException("Mail could not be sent")
-    finally:
-        set_lang(current_locale)
-
-
-def _reset_lang():
-    try:
-        set_lang(None)
-    except TypeError:
-        pass
