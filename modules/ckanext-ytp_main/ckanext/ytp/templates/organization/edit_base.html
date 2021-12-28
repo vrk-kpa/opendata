@@ -1,5 +1,7 @@
 {% ckan_extends %}
 
+{% block wrapper_class %} create-organization-wrapper{% endblock %}
+
 {% block content_action %}
   {% if organization and h.check_access('organization_update', {'id': organization.id}) %}
     {% link_for _('Close without saving'), controller='organization', action='read', id=organization.name, class_='btn', icon='' %}
