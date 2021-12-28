@@ -3,9 +3,6 @@
 {# pylons controller / flask view compatibility #}
 {% set group_dict = group_dict or c.group_dict %}
 
-{# group_type may be unicode that is incompatible with pylons' url_for #}
-{% set group_type = group_type.encode('ascii') %}
-
 {% block form %}
 <form class="dataset-form add-member-form" method='post'>
   <div class="row">

@@ -268,7 +268,7 @@
       {% block form_actions %}
         <div class="form-actions">
           {% block delete_button %}
-            <a class="btn suomifi-button-secondary-noborder" href="{% url_for controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search' %}">{{_("Abort")}}</a>
+            <a class="btn suomifi-button-secondary-noborder" href="{% url_for 'sixodp_showcase.search' %}">{{_("Abort")}}</a>
           {% endblock %}
           {% block save_button %}
             <div id='recaptcha' class="g-recaptcha"
