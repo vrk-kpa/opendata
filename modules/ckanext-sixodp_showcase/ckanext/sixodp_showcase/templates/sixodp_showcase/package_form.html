@@ -7,9 +7,9 @@
   <div class="form-actions">
     {% block delete_button %}
       {% if form_style == 'edit' and h.check_access('ckanext_showcase_delete', {'id': data.id}) and not data.state == 'deleted' %}
-        <a class="btn suomifi-button-secondary" href="{% url_for controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='delete', id=data.id %}" data-module="confirm-action" data-module-content="{{ _('Are you sure you want to delete this showcase?') }}">{% block delete_button_text %}<i class="far fa-trash"></i>{{ _('Delete') }}{% endblock %}</a>
+      <a class="btn suomifi-button-secondary" href="{% url_for 'sixodp_showcase.delete', id=data.id %}" data-module="confirm-action" data-module-content="{{ _('Are you sure you want to delete this showcase?') }}">{% block delete_button_text %}<i class="far fa-trash"></i>{{ _('Delete') }}{% endblock %}</a>
       {% endif %}
-      <a class="btn suomifi-button-secondary-noborder" href="{% url_for controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search' %}">{{_("Abort")}}</a>
+      <a class="btn suomifi-button-secondary-noborder" href="{% url_for 'sixodp_showcase.search' %}">{{_("Abort")}}</a>
     {% endblock %}
     {% block save_button %}
       <button class="btn suomifi-button-primary" type="submit" name="save" formenctype="multipart/form-data">{% block save_button_text %}{% if form_style != 'edit' %}{{ _('Create Showcase') }}{% else %}{{ _('Update Showcase') }}{% endif %}{% endblock %}</button>

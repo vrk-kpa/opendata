@@ -3,7 +3,7 @@ from collections import OrderedDict
 import ckantoolkit as toolkit
 import ckan.views.dataset as dataset
 from functools import partial
-from urllib import urlencode
+from urllib.parse import urlencode
 from ckan import model
 
 import ckan.plugins as plugins

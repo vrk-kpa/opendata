@@ -11,7 +11,7 @@ from ckan.views.home import CACHE_PARAMETERS
 import ckan.lib.navl.dictization_functions as dict_fns
 from ckanext.showcase import views, utils as showcase_utils
 
-import utils as utils
+from . import utils
 
 _setup_template_variables = dataset._setup_template_variables
 _get_pkg_template = dataset._get_pkg_template
@@ -102,7 +102,6 @@ class CreateView(views.CreateView):
         )
 
     def post(self):
-
         data_dict = dataset.clean_dict(
             dataset.dict_fns.unflatten(
                 dataset.tuplize_dict(dataset.parse_params(tk.request.form))))
@@ -126,7 +125,7 @@ class CreateView(views.CreateView):
             return self.get(data_dict, errors, error_summary)
 
         # redirect to manage datasets
-        url = h.url_for('sixodp_showcase.manage_datasets',
+        url = h.url_for('showcase_blueprint.manage_datasets',
                         id=pkg_dict['name'])
         return h.redirect_to(url)
 
@@ -286,6 +285,7 @@ showcase.add_url_rule('/showcase/delete/<id>',
                       view_func=delete,
                       methods=[u'GET', u'POST'])
 showcase.add_url_rule('/showcase/manage_datasets/<id>',
+                      endpoint='showcase_manage_datasets',
                       view_func=manage_datasets,
                       methods=[u'GET', u'POST'])
 showcase.add_url_rule('/dataset/showcases/<id>',

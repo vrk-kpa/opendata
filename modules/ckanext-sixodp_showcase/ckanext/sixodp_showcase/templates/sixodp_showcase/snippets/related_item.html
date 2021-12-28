@@ -22,7 +22,7 @@ Example:
   {% block content %}
   <div class="secondary-heading-container">
     {% block heading %}
-      <a href="{{ h.url_for(controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='read', id=package.name) }}">
+      <a href="{{ h.url_for('sixodp_showcase.read', id=package.name) }}">
         {{ title }}
       </a>
     {% endblock %}
