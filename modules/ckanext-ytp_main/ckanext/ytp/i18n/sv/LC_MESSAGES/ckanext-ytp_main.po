@@ -9,15 +9,16 @@
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2020
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2021
+# Daniel Vainio, 2021
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-09-16 13:19+0000\n"
+"POT-Creation-Date: 2021-11-24 17:34+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2021\n"
+"Last-Translator: Daniel Vainio, 2021\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -338,7 +339,7 @@ msgstr "Radera användarkonto"
 msgid "Users"
 msgstr "Användare"
 
-#: ckanext/ytp/menu.py:155
+#: ckanext/ytp/menu.py:155 ckanext/ytp/plugin.py:272
 #: ckanext/ytp/templates/organization/admin_list.html:31
 #: ckanext/ytp/templates/organization/index.html:10
 #: ckanext/ytp/templates/organization/organization_not_found.html:6
@@ -369,51 +370,39 @@ msgstr "Publicera öppna data"
 msgid "Publish Data"
 msgstr "Publicera data"
 
-#: ckanext/ytp/plugin.py:268 ckanext/ytp/translations.py:40
-msgid "International benchmarks"
+#: ckanext/ytp/plugin.py:268
+msgid "International Benchmarks"
 msgstr "Internationella jämförelser"
 
 #: ckanext/ytp/plugin.py:269 ckanext/ytp/plugin.py:283
-msgid "Collection Type"
-msgstr "Datamängd"
+msgid "Collection Types"
+msgstr "Typer av datamängder"
 
 #: ckanext/ytp/plugin.py:270
-msgid "Popular tags"
-msgstr "Populära taggar"
+msgid "Popular Tags"
+msgstr "Populära Nyckelord"
 
 #: ckanext/ytp/plugin.py:271 ckanext/ytp/plugin.py:285
-msgid "Content Type"
-msgstr "Innehållstyp"
-
-#: ckanext/ytp/plugin.py:272
-#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
-#: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
-#: ckanext/ytp/templates/snippets/organization.html:21
-#: ckanext/ytp/translations.py:36
-msgid "Organization"
-msgstr "Producent"
+msgid "Content Types"
+msgstr "Innehållstyper"
 
 #: ckanext/ytp/plugin.py:273 ckanext/ytp/plugin.py:286
 #: ckanext/ytp/translations.py:35
 msgid "Formats"
 msgstr "Filformat"
 
-#: ckanext/ytp/plugin.py:275 ckanext/ytp/templates/package/search.html:58
-#: ckanext/ytp/templates/package/snippets/additional_info.html:12
-msgid "Source"
-msgstr "Källa"
+#: ckanext/ytp/plugin.py:275
+msgid "Sources"
+msgstr ""
 
 #: ckanext/ytp/plugin.py:276
-#: ckanext/ytp/templates/package/resource_read.html:168
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:26
-#: ckanext/ytp/templates/snippets/license.html:21
-msgid "License"
-msgstr "Licens"
+msgid "Licenses"
+msgstr ""
 
 #: ckanext/ytp/plugin.py:284
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 msgid "Tags"
-msgstr "Taggar"
+msgstr "Nyckelord"
 
 #: ckanext/ytp/plugin.py:324
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
@@ -510,6 +499,13 @@ msgstr "Logotyp eller illustrationsbild"
 msgid "Size"
 msgstr "Filstorlek"
 
+#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
+#: ckanext/ytp/templates/snippets/organization.html:21
+#: ckanext/ytp/translations.py:36
+msgid "Organization"
+msgstr "Producent"
+
 #: ckanext/ytp/translations.py:37
 msgid "Key"
 msgstr ""
@@ -517,6 +513,10 @@ msgstr ""
 #: ckanext/ytp/translations.py:39
 msgid "Fullname"
 msgstr "Fullständigt namn"
+
+#: ckanext/ytp/translations.py:40
+msgid "International benchmarks"
+msgstr "Internationella jämförelser"
 
 #: ckanext/ytp/translations.py:41
 msgid "eg. Maps"
@@ -1426,6 +1426,98 @@ msgstr ""
 msgid "uk-ogl"
 msgstr ""
 
+#: ckanext/ytp/translations.py:268
+msgid "Platforms"
+msgstr ""
+
+#: ckanext/ytp/translations.py:271
+msgid "Show more collection_type"
+msgstr "Vias flera Datamängder"
+
+#: ckanext/ytp/translations.py:272
+msgid "Show more vocab_international_benchmarks"
+msgstr "Visa flera Internationella Jämförelser"
+
+#: ckanext/ytp/translations.py:273
+msgid "Show more vocab_keywords_en"
+msgstr ""
+
+#: ckanext/ytp/translations.py:274
+msgid "Show more vocab_keywords_fi"
+msgstr ""
+
+#: ckanext/ytp/translations.py:275
+msgid "Show more vocab_keywords_sv"
+msgstr "Visa flera Nyckelord"
+
+#: ckanext/ytp/translations.py:276
+msgid "Show more organization"
+msgstr "Visa flera Producenter"
+
+#: ckanext/ytp/translations.py:277
+msgid "Show more res_format"
+msgstr "Visa flera Format"
+
+#: ckanext/ytp/translations.py:278
+msgid "Show more source"
+msgstr "Visa flera Källor"
+
+#: ckanext/ytp/translations.py:279
+msgid "Show more license_id"
+msgstr "Visa flera Licenser"
+
+#: ckanext/ytp/translations.py:280
+msgid "Show more groups"
+msgstr "Visa flera Grupper"
+
+#: ckanext/ytp/translations.py:281
+msgid "Show more vocab_platform"
+msgstr "Visa flera Plattformar"
+
+#: ckanext/ytp/translations.py:284
+msgid "Show less collection_type"
+msgstr "Vias färre Datamängder"
+
+#: ckanext/ytp/translations.py:285
+msgid "Show less vocab_international_benchmarks"
+msgstr "Visa färre Internationella Jämförelser"
+
+#: ckanext/ytp/translations.py:286
+msgid "Show less vocab_keywords_en"
+msgstr ""
+
+#: ckanext/ytp/translations.py:287
+msgid "Show less vocab_keywords_fi"
+msgstr ""
+
+#: ckanext/ytp/translations.py:288
+msgid "Show less vocab_keywords_sv"
+msgstr "Visa färre Nyckelord"
+
+#: ckanext/ytp/translations.py:289
+msgid "Show less organization"
+msgstr "Visa färre Producenter"
+
+#: ckanext/ytp/translations.py:290
+msgid "Show less res_format"
+msgstr "Visa färre Format"
+
+#: ckanext/ytp/translations.py:291
+msgid "Show less source"
+msgstr "Visa färre Källor"
+
+#: ckanext/ytp/translations.py:292
+msgid "Show less license_id"
+msgstr "Visa färre Licenser"
+
+#: ckanext/ytp/translations.py:293
+msgid "Show less groups"
+msgstr "Visa färre Grupper"
+
+#: ckanext/ytp/translations.py:294
+msgid "Show less vocab_platform"
+msgstr "Visa färre Plattformar"
+
 #: ckanext/ytp/validators.py:81
 msgid "Missing value"
 msgstr "Saknat värde"
@@ -1998,6 +2090,12 @@ msgstr "okänd"
 msgid "Format"
 msgstr "Format"
 
+#: ckanext/ytp/templates/package/resource_read.html:168
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:26
+#: ckanext/ytp/templates/snippets/license.html:21
+msgid "License"
+msgstr "Licens"
+
 #: ckanext/ytp/templates/package/resource_read.html:171
 msgid "Temporal Granularity"
 msgstr "Tidsmässigt mätintervall"
@@ -2086,6 +2184,11 @@ msgstr "Stigande efter datumet för skapande"
 msgid "Date Created Descending"
 msgstr "Fallande efter datumet för skapande"
 
+#: ckanext/ytp/templates/package/search.html:58
+#: ckanext/ytp/templates/package/snippets/additional_info.html:12
+msgid "Source"
+msgstr "Källa"
+
 #: ckanext/ytp/templates/package/search.html:59
 #: ckanext/ytp/templates/snippets/package_item.html:43
 #: ckanext/ytp/templates/snippets/popular.html:3
@@ -2145,11 +2248,11 @@ msgstr "Senast uppdaterat"
 
 #: ckanext/ytp/templates/package/snippets/categories.html:31
 msgid "Show more categories"
-msgstr ""
+msgstr "Visa flera Kategorier"
 
 #: ckanext/ytp/templates/package/snippets/categories.html:34
 msgid "Show more"
-msgstr ""
+msgstr "Visa flera"
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:61
 msgid "License Not Specified"
@@ -2620,15 +2723,15 @@ msgstr ""
 msgid "Save Organization"
 msgstr ""
 
-#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:27
+#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:26
 msgid "Last modified"
 msgstr ""
 
-#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:30
+#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:29
 msgid "Show change log"
 msgstr "Visa ändringslogg"
 
-#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:34
+#: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:33
 msgid "Created on"
 msgstr ""
 
@@ -2819,15 +2922,7 @@ msgstr "Bredd:"
 msgid "Height:"
 msgstr "Höjd:"
 
-#: ckanext/ytp/templates/snippets/facet_list.html:80
-msgid "Show More"
-msgstr "Visa fler"
-
-#: ckanext/ytp/templates/snippets/facet_list.html:83
-msgid "Show Less"
-msgstr "Visa färre"
-
-#: ckanext/ytp/templates/snippets/facet_list.html:87
+#: ckanext/ytp/templates/snippets/facet_list.html:90
 msgid "There are no {facet_type} that match this search"
 msgstr "Sökresultaten innehåller inga fält med {facet_type}"
 
