@@ -296,7 +296,7 @@ Cypress.Commands.add('delete_showcase', (showcase_name) => {
       cy.visit('/data/showcase');
       cy.get('.search-input .search').type(showcase_name + '{enter}');
       cy.get('.showcase-list').should('not.exist');
-      cy.contains("ei löytynyt sovelluksia");
+      cy.contains("Sovelluksia ei löytynyt");
     });
 });
 
