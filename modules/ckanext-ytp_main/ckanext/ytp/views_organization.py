@@ -174,9 +174,10 @@ def members(id, group_type, is_organization):
     return base.render('group/members.html', extra_vars)
 
 
-def user_list(id, group_type, is_organization):
+# kwargs needed because of blueprint default parameters
+def user_list(**kwargs):
     context = {'model': model, 'session': model.Session,
-               'user': c.user, 'userobj': c.userobj}
+               'user': g.user, 'userobj': g.userobj}
     extra_vars = {}
 
     try:
@@ -220,7 +221,8 @@ def user_list(id, group_type, is_organization):
         abort(403, _('Only system administrators are allowed to view user list.'))
 
 
-def admin_list(id, group_type, is_organization):
+# kwargs needed because of blueprint default parameters
+def admin_list(**kwargs):
     context = {'model': model, 'session': model.Session,
                'user': c.user, 'userobj': c.userobj}
     extra_vars = {}
@@ -398,66 +400,65 @@ def embed(id, group_type, is_organization, limit=5):
 
 
 organization = Blueprint('ytp_organization', __name__,
-                         url_prefix='/organization',
                          url_defaults={'group_type': 'organization',
                                        'is_organization': True})
 
-organization.add_url_rule('/', view_func=index, strict_slashes=False)
+organization.add_url_rule('/organization', view_func=index, strict_slashes=False)
 organization.add_url_rule(
-    '/new',
+    '/organization/new',
     methods=['GET', 'POST'],
     view_func=CreateOrganizationView.as_view(str('new')))
-organization.add_url_rule('/<id>', methods=['GET'], view_func=read)
-organization.add_url_rule('/<id>/embed', methods=['GET'], view_func=embed)
+organization.add_url_rule('/organization/<id>', methods=['GET'], view_func=read)
+organization.add_url_rule('/organization/<id>/embed', methods=['GET'], view_func=embed)
 organization.add_url_rule(
-    '/edit/<id>', view_func=EditGroupView.as_view(str('edit')))
+    '/organization/edit/<id>', view_func=EditGroupView.as_view(str('edit')))
 organization.add_url_rule(
-    '/activity/<id>/<int:offset>', methods=['GET'], view_func=activity)
-organization.add_url_rule('/about/<id>', methods=['GET'], view_func=about)
+    '/organization/activity/<id>/<int:offset>', methods=['GET'], view_func=activity)
+organization.add_url_rule('/organization/about/<id>', methods=['GET'], view_func=about)
 organization.add_url_rule(
-    '/members/<id>', methods=['GET', 'POST'], view_func=members)
+    '/organization/members/<id>', methods=['GET', 'POST'], view_func=members)
 organization.add_url_rule(
-    '/members/<id>/admin_list', methods=['GET'], view_func=admin_list)
-organization.add_url_rule(
-    '/members/<id>/user_list', methods=['GET'], view_func=user_list)
-organization.add_url_rule(
-    '/member_new/<id>',
+    '/organization/member_new/<id>',
     view_func=MembersGroupView.as_view(str('member_new')))
 organization.add_url_rule(
-    '/bulk_process/<id>',
+    '/organization/bulk_process/<id>',
     view_func=BulkProcessView.as_view(str('bulk_process')))
 organization.add_url_rule(
-    '/delete/<id>',
+    '/organization/delete/<id>',
     methods=['GET', 'POST'],
     view_func=DeleteGroupView.as_view(str('delete')))
 organization.add_url_rule(
-    '/member_delete/<id>',
+    '/organization/member_delete/<id>',
     methods=['GET', 'POST'],
     view_func=member_delete)
 organization.add_url_rule(
-    '/history/<id>',
+    '/organization/history/<id>',
     methods=['GET', 'POST'],
     view_func=history)
 organization.add_url_rule(
-    '/followers/<id>',
+    '/organization/followers/<id>',
     methods=['GET', 'POST'],
     view_func=followers)
 organization.add_url_rule(
-    '/follow/<id>',
+    '/organization/follow/<id>',
     methods=['GET', 'POST'],
     view_func=follow)
 organization.add_url_rule(
-    '/unfollow/<id>',
+    '/organization/unfollow/<id>',
     methods=['GET', 'POST'],
     view_func=unfollow)
 organization.add_url_rule(
-    '/admins/<id>',
+    '/organization/admins/<id>',
     methods=['GET', 'POST'],
     view_func=admins)
 organization.add_url_rule(
-    '/activity/<id>',
+    '/organization/activity/<id>',
     methods=['GET', 'POST'],
     view_func=activity)
+organization.add_url_rule(
+    '/admin_list', methods=['GET'], view_func=admin_list)
+organization.add_url_rule(
+    '/user_list', methods=['GET'], view_func=user_list)
 
 
 def get_blueprints():
