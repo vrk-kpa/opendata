@@ -3,8 +3,8 @@
 {% block maintag %}<div role="main" class="container-page-wrapper">{% endblock %}
 
 {% block breadcrumb_content %}
-  <li>{{ h.nav_link(_('Showcases'), named_route='ckanext_showcase_index') }}</li>
-  <li class="active">{{ h.nav_link(_('Showcase submit'), controller='ckanext.sixodp_showcasesubmit.controller:Sixodp_ShowcasesubmitController', action='index') }}</li>
+  <li>{{ h.nav_link(_('Showcases'), named_route='showcase_blueprint.index') }}</li>
+  <li class="active">{{ h.nav_link(_('Showcase submit'), named_route='showcasesubmit.submit') }}</li>
 {% endblock %}
 
 {% block pre_primary %}
