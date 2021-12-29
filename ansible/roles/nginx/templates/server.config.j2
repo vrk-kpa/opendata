@@ -35,7 +35,7 @@ location @not_found {
 }
 
 
-{% if nginx_development_environment %}
+{% if not nginx_development_environment %}
 error_page 500 @internal_error;
 
 location @internal_error {
