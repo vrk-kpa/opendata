@@ -288,6 +288,7 @@ ckan_patches:
   - add_root_path_middleware
   - set_error_email_logging_level_to_error # https://github.com/ckan/ckan/pull/6577
   - accept_empty_string_in_one_of_validator # https://github.com/ckan/ckan/pull/6612
+  - fix_organization_edit_auth # https://github.com/ckan/ckan/pull/6622
 
 ckan_wsgi_script: /etc/ckan/default/wsgi.py
 ckan_uwsgi_conf: /etc/ckan/default/ckan-uwsgi.ini
