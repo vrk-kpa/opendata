@@ -97,8 +97,8 @@ export class CkanStack extends cdk.Stack {
     const sCommonSecrets = sm.Secret.fromSecretNameV2(this, 'sCommonSecrets', `/${props.environment}/opendata/common`);
 
     // get repositories
-    const ckanRepo = ecr.Repository.fromRepositoryArn(this, 'ckanRepo', `${props.envProps.REGISTRY_ARN}:repository/${props.envProps.REPOSITORY}/ckan`);
-    const solrRepo = ecr.Repository.fromRepositoryArn(this, 'solrRepo', `${props.envProps.REGISTRY_ARN}:repository/${props.envProps.REPOSITORY}/solr`);
+    const ckanRepo = ecr.Repository.fromRepositoryArn(this, 'ckanRepo', `arn:aws:ecr:${this.region}:${this.account}:repository/${props.envProps.REPOSITORY}/ckan`);
+    const solrRepo = ecr.Repository.fromRepositoryArn(this, 'solrRepo', `arn:aws:ecr:${this.region}:${this.account}:repository/${props.envProps.REPOSITORY}/solr`);
 
     // ckan service
     this.ckanFsDataAccessPoint = props.fileSystems['ckan'].addAccessPoint('ckanFsDataAccessPoint', {

@@ -23,7 +23,6 @@ const app = new cdk.App();
 const envProps: EnvProps = {
   // docker
   REGISTRY: parseEnv('REGISTRY'),
-  REGISTRY_ARN: parseEnv('REGISTRY_ARN'),
   REPOSITORY: parseEnv('REPOSITORY'),
   // opendata images
   CKAN_IMAGE_TAG: parseEnv('CKAN_IMAGE_TAG'),

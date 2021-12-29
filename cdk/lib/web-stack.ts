@@ -23,7 +23,7 @@ export class WebStack extends cdk.Stack {
     });
 
     // get repositories
-    const nginxRepo = ecr.Repository.fromRepositoryArn(this, 'nginxRepo', `${props.envProps.REGISTRY_ARN}:repository/${props.envProps.REPOSITORY}/nginx`);
+    const nginxRepo = ecr.Repository.fromRepositoryArn(this, 'nginxRepo', `arn:aws:ecr:${this.region}:${this.account}:repository/${props.envProps.REPOSITORY}/nginx`);
 
     const nginxTaskDef = new ecs.FargateTaskDefinition(this, 'nginxTaskDef', {
       cpu: props.nginxTaskDef.taskCpu,

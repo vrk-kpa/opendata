@@ -76,11 +76,9 @@ jobs:
           # configure docker
           cp -f docker/.env.template docker/.env
           sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
-          sed -i.bak -E 's/^(REGISTRY_ARN[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY_ARN}"'\"/' docker/.env
           sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
-          REGISTRY_ARN: ${{ secrets.REGISTRY_ARN }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
 
       - name: configure AWS credentials
@@ -216,11 +214,9 @@ jobs:
           # configure docker
           cp -f docker/.env.template docker/.env
           sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
-          sed -i.bak -E 's/^(REGISTRY_ARN[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY_ARN}"'\"/' docker/.env
           sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
-          REGISTRY_ARN: ${{ secrets.REGISTRY_ARN }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
 
       - name: configure AWS credentials

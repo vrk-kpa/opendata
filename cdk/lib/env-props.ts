@@ -1,7 +1,6 @@
 export interface EnvProps {
   // docker
   REGISTRY: string,
-  REGISTRY_ARN: string,
   REPOSITORY: string,
   // opendata images
   CKAN_IMAGE_TAG: string,

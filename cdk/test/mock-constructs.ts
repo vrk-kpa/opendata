@@ -8,7 +8,6 @@ export const mockEnv = {
 export const mockEnvProps: EnvProps = {
   // docker
   REGISTRY: 'some.mock.registry',
-  REGISTRY_ARN: 'arn:aws:ecr:eu-west-1:156418131626',
   REPOSITORY: 'opendata',
   // opendata images
   CKAN_IMAGE_TAG: 'v0.0.0',

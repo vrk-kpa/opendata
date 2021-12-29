@@ -81,7 +81,7 @@ export class DrupalStack extends cdk.Stack {
     const sCommonSecrets = sm.Secret.fromSecretNameV2(this, 'sCommonSecrets', `/${props.environment}/opendata/common`);
 
     // get repositories
-    const drupalRepo = ecr.Repository.fromRepositoryArn(this, 'drupalRepo', `${props.envProps.REGISTRY_ARN}:repository/${props.envProps.REPOSITORY}/drupal`);
+    const drupalRepo = ecr.Repository.fromRepositoryArn(this, 'drupalRepo', `arn:aws:ecr:${this.region}:${this.account}:repository/${props.envProps.REPOSITORY}/drupal`);
 
     this.drupalFsCoreAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsCoreAccessPoint', {
       path: '/drupal_core',
