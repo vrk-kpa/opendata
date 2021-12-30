@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "repository": "https://github.com/vrk-kpa/opendata/",
   "devDependencies": {
-    "autoprefixer": "^10.4.0",
+    "autoprefixer": "^10.4.1",
     "del": "^6.0.0",
     "extend": "^3.0.2",
     "glob-watcher": "^5.0.5",
