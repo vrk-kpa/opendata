@@ -22,44 +22,6 @@ Example:
     {% endif %}
     <section class="module-content">
       {% block inner %}
-      {% block image %}
-        <div class="image">
-          <a href="{{ url }}">
-            <img class="organization-image" src="{{ organization.image_display_url or h.url_for_static('/base/images/placeholder-organization.png') }}" alt="{{ organization.name }}" />
-          </a>
-        </div>
-      {% endblock %}
-      {% block heading %}
-      <h1 class="heading">{{ h.extra_translation(organization, 'title') or organization.name }}</h1>
-      {% endblock %}
-      {% block description %}
-      {% if organization.description %}
-        <p>
-          {{ h.markdown_extract(h.extra_translation(organization, 'description'), 180) }}
-        </p>
-      {% else %}
-        <p class="empty">{{ _('There is no description for this organization') }}</p>
-      {% endif %}
-      {% endblock %}
-      {% if show_nums %}
-        {% block nums %}
-        <div class="nums">
-          <dl>
-            <dt>{{ _('Followers') }}</dt>
-            <dd>{{ h.SI_number_span(organization.num_followers) }}</dd>
-          </dl>
-          <dl>
-            <dt>{{ _('Datasets') }}</dt>
-            <dd>{{ h.SI_number_span(organization.package_count) }}</dd>
-          </dl>
-        </div>
-        {% endblock %}
-        {% block follow %}
-        <div class="follow_button">
-          {{ h.follow_button('group', organization.id) }}
-        </div>
-        {% endblock %}
-      {% endif %}
       {% endblock %}
 
       {% set last_harvested = h.get_last_harvested_date(organization.name) %}

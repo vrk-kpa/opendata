@@ -2,15 +2,27 @@
 
 {% block primary_content_inner %}
 
-  <h3>{{ _('Description') }}</h3>
-  <p>
-    {% if c.group_dict['description'] %}
-      {{ c.group_dict['description'] }}
-    {% else %}
-      {{ _('No description was found.') }}
-    {% endif %}
-  </p>
+  <div class="pull-left about-block">
+    <h3>{{ _('Description') }}</h3>
+    <p>
+      {% if c.group_dict['description'] %}
+        {{ c.group_dict['description'] }}
+      {% else %}
+        {{ _('No description was found.') }}
+      {% endif %}
+    </p>
 
-  {% snippet 'organization/snippets/organization_additional_info.html', organization_dict=c.group_dict %}
+    {% snippet 'organization/snippets/organization_additional_info.html', organization_dict=c.group_dict %}
+  </div>
+
+  {% block image %}
+    <div class="image pull-right">
+      <a href="{{ url }}">
+        <img class="organization-image"
+             src="{{ c.group_dict['image_display_url'] or h.url_for_static('/base/images/placeholder-organization.png') }}"
+             alt="{{ c.group_dict['name'] }}"/>
+      </a>
+    </div>
+  {% endblock %}
 
 {% endblock %}
