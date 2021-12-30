@@ -11277,7 +11277,7 @@ msgid "Add media"
 msgstr "Lisää mediatiedosto"
 
 msgid "Interfaces"
-msgstr "Rajapinnat"
+msgstr "Resources"
 
 msgid "Title and slogan"
 msgstr "Otsikko ja iskulause"

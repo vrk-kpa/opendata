@@ -264,6 +264,35 @@ def _translations():
     _('other-pd')
     _('uk-ogl')
 
+    # Showcase
+    _('Platforms')
+
+    # Facet filter "Show more ..." texts
+    _('Show more collection_type')
+    _('Show more vocab_international_benchmarks')
+    _('Show more vocab_keywords_en')
+    _('Show more vocab_keywords_fi')
+    _('Show more vocab_keywords_sv')
+    _('Show more organization')
+    _('Show more res_format')
+    _('Show more source')
+    _('Show more license_id')
+    _('Show more groups')
+    _('Show more vocab_platform')
+
+    # Facet filter "Show less ..." texts
+    _('Show less collection_type')
+    _('Show less vocab_international_benchmarks')
+    _('Show less vocab_keywords_en')
+    _('Show less vocab_keywords_fi')
+    _('Show less vocab_keywords_sv')
+    _('Show less organization')
+    _('Show less res_format')
+    _('Show less source')
+    _('Show less license_id')
+    _('Show less groups')
+    _('Show less vocab_platform')
+
 
 def facet_translations():
     return ["Open Data", "Interoperability Tools", "External", "Internal"]

@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/vrk-kpa/opendata#readme",
   "devDependencies": {
-    "cypress": "^9.0.0",
+    "cypress": "^8.3.0",
     "autoprefixer": "^10.3.4",
     "del": "^6.0.0",
     "extend": "^3.0.2",
@@ -50,7 +50,7 @@
     "stylelint-config-standard": "^22.0.0"
   },
   "dependencies": {
-    "pg": "^8.6.0",
+    "pg": "^8.7.1",
     "@fortawesome/fontawesome-pro": "^5.15.3",
     "bootstrap": "^3.4.1",
     "bootstrap-table": "^1.18.3",

@@ -159,3 +159,12 @@ ytp_form_js:
   contents:
     - opendata/scripts/ytp_form.js
 
+show_more_block_js:
+  output: ckanext-ytp_main%(version)s_show_more_block.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/show-more-block.js
+

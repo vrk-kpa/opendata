@@ -37,6 +37,8 @@
     {% endif %}
   </ul>
   {% endblock %}
-  {% link_for _('Edit categories'), named_route='dataset.groups', id=pkg.name %}
+  {% if h.check_access('package_update', {'id':pkg.id }) %}
+    {% link_for _('Edit categories'), named_route='dataset.groups', id=pkg.name %}
+  {% endif %}
 </section>
 {% endif %}
