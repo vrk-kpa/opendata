@@ -1,0 +1,68 @@
+<section class="additional-info">
+  <h3>{{ _('Additional Info') }}</h3>
+  <table class="table table-striped table__additional-info mt-3 mb-0">
+    <colgroup>
+      <col class="organization-label">
+      <col class="organization-details">
+    </colgroup>
+    <tbody>
+      {% block organization_additional_info %}
+        {% if organization_dict.homepage %}
+          <tr>
+            <th scope="row" class="organization-label">{{ _('Home page') }}</th>
+            {% if h.is_url(organization_dict.homepage) %}
+              <td class="organization-details" property="foaf:homepage">{{ h.link_to(organization_dict.homepage, organization_dict.homepage, rel='foaf:homepage', target='_blank') }}</td>
+            {% else %}
+              <td class="organization-details" property="foaf:homepage">{{ organization_dict.homepage }}</td>
+            {% endif %}
+          </tr>
+        {% endif %}
+
+        {% if organization_dict.created %}
+          <tr>
+            <th scope="row" class="organization-label">{{ _("Created") }}</th>
+            <td class="organization-details" >{{ organization_dict.created }}</td>
+          </tr>
+        {% endif %}
+
+        {% if organization_dict.package_count %}
+          <tr>
+            <th scope="row" class="organization-label">{{ _('Dataset count') }}</th>
+            <td class="organization-details">{{ organization_dict.package_count }}</td>
+          </tr>
+        {% endif %}
+
+        {% if organization_dict.num_followers %}
+          <tr>
+            <th scope="row" class="organization-label">{{ _("Numbers of followers") }}</th>
+            <td class="organization-details">{{ organization_dict.num_followers }}</td>
+          </tr>
+        {% endif %}
+
+        {% if organization_dict.approval_status %}
+          <tr>
+            <th scope="row" class="organization-label">{{ _("Approval status") }}</th>
+            <td class="organization-details">{{ organization_dict.approval_status }}</td>
+          </tr>
+        {% endif %}
+        {% if h.check_access('group_update',{'id':organization_dict.id}) %}
+          <tr>
+            <th scope="row" class="organization-label">{{ _("State") }}</th>
+            <td class="organization-details">{{ _(organization_dict.state) }}</td>
+          </tr>
+        {% endif %}
+
+        {% block extras scoped %}
+          {% for extra in h.sorted_extras(organization_dict.extras) %}
+            {% set key, value = extra %}
+            <tr rel="dc:relation" resource="_:extra{{ i }}">
+              <th scope="row" class="organization-label" property="rdfs:label">{{ _(key) }}</th>
+              <td class="organization-details" property="rdf:value">{{ value }}</td>
+            </tr>
+          {% endfor %}
+        {% endblock %}
+
+      {% endblock %}
+    </tbody>
+  </table>
+</section>
