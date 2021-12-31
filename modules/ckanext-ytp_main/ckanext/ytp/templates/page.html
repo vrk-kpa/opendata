@@ -2,44 +2,52 @@
 
 {# Note: ckanext-ytp_drupal overrides header block #}
 
+
 {% block secondary %}
-        {% set inner = self.secondary_inner() %}
-        {% if inner | trim %}
-        <button type="button" class="btn" id="search-filter-upper-hide-button">
+  {# Strip the URL for the group/organization of the id and then check if the resulting URL can be found in current URL #}
+  {% set group_url = h.url_for(controller='group', action='read', id=c.group_dict.id).split('/') %}
+  {% set split_url_length = group_url|length %}
+  {% set group_url = '/'.join(group_url[0:split_url_length - 1]) %}
+  {% if group_url in h.current_url() %}
+    {% set inner = self.secondary_inner() %}
+    {% if inner | trim %}
+      <button type="button" class="btn" id="search-filter-upper-hide-button">
             <span class="fa-stack">
               <i class="far fa-filter fa-stack-1x"></i>
               <i class="far fa-times fa-stack-1x hide-filters-cross-icon"></i>
             </span>
-            {{ _('Hide search filters') }}
-          </button>
-        <aside class="secondary col-xs-6 col-sm-3 mt-4 sidebar-offcanvas search-filters-hidden">
+        {{ _('Hide search filters') }}
+      </button>
+      <aside class="secondary col-xs-6 col-sm-3 mt-4 sidebar-offcanvas search-filters-hidden">
         {% block secondary_inner %}
-            {%- include('ytp/menu.html') -%}
-            {% block secondary_content -%}{%- endblock %}
+          {%- include('ytp/menu.html') -%}
+          {% block secondary_content -%}{%- endblock %}
         {% endblock %}
-        </aside>
-        {% endif %}
+      </aside>
+    {% endif %}
+  {% else %}
+  {% endif %}
+{% endblock %}
+
+{% block primary %}
+  <div class="primary col-xs-12 {% if self.secondary()|trim == '' %}col-sm-12{% else %}col-sm-9{% endif %}">
+    {% block primary_content %}
+      {{ super() }}
     {% endblock %}
-    
-    {% block primary %}
-        <div class="primary col-xs-12 {% if self.secondary()|trim == '' %}col-sm-12{% else %}col-sm-9{% endif %}">
-            {% block primary_content %}
-                {{ super() }}
-            {% endblock %}
-        </div>
-    {% endblock %}
+  </div>
+{% endblock %}
 
 {%- block footer %}
-    {{ h.drupal_footer()|safe }}
-    {% if g.debug %}
-        {% include 'snippets/debug.html' %}
-    {% endif %}
+  {{ h.drupal_footer()|safe }}
+  {% if g.debug %}
+    {% include 'snippets/debug.html' %}
+  {% endif %}
 {% endblock -%}
 
 {% block header %}
-    {% set lang = h.lang() %}
-    {{ super() }}
-    {#{% if h.service_alerts().rowcount != 0 %}
+  {% set lang = h.lang() %}
+  {{ super() }}
+  {#{% if h.service_alerts().rowcount != 0 %}
     <div class="container">
         <div class="alert alert-info">
             <ul class="service_alerts">

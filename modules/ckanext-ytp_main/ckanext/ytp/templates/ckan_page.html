@@ -8,47 +8,56 @@
   <div id="page_wrapper">
   {# The content block allows you to replace the content of the page if needed #}
   {%- block content %}
-    {% block maintag %}<div role="main">{% endblock %}
-      <div id="content" class="container-fluid">
-        {% block main_content %}
-          {% block flash %}
-            {% set flash_messages = h.flash.pop_messages() | list %}
-            <div class="flash-messages">
-              {% for message in flash_messages %}
-                <div class="m-0 alert fade in {{ message.category }}">
-                  {{ h.literal(message) }}
-                </div>
-              {% endfor %}
+    {% block maintag %}
+      <div role="main">{% endblock %}
+  <div id="content" class="container-fluid">
+    {% block main_content %}
+      {% block flash %}
+        {% set flash_messages = h.flash.pop_messages() | list %}
+        <div class="flash-messages">
+          {% for message in flash_messages %}
+            <div class="m-0 alert fade in {{ message.category }}">
+              {{ h.literal(message) }}
             </div>
+          {% endfor %}
+        </div>
+      {% endblock %}
+
+      {% block toolbar %}
+        <div class="toolbar">
+          {% block breadcrumb %}
+            {% if self.breadcrumb_content() | trim %}
+              <ol class="breadcrumb">
+                {% snippet 'snippets/home_breadcrumb_item.html' %}
+                {% block breadcrumb_content %}{% endblock %}
+              </ol>
+            {% endif %}
           {% endblock %}
+        </div>
+      {% endblock %}
 
-          {% block toolbar %}
-            <div class="toolbar">
-              {% block breadcrumb %}
-                {% if self.breadcrumb_content() | trim %}
-                  <ol class="breadcrumb">
-                    {% snippet 'snippets/home_breadcrumb_item.html' %}
-                    {% block breadcrumb_content %}{% endblock %}
-                  </ol>
-                {% endif %}
-              {% endblock %}
-            </div>
-          {% endblock %}
-
-          <div class="wrapper{% block wrapper_class %}{% endblock %}{% if self.secondary()|trim == '' %} no-nav{%else %} row row-offcanvas row-offcanvas-left{% endif %}">
-
-            {% block prelude %}
-            {% endblock %}
-            {#
+      {# Strip the URL for the group/organization of the id and then check if the resulting URL can be found in current URL #}
+      {% set group_url = h.url_for(controller='group', action='read', id=c.group_dict.id).split('/') %}
+      {% set split_url_length = group_url|length %}
+      {% set group_url = '/'.join(group_url[0:split_url_length - 1]) %}
+      {% if group_url in h.current_url() %}
+        <div class="wrapper>
+          {% block wrapper_class %}{% endblock %}{% if self.secondary()|trim == '' %} no-nav{% else %} row row-offcanvas row-offcanvas-left{% endif %}">
+      {% else %}
+        <div>
+      {% endif %}
+    {% block prelude %}
+    {% endblock %}
+    {#
                 The pre_primary block can be used to add content to before the
                 rendering of the main content columns of the page.
                 #}
-            {% block pre_primary %}
-            {% endblock %}
+    {% block pre_primary %}
+    {% endblock %}
 
-            {% block secondary %}
-              <aside class="secondary">
-                    {#
+    {% block secondary %}
+      <aside class="secondary">
+        {#
               The secondary_content block can be used to add content to the
               sidebar of the page. This is the main block that is likely to be
               used within a template.
@@ -60,14 +69,14 @@
                   <p>Some content for the item</p>
                 {% endblock %}
               #}
-                    {% block secondary_content %}{% endblock %}
-              </aside>
-            {% endblock %}
+        {% block secondary_content %}{% endblock %}
+      </aside>
+    {% endblock %}
 
-            {% block primary %}
-              <div class="primary">
+    {% block primary %}
+      <div class="primary">
 
-                {#
+        {#
                 The primary_content block can be used to add content to the page.
                 This is the main block that is likely to be used within a template.
 
@@ -78,38 +87,38 @@
                     <p>Some content for the page</p>
                   {% endblock %}
                 #}
-                {% block primary_content %}
-                  <article class="module">
-                    <div class="module-content">
-                        {% block page_header %}
-                        <header class="page-header">
-                            {% if self.content_action() | trim %}
-                            <div class="content_action">
-                                {% block content_action %}{% endblock %}
-                            </div>
-                            {% endif %}
-                            <ul class="nav nav-tabs">
-                            {% block content_primary_nav %}{% endblock %}
-                            </ul>
-                        </header>
-                        {% endblock %}
-                      {% if self.page_primary_action() | trim %}
-                        <div class="page_primary_action">
-                          {% block page_primary_action %}{% endblock %}
-                        </div>
-                      {% endif %}
-                      {% block primary_content_inner %}
-                      {% endblock %}
+        {% block primary_content %}
+          <article class="module">
+            <div class="module-content">
+              {% block page_header %}
+                <header class="page-header">
+                  {% if self.content_action() | trim %}
+                    <div class="content_action">
+                      {% block content_action %}{% endblock %}
                     </div>
-                  </article>
-                {% endblock %}
-              </div>
-            {% endblock %}
-          </div>
+                  {% endif %}
+                  <ul class="nav nav-tabs">
+                    {% block content_primary_nav %}{% endblock %}
+                  </ul>
+                </header>
+              {% endblock %}
+              {% if self.page_primary_action() | trim %}
+                <div class="page_primary_action">
+                  {% block page_primary_action %}{% endblock %}
+                </div>
+              {% endif %}
+              {% block primary_content_inner %}
+              {% endblock %}
+            </div>
+          </article>
         {% endblock %}
       </div>
+    {% endblock %}
     </div>
+    {% endblock %}
     </div>
+  </div>
+  </div>
   {% endblock -%}
 
   {#
@@ -123,10 +132,10 @@
 {%- endblock -%}
 
 {%- block scripts %}
-    {% resource 'base/main' %}
-    {% resource 'base/ckan' %}
-    {% if g.tracking_enabled %}
-      {% resource 'base/tracking.js' %}
-    {% endif %}
+  {% resource 'base/main' %}
+  {% resource 'base/ckan' %}
+  {% if g.tracking_enabled %}
+    {% resource 'base/tracking.js' %}
+  {% endif %}
   {{ super() }}
 {% endblock -%}
