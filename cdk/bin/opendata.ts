@@ -138,10 +138,6 @@ const ckanStackInfratest = new CkanStack(app, 'CkanStack-infratest', {
     'ckan': fileSystemStackInfratest.ckanFs,
     'solr': fileSystemStackInfratest.solrFs,
   },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackInfratest.migrationFsSg!,
-    fileSystem: fileSystemStackInfratest.migrationFs!,
-  },
   databaseSecurityGroup: databaseStackInfratest.databaseSecurityGroup,
   databaseInstance: databaseStackInfratest.databaseInstance,
   cachePort: cacheStackInfratest.cachePort,
@@ -227,7 +223,6 @@ const webStackInfratest = new WebStack(app, 'WebStack-infratest', {
   namespace: clusterStackInfratest.namespace,
   fileSystems: {
     'drupal': fileSystemStackInfratest.drupalFs,
-    'ckan': fileSystemStackInfratest.ckanFs,
   },
   databaseSecurityGroup: databaseStackInfratest.databaseSecurityGroup,
   databaseInstance: databaseStackInfratest.databaseInstance,

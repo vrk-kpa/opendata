@@ -13,12 +13,14 @@ import * as logs from '@aws-cdk/aws-logs';
 
 import { DrupalStackProps } from './drupal-stack-props';
 import { DrupalUser } from './drupal-user';
+import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 
 export class DrupalStack extends cdk.Stack {
   readonly drupalFsCoreAccessPoint: efs.IAccessPoint;
   readonly drupalFsSitesAccessPoint: efs.IAccessPoint;
   readonly drupalFsThemesAccessPoint: efs.IAccessPoint;
   readonly drupalFsResourcesAccessPoint: efs.IAccessPoint;
+  readonly migrationFsAccessPoint?: efs.IAccessPoint;
   readonly drupalService: ecs.FargateService;
 
   constructor(scope: cdk.Construct, id: string, props: DrupalStackProps) {
@@ -81,7 +83,7 @@ export class DrupalStack extends cdk.Stack {
     const sCommonSecrets = sm.Secret.fromSecretNameV2(this, 'sCommonSecrets', `/${props.environment}/opendata/common`);
 
     // get repositories
-    const drupalRepo = ecr.Repository.fromRepositoryArn(this, 'drupalRepo', `arn:aws:ecr:${this.region}:${this.account}:repository/${props.envProps.REPOSITORY}/drupal`);
+    const drupalRepo = ecr.Repository.fromRepositoryArn(this, 'drupalRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/drupal`);
 
     this.drupalFsCoreAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsCoreAccessPoint', {
       path: '/drupal_core',
@@ -286,7 +288,7 @@ export class DrupalStack extends cdk.Stack {
         command: ['CMD-SHELL', 'ps -aux | grep -o "[p]hp-fpm: master"'],
         interval: cdk.Duration.seconds(15),
         timeout: cdk.Duration.seconds(5),
-        retries: 5,
+        retries: 10,
         startPeriod: cdk.Duration.seconds(300),
       },
     });
@@ -344,5 +346,40 @@ export class DrupalStack extends cdk.Stack {
       scaleInCooldown: cdk.Duration.seconds(60),
       scaleOutCooldown: cdk.Duration.seconds(60),
     });
+
+    // mount migration filesystem if given
+    if (props.migrationFileSystemProps != null) {
+      this.migrationFsAccessPoint = new efs.AccessPoint(this, 'migrationFsAccessPoint', {
+        fileSystem: props.migrationFileSystemProps.fileSystem,
+        path: '/ytp_files',
+        posixUser: {
+          gid: '0',
+          uid: '0',
+        },
+      });
+      
+      props.migrationFileSystemProps.fileSystem.grant(drupalTaskDef.taskRole, 'elasticfilesystem:ClientRootAccess');
+
+      drupalTaskDef.addVolume({
+        name: 'ytp_files',
+        efsVolumeConfiguration: {
+          fileSystemId: props.migrationFileSystemProps.fileSystem.fileSystemId,
+          authorizationConfig: {
+            accessPointId: this.migrationFsAccessPoint.accessPointId,
+          },
+          transitEncryption: 'ENABLED',
+        },
+      });
+
+      // NOTE: drupal storage path will be in: /mnt/ytp_files/drupal
+      drupalContainer.addMountPoints({
+        containerPath: '/mnt/ytp_files',
+        readOnly: true,
+        sourceVolume: 'ytp_files',
+      });
+
+      this.drupalService.connections.allowFrom(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (drupal migrate)');
+      this.drupalService.connections.allowTo(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (drupal migrate)');
+    }
   }
 }

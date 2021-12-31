@@ -12,6 +12,7 @@ import * as acm from '@aws-cdk/aws-certificatemanager';
 import * as logs from '@aws-cdk/aws-logs';
 
 import { WebStackProps } from './web-stack-props';
+import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 
 export class WebStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: WebStackProps) {
@@ -23,7 +24,7 @@ export class WebStack extends cdk.Stack {
     });
 
     // get repositories
-    const nginxRepo = ecr.Repository.fromRepositoryArn(this, 'nginxRepo', `arn:aws:ecr:${this.region}:${this.account}:repository/${props.envProps.REPOSITORY}/nginx`);
+    const nginxRepo = ecr.Repository.fromRepositoryArn(this, 'nginxRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/nginx`);
 
     const nginxTaskDef = new ecs.FargateTaskDefinition(this, 'nginxTaskDef', {
       cpu: props.nginxTaskDef.taskCpu,
@@ -55,13 +56,6 @@ export class WebStack extends cdk.Stack {
           efsVolumeConfiguration: {
             fileSystemId: props.fileSystems['drupal'].fileSystemId,
             rootDirectory: '/drupal_resources',
-          },
-        },
-        {
-          name: 'ckan_resources',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['ckan'].fileSystemId,
-            rootDirectory: '/ckan_resources',
           },
         }
       ],
@@ -151,13 +145,9 @@ export class WebStack extends cdk.Stack {
       readOnly: true,
       sourceVolume: 'drupal_themes',
     }, {
-      containerPath: '/var/www/drupal_resources',
+      containerPath: '/var/www/resources',
       readOnly: true,
       sourceVolume: 'drupal_resources',
-    }, {
-      containerPath: '/var/www/ckan_resources',
-      readOnly: true,
-      sourceVolume: 'ckan_resources',
     });
 
     const nginxServiceHostedZone = r53.HostedZone.fromLookup(this, 'nginxServiceHostedZone', {
@@ -237,8 +227,6 @@ export class WebStack extends cdk.Stack {
 
     nginxService.service.connections.allowFrom(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
     nginxService.service.connections.allowTo(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
-    nginxService.service.connections.allowFrom(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
-    nginxService.service.connections.allowTo(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
     nginxService.service.connections.allowFrom(props.drupalService, ec2.Port.tcp(80), 'drupal - nginx connection');
     nginxService.service.connections.allowTo(props.drupalService, ec2.Port.tcp(9000), 'nginx - drupal connection');
     nginxService.service.connections.allowFrom(props.ckanService, ec2.Port.tcp(80), 'ckan - nginx connection');

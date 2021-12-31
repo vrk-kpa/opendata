@@ -12,6 +12,7 @@ import * as efs from '@aws-cdk/aws-efs';
 import * as logs from '@aws-cdk/aws-logs';
 
 import { CkanStackProps } from './ckan-stack-props';
+import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 
 export class CkanStack extends cdk.Stack {
   readonly ckanFsDataAccessPoint: efs.IAccessPoint;
@@ -97,8 +98,8 @@ export class CkanStack extends cdk.Stack {
     const sCommonSecrets = sm.Secret.fromSecretNameV2(this, 'sCommonSecrets', `/${props.environment}/opendata/common`);
 
     // get repositories
-    const ckanRepo = ecr.Repository.fromRepositoryArn(this, 'ckanRepo', `arn:aws:ecr:${this.region}:${this.account}:repository/${props.envProps.REPOSITORY}/ckan`);
-    const solrRepo = ecr.Repository.fromRepositoryArn(this, 'solrRepo', `arn:aws:ecr:${this.region}:${this.account}:repository/${props.envProps.REPOSITORY}/solr`);
+    const ckanRepo = ecr.Repository.fromRepositoryArn(this, 'ckanRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/ckan`);
+    const solrRepo = ecr.Repository.fromRepositoryArn(this, 'solrRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/solr`);
 
     // ckan service
     this.ckanFsDataAccessPoint = props.fileSystems['ckan'].addAccessPoint('ckanFsDataAccessPoint', {
@@ -384,7 +385,7 @@ export class CkanStack extends cdk.Stack {
         command: ['CMD-SHELL', 'curl --fail http://localhost:5000/api/3/action/status_show || exit 1'],
         interval: cdk.Duration.seconds(15),
         timeout: cdk.Duration.seconds(5),
-        retries: 5,
+        retries: 10,
         startPeriod: cdk.Duration.seconds(300),
       },
     });
