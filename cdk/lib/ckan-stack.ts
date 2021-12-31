@@ -380,6 +380,7 @@ export class CkanStack extends cdk.Stack {
       logging: ecs.LogDrivers.awsLogs({
         logGroup: ckanLogGroup,
         streamPrefix: 'ckan-service',
+        datetimeFormat: '%Y-%m-%d %H:%M:%S,%L',
       }),
       healthCheck: {
         command: ['CMD-SHELL', 'curl --fail http://localhost:5000/api/3/action/status_show || exit 1'],
@@ -503,6 +504,7 @@ export class CkanStack extends cdk.Stack {
         logging: ecs.LogDrivers.awsLogs({
           logGroup: ckanCronLogGroup,
           streamPrefix: 'ckan_cron-service',
+          datetimeFormat: '%Y-%m-%d %H:%M:%S,%L',
         }),
         healthCheck: {
           command: ['CMD-SHELL', 'ps -aux | grep -o "[c]ron -f"'],
@@ -645,6 +647,7 @@ export class CkanStack extends cdk.Stack {
       logging: ecs.LogDrivers.awsLogs({
         logGroup: solrLogGroup,
         streamPrefix: 'solr-service',
+        datetimeFormat: '%Y-%m-%d %H:%M:%S.%L',
       }),
       healthCheck: {
         command: ['CMD-SHELL', 'curl --fail -s http://localhost:8983/solr/ckan/admin/ping?wt=json | grep -o "OK"'],
