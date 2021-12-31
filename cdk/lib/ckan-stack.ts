@@ -225,6 +225,7 @@ export class CkanStack extends cdk.Stack {
       // .env.ckan
       CKAN_IMAGE_TAG: props.envProps.CKAN_IMAGE_TAG,
       CKAN_SITE_URL: `https://${props.domainName}`,
+      CKAN_DRUPAL_SITE_URL: `https://${props.domainName}`,
       CKAN_SITE_ID: 'default',
       CKAN_PLUGINS_DEFAULT: ckanPluginsDefault.join(' '),
       CKAN_PLUGINS: ckanPlugins.join(' '),
