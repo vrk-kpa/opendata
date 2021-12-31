@@ -4,8 +4,8 @@ http                =  127.0.0.1:{{ item.ckan_port }}
 env                 =  CKAN_INI={{ item.ckan_ini }}
 uid                 =  www-data
 gid                 =  www-data
-processes           =  4
-enable-threads      =  true
+#processes           =  4
+#enable-threads      =  true
 wsgi-file           =  {{ ckan_wsgi_script }}
 virtualenv          =  /usr/lib/ckan/default
 chdir               =  /etc/ckan/default
