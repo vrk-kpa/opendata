@@ -97,6 +97,7 @@
 
 
     {% block stats %}
+        {% if 'get_visits_for_dataset' in h %}
         {{ layout.moduleBoxHead(_('Stats')) }}
             <span>{{ _('Last 30 days, updated daily') }}</span>
             <div id="chart_div"></div>
@@ -150,6 +151,7 @@
                 }
             </script>
         {{ layout.moduleBoxFoot() }}
+        {% endif %}
     {% endblock %}
 
     {% block dataset_social %}

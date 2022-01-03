@@ -1,7 +1,7 @@
 {% extends "package/base.html" %}
 
 {% set res = c.resource %}
-{% set visits =  h.get_visits_for_resource(res.id) %}
+{% set visits =  h.get_visits_for_resource(res.id) if 'get_visits_for_resource' in h else None %}
 {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
 {% block head_extras -%}
   {{ super() }}
@@ -252,6 +252,7 @@
     </div>
   </section>
 
+  {% if visits %}
   <h3>{{ _('Stats') }}</h3>
   <span>{{ _('Last 30 days, updated daily') }}</span>
   <div id="chart_div"></div>
@@ -290,6 +291,7 @@
 
           chart.draw(data, options);
         }
-      </script>
+  </script>
+  {% endif %}
 
 {% endblock %}

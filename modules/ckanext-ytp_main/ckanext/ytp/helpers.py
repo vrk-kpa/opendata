@@ -280,7 +280,7 @@ def calculate_metadata_stars(dataset_id):
     score += (optional_count * 5.0 / len(optional_fields))
 
     # visits from GA
-    visits = get_visits_for_dataset(dataset_id)
+    visits = toolkit.h.get_visits_for_dataset(dataset_id) if 'get_visits_for_dataset' in toolkit.h else 0
     visit_count = visits.get("count", 0)
     resource_download_count = visits.get("download_count", 0)
 
@@ -323,33 +323,6 @@ def get_license(license_id):
             return license_obj
 
     return None
-
-
-def get_visits_for_resource(id):
-    from ckanext.matomo.model import ResourceStats
-
-    return ResourceStats.get_all_visits(id)
-
-
-def get_visits_for_dataset(id):
-
-    from ckanext.matomo.model import PackageStats
-
-    return PackageStats.get_all_visits(id)
-
-
-def get_visits_count_for_dataset_during_last_year(id):
-
-    from ckanext.matomo.model import PackageStats
-
-    return len(PackageStats.get_visits_during_year(id, datetime.datetime.now().year - 1))
-
-
-def get_download_count_for_dataset_during_last_year(id):
-    # Downloads are visits for the Resource object.
-    # This is why a 'get_visits' method is called.
-    from ckanext.matomo.model import ResourceStats
-    return len(ResourceStats.get_visits_during_last_calendar_year_by_dataset_id(id))
 
 
 def get_current_date():

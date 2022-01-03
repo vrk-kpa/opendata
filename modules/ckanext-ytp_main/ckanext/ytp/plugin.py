@@ -40,14 +40,12 @@ from .converters import save_to_groups
 
 from .helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
-    get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, \
-    get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
+    get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, \
+    get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
     sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, \
-    scheming_language_text_or_empty, \
-    get_lang_prefix, call_toolkit_function, get_translation, get_translated, dataset_display_name, \
-    resource_display_name, \
-    get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
-    get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
+    scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function, get_translation, get_translated, \
+    dataset_display_name, resource_display_name, get_current_date, get_label_for_producer, scheming_category_list, \
+    check_group_selected, group_title_by_id, group_list_with_selected, \
     get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin, \
     get_value_from_extras_by_key, get_field_from_dataset_schema, get_field_from_resource_schema, is_boolean_selected, \
     site_url_with_root_path
@@ -357,10 +355,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_upload_size': get_upload_size,
                 'render_date': render_date,
                 'get_license': get_license,
-                'get_visits_for_resource': get_visits_for_resource,
-                'get_visits_for_dataset': get_visits_for_dataset,
-                'get_visits_count_for_dataset_during_last_year': get_visits_count_for_dataset_during_last_year,
-                'get_download_count_for_dataset_during_last_year': get_download_count_for_dataset_during_last_year,
                 'get_current_date': get_current_date,
                 'get_geonetwork_link': get_geonetwork_link,
                 'get_tooltip_content_types': get_tooltip_content_types,
