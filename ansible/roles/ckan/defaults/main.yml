@@ -122,6 +122,7 @@ ckan_extensions_with_translations:
   - ckanext-scheming
   - ckanext-statistics
   - ckanext-datarequests
+  - ckanext-matomo
 
 # enable matomo analytics can either be false, or dict of id account type
 ckan_matomo_analytics: false
@@ -287,6 +288,7 @@ ckan_patches:
   - add_autodynatrace
   - fix_invalid_search_facets_template_error # https://github.com/ckan/ckan/pull/6181
   - remove_stacktraces_from_http_errors # https://github.com/ckan/ckan/pull/6345
+  - set_error_email_logging_level_to_error # https://github.com/ckan/ckan/pull/6577
 
 ckan_config_files:
   - file: /etc/ckan/default/production.ini

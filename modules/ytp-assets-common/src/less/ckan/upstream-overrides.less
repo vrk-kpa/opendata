@@ -8,8 +8,12 @@ body {
 
 .label-default {
   a {
-    color: #fff;
+    color: @suomi-whiteBase;
   }
+}
+
+.dataset-primary-content section {
+  margin-top: 50px;
 }
 
 .additional-info {
@@ -23,5 +27,44 @@ body {
     .dataset-details {
       word-break: break-all;
     }
+
+    th,
+    td {
+      padding-top: 6px;
+      padding-left: 15px;
+      padding-bottom: 8px;
+    }
+
+    td {
+      padding-right: 25px;
+    }
   }
+}
+
+.apiset-description {
+  margin-top: 20px;
+}
+
+.dataset-title {
+  font-family: @font-family-sans-serif-light;
+}
+
+.license-smallprint {
+  color: @suomi-depthDark27;
+  margin-bottom: @padding-y--small;
+}
+
+.search-form {
+  margin-bottom: 0;
+  border-bottom: none;
+
+  .search-input {
+    position: relative;
+    margin-bottom: 20px;
+    margin-bottom: 10px;
+  }
+}
+
+.filter-list {
+  margin: 0;
 }

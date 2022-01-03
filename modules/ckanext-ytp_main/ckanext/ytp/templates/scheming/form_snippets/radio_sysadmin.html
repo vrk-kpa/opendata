@@ -1,0 +1,34 @@
+{% import 'scheming/macros/form.html' as form %}
+
+{% set user_is_sysadmin = h.check_access('sysadmin') %}
+
+{% if user_is_sysadmin %}
+  {%- call form.input_block(
+    label=h.scheming_language_text(field.label),
+    classes=['control-medium'],
+    error=errors[field.field_name],
+    is_required=h.scheming_field_required(field),
+    description=field.description) -%}
+
+    {% set selected = data[field.field_name] if data[field.field_name] is defined else field.default_value %}
+    <fieldset class="radios">
+        {%- for c in field.choices -%}
+            <label for="field-{{ field.field_name }}-{{ c.value }}">
+              {% if description and description.strip() %}
+                  <div class="field-assistive-text">{{ _(description) }}</div>
+              {% endif %}
+              <input id="field-{{ field.field_name }}-{{ c.value }}"
+                  type="radio"
+                  name="{{ field.field_name }}"
+                  value="{{ c.value }}"
+                  {{"checked " if c.value == selected or h.is_boolean_selected(c.value, selected) }} />
+
+              <div class="check"></div>
+              {{ h.scheming_language_text(c.label) }}
+            </label>
+        {%- endfor -%}
+    </fieldset>
+    {%- snippet 'scheming/form_snippets/help_text.html', field=field -%}
+
+  {%- endcall -%}
+{% endif %}

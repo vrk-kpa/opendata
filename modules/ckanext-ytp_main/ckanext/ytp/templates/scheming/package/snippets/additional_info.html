@@ -12,6 +12,36 @@
       'valid_till',
     ] -%}
 
+    {% set guid = h.get_value_from_extras_by_key(pkg_dict, 'guid') %}
+    {% set original_url = h.get_value_from_extras_by_key(pkg_dict, 'original_url') %}
+    {% if guid %}
+        {% set material_link = h.get_geonetwork_link(guid, pkg_dict.organization.name)%}
+    {% elif original_url %}
+        {% set material_link = original_url %}
+    {% endif %}
+    {% if pkg_dict.collection_type %}
+    <tr>
+      <th>{{ _('Collection') }}</th>
+      <td>{{ _(pkg_dict.get('collection_type', '-')) }}</td>
+    </tr>
+    {% endif %}
+    {% if material_link %}
+      <tr>
+        <th>{{ _('Original dataset') }}</th>
+        <td>
+          <a href="{{ material_link }}">{{ _('Link to harvested dataset') }}</a>
+        </td>
+      </tr>
+    {% endif %}
+    {% if pkg_dict.organization %}
+    <tr>
+      <th>{{ _('Maintainer') }}</th>
+      <td>
+        <a href="/data/{{ h.lang() }}/organization/{{ pkg_dict.organization.get('name') }}">{{ pkg_dict.organization.get('name') }}</a>
+      </td>
+    </tr>
+    {% endif %}
+
   {%- for field_key in ordered_dataset_fields -%}
     {%- set field = schema.dataset_fields | selectattr('field_name', 'equalto', field_key) | list -%}
       {% if field[0] %}

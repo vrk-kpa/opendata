@@ -124,7 +124,7 @@
                         textPosition: 'none',
                         format: 'dd.MM.yyyy',
                         gridlines: {
-                            count : 4
+                            count : 0
                         }
                     },
                     vAxis: {
@@ -133,6 +133,14 @@
                     legend: { position: 'bottom' },
                     chartArea: {
                         left: 32
+                    },
+                    series: {
+                        0: {
+                            lineDashStyle: null
+                        },
+                        1: {
+                            lineDashStyle: [5, 3]
+                        },
                     }
                     };
 
