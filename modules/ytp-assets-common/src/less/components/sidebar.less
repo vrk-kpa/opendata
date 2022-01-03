@@ -22,12 +22,15 @@ aside.tertiary {
     background-color: @opendata-brand-primary;
     color: @color--white;
     padding: @padding-y--common @padding-x--common;
-    margin: 0 -@padding-y--common;
-    margin-bottom: @padding-y--common;
+    // -1px prefix to make header overlap with container borders
+    margin: -1px (-@padding-y--common - 1px);
     text-transform: uppercase;
 
     .secondary__title {
       margin: 0;
+      font-size: @font-size-base;
+      font-weight: @font-weight-heavier;
+      line-height: @line-height-h3-alt;
     }
   }
 
@@ -86,7 +89,7 @@ aside.tertiary {
     }
 
     .module-footer {
-      padding: @padding-y__navigation @padding-x__navigation;
+      padding: 0;
       border: none;
 
       &,
@@ -97,10 +100,8 @@ aside.tertiary {
       }
 
       a {
-        padding-left: @padding-x__navigation;
-        padding-right: @padding-x__navigation;
-        padding-top: @padding-y__navigation;
-        padding-bottom: @padding-y__navigation;
+        padding: @padding-y__navigation @padding-x__navigation;
+        margin: 0;
       }
     }
 
@@ -115,10 +116,11 @@ aside.tertiary {
 }
 
 .module.suomifi-filters {
-  padding: 0;
   border: none;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+
+  .module-content .module-subheading {
+    padding: @padding-y__navigation 0;
+  }
 }
 
 .module-narrow > .btn,
@@ -144,11 +146,6 @@ aside.tertiary {
 
   aside .module {
     margin-bottom: 0;
-  }
-
-  aside .module-footer a {
-    padding: 0;
-    margin: 0;
   }
 }
 

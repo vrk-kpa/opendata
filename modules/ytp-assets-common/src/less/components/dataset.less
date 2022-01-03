@@ -170,7 +170,8 @@
   }
 }
 
-.container-search-result {
+.container-search-result,
+.dataset-list {
   .dataset-heading a {
     color: @opendata-brand-primary;
     font-family: @font-family-sans-serif-semibold;
@@ -190,17 +191,23 @@
   }
 
   .search-item-tag {
-    background: white;
-    border: 1px solid #c9cdcf;
-    height: 28px;
+    background: @suomi-whiteBase;
+    border: 1px solid @opendata-brand-border-gray;
+    margin: 0;
+    margin-right: @margin__tag;
+    border-radius: 2px;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
   }
 
   .search-item-tag-organization {
-    padding: 3px 18px;
+    padding: @padding__tag;
   }
 
   .search-item-tag-type {
-    padding: 3px 7px;
+    padding: @padding__tag;
   }
 
   .search-item-tag span {
@@ -211,13 +218,4 @@
     line-height: 18px;
     text-align: center;
   }
-}
-
-.search-dataset-heading {
-  color: rgb(34, 34, 34);
-  font-family: @font-family-sans-serif-light;
-  font-size: 40px;
-  font-weight: 300;
-  line-height: 0px;
-  height: 0;
 }

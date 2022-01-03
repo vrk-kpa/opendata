@@ -87,12 +87,11 @@
   <div class="secondary__header">
     <h3 class="secondary__title">{{ _('Filter list') }}</h3>
   </div>
-  <section class="module suomifi-filters">
-    <div class="module-content">
-      <h3 class="module-subheading">
+  <section class="module module-narrow module-shallow">
+      <h2 class="module-heading">
         {{ _('Datasets') }}
-      </h3>
-      <div class="module-section suomifi-filter-links">
+      </h2>
+      <div class="module-content">
         {% if c.with_datasets %}
         <a href="{{ h.url_for(controller='organization', action='index', q=c.q, sort=c.sort_by_selected) }}">
           {{ _('Show organizations without datasets') }}
@@ -103,6 +102,5 @@
         </a>
         {% endif %}
       </div>
-    </div>
   </section>
 {% endblock %}
