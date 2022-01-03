@@ -1,78 +1,59 @@
-body{
-	margin: 0;
-	font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
-	font-size: 14px;
-	line-height: 1.428571429;
-	background: inline('../../../resources/images/avoindata_page_not_found.jpg') no-repeat;
-  background-size:cover;
-  background-position:center;
-	padding-top: 64px;
+.page-not-found-header {
+  background-color: rgb(255, 255, 255);;
+  min-height: 67px;
+  box-shadow: 0px 1px 0px 0px rgb(200, 205, 208);
+  border-radius: 0px;
 }
 
-#heading{
-	background-color: #333333;
-	position: fixed;
-	top: 0;
-	min-height: 40px;
-	width: 100%;
-	padding: 0;
+.page-not-found-header-link {
+  height: 41px;
+  float: left;
+  font-size: 26px;
+  font-weight: bold;
+  line-height: 48px;
+  padding: 10px;
+  margin-left: 9%;
+  color: black;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
-#heading > div {
-	padding-left: 50px;
-	margin-left: auto;
-	margin-right: auto
+
+.container-page-not-found {
+  margin-left: 10%;
+  border-radius: 20px;
+  display: block;
 }
 
-#heading > div > a{
-	padding: 10px;
-	color: #ffffff;
-	margin-right: 40%;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-size: 18px;
-	line-height: 20px;
-	float: left;
+.page-not-found-content-title {
+  color: rgb(34, 34, 34);
+  font-family:"Source Sans Pro Light", "Helvetica Neue", "Arial", "sans-serif";
+  font-size: 40px;
+  font-weight: 300;
+  height:48px;
+  margin-top: 65px;
 }
-
-.container{
-    max-width: 800px;
-    min-width: 480px;
-    width: 90%;
-    height: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 20px;
-    color: white;
+.page-not-found-title {
+  color: rgb(34, 34, 34);
+  font-family: "Source Sans Pro SemiBold", "Helvetica Neue", "Arial", "sans-serif";
+  font-size: 28px;
+  font-weight: 600;
 }
-
-.container a{
-  color: white;
-  font-weight: 800;
+.page-not-found-subtitle {
+  color: rgb(41, 41, 41);
+  font-family: "Source Sans Pro SemiBold", "Helvetica Neue", "Arial", "sans-serif";
+  font-size: 18px;
+  font-weight: normal;
 }
-
-.container p {
-  font-weight: 700;
-  margin-bottom: 0;
+.page-not-found-link {
+  color: rgb(42, 110, 187);
+  font-family: "Source Sans Pro SemiBold", "Helvetica Neue", "Arial", "sans-serif";
+  font-size: 18px; font-weight: normal;
+  text-decoration: none;
+  display:block;
+  padding-top: 10px;
 }
-
-#content{
-  background: linear-gradient(to right, rgba(56, 86, 128, 0.4), rgba(56, 86, 128, 0.0));
-  border-radius: 5px;
-  padding: 50px;
-}
-
-#content > h1 {
-	font-weight: 700;
-	line-height: 1.1;
-	color: inherit;
-  margin-top: 0;
-  font-size: 48px;
-}
-
-#content > div {
-	width: 400px;
-	background-color: #cbe7ff;
-	padding: 20px;
-    border-radius: 20px;
+.language-content{
+  margin-top: 35px;
+  display: block;
 }
