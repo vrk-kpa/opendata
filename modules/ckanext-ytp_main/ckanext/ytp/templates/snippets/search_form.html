@@ -5,6 +5,7 @@
 {% set no_bottom_border = no_bottom_border if no_bottom_border else false %}
 
 <form class="search-form{% if no_bottom_border %} no-bottom-border{% endif %}" method="get" data-module="select-switch">
+
     {% block search_facets %}
         {% if facets %}
             <div class="d-flex align-items-center mb-3">
@@ -30,7 +31,7 @@
 
     {% block search_input %}
         <div class="search-input control-group {{ search_class }} m-0">
-            <input type="text" class="search form-control" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
+            <input type="text" class="search search-dataset form-control" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
             {% for param in query_params %}
                 {% for value in query_params[param] %}
                     <input type="hidden" name="{{ param }}" value="{{value}}">
@@ -59,7 +60,7 @@
     {% endif %}
 
     {% if show_advanced_search  %}
-      <div class="mt-2 d-flex justify-content-end">
+      <div class="mb-2 d-flex justify-content-end">
           <a href="{{ h.url_for('advanced_search_blueprint.search') }}" class="btn-avoindata-header">
               {% trans %}
                   Use advanced search

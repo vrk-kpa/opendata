@@ -86,7 +86,7 @@ aside.tertiary {
     }
 
     .module-footer {
-      padding: 0;
+      padding: @padding-y__navigation @padding-x__navigation;
       border: none;
 
       &,
@@ -133,5 +133,34 @@ aside.tertiary {
 .module-narrow {
   .list-unstyled {
     padding-left: 0;
+  }
+}
+
+#content .search-dataset-wrapper {
+  aside {
+    border: 1px solid @table-border-color;
+    background: #fff;
+  }
+
+  aside .module {
+    margin-bottom: 0;
+  }
+
+  aside .module-footer a {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+#content .sidebar-header-section {
+  background: @opendata-brand-primary;
+
+  p {
+    padding: 26px 20px 13px 20px;
+    font-family: @font-family-sans-serif;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 27px;
   }
 }

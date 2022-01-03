@@ -25,18 +25,24 @@ body {
   max-width: none;
 }
 
-#content {
+#page_wrapper #content {
   width: inherit;
   padding: 0;
+  background: #fafafa;
 }
 
 #content > .wrapper {
-  background: transparent;
   box-shadow: none;
   margin: 0 auto;
   max-width: @opendata-container-max-width;
   padding: 0 15px;
   border: none;
+  border-radius: none;
+}
+
+#page_wrapper #content .wrapper {
+  border: none;
+  background: #fafafa;
 }
 
 .container-fluid .wrapper {
@@ -65,6 +71,26 @@ body {
     .flex-wrap(wrap);
   }
 }
+
+// .context-info .module-content {
+//   padding: 0;
+// }
+
+// #content > .wrapper > .primary {
+//   padding-left: 45px;
+
+//   > .module > .module-content {
+//     padding-top: 32px;
+//   }
+
+//   &:first-child > .module > .module-content {
+//     padding-left: 0;
+//   }
+
+//   &:last-child > .module > .module-content {
+//     padding-right: 0;
+//   }
+// }
 
 // Blue bar that divides elements
 .spacer {

@@ -18,7 +18,7 @@ Example:
 {% set title = h.extra_translation(package, 'title', fallback=package.name) %}
 {% set notes = h.markdown_extract(h.extra_translation(package, 'notes', markdown=False), extract_length=truncate) %}
 
-<li class="{{ item_class or 'dataset-item' }}">
+<div class="{{ item_class or 'dataset-item' }}">
     {% block package_item_content %}
         <div class="dataset-content">
           <div class="d-flex align-items-center">
@@ -50,26 +50,41 @@ Example:
                 </p>
             {% endif %}
 
+            <div>
+                {% if package.get('state', '').startswith('draft') %}
+                    <span class="collection-type draft label label-info">
+                        {{_('Draft')}}
+                    </span>
+                {% elif package.get('state', '').startswith('deleted') %}
+                    <span class="collection-type deleted label label-important">
+                        {{_('Deleted')}}
+                    </span>
+                {% endif %}
+            </div>
+
             <div class="d-flex justify-content-between flex-wrap mt-2">
                 {% if package.organization.producer_type | length != 0 and h.get_label_for_producer(package.organization.producer_type) | length != 0%}
-                    <span
-                        class="producer-type"
-                        data-producer-type="{{ package.organization.producer_type }}"
-                    >
-                        {{ _(h.get_label_for_producer(package.organization.producer_type)) }}
-                    </span>
+                    <div class="search-item-tag search-item-tag-organization">
+                      <span
+                          class=""
+                          data-producer-type="{{ package.organization.producer_type }}">
+                          {{ _(h.get_label_for_producer(package.organization.producer_type)) }}
+                      </span>
+                    </div>
                 {% endif %}
                 <div class="d-flex flex-1 justify-content-end flex-wrap">
                     {%- if package.get('resources') -%}
                         {% set formats = h.unique_formats(package.get('resources')) %}
                         {%- for format in formats -%}
-                            <span class="format file-tag format--{{ format | lower }}">
-                                {{ _(format) }}
-                            </span>
+                            <div class="search-item-tag search-item-tag-type">
+                              <span class="">
+                                  {{ _(format) }}
+                              </span>
+                            </div>
                         {%- endfor -%}
                     {%- endif -%}
                 </div>
             </div>
         </div>
     {% endblock %}
-</li>
+</div>
