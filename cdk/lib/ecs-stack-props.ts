@@ -10,7 +10,6 @@ import * as ec from '@aws-cdk/aws-elasticache';
 import { CommonStackProps } from './common-stack-props';
 
 export interface EcsStackProps extends CommonStackProps {
-  repositories: { [key: string]: ecr.IRepository };
   vpc: ec2.IVpc;
   cluster: ecs.ICluster;
   namespace: sd.IPrivateDnsNamespace;
@@ -47,4 +46,12 @@ export interface EcsStackPropsTaskDef {
    * 4.0  vCPU: 8192MB, 30720MB in increments of 1024MB
    */
   taskMem: number;
+  /**
+   * Minimum number of tasks at a time.
+   */
+  taskMinCapacity: number;
+  /**
+   * Maximum number of tasks at a time.
+   */
+  taskMaxCapacity: number;
 }

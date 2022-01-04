@@ -5,9 +5,6 @@ import * as sd from '@aws-cdk/aws-servicediscovery';
 
 import { CommonStackProps } from './common-stack-props';
 
-export interface EcStackProps extends CommonStackProps {
+export interface ElbStackProps extends CommonStackProps {
   vpc: ec2.IVpc;
-  cacheNodeType: string;
-  cacheEngineVersion: string;
-  cacheNumNodes: number;
 }

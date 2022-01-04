@@ -2,40 +2,20 @@
 
 This folder contains dockerized versions of the opendata services.
 
-This is a work in progress.
-
 ## Files & folders
 
 * files
+  * .env
+    * variable file shared between all services
   * .env.*.local
-    * variable files for local env containers
+    * variable files for specific service
   * .mh-auth
     * htpasswd file for local env smtp (mailhog) server
       * username=test
       * password=test
-  * package.default.json
-    * package.json with fontawesome-free for modules/ytp-assets-common
 * folders
-  * ckan/
-    * CKAN docker image
-    * Build context is repository root
-      * This is because the Dockerfile needs access to modules/
-  * datapusher/
-    * Datapusher docker image
-    * Build context is docker/datapusher/
-  * drupal/
-    * Drupal docker image
-    * Build context is repository root
-      * This is because the Dockerfile needs access to modules/
-  * nginx/
-    * NGINX docker image
-    * Build context is docker/nginx/
-  * solr/
-    * Solr docker image
-    * Build context is docker/solr/
   * postgres/
     * PostgrSQL / PostGIS docker image, for local env
-    * Build context is docker/postgres/
 
 ## Build requirements
 
@@ -75,7 +55,7 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 
 ## Local environment configuration
 
-Common configuration template is contained in `docker/.env.local.template`. Developers must copy this file into `docker/.env.local` and edit it to their likings. The `docker/.env.local` file is ignored in version control.
+Common configuration template is contained in `docker/.env.template`. Developers must copy this file into `docker/.env` and edit it to their likings. The `docker/.env` file is ignored in version control.
 
 The template contains an already working configuration to get started.
 
@@ -87,68 +67,118 @@ To use the pro version, you must provide a valid .npmrc file either via BuildKit
 
 ### Example docker-compose.override.yml for local development
 
-Create a file `docker-compose.override.yml` to the project root directory and populate its contents with the example below and edit your .npmrc file contents in it appropriately.
+Create a file `docker-compose.override.yml` to the `docker` directory and populate its contents with the example below and edit your .npmrc file contents in it appropriately.
 
 This file is automatically detected by docker-compose so you don't need to pass it in commands, it just works.
 
 ```yml
 # NOTE: This file is also in .gitignore, please keep it that way!
+# NOTE: This example assumes you have cloned opendata-ckan and opendata-drupal repos to ../../ path.
+# NOTE: We don't want node_modules in our bind-mount, thus we mask it with empty volume!
+# NOTE: Remember to build the `ytp-assets-common` frontend project on the host machine!
+version: "3.8"
 
 services:
   ckan:
+    image: opendata/ckan:latest
     build:
+      context: ../../opendata-ckan
+      target: ckan_development
       args:
         SECRET_NPMRC: |
           *multiline contents of the .npmrc file...*
           *...*
+    ports:
+      - "5000:5000"
+    environment:
+      AWS_ACCESS_KEY_ID: "temp-access-key-if-using-ckanext-cloudstorage"
+      AWS_SECRET_ACCESS_KEY: "temp-secret-key-if-using-ckanext-cloudstorage"
+      AWS_DEFAULT_REGION: "eu-west-1"
+    volumes:
+      - ../../opendata-ckan/modules:/srv/app/extensions
+      - /srv/app/extensions/ytp-assets-common/node_modules/
 
   drupal:
+    image: opendata/drupal:latest
     build:
+      context: ../../opendata-drupal
+      target: drupal_development
       args:
         SECRET_NPMRC: |
           *multiline contents of the .npmrc file...*
           *...*
+    volumes:
+      - ../../opendata-drupal/modules/avoindata-header/:/opt/drupal/web/modules/avoindata-header
+      - ../../opendata-drupal/modules/avoindata-servicemessage/:/opt/drupal/web/modules/avoindata-servicemessage
+      - ../../opendata-drupal/modules/avoindata-hero/:/opt/drupal/web/modules/avoindata-hero
+      - ../../opendata-drupal/modules/avoindata-categories/:/opt/drupal/web/modules/avoindata-categories
+      - ../../opendata-drupal/modules/avoindata-infobox/:/opt/drupal/web/modules/avoindata-infobox
+      - ../../opendata-drupal/modules/avoindata-datasetlist/:/opt/drupal/web/modules/avoindata-datasetlist
+      - ../../opendata-drupal/modules/avoindata-newsfeed/:/opt/drupal/web/modules/avoindata-newsfeed
+      - ../../opendata-drupal/modules/avoindata-appfeed/:/opt/drupal/web/modules/avoindata-appfeed
+      - ../../opendata-drupal/modules/avoindata-footer/:/opt/drupal/web/modules/avoindata-footer
+      - ../../opendata-drupal/modules/avoindata-articles/:/opt/drupal/web/modules/avoindata-articles
+      - ../../opendata-drupal/modules/avoindata-events/:/opt/drupal/web/modules/avoindata-events
+      - ../../opendata-drupal/modules/avoindata-guide/:/opt/drupal/web/modules/avoindata-guide
+      - ../../opendata-drupal/modules/avoindata-user/:/opt/drupal/web/modules/avoindata-user
+      - ../../opendata-drupal/modules/avoindata-ckeditor-plugins/:/opt/drupal/web/modules/avoindata-ckeditor-plugins
+      - ../../opendata-drupal/modules/ytp-assets-common:/opt/drupal/web/modules/ytp-assets-common
+      - ../../opendata-drupal/modules/avoindata-theme:/opt/drupal/web/themes/avoindata
+      - /opt/drupal/web/modules/ytp-assets-common/node_modules/
+
+  nginx:
+    image: opendata/nginx:latest
+    volumes:
+      - ../../opendata-drupal/modules/avoindata-theme:/var/www/html/themes/avoindata:ro
+
+  # NOTE: You can override the remaining images like this if you wish to use your local images,
+  #       just remember to tag your local images like this!
+  ckan_cron:
+    image: opendata/ckan:latest
+
+  solr:
+    image: opendata/solr:latest
+
+  nginx:
+    image: opendata/nginx:latest
 ```
 
 ## Local environment operations
 
-### Build & run
+### Build/rebuild & create/recreate
 ```bash
-# bring docker compose stack up with current latest images + force rebuild of all images
-docker-compose -p opendata --env-file docker/.env.local up --build -d
+docker-compose -p opendata up --build -d
 ```
 
-### Build ckan & drupal images with BuildKit secrets
+### Bring services down
 ```bash
-# build drupal image using BuildKit secrets
-docker build --no-cache -t opendata/drupal:latest --secret id=npmrc,src=./modules/ytp-assets-common/.npmrc --file=./docker/drupal/Dockerfile .
-# build ckan image using BuildKit secrets
-docker build --no-cache -t opendata/ckan:latest --secret id=npmrc,src=./modules/ytp-assets-common/.npmrc --file=./docker/ckan/Dockerfile .
-```
-
-### Stop
-```bash
-# bring docker compose stack down, not destroying persistent volumes
 docker-compose -p opendata down
 ```
 
-### Destroy
+### Destroy services
 ```bash
-# destroy docker compose stack, destroys persistent volumes
 docker-compose -p opendata down --volumes
 ```
 
 ### Example: Scale service X to N containers
 ```bash
-docker-compose -p opendata --env-file docker/.env.local up --scale X=N -d
+docker-compose -p opendata up --scale X=N -d
 ```
 
 ### Example: scaling drupal to 5 instances
 ```bash
-docker-compose -p opendata --env-file docker/.env.local up --scale drupal=5 -d
+docker-compose -p opendata up --scale drupal=5 -d
 ```
 
 ## Services that currently support scaling in local environment
 
 * drupal
 * ckan
+* datapusher
+
+## Services that currently support scaling in AWS environment
+
+* nginx
+* drupal
+* ckan
+* datapusher

@@ -1,0 +1,101 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Creates OIDC provider and IAM role for GitHub actions workflows.
+
+#
+# https://github.com/aws-actions/configure-aws-credentials#assuming-a-role
+#
+
+Parameters:
+  GitHubOrgName:
+    Description: Name for the GitHub organization.
+    Type: String
+  GitHubRepositoryName:
+    Description: Name for the GitHub repository.
+    Type: String
+  OIDCProviderArn:
+    Description: Arn for the GitHub OIDC Provider.
+    Default: ""
+    Type: String
+
+Conditions:
+  CreateOIDCProvider: !Equals 
+    - !Ref OIDCProviderArn
+    - ""
+
+Resources:
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: Role for GitHub actions workflow.
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRoleWithWebIdentity
+            Principal:
+              Federated: !If 
+                - CreateOIDCProvider
+                - !Ref GitHubOIDC
+                - !Ref OIDCProviderArn
+            Condition:
+              StringLike:
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrgName}/${GitHubRepositoryName}:*
+      Policies:
+        - PolicyName: ecr-login
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "ecr:GetAuthorizationToken"
+                Resource: "*"
+
+        - PolicyName: ecr-access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "ecr:GetDownloadUrlForLayer"
+                  - "ecr:BatchGetImage"
+                Resource: "*"
+
+        - PolicyName: cfn-access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "cloudformation:*"
+                Resource: "*"
+
+        - PolicyName: s3-cdk-bucket-access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "s3:*"
+                Resource: "arn:aws:s3:::cdktoolkit-stagingbucket-*"
+
+        - PolicyName: cfn-service-access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
+                Condition:
+                  ForAnyValue:StringEquals:
+                    aws:CalledVia: cloudformation.amazonaws.com
+
+  GitHubOIDC:
+    Type: AWS::IAM::OIDCProvider
+    Condition: CreateOIDCProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList: 
+        - sts.amazonaws.com
+      ThumbprintList:
+        - a031c46782e6e6c662c2c87c76da9aa62ccabd8e
+
+Outputs:
+  Role:
+    Value: !GetAtt Role.Arn 

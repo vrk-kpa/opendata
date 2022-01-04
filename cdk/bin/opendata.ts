@@ -1,141 +1,173 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
+import * as dotenv from 'dotenv';
+import { EnvProps, parseEnv } from '../lib/env-props';
 import * as cdk from '@aws-cdk/core';
-import { RegistryStack } from '../lib/registry-stack';
 import { DatabaseStack } from '../lib/database-stack';
 import { CacheStack } from '../lib/cache-stack';
+import { LoadBalancerStack } from '../lib/load-balancer-stack';
 import { ClusterStack } from '../lib/cluster-stack';
 import { FileSystemStack } from '../lib/filesystem-stack';
 import { DrupalStack } from '../lib/drupal-stack';
 import { CkanStack } from '../lib/ckan-stack';
 import { WebStack } from '../lib/web-stack';
 
+// load .env file, shared with docker setup
+// mainly for ECR repo and image tag information
+dotenv.config({
+  path: '../docker/.env',
+});
+
 const app = new cdk.App();
 
-const opendataRegistryStack = new RegistryStack(app, 'OpendataRegistryStack', {
-  env: {
-    account: '156418131626',
-    region: 'eu-west-1',
-  },
-});
-
-//
-// dev env
-//
-
-const devProps = {
-  account: '156418131626',
-  region: 'eu-west-1',
-  environment: 'dev',
-  fqdn: 'betaavoindata.fi',
-  secondaryFqdn: 'betaopendata.fi',
-  domainName: 'dev.betaavoindata.fi',
-  secondaryDomainName: 'dev.betaopendata.fi',
+const envProps: EnvProps = {
+  // docker
+  REGISTRY: parseEnv('REGISTRY'),
+  REPOSITORY: parseEnv('REPOSITORY'),
+  // opendata images
+  CKAN_IMAGE_TAG: parseEnv('CKAN_IMAGE_TAG'),
+  DRUPAL_IMAGE_TAG: parseEnv('DRUPAL_IMAGE_TAG'),
+  SOLR_IMAGE_TAG: parseEnv('SOLR_IMAGE_TAG'),
+  NGINX_IMAGE_TAG: parseEnv('NGINX_IMAGE_TAG'),
+  // 3rd party images
+  DATAPUSHER_IMAGE_TAG: parseEnv('DATAPUSHER_IMAGE_TAG'),
 };
 
-const clusterStackDev = new ClusterStack(app, 'ClusterStack-dev', {
+//
+// infratest env
+//
+
+const infratestProps = {
+  account: '156418131626',
+  region: 'eu-west-1',
+  environment: 'infratest',
+  fqdn: 'betaavoindata.fi',
+  secondaryFqdn: 'betaopendata.fi',
+  domainName: 'infratest.betaavoindata.fi',
+  secondaryDomainName: 'infratest.betaopendata.fi',
+};
+
+const clusterStackInfratest = new ClusterStack(app, 'ClusterStack-infratest', {
+  envProps: envProps,
   env: {
-    account: devProps.account,
-    region: devProps.region,
+    account: infratestProps.account,
+    region: infratestProps.region,
   },
-  environment: devProps.environment,
-  fqdn: devProps.fqdn,
-  secondaryFqdn: devProps.secondaryFqdn,
-  domainName: devProps.domainName,
-  secondaryDomainName: devProps.secondaryDomainName,
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  domainName: infratestProps.domainName,
+  secondaryDomainName: infratestProps.secondaryDomainName,
 });
 
-const fileSystemStackDev = new FileSystemStack(app, 'FileSystemStack-dev', {
+const fileSystemStackInfratest = new FileSystemStack(app, 'FileSystemStack-infratest', {
+  envProps: envProps,
   env: {
-    account: devProps.account,
-    region: devProps.region,
+    account: infratestProps.account,
+    region: infratestProps.region,
   },
-  environment: devProps.environment,
-  fqdn: devProps.fqdn,
-  secondaryFqdn: devProps.secondaryFqdn,
-  domainName: devProps.domainName,
-  secondaryDomainName: devProps.secondaryDomainName,
-  vpc: clusterStackDev.vpc,
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  domainName: infratestProps.domainName,
+  secondaryDomainName: infratestProps.secondaryDomainName,
+  vpc: clusterStackInfratest.vpc,
   importMigrationFs: true,
 });
 
-const databaseStackDev = new DatabaseStack(app, 'DatabaseStack-dev', {
+const databaseStackInfratest = new DatabaseStack(app, 'DatabaseStack-infratest', {
+  envProps: envProps,
   env: {
-    account: devProps.account,
-    region: devProps.region,
+    account: infratestProps.account,
+    region: infratestProps.region,
   },
-  environment: devProps.environment,
-  fqdn: devProps.fqdn,
-  secondaryFqdn: devProps.secondaryFqdn,
-  domainName: devProps.domainName,
-  secondaryDomainName: devProps.secondaryDomainName,
-  vpc: clusterStackDev.vpc,
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  domainName: infratestProps.domainName,
+  secondaryDomainName: infratestProps.secondaryDomainName,
+  vpc: clusterStackInfratest.vpc,
 });
 
-const cacheStackDev = new CacheStack(app, 'CacheStack-dev', {
+const loadBalancerStackInfratest = new LoadBalancerStack(app, 'LoadBalancerStackInfratest-infratest', {
+  envProps: envProps,
   env: {
-    account: devProps.account,
-    region: devProps.region,
+    account: infratestProps.account,
+    region: infratestProps.region,
   },
-  environment: devProps.environment,
-  fqdn: devProps.fqdn,
-  secondaryFqdn: devProps.secondaryFqdn,
-  domainName: devProps.domainName,
-  secondaryDomainName: devProps.secondaryDomainName,
-  vpc: clusterStackDev.vpc,
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  domainName: infratestProps.domainName,
+  secondaryDomainName: infratestProps.secondaryDomainName,
+  vpc: clusterStackInfratest.vpc,
+});
+
+const cacheStackInfratest = new CacheStack(app, 'CacheStack-infratest', {
+  envProps: envProps,
+  env: {
+    account: infratestProps.account,
+    region: infratestProps.region,
+  },
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  domainName: infratestProps.domainName,
+  secondaryDomainName: infratestProps.secondaryDomainName,
+  vpc: clusterStackInfratest.vpc,
   cacheNodeType: 'cache.t2.micro',
   cacheEngineVersion: '6.x',
   cacheNumNodes: 1,
 });
 
-const ckanStackDev = new CkanStack(app, 'CkanStack-dev', {
+const ckanStackInfratest = new CkanStack(app, 'CkanStack-infratest', {
+  envProps: envProps,
   env: {
-    account: devProps.account,
-    region: devProps.region,
+    account: infratestProps.account,
+    region: infratestProps.region,
   },
-  environment: devProps.environment,
-  fqdn: devProps.fqdn,
-  secondaryFqdn: devProps.secondaryFqdn,
-  domainName: devProps.domainName,
-  secondaryDomainName: devProps.secondaryDomainName,
-  repositories: {
-    'ckan': opendataRegistryStack.ckanRepository,
-    'datapusher': opendataRegistryStack.datapusherRepository,
-    'solr': opendataRegistryStack.solrRepository,
-  },
-  vpc: clusterStackDev.vpc,
-  cluster: clusterStackDev.cluster,
-  namespace: clusterStackDev.namespace,
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  domainName: infratestProps.domainName,
+  secondaryDomainName: infratestProps.secondaryDomainName,
+  vpc: clusterStackInfratest.vpc,
+  cluster: clusterStackInfratest.cluster,
+  namespace: clusterStackInfratest.namespace,
   fileSystems: {
-    'ckan': fileSystemStackDev.ckanFs,
-    'solr': fileSystemStackDev.solrFs,
+    'ckan': fileSystemStackInfratest.ckanFs,
+    'solr': fileSystemStackInfratest.solrFs,
   },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackDev.migrationFsSg!,
-    fileSystem: fileSystemStackDev.migrationFs!,
-  },
-  databaseSecurityGroup: databaseStackDev.databaseSecurityGroup,
-  databaseInstance: databaseStackDev.databaseInstance,
-  cachePort: cacheStackDev.cachePort,
-  cacheSecurityGroup: cacheStackDev.cacheSecurityGroup,
-  cacheCluster: cacheStackDev.cacheCluster,
+  databaseSecurityGroup: databaseStackInfratest.databaseSecurityGroup,
+  databaseInstance: databaseStackInfratest.databaseInstance,
+  cachePort: cacheStackInfratest.cachePort,
+  cacheSecurityGroup: cacheStackInfratest.cacheSecurityGroup,
+  cacheCluster: cacheStackInfratest.cacheCluster,
   captchaEnabled: false,
   analyticsEnabled: false,
   ckanTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
+    taskMinCapacity: 1,
+    taskMaxCapacity: 2,
   },
   ckanCronTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
   },
   datapusherTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
+    taskMinCapacity: 1,
+    taskMaxCapacity: 2,
   },
   solrTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
   },
   ckanCronEnabled: false,
   archiverSendNotificationEmailsToMaintainers: false,
@@ -143,67 +175,68 @@ const ckanStackDev = new CkanStack(app, 'CkanStack-dev', {
   cloudstorageEnabled: true,
 });
 
-const drupalStackDev = new DrupalStack(app, 'DrupalStack-dev', {
+const drupalStackInfratest = new DrupalStack(app, 'DrupalStack-infratest', {
+  envProps: envProps,
   env: {
-    account: devProps.account,
-    region: devProps.region,
+    account: infratestProps.account,
+    region: infratestProps.region,
   },
-  environment: devProps.environment,
-  fqdn: devProps.fqdn,
-  secondaryFqdn: devProps.secondaryFqdn,
-  domainName: devProps.domainName,
-  secondaryDomainName: devProps.secondaryDomainName,
-  repositories: {
-    'drupal': opendataRegistryStack.drupalRepository,
-  },
-  vpc: clusterStackDev.vpc,
-  cluster: clusterStackDev.cluster,
-  namespace: clusterStackDev.namespace,
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  domainName: infratestProps.domainName,
+  secondaryDomainName: infratestProps.secondaryDomainName,
+  vpc: clusterStackInfratest.vpc,
+  cluster: clusterStackInfratest.cluster,
+  namespace: clusterStackInfratest.namespace,
   fileSystems: {
-    'drupal': fileSystemStackDev.drupalFs,
+    'drupal': fileSystemStackInfratest.drupalFs,
   },
-  databaseSecurityGroup: databaseStackDev.databaseSecurityGroup,
-  databaseInstance: databaseStackDev.databaseInstance,
-  cachePort: cacheStackDev.cachePort,
-  cacheSecurityGroup: cacheStackDev.cacheSecurityGroup,
-  cacheCluster: cacheStackDev.cacheCluster,
+  databaseSecurityGroup: databaseStackInfratest.databaseSecurityGroup,
+  databaseInstance: databaseStackInfratest.databaseInstance,
+  cachePort: cacheStackInfratest.cachePort,
+  cacheSecurityGroup: cacheStackInfratest.cacheSecurityGroup,
+  cacheCluster: cacheStackInfratest.cacheCluster,
   captchaEnabled: false,
   analyticsEnabled: false,
   drupalTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
+    taskMinCapacity: 1,
+    taskMaxCapacity: 2,
   },
 });
 
-const webStackDev = new WebStack(app, 'WebStack-dev', {
+const webStackInfratest = new WebStack(app, 'WebStack-infratest', {
+  envProps: envProps,
   env: {
-    account: devProps.account,
-    region: devProps.region,
+    account: infratestProps.account,
+    region: infratestProps.region,
   },
-  environment: devProps.environment,
-  fqdn: devProps.fqdn,
-  secondaryFqdn: devProps.secondaryFqdn,
-  domainName: devProps.domainName,
-  secondaryDomainName: devProps.secondaryDomainName,
-  repositories: {
-    'nginx': opendataRegistryStack.nginxRepository,
-  },
-  vpc: clusterStackDev.vpc,
-  cluster: clusterStackDev.cluster,
-  namespace: clusterStackDev.namespace,
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  domainName: infratestProps.domainName,
+  secondaryDomainName: infratestProps.secondaryDomainName,
+  vpc: clusterStackInfratest.vpc,
+  cluster: clusterStackInfratest.cluster,
+  namespace: clusterStackInfratest.namespace,
   fileSystems: {
-    'drupal': fileSystemStackDev.drupalFs,
-    'ckan': fileSystemStackDev.ckanFs,
+    'drupal': fileSystemStackInfratest.drupalFs,
   },
-  databaseSecurityGroup: databaseStackDev.databaseSecurityGroup,
-  databaseInstance: databaseStackDev.databaseInstance,
-  cachePort: cacheStackDev.cachePort,
-  cacheSecurityGroup: cacheStackDev.cacheSecurityGroup,
-  cacheCluster: cacheStackDev.cacheCluster,
+  databaseSecurityGroup: databaseStackInfratest.databaseSecurityGroup,
+  databaseInstance: databaseStackInfratest.databaseInstance,
+  cachePort: cacheStackInfratest.cachePort,
+  cacheSecurityGroup: cacheStackInfratest.cacheSecurityGroup,
+  cacheCluster: cacheStackInfratest.cacheCluster,
+  loadBalancerCert: loadBalancerStackInfratest.loadBalancerCert,
+  loadBalancer: loadBalancerStackInfratest.loadBalancer,
   nginxTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
+    taskMinCapacity: 2,
+    taskMaxCapacity: 2,
   },
-  drupalService: drupalStackDev.drupalService,
-  ckanService: ckanStackDev.ckanService,
+  drupalService: drupalStackInfratest.drupalService,
+  ckanService: ckanStackInfratest.ckanService,
 });

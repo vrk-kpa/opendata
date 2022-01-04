@@ -1,6 +1,7 @@
 import * as cdk from '@aws-cdk/core';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as ecs from '@aws-cdk/aws-ecs';
+import * as ecr from '@aws-cdk/aws-ecr';
 import * as sd from '@aws-cdk/aws-servicediscovery';
 import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
 import * as ecsp from '@aws-cdk/aws-ecs-patterns';
@@ -8,30 +9,46 @@ import * as ssm from '@aws-cdk/aws-ssm';
 import * as sm from '@aws-cdk/aws-secretsmanager';
 import * as r53 from '@aws-cdk/aws-route53';
 import * as acm from '@aws-cdk/aws-certificatemanager';
+import * as logs from '@aws-cdk/aws-logs';
 
 import { WebStackProps } from './web-stack-props';
+import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 
 export class WebStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: WebStackProps) {
     super(scope, id, props);
 
     // get params
-    const pNginxImageVersion = ssm.StringParameter.fromStringParameterAttributes(this, 'pNginxImageVersion', {
-      parameterName: `/${props.environment}/opendata/nginx/image_version`,
-    });
     const pNameserver = ssm.StringParameter.fromStringParameterAttributes(this, 'pNameserver', {
       parameterName: `/${props.environment}/opendata/common/nameserver`,
     });
+
+    // get repositories
+    const nginxRepo = ecr.Repository.fromRepositoryArn(this, 'nginxRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/nginx`);
 
     const nginxTaskDef = new ecs.FargateTaskDefinition(this, 'nginxTaskDef', {
       cpu: props.nginxTaskDef.taskCpu,
       memoryLimitMiB: props.nginxTaskDef.taskMem,
       volumes: [
         {
-          name: 'drupal_data',
+          name: 'drupal_core',
           efsVolumeConfiguration: {
             fileSystemId: props.fileSystems['drupal'].fileSystemId,
-            rootDirectory: '/drupal_data',
+            rootDirectory: '/drupal_core',
+          },
+        },
+        {
+          name: 'drupal_sites',
+          efsVolumeConfiguration: {
+            fileSystemId: props.fileSystems['drupal'].fileSystemId,
+            rootDirectory: '/drupal_sites',
+          },
+        },
+        {
+          name: 'drupal_themes',
+          efsVolumeConfiguration: {
+            fileSystemId: props.fileSystems['drupal'].fileSystemId,
+            rootDirectory: '/drupal_themes',
           },
         },
         {
@@ -39,13 +56,6 @@ export class WebStack extends cdk.Stack {
           efsVolumeConfiguration: {
             fileSystemId: props.fileSystems['drupal'].fileSystemId,
             rootDirectory: '/drupal_resources',
-          },
-        },
-        {
-          name: 'ckan_resources',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['ckan'].fileSystemId,
-            rootDirectory: '/ckan_resources',
           },
         }
       ],
@@ -86,8 +96,12 @@ export class WebStack extends cdk.Stack {
       'https://www.google.com/recaptcha/',
     ];
 
+    const nginxLogGroup = new logs.LogGroup(this, 'nginxLogGroup', {
+      logGroupName: `/${props.environment}/opendata/nginx`,
+    });
+
     const nginxContainer = nginxTaskDef.addContainer('nginx', {
-      image: ecs.ContainerImage.fromEcrRepository(props.repositories['nginx'], pNginxImageVersion.stringValue),
+      image: ecs.ContainerImage.fromEcrRepository(nginxRepo, props.envProps.NGINX_IMAGE_TAG),
       environment: {
         // .env.nginx
         NGINX_ROOT: '/var/www/html',
@@ -108,7 +122,9 @@ export class WebStack extends cdk.Stack {
         DRUPAL_PORT: '9000',
       },
       logging: ecs.LogDrivers.awsLogs({
+        logGroup: nginxLogGroup,
         streamPrefix: 'nginx-service',
+        datetimeFormat: '%d/%b/%Y:%H:%M:%S %z',
       }),
     });
 
@@ -118,17 +134,21 @@ export class WebStack extends cdk.Stack {
     });
 
     nginxContainer.addMountPoints({
-      containerPath: '/var/www/html',
+      containerPath: '/var/www/html/core',
       readOnly: true,
-      sourceVolume: 'drupal_data',
+      sourceVolume: 'drupal_core',
     }, {
-      containerPath: '/var/www/drupal_resources',
+      containerPath: '/var/www/html/sites',
+      readOnly: true,
+      sourceVolume: 'drupal_sites',
+    }, {
+      containerPath: '/var/www/html/themes',
+      readOnly: true,
+      sourceVolume: 'drupal_themes',
+    }, {
+      containerPath: '/var/www/resources',
       readOnly: true,
       sourceVolume: 'drupal_resources',
-    }, {
-      containerPath: '/var/www/ckan_resources',
-      readOnly: true,
-      sourceVolume: 'ckan_resources',
     });
 
     const nginxServiceHostedZone = r53.HostedZone.fromLookup(this, 'nginxServiceHostedZone', {
@@ -141,60 +161,87 @@ export class WebStack extends cdk.Stack {
       privateZone: false,
     });
 
-    const nginxCertificate = new acm.Certificate(this, 'nginxCertificate', {
-      domainName: props.domainName,
-      subjectAlternativeNames: [
-        props.secondaryDomainName,
-      ],
-      validation: acm.CertificateValidation.fromDnsMultiZone({
-        [props.domainName]: nginxServiceHostedZone,
-        [props.secondaryDomainName]: nginxServiceSecondaryHostedZone,
-      })
-    });
+    // either use imported cert/elb or create new ones
+    let nginxService: ecsp.ApplicationLoadBalancedFargateService | null = null;
+    if (props.loadBalancerCert != null && props.loadBalancer != null) {
+      nginxService = new ecsp.ApplicationLoadBalancedFargateService(this, 'nginxService', {
+        cluster: props.cluster,
+        cloudMapOptions: {
+          cloudMapNamespace: props.namespace,
+          dnsRecordType: sd.DnsRecordType.A,
+          dnsTtl: cdk.Duration.minutes(1),
+          name: 'nginx',
+          container: nginxContainer,
+          containerPort: 80,
+        },
+        publicLoadBalancer: true,
+        protocol: elb.ApplicationProtocol.HTTPS,
+        certificate: props.loadBalancerCert,
+        redirectHTTP: false,
+        platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
+        taskDefinition: nginxTaskDef,
+        minHealthyPercent: 50,
+        maxHealthyPercent: 200,
+        loadBalancer: props.loadBalancer,
+      });
+    } else {
+      const loadBalancerCert = new acm.Certificate(this, 'loadBalancerCert', {
+        domainName: props.domainName,
+        subjectAlternativeNames: [
+          props.secondaryDomainName,
+        ],
+        validation: acm.CertificateValidation.fromDnsMultiZone({
+          [props.domainName]: nginxServiceHostedZone,
+          [props.secondaryDomainName]: nginxServiceSecondaryHostedZone,
+        })
+      });
 
-    const nginxService = new ecsp.ApplicationLoadBalancedFargateService(this, 'nginxService', {
-      cluster: props.cluster,
-      domainName: props.domainName,
-      domainZone: nginxServiceHostedZone,
-      cloudMapOptions: {
-        cloudMapNamespace: props.namespace,
-        dnsRecordType: sd.DnsRecordType.A,
-        dnsTtl: cdk.Duration.minutes(1),
-        name: 'nginx',
-        container: nginxContainer,
-        containerPort: 80,
-      },
-      publicLoadBalancer: true,
-      protocol: elb.ApplicationProtocol.HTTPS,
-      certificate: nginxCertificate,
-      redirectHTTP: true,
-      platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
-      taskDefinition: nginxTaskDef,
-    });
+      nginxService = new ecsp.ApplicationLoadBalancedFargateService(this, 'nginxService', {
+        cluster: props.cluster,
+        domainName: props.domainName,
+        domainZone: nginxServiceHostedZone,
+        cloudMapOptions: {
+          cloudMapNamespace: props.namespace,
+          dnsRecordType: sd.DnsRecordType.A,
+          dnsTtl: cdk.Duration.minutes(1),
+          name: 'nginx',
+          container: nginxContainer,
+          containerPort: 80,
+        },
+        publicLoadBalancer: true,
+        protocol: elb.ApplicationProtocol.HTTPS,
+        certificate: loadBalancerCert,
+        redirectHTTP: true,
+        platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
+        taskDefinition: nginxTaskDef,
+        minHealthyPercent: 50,
+        maxHealthyPercent: 200,
+      });
+    }
 
     nginxService.targetGroup.configureHealthCheck({
       path: '/health',
       healthyHttpCodes: '200',
     });
 
+    nginxService.targetGroup.setAttribute('deregistration_delay.timeout_seconds', '60');
+
     nginxService.service.connections.allowFrom(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
     nginxService.service.connections.allowTo(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
-    nginxService.service.connections.allowFrom(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
-    nginxService.service.connections.allowTo(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
     nginxService.service.connections.allowFrom(props.drupalService, ec2.Port.tcp(80), 'drupal - nginx connection');
     nginxService.service.connections.allowTo(props.drupalService, ec2.Port.tcp(9000), 'nginx - drupal connection');
     nginxService.service.connections.allowFrom(props.ckanService, ec2.Port.tcp(80), 'ckan - nginx connection');
     nginxService.service.connections.allowTo(props.ckanService, ec2.Port.tcp(5000), 'nginx - ckan connection');
 
     const nginxServiceAsg = nginxService.service.autoScaleTaskCount({
-      minCapacity: 2,
-      maxCapacity: 4,
+      minCapacity: props.nginxTaskDef.taskMinCapacity,
+      maxCapacity: props.nginxTaskDef.taskMaxCapacity,
     });
 
     nginxServiceAsg.scaleOnCpuUtilization('nginxServiceAsgPolicy', {
       targetUtilizationPercent: 50,
-      scaleInCooldown: cdk.Duration.minutes(1),
-      scaleOutCooldown: cdk.Duration.minutes(1),
+      scaleInCooldown: cdk.Duration.seconds(60),
+      scaleOutCooldown: cdk.Duration.seconds(60),
     });
   }
 }

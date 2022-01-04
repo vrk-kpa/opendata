@@ -73,5 +73,5 @@ server.key
 .DS_Store
 
 # Docker related
-docker/.env.local
-docker-compose.override.yml
+docker/.env
+docker/docker-compose.override.yml
