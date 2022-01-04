@@ -316,6 +316,19 @@ export class DrupalStack extends cdk.Stack {
       sourceVolume: 'drupal_resources',
     });
 
+    const drupalTaskPolicyAllowExec = new iam.PolicyStatement({
+      actions: [
+        'ssmmessages:CreateControlChannel',
+        'ssmmessages:CreateDataChannel',
+        'ssmmessages:OpenControlChannel',
+        'ssmmessages:OpenDataChannel',
+      ],
+      resources: ['*'],
+      effect: iam.Effect.ALLOW,
+    });
+
+    drupalTaskDef.addToTaskRolePolicy(drupalTaskPolicyAllowExec);
+
     this.drupalService = new ecs.FargateService(this, 'drupalService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
@@ -330,6 +343,7 @@ export class DrupalStack extends cdk.Stack {
         container: drupalContainer,
         containerPort: 9000,
       },
+      enableExecuteCommand: true,
     });
 
     this.drupalService.connections.allowFrom(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (drupal)');

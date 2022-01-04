@@ -407,6 +407,19 @@ export class CkanStack extends cdk.Stack {
       sourceVolume: 'ckan_resources',
     });
 
+    const ckanTaskPolicyAllowExec = new iam.PolicyStatement({
+      actions: [
+        'ssmmessages:CreateControlChannel',
+        'ssmmessages:CreateDataChannel',
+        'ssmmessages:OpenControlChannel',
+        'ssmmessages:OpenDataChannel',
+      ],
+      resources: ['*'],
+      effect: iam.Effect.ALLOW,
+    });
+
+    ckanTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
+
     this.ckanService = new ecs.FargateService(this, 'ckanService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
@@ -421,6 +434,7 @@ export class CkanStack extends cdk.Stack {
         container: ckanContainer,
         containerPort: 5000
       },
+      enableExecuteCommand: true,
     });
 
     this.ckanService.connections.allowFrom(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan)');
