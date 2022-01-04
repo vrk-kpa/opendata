@@ -1,12 +1,11 @@
 from flask import Blueprint
 
 import ckan.model as model
-from ckan.common import g, request
-from ckan.logic import get_action
 from ckan.views.api import _finish_ok
 from ckan.views.dataset import GroupView as CkanDatasetGroupView
 
-from ckan.plugins.toolkit import h, request, get_action
+from ckan.plugins.toolkit import h, g, abort, request, get_action, NotAuthorized, ObjectNotFound, _
+
 
 def dataset_autocomplete():
     q = request.args.get('incomplete', '')
@@ -28,7 +27,6 @@ def dataset_autocomplete():
 
 class GroupView(CkanDatasetGroupView):
     def post(self, package_type, id):
-        print('Custom GroupView.post')
         context, pkg_dict = self._prepare(id)
 
         category_list = request.form.getlist('categories')
@@ -36,15 +34,14 @@ class GroupView(CkanDatasetGroupView):
         try:
             get_action('package_patch')(context, {"id": id, "groups": group_list, "categories": category_list})
             return h.redirect_to('dataset_groups', id=id)
-        except (NotFound, NotAuthorized):
-            return base.abort(404, _('Dataset not found'))
+        except (ObjectNotFound, NotAuthorized):
+            return abort(404, _('Dataset not found'))
 
 
 ytp_main = Blueprint('ytp_main', __name__)
-ytp_main_dataset = Blueprint('ytp_main_dataset', __name__, url_prefix='/dataset',
-        url_defaults={
-            'package_type': 'dataset'
-            })
+ytp_main_dataset = Blueprint('ytp_main_dataset', __name__,
+                             url_prefix='/dataset',
+                             url_defaults={'package_type': 'dataset'})
 ytp_main_dataset.add_url_rule(u'/groups/<id>', view_func=GroupView.as_view(str(u'groups')))
 ytp_main.add_url_rule('/api/util/dataset/autocomplete', view_func=dataset_autocomplete)
 

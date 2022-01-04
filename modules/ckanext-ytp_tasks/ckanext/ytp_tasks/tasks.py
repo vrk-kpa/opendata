@@ -2,6 +2,7 @@
 
 
 import os
+import six
 from ckan import model
 import ckan.lib.jobs as jobs
 from ckan.lib.cli import CkanCommand
@@ -38,4 +39,4 @@ def execute_all(stage=None):
         query = query.filter(YtpTaskSource.frequency == stage)
 
     for task in query.all():
-        jobs.enqueue(task.task, [unicode(task.data)])
+        jobs.enqueue(task.task, [six.text_type(task.data)])
