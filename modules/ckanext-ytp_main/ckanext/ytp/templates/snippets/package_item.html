@@ -18,26 +18,30 @@ Example:
 {% set title = h.extra_translation(package, 'title', fallback=package.name) %}
 {% set notes = h.markdown_extract(h.extra_translation(package, 'notes', markdown=False), extract_length=truncate) %}
 
-<li class="{{ item_class or 'dataset-item' }}">
+<div class="{{ item_class or 'row' }}">
     {% block package_item_content %}
         <div class="dataset-content">
-            <h3 class="dataset-heading">
-                {% if package.private %}
-                    <i class="fa fa-lock icon-private" title="{{ _('Private') }}"></i>
-                {% endif %}
+          <div>
+            <h3 class="dataset-heading dataset-title">
                 {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type + '_read', controller='package', action='read', id=package.name)) }}
                 {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
             </h3>
+            {% if package.get('state', '').startswith('deleted') %}
+              <span class="collection-type deleted">
+                {{ _('Deleted') }}
+              </span>
+            {% elif package.get('state', '').startswith('draft') %}
+              <span class="collection-type draft">
+                {{_('Draft')}}
+              </span>
+            {% elif package.private %}
+              <span class="collection-type private">
+                {{_('Private')}}
+              </span>
+            {% endif %}
+          </div>
 
-            <div class="organization byline-dataset dataset-item-organization">
-                {% if package.organization -%}
-                    <a href="/data/{{ h.lang() }}/organization/{{package.organization.get('name')}}">
-                        {{ package.organization.get('title') }}
-                    </a>
-                    &nbsp;/&nbsp;
-                {%- endif -%}
-                {{- h.render_datetime(package.get('metadata_modified'), "%d.%m.%Y") -}}
-            </div>
+            <div class="clearfix"></div>
 
             {% if banner %}
                 <span class="banner">{{ _('Popular') }}</span>
@@ -62,24 +66,27 @@ Example:
 
             <div class="d-flex justify-content-between flex-wrap mt-2">
                 {% if package.organization.producer_type | length != 0 and h.get_label_for_producer(package.organization.producer_type) | length != 0%}
-                    <span
-                        class="producer-type"
-                        data-producer-type="{{ package.organization.producer_type }}"
-                    >
-                        {{ _(h.get_label_for_producer(package.organization.producer_type)) }}
-                    </span>
+                    <div class="search-item-tag search-item-tag-organization">
+                      <span
+                          class=""
+                          data-producer-type="{{ package.organization.producer_type }}">
+                          {{ _(h.get_label_for_producer(package.organization.producer_type)) }}
+                      </span>
+                    </div>
                 {% endif %}
                 <div class="d-flex flex-1 justify-content-end flex-wrap">
                     {%- if package.get('resources') -%}
                         {% set formats = h.unique_formats(package.get('resources')) %}
                         {%- for format in formats -%}
-                            <span class="format file-tag format--{{ format | lower }}">
-                                {{ _(format) }}
-                            </span>
+                            <div class="search-item-tag search-item-tag-type">
+                              <span class="">
+                                  {{ _(format) }}
+                              </span>
+                            </div>
                         {%- endfor -%}
                     {%- endif -%}
                 </div>
             </div>
         </div>
     {% endblock %}
-</li>
+</div>

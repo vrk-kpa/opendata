@@ -265,24 +265,24 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     def dataset_facets(self, facets_dict, package_type):
         lang = get_lang_prefix()
         facets_dict = OrderedDict()
-        facets_dict.update({'vocab_international_benchmarks': _('International benchmarks')})
-        facets_dict.update({'collection_type': _('Collection Type')})
-        facets_dict['vocab_keywords_' + lang] = _('Popular tags')
-        facets_dict.update({'vocab_content_type_' + lang: _('Content Type')})
-        facets_dict.update({'organization': _('Organization')})
+        facets_dict.update({'vocab_international_benchmarks': _('International Benchmarks')})
+        facets_dict.update({'collection_type': _('Collection Types')})
+        facets_dict['vocab_keywords_' + lang] = _('Popular Tags')
+        facets_dict.update({'vocab_content_type_' + lang: _('Content Types')})
+        facets_dict.update({'organization': _('Organizations')})
         facets_dict.update({'res_format': _('Formats')})
         # BFW: source is not part of the schema. created artificially at before_index function
-        facets_dict.update({'source': _('Source')})
-        facets_dict.update({'license_id': _('License')})
+        facets_dict.update({'source': _('Sources')})
+        facets_dict.update({'license_id': _('Licenses')})
         # add more dataset facets here
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
         lang = get_lang_prefix()
         facets_dict = OrderedDict()
-        facets_dict.update({'collection_type': _('Collection Type')})
+        facets_dict.update({'collection_type': _('Collection Types')})
         facets_dict['vocab_keywords_' + lang] = _('Tags')
-        facets_dict.update({'vocab_content_type': _('Content Type')})
+        facets_dict.update({'vocab_content_type': _('Content Types')})
         facets_dict.update({'res_format': _('Formats')})
 
         return facets_dict

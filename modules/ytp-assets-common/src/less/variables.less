@@ -13,7 +13,8 @@
 @brand-primary: @opendata-brand-primary;
 @brand-info: @opendata-brand-decorative;
 
-@opendata-container-max-width: 1140px;
+@opendata-container-max-width: 1110px;
+@opendata-categories-container-max-width: 1500px;
 @background-hero-image: url("/resources/images/logo/opendata.svg");
 
 // Bootstrap: Alerts
@@ -100,11 +101,6 @@
 
 @main-hilight-color: #1f7994;
 
-// Breadcrumbs: TODO these colors do not seem to affect the whole breadcrumb
-@breadcrumbTextColor: #5f686d;
-@breadcrumb-color: #2a6ebb;
-@breadcrumb-color-background: transparent;
-
 // TODO remove if there is no footer
 @footer-color: @nonimportant-text-color;
 @footer-border: @section-border-color;
@@ -124,7 +120,7 @@
 @bottom-highlight-color: #00b8ff;
 
 // Header variables
-@header-width: 1140px;
+@header-width: @opendata-container-max-width;
 
 // Resource list
 @resource-list-background: #f7f7f7;
@@ -156,5 +152,3 @@
 @new-layout-nonimportant-text-color: rgb(95, 104, 109);
 
 @nav-link-selected-color: #EEEEEE;
-
-@main-nav-hover-border-bottom: rgb(42, 110, 187);

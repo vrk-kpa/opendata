@@ -37,5 +37,8 @@
     {% endif %}
   </ul>
   {% endblock %}
+  {% if h.check_access('package_update', {'id':pkg.id }) %}
+    {% link_for _('Edit categories'), controller='package', action='groups', id=pkg.name %}
+  {% endif %}
 </section>
 {% endif %}

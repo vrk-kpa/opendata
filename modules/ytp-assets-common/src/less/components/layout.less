@@ -9,6 +9,7 @@ body {
   .flex-direction(column);
 
   min-height: 100vh;
+  background-color: @background-color__body;
 
   a {
     word-break: break-word;
@@ -24,18 +25,24 @@ body {
   max-width: none;
 }
 
-#content {
+#page_wrapper #content {
   width: inherit;
   padding: 0;
+  background: #fafafa;
 }
 
 #content > .wrapper {
-  background: transparent;
-  border: none;
   box-shadow: none;
   margin: 0 auto;
-  max-width: 1140px;
+  max-width: @opendata-container-max-width;
   padding: 0 15px;
+  border: none;
+  border-radius: none;
+}
+
+#page_wrapper #content .wrapper {
+  border: none;
+  background: #fafafa;
 }
 
 .container-fluid .wrapper {
@@ -66,6 +73,8 @@ body {
 }
 
 #content > .wrapper > .primary {
+  padding-left: 45px;
+
   > .module > .module-content {
     padding-top: 32px;
   }
@@ -199,6 +208,16 @@ body {
     margin-right: 8px;
     font-size: 16px;
     margin-top: 1px;
+  }
+}
+
+.suomifi-button-secondary-black-text {
+  .suomifi-button-secondary;
+
+  color: rgb(41, 41, 41);
+
+  i {
+    margin-left: 8px;
   }
 }
 

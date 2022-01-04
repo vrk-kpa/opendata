@@ -88,6 +88,25 @@
       "group_title": "Dataset additional information"
     },
     {
+      "field_name": "highvalue",
+      "label": "High value dataset",
+      "preset": "select",
+      "form_snippet": "radio_sysadmin.html",
+      "choices": [
+        {
+          "label": "No",
+          "value": "false"
+        },
+        {
+          "label": "Yes",
+          "value": "true"
+        }
+      ],
+      "default_value": "false",
+      "validators": "ignore_not_sysadmin keep_old_value_if_missing boolean_validator",
+      "description": "You can mark dataset as high value dataset"
+    },
+    {
       "field_name": "deprecated",
       "label": "Deprecated",
       "preset": "select",

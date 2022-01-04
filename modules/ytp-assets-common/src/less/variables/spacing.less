@@ -4,15 +4,22 @@
 @grid-gutter-width: 50px;
 
 /**
+ * Common spacings
+ */
+@padding-x--common: 20px;
+@padding-y--common: 20px;
+@padding-x--small: 10px;
+@padding-y--small: 10px;
+@padding-y__text: 16px;
+
+/**
  * Modules
  */
 @margin__module: 60px;
+@margin__module--large: 80px;
 @padding__module: 30px;
-
-/**
- * Common spacings
- */
-@margin-x__common: 15px;
+@padding__content: @padding-y--common @padding-x--common;
+@padding__breadcrumb-item: @padding-y__text 0;
 
 /**
  * Tags
@@ -22,7 +29,8 @@
 /**
  * Resource list
  */
-@padding__resource-list-item: 20px;
+@padding__resource-list-item: 16px 20px;
+@margin__action-buttons: 0 5px;
 
 /**
  * Navigation

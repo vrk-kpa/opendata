@@ -779,6 +779,8 @@ class SixodpHarvester(HarvesterBase):
                 if errors:
                     raise ValidationError(errors)
 
+            package_dict = self.modify_package_dict(package_dict, harvest_object)
+
             result = self._create_or_update_package(
                 package_dict, harvest_object, package_dict_form='package_show')
 
@@ -798,6 +800,10 @@ class SixodpHarvester(HarvesterBase):
         except Exception, e:
             log.error("Exception: %s" % e)
             self._save_object_error('%s' % e, harvest_object, 'Import')
+
+    def modify_package_dict(self, package_dict, harvest_object):
+        package_dict['license_id'] = package_dict.get('license_id').lower()
+        return package_dict
 
 
 class ContentFetchError(Exception):

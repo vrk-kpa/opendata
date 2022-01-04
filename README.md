@@ -17,7 +17,7 @@ This source repository contains:
 
 ### Getting started
 
-To try out the service, visit the sandbox/development environment [beta.avoindata.fi](http://beta.avoindata.fi) or the production environment [avoindata.fi](http://avoindata.fi), and register a user account to create new datasets.
+To try out the service, visit the sandbox/development environment [betaavoindata.fi](http://betaavoindata.fi) or the production environment [avoindata.fi](http://avoindata.fi), and register a user account to create new datasets.
 
 To get started in developing the software, install a local development environment as described in the [documentation](doc/local-installation.md), and then see the [development documentation](doc/local-development.md).
 

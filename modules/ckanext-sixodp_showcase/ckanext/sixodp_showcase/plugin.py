@@ -96,7 +96,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
             facets_dict.update({'groups': _('Groups')})
             facets_dict['vocab_keywords_' + lang] = _('Tags')
 
-            facets_dict.update({'vocab_platform': _('Platform')})
+            facets_dict.update({'vocab_platform': _('Platforms')})
 
         return facets_dict
 
