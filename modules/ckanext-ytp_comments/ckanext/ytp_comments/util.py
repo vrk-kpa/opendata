@@ -1,11 +1,10 @@
 from lxml.html.clean import Cleaner, autolink_html
+from flask.ext.babel import force_locale
 from ckan.lib.mailer import mail_recipient, MailerException
 from ckan.lib import helpers
 import ckan.plugins.toolkit as toolkit
 from ckan.lib.base import model
-from ckan.lib.i18n import set_lang, get_lang
 from ckan.common import g
-from pylons import i18n
 
 import logging
 log = logging.getLogger(__name__)
@@ -26,13 +25,6 @@ def clean_input(comment):
     return content
 
 
-def _reset_lang():
-    try:
-        i18n.set_lang(None)
-    except TypeError:
-        pass
-
-
 def _get_safe_locale():
     return helpers.lang()
 
@@ -50,41 +42,24 @@ def send_comment_notification_mail(recipient_name, recipient_email, dataset, com
         commenter_email = userobj.email
         commenter_name = userobj.name
 
-    subject_vars = {
-        'dataset': dataset.title
-    }
-    subject = email_template.subject.format(**subject_vars)
+    with force_locale(_get_safe_locale()):
+        subject_vars = {
+            'dataset': dataset.title
+        }
+        subject = email_template.subject.format(**subject_vars)
 
-    message_vars = {
-        'user': commenter_name,
-        'email': commenter_email,
-        'dataset': dataset.title,
-        'link': url,
-        'comment_subject': helpers.markdown_extract(comment.subject).strip(),
-        'comment': helpers.markdown_extract(comment.comment).strip()
-    }
-    message = email_template.message.format(**message_vars)
+        message_vars = {
+            'user': commenter_name,
+            'email': commenter_email,
+            'dataset': dataset.title,
+            'link': url,
+            'comment_subject': helpers.markdown_extract(comment.subject).strip(),
+            'comment': helpers.markdown_extract(comment.comment).strip()
+        }
 
-    log.debug(subject)
-    log.debug(message)
+        message = email_template.message.format(**message_vars)
 
-    # Locale fix
-    current_locale = get_lang()
-    locale = _get_safe_locale()
-
-    if locale == 'en':
-        _reset_lang()
-    else:
-        set_lang(locale)
-    # Finally mail the user and reset locale
-
-    try:
-        log.debug("LOCALE: " + str(locale))
-        log.debug(subject)
-        log.debug(message)
-
-        mail_recipient(recipient_name, recipient_email, subject, message)
-    except MailerException, e:
-        log.error(e)
-    finally:
-        set_lang(current_locale)
+        try:
+            mail_recipient(recipient_name, recipient_email, subject, message)
+        except MailerException as e:
+            log.error(e)
