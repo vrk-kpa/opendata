@@ -125,6 +125,22 @@ services:
       - ../../opendata-drupal/modules/ytp-assets-common:/opt/drupal/web/modules/ytp-assets-common
       - ../../opendata-drupal/modules/avoindata-theme:/opt/drupal/web/themes/avoindata
       - /opt/drupal/web/modules/ytp-assets-common/node_modules/
+
+  nginx:
+    image: opendata/nginx:latest
+    volumes:
+      - ../../opendata-drupal/modules/avoindata-theme:/var/www/html/themes/avoindata:ro
+
+  # NOTE: You can override the remaining images like this if you wish to use your local images,
+  #       just remember to tag your local images like this!
+  ckan_cron:
+    image: opendata/ckan:latest
+
+  solr:
+    image: opendata/solr:latest
+
+  nginx:
+    image: opendata/nginx:latest
 ```
 
 ## Local environment operations
