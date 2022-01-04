@@ -9,6 +9,7 @@ request_not_found_message = toolkit._('Request not found')
 
 member_request = Blueprint('member_request', __name__, url_prefix='/member-request')
 
+
 def get_blueprint():
     return [member_request]
 
@@ -69,7 +70,7 @@ def _save_new(context):
         error_summary = e.error_summary
     return (False, (errors, error_summary))
 
-# m.connect('member_requests_mylist', '/member-request/mylist', action='mylist', controller=controller)
+
 @member_request.route('/mylist')
 def mylist():
     """" Lists own members requests (possibility to cancel and view current status)"""
@@ -87,12 +88,11 @@ def mylist():
         except logic.NotAuthorized:
             toolkit.abort(401, not_auth_message)
     else:
-        return toolkit.render('request/mylist.html',
-                      extra_vars={'my_requests': [],
-                                  'message': toolkit._("As a sysadmin, you already have access to all organizations")})
+        return toolkit.render('request/mylist.html', extra_vars={
+            'my_requests': [],
+            'message': toolkit._("As a sysadmin, you already have access to all organizations")})
 
 
-# m.connect('member_requests_list', '/member-request/list', action='list', controller=controller)
 @member_request.route('/list')
 def member_requests_list():
     """ Lists member requests to be approved by admins"""
@@ -111,19 +111,18 @@ def member_requests_list():
         toolkit.abort(401, not_auth_message)
 
 
-# m.connect('member_request_reject', '/member-request/reject/{mrequest_id}', action='reject', controller=controller)
 @member_request.route('/reject/<mrequest_id>', methods=['GET', 'POST'])
 def reject(mrequest_id):
     """ Controller to reject member request (only admins or group editors can do that """
     return _processbyadmin(mrequest_id, False)
 
-# m.connect('member_request_approve', '/member-request/approve/{mrequest_id}', action='approve', controller=controller)
+
 @member_request.route('/approve/<mrequest_id>', methods=['GET', 'POST'])
 def approve(mrequest_id):
     """ Controller to approve member request (only admins or group editors can do that) """
     return _processbyadmin(mrequest_id, True)
 
-# m.connect('member_request_cancel', '/member-request/cancel', action='cancel', controller=controller)
+
 @member_request.route('/cancel', methods=['GET', 'POST'])
 def cancel():
     """ Logged in user can cancel pending requests not approved yet by admins/editors"""
@@ -140,7 +139,6 @@ def cancel():
         toolkit.abort(404, request_not_found_message)
 
 
-# m.connect('member_request_membership_cancel', '/member-request/membership-cancel/{organization_id}', action='membership_cancel', controller=controller),
 @member_request.route('/membership-cancel/<organization_id>', methods=['GET', 'POST'])
 def membership_cancel(organization_id):
     """ Logged in user can cancel already approved/existing memberships """
@@ -156,7 +154,6 @@ def membership_cancel(organization_id):
         toolkit.abort(404, request_not_found_message)
 
 
-# m.connect('member_request_show', '/member-request/{mrequest_id}', action='show', controller=controller)
 @member_request.route('/<mrequest_id>')
 def show(mrequest_id):
     """" Shows a single member request.
@@ -182,6 +179,7 @@ def show(mrequest_id):
 def _get_available_roles(context, organization_id):
     data_dict = {'organization_id': organization_id}
     return toolkit.get_action('get_available_roles')(context, data_dict)
+
 
 def _processbyadmin(mrequest_id, approve):
     context = {'user': toolkit.g.get('user') or toolkit.g.get('author')}

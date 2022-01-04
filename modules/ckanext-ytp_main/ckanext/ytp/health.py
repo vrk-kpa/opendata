@@ -1,7 +1,7 @@
 from ckan.common import config
 import ckan.lib.base as base
 import re
-import urllib.request, urllib.error, urllib.parse
+import urllib
 import logging
 log = logging.getLogger(__name__)
 

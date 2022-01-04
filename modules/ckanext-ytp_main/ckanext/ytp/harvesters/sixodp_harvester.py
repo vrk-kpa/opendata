@@ -1,5 +1,4 @@
-import urllib.request, urllib.parse, urllib.error
-import urllib.request, urllib.error, urllib.parse
+import urllib
 import http.client
 import datetime
 import socket
@@ -124,7 +123,9 @@ GROUP_MAP = group_map()
 
 def sixodp_to_opendata_preprocess(package_dict):
     sixodp_groups = set(g.get('name') for g in package_dict.get('groups', []))
-    sixodp_keywords = set('keyword:%s' % keyword for language in list(package_dict.get('keywords').values()) for keyword in language)
+    sixodp_keywords = set('keyword:%s' % keyword
+                          for language in list(package_dict.get('keywords').values())
+                          for keyword in language)
     mapping_values = sixodp_groups.union(sixodp_keywords)
     groups = evaluate_group_map(GROUP_MAP, mapping_values)
 
@@ -295,7 +296,7 @@ class SixodpHarvester(HarvesterBase):
                         # save the dict to the config object, as we'll need it
                         # in the import_stage of every dataset
                         config_obj['default_group_dicts'].append(group)
-                    except NotFound as e:
+                    except NotFound:
                         raise ValueError('Default group not found')
                 config = json.dumps(config_obj)
 
@@ -608,7 +609,7 @@ class SixodpHarvester(HarvesterBase):
                             else:
                                 raise NotFound
 
-                        except NotFound as e:
+                        except NotFound:
                             if 'name' in group_:
                                 data_dict = {'id': group_['name']}
                                 group = get_action('group_show')(base_context.copy(), data_dict)
@@ -617,7 +618,7 @@ class SixodpHarvester(HarvesterBase):
                         # Found local group
                         validated_groups.append({'id': group['id'], 'name': group['name']})
 
-                    except NotFound as e:
+                    except NotFound:
                         log.info('Group %s is not available', group_)
                         if remote_groups == 'create':
                             try:
@@ -665,7 +666,7 @@ class SixodpHarvester(HarvesterBase):
                             log.info("Organization %s is not active, not assigning it.", remote_org)
                         else:
                             validated_org = org['id']
-                    except NotFound as e:
+                    except NotFound:
                         log.info('Organization %s is not available', remote_org)
                         if remote_orgs == 'create':
                             try:

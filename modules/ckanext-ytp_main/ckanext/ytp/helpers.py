@@ -43,7 +43,9 @@ def get_translation(translated):
         language = i18n.get_lang()
         if language in translated:
             return translated[language]
-        dialects = [l for l in translated if l.startswith(language) or language.startswith(l)]
+        dialects = [lang for lang in translated
+                    if lang.startswith(language)
+                    or language.startswith(lang)]
         if dialects:
             return translated[dialects[0]]
     return None

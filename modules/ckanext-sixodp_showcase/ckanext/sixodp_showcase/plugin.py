@@ -51,7 +51,6 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
     def edit_template(self):
         return 'sixodp_showcase/edit.html'
 
-
     # IBlueprint
 
     def get_blueprint(self):

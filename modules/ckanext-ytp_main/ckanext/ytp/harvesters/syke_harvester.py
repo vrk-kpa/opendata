@@ -22,7 +22,7 @@ _category_mapping = {
     'terveys': ['health'],
     'vaesto-ja-yhteiskunta': ['society'],
     'ymparisto-ja-luonto': ['climatologyMeteorologyAtmosphere', 'elevation', 'environment',
-                             'geoscientificInformation', 'biota', 'inlandWaters', 'oceans']
+                            'geoscientificInformation', 'biota', 'inlandWaters', 'oceans']
 }
 
 

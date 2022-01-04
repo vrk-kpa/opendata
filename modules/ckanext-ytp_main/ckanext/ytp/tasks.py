@@ -14,7 +14,7 @@ import json
 import os
 import re
 import simplejson
-import urllib.request, urllib.error, urllib.parse
+import urllib
 from functools import reduce
 
 _config_loaded = False

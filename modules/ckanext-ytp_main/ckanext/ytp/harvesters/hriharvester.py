@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import urllib.request, urllib.parse, urllib.error
+import urllib
 import datetime
 import socket
 import re
@@ -178,7 +178,7 @@ class HRIHarvester(HarvesterBase):
                 for group_name in config_obj['default_groups']:
                     try:
                         get_action('group_show')(context, {'id': group_name})
-                    except NotFound as e:
+                    except NotFound:
                         raise ValueError('Default group not found')
 
             if 'default_extras' in config_obj:
@@ -190,7 +190,7 @@ class HRIHarvester(HarvesterBase):
                 context = {'model': model, 'user': c.user}
                 try:
                     get_action('user_show')(context, {'id': config_obj.get('user')})
-                except NotFound as e:
+                except NotFound:
                     raise ValueError('User not found')
 
             for key in ('read_only', 'force_all'):
@@ -500,7 +500,7 @@ class HRIHarvester(HarvesterBase):
                             validated_groups.append(group['name'])
                         else:
                             validated_groups.append(group['id'])
-                    except NotFound as e:
+                    except NotFound:
                         log.info('Group %s is not available', group_name)
                         if remote_groups == 'create':
                             try:

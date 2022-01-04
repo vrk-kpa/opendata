@@ -4,8 +4,7 @@ import logging
 import six
 import iso8601
 import re
-import types
-import urllib.request, urllib.parse, urllib.error
+import urllib
 import sqlalchemy
 import ckan.lib.base as base
 from . import logic as plugin_logic
@@ -30,8 +29,6 @@ from paste.deploy.converters import asbool
 from sqlalchemy import and_, or_
 from sqlalchemy.sql.expression import false
 
-from flask import Blueprint
-
 from ckanext.ytp.logic import package_autocomplete
 import ckanext.ytp.views as views
 from ckanext.ytp import auth, menu, cli, validators, views_organization
@@ -50,7 +47,7 @@ from .helpers import extra_translation, render_date, service_database_enabled, g
     get_value_from_extras_by_key, get_field_from_dataset_schema, get_field_from_resource_schema, is_boolean_selected, \
     site_url_with_root_path
 
-from .tools import create_system_context, get_original_method
+from .tools import create_system_context
 
 from ckan.logic.validators import tag_length_validator, tag_name_validator
 

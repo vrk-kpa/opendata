@@ -309,7 +309,7 @@ def index(group_type, is_organization):
             'type': group_type or 'group',
         }
         global_results = _action('group_list')(context,
-                                                data_dict_global_results)
+                                               data_dict_global_results)
     except ValidationError as e:
         if e.error_dict and e.error_dict.get('message'):
             msg = e.error_dict['message']
