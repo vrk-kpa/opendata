@@ -85,18 +85,7 @@ EOT;
 
 class AvoindataDatasetHandler implements TrustedCallbackInterface
 {
-  protected $ckan_host;
-  protected $ckan_port;
-  protected $ckan_path;
-  protected $ckan_url;
 
-  function __construct()
-  {
-    $this->ckan_host = getenv('CKAN_HOST') !== false ? getenv('CKAN_HOST') : 'localhost';
-    $this->ckan_port = getenv('CKAN_PORT') !== false ? getenv('CKAN_PORT') : '8080';
-    $this->ckan_path = getenv('CKAN_HOST') !== false ? '' : '/data';
-    $this->ckan_url = 'http://' . $this->ckan_host . ':' . $this->ckan_port . $this->ckan_path;
-  }
 
   /**
    * Gets recent datasets from Ckan and specifies that they won't be cached.
@@ -106,7 +95,7 @@ class AvoindataDatasetHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
     try {
       $recentDatasetsResponse = $client->request('GET',
-        $this->ckan_url . '/api/action/package_search?sort=metadata_modified%20desc&facet.limit=1&rows=3'
+        'http://localhost:8080/data/api/action/package_search?sort=metadata_modified%20desc&facet.limit=1&rows=3'
       );
       $recentDatasetsResult = Json::decode($recentDatasetsResponse->getBody());
       $recentDatasets = $recentDatasetsResult['result']['results'];
@@ -128,7 +117,7 @@ class AvoindataDatasetHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
     try {
       $newDatasetsResponse = $client->request('GET',
-        $this->ckan_url . '/api/action/package_search?sort=metadata_created%20desc&facet.limit=1&rows=3'
+        'http://localhost:8080/data/api/action/package_search?sort=metadata_created%20desc&facet.limit=1&rows=3'
       );
       $newDatasetsResult = Json::decode($newDatasetsResponse->getBody());
       $newDatasets = $newDatasetsResult['result']['results'];
@@ -150,7 +139,7 @@ class AvoindataDatasetHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
     try {
       $popularDatasetsResponse = $client->request('GET',
-        $this->ckan_url . '/api/action/package_search?sort=views_recent%20desc&facet.limit=1&rows=3'
+        'http://localhost:8080/data/api/action/package_search?sort=views_recent%20desc&facet.limit=1&rows=3'
       );
       $popularDatasetsResult = Json::decode($popularDatasetsResponse->getBody());
       $popularDatasets = $popularDatasetsResult['result']['results'];

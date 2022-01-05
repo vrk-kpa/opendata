@@ -35,18 +35,7 @@ function avoindata_categories_theme($existing, $type, $theme, $path) {
 
 class AvoindataCategoriesHandler implements TrustedCallbackInterface
 {
-  protected $ckan_host;
-  protected $ckan_port;
-  protected $ckan_path;
-  protected $ckan_url;
 
-  function __construct()
-  {
-    $this->ckan_host = getenv('CKAN_HOST') !== false ? getenv('CKAN_HOST') : 'localhost';
-    $this->ckan_port = getenv('CKAN_PORT') !== false ? getenv('CKAN_PORT') : '8080';
-    $this->ckan_path = getenv('CKAN_HOST') !== false ? '' : '/data';
-    $this->ckan_url = 'http://' . $this->ckan_host . ':' . $this->ckan_port . $this->ckan_path;
-  }
 
   /**
    * Gets categories from CKAN.
@@ -56,7 +45,7 @@ class AvoindataCategoriesHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
 
     try {
-      $response = $client->request('GET', $this->ckan_url . '/api/3/action/group_list?all_fields=true&include_extras=true');
+      $response = $client->request('GET', 'http://localhost:8080/data/api/3/action/group_list?all_fields=true&include_extras=true');
       $result = Json::decode($response->getBody());
       $categories = $result['result'];
     } catch (\Exception $e) {

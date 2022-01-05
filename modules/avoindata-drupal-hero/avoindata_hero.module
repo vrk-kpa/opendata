@@ -35,18 +35,7 @@ function avoindata_hero_theme($existing, $type, $theme, $path) {
 
 class AvoindataHeroHandler implements TrustedCallbackInterface
 {
-  protected $ckan_host;
-  protected $ckan_port;
-  protected $ckan_path;
-  protected $ckan_url;
 
-  function __construct()
-  {
-    $this->ckan_host = getenv('CKAN_HOST') !== false ? getenv('CKAN_HOST') : 'localhost';
-    $this->ckan_port = getenv('CKAN_PORT') !== false ? getenv('CKAN_PORT') : '8080';
-    $this->ckan_path = getenv('CKAN_HOST') !== false ? '' : '/data';
-    $this->ckan_url = 'http://' . $this->ckan_host . ':' . $this->ckan_port . $this->ckan_path;
-  }
 
   /**
    * Queries dataset count from ckan.
@@ -59,7 +48,7 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
 
     try {
-      $datasetResponse = $client->request('GET', $this->ckan_url . '/api/3/action/package_search');
+      $datasetResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/package_search');
       $datasetResult = Json::decode($datasetResponse->getBody());
       $datasetCount = $datasetResult['result']['count'];
     } catch (\Exception $e) {
@@ -82,7 +71,7 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
   {
     $client = \Drupal::httpClient();
     try {
-      $organizationResponse = $client->request('GET', $this->ckan_url . '/api/3/action/organization_list');
+      $organizationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/organization_list');
       $organizationResult = Json::decode($organizationResponse->getBody());
       $organizationCount = count($organizationResult['result']);
     } catch (\Exception $e) {
@@ -106,7 +95,7 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
 
     try {
-      $applicationResponse = $client->request('GET', $this->ckan_url . '/api/3/action/ckanext_showcase_list');
+      $applicationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/ckanext_showcase_list');
       $applicationResult = Json::decode($applicationResponse->getBody());
       $applicationCount = count($applicationResult['result']);
     } catch (\Exception $e) {
