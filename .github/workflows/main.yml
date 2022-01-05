@@ -2,9 +2,6 @@ name: CI/CD
 
 on:
   push:
-    branches:
-      - master
-  pull_request:
 
 env:
   DOCKER_BUILDKIT: 1
@@ -179,7 +176,7 @@ jobs:
     needs:
       - test-e2e
       - test-cdk
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/dockerization'
     concurrency:
       group: ${{ github.ref }}/deploy-infratest
     permissions:
