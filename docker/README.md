@@ -75,7 +75,7 @@ This file is automatically detected by docker-compose so you don't need to pass 
 # NOTE: This file is also in .gitignore, please keep it that way!
 # NOTE: This example assumes you have cloned opendata-ckan and opendata-drupal repos to ../../ path.
 # NOTE: We don't want node_modules in our bind-mount, thus we mask it with empty volume!
-# NOTE: Remember to build the `ytp-assets-common` frontend project on the host machine!
+# NOTE: Remember to build the `opendata-assets` frontend project on the host machine!
 version: "3.8"
 
 services:
@@ -95,8 +95,8 @@ services:
       AWS_SECRET_ACCESS_KEY: "temp-secret-key-if-using-ckanext-cloudstorage"
       AWS_DEFAULT_REGION: "eu-west-1"
     volumes:
-      - ../../opendata-ckan/modules:/srv/app/extensions
-      - /srv/app/extensions/ytp-assets-common/node_modules/
+      - ../../opendata-ckan/modules:/srv/app/modules
+      - /srv/app/modules/opendata-assets/node_modules/
 
   drupal:
     image: opendata/drupal:latest
@@ -122,9 +122,9 @@ services:
       - ../../opendata-drupal/modules/avoindata-guide/:/opt/drupal/web/modules/avoindata-guide
       - ../../opendata-drupal/modules/avoindata-user/:/opt/drupal/web/modules/avoindata-user
       - ../../opendata-drupal/modules/avoindata-ckeditor-plugins/:/opt/drupal/web/modules/avoindata-ckeditor-plugins
-      - ../../opendata-drupal/modules/ytp-assets-common:/opt/drupal/web/modules/ytp-assets-common
+      - ../../opendata-drupal/modules/opendata-assets:/opt/drupal/web/modules/opendata-assets
       - ../../opendata-drupal/modules/avoindata-theme:/opt/drupal/web/themes/avoindata
-      - /opt/drupal/web/modules/ytp-assets-common/node_modules/
+      - /opt/drupal/web/modules/opendata-assets/node_modules/
 
   nginx:
     image: opendata/nginx:latest
@@ -138,9 +138,6 @@ services:
 
   solr:
     image: opendata/solr:latest
-
-  nginx:
-    image: opendata/nginx:latest
 ```
 
 ## Local environment operations
