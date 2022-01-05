@@ -1,21 +1,22 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as ecr from '@aws-cdk/aws-ecr';
-import * as sd from '@aws-cdk/aws-servicediscovery';
-import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
-import * as ecsp from '@aws-cdk/aws-ecs-patterns';
-import * as ssm from '@aws-cdk/aws-ssm';
-import * as sm from '@aws-cdk/aws-secretsmanager';
-import * as r53 from '@aws-cdk/aws-route53';
-import * as acm from '@aws-cdk/aws-certificatemanager';
-import * as logs from '@aws-cdk/aws-logs';
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import * as cdk from 'aws-cdk-lib/core';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as ecr from 'aws-cdk-lib/aws-ecr';
+import * as sd from 'aws-cdk-lib/aws-servicediscovery';
+import * as elb from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import * as ecsp from 'aws-cdk-lib/aws-ecs-patterns';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
+import * as r53 from 'aws-cdk-lib/aws-route53';
+import * as acm from 'aws-cdk-lib/aws-certificatemanager';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import { Construct } from 'constructs';
 
 import { WebStackProps } from './web-stack-props';
 import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 
-export class WebStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: WebStackProps) {
+export class WebStack extends Stack {
+  constructor(scope: Construct, id: string, props: WebStackProps) {
     super(scope, id, props);
 
     // get params
@@ -169,7 +170,7 @@ export class WebStack extends cdk.Stack {
         cloudMapOptions: {
           cloudMapNamespace: props.namespace,
           dnsRecordType: sd.DnsRecordType.A,
-          dnsTtl: cdk.Duration.minutes(1),
+          dnsTtl: Duration.minutes(1),
           name: 'nginx',
           container: nginxContainer,
           containerPort: 80,
@@ -203,7 +204,7 @@ export class WebStack extends cdk.Stack {
         cloudMapOptions: {
           cloudMapNamespace: props.namespace,
           dnsRecordType: sd.DnsRecordType.A,
-          dnsTtl: cdk.Duration.minutes(1),
+          dnsTtl: Duration.minutes(1),
           name: 'nginx',
           container: nginxContainer,
           containerPort: 80,
@@ -240,8 +241,8 @@ export class WebStack extends cdk.Stack {
 
     nginxServiceAsg.scaleOnCpuUtilization('nginxServiceAsgPolicy', {
       targetUtilizationPercent: 50,
-      scaleInCooldown: cdk.Duration.seconds(60),
-      scaleOutCooldown: cdk.Duration.seconds(60),
+      scaleInCooldown: Duration.seconds(60),
+      scaleOutCooldown: Duration.seconds(60),
     });
   }
 }

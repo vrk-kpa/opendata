@@ -1,22 +1,18 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as sd from '@aws-cdk/aws-servicediscovery';
-import * as efs from '@aws-cdk/aws-efs';
-import * as ssm from '@aws-cdk/aws-ssm';
-import * as sm from '@aws-cdk/aws-secretsmanager';
-import * as ec from '@aws-cdk/aws-elasticache';
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ec from 'aws-cdk-lib/aws-elasticache';
+import { Construct } from 'constructs';
 
 import { EcStackProps } from './ec-stack-props';
 
-export class CacheStack extends cdk.Stack {
+export class CacheStack extends Stack {
   readonly cachePort: number;
   readonly cacheSubnets: ec2.SelectedSubnets;
   readonly cacheSubnetGroup: ec.CfnSubnetGroup;
   readonly cacheSecurityGroup: ec2.ISecurityGroup;
   readonly cacheCluster: ec.CfnCacheCluster;
 
-  constructor(scope: cdk.Construct, id: string, props: EcStackProps) {
+  constructor(scope: Construct, id: string, props: EcStackProps) {
     super(scope, id, props);
 
     this.cachePort = 6379;

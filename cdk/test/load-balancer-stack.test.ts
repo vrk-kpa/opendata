@@ -1,12 +1,6 @@
-import {
-  expect as expectCDK,
-  matchTemplate,
-  MatchStyle,
-  haveResource,
-  countResources,
-  countResourcesLike
-} from '@aws-cdk/assert';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
+import { Template, Match } from 'aws-cdk-lib/assertions';
+
 import { ClusterStack } from '../lib/cluster-stack';
 import { LoadBalancerStack } from '../lib/load-balancer-stack';
 import { mockEnv, mockEnvProps } from './mock-constructs';

@@ -1,16 +1,18 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as sd from '@aws-cdk/aws-servicediscovery';
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import * as cdk from 'aws-cdk-lib/core';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as sd from 'aws-cdk-lib/aws-servicediscovery';
+import { Construct } from 'constructs';
 
 import { CommonStackProps } from './common-stack-props';
 
-export class ClusterStack extends cdk.Stack {
+export class ClusterStack extends Stack {
   readonly vpc: ec2.IVpc;
   readonly cluster: ecs.ICluster;
   readonly namespace: sd.IPrivateDnsNamespace;
 
-  constructor(scope: cdk.Construct, id: string, props: CommonStackProps) {
+  constructor(scope: Construct, id: string, props: CommonStackProps) {
     super(scope, id, props);
 
     this.vpc = ec2.Vpc.fromLookup(this, 'vpc', {

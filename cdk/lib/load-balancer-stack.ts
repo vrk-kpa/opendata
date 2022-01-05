@@ -1,21 +1,16 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as sd from '@aws-cdk/aws-servicediscovery';
-import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
-import * as efs from '@aws-cdk/aws-efs';
-import * as ssm from '@aws-cdk/aws-ssm';
-import * as sm from '@aws-cdk/aws-secretsmanager';
-import * as ec from '@aws-cdk/aws-elasticache';
-import * as acm from '@aws-cdk/aws-certificatemanager';
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import * as elb from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
+import * as acm from 'aws-cdk-lib/aws-certificatemanager';
+import { Construct } from 'constructs';
 
 import { ElbStackProps } from './elb-stack-props';
 
-export class LoadBalancerStack extends cdk.Stack {
+export class LoadBalancerStack extends Stack {
   readonly loadBalancerCert: acm.ICertificate;
   readonly loadBalancer: elb.IApplicationLoadBalancer;
 
-  constructor(scope: cdk.Construct, id: string, props: ElbStackProps) {
+  constructor(scope: Construct, id: string, props: ElbStackProps) {
     super(scope, id, props);
 
     // get params

@@ -1,19 +1,17 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as sd from '@aws-cdk/aws-servicediscovery';
-import * as efs from '@aws-cdk/aws-efs';
-import * as ssm from '@aws-cdk/aws-ssm';
-import * as sm from '@aws-cdk/aws-secretsmanager';
-import * as rds from '@aws-cdk/aws-rds';
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import * as cdk from 'aws-cdk-lib/core';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
+import * as rds from 'aws-cdk-lib/aws-rds';
+import { Construct } from 'constructs';
 
 import { RdsStackProps } from './rds-stack-props';
 
-export class DatabaseStack extends cdk.Stack {
+export class DatabaseStack extends Stack {
   readonly databaseSecurityGroup: ec2.ISecurityGroup;
   readonly databaseInstance: rds.IDatabaseInstance;
 
-  constructor(scope: cdk.Construct, id: string, props: RdsStackProps) {
+  constructor(scope: Construct, id: string, props: RdsStackProps) {
     super(scope, id, props);
 
     // get params

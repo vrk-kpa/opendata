@@ -1,21 +1,20 @@
-import * as cdk from '@aws-cdk/core';
-import * as iam from '@aws-cdk/aws-iam';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as ecr from '@aws-cdk/aws-ecr';
-import * as sd from '@aws-cdk/aws-servicediscovery';
-import * as elb from '@aws-cdk/aws-elasticloadbalancingv2';
-import * as ecsp from '@aws-cdk/aws-ecs-patterns';
-import * as ssm from '@aws-cdk/aws-ssm';
-import * as sm from '@aws-cdk/aws-secretsmanager';
-import * as efs from '@aws-cdk/aws-efs';
-import * as logs from '@aws-cdk/aws-logs';
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as ecr from 'aws-cdk-lib/aws-ecr';
+import * as sd from 'aws-cdk-lib/aws-servicediscovery';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
+import * as sm from 'aws-cdk-lib/aws-secretsmanager';
+import * as efs from 'aws-cdk-lib/aws-efs';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import { Construct } from 'constructs';
 
 import { DrupalStackProps } from './drupal-stack-props';
 import { DrupalUser } from './drupal-user';
 import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 
-export class DrupalStack extends cdk.Stack {
+export class DrupalStack extends Stack {
   readonly drupalFsCoreAccessPoint: efs.IAccessPoint;
   readonly drupalFsSitesAccessPoint: efs.IAccessPoint;
   readonly drupalFsThemesAccessPoint: efs.IAccessPoint;
@@ -23,7 +22,7 @@ export class DrupalStack extends cdk.Stack {
   readonly migrationFsAccessPoint?: efs.IAccessPoint;
   readonly drupalService: ecs.FargateService;
 
-  constructor(scope: cdk.Construct, id: string, props: DrupalStackProps) {
+  constructor(scope: Construct, id: string, props: DrupalStackProps) {
     super(scope, id, props);
 
     // get params
@@ -286,10 +285,10 @@ export class DrupalStack extends cdk.Stack {
       }),
       healthCheck: {
         command: ['CMD-SHELL', 'ps -aux | grep -o "[p]hp-fpm: master"'],
-        interval: cdk.Duration.seconds(15),
-        timeout: cdk.Duration.seconds(5),
+        interval: Duration.seconds(15),
+        timeout: Duration.seconds(5),
         retries: 10,
-        startPeriod: cdk.Duration.seconds(300),
+        startPeriod: Duration.seconds(300),
       },
     });
 
@@ -338,7 +337,7 @@ export class DrupalStack extends cdk.Stack {
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,
-        dnsTtl: cdk.Duration.minutes(1),
+        dnsTtl: Duration.minutes(1),
         name: 'drupal',
         container: drupalContainer,
         containerPort: 9000,
@@ -357,8 +356,8 @@ export class DrupalStack extends cdk.Stack {
 
     drupalServiceAsg.scaleOnCpuUtilization('drupalServiceAsgPolicy', {
       targetUtilizationPercent: 50,
-      scaleInCooldown: cdk.Duration.seconds(60),
-      scaleOutCooldown: cdk.Duration.seconds(60),
+      scaleInCooldown: Duration.seconds(60),
+      scaleOutCooldown: Duration.seconds(60),
     });
 
     // mount migration filesystem if given

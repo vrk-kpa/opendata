@@ -1,6 +1,5 @@
-import * as cdk from '@aws-cdk/core';
-import * as ssm from '@aws-cdk/aws-ssm';
-import * as sm from '@aws-cdk/aws-secretsmanager';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
+import { Construct } from 'constructs';
 
 export class DrupalUser {
   public user: ssm.IStringParameter;
@@ -8,7 +7,7 @@ export class DrupalUser {
   public email: ssm.IStringParameter;
   public roles: ssm.IStringParameter;
 
-  constructor(scope: cdk.Construct, environment: string, index: number) {
+  constructor(scope: Construct, environment: string, index: number) {
     this.user = ssm.StringParameter.fromStringParameterAttributes(scope, `pDrupalUser${index}User`, {
       parameterName: `/${environment}/opendata/common/users/${index}/user`,
     });

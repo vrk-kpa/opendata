@@ -1,7 +1,7 @@
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { EnvProps } from './env-props';
-import * as cdk from '@aws-cdk/core';
 
-export interface CommonStackProps extends cdk.StackProps {
+export interface CommonStackProps extends StackProps {
   envProps: EnvProps;
   environment: string;
   fqdn: string;

@@ -1,12 +1,6 @@
-import {
-  expect as expectCDK,
-  matchTemplate,
-  MatchStyle,
-  haveResource,
-  countResources,
-  countResourcesLike
-} from '@aws-cdk/assert';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
+import { Template, Match } from 'aws-cdk-lib/assertions';
+
 import { ClusterStack } from '../lib/cluster-stack';
 import { FileSystemStack } from '../lib/filesystem-stack';
 import { DatabaseStack } from '../lib/database-stack';
@@ -116,6 +110,7 @@ test('verify ckan stack resources', () => {
     cloudstorageEnabled: true,
   });
   // THEN
-  expectCDK(stack).to(haveResource('AWS::ECS::Service'));
+  const template = Template.fromStack(stack);
+  template.hasResource('AWS::ECS::Service', {});
   // TODO: write more in-depth resource verification here...
 });

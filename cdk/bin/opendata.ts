@@ -2,7 +2,7 @@
 import 'source-map-support/register';
 import * as dotenv from 'dotenv';
 import { EnvProps, parseEnv } from '../lib/env-props';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 import { DatabaseStack } from '../lib/database-stack';
 import { CacheStack } from '../lib/cache-stack';
 import { LoadBalancerStack } from '../lib/load-balancer-stack';

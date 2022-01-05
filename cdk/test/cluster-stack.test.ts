@@ -1,10 +1,6 @@
-import {
-  expect as expectCDK,
-  matchTemplate,
-  MatchStyle,
-  haveResource
-} from '@aws-cdk/assert';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
+import { Template, Match } from 'aws-cdk-lib/assertions';
+
 import { ClusterStack } from '../lib/cluster-stack';
 import { mockEnv, mockEnvProps } from './mock-constructs';
 
@@ -21,12 +17,13 @@ test('verify cluster stack resources', () => {
     secondaryDomainName: 'mock.localhost',
   });
   // THEN
-  expectCDK(stack).to(haveResource('AWS::ECS::Cluster'));
-  expectCDK(stack).to(haveResource('AWS::ECS::ClusterCapacityProviderAssociations', {
+  const template = Template.fromStack(stack);
+  template.hasResource('AWS::ECS::Cluster', {});
+  template.hasResourceProperties('AWS::ECS::ClusterCapacityProviderAssociations', {
     CapacityProviders: [
       'FARGATE',
       'FARGATE_SPOT',
     ],
-  }));
-  expectCDK(stack).to(haveResource('AWS::ServiceDiscovery::PrivateDnsNamespace'));
+  });
+  template.hasResource('AWS::ServiceDiscovery::PrivateDnsNamespace', {});
 });

@@ -1,12 +1,6 @@
-import {
-  expect as expectCDK,
-  matchTemplate,
-  MatchStyle,
-  haveResource,
-  countResources,
-  countResourcesLike
-} from '@aws-cdk/assert';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
+import { Template, Match } from 'aws-cdk-lib/assertions';
+
 import { ClusterStack } from '../lib/cluster-stack';
 import { FileSystemStack } from '../lib/filesystem-stack';
 import { mockEnv, mockEnvProps } from './mock-constructs';
@@ -35,10 +29,8 @@ test('verify filesystem stack resources', () => {
     importMigrationFs: true,
   });
   // THEN
-  expectCDK(stack).to(countResources('AWS::EC2::SecurityGroup', 3));
-  expectCDK(stack).to(countResources('AWS::EFS::MountTarget', 6));
-  expectCDK(stack).to(countResourcesLike('AWS::EFS::FileSystem', 3, {
-    PerformanceMode: 'generalPurpose',
-    ThroughputMode: 'bursting'
-  }));
+  const template = Template.fromStack(stack);
+  template.resourceCountIs('AWS::EC2::SecurityGroup', 3);
+  template.resourceCountIs('AWS::EFS::MountTarget', 6);
+  template.resourceCountIs('AWS::EFS::FileSystem', 3);
 });

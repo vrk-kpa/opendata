@@ -1,20 +1,19 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as sd from '@aws-cdk/aws-servicediscovery';
-import * as efs from '@aws-cdk/aws-efs';
-import * as ssm from '@aws-cdk/aws-ssm';
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as efs from 'aws-cdk-lib/aws-efs';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
+import { Construct } from 'constructs';
 
 import { EfsStackProps } from './efs-stack-props';
 
-export class FileSystemStack extends cdk.Stack {
+export class FileSystemStack extends Stack {
   readonly drupalFs: efs.FileSystem;
   readonly ckanFs: efs.FileSystem;
   readonly solrFs: efs.FileSystem;
   readonly migrationFsSg?: ec2.ISecurityGroup;
   readonly migrationFs?: efs.IFileSystem;
 
-  constructor(scope: cdk.Construct, id: string, props: EfsStackProps) {
+  constructor(scope: Construct, id: string, props: EfsStackProps) {
     super(scope, id, props);
 
     this.drupalFs = new efs.FileSystem(this, 'drupalFs', {
@@ -24,6 +23,7 @@ export class FileSystemStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
       },
+      encrypted: true,
     });
 
     this.ckanFs = new efs.FileSystem(this, 'ckanFs', {
@@ -33,6 +33,7 @@ export class FileSystemStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
       },
+      encrypted: true,
     });
 
     this.solrFs = new efs.FileSystem(this, 'solrFs', {
@@ -42,6 +43,7 @@ export class FileSystemStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
       },
+      encrypted: true,
     });
 
     if (props.importMigrationFs) {
