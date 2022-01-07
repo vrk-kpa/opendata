@@ -380,7 +380,6 @@ export class CkanStack extends Stack {
       logging: ecs.LogDrivers.awsLogs({
         logGroup: ckanLogGroup,
         streamPrefix: 'ckan-service',
-        datetimeFormat: '%Y-%m-%d %H:%M:%S,%L',
       }),
       healthCheck: {
         command: ['CMD-SHELL', 'curl --fail http://localhost:5000/api/3/action/status_show || exit 1'],
@@ -514,14 +513,13 @@ export class CkanStack extends Stack {
         image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG),
         environment: ckanContainerEnv,
         secrets: ckanContainerSecrets,
-        entryPoint: ['/srv/app/entrypoint_cron.sh'],
+        entryPoint: ['/srv/app/scripts/entrypoint_cron.sh'],
         logging: ecs.LogDrivers.awsLogs({
           logGroup: ckanCronLogGroup,
           streamPrefix: 'ckan_cron-service',
-          datetimeFormat: '%Y-%m-%d %H:%M:%S,%L',
         }),
         healthCheck: {
-          command: ['CMD-SHELL', 'ps -aux | grep -o "[c]ron -f"'],
+          command: ['CMD-SHELL', 'ps -aux | grep -o "[c]ron -f" && ps -aux | grep -o "[s]upervisord --configuration"'],
           interval: Duration.seconds(15),
           timeout: Duration.seconds(5),
           retries: 5,
@@ -661,7 +659,6 @@ export class CkanStack extends Stack {
       logging: ecs.LogDrivers.awsLogs({
         logGroup: solrLogGroup,
         streamPrefix: 'solr-service',
-        datetimeFormat: '%Y-%m-%d %H:%M:%S.%L',
       }),
       healthCheck: {
         command: ['CMD-SHELL', 'curl --fail -s http://localhost:8983/solr/ckan/admin/ping?wt=json | grep -o "OK"'],

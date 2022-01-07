@@ -125,7 +125,6 @@ export class WebStack extends Stack {
       logging: ecs.LogDrivers.awsLogs({
         logGroup: nginxLogGroup,
         streamPrefix: 'nginx-service',
-        datetimeFormat: '%d/%b/%Y:%H:%M:%S %z',
       }),
     });
 
