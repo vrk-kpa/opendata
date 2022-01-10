@@ -196,7 +196,7 @@ jobs:
           command: |
             echo 'export CYPRESS_BASE_URL=http://$(cat ~/project/instance_public_ip)' >> $BASH_ENV
             echo 'export CYPRESS_resetDB=false' >> $BASH_ENV
-            echo 'export CYPRESS_cloudStorageEnabled=false' >> $BASH_ENV
+            echo 'export CYPRESS_cloudStorageEnabled=true' >> $BASH_ENV
 
       - run:
           name: Run cypress tests
