@@ -49,6 +49,11 @@ class SYKEHarvester(CKANHarvester):
         package_dict['license_id'] = u'cc-by-4.0'
         package_dict['maintainer_website'] = u'https://www.syke.fi'
 
+        package_dict['resources'] = [
+            dict(resource.items() + {'name_translated': {'fi': resource.get('name')}}.items())
+            for resource in package_dict.get('resources', [])
+        ]
+
         # Remove tags as we don't use them
         package_dict.pop(u'tags', None)
 

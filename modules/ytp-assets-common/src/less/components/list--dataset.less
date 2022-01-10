@@ -2,10 +2,19 @@
 
 .dataset-list {
   padding: 0;
+  background-color: @background-color__content;
 }
 
 .dataset-item {
   position: relative;
+  border: 1px solid @opendata-brand-border-gray;
+  border-bottom: none;
+  margin-bottom: 0;
+  padding: @padding__content;
+
+  &:last-of-type {
+    border-bottom: 1px solid @opendata-brand-border-gray;
+  }
 
   .dataset-content {
     margin-top: 10px;
@@ -59,4 +68,30 @@
       color: @new-layout-nonimportant-text-color;
     }
   }
+}
+
+.dataset-title {
+  float: left;
+}
+
+.private,
+.draft,
+.deleted {
+  float: right;
+  color: @suomi-whiteBase;
+  text-transform: uppercase;
+  font-size: @font-size-smaller-base;
+  font-family: @font-family-sans-serif-semibold;
+  font-weight: @font-weight-heavier;
+  text-align: center;
+  background: @opendata-brand-blue;
+  border: 1px solid @opendata-brand-blue;
+  height: 28px;
+  padding: 3px 7px;
+  line-height: 18px;
+}
+
+.deleted {
+  background: @suomi-alertBase;
+  border: 1px solid @suomi-alertBase;
 }

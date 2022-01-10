@@ -1,6 +1,35 @@
 @import "../variables.less";
 
+.dataset-container {
+  background-color: @background-color__content;
+  border: 1px solid @border-color__content;
+  padding: @padding__content;
+
+  > .row {
+    margin-left: -@padding-x--common;
+    margin-right: -@padding-x--common;
+  }
+
+  .dataset-primary-content,
+  .dataset-sidebar {
+    padding: 0 @padding-x--common;
+
+    .embedded-content,
+    .resources,
+    .additional-info,
+    .disqus-comments {
+      margin-bottom: @margin__module--large;
+
+      h3 {
+        margin-bottom: @padding-y--common;
+      }
+    }
+  }
+}
+
 .dataset-header-row {
+  margin-bottom: @padding-y--common;
+
   .content_action {
     font-weight: 600;
     font-size: 16px;
@@ -27,4 +56,173 @@
   color: @opendata-brand-danger;
   vertical-align: middle;
   height: 1.3em;
+}
+
+.admin-banner {
+  display: flex;
+  margin-bottom: 20px;
+
+  a {
+    display: block;
+    margin-left: auto;
+    color: @opendata-brand-primary;
+    font-size: @font-size-smaller-base;
+    font-family: @font-family-sans-serif-semibold;
+    font-weight: @font-weight-heavier;
+    letter-spacing: 0.4px;
+    line-height: 20px;
+    border: 1px solid @opendata-brand-primary;
+    border-radius: 2px;
+    padding: @padding-y--small @padding-x--common;
+    text-decoration: none;
+  }
+}
+
+.private-or-draft-dataset {
+  background: @opendata-brand-blue;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+  }
+
+  span {
+    color: @suomi-whiteBase;
+    font-family: @font-family-sans-serif;
+    font-size: @font-size-slightly-smaller-base;
+    font-weight: @font-weight-normal;
+    line-height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  a {
+    color: @suomi-whiteBase;
+    border: 1px solid @suomi-whiteBase;
+  }
+}
+
+.deleted-dataset {
+  background: @suomi-alertBase;
+}
+
+#content .container-apiset {
+  .filter-list .pill {
+    font-size: 16px;
+    font-weight: 600;
+    height: 24px;
+    line-height: 21px;
+    color: rgb(255, 255, 255);
+    background: @opendata-brand-primary;
+    border-radius: 14px;
+    padding: 0 13px 0 13px;
+
+    i {
+      margin-left: 5px;
+    }
+  }
+
+  .search-results {
+    color: @navbarInverseBackgroundHighlight;
+    font-family: @font-family-sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .label-field-order {
+    font-family: @font-family-sans-serif-semibold;
+    color: @navbarInverseBackgroundHighlight;
+    font-size: 16px;
+    font-weight: 600;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 21px;
+  }
+
+  .facet {
+    font-family: @font-family-sans-serif-semibold;
+    color: @navbarInverseBackgroundHighlight;
+    font-size: 16px;
+    font-weight: 600;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 15px;
+  }
+
+  .row {
+    padding: 21px 20px 21px 20px;
+    border: 1px solid @table-border-color;
+    background: #fff;
+    margin-bottom: -1px;
+  }
+
+  .row-search-tags {
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+
+  .search-form .search-dataset {
+    border-radius: 0;
+    height: 40px;
+  }
+}
+
+.container-search-result {
+  .dataset-heading a {
+    color: @opendata-brand-primary;
+    font-family: @font-family-sans-serif-semibold;
+    font-size: 22px;
+    font-weight: 600;
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .dataset-item-notes {
+    color: @color--black;
+    font-family: @font-family-sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    height: 81px;
+    line-height: 27px;
+  }
+
+  .search-item-tag {
+    background: white;
+    border: 1px solid #c9cdcf;
+    height: 28px;
+  }
+
+  .search-item-tag-organization {
+    padding: 3px 18px;
+  }
+
+  .search-item-tag-type {
+    padding: 3px 7px;
+  }
+
+  .search-item-tag span {
+    color: @suomi-depthDark27;
+    font-family: @font-family-sans-serif-semibold;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    text-align: center;
+  }
+}
+
+.search-dataset-heading {
+  color: rgb(34, 34, 34);
+  font-family: @font-family-sans-serif-light;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 0px;
+  height: 0;
 }

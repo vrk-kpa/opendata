@@ -240,10 +240,11 @@ p:last-child,
   }
 
   .avoindata-categories-container {
-    max-width: @opendata-container-max-width;
+    max-width: @opendata-categories-container-max-width;
     float: none;
     display: block;
     margin: 0 auto;
+    flex: 2;
 
     .avoindata-categories-items {
       .flex-display(flex);
@@ -252,7 +253,7 @@ p:last-child,
     }
 
     .avoindata-category-box {
-      height: 13em;
+      height: 10em;
       width: 10em;
       text-align: center;
       justify-content: center;
@@ -557,8 +558,7 @@ p:last-child,
 
     .avoindata-datasetlist-offer-data {
       .login-link {
-        width: 120px;
-        height: 40px;
+        width: 160px;
         margin: 44px 50px 16px auto;
         background: #2a6ebb;
         line-height: 20px;
@@ -1247,11 +1247,6 @@ p:last-child,
   }
 }
 
-//Breadcrumb style, copied and modified from ckan css files
-.toolbar {
-  background-color: @breadcrumb-color-background;
-}
-
 .toolbar .breadcrumb {
   max-width: @opendata-container-max-width;
   margin: 0 auto;
@@ -1271,12 +1266,12 @@ p:last-child,
     font-weight: 700;
 
     a {
-      color: @breadcrumbTextColor;
+      color: @color__breadcrumb-current;
     }
   }
 
   a {
-    color: @breadcrumb-color;
+    color: @color__breadcrumb-link;
   }
 }
 
@@ -1361,7 +1356,7 @@ p:last-child,
     + li::before {
       content: '@{breadcrumb-separator}\00a0';
       padding: 0 5px;
-      color: @breadcrumb-color;
+      color: @color__breadcrumb-link;
     }
   }
 
@@ -1478,7 +1473,12 @@ p:last-child,
 }
 
 .user-form {
-  max-width: 1140px;
+  max-width: @opendata-container-max-width;
   margin: 0 auto;
   padding: 25px;
+}
+
+.avoindata-frontpage-header-text-container {
+  text-align: center;
+  width: 100%;
 }
