@@ -60,9 +60,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node_e2e_v16-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node_e2e_v3-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node_e2e_v16-
+            ${{ runner.os }}-node_e2e_v3-
 
       - name: install npm packages
         run: |
@@ -79,9 +79,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress_v1-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-cypress_v3-${{ hashFiles('**/package.json') }}
           restore-keys: |
-            ${{ runner.os }}-cypress_v1-
+            ${{ runner.os }}-cypress_v3-
 
       - name: install cypress binaries and verify installation
         run: |
@@ -128,7 +128,7 @@ jobs:
 
       - name: run cypress e2e tests
         run: |
-          npx cypress run
+          npx cypress run --browser chrome:stable
 
       - name: upload cypress screenshot artifacts
         uses: actions/upload-artifact@v2

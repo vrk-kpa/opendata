@@ -60,7 +60,7 @@ services:
       context: ./postgres
     restart: on-failure
     ports:
-      - '5432:5432'
+      - "5432:5432"
     networks:
       - backend
     environment:
