@@ -34,17 +34,17 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node_e2e-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-node_e2e-
 
       - name: cache cypress binary
         uses: actions/cache@v2
         with:
           path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
+          key: ${{ runner.os }}-cypress_v1-${{ hashFiles('**/package.json') }}
           restore-keys: |
-            ${{ runner.os }}-cypress-
+            ${{ runner.os }}-cypress_v1-
 
       - name: install cypress npm packages and verify installation
         run: |
@@ -104,6 +104,7 @@ jobs:
             echo "waiting for services to start up and initialize ..."
             sleep 5s
           done
+          sleep 5s
           # print the list of containers
           docker ps -a
           # print logs to debug errors
@@ -115,7 +116,7 @@ jobs:
       - name: run cypress e2e tests
         uses: cypress-io/github-action@v2
         with:
-          start: $(npm bin)/cypress run --record
+          record: true
         env:
           TERM: xterm
 
@@ -154,9 +155,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node_cdk-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-node_cdk-
 
       - name: install cdk npm packages and verify installation
         working-directory: cdk
@@ -200,9 +201,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node_cdk-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-node_cdk-
 
       - name: install cdk npm packages and verify installation
         working-directory: cdk
