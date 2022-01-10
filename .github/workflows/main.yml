@@ -18,6 +18,9 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    env:
+      CI: 1
+      TERM: xterm
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -29,31 +32,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
-
-      - name: cache node_modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node_e2e-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_e2e-
-
-      - name: cache cypress binary
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress_v1-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-cypress_v1-
-
-      - name: install cypress npm packages and verify installation
-        run: |
-          npm install
-          $(npm bin)/cypress verify
-          $(npm bin)/cypress info
-          $(npm bin)/cypress version
-        env:
-          CI: 1
 
       - name: configure environment
         shell: bash
@@ -77,6 +55,41 @@ jobs:
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
+
+      - name: cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node_e2e_v16-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_e2e_v16-
+
+      - name: install npm packages
+        run: |
+          npm install
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+
+      - name: verify cypress binaries not installed
+        run: |
+          npx cypress cache path
+          npx cypress cache list
+
+      - name: cache cypress binaries
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress_v1-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress_v1-
+
+      - name: install cypress binaries and verify installation
+        run: |
+          npx cypress install
+          npx cypress cache list
+          npx cypress verify
+          npx cypress info
+          npx cypress version
 
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -114,11 +127,8 @@ jobs:
           docker logs opendata_nginx_1
 
       - name: run cypress e2e tests
-        uses: cypress-io/github-action@v2
-        with:
-          record: false
-        env:
-          TERM: xterm
+        run: |
+          npx cypress run
 
       - name: upload cypress screenshot artifacts
         uses: actions/upload-artifact@v2
@@ -155,9 +165,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node_cdk-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node_cdk-
+            ${{ runner.os }}-node_cdk_v16-
 
       - name: install cdk npm packages and verify installation
         working-directory: cdk
@@ -201,9 +211,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node_cdk-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node_cdk-
+            ${{ runner.os }}-node_cdk_v16-
 
       - name: install cdk npm packages and verify installation
         working-directory: cdk
