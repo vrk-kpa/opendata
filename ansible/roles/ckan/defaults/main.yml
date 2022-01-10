@@ -62,6 +62,7 @@ ckan_plugin_order:
   - openapi_view
   - statistics
   - forcetranslation # Must be the last plugin in loading order to override translations with ckanext-ytp_main
+  - ytp_recommendation
 
 ckan_plugins: "{{ ckan_plugin_order|join(' ') }}"
 ckan_aws_plugins: cloudstorage
@@ -110,6 +111,7 @@ ckan_extensions:
   - ckanext-openapiviewer
   - ckanext-statistics
   - ckanext-sentry
+  - ckanext-ytp_recommendation
 
 ckan_extensions_with_translations:
   - ckanext-ytp_request

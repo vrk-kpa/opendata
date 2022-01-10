@@ -1,0 +1,28 @@
+# Translations template for ckanext-ytp_recommendation.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the
+# ckanext-ytp_recommendation project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-ytp_recommendation 0.0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-11-08 19:46+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.4\n"
+
+#: ckanext/ytp_recommendation/templates/recommendations/snippets/recommendations.html:18
+msgid "recommendations"
+msgstr ""
+
+#: ckanext/ytp_recommendation/templates/recommendations/snippets/recommendations.html:31
+msgid "Recommend"
+msgstr ""
+
