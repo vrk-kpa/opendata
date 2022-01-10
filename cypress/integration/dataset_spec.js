@@ -57,9 +57,9 @@ describe('Dataset tests', function() {
 
     cy.get('button[name=save].suomifi-button-primary').click();
 
-    // if cloudstorage is enabled, we wait for window.location to change, can't use dataset name as redirection is done with id
+    // if cloudstorage is enabled, we wait for window.location to change
     if (Cypress.env('cloudStorageEnabled')){
-      cy.location('pathname', {timeout: 20000}).should('include', '/data/dataset/');
+      cy.location('pathname', {timeout: 20000}).should('include', dataset_name);
     }
 
     cy.get('a').contains(resource_name).click();
