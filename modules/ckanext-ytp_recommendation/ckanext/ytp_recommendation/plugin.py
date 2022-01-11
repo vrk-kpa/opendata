@@ -1,7 +1,7 @@
 import ckan.plugins as plugins
 from ckan.plugins import toolkit
 
-from ckanext.ytp_recommendation import controller, helpers
+from ckanext.ytp_recommendation import views, helpers, cli
 from ckanext.ytp_recommendation.logic.action import create, get
 
 log = __import__('logging').getLogger(__name__)
@@ -14,6 +14,7 @@ class Ytp_RecommendationPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IPackageController, inherit=True)
+    plugins.implements(plugins.IClick)
 
     # IConfigurer
     def update_config(self, config):
@@ -60,4 +61,9 @@ class Ytp_RecommendationPlugin(plugins.SingletonPlugin):
 
     # IBlueprint
     def get_blueprint(self):
-        return controller.get_blueprints()
+        return views.get_blueprints()
+
+    # IClick
+
+    def get_commands(self):
+        return cli.get_commands()
