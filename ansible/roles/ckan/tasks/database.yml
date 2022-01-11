@@ -170,3 +170,13 @@
   with_items: "{{ ckan_config_files }}"
   tags:
     - skip_ansible_lint
+
+- name: Initialize recommendations database
+  shell: >-
+    {{ ckan_virtual_environment }}/bin/paster
+    --plugin=ckanext-ytp_recommendation recommendation init
+    --config='{{ item.file }}'
+    chdir='{{ ckan_virtual_environment }}'
+  with_items: "{{ ckan_config_files }}"
+  tags:
+    - skip_ansible_lint
