@@ -173,9 +173,9 @@
 
 - name: Initialize recommendations database
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-ytp_recommendation recommendation init
+    {{ ckan_virtual_environment }}/bin/ckan
     --config='{{ item.file }}'
+    recommendations init
     chdir='{{ ckan_virtual_environment }}'
   with_items: "{{ ckan_config_files }}"
   tags:
