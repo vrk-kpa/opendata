@@ -1,15 +1,15 @@
 # Translations template for ckanext-ytp_main.
-# Copyright (C) 2021 ORGANIZATION
+# Copyright (C) 2022 ORGANIZATION
 # This file is distributed under the same license as the ckanext-ytp_main
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-12-27 11:08+0000\n"
+"POT-Creation-Date: 2022-01-13 08:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1554,6 +1554,19 @@ msgid ""
 "When you are done, click the \"Save order\" -button."
 msgstr ""
 
+#: ckanext/ytp/public/vendor/bootstrap-table/dist/bootstrap-table.js:10
+#: ckanext/ytp/public/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.js:10
+msgid "div"
+msgstr ""
+
+#: ckanext/ytp/public/vendor/bootstrap-table/dist/extensions/auto-refresh/bootstrap-table-auto-refresh.js:10
+#: ckanext/ytp/public/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.js:10
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/custom-view/bootstrap-table-custom-view.js:9
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/key-events/bootstrap-table-key-events.js:9
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/reorder-columns/bootstrap-table-reorder-columns.js:9
+msgid "iframe"
+msgstr ""
+
 #: ckanext/ytp/templates/disqus_comments.html:2
 msgid "Give feedback"
 msgstr ""
@@ -1904,6 +1917,10 @@ msgstr ""
 msgid "Add data"
 msgstr ""
 
+#: ckanext/ytp/templates/package/read.html:32
+msgid "High value dataset"
+msgstr ""
+
 #: ckanext/ytp/templates/package/resource_edit_base.html:3
 msgid "Edit resource"
 msgstr ""
@@ -2023,27 +2040,27 @@ msgid "Technical extra information"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:255
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:100
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:108
 msgid "Stats"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:256
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:101
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:109
 msgid "Last 30 days, updated daily"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:259
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:108
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:116
 msgid "All time downloads:"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:269
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:116
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:124
 msgid "Year"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:269
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:116
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:124
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
 msgstr ""
@@ -2175,18 +2192,22 @@ msgid "Openness score"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:91
+msgid "Recommend dataset"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:99
 msgid "Follow dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:106
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:114
 msgid "Downloads during year"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:107
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:115
 msgid "All time visits:"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:116
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:124
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
 msgid "Visits"
 msgstr ""
