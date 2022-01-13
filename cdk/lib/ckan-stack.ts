@@ -277,6 +277,8 @@ export class CkanStack extends Stack {
       SENTRY_ENV: props.environment,
       CKAN_SYSADMIN_NAME: pSysadminUser.stringValue,
       CKAN_SYSADMIN_EMAIL: pSysadminEmail.stringValue,
+      // dynatrace oneagent
+      DT_CUSTOM_PROP: `Environment=${props.environment}`,
     };
 
     const ckanContainerSecrets: { [key: string]: ecs.Secret; } = {
@@ -447,6 +449,12 @@ export class CkanStack extends Stack {
 
     ckanServiceAsg.scaleOnCpuUtilization('ckanServiceAsgPolicy', {
       targetUtilizationPercent: 50,
+      scaleInCooldown: Duration.seconds(60),
+      scaleOutCooldown: Duration.seconds(60),
+    });
+
+    ckanServiceAsg.scaleOnMemoryUtilization('ckanServiceAsgPolicyMem', {
+      targetUtilizationPercent: 80,
       scaleInCooldown: Duration.seconds(60),
       scaleOutCooldown: Duration.seconds(60),
     });

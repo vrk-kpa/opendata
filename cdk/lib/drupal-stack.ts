@@ -217,6 +217,8 @@ export class DrupalStack extends Stack {
       USERS_2_USER: pUsers[2].user.stringValue,
       USERS_2_EMAIL: pUsers[2].email.stringValue,
       USERS_2_ROLES: pUsers[2].roles.stringValue,
+      // dynatrace oneagent
+      DT_CUSTOM_PROP: `Environment=${props.environment}`,
     };
 
     let drupalContainerSecrets: { [key: string]: ecs.Secret; } = {
@@ -356,6 +358,12 @@ export class DrupalStack extends Stack {
 
     drupalServiceAsg.scaleOnCpuUtilization('drupalServiceAsgPolicy', {
       targetUtilizationPercent: 50,
+      scaleInCooldown: Duration.seconds(60),
+      scaleOutCooldown: Duration.seconds(60),
+    });
+
+    drupalServiceAsg.scaleOnMemoryUtilization('drupalServiceAsgPolicyMem', {
+      targetUtilizationPercent: 80,
       scaleInCooldown: Duration.seconds(60),
       scaleOutCooldown: Duration.seconds(60),
     });

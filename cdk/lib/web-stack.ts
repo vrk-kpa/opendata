@@ -121,6 +121,8 @@ export class WebStack extends Stack {
         CKAN_PORT: '5000',
         DRUPAL_HOST: `drupal.${props.namespace.namespaceName}`,
         DRUPAL_PORT: '9000',
+        // dynatrace oneagent
+        DT_CUSTOM_PROP: `Environment=${props.environment}`,
       },
       logging: ecs.LogDrivers.awsLogs({
         logGroup: nginxLogGroup,
