@@ -27,7 +27,8 @@
     "launch_block_device_mappings": [{
       "device_name": "/dev/sda1",
       "encrypted": true,
-      "kms_key_id": "{{ user `aws_ami_encryption_key_id` }}"
+      "kms_key_id": "{{ user `aws_ami_encryption_key_id` }}",
+      "delete_on_termination": true
     }],
     "shutdown_behavior": "terminate",
     "user_data": "#!/bin/bash\n/sbin/shutdown -h +60 \"Scheduled shutdown\"",
