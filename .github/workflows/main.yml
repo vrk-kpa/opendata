@@ -42,7 +42,7 @@ jobs:
             "baseUrl": "http://localhost",
             "projectId": "ssb2ut",
             "env": {
-              "resetDB": true,
+              "resetDB": false,
               "cloudStorageEnabled": false,
               "docker": true
             }
