@@ -8,139 +8,139 @@ env:
   COMPOSE_DOCKER_CLI_BUILD: 1
 
 jobs:
-  test-e2e:
-    name: test-e2e
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    concurrency:
-      group: ${{ github.ref }}/test-e2e
-      cancel-in-progress: true
-    permissions:
-      id-token: write
-      contents: read
-    env:
-      CI: 1
-      TERM: xterm
-    steps:
-      - name: checkout
-        uses: actions/checkout@v2
+#   test-e2e:
+#     name: test-e2e
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 60
+#     concurrency:
+#       group: ${{ github.ref }}/test-e2e
+#       cancel-in-progress: true
+#     permissions:
+#       id-token: write
+#       contents: read
+#     env:
+#       CI: 1
+#       TERM: xterm
+#     steps:
+#       - name: checkout
+#         uses: actions/checkout@v2
 
-      - name: setup docker buildx
-        uses: docker/setup-buildx-action@v1
+#       - name: setup docker buildx
+#         uses: docker/setup-buildx-action@v1
 
-      - name: install nodejs v16
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16
+#       - name: install nodejs v16
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: 16
 
-      - name: configure environment
-        shell: bash
-        run: |
-          # configure cypress
-          cat <<EOT > cypress.json
-          {
-            "baseUrl": "http://localhost",
-            "projectId": "ssb2ut",
-            "env": {
-              "resetDB": false,
-              "cloudStorageEnabled": false,
-              "docker": true
-            }
-          }
-          EOT
-          # configure docker
-          cp -f docker/.env.template docker/.env
-          sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
-          sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
-        env:
-          REGISTRY: ${{ secrets.REGISTRY }}
-          REPOSITORY: ${{ secrets.REPOSITORY }}
+#       - name: configure environment
+#         shell: bash
+#         run: |
+#           # configure cypress
+#           cat <<EOT > cypress.json
+#           {
+#             "baseUrl": "http://localhost",
+#             "projectId": "ssb2ut",
+#             "env": {
+#               "resetDB": false,
+#               "cloudStorageEnabled": false,
+#               "docker": true
+#             }
+#           }
+#           EOT
+#           # configure docker
+#           cp -f docker/.env.template docker/.env
+#           sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
+#           sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
+#         env:
+#           REGISTRY: ${{ secrets.REGISTRY }}
+#           REPOSITORY: ${{ secrets.REPOSITORY }}
 
-      - name: cache node_modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node_e2e_v3-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_e2e_v3-
+#       - name: cache node_modules
+#         uses: actions/cache@v2
+#         with:
+#           path: ~/.npm
+#           key: ${{ runner.os }}-node_e2e_v3-${{ hashFiles('**/package-lock.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-node_e2e_v3-
 
-      - name: install npm packages
-        run: |
-          npm install
-        env:
-          CYPRESS_INSTALL_BINARY: 0
+#       - name: install npm packages
+#         run: |
+#           npm install
+#         env:
+#           CYPRESS_INSTALL_BINARY: 0
 
-      - name: verify cypress binaries not installed
-        run: |
-          npx cypress cache path
-          npx cypress cache list
+#       - name: verify cypress binaries not installed
+#         run: |
+#           npx cypress cache path
+#           npx cypress cache list
 
-      - name: cache cypress binaries
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress_v3-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-cypress_v3-
+#       - name: cache cypress binaries
+#         uses: actions/cache@v2
+#         with:
+#           path: ~/.cache/Cypress
+#           key: ${{ runner.os }}-cypress_v3-${{ hashFiles('**/package.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-cypress_v3-
 
-      - name: install cypress binaries and verify installation
-        run: |
-          npx cypress install
-          npx cypress cache list
-          npx cypress verify
-          npx cypress info
-          npx cypress version
+#       - name: install cypress binaries and verify installation
+#         run: |
+#           npx cypress install
+#           npx cypress cache list
+#           npx cypress verify
+#           npx cypress info
+#           npx cypress version
 
-      - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
-          role-session-name: github-actions
-          aws-region: eu-west-1
+#       - name: configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
+#           role-session-name: github-actions
+#           aws-region: eu-west-1
 
-      - name: login to AWS ECR
-        id: login
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
+#       - name: login to AWS ECR
+#         id: login
+#         uses: aws-actions/amazon-ecr-login@v1
+#         with:
+#           registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
 
-      - name: bring services up
-        working-directory: docker
-        run: |
-          docker-compose -p opendata up --build -d
+#       - name: bring services up
+#         working-directory: docker
+#         run: |
+#           docker-compose -p opendata up --build -d
 
-      - name: wait until services have started
-        shell: bash
-        run: |
-          # wait for services to start properly
-          while [[ $(curl -L --write-out '%{http_code}' --silent --output /dev/null http://localhost) != "200" ]]; do
-            echo "waiting for services to start up and initialize ..."
-            sleep 5s
-          done
-          sleep 5s
-          # print the list of containers
-          docker ps -a
-          # print logs to debug errors
-          docker logs opendata_ckan_1
-          docker logs opendata_drupal_1
-          docker logs opendata_solr_1
-          docker logs opendata_nginx_1
+#       - name: wait until services have started
+#         shell: bash
+#         run: |
+#           # wait for services to start properly
+#           while [[ $(curl -L --write-out '%{http_code}' --silent --output /dev/null http://localhost) != "200" ]]; do
+#             echo "waiting for services to start up and initialize ..."
+#             sleep 5s
+#           done
+#           sleep 5s
+#           # print the list of containers
+#           docker ps -a
+#           # print logs to debug errors
+#           docker logs opendata_ckan_1
+#           docker logs opendata_drupal_1
+#           docker logs opendata_solr_1
+#           docker logs opendata_nginx_1
 
-      - name: run cypress e2e tests
-        run: |
-          npx cypress run --browser chrome:stable
+#       - name: run cypress e2e tests
+#         run: |
+#           npx cypress run --browser chrome:stable
 
-      - name: upload cypress screenshot artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: screenshots
-          path: cypress/screenshots
+#       - name: upload cypress screenshot artifacts
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: screenshots
+#           path: cypress/screenshots
 
-      - name: upload cypress video artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: videos
-          path: cypress/videos
+#       - name: upload cypress video artifacts
+#         uses: actions/upload-artifact@v2
+#         with:
+#           name: videos
+#           path: cypress/videos
 
   test-cdk:
     name: test-cdk
@@ -190,7 +190,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     needs:
-      - test-e2e
       - test-cdk
     if: github.ref == 'refs/heads/dockerization'
     concurrency:
