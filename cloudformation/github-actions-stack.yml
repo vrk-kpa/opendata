@@ -75,16 +75,25 @@ Resources:
                 Action: "s3:*"
                 Resource: "arn:aws:s3:::cdktoolkit-stagingbucket-*"
 
-        - PolicyName: cfn-service-access
+        - PolicyName: sts-cdk-assume-permission
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: "*"
-                Resource: "*"
-                Condition:
-                  ForAnyValue:StringEquals:
-                    aws:CalledVia: cloudformation.amazonaws.com
+                Action: "sts:AssumeRole"
+                Resource: !Sub "arn:aws:iam::${AWS::AccountId}:role/cdk-*"
+
+        # NOTE: this is not needed since AWS CDK v2 bootstrap improvements!
+        # - PolicyName: cfn-service-access
+        #   PolicyDocument:
+        #     Version: "2012-10-17"
+        #     Statement:
+        #       - Effect: Allow
+        #         Action: "*"
+        #         Resource: "*"
+        #         Condition:
+        #           ForAnyValue:StringEquals:
+        #             aws:CalledVia: cloudformation.amazonaws.com
 
   GitHubOIDC:
     Type: AWS::IAM::OIDCProvider
