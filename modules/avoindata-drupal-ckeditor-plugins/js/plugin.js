@@ -197,4 +197,44 @@
       });
     }
   });
+
+  // Register the plugin within the editor.
+  CKEDITOR.plugins.add('avoindata_external-link', {
+
+    // Register the icons.
+    icons: 'avoindata_external-link',
+
+    // The plugin initialization logic goes inside this method.
+    init: function (editor) {
+
+      let icon_path = this.path + '../icons/avoindata_external-link.svg#path-1';
+
+      editor.addCommand('avoindata_external-link', {
+        exec: function (editor) {
+          let sel = editor.getSelection();
+          let el = sel.getStartElement();
+
+          let svg = new CKEDITOR.dom.element( 'svg' );
+          svg.setAttribute('viewBox', '0 0 24 24');
+          let use = new CKEDITOR.dom.element( 'use' );
+          use.setAttribute('href', icon_path);
+          svg.append(use)
+
+          el.addClass("external");
+          el.append(svg);
+        }
+
+      })
+
+      // Create a toolbar button that executes the above command.
+      editor.ui.addButton('avoindata_external-link', {
+
+        command: 'avoindata_external-link',
+
+        // The path to the icon.
+        icon: this.path + '../icons/avoindata_external-link.svg'
+      })
+    },
+
+  });
 })();
