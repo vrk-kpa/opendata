@@ -5,11 +5,11 @@
 
 (function () {
   // Register the plugin within the editor.
-  CKEDITOR.plugins.add('avoindata_expander', {
+  CKEDITOR.plugins.add('avoindata_ckeditor_buttons', {
     requires: 'widget',
 
     // Register the icons.
-    icons: 'avoindata_expander',
+    icons: 'avoindata_expander, avoindata_note, avoindata_hint, avoindata_example, avoindata_external-link',
 
     // The plugin initialization logic goes inside this method.
     init: function (editor) {
@@ -53,44 +53,27 @@
         // The path to the icon.
         icon: this.path + '../icons/avoindata_expander.png'
       });
-    }
-  });
-
-  // Register the plugin within the editor.
-  CKEDITOR.plugins.add('avoindata_note', {
-    requires: 'widget',
-
-    // Register the icons.
-    icons: 'avoindata_note',
-
-    // The plugin initialization logic goes inside this method.
-    init: function (editor) {
-      editor.addContentsCss(this.path + '../css/style.css');
-
-      // Allow any attributes.
-      editor.config.allowedContent = true;
-      CKEDITOR.dtd.$removeEmpty.i = 0;
 
       editor.widgets.add('avoindata_note', {
         template:
           '<div class="avoindata-note"><div class="avoindata-note-header">' +
-              '<img class="avoindata-note-header-image" src="/resources/images/avoindata-note-icon.svg"/>' +
-              '<h2 class="avoindata-note-title">Title</h2></div>' +
-            '<div class="avoindata-note-content">Content</div></div>',
+          '<img class="avoindata-note-header-image" src="/resources/images/avoindata-note-icon.svg"/>' +
+          '<h2 class="avoindata-note-title">Title</h2></div>' +
+          '<div class="avoindata-note-content">Content</div></div>',
 
         editables: {
           title: {
-              selector: '.avoindata-note-title'
+            selector: '.avoindata-note-title'
           },
           content: {
-              selector: '.avoindata-note-content'
+            selector: '.avoindata-note-content'
           }
         },
 
         requiredContent: 'div(avoindata-note) h2(avoindata-note-title) div(avoindata-note-content)',
 
         upcast: function (element) {
-            return element.name == 'div' && element.hasClass('avoindata-note');
+          return element.name == 'div' && element.hasClass('avoindata-note');
         }
       });
 
@@ -102,40 +85,23 @@
         // The path to the icon.
         icon: this.path + '../icons/avoindata_note.png'
       });
-    }
-  });
-
-  // Register the plugin within the editor.
-  CKEDITOR.plugins.add('avoindata_hint', {
-    requires: 'widget',
-
-    // Register the icons.
-    icons: 'avoindata_hint',
-
-    // The plugin initialization logic goes inside this method.
-    init: function (editor) {
-      editor.addContentsCss(this.path + '../css/style.css');
-
-      // Allow any attributes.
-      editor.config.allowedContent = true;
-      CKEDITOR.dtd.$removeEmpty.i = 0;
 
       editor.widgets.add('avoindata_hint', {
         template:
           '<div class="avoindata-hint">' +
-            '<img class="avoindata-hint-image" src="/resources/images/avoindata-hint-icon.svg"/>' +
-            '<div class="avoindata-hint-content">Content</div></div>',
+          '<img class="avoindata-hint-image" src="/resources/images/avoindata-hint-icon.svg"/>' +
+          '<div class="avoindata-hint-content">Content</div></div>',
 
         editables: {
           content: {
-              selector: '.avoindata-hint-content'
+            selector: '.avoindata-hint-content'
           }
         },
 
         requiredContent: 'div(avoindata-hint) div(avoindata-hint-content)',
 
         upcast: function (element) {
-            return element.name == 'div' && element.hasClass('avoindata-hint');
+          return element.name == 'div' && element.hasClass('avoindata-hint');
         }
       });
 
@@ -147,43 +113,26 @@
         // The path to the icon.
         icon: this.path + '../icons/avoindata_hint.png'
       });
-    }
-  });
-
-  // Register the plugin within the editor.
-  CKEDITOR.plugins.add('avoindata_example', {
-    requires: 'widget',
-
-    // Register the icons.
-    icons: 'avoindata_example',
-
-    // The plugin initialization logic goes inside this method.
-    init: function (editor) {
-      editor.addContentsCss(this.path + '../css/style.css');
-
-      // Allow any attributes.
-      editor.config.allowedContent = true;
-      CKEDITOR.dtd.$removeEmpty.i = 0;
 
       editor.widgets.add('avoindata_example', {
         template:
           '<div class="avoindata-example"><div class="avoindata-example-header">' +
-              '<h2 class="avoindata-example-title">Title</h2></div>' +
-            '<div class="avoindata-example-content">Content</div></div>',
+          '<h2 class="avoindata-example-title">Title</h2></div>' +
+          '<div class="avoindata-example-content">Content</div></div>',
 
         editables: {
           title: {
-              selector: '.avoindata-example-title'
+            selector: '.avoindata-example-title'
           },
           content: {
-              selector: '.avoindata-example-content'
+            selector: '.avoindata-example-content'
           }
         },
 
         requiredContent: 'div(avoindata-example) h2(avoindata-example-title) div(avoindata-example-content)',
 
         upcast: function (element) {
-            return element.name == 'div' && element.hasClass('avoindata-example');
+          return element.name == 'div' && element.hasClass('avoindata-example');
         }
       });
 
@@ -195,17 +144,6 @@
         // The path to the icon.
         icon: this.path + '../icons/avoindata_example.png'
       });
-    }
-  });
-
-  // Register the plugin within the editor.
-  CKEDITOR.plugins.add('avoindata_external-link', {
-
-    // Register the icons.
-    icons: 'avoindata_external-link',
-
-    // The plugin initialization logic goes inside this method.
-    init: function (editor) {
 
       let icon_path = this.path + '../icons/avoindata_external-link.svg#path-1';
 
@@ -234,7 +172,24 @@
         // The path to the icon.
         icon: this.path + '../icons/avoindata_external-link.svg'
       })
-    },
+    }
+  });
 
+  // Register the plugin within the editor.
+  CKEDITOR.plugins.add('avoindata_note', {
+    requires: 'widget',
+
+    // Register the icons.
+    icons: 'avoindata_note',
+
+    // The plugin initialization logic goes inside this method.
+    init: function (editor) {
+      editor.addContentsCss(this.path + '../css/style.css');
+
+      // Allow any attributes.
+      editor.config.allowedContent = true;
+      CKEDITOR.dtd.$removeEmpty.i = 0;
+      
+    }
   });
 })();
