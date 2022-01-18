@@ -8,7 +8,6 @@ use Drupal\editor\Entity\Editor;
 /**
  * Defines the buttons for avoindata ckeditor.
  *
- *
  * @CKEditorPlugin(
  *   id = "avoindata_ckeditor_buttons",
  *   label = @Translation("Avoindata CKEditor buttons")
