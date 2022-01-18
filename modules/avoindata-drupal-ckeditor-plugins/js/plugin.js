@@ -189,7 +189,6 @@
       // Allow any attributes.
       editor.config.allowedContent = true;
       CKEDITOR.dtd.$removeEmpty.i = 0;
-      
     }
   });
 })();
