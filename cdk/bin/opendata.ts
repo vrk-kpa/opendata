@@ -234,9 +234,225 @@ const webStackInfratest = new WebStack(app, 'WebStack-infratest', {
   nginxTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
-    taskMinCapacity: 2,
+    taskMinCapacity: 1,
     taskMaxCapacity: 2,
   },
   drupalService: drupalStackInfratest.drupalService,
   ckanService: ckanStackInfratest.ckanService,
+});
+
+//
+// beta env
+//
+
+const betaProps = {
+  account: '156418131626',
+  region: 'eu-west-1',
+  environment: 'beta',
+  fqdn: 'betaavoindata.fi',
+  secondaryFqdn: 'betaopendata.fi',
+  domainName: 'www.betaavoindata.fi',
+  secondaryDomainName: 'www.betaopendata.fi',
+};
+
+const clusterStackBeta = new ClusterStack(app, 'ClusterStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+});
+
+const fileSystemStackBeta = new FileSystemStack(app, 'FileSystemStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  vpc: clusterStackBeta.vpc,
+  importMigrationFs: true,
+});
+
+const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  vpc: clusterStackBeta.vpc,
+});
+
+const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  vpc: clusterStackBeta.vpc,
+});
+
+const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  vpc: clusterStackBeta.vpc,
+  cacheNodeType: 'cache.t2.micro',
+  cacheEngineVersion: '6.x',
+  cacheNumNodes: 1,
+});
+
+const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  vpc: clusterStackBeta.vpc,
+  cluster: clusterStackBeta.cluster,
+  namespace: clusterStackBeta.namespace,
+  fileSystems: {
+    'ckan': fileSystemStackBeta.ckanFs,
+    'solr': fileSystemStackBeta.solrFs,
+  },
+  migrationFileSystemProps: {
+    securityGroup: fileSystemStackBeta.migrationFsSg!,
+    fileSystem: fileSystemStackBeta.migrationFs!,
+  },
+  databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
+  databaseInstance: databaseStackBeta.databaseInstance,
+  cachePort: cacheStackBeta.cachePort,
+  cacheSecurityGroup: cacheStackBeta.cacheSecurityGroup,
+  cacheCluster: cacheStackBeta.cacheCluster,
+  captchaEnabled: true,
+  analyticsEnabled: true,
+  ckanTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 1,
+    taskMaxCapacity: 3,
+  },
+  ckanCronTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  datapusherTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 1,
+    taskMaxCapacity: 3,
+  },
+  solrTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  ckanCronEnabled: true,
+  archiverSendNotificationEmailsToMaintainers: false,
+  archiverExemptDomainsFromBrokenLinkNotifications: [],
+  cloudstorageEnabled: true,
+});
+
+const drupalStackBeta = new DrupalStack(app, 'DrupalStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  vpc: clusterStackBeta.vpc,
+  cluster: clusterStackBeta.cluster,
+  namespace: clusterStackBeta.namespace,
+  fileSystems: {
+    'drupal': fileSystemStackBeta.drupalFs,
+  },
+  migrationFileSystemProps: {
+    securityGroup: fileSystemStackBeta.migrationFsSg!,
+    fileSystem: fileSystemStackBeta.migrationFs!,
+  },
+  databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
+  databaseInstance: databaseStackBeta.databaseInstance,
+  cachePort: cacheStackBeta.cachePort,
+  cacheSecurityGroup: cacheStackBeta.cacheSecurityGroup,
+  cacheCluster: cacheStackBeta.cacheCluster,
+  captchaEnabled: true,
+  analyticsEnabled: true,
+  drupalTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 1,
+    taskMaxCapacity: 3,
+  },
+});
+
+const webStackBeta = new WebStack(app, 'WebStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  vpc: clusterStackBeta.vpc,
+  cluster: clusterStackBeta.cluster,
+  namespace: clusterStackBeta.namespace,
+  fileSystems: {
+    'drupal': fileSystemStackBeta.drupalFs,
+  },
+  databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
+  databaseInstance: databaseStackBeta.databaseInstance,
+  cachePort: cacheStackBeta.cachePort,
+  cacheSecurityGroup: cacheStackBeta.cacheSecurityGroup,
+  cacheCluster: cacheStackBeta.cacheCluster,
+  loadBalancerCert: loadBalancerStackBeta.loadBalancerCert,
+  loadBalancer: loadBalancerStackBeta.loadBalancer,
+  nginxTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 2,
+    taskMaxCapacity: 4,
+  },
+  drupalService: drupalStackBeta.drupalService,
+  ckanService: ckanStackBeta.ckanService,
 });
