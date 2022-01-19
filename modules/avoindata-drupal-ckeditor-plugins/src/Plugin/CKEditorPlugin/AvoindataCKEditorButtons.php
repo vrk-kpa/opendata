@@ -6,18 +6,14 @@ use Drupal\ckeditor\CKEditorPluginBase;
 use Drupal\editor\Entity\Editor;
 
 /**
- * Defines the "avoindata_expander" plugin.
- *
- * NOTE: The plugin ID ('id' key) corresponds to the CKEditor plugin name.
- * It is the first argument of the CKEDITOR.plugins.add() function in the
- * plugin.js file.
+ * Defines the buttons for avoindata ckeditor.
  *
  * @CKEditorPlugin(
- *   id = "avoindata_expander",
- *   label = @Translation("Avoindata expander")
+ *   id = "avoindata_ckeditor_buttons",
+ *   label = @Translation("Avoindata CKEditor buttons")
  * )
  */
-class AvoindataExpanderCKEditorButton extends CKEditorPluginBase {
+class AvoindataCKEditorButtons extends CKEditorPluginBase {
 
   /**
    * {@inheritdoc}
@@ -31,9 +27,25 @@ class AvoindataExpanderCKEditorButton extends CKEditorPluginBase {
     // the CKEditor plugin you are implementing.
     $path = drupal_get_path('module', 'avoindata_ckeditor_plugins') . '/icons';
     return [
+      'avoindata_example' => [
+        'label' => $this->t('Avoindata example'),
+        'image' => $path . '/avoindata_example.png',
+      ],
       'avoindata_expander' => [
         'label' => $this->t('Avoindata expander'),
         'image' => $path . '/avoindata_expander.png',
+      ],
+      'avoindata_external-link' => [
+        'label' => $this->t('Avoindata external-link'),
+        'image' => $path . '/avoindata_external-link.svg',
+      ],
+      'avoindata_hint' => [
+        'label' => $this->t('Avoindata hint'),
+        'image' => $path . '/avoindata_hint.png',
+      ],
+      'avoindata_note' => [
+        'label' => $this->t('Avoindata note'),
+        'image' => $path . '/avoindata_note.png',
       ],
     ];
   }
