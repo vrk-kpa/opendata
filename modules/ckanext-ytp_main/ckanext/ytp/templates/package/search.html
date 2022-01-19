@@ -103,6 +103,7 @@
   </section>
 
 
+  {% snippet "spatial/snippets/spatial_query.html", default_extent="[[59.85, 20.65], [70.16, 31.52]]" %}
   {% for facet in c.facet_titles %}
     {% set title = c.facet_titles[facet] or h.get_facet_title(name) %}
     {% if facet.startswith('vocab_content_type_')  %}

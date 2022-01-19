@@ -236,6 +236,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         toolkit.add_template_directory(config, 'templates')
 
         toolkit.add_resource('public/javascript/', 'ytp_common_js')
+        toolkit.add_resource('public/css/', 'ytp_common_css')
         toolkit.add_template_directory(config, '../common/templates')
 
     # IDatasetForm
