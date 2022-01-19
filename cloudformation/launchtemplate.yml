@@ -152,7 +152,7 @@ Resources:
         WillReplace: true
     CreationPolicy:
       ResourceSignal:
-        Count: 0
+        Count: 1
         Timeout: PT20M
     Properties:
       HealthCheckGracePeriod: !Ref ScheduledHealthCheckGracePeriod
@@ -168,8 +168,7 @@ Resources:
         - Fn::ImportValue:
             !Sub "avoindata-${EnvironmentName}-solralbtargetgrouparn"
       MaxSize: "1"
-      MinSize: "0"
-      DesiredCapacity: "0"
+      MinSize: "1"
       VPCZoneIdentifier:
         - !ImportValue vpc-SubnetsPrivate
       Tags:
