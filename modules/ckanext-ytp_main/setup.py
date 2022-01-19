@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 version = '0.3'
 
@@ -50,6 +50,7 @@ setup(
         [paste.paster_command]
         ytp-facet-translations = ckanext.ytp.commands:YtpFacetTranslations
         ytp-dataset = ckanext.ytp.commands:ytp_dataset_group
+        ytp-build-models = ckanext.ytp.commands:ytp_build_models_group
         ytp-organization = ckanext.ytp.commands:ytp_org_group
         opendata-group = ckanext.ytp.commands:opendata_group
         opendata-harvest = ckanext.ytp.commands:opendata_harvest_group

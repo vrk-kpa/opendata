@@ -14,8 +14,10 @@ import os
 import re
 import glob
 import six
+import json
 from tools import check_package_deprecation
 from logic import send_package_deprecation_emails
+from model import ytp_main_init_tables, MunicipalityBoundingBox
 
 from ckan.plugins.toolkit import config as c
 
@@ -26,7 +28,6 @@ from ckan.lib.cli import (
     paster_click_group,
     click_config_option,
 )
-
 
 import itertools
 
@@ -93,6 +94,49 @@ class YtpFacetTranslations(CkanCommand):
 ytp_dataset_group = paster_click_group(
     summary=u'Dataset related commands.'
 )
+
+
+ytp_build_models_group = paster_click_group(
+    summary=u'Commands for building and populating DB tables'
+)
+
+
+@ytp_build_models_group.command(
+    u'build_ytp_models',
+    help=u'Build custom models in this module')
+@click.pass_context
+@click_config_option
+def build_ytp_models(ctx, config):
+    load_config(config or ctx.obj['config'])
+    ytp_main_init_tables(model.meta.engine)
+
+
+@ytp_build_models_group.command(
+    u'populate_municipality_bounding_box',
+    help=u'Populate MunicipalityBoundingBox table from json file.')
+@click.pass_context
+@click_config_option
+def populate_municipality_bounding_box(ctx, config):
+    load_config(config or ctx.obj['config'])
+    engine = model.meta.engine
+    path = '{}/data/bbox_data.json'.format(os.path.dirname(__file__))
+
+    if not engine.dialect.has_table(engine, MunicipalityBoundingBox.__tablename__):
+        raise ValidationError('Check database: Table MunicipalityBoundingBox does not exist.')
+    if not os.path.exists(path):
+        raise ValidationError('Check path: JSON file bbox_data.json does not exist.')
+
+    with open(path, 'r') as fh:
+        data = json.load(fh)
+
+    bbox_count = model.Session.query(MunicipalityBoundingBox).count()
+
+    if bbox_count > 0:
+        model.Session.query(MunicipalityBoundingBox).delete()
+        model.Session.commit()
+
+    action = get_action('store_municipality_bbox_data')
+    action(context={}, data_dict={u'bbox_data': data})
 
 
 @ytp_dataset_group.command(
