@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - field.field.node.avoindata_guide_page.field_content
-    - field.field.node.avoindata_guide_page.field_guide_comments
     - field.field.node.avoindata_guide_page.field_page_image
     - image.style.thumbnail
     - node.type.avoindata_guide_page
@@ -31,12 +30,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea_with_summary
-    region: content
-  field_guide_comments:
-    weight: 124
-    settings: {  }
-    third_party_settings: {  }
-    type: disqus_comment
     region: content
   field_page_image:
     weight: 123
