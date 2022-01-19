@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-01-13 08:21+0000\n"
+"POT-Creation-Date: 2022-01-18 17:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -232,7 +232,7 @@ msgid "Unauthorized to edit user %s"
 msgstr ""
 
 #: ckanext/ytp/controller.py:925 ckanext/ytp/controller.py:993
-#: ckanext/ytp/logic.py:41
+#: ckanext/ytp/logic.py:43
 msgid "User not found"
 msgstr ""
 
@@ -255,7 +255,7 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:96 ckanext/ytp/plugin.py:324
+#: ckanext/ytp/helpers.py:96 ckanext/ytp/plugin.py:325
 msgid "Unnamed resource"
 msgstr ""
 
@@ -263,28 +263,28 @@ msgstr ""
 msgid "-"
 msgstr ""
 
-#: ckanext/ytp/logic.py:44
+#: ckanext/ytp/logic.py:46
 msgid "Cannot change username"
 msgstr ""
 
-#: ckanext/ytp/logic.py:46
+#: ckanext/ytp/logic.py:48
 msgid "Cannot change email"
 msgstr ""
 
-#: ckanext/ytp/logic.py:57
+#: ckanext/ytp/logic.py:59
 msgid "Have to be logged in to edit user"
 msgstr ""
 
-#: ckanext/ytp/logic.py:65
+#: ckanext/ytp/logic.py:67
 #, python-format
 msgid "User %s not authorized to edit user %s"
 msgstr ""
 
-#: ckanext/ytp/logic.py:71
+#: ckanext/ytp/logic.py:73
 msgid "Have to be logged in to list users"
 msgstr ""
 
-#: ckanext/ytp/logic.py:77
+#: ckanext/ytp/logic.py:79
 msgid "Have to be logged in to list admins"
 msgstr ""
 
@@ -325,7 +325,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: ckanext/ytp/menu.py:155 ckanext/ytp/plugin.py:272
+#: ckanext/ytp/menu.py:155 ckanext/ytp/plugin.py:273
 #: ckanext/ytp/templates/organization/admin_list.html:31
 #: ckanext/ytp/templates/organization/index.html:10
 #: ckanext/ytp/templates/organization/organization_not_found.html:6
@@ -355,41 +355,41 @@ msgstr ""
 msgid "Publish Data"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:268
+#: ckanext/ytp/plugin.py:269
 msgid "International Benchmarks"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:269 ckanext/ytp/plugin.py:283
+#: ckanext/ytp/plugin.py:270 ckanext/ytp/plugin.py:284
 msgid "Collection Types"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:270
+#: ckanext/ytp/plugin.py:271
 msgid "Popular Tags"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:271 ckanext/ytp/plugin.py:285
+#: ckanext/ytp/plugin.py:272 ckanext/ytp/plugin.py:286
 msgid "Content Types"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:273 ckanext/ytp/plugin.py:286
+#: ckanext/ytp/plugin.py:274 ckanext/ytp/plugin.py:287
 #: ckanext/ytp/translations.py:35
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:275
+#: ckanext/ytp/plugin.py:276
 msgid "Sources"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:276
+#: ckanext/ytp/plugin.py:277
 msgid "Licenses"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:284
+#: ckanext/ytp/plugin.py:285
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 msgid "Tags"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:324
+#: ckanext/ytp/plugin.py:325
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
 msgid "Additional Info"
 msgstr ""
@@ -2139,7 +2139,7 @@ msgstr ""
 msgid "FILTER LIST"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:129
+#: ckanext/ytp/templates/package/search.html:130
 #: ckanext/ytp/templates/package/snippets/resources.html:17
 #: ckanext/ytp/templates/package/snippets/resources_list2.html:2
 #: ckanext/ytp/templates/package/snippets/resources_list3.html:2
@@ -2969,6 +2969,18 @@ msgstr[1] ""
 
 #: ckanext/ytp/templates/spatial/snippets/dataset_map_sidebar.html:17
 msgid "Dataset extent"
+msgstr ""
+
+#: ckanext/ytp/templates/spatial/snippets/spatial_query.html:16
+msgid "Filter by location"
+msgstr ""
+
+#: ckanext/ytp/templates/spatial/snippets/spatial_query.html:17
+msgid "Clear"
+msgstr ""
+
+#: ckanext/ytp/templates/spatial/snippets/spatial_search.html:6
+msgid "Select municipality"
 msgstr ""
 
 #: ckanext/ytp/templates/user/dashboard.html:6
