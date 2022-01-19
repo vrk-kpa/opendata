@@ -27,6 +27,8 @@ This folder contains dockerized versions of the opendata services.
 
 ## Enabling buildkit
 
+Buildkit might be enabled by default, but if the docker builds give you errors, you might want to verify it's enabled by following the instructions below.
+
 https://docs.docker.com/develop/develop-images/build_enhancements/
 
 ### Enable globally
@@ -84,10 +86,6 @@ services:
     build:
       context: ../../opendata-ckan
       target: ckan_development
-      args:
-        SECRET_NPMRC: |
-          *multiline contents of the .npmrc file...*
-          *...*
     ports:
       - "5000:5000"
     environment:
@@ -98,15 +96,17 @@ services:
       - ../../opendata-ckan/modules:/srv/app/modules
       - /srv/app/modules/opendata-assets/node_modules/
 
+  ckan_cron:
+    image: opendata/ckan:latest
+    volumes:
+      - ../../opendata-ckan/modules:/srv/app/modules
+      - /srv/app/modules/opendata-assets/node_modules/
+
   drupal:
     image: opendata/drupal:latest
     build:
       context: ../../opendata-drupal
       target: drupal_development
-      args:
-        SECRET_NPMRC: |
-          *multiline contents of the .npmrc file...*
-          *...*
     volumes:
       - ../../opendata-drupal/modules/avoindata-header/:/opt/drupal/web/modules/avoindata-header
       - ../../opendata-drupal/modules/avoindata-servicemessage/:/opt/drupal/web/modules/avoindata-servicemessage
@@ -128,16 +128,15 @@ services:
 
   nginx:
     image: opendata/nginx:latest
+    build:
+      context: ../../opendata-nginx
     volumes:
       - ../../opendata-drupal/modules/avoindata-theme:/var/www/html/themes/avoindata:ro
 
-  # NOTE: You can override the remaining images like this if you wish to use your local images,
-  #       just remember to tag your local images like this!
-  ckan_cron:
-    image: opendata/ckan:latest
-
   solr:
     image: opendata/solr:latest
+    build:
+      context: ../../opendata-solr
 ```
 
 ## Local environment operations
@@ -179,3 +178,15 @@ docker-compose -p opendata up --scale drupal=5 -d
 * drupal
 * ckan
 * datapusher
+
+## Local environment problems
+
+### WSL2 eats all memory
+
+If your PC is low on memory, you might have problems running the containers under docker engine that's running via WSL2. In this case, you can adjust the maximum memory given to WSL2 by editing `C:\Users\{username}\.wslconfig`, below is an example of the file contents.
+
+```ini
+[wsl2]
+memory=4GB
+processors=2
+```
