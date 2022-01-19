@@ -12,6 +12,8 @@ import logging
 import sqlalchemy
 import sqlalchemy.sql
 
+from model import MunicipalityBoundingBox
+
 _select = sqlalchemy.sql.select
 _or_ = sqlalchemy.or_
 _and_ = sqlalchemy.and_
@@ -179,3 +181,23 @@ def package_autocomplete(context, data_dict):
         pkg_list.append(result_dict)
 
     return pkg_list
+
+
+def store_municipality_bbox_data(context, data_dict):
+    objects = []
+    bbox_data = data_dict.get(u'bbox_data')
+
+    for k, v in bbox_data.items():
+        assert len(v) == 4
+        v.sort(key=float)  # Sort to ensure correct order of coordinates
+        objects.append(
+            MunicipalityBoundingBox(
+                name=k,
+                lat_max=v[3],
+                lat_min=v[2],
+                lng_max=v[1],
+                lng_min=v[0]
+            )
+        )
+
+    MunicipalityBoundingBox.bulk_save(objects)

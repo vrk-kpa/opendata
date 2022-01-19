@@ -35,8 +35,8 @@ from sqlalchemy import and_, or_
 from sqlalchemy.sql.expression import false
 
 from flask import Blueprint
-from logic import package_autocomplete
-from views import dataset_autocomplete
+from logic import package_autocomplete, store_municipality_bbox_data
+from views import dataset_autocomplete, get_all_locations
 
 import auth
 import menu
@@ -463,7 +463,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IActions #
     def get_actions(self):
         return {'package_show': action_package_show, 'package_search': action_package_search,
-                'package_autocomplete': package_autocomplete}
+                'package_autocomplete': package_autocomplete, 'store_municipality_bbox_data': store_municipality_bbox_data}
 
     # IValidators
     def get_validators(self):
@@ -507,6 +507,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
         # Add plugin url rules to Blueprint object
         blueprint.add_url_rule(u'/api/util/dataset/autocomplete', view_func=dataset_autocomplete)
+        blueprint.add_url_rule(u'/api/util/dataset/locations', view_func=get_all_locations)
 
         return blueprint
 

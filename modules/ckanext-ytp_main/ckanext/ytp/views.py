@@ -1,7 +1,14 @@
+import logging
+
 import ckan.model as model
 from ckan.common import g, request
 from ckan.logic import get_action
 from ckan.views.api import _finish_ok
+
+from model import MunicipalityBoundingBox
+
+
+log = logging.getLogger(__name__)
 
 
 def dataset_autocomplete():
@@ -20,3 +27,13 @@ def dataset_autocomplete():
 
     resultSet = {u'ResultSet': {u'Result': package_dicts}}
     return _finish_ok(resultSet)
+
+
+def get_all_locations():
+    """Endpoint for getting all geocoded bounding boxes for Finnish municipalities"""
+    all_bboxes = model.Session.query(MunicipalityBoundingBox).all()
+    data = []
+    for bbox in all_bboxes:
+        data.append({'text': bbox.name, 'id': [bbox.lng_min, bbox.lat_min, bbox.lng_max, bbox.lat_max]})
+
+    return _finish_ok({'results': data})
