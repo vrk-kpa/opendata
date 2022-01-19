@@ -4,15 +4,19 @@
  */
 
 (function () {
+
   // Register the plugin within the editor.
   CKEDITOR.plugins.add('avoindata_ckeditor_buttons', {
     requires: 'widget',
 
     // Register the icons.
-    icons: 'avoindata_expander, avoindata_note, avoindata_hint, avoindata_example, avoindata_external-link',
+    icons: 'avoindata_expander, avoindata_note, avoindata_hint, avoindata_example, avoindata_external-link, avoindata_section',
 
     // The plugin initialization logic goes inside this method.
     init: function (editor) {
+      // Register additional dialog for section-element
+      CKEDITOR.dialog.add('avoindata_section', this.path + 'dialogs.js');
+
       editor.addContentsCss(this.path + '../css/style.css');
 
       // Allow any attributes.
@@ -162,7 +166,7 @@
           el.append(svg);
         }
 
-      })
+      });
 
       // Create a toolbar button that executes the above command.
       editor.ui.addButton('avoindata_external-link', {
@@ -171,7 +175,52 @@
 
         // The path to the icon.
         icon: this.path + '../icons/avoindata_external-link.svg'
-      })
+      });
+
+      editor.widgets.add('avoindata_section', {
+        init: function() {
+          // Check if existing data for element is set
+          var id = this.element.getAttribute('id');
+          if (id && id.length > 0) {
+            this.setData('id', id);
+          }
+        },
+        dialog: 'avoindata_section',
+        template:
+        '<div class="avoindata-section">' +
+        '<h3 class="avoindata-section__title">Title</h3>' +
+        '<div class="avoindata-section__content">Content</div>' +
+        '</div>'
+        ,
+        editables: {
+          title: {
+            selector: '.avoindata-section__title'
+          },
+          content: {
+            selector: '.avoindata-section__content'
+          }
+        },
+        requiredContent: 'div(avoindata-section) h3(avoindata-section__title) div(avoindata-section__content)',
+        upcast: function (element) {
+          return element.name == 'div' && element.hasClass('avoindata-section');
+        },
+        data: function() {
+          if (this.data.id == '') {
+            this.element.removeAttribute('id');
+          } else {
+            this.element.setAttribute('id', this.data.id);
+          }
+        }
+      });
+
+      // Create a toolbar button that executes the above command.
+      editor.ui.addButton('avoindata_section', {
+        // The command to execute on click.
+        command: 'avoindata_section',
+
+        // The path to the icon.
+        icon: this.path + '../icons/avoindata_section.png'
+      });
     }
   });
 

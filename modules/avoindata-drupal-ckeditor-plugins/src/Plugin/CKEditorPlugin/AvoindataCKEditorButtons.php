@@ -47,6 +47,10 @@ class AvoindataCKEditorButtons extends CKEditorPluginBase {
         'label' => $this->t('Avoindata note'),
         'image' => $path . '/avoindata_note.png',
       ],
+      'avoindata_section' => [
+        'label' => $this->t('Avoindata section'),
+        'image' => $path . '/avoindata_section.png',
+      ],
     ];
   }
 
