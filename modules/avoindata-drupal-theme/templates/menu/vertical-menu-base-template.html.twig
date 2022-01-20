@@ -23,9 +23,9 @@ Removed the navbar-nav class to make this a vertical menu
       {% import _self as menus %}
       {% if items %}
         {% if menu_level == 0 %}
-            <ul class="nav" role="menu" aria-labelledby="dropdownMenu">
+          <ol class="nav" role="menu">
         {% else %}
-          <ul class="dropdown-menu vertical-dropdown-menu" role="menu" aria-labelledby="dLabel">
+          <ul class="subnav">
         {% endif %}
         {% for item in items %}
           {%
@@ -45,21 +45,34 @@ Removed the navbar-nav class to make this a vertical menu
                   {% endif %}
                 {% endfor %}
               {% endif %}
-              <li class="dropdown {{ item.in_active_trail ? 'open' }}" >
-                <a href="{{ item.url }}" class="dropdown-toggle {{ item.in_active_trail and not child_selected ? 'active' }}"><span class="link-content">{{ item.title }}<span class="pull-right"><i class="fas {{ item.in_active_trail ? 'fa-angle-up' : 'fa-angle-down'}}"></i></span></span></a>
+              <li class="nav__item {{ item.in_active_trail ? 'open' }}" >
+                <a href="{{ item.url }}" class="nav__item__link {{ item.in_active_trail and not child_selected ? 'active' }}">
+                  <span class="nav__item__link__content">{{ item.title }}</span>
+                </a>
                 {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
               </li>
             {% else %}
-              <li class="dropdown-submenu">
-                <a href="{{ item.url }}"><span class="link-content">{{ item.title }}</span></a>
+              <li class="nav__item">
+                <a class="nav__item__link" href="{{ item.url }}">
+                  <span class="nav__item__link__content">{{ item.title }}</span>
+                </a>
                 {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
               </li>
             {% endif %}
           {% else %}
-            <li {{ item.attributes.addClass(item_classes) }}><a href="{{ item.url }}" {{ item.attributes.addClass(item_classes) }}><span class="link-content">{{ item.title }}</span></a></li>
+            <li class="nav__item" {{ item.attributes.addClass(item_classes) }}>
+              <a class="nav__item__link" href="{{ item.url }}" {{ item.attributes.addClass(item_classes) }}>
+                <span class="nav__item__link__content">{{ item.title }}</span>
+              </a>
+            </li>
           {% endif %}
         {% endfor %}
-        </ul>
+
+        {% if menu_level == 0 %}
+          </ol>
+        {% else %}
+          </ul>
+        {% endif %}
       {% endif %}
     {% endmacro %}
 
