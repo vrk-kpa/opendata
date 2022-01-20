@@ -23,11 +23,3 @@ updates:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
-- package-ecosystem: npm
-  directory: "/modules/ytp-assets-common/"
-  schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
-  registries:
-  - npm-registry-npm-fontawesome-com

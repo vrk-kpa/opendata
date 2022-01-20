@@ -71,7 +71,7 @@ class AvoindataApplicationHandler implements TrustedCallbackInterface
       $app_date = \Drupal::service('date.formatter')->format(strtotime($app['metadata_created']), 'avoindata_long_date');
       $app_notes = $app['notes_translated'][$currentLang] ?? "";
 
-      if (array_key_exists($currentLang, $app['category'])) {
+      if (is_array($app['category']) && array_key_exists($currentLang, $app['category'])) {
         $app_categories = implode(",", $app['category'][$currentLang]);
       } else {
         $app_categories = "";
