@@ -178,7 +178,7 @@
       });
 
       editor.widgets.add('avoindata_section', {
-        init: function() {
+        init: function () {
           // Check if existing data for element is set
           var id = this.element.getAttribute('id');
           if (id && id.length > 0) {
@@ -189,9 +189,7 @@
         template:
         '<div class="avoindata-section">' +
         '<h3 class="avoindata-section__title">Title</h3>' +
-        '<div class="avoindata-section__content">Content</div>' +
-        '</div>'
-        ,
+        '<div class="avoindata-section__content">Content</div></div>',
         editables: {
           title: {
             selector: '.avoindata-section__title'
@@ -204,7 +202,7 @@
         upcast: function (element) {
           return element.name == 'div' && element.hasClass('avoindata-section');
         },
-        data: function() {
+        data: function () {
           if (this.data.id == '') {
             this.element.removeAttribute('id');
           } else {
