@@ -1,6 +1,6 @@
 ---
 ckan_site_id: "default"
-ckan_version: "2.8.8"
+ckan_version: "2.8.10"
 ckan_site_protocol: "http"
 ckan_plugins_default: stats scheming_datasets scheming_groups scheming_organizations fluent
 # order matters, when templates call super()
