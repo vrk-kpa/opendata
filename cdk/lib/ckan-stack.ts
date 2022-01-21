@@ -218,6 +218,7 @@ export class CkanStack extends Stack {
       'openapi_view',
       'statistics',
       'forcetranslation',
+      'ytp_recommendation',
     ];
 
     const ckanContainerEnv: { [key: string]: string; } = {
