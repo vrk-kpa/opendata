@@ -186,16 +186,16 @@ jobs:
         run: |
           npm run test
 
-  deploy-infratest:
-    name: deploy-infratest
+  deploy-beta:
+    name: deploy-beta
     runs-on: ubuntu-latest
     timeout-minutes: 60
     needs:
       - test-e2e
       - test-cdk
-    if: github.ref == 'refs/heads/dockerization'
+    if: github.ref == 'refs/heads/master'
     concurrency:
-      group: ${{ github.ref }}/deploy-infratest
+      group: ${{ github.ref }}/deploy-beta
     permissions:
       id-token: write
       contents: read
@@ -248,9 +248,9 @@ jobs:
       - name: synthesize cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk synth WebStack-infratest
+          $(npm bin)/cdk synth WebStack-beta
 
       - name: deploy cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk deploy WebStack-infratest --require-approval=never
+          $(npm bin)/cdk deploy WebStack-beta --require-approval=never
