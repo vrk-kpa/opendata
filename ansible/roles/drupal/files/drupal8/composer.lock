@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "110c6288e58e5fa190e10051940470db",
+    "content-hash": "b8f77b8c9974ca34e07f8cdd4f1e47a8",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2858,17 +2858,17 @@
         },
         {
             "name": "drupal/easy_breadcrumb",
-            "version": "1.15.0",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/easy_breadcrumb.git",
-                "reference": "8.x-1.15"
+                "reference": "2.0.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/easy_breadcrumb-8.x-1.15.zip",
-                "reference": "8.x-1.15",
-                "shasum": "447c1ae946bdba97da97880aae5980f97baf720b"
+                "url": "https://ftp.drupal.org/files/projects/easy_breadcrumb-2.0.2.zip",
+                "reference": "2.0.2",
+                "shasum": "56dd4ab4a3795451210a5f8b835807cf3d38344e"
             },
             "require": {
                 "drupal/core": "^8 || ^9"
@@ -2876,8 +2876,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.15",
-                    "datestamp": "1615310482",
+                    "version": "2.0.2",
+                    "datestamp": "1639947418",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
