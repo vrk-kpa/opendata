@@ -1,0 +1,112 @@
+name: Code Quality Checks
+
+on:
+  push:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  flake8:
+    name: flake8
+    runs-on: ubuntu-latest
+    container: python:2.7
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Install codestyle requirements
+        run: |
+          pip install -r codestyle-requirements.txt
+      - name: Run linting
+        run: |
+          flake8 modules --count --max-line-length=127 --statistics
+
+  code-sniffer:
+    name: code-sniffer
+    runs-on: ubuntu-latest
+    container: php:7.4
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Composer
+        run: |
+          EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
+          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+          if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]
+          then
+              >&2 echo 'ERROR: Invalid installer checksum'
+              rm composer-setup.php
+              exit 1
+          fi
+          php composer-setup.php --quiet --version=2.1.14
+          RESULT=$?
+          rm composer-setup.php
+          mv composer.phar /usr/local/bin/composer
+          exit $RESULT
+        shell: sh
+      - name: Set up environment
+        run : |
+          apt-get update &&  apt-get install -y zlib1g-dev libsqlite3-dev libpng-dev libzip-dev unzip git
+          docker-php-ext-install gd
+      - run: php -d memory_limit=-1 /usr/local/bin/composer install -n --prefer-dist
+        working-directory: ./ansible/roles/drupal/files/drupal8/
+      - name: Ignore warnings on exit code
+        run: ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
+        working-directory: ./ansible/roles/drupal/files/drupal8/
+      - name: Run codesniffer for drupal standard
+        run: ./vendor/bin/phpcs --standard=Drupal $GITHUB_WORKSPACE/modules --ignore=ckanext*,ytp-assets-common
+        working-directory: ./ansible/roles/drupal/files/drupal8/
+      - name: Run codesniffer for drupal practice
+        run: ./vendor/bin/phpcs --standard=DrupalPractice $GITHUB_WORKSPACE/modules --ignore=ckanext*,ytp-assets-common
+        working-directory: ./ansible/roles/drupal/files/drupal8/
+
+  ansible-lint:
+    name: ansible-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Set up environment
+        run: pip install ansible-lint[community]
+      - name: Run ansible-lint for single-server.yml
+        run: ansible-lint single-server.yml
+        working-directory: ./ansible
+
+  stylelint:
+    name: stylelint
+    runs-on: ubuntu-latest
+    container: node:14
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          cat <<EOT >> .npmrc
+          @fortawesome:registry=https://npm.fontawesome.com/
+          //npm.fontawesome.com/:_authToken=$NPM_TOKEN
+          EOT
+          npm ci
+        working-directory: ./modules/ytp-assets-common
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: run stylelint
+        run: $(npm bin)/stylelint "src/less"
+        working-directory: ./modules/ytp-assets-common
+
+  slack:
+    name: Slack notification
+    runs-on: ubuntu-latest
+    needs:
+      - flake8
+      - code-sniffer
+      - stylelint
+      - ansible-lint
+    if: failure() && github.ref == 'refs/heads/master'
+    steps:
+      - uses: 8398a7/action-slack@v3
+        with:
+          status: 'failure'
+          fields: repo,message,author,action,ref
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
