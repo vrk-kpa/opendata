@@ -128,7 +128,8 @@ jobs:
 
       - name: run cypress e2e tests
         run: |
-          npx cypress run --browser chrome:stable
+          npx cypress run --browser chrome:stable --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+        continue-on-error: true
 
       - name: upload cypress screenshot artifacts
         uses: actions/upload-artifact@v2
