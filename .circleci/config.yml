@@ -589,13 +589,6 @@ workflows:
           filters:
             branches:
               only: master
-      - beta-deploy:
-          requires:
-            - cypress-web
-            - packer-scheduled
-          filters:
-            branches:
-              only: master
   prod_deploy:
     jobs:
       - prod-deploy:
