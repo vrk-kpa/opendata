@@ -20,7 +20,7 @@ ckan_plugin_order:
   - spatial_query
   - csw_harvester
   - drupal8
-  #- datarequests
+  - datarequests
   - ytp_organizations
   - ytp_request
   - hierarchy_display
@@ -89,7 +89,7 @@ ckan_extensions:
   - ckanext-ytp_main
   - ckanext-hierarchy
   - ckanext-matomo
-  # - ckanext-datarequests
+  - ckanext-datarequests
   - ckanext-harvest
   - ckanext-report
   - ckanext-spatial
@@ -127,7 +127,7 @@ ckan_extensions_with_translations:
   - ckanext-advancedsearch
   - ckanext-scheming
   - ckanext-statistics
-  # - ckanext-datarequests
+  - ckanext-datarequests
   - ckanext-matomo
 
 # enable matomo analytics can either be false, or dict of id account type
