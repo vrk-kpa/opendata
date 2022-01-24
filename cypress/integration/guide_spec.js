@@ -1,10 +1,6 @@
 // Quides page search with and without login to service
 describe('Guides search functionality', function() {
-  // TODO: Haku tehdään sekä kirjautuneena että ilman sitä
-  // TODO: Haun Teko
-
   // Without login
-  //it('Guides search basic', function() {
   it('Visitor opens guide front page', function () {
     cy.visit("/");
     cy.visit("/fi/opas");
