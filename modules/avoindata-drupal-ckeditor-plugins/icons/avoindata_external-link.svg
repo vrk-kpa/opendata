@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 59.1 (101010) - https://sketch.com -->
+    <title>6990a5e9-d304-4d45-aac7-ebff73a0ed7c@1.00x</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <path d="M12,4 C12.552,4 13,4.448 13,5 C13,5.552 12.552,6 12,6 L4,6 L4,20 L19,20 L19,12 C19,11.448 19.448,11 20,11 C20.552,11 21,11.448 21,12 L21,20 C21,21.103 20.103,22 19,22 L4,22 C2.897,22 2,21.103 2,20 L2,6 C2,4.897 2.897,4 4,4 L12,4 Z M22,1 C22.552,1 23,1.448 23,2 L23,7.657 C23,8.209 22.552,8.657 22,8.657 C21.448,8.657 21,8.209 21,7.657 L20.999,4.414 L13.207,12.207 C13.012,12.402 12.756,12.5 12.5,12.5 C12.244,12.5 11.988,12.402 11.793,12.207 C11.402,11.817 11.402,11.183 11.793,10.793 L19.585,3 L16.343,3 C15.791,3 15.343,2.552 15.343,2 C15.343,1.448 15.791,1 16.343,1 L22,1 Z" id="path-1"></path>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons/Basic-Icons/Link-External">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Mask" fill="#292929" xlink:href="#path-1"></use>
+            <g id="*-UI/*-Colors/Depth/Base/depthDark27" mask="url(#mask-2)" fill="#5F686D">
+                <rect id="Base" x="0" y="0" width="24" height="24"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

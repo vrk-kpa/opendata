@@ -9,8 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cypress:open": "cypress open",
-    "reset:db": "node ./bin/db_reset.js",
-    "gulp": "gulp"
+    "reset:db": "node ./bin/db_reset.js"
   },
   "repository": {
     "type": "git",
@@ -23,43 +22,9 @@
   },
   "homepage": "https://github.com/vrk-kpa/opendata#readme",
   "devDependencies": {
-    "cypress": "^8.3.0",
-    "autoprefixer": "^10.3.4",
-    "del": "^6.0.0",
-    "extend": "^3.0.2",
-    "glob-watcher": "^5.0.5",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^8.0.0",
-    "gulp-base64-inline": "~1.0.6",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-imagemin": "^7.1.0",
-    "gulp-inline-css": "^4.0.0",
-    "gulp-less": "^5.0.0",
-    "gulp-livereload": "~4.0.2",
-    "gulp-npm-dist": "^1.0.3",
-    "gulp-rename": "^2.0.0",
-    "gulp-sourcemaps": "^3.0.0",
-    "gulp-stylelint": "^13.0.0",
-    "gulp-template": "^5.0.0",
-    "gulp-terser": "^2.0.1",
-    "imagemin-jpegoptim": "^7.0.0",
-    "less": "^3.12.2",
-    "pump": "^3.0.0",
-    "stylelint": "^13.13.1",
-    "stylelint-config-standard": "^22.0.0"
+    "cypress": "^8.3.0"
   },
   "dependencies": {
-    "pg": "^8.7.1",
-    "@fortawesome/fontawesome-pro": "^5.15.3",
-    "bootstrap": "^3.4.1",
-    "bootstrap-table": "^1.18.3",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.49",
-    "jstree": "^3.3.12",
-    "moment": "^2.29.1",
-    "select2-bootstrap-css": "^1.4.6"
-  },
-  "browserslist": [
-    "last 2 versions"
-  ]
+    "pg": "^8.7.1"
+  }
 }

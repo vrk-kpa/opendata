@@ -71,5 +71,7 @@ server.key
 
 # MacOS related
 .DS_Store
-tmp
-.vim
+
+# Docker related
+docker/.env
+docker/docker-compose.override.yml

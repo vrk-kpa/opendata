@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - field.field.node.avoindata_guide_page.field_content
-    - field.field.node.avoindata_guide_page.field_guide_comments
     - field.field.node.avoindata_guide_page.field_page_image
     - node.type.avoindata_guide_page
   module:
@@ -22,13 +21,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: text_default
-    region: content
-  field_guide_comments:
-    weight: 104
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: disqus_comment
     region: content
   field_page_image:
     weight: 103
