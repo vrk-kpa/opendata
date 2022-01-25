@@ -71,6 +71,11 @@ export class DrupalStack extends Stack {
     const pSmtpPort = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpPort', {
       parameterName: `/${props.environment}/opendata/common/smtp_port`,
     });
+
+    const pDisqusDomain = ssm.StringParameter.fromStringParameterAttributes(this, 'pDisqusDomain', {
+      parameterName: `/${props.environment}/opendata/common/disqus_domain`,
+    });
+
     const pUsers: DrupalUser[] = [
       new DrupalUser(this, props.environment, 0),
       new DrupalUser(this, props.environment, 1),
@@ -208,6 +213,7 @@ export class DrupalStack extends Stack {
       SMTP_FROM: pSmtpFrom.stringValue,
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
+      DISQUS_DOMAIN: pDisqusDomain.stringValue,
       USERS_0_USER: pUsers[0].user.stringValue,
       USERS_0_EMAIL: pUsers[0].email.stringValue,
       USERS_0_ROLES: pUsers[0].roles.stringValue,
