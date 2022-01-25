@@ -18,6 +18,7 @@ export class DrupalStack extends Stack {
   readonly drupalFsCoreAccessPoint: efs.IAccessPoint;
   readonly drupalFsSitesAccessPoint: efs.IAccessPoint;
   readonly drupalFsThemesAccessPoint: efs.IAccessPoint;
+  readonly drupalFsModulesAccessPoint: efs.IAccessPoint;
   readonly drupalFsResourcesAccessPoint: efs.IAccessPoint;
   readonly migrationFsAccessPoint?: efs.IAccessPoint;
   readonly drupalService: ecs.FargateService;
@@ -127,6 +128,19 @@ export class DrupalStack extends Stack {
         uid: '0',
       },
     });
+
+    this.drupalFsModulesAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsModulesAccessPoint', {
+      path: '/drupal_modules',
+      createAcl: {
+        ownerGid: '0',
+        ownerUid: '0',
+        permissions: '0755',
+      },
+      posixUser: {
+        gid: '0',
+        uid: '0',
+      },
+    });
     
     this.drupalFsResourcesAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsResourcesAccessPoint', {
       path: '/drupal_resources',
@@ -171,6 +185,16 @@ export class DrupalStack extends Stack {
             fileSystemId: props.fileSystems['drupal'].fileSystemId,
             authorizationConfig: {
               accessPointId: this.drupalFsThemesAccessPoint.accessPointId,
+            },
+            transitEncryption: 'ENABLED',
+          },
+        },
+        {
+          name: 'drupal_modules',
+          efsVolumeConfiguration: {
+            fileSystemId: props.fileSystems['drupal'].fileSystemId,
+            authorizationConfig: {
+              accessPointId: this.drupalFsModulesAccessPoint.accessPointId,
             },
             transitEncryption: 'ENABLED',
           },
@@ -317,6 +341,10 @@ export class DrupalStack extends Stack {
       containerPath: '/opt/drupal/web/themes',
       readOnly: false,
       sourceVolume: 'drupal_themes',
+    }, {
+      containerPath: '/opt/drupal/web/modules',
+      readOnly: false,
+      sourceVolume: 'drupal_modules',
     }, {
       containerPath: '/var/www/resources',
       readOnly: false,

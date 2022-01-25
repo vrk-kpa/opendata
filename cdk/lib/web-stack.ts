@@ -53,6 +53,13 @@ export class WebStack extends Stack {
           },
         },
         {
+          name: 'drupal_modules',
+          efsVolumeConfiguration: {
+            fileSystemId: props.fileSystems['drupal'].fileSystemId,
+            rootDirectory: '/drupal_modules',
+          },
+        },
+        {
           name: 'drupal_resources',
           efsVolumeConfiguration: {
             fileSystemId: props.fileSystems['drupal'].fileSystemId,
@@ -149,6 +156,10 @@ export class WebStack extends Stack {
       containerPath: '/var/www/html/themes',
       readOnly: true,
       sourceVolume: 'drupal_themes',
+    }, {
+      containerPath: '/var/www/html/modules',
+      readOnly: true,
+      sourceVolume: 'drupal_modules',
     }, {
       containerPath: '/var/www/resources',
       readOnly: true,
