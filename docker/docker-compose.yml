@@ -158,7 +158,7 @@ services:
       interval: 15s
       timeout: 5s
       retries: 5
-      start_period: 15s
+      start_period: 60s
 
   datapusher:
     image: keitaro/ckan-datapusher:${DATAPUSHER_IMAGE_TAG}
@@ -237,7 +237,7 @@ services:
     volumes:
       - drupal_data:/opt/drupal/web/sites/default/files
     healthcheck:
-      test: ["CMD-SHELL", "ps -aux | grep -o '[p]hp-fpm: master'"]
+      test: ["CMD-SHELL", "ps -aux | grep -o '[a]pache2 -DFOREGROUND'"]
       interval: 15s
       timeout: 5s
       retries: 5

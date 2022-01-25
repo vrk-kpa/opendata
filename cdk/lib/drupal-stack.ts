@@ -15,10 +15,7 @@ import { DrupalUser } from './drupal-user';
 import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 
 export class DrupalStack extends Stack {
-  readonly drupalFsCoreAccessPoint: efs.IAccessPoint;
-  readonly drupalFsSitesAccessPoint: efs.IAccessPoint;
-  readonly drupalFsThemesAccessPoint: efs.IAccessPoint;
-  readonly drupalFsResourcesAccessPoint: efs.IAccessPoint;
+  readonly drupalFsDataAccessPoint: efs.IAccessPoint;
   readonly migrationFsAccessPoint?: efs.IAccessPoint;
   readonly drupalService: ecs.FargateService;
 
@@ -89,47 +86,8 @@ export class DrupalStack extends Stack {
     // get repositories
     const drupalRepo = ecr.Repository.fromRepositoryArn(this, 'drupalRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/drupal`);
 
-    this.drupalFsCoreAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsCoreAccessPoint', {
-      path: '/drupal_core',
-      createAcl: {
-        ownerGid: '0',
-        ownerUid: '0',
-        permissions: '0755',
-      },
-      posixUser: {
-        gid: '0',
-        uid: '0',
-      },
-    });
-
-    this.drupalFsSitesAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsSitesAccessPoint', {
+    this.drupalFsDataAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsSitesAccessPoint', {
       path: '/drupal_sites',
-      createAcl: {
-        ownerGid: '0',
-        ownerUid: '0',
-        permissions: '0755',
-      },
-      posixUser: {
-        gid: '0',
-        uid: '0',
-      },
-    });
-
-    this.drupalFsThemesAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsThemesAccessPoint', {
-      path: '/drupal_themes',
-      createAcl: {
-        ownerGid: '0',
-        ownerUid: '0',
-        permissions: '0755',
-      },
-      posixUser: {
-        gid: '0',
-        uid: '0',
-      },
-    });
-    
-    this.drupalFsResourcesAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsResourcesAccessPoint', {
-      path: '/drupal_resources',
       createAcl: {
         ownerGid: '0',
         ownerUid: '0',
@@ -146,41 +104,11 @@ export class DrupalStack extends Stack {
       memoryLimitMiB: props.drupalTaskDef.taskMem,
       volumes: [
         {
-          name: 'drupal_core',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['drupal'].fileSystemId,
-            authorizationConfig: {
-              accessPointId: this.drupalFsCoreAccessPoint.accessPointId,
-            },
-            transitEncryption: 'ENABLED',
-          },
-        },
-        {
           name: 'drupal_sites',
           efsVolumeConfiguration: {
             fileSystemId: props.fileSystems['drupal'].fileSystemId,
             authorizationConfig: {
-              accessPointId: this.drupalFsSitesAccessPoint.accessPointId,
-            },
-            transitEncryption: 'ENABLED',
-          },
-        },
-        {
-          name: 'drupal_themes',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['drupal'].fileSystemId,
-            authorizationConfig: {
-              accessPointId: this.drupalFsThemesAccessPoint.accessPointId,
-            },
-            transitEncryption: 'ENABLED',
-          },
-        },
-        {
-          name: 'drupal_resources',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['drupal'].fileSystemId,
-            authorizationConfig: {
-              accessPointId: this.drupalFsResourcesAccessPoint.accessPointId,
+              accessPointId: this.drupalFsDataAccessPoint.accessPointId,
             },
             transitEncryption: 'ENABLED',
           },
@@ -292,7 +220,7 @@ export class DrupalStack extends Stack {
         streamPrefix: 'drupal-service',
       }),
       healthCheck: {
-        command: ['CMD-SHELL', 'ps -aux | grep -o "[p]hp-fpm: master"'],
+        command: ['CMD-SHELL', 'ps -aux | grep -o "[a]pache2 -DFOREGROUND"'],
         interval: Duration.seconds(15),
         timeout: Duration.seconds(5),
         retries: 10,
@@ -301,26 +229,14 @@ export class DrupalStack extends Stack {
     });
 
     drupalContainer.addPortMappings({
-      containerPort: 9000,
+      containerPort: 80,
       protocol: ecs.Protocol.TCP,
     });
 
     drupalContainer.addMountPoints({
-      containerPath: '/opt/drupal/web/core',
-      readOnly: false,
-      sourceVolume: 'drupal_core',
-    }, {
-      containerPath: '/opt/drupal/web/sites',
+      containerPath: '/opt/drupal/web/sites/default/files',
       readOnly: false,
       sourceVolume: 'drupal_sites',
-    }, {
-      containerPath: '/opt/drupal/web/themes',
-      readOnly: false,
-      sourceVolume: 'drupal_themes',
-    }, {
-      containerPath: '/var/www/resources',
-      readOnly: false,
-      sourceVolume: 'drupal_resources',
     });
 
     const drupalTaskPolicyAllowExec = new iam.PolicyStatement({
@@ -348,7 +264,7 @@ export class DrupalStack extends Stack {
         dnsTtl: Duration.minutes(1),
         name: 'drupal',
         container: drupalContainer,
-        containerPort: 9000,
+        containerPort: 80,
       },
       enableExecuteCommand: true,
     });
