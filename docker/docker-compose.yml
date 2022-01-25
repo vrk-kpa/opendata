@@ -131,7 +131,6 @@ services:
       <<: *env-ckan
     volumes:
       - ckan_data:/srv/app/data
-      - ckan_resources:/var/www/resources
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:5000/api/3/action/status_show || exit 1"]
       interval: 15s
@@ -189,7 +188,7 @@ services:
     depends_on:
       - postgres
     expose:
-      - 9000
+      - 80
     env_file:
       - ./.env.drupal.local
     environment:
@@ -236,10 +235,7 @@ services:
       - USERS_2_PASS=${USERS_2_PASS}
       - USERS_2_EMAIL=${USERS_2_EMAIL}
     volumes:
-      - drupal_core:/opt/drupal/web/core
-      - drupal_sites:/opt/drupal/web/sites
-      - drupal_themes:/opt/drupal/web/themes
-      - drupal_resources:/var/www/resources
+      - drupal_data:/opt/drupal/web/sites/default/files
     healthcheck:
       test: ["CMD-SHELL", "ps -aux | grep -o '[p]hp-fpm: master'"]
       interval: 15s
@@ -268,11 +264,6 @@ services:
       - CKAN_PORT=${CKAN_PORT}
       - DRUPAL_HOST=${DRUPAL_HOST}
       - DRUPAL_PORT=${DRUPAL_PORT}
-    volumes:
-      - drupal_core:/var/www/html/core:ro
-      - drupal_sites:/var/www/html/sites:ro
-      - drupal_themes:/var/www/html/themes:ro
-      - drupal_resources:/var/www/resources:ro
 
   mailhog:
     image: mailhog/mailhog:latest
@@ -295,11 +286,7 @@ volumes:
   postgres_data:
   solr_data:
   ckan_data:
-  ckan_resources:
-  drupal_core:
-  drupal_sites:
-  drupal_themes:
-  drupal_resources:
+  drupal_data:
 
 networks:
   frontend:
