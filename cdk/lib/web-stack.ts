@@ -116,6 +116,8 @@ export class WebStack extends Stack {
         NGINX_PORT: '80',
         DOMAIN_NAME: props.domainName,
         SECONDARY_DOMAIN_NAME: props.secondaryDomainName,
+        BASE_DOMAIN_NAME: props.fqdn,
+        SECONDARY_BASE_DOMAIN_NAME: props.secondaryFqdn,
         NAMESERVER: pNameserver.stringValue,
         CKAN_HOST: `ckan.${props.namespace.namespaceName}`,
         CKAN_PORT: '5000',
