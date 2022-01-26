@@ -57,7 +57,7 @@ from helpers import extra_translation, render_date, service_database_enabled, ge
     get_value_from_extras_by_key, get_field_from_dataset_schema, get_field_from_resource_schema, is_boolean_selected, \
     site_url_with_root_path
 
-from tools import create_system_context, get_original_method
+from tools import create_system_context
 
 from ckan.logic.validators import tag_length_validator, tag_name_validator
 
@@ -137,9 +137,10 @@ def _prettify(field_name):
     return _(field_name.replace('_', ' '))
 
 
+@chained_action
 @logic.side_effect_free
-def action_package_show(context, data_dict):
-    result = get_original_method('ckan.logic.action.get', 'package_show')(context, data_dict)
+def action_package_show(original_action, context, data_dict):
+    result = original_action(context, data_dict)
     organization_data = result.get('organization', None)
     if organization_data:
         organization_id = organization_data.get('id', None)
@@ -150,10 +151,11 @@ def action_package_show(context, data_dict):
     return result
 
 
+@chained_action
 @logic.side_effect_free
-def action_package_search(context, data_dict):
+def action_package_search(original_action, context, data_dict):
     data_dict['sort'] = data_dict.get('sort') or 'metadata_created desc'
-    return get_original_method('ckan.logic.action.get', 'package_search')(context, data_dict)
+    return original_action(context, data_dict)
 
 
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
@@ -663,10 +665,11 @@ def action_user_create(original_action, context, data_dict):
     return result
 
 
+@chained_action
 @logic.side_effect_free
-def action_organization_show(context, data_dict):
+def action_organization_show(original_action, context, data_dict):
     try:
-        result = get_original_method('ckan.logic.action.get', 'organization_show')(context, data_dict)
+        result = original_action(context, data_dict)
     except NotAuthorized:
         raise NotFound
 

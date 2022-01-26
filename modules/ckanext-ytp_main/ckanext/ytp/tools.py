@@ -18,19 +18,6 @@ def create_system_context():
     context['user'] = admin_user['name']
     return context
 
-
-def get_original_method(module_name, method_name):
-    """ In CKAN 2.2 you cannot call original action when you override it.
-        This method fixes the problem.
-        Example get_original_method('ckan.logic.action.create', 'user_create')
-    """
-    __import__(module_name)
-    imported_module = sys.modules[module_name]
-    reimport_module = imp.load_compiled('%s.reimport' % module_name, imported_module.__file__)
-
-    return getattr(reimport_module, method_name)
-
-
 def get_locales():
     """ Return all available locales strings. """
     return [locale.language for locale in helpers.i18n.get_available_locales()]
