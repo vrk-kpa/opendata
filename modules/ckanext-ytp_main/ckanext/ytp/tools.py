@@ -1,8 +1,6 @@
 import iso8601
 import six
 from ckan import model, plugins
-import sys
-import imp
 from ckan.plugins import toolkit
 from ckanext.ytp.converters import to_list_json, from_json_list
 from ckan.lib import helpers
@@ -17,6 +15,7 @@ def create_system_context():
     admin_user = plugins.toolkit.get_action('get_site_user')(context, None)
     context['user'] = admin_user['name']
     return context
+
 
 def get_locales():
     """ Return all available locales strings. """
