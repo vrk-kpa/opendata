@@ -56,6 +56,7 @@ settings:
             - avoindata_hint
             - avoindata_example
             - avoindata_external-link
+            - avoindata_section
   plugins:
     stylescombo:
       styles: 'table.table.table-responsive|Responsive table'

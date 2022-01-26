@@ -1,0 +1,14 @@
+*.js
+!jest.config.js
+*.d.ts
+node_modules
+!lib/
+coverage
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+# cfn-dia outputs
+*.drawio
+*.drawio.bak
