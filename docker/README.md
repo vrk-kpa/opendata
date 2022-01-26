@@ -130,8 +130,6 @@ services:
     image: opendata/nginx:latest
     build:
       context: ../../opendata-nginx
-    volumes:
-      - ../../opendata-drupal/modules/avoindata-theme:/var/www/html/themes/avoindata:ro
 
   solr:
     image: opendata/solr:latest
