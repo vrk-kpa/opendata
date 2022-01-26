@@ -30,36 +30,6 @@ export class WebStack extends Stack {
     const nginxTaskDef = new ecs.FargateTaskDefinition(this, 'nginxTaskDef', {
       cpu: props.nginxTaskDef.taskCpu,
       memoryLimitMiB: props.nginxTaskDef.taskMem,
-      volumes: [
-        {
-          name: 'drupal_core',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['drupal'].fileSystemId,
-            rootDirectory: '/drupal_core',
-          },
-        },
-        {
-          name: 'drupal_sites',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['drupal'].fileSystemId,
-            rootDirectory: '/drupal_sites',
-          },
-        },
-        {
-          name: 'drupal_themes',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['drupal'].fileSystemId,
-            rootDirectory: '/drupal_themes',
-          },
-        },
-        {
-          name: 'drupal_resources',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['drupal'].fileSystemId,
-            rootDirectory: '/drupal_resources',
-          },
-        }
-      ],
     });
 
     // define nginx content security policies
@@ -122,7 +92,7 @@ export class WebStack extends Stack {
         CKAN_HOST: `ckan.${props.namespace.namespaceName}`,
         CKAN_PORT: '5000',
         DRUPAL_HOST: `drupal.${props.namespace.namespaceName}`,
-        DRUPAL_PORT: '9000',
+        DRUPAL_PORT: '80',
         // dynatrace oneagent
         DT_CUSTOM_PROP: `Environment=${props.environment}`,
       },
@@ -135,24 +105,6 @@ export class WebStack extends Stack {
     nginxContainer.addPortMappings({
       containerPort: 80,
       protocol: ecs.Protocol.TCP,
-    });
-
-    nginxContainer.addMountPoints({
-      containerPath: '/var/www/html/core',
-      readOnly: true,
-      sourceVolume: 'drupal_core',
-    }, {
-      containerPath: '/var/www/html/sites',
-      readOnly: true,
-      sourceVolume: 'drupal_sites',
-    }, {
-      containerPath: '/var/www/html/themes',
-      readOnly: true,
-      sourceVolume: 'drupal_themes',
-    }, {
-      containerPath: '/var/www/resources',
-      readOnly: true,
-      sourceVolume: 'drupal_resources',
     });
 
     const nginxServiceHostedZone = r53.HostedZone.fromLookup(this, 'nginxServiceHostedZone', {
@@ -233,7 +185,7 @@ export class WebStack extends Stack {
     nginxService.service.connections.allowFrom(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
     nginxService.service.connections.allowTo(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
     nginxService.service.connections.allowFrom(props.drupalService, ec2.Port.tcp(80), 'drupal - nginx connection');
-    nginxService.service.connections.allowTo(props.drupalService, ec2.Port.tcp(9000), 'nginx - drupal connection');
+    nginxService.service.connections.allowTo(props.drupalService, ec2.Port.tcp(80), 'nginx - drupal connection');
     nginxService.service.connections.allowFrom(props.ckanService, ec2.Port.tcp(80), 'ckan - nginx connection');
     nginxService.service.connections.allowTo(props.ckanService, ec2.Port.tcp(5000), 'nginx - ckan connection');
 

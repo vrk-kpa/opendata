@@ -12,7 +12,7 @@ admin_email: "no-reply@localhost"
 vagrant: false
 secrets_file: does_not_exist
 deployment_environment_id: build_test
-disqus_name: ""
+disqus_name: "avoindata-build"
 database_host: "127.0.0.1"
 solr_host: "127.0.0.1"
 database_ip_range: "127.0.0.1/8"
