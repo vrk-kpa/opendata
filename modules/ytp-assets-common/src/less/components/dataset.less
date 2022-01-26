@@ -42,13 +42,17 @@
       }
     }
   }
+}
 
-  .high-value-dataset {
-    .fa-stack {
-      color: @opendata-brand-complementary;
-      font-size: 1rem;
-      line-height: 2;
-    }
+.high-value-dataset {
+  .fa-stack {
+    // Bigger (2x) icon in stack should be sized as given font size, so divide size-variable by 2
+    font-size: (@font-size__high-value-dataset-icon / 2);
+    width: @font-size__high-value-dataset-icon;
+    height: @font-size__high-value-dataset-icon;
+    line-height: @font-size__high-value-dataset-icon;
+    color: @opendata-brand-complementary;
+    margin-right: @padding-x--small;
   }
 }
 

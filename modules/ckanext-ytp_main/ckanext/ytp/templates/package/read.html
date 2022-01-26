@@ -23,6 +23,15 @@
     {% block primary_content %}
       <section class="dataset-primary-content col-lg-8">
         {% block primary_content_inner %}
+          {% if pkg.highvalue == 'true' %}
+          <h5 class="high-value-dataset">
+            <span class="fa-stack">
+              <i class="fal fa-circle fa-stack-2x"></i>
+              <i class="far fa-star fa-stack-1x"></i>
+            </span>
+            {{ _('High value dataset') }}
+          </h5>
+          {% endif %}
           {% block package_description %}
               {% block package_notes %}
                   {% set notes_formatted = h.extra_translation(pkg, 'notes', markdown=True) %}

@@ -1,0 +1,295 @@
+version: "3.8"
+
+x-env-ckan: &env-ckan
+  CKAN_IMAGE_TAG: ${CKAN_IMAGE_TAG}
+  CKAN_HOST: ${CKAN_HOST}
+  CKAN_PORT: ${CKAN_PORT}
+  DATAPUSHER_HOST: ${DATAPUSHER_HOST}
+  DATAPUSHER_PORT: ${DATAPUSHER_PORT}
+  REDIS_HOST: ${REDIS_HOST}
+  REDIS_PORT: ${REDIS_PORT}
+  REDIS_DB: ${REDIS_DB}
+  SOLR_HOST: ${SOLR_HOST}
+  SOLR_PORT: ${SOLR_PORT}
+  SOLR_PATH: ${SOLR_PATH}
+  NGINX_HOST: ${NGINX_HOST}
+  DB_HOST: ${DB_HOST}
+  DB_CKAN: ${DB_CKAN}
+  DB_CKAN_USER: ${DB_CKAN_USER}
+  DB_CKAN_PASS: ${DB_CKAN_PASS}
+  DB_DATASTORE_READONLY: ${DB_DATASTORE_READONLY}
+  DB_DATASTORE_READONLY_USER: ${DB_DATASTORE_READONLY_USER}
+  DB_DATASTORE_READONLY_PASS: ${DB_DATASTORE_READONLY_PASS}
+  DB_DRUPAL: ${DB_DRUPAL}
+  DB_DRUPAL_USER: ${DB_DRUPAL_USER}
+  DB_DRUPAL_PASS: ${DB_DRUPAL_PASS}
+  DOMAIN_NAME: ${DOMAIN_NAME}
+  SECONDARY_DOMAIN_NAME: ${SECONDARY_DOMAIN_NAME}
+  SITE_PROTOCOL: ${SITE_PROTOCOL}
+  ROLES_CKAN_ADMIN: ${ROLES_CKAN_ADMIN}
+  SYSADMIN_USER: ${SYSADMIN_USER}
+  SYSADMIN_PASS: ${SYSADMIN_PASS}
+  SYSADMIN_EMAIL: ${SYSADMIN_EMAIL}
+  SMTP_HOST: ${SMTP_HOST}
+  SMTP_USERNAME: ${SMTP_USERNAME}
+  SMTP_PASS: ${SMTP_PASS}
+  SMTP_FROM: ${SMTP_FROM}
+  SMTP_TO: ${SMTP_TO}
+  SMTP_FROM_ERROR: ${SMTP_FROM_ERROR}
+  SMTP_TO_ERROR: ${SMTP_TO_ERROR}
+  SMTP_PROTOCOL: ${SMTP_PROTOCOL}
+  SMTP_PORT: ${SMTP_PORT}
+  MATOMO_ENABLED: ${MATOMO_ENABLED}
+  MATOMO_SITE_ID: ${MATOMO_SITE_ID}
+  MATOMO_DOMAIN: ${MATOMO_DOMAIN}
+  MATOMO_SCRIPT_DOMAIN: ${MATOMO_SCRIPT_DOMAIN}
+  MATOMO_TOKEN: ${MATOMO_TOKEN}
+  CAPTCHA_ENABLED: ${CAPTCHA_ENABLED}
+  RECAPTCHA_PUBLIC_KEY: ${RECAPTCHA_PUBLIC_KEY}
+  RECAPTCHA_PRIVATE_KEY: ${RECAPTCHA_PRIVATE_KEY}
+  DISQUS_DOMAIN: ${DISQUS_DOMAIN}
+  SENTRY_DSN: ${SENTRY_DSN}
+  SENTRY_ENV: ${SENTRY_ENV}
+  CKAN_SYSADMIN_NAME: ${SYSADMIN_USER}
+  CKAN_SYSADMIN_PASSWORD: ${SYSADMIN_PASS}
+  CKAN_SYSADMIN_EMAIL: ${SYSADMIN_EMAIL}
+
+services:
+  postgres:
+    build:
+      context: ./postgres
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    environment:
+      - PGDATA=/var/lib/postgresql/data/db
+      - POSTGRES_DB=${DB_CKAN}
+      - POSTGRES_USER=${DB_CKAN_USER}
+      - POSTGRES_PASSWORD=${DB_CKAN_PASS}
+      - DB_DATASTORE_READONLY=${DB_DATASTORE_READONLY}
+      - DB_DATASTORE_READONLY_USER=${DB_DATASTORE_READONLY_USER}
+      - DB_DATASTORE_READONLY_PASS=${DB_DATASTORE_READONLY_PASS}
+      - DB_DRUPAL=${DB_DRUPAL}
+      - DB_DRUPAL_USER=${DB_DRUPAL_USER}
+      - DB_DRUPAL_PASS=${DB_DRUPAL_PASS}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DB_CKAN_USER}"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  redis:
+    image: redis:${REDIS_IMAGE_TAG}
+    restart: on-failure
+    expose:
+      - 6379
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  solr:
+    image: ${REGISTRY}/${REPOSITORY}/solr:${SOLR_IMAGE_TAG}
+    restart: always
+    expose:
+      - 8983
+    networks:
+      - backend
+    volumes:
+      - solr_data:/opt/solr/server/solr/ckan/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail -s http://localhost:8983/solr/ckan/admin/ping?wt=json | grep -o 'OK'"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  ckan:
+    image: ${REGISTRY}/${REPOSITORY}/ckan:${CKAN_IMAGE_TAG}
+    restart: always
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - postgres
+      - redis
+      - solr
+    expose:
+      - 5000
+    env_file:
+      - ./.env.ckan.local
+    environment:
+      <<: *env-ckan
+    volumes:
+      - ckan_data:/srv/app/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:5000/api/3/action/status_show || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 300s
+
+  ckan_cron:
+    image: ${REGISTRY}/${REPOSITORY}/ckan:${CKAN_IMAGE_TAG}
+    restart: always
+    entrypoint: /srv/app/scripts/entrypoint_cron.sh
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - ckan
+    env_file:
+      - ./.env.ckan.local
+    environment:
+      <<: *env-ckan
+    volumes:
+      - ckan_data:/srv/app/data
+    healthcheck:
+      test: ["CMD-SHELL", "ps -aux | grep -o '[c]ron -f' && ps -aux | grep -o '[s]upervisord --configuration'"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  datapusher:
+    image: keitaro/ckan-datapusher:${DATAPUSHER_IMAGE_TAG}
+    restart: always
+    networks:
+      - frontend
+      - backend
+    expose:
+      - 8000
+    env_file:
+      - ./.env.datapusher.local
+    environment:
+      - DATAPUSHER_REWRITE_URL=http://${CKAN_HOST}:${CKAN_PORT}/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8000/status || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  drupal:
+    image: ${REGISTRY}/${REPOSITORY}/drupal:${DRUPAL_IMAGE_TAG}
+    restart: always
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - postgres
+    expose:
+      - 80
+    env_file:
+      - ./.env.drupal.local
+    environment:
+      - DRUPAL_IMAGE_TAG=${DRUPAL_IMAGE_TAG}
+      - DB_HOST=${DB_HOST}
+      - DB_DRUPAL=${DB_DRUPAL}
+      - DB_DRUPAL_USER=${DB_DRUPAL_USER}
+      - DB_DRUPAL_PASS=${DB_DRUPAL_PASS}
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - SECONDARY_DOMAIN_NAME=${SECONDARY_DOMAIN_NAME}
+      - SITE_NAME=${SITE_NAME}
+      - ROLES_CKAN_ADMIN=${ROLES_CKAN_ADMIN}
+      - ROLES_EDITOR=${ROLES_EDITOR}
+      - ROLES_PUBLISHER=${ROLES_PUBLISHER}
+      - SYSADMIN_USER=${SYSADMIN_USER}
+      - SYSADMIN_PASS=${SYSADMIN_PASS}
+      - SYSADMIN_EMAIL=${SYSADMIN_EMAIL}
+      - SYSADMIN_ROLES=${SYSADMIN_ROLES}
+      - NGINX_HOST=${NGINX_HOST}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASS=${SMTP_PASS}
+      - SMTP_FROM=${SMTP_FROM}
+      - SMTP_PROTOCOL=${SMTP_PROTOCOL}
+      - SMTP_PORT=${SMTP_PORT}
+      - MATOMO_ENABLED=${MATOMO_ENABLED}
+      - MATOMO_SITE_ID=${MATOMO_SITE_ID}
+      - MATOMO_DOMAIN=${MATOMO_DOMAIN}
+      - MATOMO_SCRIPT_DOMAIN=${MATOMO_SCRIPT_DOMAIN}
+      - MATOMO_TOKEN=${MATOMO_TOKEN}
+      - CAPTCHA_ENABLED=${CAPTCHA_ENABLED}
+      - DISQUS_DOMAIN=${DISQUS_DOMAIN}
+      - RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY}
+      - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY}
+      - USERS_0_USER=${USERS_0_USER}
+      - USERS_0_PASS=${USERS_0_PASS}
+      - USERS_0_EMAIL=${USERS_0_EMAIL}
+      - USERS_0_ROLES=${USERS_0_ROLES}
+      - USERS_1_USER=${USERS_1_USER}
+      - USERS_1_PASS=${USERS_1_PASS}
+      - USERS_1_EMAIL=${USERS_1_EMAIL}
+      - USERS_1_ROLES=${USERS_1_ROLES}
+      - USERS_2_USER=${USERS_2_USER}
+      - USERS_2_PASS=${USERS_2_PASS}
+      - USERS_2_EMAIL=${USERS_2_EMAIL}
+    volumes:
+      - drupal_data:/opt/drupal/web/sites/default/files
+    healthcheck:
+      test: ["CMD-SHELL", "ps -aux | grep -o '[a]pache2 -DFOREGROUND'"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 300s
+
+  nginx:
+    image: ${REGISTRY}/${REPOSITORY}/nginx:${NGINX_IMAGE_TAG}
+    restart: always
+    networks:
+      - frontend
+    depends_on:
+      - ckan
+      - drupal
+    ports:
+      - "80:80"
+    env_file:
+      - ./.env.nginx.local
+    environment:
+      - NGINX_PORT=${NGINX_PORT}
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - SECONDARY_DOMAIN_NAME=${SECONDARY_DOMAIN_NAME}
+      - NAMESERVER=${NAMESERVER}
+      - CKAN_HOST=${CKAN_HOST}
+      - CKAN_PORT=${CKAN_PORT}
+      - DRUPAL_HOST=${DRUPAL_HOST}
+      - DRUPAL_PORT=${DRUPAL_PORT}
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: on-failure
+    networks:
+      - frontend
+      - backend
+    expose:
+      - 1025
+    ports:
+      - "8025:8025"
+    environment:
+      - MH_HOSTNAME=${SMTP_HOST}
+      - MH_STORAGE=memory
+      - MH_AUTH_FILE=/mailhog/auth
+    volumes:
+      - ./.mh-auth:/mailhog/auth
+
+volumes:
+  postgres_data:
+  solr_data:
+  ckan_data:
+  drupal_data:
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge

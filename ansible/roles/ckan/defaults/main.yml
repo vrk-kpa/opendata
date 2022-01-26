@@ -1,6 +1,6 @@
 ---
 ckan_site_id: "default"
-ckan_version: "2.8.8"
+ckan_version: "2.8.10"
 ckan_site_protocol: "http"
 ckan_plugins_default: stats scheming_datasets scheming_groups scheming_organizations fluent
 # order matters, when templates call super()
@@ -62,6 +62,7 @@ ckan_plugin_order:
   - openapi_view
   - statistics
   - forcetranslation # Must be the last plugin in loading order to override translations with ckanext-ytp_main
+  - ytp_recommendation
 
 ckan_plugins: "{{ ckan_plugin_order|join(' ') }}"
 ckan_aws_plugins: cloudstorage
@@ -110,6 +111,7 @@ ckan_extensions:
   - ckanext-openapiviewer
   - ckanext-statistics
   - ckanext-sentry
+  - ckanext-ytp_recommendation
 
 ckan_extensions_with_translations:
   - ckanext-ytp_request

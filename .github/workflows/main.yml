@@ -1,112 +1,256 @@
-name: Code Quality Checks
+name: CI/CD
 
 on:
   push:
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
 
 jobs:
-  flake8:
-    name: flake8
+  test-e2e:
+    name: test-e2e
     runs-on: ubuntu-latest
-    container: python:2.7
+    timeout-minutes: 60
+    concurrency:
+      group: ${{ github.ref }}/test-e2e
+      cancel-in-progress: true
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      CI: 1
+      TERM: xterm
     steps:
-      - uses: actions/checkout@v2
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: setup docker buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: install nodejs v16
+        uses: actions/setup-node@v2
         with:
-          submodules: recursive
-      - name: Install codestyle requirements
-        run: |
-          pip install -r codestyle-requirements.txt
-      - name: Run linting
-        run: |
-          flake8 modules --count --max-line-length=127 --statistics
+          node-version: 16
 
-  code-sniffer:
-    name: code-sniffer
-    runs-on: ubuntu-latest
-    container: php:7.4
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install Composer
+      - name: configure environment
+        shell: bash
         run: |
-          EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
-          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-          ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
-          if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]
-          then
-              >&2 echo 'ERROR: Invalid installer checksum'
-              rm composer-setup.php
-              exit 1
-          fi
-          php composer-setup.php --quiet --version=2.1.14
-          RESULT=$?
-          rm composer-setup.php
-          mv composer.phar /usr/local/bin/composer
-          exit $RESULT
-        shell: sh
-      - name: Set up environment
-        run : |
-          apt-get update &&  apt-get install -y zlib1g-dev libsqlite3-dev libpng-dev libzip-dev unzip git
-          docker-php-ext-install gd
-      - run: php -d memory_limit=-1 /usr/local/bin/composer install -n --prefer-dist
-        working-directory: ./ansible/roles/drupal/files/drupal8/
-      - name: Ignore warnings on exit code
-        run: ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
-        working-directory: ./ansible/roles/drupal/files/drupal8/
-      - name: Run codesniffer for drupal standard
-        run: ./vendor/bin/phpcs --standard=Drupal $GITHUB_WORKSPACE/modules --ignore=ckanext*,ytp-assets-common
-        working-directory: ./ansible/roles/drupal/files/drupal8/
-      - name: Run codesniffer for drupal practice
-        run: ./vendor/bin/phpcs --standard=DrupalPractice $GITHUB_WORKSPACE/modules --ignore=ckanext*,ytp-assets-common
-        working-directory: ./ansible/roles/drupal/files/drupal8/
-
-  ansible-lint:
-    name: ansible-lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: "3.9"
-      - name: Set up environment
-        run: pip install ansible-lint[community]
-      - name: Run ansible-lint for single-server.yml
-        run: ansible-lint single-server.yml
-        working-directory: ./ansible
-
-  stylelint:
-    name: stylelint
-    runs-on: ubuntu-latest
-    container: node:14
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install Dependencies
-        run: |
-          cat <<EOT >> .npmrc
-          @fortawesome:registry=https://npm.fontawesome.com/
-          //npm.fontawesome.com/:_authToken=$NPM_TOKEN
+          # configure cypress
+          cat <<EOT > cypress.json
+          {
+            "baseUrl": "http://localhost",
+            "projectId": "ssb2ut",
+            "env": {
+              "resetDB": false,
+              "cloudStorageEnabled": false,
+              "docker": true
+            }
+          }
           EOT
-          npm ci
-        working-directory: ./modules/ytp-assets-common
+          # configure docker
+          cp -f docker/.env.template docker/.env
+          sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
+          sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: run stylelint
-        run: $(npm bin)/stylelint "src/less"
-        working-directory: ./modules/ytp-assets-common
+          REGISTRY: ${{ secrets.REGISTRY }}
+          REPOSITORY: ${{ secrets.REPOSITORY }}
 
-  slack:
-    name: Slack notification
-    runs-on: ubuntu-latest
-    needs:
-      - flake8
-      - code-sniffer
-      - stylelint
-      - ansible-lint
-    if: failure() && github.ref == 'refs/heads/master'
-    steps:
-      - uses: 8398a7/action-slack@v3
+      - name: cache node_modules
+        uses: actions/cache@v2
         with:
-          status: 'failure'
-          fields: repo,message,author,action,ref
+          path: ~/.npm
+          key: ${{ runner.os }}-node_e2e_v3-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_e2e_v3-
+
+      - name: install npm packages
+        run: |
+          npm install
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
+          CYPRESS_INSTALL_BINARY: 0
+
+      - name: verify cypress binaries not installed
+        run: |
+          npx cypress cache path
+          npx cypress cache list
+
+      - name: cache cypress binaries
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress_v3-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress_v3-
+
+      - name: install cypress binaries and verify installation
+        run: |
+          npx cypress install
+          npx cypress cache list
+          npx cypress verify
+          npx cypress info
+          npx cypress version
+
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+
+      - name: login to AWS ECR
+        id: login
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
+
+      - name: bring services up
+        working-directory: docker
+        run: |
+          docker-compose -p opendata up --build -d
+
+      - name: wait until services have started
+        shell: bash
+        run: |
+          # wait for services to start properly
+          while [[ $(curl -L --write-out '%{http_code}' --silent --output /dev/null http://localhost) != "200" ]]; do
+            echo "waiting for services to start up and initialize ..."
+            sleep 5s
+          done
+          sleep 5s
+          # print the list of containers
+          docker ps -a
+          # print logs to debug errors
+          docker logs opendata_ckan_1
+          docker logs opendata_drupal_1
+          docker logs opendata_solr_1
+          docker logs opendata_nginx_1
+
+      - name: run cypress e2e tests
+        run: |
+          npx cypress run --browser chrome:stable --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+        continue-on-error: true
+
+      - name: upload cypress screenshot artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: cypress/screenshots
+
+      - name: upload cypress video artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: videos
+          path: cypress/videos
+
+  test-cdk:
+    name: test-cdk
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: ${{ github.ref }}/test-cdk
+      cancel-in-progress: true
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install nodejs v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_cdk_v16-
+
+      - name: install cdk npm packages and verify installation
+        working-directory: cdk
+        run: |
+          npm install
+          $(npm bin)/cdk doctor
+
+      - name: build cdk project
+        working-directory: cdk
+        run: |
+          npm run build
+
+      - name: test cdk project
+        working-directory: cdk
+        run: |
+          npm run test
+
+  deploy-beta:
+    name: deploy-beta
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs:
+      - test-e2e
+      - test-cdk
+    if: github.ref == 'refs/heads/master'
+    concurrency:
+      group: ${{ github.ref }}/deploy-beta
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install nodejs v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_cdk_v16-
+
+      - name: install cdk npm packages and verify installation
+        working-directory: cdk
+        run: |
+          npm install
+          $(npm bin)/cdk doctor
+
+      - name: configure environment
+        shell: bash
+        run: |
+          # configure docker
+          cp -f docker/.env.template docker/.env
+          sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
+          sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
+        env:
+          REGISTRY: ${{ secrets.REGISTRY }}
+          REPOSITORY: ${{ secrets.REPOSITORY }}
+
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+
+      - name: build cdk project
+        working-directory: cdk
+        run: |
+          npm run build
+
+      - name: synthesize cdk stacks
+        working-directory: cdk
+        run: |
+          $(npm bin)/cdk synth WebStack-beta
+
+      - name: deploy cdk stacks
+        working-directory: cdk
+        run: |
+          $(npm bin)/cdk deploy WebStack-beta --require-approval=never

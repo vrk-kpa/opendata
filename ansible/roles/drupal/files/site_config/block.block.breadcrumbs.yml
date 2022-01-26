@@ -1,0 +1,24 @@
+uuid: 14907830-26c5-426d-bf69-b42aa5bc9666
+langcode: fi
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - avoindata
+id: breadcrumbs
+theme: avoindata
+region: header
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  provider: system
+  label_display: visible
+visibility:
+  request_path:
+    id: request_path
+    pages: /guide
+    negate: true
