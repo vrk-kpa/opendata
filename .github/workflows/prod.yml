@@ -1,0 +1,77 @@
+name: Deploy Production
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+jobs:
+  deploy-prod:
+    name: deploy-prod
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    concurrency:
+      group: ${{ github.ref }}/deploy-prod
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install nodejs v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_cdk_v16-
+
+      - name: install cdk npm packages and verify installation
+        working-directory: cdk
+        run: |
+          npm install
+          $(npm bin)/cdk doctor
+
+      - name: configure environment
+        shell: bash
+        run: |
+          # configure docker
+          cp -f docker/.env.template docker/.env
+          sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
+          sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
+        env:
+          REGISTRY: ${{ secrets.REGISTRY }}
+          REPOSITORY: ${{ secrets.REPOSITORY }}
+
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+
+      - name: build cdk project
+        working-directory: cdk
+        run: |
+          npm run build
+
+      - name: synthesize cdk stacks
+        working-directory: cdk
+        run: |
+          $(npm bin)/cdk synth WebStack-prod --quiet
+
+      - name: deploy cdk stacks
+        working-directory: cdk
+        run: |
+          $(npm bin)/cdk deploy WebStack-prod --require-approval=never
