@@ -364,8 +364,8 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     taskMaxCapacity: 3,
   },
   ckanCronTaskDef: {
-    taskCpu: 512,
-    taskMem: 1024,
+    taskCpu: 1024,
+    taskMem: 2048,
     taskMinCapacity: 0,
     taskMaxCapacity: 1,
   },
@@ -455,4 +455,220 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
   },
   drupalService: drupalStackBeta.drupalService,
   ckanService: ckanStackBeta.ckanService,
+});
+
+//
+// prod env
+//
+
+const prodProps = {
+  account: '903124270034',
+  region: 'eu-west-1',
+  environment: 'prod',
+  fqdn: 'avoindata.fi',
+  secondaryFqdn: 'opendata.fi',
+  domainName: 'www.avoindata.fi',
+  secondaryDomainName: 'www.opendata.fi',
+};
+
+const clusterStackProd = new ClusterStack(app, 'ClusterStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+});
+
+const fileSystemStackProd = new FileSystemStack(app, 'FileSystemStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  vpc: clusterStackProd.vpc,
+  importMigrationFs: true,
+});
+
+const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  vpc: clusterStackProd.vpc,
+});
+
+const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  vpc: clusterStackProd.vpc,
+});
+
+const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  vpc: clusterStackProd.vpc,
+  cacheNodeType: 'cache.t2.micro',
+  cacheEngineVersion: '6.x',
+  cacheNumNodes: 1,
+});
+
+const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  vpc: clusterStackProd.vpc,
+  cluster: clusterStackProd.cluster,
+  namespace: clusterStackProd.namespace,
+  fileSystems: {
+    'ckan': fileSystemStackProd.ckanFs,
+    'solr': fileSystemStackProd.solrFs,
+  },
+  migrationFileSystemProps: {
+    securityGroup: fileSystemStackProd.migrationFsSg!,
+    fileSystem: fileSystemStackProd.migrationFs!,
+  },
+  databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
+  databaseInstance: databaseStackProd.databaseInstance,
+  cachePort: cacheStackProd.cachePort,
+  cacheSecurityGroup: cacheStackProd.cacheSecurityGroup,
+  cacheCluster: cacheStackProd.cacheCluster,
+  captchaEnabled: true,
+  analyticsEnabled: true,
+  ckanTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 2,
+    taskMaxCapacity: 4,
+  },
+  ckanCronTaskDef: {
+    taskCpu: 1024,
+    taskMem: 2048,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  datapusherTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 1,
+    taskMaxCapacity: 4,
+  },
+  solrTaskDef: {
+    taskCpu: 1024,
+    taskMem: 2048,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  ckanCronEnabled: true,
+  archiverSendNotificationEmailsToMaintainers: true,
+  archiverExemptDomainsFromBrokenLinkNotifications: ['fmi.fi'],
+  cloudstorageEnabled: true,
+});
+
+const drupalStackProd = new DrupalStack(app, 'DrupalStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  vpc: clusterStackProd.vpc,
+  cluster: clusterStackProd.cluster,
+  namespace: clusterStackProd.namespace,
+  fileSystems: {
+    'drupal': fileSystemStackProd.drupalFs,
+  },
+  migrationFileSystemProps: {
+    securityGroup: fileSystemStackProd.migrationFsSg!,
+    fileSystem: fileSystemStackProd.migrationFs!,
+  },
+  databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
+  databaseInstance: databaseStackProd.databaseInstance,
+  cachePort: cacheStackProd.cachePort,
+  cacheSecurityGroup: cacheStackProd.cacheSecurityGroup,
+  cacheCluster: cacheStackProd.cacheCluster,
+  captchaEnabled: true,
+  analyticsEnabled: true,
+  drupalTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 2,
+    taskMaxCapacity: 4,
+  },
+});
+
+const webStackProd = new WebStack(app, 'WebStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  vpc: clusterStackProd.vpc,
+  cluster: clusterStackProd.cluster,
+  namespace: clusterStackProd.namespace,
+  fileSystems: {
+    'drupal': fileSystemStackProd.drupalFs,
+  },
+  databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
+  databaseInstance: databaseStackProd.databaseInstance,
+  cachePort: cacheStackProd.cachePort,
+  cacheSecurityGroup: cacheStackProd.cacheSecurityGroup,
+  cacheCluster: cacheStackProd.cacheCluster,
+  loadBalancerCert: loadBalancerStackProd.loadBalancerCert,
+  loadBalancer: loadBalancerStackProd.loadBalancer,
+  nginxTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 2,
+    taskMaxCapacity: 6,
+  },
+  drupalService: drupalStackProd.drupalService,
+  ckanService: ckanStackProd.ckanService,
 });
