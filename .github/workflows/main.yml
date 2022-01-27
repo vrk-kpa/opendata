@@ -2,6 +2,7 @@ name: CI/CD
 
 on:
   push:
+  workflow_dispatch:
 
 env:
   DOCKER_BUILDKIT: 1
