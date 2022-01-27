@@ -248,7 +248,7 @@ jobs:
       - name: synthesize cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk synth WebStack-beta
+          $(npm bin)/cdk synth WebStack-beta --quiet
 
       - name: deploy cdk stacks
         working-directory: cdk
