@@ -218,7 +218,7 @@ export class DrupalStack extends Stack {
     });
 
     const drupalContainer = drupalTaskDef.addContainer('drupal', {
-      image: ecs.ContainerImage.fromEcrRepository(drupalRepo, props.envProps.DRUPAL_IMAGE_TAG),
+      image: ecs.ContainerImage.fromEcrRepository(drupalRepo, props.envProps.DRUPAL_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
       environment: drupalContainerEnv,
       secrets: drupalContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
