@@ -73,11 +73,22 @@ export class DrupalStack extends Stack {
       parameterName: `/${props.environment}/opendata/common/disqus_domain`,
     });
 
-    const pUsers: DrupalUser[] = [
-      new DrupalUser(this, props.environment, 0),
-      new DrupalUser(this, props.environment, 1),
-      new DrupalUser(this, props.environment, 2),
-    ];
+    let pUsers: DrupalUser[];
+    switch (props.environment) {
+      case 'prod': {
+        pUsers = [
+          new DrupalUser(this, props.environment, 0),
+          new DrupalUser(this, props.environment, 1),
+        ];
+      } break;
+      default: {
+        pUsers = [
+          new DrupalUser(this, props.environment, 0),
+          new DrupalUser(this, props.environment, 1),
+          new DrupalUser(this, props.environment, 2),
+        ];
+      } break;
+    }
 
     // get secrets
     const sDrupalSecrets = sm.Secret.fromSecretNameV2(this, 'sDrupalSecrets', `/${props.environment}/opendata/drupal`);
@@ -142,15 +153,6 @@ export class DrupalStack extends Stack {
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
       DISQUS_DOMAIN: pDisqusDomain.stringValue,
-      USERS_0_USER: pUsers[0].user.stringValue,
-      USERS_0_EMAIL: pUsers[0].email.stringValue,
-      USERS_0_ROLES: pUsers[0].roles.stringValue,
-      USERS_1_USER: pUsers[1].user.stringValue,
-      USERS_1_EMAIL: pUsers[1].email.stringValue,
-      USERS_1_ROLES: pUsers[1].roles.stringValue,
-      USERS_2_USER: pUsers[2].user.stringValue,
-      USERS_2_EMAIL: pUsers[2].email.stringValue,
-      USERS_2_ROLES: pUsers[2].roles.stringValue,
       // dynatrace oneagent
       DT_CUSTOM_PROP: `Environment=${props.environment}`,
     };
@@ -162,10 +164,14 @@ export class DrupalStack extends Stack {
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
-      USERS_0_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, pUsers[0].passKey),
-      USERS_1_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, pUsers[1].passKey),
-      USERS_2_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, pUsers[2].passKey),
     };
+
+    for (let i = 0; i < pUsers.length; i++) {
+      drupalContainerEnv[`USERS_${i}_USER`] = pUsers[i].user.stringValue;
+      drupalContainerEnv[`USERS_${i}_EMAIL`] = pUsers[i].email.stringValue;
+      drupalContainerEnv[`USERS_${i}_ROLES`] = pUsers[i].roles.stringValue;
+      drupalContainerSecrets[`USERS_${i}_PASS`] = ecs.Secret.fromSecretsManager(sCommonSecrets, pUsers[i].passKey);
+    }
 
     if (props.analyticsEnabled) {
       // get params
@@ -212,7 +218,7 @@ export class DrupalStack extends Stack {
     });
 
     const drupalContainer = drupalTaskDef.addContainer('drupal', {
-      image: ecs.ContainerImage.fromEcrRepository(drupalRepo, props.envProps.DRUPAL_IMAGE_TAG),
+      image: ecs.ContainerImage.fromEcrRepository(drupalRepo, props.envProps.DRUPAL_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
       environment: drupalContainerEnv,
       secrets: drupalContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
@@ -223,9 +229,12 @@ export class DrupalStack extends Stack {
         command: ['CMD-SHELL', 'ps -aux | grep -o "[a]pache2 -DFOREGROUND"'],
         interval: Duration.seconds(15),
         timeout: Duration.seconds(5),
-        retries: 10,
+        retries: 5,
         startPeriod: Duration.seconds(300),
       },
+      linuxParameters: new ecs.LinuxParameters(this, 'drupalContainerLinuxParams', {
+        initProcessEnabled: true,
+      }),
     });
 
     drupalContainer.addPortMappings({

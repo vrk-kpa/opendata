@@ -353,7 +353,7 @@ export class CkanStack extends Stack {
     });
 
     const ckanContainer = ckanTaskDef.addContainer('ckan', {
-      image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG),
+      image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
       environment: ckanContainerEnv,
       secrets: ckanContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
@@ -364,9 +364,12 @@ export class CkanStack extends Stack {
         command: ['CMD-SHELL', 'curl --fail http://localhost:5000/api/3/action/status_show || exit 1'],
         interval: Duration.seconds(15),
         timeout: Duration.seconds(5),
-        retries: 10,
+        retries: 5,
         startPeriod: Duration.seconds(300),
       },
+      linuxParameters: new ecs.LinuxParameters(this, 'ckanContainerLinuxParams', {
+        initProcessEnabled: true,
+      }),
     });
 
     ckanContainer.addPortMappings({
@@ -491,7 +494,7 @@ export class CkanStack extends Stack {
       });
 
       const ckanCronContainer = ckanCronTaskDef.addContainer('ckan_cron', {
-        image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG),
+        image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
         environment: ckanContainerEnv,
         secrets: ckanContainerSecrets,
         entryPoint: ['/srv/app/scripts/entrypoint_cron.sh'],

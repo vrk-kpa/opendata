@@ -72,7 +72,7 @@ export class WebStack extends Stack {
     });
 
     const nginxContainer = nginxTaskDef.addContainer('nginx', {
-      image: ecs.ContainerImage.fromEcrRepository(nginxRepo, props.envProps.NGINX_IMAGE_TAG),
+      image: ecs.ContainerImage.fromEcrRepository(nginxRepo, props.envProps.NGINX_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
       environment: {
         // .env.nginx
         NGINX_ROOT: '/var/www/html',

@@ -28,6 +28,7 @@ test('verify ckan stack resources', () => {
     domainName: 'mock.localhost',
     secondaryDomainName: 'mock.localhost',
     vpc: clusterStack.vpc,
+    backups: true,
     importMigrationFs: true,
   });
   const databaseStack = new DatabaseStack(app, 'DatabaseStack-test', {

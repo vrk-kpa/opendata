@@ -26,6 +26,7 @@ test('verify filesystem stack resources', () => {
     domainName: 'mock.localhost',
     secondaryDomainName: 'mock.localhost',
     vpc: clusterStack.vpc,
+    backups: true,
     importMigrationFs: true,
   });
   // THEN
