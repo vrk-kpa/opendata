@@ -2,6 +2,8 @@ import { Duration, Stack, StackProps } from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as efs from 'aws-cdk-lib/aws-efs';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
+import * as bak from 'aws-cdk-lib/aws-backup';
+import * as evt from 'aws-cdk-lib/aws-events';
 import { Construct } from 'constructs';
 
 import { EfsStackProps } from './efs-stack-props';
@@ -45,6 +47,37 @@ export class FileSystemStack extends Stack {
       },
       encrypted: true,
     });
+
+    if (props.backups) {
+      const backupVault = new bak.BackupVault(this, 'backupVault', {
+        backupVaultName: `opendata-efs-vault-${props.environment}`,
+      });
+  
+      const backupPlan = new bak.BackupPlan(this, 'backupPlan', {
+        backupPlanName: `opendata-efs-plan-${props.environment}`,
+        backupVault: backupVault,
+        backupPlanRules: [
+          new bak.BackupPlanRule({
+            ruleName: `opendata-efs-rule-daily-${props.environment}`,
+            completionWindow: Duration.hours(8),
+            startWindow: Duration.hours(1),
+            scheduleExpression: evt.Schedule.cron({
+              minute: '0',
+              hour: '0',
+            }),
+            deleteAfter: Duration.days(35),
+          })
+        ],
+      });
+
+      backupPlan.addSelection('backupPlanSelection', {
+        resources: [
+          bak.BackupResource.fromEfsFileSystem(this.drupalFs),
+          bak.BackupResource.fromEfsFileSystem(this.ckanFs),
+          // NOTE: we probably don't want to backup solrFs!
+        ]
+      });
+    }
 
     if (props.importMigrationFs) {
       // get params

@@ -4,6 +4,7 @@ import logging
 import six
 import iso8601
 import re
+import types
 import urllib
 import sqlalchemy
 import ckan.lib.base as base
@@ -136,8 +137,8 @@ def _prettify(field_name):
     return _(field_name.replace('_', ' '))
 
 
+@chained_action
 @logic.side_effect_free
-@toolkit.chained_action
 def action_package_show(original_action, context, data_dict):
     result = original_action(context, data_dict)
     organization_data = result.get('organization', None)
@@ -151,6 +152,7 @@ def action_package_show(original_action, context, data_dict):
 
 
 @chained_action
+@logic.side_effect_free
 def action_package_search(original_action, context, data_dict):
     data_dict['sort'] = data_dict.get('sort') or 'metadata_created desc'
     return original_action(context, data_dict)
@@ -647,8 +649,8 @@ def action_user_create(original_action, context, data_dict):
     return result
 
 
+@chained_action
 @logic.side_effect_free
-@toolkit.chained_action
 def action_organization_show(original_action, context, data_dict):
     try:
         result = original_action(context, data_dict)
@@ -1027,7 +1029,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         parsed_url = urllib.parse.urlparse(current_url)
         for patterns, handler, selected in self._menu_map:
             for pattern in patterns:
-                if type(pattern) in (str,):
+                if type(pattern) in types.StringTypes:
                     values = {'language': language}
                     if c.user:
                         values['username'] = c.user

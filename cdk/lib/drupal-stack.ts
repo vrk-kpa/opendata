@@ -15,10 +15,7 @@ import { DrupalUser } from './drupal-user';
 import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 
 export class DrupalStack extends Stack {
-  readonly drupalFsCoreAccessPoint: efs.IAccessPoint;
-  readonly drupalFsSitesAccessPoint: efs.IAccessPoint;
-  readonly drupalFsThemesAccessPoint: efs.IAccessPoint;
-  readonly drupalFsResourcesAccessPoint: efs.IAccessPoint;
+  readonly drupalFsDataAccessPoint: efs.IAccessPoint;
   readonly migrationFsAccessPoint?: efs.IAccessPoint;
   readonly drupalService: ecs.FargateService;
 
@@ -71,11 +68,27 @@ export class DrupalStack extends Stack {
     const pSmtpPort = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpPort', {
       parameterName: `/${props.environment}/opendata/common/smtp_port`,
     });
-    const pUsers: DrupalUser[] = [
-      new DrupalUser(this, props.environment, 0),
-      new DrupalUser(this, props.environment, 1),
-      new DrupalUser(this, props.environment, 2),
-    ];
+
+    const pDisqusDomain = ssm.StringParameter.fromStringParameterAttributes(this, 'pDisqusDomain', {
+      parameterName: `/${props.environment}/opendata/common/disqus_domain`,
+    });
+
+    let pUsers: DrupalUser[];
+    switch (props.environment) {
+      case 'prod': {
+        pUsers = [
+          new DrupalUser(this, props.environment, 0),
+          new DrupalUser(this, props.environment, 1),
+        ];
+      } break;
+      default: {
+        pUsers = [
+          new DrupalUser(this, props.environment, 0),
+          new DrupalUser(this, props.environment, 1),
+          new DrupalUser(this, props.environment, 2),
+        ];
+      } break;
+    }
 
     // get secrets
     const sDrupalSecrets = sm.Secret.fromSecretNameV2(this, 'sDrupalSecrets', `/${props.environment}/opendata/drupal`);
@@ -84,47 +97,8 @@ export class DrupalStack extends Stack {
     // get repositories
     const drupalRepo = ecr.Repository.fromRepositoryArn(this, 'drupalRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/drupal`);
 
-    this.drupalFsCoreAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsCoreAccessPoint', {
-      path: '/drupal_core',
-      createAcl: {
-        ownerGid: '0',
-        ownerUid: '0',
-        permissions: '0755',
-      },
-      posixUser: {
-        gid: '0',
-        uid: '0',
-      },
-    });
-
-    this.drupalFsSitesAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsSitesAccessPoint', {
+    this.drupalFsDataAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsSitesAccessPoint', {
       path: '/drupal_sites',
-      createAcl: {
-        ownerGid: '0',
-        ownerUid: '0',
-        permissions: '0755',
-      },
-      posixUser: {
-        gid: '0',
-        uid: '0',
-      },
-    });
-
-    this.drupalFsThemesAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsThemesAccessPoint', {
-      path: '/drupal_themes',
-      createAcl: {
-        ownerGid: '0',
-        ownerUid: '0',
-        permissions: '0755',
-      },
-      posixUser: {
-        gid: '0',
-        uid: '0',
-      },
-    });
-    
-    this.drupalFsResourcesAccessPoint = props.fileSystems['drupal'].addAccessPoint('drupalFsResourcesAccessPoint', {
-      path: '/drupal_resources',
       createAcl: {
         ownerGid: '0',
         ownerUid: '0',
@@ -141,41 +115,11 @@ export class DrupalStack extends Stack {
       memoryLimitMiB: props.drupalTaskDef.taskMem,
       volumes: [
         {
-          name: 'drupal_core',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['drupal'].fileSystemId,
-            authorizationConfig: {
-              accessPointId: this.drupalFsCoreAccessPoint.accessPointId,
-            },
-            transitEncryption: 'ENABLED',
-          },
-        },
-        {
           name: 'drupal_sites',
           efsVolumeConfiguration: {
             fileSystemId: props.fileSystems['drupal'].fileSystemId,
             authorizationConfig: {
-              accessPointId: this.drupalFsSitesAccessPoint.accessPointId,
-            },
-            transitEncryption: 'ENABLED',
-          },
-        },
-        {
-          name: 'drupal_themes',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['drupal'].fileSystemId,
-            authorizationConfig: {
-              accessPointId: this.drupalFsThemesAccessPoint.accessPointId,
-            },
-            transitEncryption: 'ENABLED',
-          },
-        },
-        {
-          name: 'drupal_resources',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['drupal'].fileSystemId,
-            authorizationConfig: {
-              accessPointId: this.drupalFsResourcesAccessPoint.accessPointId,
+              accessPointId: this.drupalFsDataAccessPoint.accessPointId,
             },
             transitEncryption: 'ENABLED',
           },
@@ -208,15 +152,7 @@ export class DrupalStack extends Stack {
       SMTP_FROM: pSmtpFrom.stringValue,
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
-      USERS_0_USER: pUsers[0].user.stringValue,
-      USERS_0_EMAIL: pUsers[0].email.stringValue,
-      USERS_0_ROLES: pUsers[0].roles.stringValue,
-      USERS_1_USER: pUsers[1].user.stringValue,
-      USERS_1_EMAIL: pUsers[1].email.stringValue,
-      USERS_1_ROLES: pUsers[1].roles.stringValue,
-      USERS_2_USER: pUsers[2].user.stringValue,
-      USERS_2_EMAIL: pUsers[2].email.stringValue,
-      USERS_2_ROLES: pUsers[2].roles.stringValue,
+      DISQUS_DOMAIN: pDisqusDomain.stringValue,
       // dynatrace oneagent
       DT_CUSTOM_PROP: `Environment=${props.environment}`,
     };
@@ -228,10 +164,14 @@ export class DrupalStack extends Stack {
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
-      USERS_0_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, pUsers[0].passKey),
-      USERS_1_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, pUsers[1].passKey),
-      USERS_2_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, pUsers[2].passKey),
     };
+
+    for (let i = 0; i < pUsers.length; i++) {
+      drupalContainerEnv[`USERS_${i}_USER`] = pUsers[i].user.stringValue;
+      drupalContainerEnv[`USERS_${i}_EMAIL`] = pUsers[i].email.stringValue;
+      drupalContainerEnv[`USERS_${i}_ROLES`] = pUsers[i].roles.stringValue;
+      drupalContainerSecrets[`USERS_${i}_PASS`] = ecs.Secret.fromSecretsManager(sCommonSecrets, pUsers[i].passKey);
+    }
 
     if (props.analyticsEnabled) {
       // get params
@@ -278,7 +218,7 @@ export class DrupalStack extends Stack {
     });
 
     const drupalContainer = drupalTaskDef.addContainer('drupal', {
-      image: ecs.ContainerImage.fromEcrRepository(drupalRepo, props.envProps.DRUPAL_IMAGE_TAG),
+      image: ecs.ContainerImage.fromEcrRepository(drupalRepo, props.envProps.DRUPAL_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
       environment: drupalContainerEnv,
       secrets: drupalContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
@@ -286,35 +226,26 @@ export class DrupalStack extends Stack {
         streamPrefix: 'drupal-service',
       }),
       healthCheck: {
-        command: ['CMD-SHELL', 'ps -aux | grep -o "[p]hp-fpm: master"'],
+        command: ['CMD-SHELL', 'ps -aux | grep -o "[a]pache2 -DFOREGROUND"'],
         interval: Duration.seconds(15),
         timeout: Duration.seconds(5),
-        retries: 10,
+        retries: 5,
         startPeriod: Duration.seconds(300),
       },
+      linuxParameters: new ecs.LinuxParameters(this, 'drupalContainerLinuxParams', {
+        initProcessEnabled: true,
+      }),
     });
 
     drupalContainer.addPortMappings({
-      containerPort: 9000,
+      containerPort: 80,
       protocol: ecs.Protocol.TCP,
     });
 
     drupalContainer.addMountPoints({
-      containerPath: '/opt/drupal/web/core',
-      readOnly: false,
-      sourceVolume: 'drupal_core',
-    }, {
-      containerPath: '/opt/drupal/web/sites',
+      containerPath: '/opt/drupal/web/sites/default/files',
       readOnly: false,
       sourceVolume: 'drupal_sites',
-    }, {
-      containerPath: '/opt/drupal/web/themes',
-      readOnly: false,
-      sourceVolume: 'drupal_themes',
-    }, {
-      containerPath: '/var/www/resources',
-      readOnly: false,
-      sourceVolume: 'drupal_resources',
     });
 
     const drupalTaskPolicyAllowExec = new iam.PolicyStatement({
@@ -342,7 +273,7 @@ export class DrupalStack extends Stack {
         dnsTtl: Duration.minutes(1),
         name: 'drupal',
         container: drupalContainer,
-        containerPort: 9000,
+        containerPort: 80,
       },
       enableExecuteCommand: true,
     });

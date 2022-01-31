@@ -15,7 +15,6 @@ import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 
 export class CkanStack extends Stack {
   readonly ckanFsDataAccessPoint: efs.IAccessPoint;
-  readonly ckanFsResourcesAccessPoint: efs.IAccessPoint;
   readonly solrFsDataAccessPoint: efs.IAccessPoint;
   readonly migrationFsAccessPoint?: efs.IAccessPoint;
   readonly ckanService: ecs.FargateService;
@@ -113,19 +112,6 @@ export class CkanStack extends Stack {
         uid: '92',
       },
     });
-    
-    this.ckanFsResourcesAccessPoint = props.fileSystems['ckan'].addAccessPoint('ckanFsResourcesAccessPoint', {
-      path: '/ckan_resources',
-      createAcl: {
-        ownerGid: '92',
-        ownerUid: '92',
-        permissions: '0755',
-      },
-      posixUser: {
-        gid: '92',
-        uid: '92',
-      },
-    });
 
     const ckanTaskDef = new ecs.FargateTaskDefinition(this, 'ckanTaskDef', {
       cpu: props.ckanTaskDef.taskCpu,
@@ -141,16 +127,6 @@ export class CkanStack extends Stack {
             transitEncryption: 'ENABLED',
           },
         },
-        {
-          name: 'ckan_resources',
-          efsVolumeConfiguration: {
-            fileSystemId: props.fileSystems['ckan'].fileSystemId,
-            authorizationConfig: {
-              accessPointId: this.ckanFsResourcesAccessPoint.accessPointId,
-            },
-            transitEncryption: 'ENABLED',
-          },
-        }
       ],
     });
 
@@ -377,7 +353,7 @@ export class CkanStack extends Stack {
     });
 
     const ckanContainer = ckanTaskDef.addContainer('ckan', {
-      image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG),
+      image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
       environment: ckanContainerEnv,
       secrets: ckanContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
@@ -388,9 +364,12 @@ export class CkanStack extends Stack {
         command: ['CMD-SHELL', 'curl --fail http://localhost:5000/api/3/action/status_show || exit 1'],
         interval: Duration.seconds(15),
         timeout: Duration.seconds(5),
-        retries: 10,
+        retries: 5,
         startPeriod: Duration.seconds(300),
       },
+      linuxParameters: new ecs.LinuxParameters(this, 'ckanContainerLinuxParams', {
+        initProcessEnabled: true,
+      }),
     });
 
     ckanContainer.addPortMappings({
@@ -402,10 +381,6 @@ export class CkanStack extends Stack {
       containerPath: '/srv/app/data',
       readOnly: false,
       sourceVolume: 'ckan_data',
-    }, {
-      containerPath: '/var/www/resources',
-      readOnly: false,
-      sourceVolume: 'ckan_resources',
     });
 
     const ckanTaskPolicyAllowExec = new iam.PolicyStatement({
@@ -519,7 +494,7 @@ export class CkanStack extends Stack {
       });
 
       const ckanCronContainer = ckanCronTaskDef.addContainer('ckan_cron', {
-        image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG),
+        image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
         environment: ckanContainerEnv,
         secrets: ckanContainerSecrets,
         entryPoint: ['/srv/app/scripts/entrypoint_cron.sh'],
@@ -532,7 +507,7 @@ export class CkanStack extends Stack {
           interval: Duration.seconds(15),
           timeout: Duration.seconds(5),
           retries: 5,
-          startPeriod: Duration.seconds(15),
+          startPeriod: Duration.seconds(60),
         },
       });
 

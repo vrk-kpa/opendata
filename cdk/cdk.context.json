@@ -49,5 +49,56 @@
   "hosted-zone:account=156418131626:domainName=betaopendata.fi:privateZone=false:region=eu-west-1": {
     "Id": "/hostedzone/Z13YOD1EHMX76M",
     "Name": "betaopendata.fi."
+  },
+  "vpc-provider:account=903124270034:region=eu-west-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-07f19c5db1390f949",
+    "vpcCidrBlock": "10.10.0.0/20",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-0cc2dd2273966611e",
+            "cidr": "10.10.0.0/24",
+            "availabilityZone": "eu-west-1a",
+            "routeTableId": "rtb-0c433b09adbbe2749"
+          },
+          {
+            "subnetId": "subnet-0dc7519393d1042b6",
+            "cidr": "10.10.2.0/24",
+            "availabilityZone": "eu-west-1b",
+            "routeTableId": "rtb-0da22d1f83c1fc152"
+          }
+        ]
+      },
+      {
+        "name": "Private",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-0c63f3099bdbc97c4",
+            "cidr": "10.10.1.0/24",
+            "availabilityZone": "eu-west-1a",
+            "routeTableId": "rtb-09c0faa257e8e4842"
+          },
+          {
+            "subnetId": "subnet-049ee7cc89e4dbc32",
+            "cidr": "10.10.3.0/24",
+            "availabilityZone": "eu-west-1b",
+            "routeTableId": "rtb-0812a48857c4c00a6"
+          }
+        ]
+      }
+    ]
+  },
+  "hosted-zone:account=903124270034:domainName=avoindata.fi:privateZone=false:region=eu-west-1": {
+    "Id": "/hostedzone/Z1LTTU8RWIW15X",
+    "Name": "avoindata.fi."
+  },
+  "hosted-zone:account=903124270034:domainName=opendata.fi:privateZone=false:region=eu-west-1": {
+    "Id": "/hostedzone/Z3VG1N44J6RDQH",
+    "Name": "opendata.fi."
   }
 }

@@ -1,6 +1,6 @@
 ---
 ckan_site_id: "default"
-ckan_version: "2.9.3"
+ckan_version: "2.8.10"
 ckan_site_protocol: "http"
 ckan_plugins_default: stats scheming_datasets scheming_groups scheming_organizations fluent
 # order matters, when templates call super()
@@ -67,9 +67,6 @@ ckan_plugin_order:
 
 ckan_plugins: "{{ ckan_plugin_order|join(' ') }}"
 ckan_aws_plugins: cloudstorage
-
-# path to source files on server
-ckan_source_server_path: "/root/ytp"
 
 # path to use for all installed components
 ckan_server_path: "/srv/ytp"
@@ -218,7 +215,7 @@ ckan_solr_path: solr/ckan
 ckan_max_resource_size: 5000
 
 # ckan setting file paths
-ckan_ini: /etc/ckan/default/ckan.ini
+ckan_ini: /etc/ckan/default/production.ini
 ckan_who_ini: /etc/ckan/default/who.ini
 
 
@@ -233,10 +230,7 @@ ckan_fault_recipients: ""
 ckan_sql_files_to_execute:
   - datastore_permissions.sql.j2
 
-ckan_supervisor_name: 'ckan'
-
 ckan_supervisor_services:
-  - "{{ ckan_supervisor_name }}:"
   - ckan_gather_consumer
   - ckan_fetch_consumer
   - ckan-worker-bulk
@@ -281,26 +275,20 @@ ckan_patches:
   - optimize_group_show
   - optimize_template_loading # https://github.com/ckan/ckan/pull/4774
   - group_include_extras # https://github.com/ckan/ckan/pull/4774
+  - group_admin_protection # https://github.com/ckan/ckan/pull/4821
   - remove_gravatar
   - json_serializable_lazyjsonobject # https://github.com/ckan/ckan/issues/4299
   - implement_is_required_for_image_upload
   - add_drafts_to_search # https://github.com/ckan/ckan/pull/5088
+  - add_group_extra_resource_db_indices
   - add_cache_control_headers_to_flask
   - add_autodynatrace
-  - remove_stacktraces_from_http_errors # https://github.com/ckan/ckan/pull/6345, merged but not in 2.9.4
-  - add_root_path_middleware
+  - fix_invalid_search_facets_template_error # https://github.com/ckan/ckan/pull/6181
+  - remove_stacktraces_from_http_errors # https://github.com/ckan/ckan/pull/6345
   - set_error_email_logging_level_to_error # https://github.com/ckan/ckan/pull/6577
-  - accept_empty_string_in_one_of_validator # https://github.com/ckan/ckan/pull/6612
-  - fix_organization_edit_auth # https://github.com/ckan/ckan/pull/6622
-
-ckan_wsgi_script: /etc/ckan/default/wsgi.py
-ckan_uwsgi_conf: /etc/ckan/default/ckan-uwsgi.ini
-ckan_uwsgi_test_conf: /etc/ckan/default/ckan-uwsgi_test.ini
-ckan_supervisor_conf: /etc/supervisor/conf.d/ckan-uwsgi.conf
 
 ckan_config_files:
-  - template: ckan.ini.j2
-    file: "{{ ckan_ini }}"
+  - file: /etc/ckan/default/production.ini
     db_server: "{{ ckan_postgres.server.host }}"
     db_ckan_username: "{{ ckan_postgres.users.ckan.username }}"
     db_ckan_password: "{{ ckan_postgres.users.ckan.password }}"
