@@ -20,6 +20,9 @@ bootstrap-scripts:
 avoindata-custom-elements:
   js:
     'js/avoindata_custom_elements.js': {}
+cycle-guide-menu-items:
+  js:
+    'js/cycle_guide_menu_items.js': {}
   dependencies:
     - core/jquery
     - core/jquery.once

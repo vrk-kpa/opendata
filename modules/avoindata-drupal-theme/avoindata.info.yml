@@ -29,4 +29,5 @@ libraries:
   - 'avoindata/bootstrap-scripts'
   - 'avoindata/fonts'
   - 'avoindata/avoindata-custom-elements'
+  - 'avoindata/cycle-guide-menu-items'
   - 'avoindata/webfonts'
