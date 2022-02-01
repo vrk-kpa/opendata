@@ -131,16 +131,17 @@ jobs:
       - name: run cypress e2e tests
         run: |
           npx cypress run --browser chrome:stable --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
-        continue-on-error: true
 
       - name: upload cypress screenshot artifacts
         uses: actions/upload-artifact@v2
+        if: failure()
         with:
           name: screenshots
           path: cypress/screenshots
 
       - name: upload cypress video artifacts
         uses: actions/upload-artifact@v2
+        if: failure()
         with:
           name: videos
           path: cypress/videos
