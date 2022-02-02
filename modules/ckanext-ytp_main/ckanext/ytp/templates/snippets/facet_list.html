@@ -81,10 +81,10 @@ within_tertiary
               <p class="module-footer">
                 {% if h.get_param_int('_%s_limit' % name) %}
                   {% if h.has_more_facets(name) %}
-                    <a href="{{ h.remove_url_param('_%s_limit' % name, replace=0, extras=extras, alternative_url=alternative_url) }}" class="read-more">{{ _(show_more_text) }}</a>
+                    <a href="{{ h.remove_url_param('_%s_limit' % name, replace=0, extras=extras, alternative_url=alternative_url) }}" class="read-more" aria-label="{{ _(show_more_text) }}">{{ _('Show more') }}</a>
                   {% endif %}
                 {% else %}
-                  <a href="{{ h.remove_url_param('_%s_limit' % name, extras=extras, alternative_url=alternative_url) }}" class="read-more">{{ _(show_less_text) }}</a>
+                  <a href="{{ h.remove_url_param('_%s_limit' % name, extras=extras, alternative_url=alternative_url) }}" class="read-more" aria-label="{{ _(show_less_text) }}">{{ _('Show less') }}</a>
                 {% endif %}
               </p>
             {% else %}
