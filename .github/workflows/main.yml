@@ -262,9 +262,9 @@ jobs:
         uses: zulip/github-actions-zulip/send-message@v1
         with:
           api-key: ${{ secrets.ZULIP_API_KEY }}
-            email: 'avoindata-bot@turina.dvv.fi'
-            organization-url: 'https://turina.dvv.fi'
-            to: 'avoindata.fi'
-            type: 'stream'
-            topic: 'Beta Deployments'
-            content: 'Beta deployment succeeded! (${{ github.event.head_commit.message }})'
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Beta Deployments'
+          content: 'Beta deployment succeeded! (${{ github.event.head_commit.message }})'
