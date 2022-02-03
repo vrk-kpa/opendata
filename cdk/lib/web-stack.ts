@@ -76,7 +76,7 @@ export class WebStack extends Stack {
       environment: {
         // .env.nginx
         NGINX_ROOT: '/var/www/html',
-        NGINX_MAX_BODY_SIZE: '16M',
+        NGINX_MAX_BODY_SIZE: '5000M',
         NGINX_EXPIRES: '1h',
         NGINX_CSP_DEFAULT_SRC: nginxCspDefaultSrc.join(' '),
         NGINX_CSP_SCRIPT_SRC: nginxCspScriptSrc.join(' '),
