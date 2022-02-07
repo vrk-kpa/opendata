@@ -131,16 +131,17 @@ jobs:
       - name: run cypress e2e tests
         run: |
           npx cypress run --browser chrome:stable --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
-        continue-on-error: true
 
       - name: upload cypress screenshot artifacts
         uses: actions/upload-artifact@v2
+        if: failure()
         with:
           name: screenshots
           path: cypress/screenshots
 
       - name: upload cypress video artifacts
         uses: actions/upload-artifact@v2
+        if: failure()
         with:
           name: videos
           path: cypress/videos
@@ -256,3 +257,14 @@ jobs:
         working-directory: cdk
         run: |
           $(npm bin)/cdk deploy WebStack-beta --require-approval=never >/dev/null 2>&1
+
+      - name: Notify Zulip
+        uses: zulip/github-actions-zulip/send-message@v1
+        with:
+          api-key: ${{ secrets.ZULIP_API_KEY }}
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Beta Deployments'
+          content: 'Beta deployment succeeded! (${{ github.event.head_commit.message }})'
