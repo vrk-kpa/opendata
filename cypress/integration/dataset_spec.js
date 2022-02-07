@@ -24,7 +24,8 @@ describe('Dataset tests', function() {
     const dataset_form_data = {
       "#field-title_translated-fi": dataset_name,
       '#field-notes_translated-fi': 'Dataset test description',
-      '#s2id_autogen1': 'test_keyword {enter}',
+      // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
+      '#s2id_autogen1': {type: 'select2', values: ['test_keyword']},
       '#field-maintainer': 'test maintainer',
       '#field-maintainer_email': 'test.maintainer@example.com'
     };
@@ -86,10 +87,11 @@ describe('Dataset tests', function() {
       '#field-notes_translated-fi': 'test kuvaus',
       '#field-notes_translated-en': 'test description',
       '#field-notes_translated-sv': 'test beskrivning',
-      '#s2id_autogen1': 'test {enter}',
-      '#s2id_autogen2': 'test {enter}',
-      '#s2id_autogen3': 'test {enter}',
-      '#s2id_autogen4': 'test {enter}',
+      // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
+      '#s2id_autogen1': {type: 'select2', values: ['test']},
+      '#s2id_autogen2': {type: 'select2', values: ['test']},
+      '#s2id_autogen3': {type: 'select2', values: ['test']},
+      '#s2id_autogen4': {type: 'select2', values: ['test']},
       '#field-maintainer': 'test maintainer',
       '#field-maintainer_email': 'example@example.com',
       '#field-maintainer_website': 'www.example.com',
@@ -110,9 +112,10 @@ describe('Dataset tests', function() {
       '#field-description_translated-en': 'test description',
       '#field-description_translated-sv': 'test beskrivning',
       '#field-position_info': '56.7 43.5',
-      'label[for=field-temporal_granularity-fi] ~ div .select2-choices input': 'test {enter}',
-      'label[for=field-temporal_granularity-en] ~ div .select2-choices input': 'test {enter}',
-      'label[for=field-temporal_granularity-sv] ~ div .select2-choices input': 'test {enter}',
+      // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
+      'label[for=field-temporal_granularity-fi] ~ div .select2-choices input': {type: 'select2', values: ['test']},
+      'label[for=field-temporal_granularity-en] ~ div .select2-choices input': {type: 'select2', values: ['test']},
+      'label[for=field-temporal_granularity-sv] ~ div .select2-choices input': {type: 'select2', values: ['test']},
       '#field-temporal_coverage_to': '2019-02-02',
       '#field-temporal_coverage_from': '2018-02-02'
     };

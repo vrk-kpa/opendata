@@ -24,7 +24,8 @@ describe('Advanced search tests', () => {
                 data: {
                     "#field-title_translated-fi": 'first dataset',
                     '#field-notes_translated-fi': 'First dataset description',
-                    '#s2id_autogen1': 'test_keyword {enter}',
+                    // FIXME: This should just be 'test_keyword{enter}', see fill_form_fields in support/commands.js
+                    '#s2id_autogen1': {type: 'select2', values: ['test_keyword']},
                     '#field-maintainer': 'test maintainer',
                     '#field-maintainer_email': 'test.maintainer@example.com',
                     '#field-valid_from': '2019-02-04',
@@ -49,7 +50,9 @@ describe('Advanced search tests', () => {
                 data: {
                     "#field-title_translated-fi": 'second dataset',
                     '#field-notes_translated-fi': 'second dataset description with unicorns',
-                    '#s2id_autogen1': 'another_keyword {enter} test_keyword {enter}',
+                    // FIXME: This should just be 'another_keyword {enter} test_keyword {enter}',
+                    // see fill_form_fields in support/commands.js
+                    '#s2id_autogen1': {type: 'select2', values: ['another_keyword', 'test_keyword'] },
                     '#field-maintainer': 'test maintainer',
                     '#field-maintainer_email': 'test.maintainer@example.com',
                     '#field-valid_from': '2019-02-04',

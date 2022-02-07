@@ -21,12 +21,13 @@ describe('Showcase tests', function() {
     const showcase_name = 'test_showcase_with_all_fields';
     const showcase_form_data = {
       '#field-title_translated-fi': showcase_name,
-      '#s2id_autogen1': 'test {enter}',
-      '#s2id_autogen2': 'test {enter}',
-      '#s2id_autogen3': 'test {enter}',
+      // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
+      '#s2id_autogen1': {type: 'select2', values: ['test']},
+      '#s2id_autogen2': {type: 'select2', values: ['test']},
+      '#s2id_autogen3': {type: 'select2', values: ['test']},
       '#s2id_field-showcase_type': 'Mobi{enter}',
-      '#s2id_autogen5': 'Android{enter}',
-      '#field-author': 'test {enter}',
+      '#s2id_autogen5': {type: 'select2', values: ['Android']},
+      '#field-author': {type: 'select2', values: ['test']},
       '#field-author_website': 'www.example.com',
       '#field-application_website': 'www.example.com',
       '#field-store_urls': 'www.example.com',
@@ -71,9 +72,9 @@ describe('Showcase tests', function() {
     cy.approve_organization(organization_name);
     cy.visit(`/data/fi/organization/member_new/${organization_name}`);
     cy.get('#s2id_username').click();
-    cy.get('#s2id_autogen1_search').type('test-publisher{enter}', {force: true});
+    cy.get('#s2id_autogen1_search').type('test-publisher', {force: true}).wait(1000).type('{enter}');
     cy.get('#s2id_role').click();
-    cy.get('#s2id_autogen2_search').type('admin{enter}', {force: true});
+    cy.get('#s2id_autogen2_search').type('admin', {force: true}).wait(1000).type('{enter}');
     cy.get('button[type=submit]').click();
     cy.logout_request();
 
@@ -86,7 +87,8 @@ describe('Showcase tests', function() {
     const dataset_form_data = {
       "#field-title_translated-fi": 'test dataset',
       '#field-notes_translated-fi': 'Dataset test description',
-      '#s2id_autogen1': 'test_keyword {enter}',
+      // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
+      '#s2id_autogen1': {type: 'select2', values: ['test_keyword']},
       '#field-maintainer': 'test maintainer',
       '#field-maintainer_email': 'test.maintainer@example.com',
     }
@@ -145,7 +147,8 @@ describe('Showcase tests', function() {
       '#notifier': 'test author',
       '#notifier_email': 'test@example.com',
       '#field-author': 'Author of showcase',
-      '#s2id_autogen1': 'test_keyword {enter}'
+      // FIXME: This should just be 'test_keyword{enter}', see fill_form_fields in support/commands.js
+      '#s2id_autogen1': {type: 'select2', values: ['test_keyword']}
     }
 
 
