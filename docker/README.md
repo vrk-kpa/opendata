@@ -99,6 +99,10 @@ services:
   ckan_cron:
     image: opendata/ckan:latest
     volumes:
+      # Override the entrypoint script with the one in opendata-ckan
+      - ../../opendata-ckan/ckan/scripts/entrypoint_cron.sh:/srv/app/scripts/entrypoint_cron.sh
+      # Mount the rest of the override files to be installed by entrypoint_cron.sh
+      - ../../opendata-ckan/ckan:/srv/app/overrides
       - ../../opendata-ckan/modules:/srv/app/modules
       - /srv/app/modules/opendata-assets/node_modules/
 
