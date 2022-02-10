@@ -61,16 +61,48 @@ Common configuration template is contained in `docker/.env.template`. Developers
 
 The template contains an already working configuration to get started.
 
-## Local environment secrets
+## Local environment secrets (not required)
 
 By default, the local setup will build the ckan and drupal image frontends using free version of fontawesome.
 
 To use the pro version, you must provide a valid .npmrc file either via BuildKit secrets or Dockerfile build-time ARG. BuildKit secrets are meant for production image builds because they provide a secure way to use secrets during image builds. For local development, use the build-time ARG option instead because it is supported in docker-compose builds.
 
-### Example docker-compose.override.yml for local development
+## Steps for setting up the local dev environment
 
-Create a file `docker-compose.override.yml` to the `docker` directory and populate its contents with the example below and edit your .npmrc file contents in it appropriately.
+If you're not on MacOS, make sure you have enabled Buildkit for docker and docker-compose as mentioned above for your system.
 
+0. Make sure you have copied the `docker/.env.template` to `docker/.env` as mentioned above.
+
+1. Create a file `docker-compose.override.yml` to the `docker` directory and populate its contents with the example below (next topic)
+
+2. Clone the following repos to the {root} path:
+  - opendata (https://github.com/vrk-kpa/opendata)
+  - opendata-ckan (https://github.com/vrk-kpa/opendata-ckan)
+  - opendata-drupal (https://github.com/vrk-kpa/opendata-drupal)
+  - opendata-nginx (https://github.com/vrk-kpa/opendata-nginx)
+  - opendata-solr (https://github.com/vrk-kpa/opendata-solr)
+
+3. Run `git submodule update --init --recursive` in opendata-ckan and opendata-drupal repo directories
+
+4. Create a `.npmrc` (content below) file to this directory and copy it to the following places:  `../../opendata-ckan/frontend` and `../../opendata-drupal/frontend`. Link to .npmrc content: `https://wiki.dvv.fi/display/AV/Font+Awesome+Pro`
+
+5. (Only on MacOS and Windows) Make sure buildkit is enabled in Docker Desktop. Go to Preferences -> Docker Engine, it should contain this:
+```
+"features": {
+  "buildkit": true
+}
+```
+
+6. (Only on MacOS) Go to Docker Desktop's Dashboard, open settings and navigate to `Resources` -> `File Sharing`. Add the directories to the repos you cloned in step 2 to the list
+
+7. Build assets in `../../opendata-ckan/frontend` and `../../opendata-drupal/frontend` with `npm install && npm run gulp`
+
+8. Run `docker-compose up --build` in the docker directory. Once this is done, navigate to `localhost` in the browser (the avoindata site should run on port 80).
+
+
+## Example docker-compose.override.yml for local development
+
+Create a file `docker-compose.override.yml` to the `docker` directory and populate its contents with the example below.
 This file is automatically detected by docker-compose so you don't need to pass it in commands, it just works.
 
 ```yml
@@ -98,6 +130,8 @@ services:
 
   ckan_cron:
     image: opendata/ckan:latest
+    build:
+      context: ../../opendata-ckan
     volumes:
       - ../../opendata-ckan/modules:/srv/app/modules
       - /srv/app/modules/opendata-assets/node_modules/
