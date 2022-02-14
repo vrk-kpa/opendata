@@ -164,7 +164,7 @@ describe('Showcase tests', function() {
     cy.create_new_showcase("test_showcase_render");
 
     cy.visit('/data/fi/dataset/test_showcase_render')
-    cy.get(".showcase-content").should('exist')
+    cy.get(".dataset-container").should('exist')
 
   })
 });

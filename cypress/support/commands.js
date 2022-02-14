@@ -291,7 +291,7 @@ Cypress.Commands.add('edit_showcase', (showcase_name, showcase_form_data) => {
   cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).first().click();
   cy.fill_form_fields(showcase_form_data)
   cy.get('button[name=save]').click();
-  cy.get('.page-heading').contains(showcase_name+'edit');
+  cy.get('.dataset-title').contains(showcase_name+'edit');
 })
 
 // Deletes a showcase and verifies that it is not found in the search anymore
