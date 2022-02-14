@@ -31,8 +31,8 @@ describe('Basic tests', function() {
     cy.request("/en/articles");
     cy.request("/sv/artiklar");
     cy.request("/fi/artikkelit");
-    cy.request("/opas");
-    cy.request("/fi/opas");
+    cy.request("/kayttoohjeet");
+    cy.request("/fi/kayttoohjeet");
     cy.request("/en/user-guide");
     cy.request("/sv/bruksanvisningar");
     cy.request("/user/register");
