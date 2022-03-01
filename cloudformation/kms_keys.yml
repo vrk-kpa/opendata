@@ -1,0 +1,73 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: opendata kms keys
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: infratest
+    AllowedValues:
+      - infratest
+      - dev
+      - alpha
+      - beta
+      - www
+      - prod
+
+Resources:
+  DBEncryptionKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: "Database Encryption Key"
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: 2012-10-17
+        Id: db-key-1
+        Statement:
+        - Sid: "Enable IAM User Permissions"
+          Effect: "Allow"
+          Principal:
+            AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+          Action: "kms:*"
+          Resource: "*"
+
+  DBKeyAlias:
+    Type: AWS::KMS::Alias
+    Properties:
+      AliasName: !Sub alias/db-key-${EnvironmentName}
+      TargetKeyId: !Ref DBEncryptionKey
+
+
+  ParameterEncryptionKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: "Parameter Store Encryption Key"
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: 2012-10-17
+        Id: parameter-key-1
+        Statement:
+          - Sid: "Enable IAM User Permissions"
+            Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action: "kms:*"
+            Resource: "*"
+
+  ParameterKeyAlias:
+    Type: AWS::KMS::Alias
+    Properties:
+      AliasName: !Sub alias/parameter-key-${EnvironmentName}
+      TargetKeyId: !Ref ParameterEncryptionKey
+
+Outputs:
+  DBKeyId:
+    Description: "Encryption key for DBs"
+    Value: !Ref DBEncryptionKey
+    Export:
+      Name: !Sub db-key-${EnvironmentName}
+  ParameterKeyId:
+    Description: "Encryption key for parameters"
+    Value: !Ref ParameterEncryptionKey
+    Export:
+      Name: !Sub parameter-key-${EnvironmentName}
