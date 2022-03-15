@@ -1,6 +1,6 @@
 ---
 # handlers file for datapusher
-- name: Restart Apache
-  service:
-    name: apache2
+- name: Restart CKAN
+  supervisorctl:
+    name: "{{ ckan_supervisor_name }}:"
     state: restarted

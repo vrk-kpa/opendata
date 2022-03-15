@@ -28,7 +28,7 @@
                     <label for="dataset_{{ package.id }}">
                       <input id="dataset_{{ package.id }}" class="row-checkbox" type="checkbox" name="dataset_{{ package.id }}">
                       <span class="check"></span>
-                        {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='package', action='read', id=package.name)) }}
+                        {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type ~ '.read', id=package.name)) }}
                     </label>
                   </td>
                 </tr>
@@ -89,7 +89,7 @@
                     <label for="dataset_{{ package.id }}">
                       <input id="dataset_{{ package.id }}" class="row-checkbox" type="checkbox" name="dataset_{{ package.id }}">
                       <span class="check"></span>
-                        {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='package', action='read', id=package.name)) }}
+                        {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type ~'.read', id=package.name)) }}
                     </label>
                   </td>
                 </tr>

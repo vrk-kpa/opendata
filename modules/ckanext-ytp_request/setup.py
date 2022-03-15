@@ -30,8 +30,5 @@ setup(
     entry_points='''
         [ckan.plugins]
         ytp_request=ckanext.ytp_request.plugin:YtpRequestPlugin
-
-        [paste.paster_command]
-        initdb = ckanext.ytp_request.command:InitDBCommand
     '''
 )

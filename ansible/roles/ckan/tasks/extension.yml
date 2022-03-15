@@ -1,25 +1,14 @@
 ---
 
-# On servers, create an archive of the current sources, upload and unarchive
-- block:
-  - name: "Archive extension {{ item }}"
-    command: zip -FSr /tmp/{{ item }}.zip {{ item }} chdir="{{ ckan_extensions_path }}"
-    delegate_to: localhost
-    become: false
-
-  - name: "Remove possible existing extension {{ item }}"
-    file:
-      path: "{{ ckan_extension_sync_path }}/{{ item }}"
-      state: absent
-
-  - name: "Copy and unarchive extension {{ item }}"
-    unarchive:
-      src: /tmp/{{ item }}.zip
-      dest: "{{ ckan_extension_sync_path }}/"
-      owner: root
-      group: root
-      mode: "0755"
-
+# On servers, copy the sources to final path
+- name: "Copy extension {{ item }} from server path"
+  copy:
+    src: "{{ ckan_source_server_path }}/modules/{{ item }}"
+    dest: "{{ ckan_extension_sync_path }}/"
+    owner: root
+    group: root
+    mode: "0755"
+    remote_src: yes
   when: ckan_deployment_environment_id != "vagrant"
 
 # On Vagrant, symlink sources from host so that they can be edited live
@@ -43,11 +32,13 @@
 - name: Register extension requirements.txt
   stat:
     path: "{{ ckan_extension_sync_path }}/{{ item }}/requirements.txt"
+    follow: true
   register: requirements
 
 - name: Register extension pip-requirements.txt
   stat:
     path: "{{ ckan_extension_sync_path }}/{{ item }}/pip-requirements.txt"
+    follow: true
   register: piprequirements
 
 - name: Install extension requirements

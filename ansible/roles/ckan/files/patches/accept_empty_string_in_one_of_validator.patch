@@ -1,0 +1,65 @@
+From 3ff112cb370c5879dde6b5a0c56b3830c26ec54d Mon Sep 17 00:00:00 2001
+From: Jari Voutilainen <jari.voutilainen@iki.fi>
+Date: Mon, 20 Dec 2021 12:51:41 +0200
+Subject: [PATCH 1/2] Accept empty string in one of validator
+
+---
+ ckan/logic/validators.py            | 4 ++--
+ ckan/tests/logic/test_validators.py | 5 +++++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/ckan/logic/validators.py b/ckan/logic/validators.py
+index e883d94eb0..5d2e27b76d 100644
+--- a/ckan/logic/validators.py
++++ b/ckan/logic/validators.py
+@@ -951,9 +951,9 @@ def email_is_unique(key, data, errors, context):
+
+
+ def one_of(list_of_value):
+-    ''' Checks if the provided value is present in a list '''
++    ''' Checks if the provided value is present in a list or is an empty string'''
+     def callable(value):
+-        if value not in list_of_value:
++        if value == "" or value not in list_of_value:
+             raise Invalid(_('Value must be one of {}'.format(list_of_value)))
+         return value
+     return callable
+diff --git a/ckan/tests/logic/test_validators.py b/ckan/tests/logic/test_validators.py
+index 3a7536b783..408bfb2a46 100644
+--- a/ckan/tests/logic/test_validators.py
++++ b/ckan/tests/logic/test_validators.py
+@@ -869,6 +869,11 @@ def test_val_not_in_list(self):
+         func = validators.one_of(cont)
+         raises_invalid(func)(5)
+
++    def test_empty_val_accepted(self):
++        cont = [1, 2, 3, 4]
++        func = validators.one_of(cont)
++        assert func("") == ""
++
+
+ def test_tag_string_convert():
+     def convert(tag_string):
+
+From 52a603b66bc60234269b520d8f8bf5478cb8abb7 Mon Sep 17 00:00:00 2001
+From: Jari Voutilainen <jari.voutilainen@iki.fi>
+Date: Mon, 20 Dec 2021 13:18:30 +0200
+Subject: [PATCH 2/2] Negate empty string check
+
+---
+ ckan/logic/validators.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ckan/logic/validators.py b/ckan/logic/validators.py
+index 5d2e27b76d..56f8036911 100644
+--- a/ckan/logic/validators.py
++++ b/ckan/logic/validators.py
+@@ -953,7 +953,7 @@ def email_is_unique(key, data, errors, context):
+ def one_of(list_of_value):
+     ''' Checks if the provided value is present in a list or is an empty string'''
+     def callable(value):
+-        if value == "" or value not in list_of_value:
++        if value != "" and value not in list_of_value:
+             raise Invalid(_('Value must be one of {}'.format(list_of_value)))
+         return value
+     return callable

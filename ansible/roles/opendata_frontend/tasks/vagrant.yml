@@ -7,13 +7,13 @@
 
 - name: Check existance of .npmrc
   stat:
-    path: "{{ opendata_frontend_modules_path }}/ytp-assets-common/.npmrc"
+    path: "{{ project_root }}/.npmrc"
   register: npmrc
 
 - name: Copy fallback package.json if npmrc does not exist
   copy:
     src: package.json
-    dest: "{{ opendata_frontend_server_path }}/ytp-assets-common/package.json"
+    dest: "{{ opendata_frontend_cache_path }}/ytp-assets-common/package.json"
     mode: "0644"
   when: not npmrc.stat.exists
 
@@ -21,19 +21,35 @@
   file:
     state: link
     src: "{{ playbook_dir }}/../modules/avoindata-drupal-theme"
-    dest: "{{ opendata_frontend_server_path }}/avoindata-drupal-theme"
+    dest: "{{ opendata_frontend_cache_path }}/avoindata-drupal-theme"
     force: true
 
 - name: Symlink avoindata drupal header to cache folder
   file:
     state: link
     src: "{{ playbook_dir }}/../modules/avoindata-drupal-header"
-    dest: "{{ opendata_frontend_server_path }}/avoindata-drupal-header"
+    dest: "{{ opendata_frontend_cache_path }}/avoindata-drupal-header"
     force: true
 
 - name: Symlink avoindata drupal ckeditor plugins to cache folder
   file:
     state: link
     src: "{{ playbook_dir }}/../modules/avoindata-drupal-ckeditor-plugins"
-    dest: "{{ opendata_frontend_server_path }}/avoindata-drupal-ckeditor-plugins"
+    dest: "{{ opendata_frontend_cache_path }}/avoindata-drupal-ckeditor-plugins"
+    force: true
+
+
+- name: Ensure resources directory
+  file:
+    path: /var/www/resources
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Symlink avoindata static pages
+  file:
+    state: link
+    src: "{{ playbook_dir }}/../modules/ytp-assets-common/src/static_pages"
+    dest: "/var/www/resources/static"
     force: true

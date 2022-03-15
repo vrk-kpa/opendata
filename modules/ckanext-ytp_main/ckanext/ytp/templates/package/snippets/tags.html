@@ -5,7 +5,7 @@
       <ul class="tag-list">
         {% for tag in tags.get(lang) %}
           {% set tag_dict = dict({
-              'controller': 'package',
+              'controller': 'dataset',
               'action': 'search',
               'vocab_' + field + '_' + lang: tag }) %}
           <li>

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import urllib
-import urllib2
-import httplib
 import datetime
 import socket
 import re
@@ -15,7 +13,6 @@ from ckan.logic import ValidationError, NotFound, get_action
 from ckan.lib.helpers import json
 from ckan.lib.munge import munge_name
 from ckan.plugins import toolkit
-from pylons import config as ckan_config
 
 from ckanext.harvest.model import HarvestJob, HarvestObject, HarvestGatherError
 from ckanext.harvest.harvesters.base import HarvesterBase
@@ -23,7 +20,7 @@ from ckanext.harvest.harvesters.base import HarvesterBase
 import logging
 log = logging.getLogger(__name__)
 
-VALID_TAG_CHARACTERS = u'abcdefghijklmnopqrstuvwxyzåäö ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ1234567890-_.'
+VALID_TAG_CHARACTERS = 'abcdefghijklmnopqrstuvwxyzåäö ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ1234567890-_.'
 IS_INVALID_TAG_CHARACTER = re.compile('[^%s]' % VALID_TAG_CHARACTERS)
 IS_VALID_TAG = re.compile('^"?([%s]*)"?$' % VALID_TAG_CHARACTERS)
 IS_TAG_SET = re.compile('^{(.*)}$')
@@ -92,26 +89,26 @@ class HRIHarvester(HarvesterBase):
         return '%s/package_search' % self._get_action_api_offset()
 
     def _get_content(self, url):
-        http_request = urllib2.Request(url=url)
+        http_request = urllib.request.Request(url=url)
 
         api_key = self.config.get('api_key')
         if api_key:
             http_request.add_header('Authorization', api_key)
 
         try:
-            http_response = urllib2.urlopen(http_request)
-        except urllib2.HTTPError, e:
+            http_response = urllib.request.urlopen(http_request)
+        except urllib.error.HTTPError as e:
             if e.getcode() == 404:
                 raise ContentNotFoundError('HTTP error: %s' % e.code)
             else:
                 raise ContentFetchError('HTTP error: %s' % e.code)
-        except urllib2.URLError, e:
+        except urllib.error.URLError as e:
             raise ContentFetchError('URL error: %s' % e.reason)
-        except httplib.HTTPException, e:
+        except urllib.error.HTTPException as e:
             raise ContentFetchError('HTTP Exception: %s' % e)
-        except socket.error, e:
+        except socket.error as e:
             raise ContentFetchError('HTTP socket error: %s' % e)
-        except Exception, e:
+        except Exception as e:
             raise ContentFetchError('HTTP general exception: %s' % e)
         return http_response.read()
 
@@ -181,7 +178,7 @@ class HRIHarvester(HarvesterBase):
                 for group_name in config_obj['default_groups']:
                     try:
                         get_action('group_show')(context, {'id': group_name})
-                    except NotFound, e:
+                    except NotFound:
                         raise ValueError('Default group not found')
 
             if 'default_extras' in config_obj:
@@ -193,7 +190,7 @@ class HRIHarvester(HarvesterBase):
                 context = {'model': model, 'user': c.user}
                 try:
                     get_action('user_show')(context, {'id': config_obj.get('user')})
-                except NotFound, e:
+                except NotFound:
                     raise ValueError('User not found')
 
             for key in ('read_only', 'force_all'):
@@ -201,7 +198,7 @@ class HRIHarvester(HarvesterBase):
                     if not isinstance(config_obj[key], bool):
                         raise ValueError('%s must be boolean' % key)
 
-        except ValueError, e:
+        except ValueError as e:
             raise e
 
         return config
@@ -253,7 +250,7 @@ class HRIHarvester(HarvesterBase):
                 pkg_dicts = self._search_for_datasets(
                     remote_ckan_base_url,
                     fq_terms + [fq_since_last_time])
-            except SearchError, e:
+            except SearchError as e:
                 log.info('Searching for datasets changed since last time '
                          'gave an error: %s', e)
                 get_all_packages = True
@@ -270,7 +267,7 @@ class HRIHarvester(HarvesterBase):
             try:
                 pkg_dicts = self._search_for_datasets(remote_ckan_base_url,
                                                       fq_terms)
-            except SearchError, e:
+            except SearchError as e:
                 log.info('Searching for all datasets gave an error: %s', e)
                 self._save_gather_error(
                     'Unable to search remote CKAN for datasets:%s url:%s'
@@ -305,7 +302,7 @@ class HRIHarvester(HarvesterBase):
                 object_ids.append(obj.id)
 
             return object_ids
-        except Exception, e:
+        except Exception as e:
             self._save_gather_error('%r' % e.message, harvest_job)
 
     def _search_for_datasets(self, remote_ckan_base_url, fq_terms=None):
@@ -339,11 +336,11 @@ class HRIHarvester(HarvesterBase):
         pkg_ids = set()
         previous_content = None
         while True:
-            url = base_search_url + '?' + urllib.urlencode(params)
+            url = base_search_url + '?' + urllib.parse.urlencode(params)
             log.debug('Searching for CKAN datasets: %s', url)
             try:
                 content = self._get_content(url)
-            except ContentFetchError, e:
+            except ContentFetchError as e:
                 raise SearchError(
                     'Error sending request to search remote '
                     'CKAN instance %s using URL %r. Error: %s' %
@@ -438,7 +435,7 @@ class HRIHarvester(HarvesterBase):
                 return True
 
             # Set default translations
-            lang = ckan_config['ckan.locale_default']
+            lang = toolkit.config['ckan.locale_default']
 
             def translated_field(name):
                 translated = package_dict.get('%s_translated' % name, {})
@@ -468,7 +465,7 @@ class HRIHarvester(HarvesterBase):
                 'maintainer_email': package_dict.get('author_email') or '(not set)',
             }
             missing_values = (
-                (k, v) for k, v in default_values.iteritems()
+                (k, v) for k, v in default_values.items()
                 if not package_dict.get(k))
             package_dict.update(missing_values)
 
@@ -503,7 +500,7 @@ class HRIHarvester(HarvesterBase):
                             validated_groups.append(group['name'])
                         else:
                             validated_groups.append(group['id'])
-                    except NotFound, e:
+                    except NotFound:
                         log.info('Group %s is not available', group_name)
                         if remote_groups == 'create':
                             try:
@@ -586,14 +583,14 @@ class HRIHarvester(HarvesterBase):
                 override_extras = self.config.get('override_extras', False)
                 if 'extras' not in package_dict:
                     package_dict['extras'] = {}
-                for key, value in default_extras.iteritems():
+                for key, value in default_extras.items():
                     existing_extra = get_extra(key, package_dict)
                     if existing_extra and not override_extras:
                         continue  # no need for the default
                     if existing_extra:
                         package_dict['extras'].remove(existing_extra)
                     # Look for replacement strings
-                    if isinstance(value, basestring):
+                    if isinstance(value, str):
                         value = value.format(
                             harvest_source_id=harvest_object.job.source.id,
                             harvest_source_url=harvest_object.job.source.url.strip('/'),
@@ -652,11 +649,11 @@ class HRIHarvester(HarvesterBase):
                 package_dict, harvest_object, package_dict_form='package_show')
 
             return result
-        except ValidationError, e:
+        except ValidationError as e:
             self._save_object_error('Invalid package with GUID %s: %r' %
                                     (harvest_object.guid, e.error_dict),
                                     harvest_object, 'Import')
-        except Exception, e:
+        except Exception as e:
             self._save_object_error('%s' % e, harvest_object, 'Import')
 
 

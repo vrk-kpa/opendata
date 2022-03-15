@@ -142,16 +142,15 @@ describe("General tests", function(){
   it('Pääkäyttäjä selaa tapahtumia', function() {
       cy.visit('/')
       cy.login_post_request('admin', 'administrator');
-      // cy.visit('/')
       cy.visit('/data/fi/organization')
-      // cy.visit('/data/fi/user_list')
       cy.get('.btn-group').contains('Käyttäjät').click();
-      //cy.get('td.media').contains('test-user').click();
       cy.visit('/data/fi/user/test-user');
       cy.visit('/data/fi/user_list');
       cy.go('back')
       cy.contains('Tapahtumatiedot').click();
-      cy.contains('Tietopyynnöt').click();
+
+      // TODO: ckanext-datarequests is not yet ported for CKAN 2.9
+      // cy.contains('Tietopyynnöt').click();
       cy.go('back')
       cy.contains('Tietoaineistot').click();
   })

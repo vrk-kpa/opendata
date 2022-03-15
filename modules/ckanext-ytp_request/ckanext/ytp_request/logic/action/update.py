@@ -57,22 +57,19 @@ def _process(context, action, data_dict):
     member.state = state
     if role:
         member.capacity = role
-    revision = model.repo.new_revision()
-    revision.author = user
 
     if approve:
         message = 'Member request approved by admin.'
     else:
-        message = 'Member request rejected by log.'
+        message = 'Member request rejected by admin.'
     if role:
         message = message + " Role changed"
-    revision.message = message
 
     # TODO: Move this query to a helper method since it is widely used
     # Fetch the newest member_request associated to this membership (sort by
     # last modified field)
     member_request = model.Session.query(MemberRequest).filter(
-        MemberRequest.membership_id == member.id).order_by('request_date desc').limit(1).first()
+        MemberRequest.membership_id == member.id).order_by(MemberRequest.request_date.desc()).limit(1).first()
 
     # BFW: In case of pending state overwrite it since it is no final state
     member_request.status = request_status

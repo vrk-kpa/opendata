@@ -15,12 +15,12 @@
     {% for row in data['top'] %}
         <tr>
             <td>
-              <a href="{{h.url_for(controller='package', action='read', id=row.id)}}">
+              <a href="{{h.url_for('dataset.read', id=row.id)}}">
                 {{ row.title }}
               </a>
             </td>
             <td>
-              <a href="{{ h.url_for(controller='organization', action='read', id=row.organization_id )}}">
+              <a href="{{ h.url_for(named_route='organization.read', id=row.organization_id )}}">
                 {{ row.organization_title }}
               </a>
               {% if row.organization_homepage %}

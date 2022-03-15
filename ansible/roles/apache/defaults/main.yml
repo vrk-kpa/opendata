@@ -1,19 +1,2 @@
 ---
 # defaults file for apache
-
-apache_packages:
-  - apache2
-  - apache2-utils
-  - libapache2-mod-wsgi
-
-apache_packages_state: "present"
-apache_service_state: started
-apache_service_enabled: true
-
-apache_service: apache2
-
-apache_enabled_modules:
-  - rewrite
-  - headers
-
-apache_sites: []

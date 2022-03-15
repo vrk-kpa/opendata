@@ -1,0 +1,54 @@
+avoindata_utils_js:
+  output: ckanext-ytp_advancedsearch%(version)s_avoindata-utils.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - javascript/avoindata-utils.js
+
+clear_all_fields_js:
+  output: ckanext-ytp_advancedsearch%(version)s_clear-all-fields.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - javascript/clear-all-fields.js
+
+clear_filter_js:
+  output: ckanext-ytp_advancedsearch%(version)s_clear-filter.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - javascript/clear-filter.js
+
+post_pagination_js:
+  output: ckanext-ytp_advancedsearch%(version)s_post-pagination.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - javascript/post_pagination.js
+
+ytp_multiselect_js:
+  output: ckanext-ytp_advancedsearch%(version)s_ytp-multiselect.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - javascript/ytp-multiselect.js
+
+ytp_datepicker_js:
+  output: ckanext-ytp_advancedsearch%(version)s_ytp-datepicker.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - javascript/ytp-datepicker.js
+

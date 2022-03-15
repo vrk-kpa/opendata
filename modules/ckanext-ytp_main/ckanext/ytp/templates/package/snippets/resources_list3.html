@@ -13,7 +13,7 @@
   {% else %}
     <p class="empty">
       {% if h.check_access('package_update', {'id':pkg.id }) %}
-        {% set url = h.url_for(controller='package', action='new_resource', id=pkg.name) %}
+        {% set url = h.url_for(named_route='dataset.new_resource', id=pkg.name) %}
         {% trans %}
         This dataset has no data, <a href="{{ url }}">why not add some?</a>
         {% endtrans %}

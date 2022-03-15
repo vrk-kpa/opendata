@@ -1,6 +1,5 @@
 # -*- coding: utf8 -*-
 
-from ckan.lib.cli import CkanCommand
 from ckan.logic import get_action, ValidationError
 from ckan import model
 from ckanext.ytp.translations import facet_translations
@@ -14,96 +13,80 @@ import os
 import re
 import glob
 import six
-from tools import check_package_deprecation
-from logic import send_package_deprecation_emails
+from .tools import check_package_deprecation
+from .logic import send_package_deprecation_emails
 
 from ckan.plugins.toolkit import config as c
 
 import click
-
-from ckan.lib.cli import (
-    load_config,
-    paster_click_group,
-    click_config_option,
-)
-
-
 import itertools
 
 
-class YtpFacetTranslations(CkanCommand):
-    """ Command to add task to schedule table """
-    max_args = None
-    min_args = 1
+def get_commands():
+    return [opendata, opendata_dataset, opendata_group, opendata_harvest]
 
-    usage = "i18n root path"
-    summary = "Add facet translations to database"
-    group_name = "ytp-dataset"
 
-    def _add_term(self, context, locale, term, translation):
-        get_action('term_translation_update')(context, {'term': term, 'term_translation': translation, 'lang_code': locale})
+@click.group()
+def opendata():
+    'General opendata commands'
+    pass
 
-    def _get_po_files(self, path):
-        pattern = re.compile('^[a-z]{2}(?:_[A-Z]{2})?$')
 
-        for locale in os.listdir(path):
-            if not pattern.match(locale):
-                continue
+@opendata.command()
+@click.pass_context
+@click.argument('i18n_root')
+def add_facet_translations(ctx, i18n_root):
+    'Adds facet translations to database'
+    terms = facet_translations()
+    if len(terms) <= 0:
+        click.echo("No terms provided")
+        return 1
 
-            for po in glob.glob(os.path.join(path, locale, "LC_MESSAGES/*.po")):
-                yield locale, po
+    translated = []
 
-    def _create_context(self):
-        context = {'model': model, 'session': model.Session, 'ignore_auth': True}
-        admin_user = get_action('get_site_user')(context, None)
-        context['user'] = admin_user['name']
-        return context
-
-    def command(self):
-        self._load_config()
-
-        i18n_root = self.args[0]
-        terms = facet_translations()
-        if len(terms) <= 0:
-            print "No terms provided"
+    for locale, po_path in _get_po_files(i18n_root):
+        found = 0
+        for entry in polib.pofile(po_path):
+            if entry.msgid in terms:
+                translated.append((locale, entry.msgid, entry.msgstr))
+                found += 1
+        if found != len(terms):
+            click.echo("Term not found")
             return 1
 
-        translated = []
+    for term in terms:
+        translated.append(('en', term, term))
 
-        for locale, po_path in self._get_po_files(i18n_root):
-            found = 0
-            for entry in polib.pofile(po_path):
-                if entry.msgid in terms:
-                    translated.append((locale, entry.msgid, entry.msgstr))
-                    found += 1
-            if found != len(terms):
-                print "Term not found"
-                return 1
-
-        for term in terms:
-            translated.append(('en', term, term))
-
-        context = self._create_context()
-
-        for locale, term, translation in translated:
-            if translation:
-                self._add_term(context, locale, term, translation)
+    for locale, term, translation in translated:
+        if translation:
+            click.echo(translated)
+            get_action('term_translation_update')({'ignore_auth': True},
+                                                  {'term': term, 'term_translation': translation, 'lang_code': locale})
 
 
-ytp_dataset_group = paster_click_group(
-    summary=u'Dataset related commands.'
+def _get_po_files(path):
+    pattern = re.compile('^[a-z]{2}(?:_[A-Z]{2})?$')
+
+    for locale in os.listdir(path):
+        if not pattern.match(locale):
+            continue
+
+        for po in glob.glob(os.path.join(path, locale, "LC_MESSAGES/*.po")):
+            yield locale, po
+
+
+@click.group()
+def opendata_dataset():
+    'Dataset related commands.'
+
+
+@opendata_dataset.command(
+    'migrate_author_email',
+    help='Migrates empty author emails that caused problems in updating datasets'
 )
-
-
-@ytp_dataset_group.command(
-    u'migrate_author_email',
-    help=u'Migrates empty author emails that caused problems in updating datasets'
-)
-@click_config_option
-@click.option(u'--dryrun', is_flag=True)
+@click.option('--dryrun', is_flag=True)
 @click.pass_context
-def migrate_author_email(ctx, config, dryrun):
-    load_config(config or ctx.obj['config'])
+def migrate_author_email(ctx, dryrun):
     package_patches = []
 
     for old_package_dict in package_generator('*:*', 10):
@@ -112,22 +95,19 @@ def migrate_author_email(ctx, config, dryrun):
             package_patches.append(patch)
 
     if dryrun:
-        print '\n'.join('%s' % p for p in package_patches)
+        click.echo('\n'.join('%s' % p for p in package_patches))
     else:
         # No resources patches so empty parameter is passed
         apply_patches(package_patches, [])
 
 
-@ytp_dataset_group.command(
-    u'migrate',
-    help=u'Migrates datasets to scheming based model'
+@opendata_dataset.command(
+    'migrate',
+    help='Migrates datasets to scheming based model'
 )
-@click_config_option
-@click.option(u'--dryrun', is_flag=True)
+@click.option('--dryrun', is_flag=True)
 @click.pass_context
-def migrate(ctx, config, dryrun):
-    load_config(config or ctx.obj['config'])
-
+def migrate(ctx, dryrun):
     default_lang = c.get('ckan.locale_default', 'en')
 
     package_patches = []
@@ -204,22 +184,19 @@ def migrate(ctx, config, dryrun):
         package_patches.append(patch)
 
     if dryrun:
-        print '\n'.join('%s' % p for p in package_patches)
-        print '\n'.join('%s' % p for p in resource_patches)
+        click.echo('\n'.join('%s' % p for p in package_patches))
+        click.echo('\n'.join('%s' % p for p in resource_patches))
     else:
         apply_patches(package_patches, resource_patches)
 
 
-@ytp_dataset_group.command(
-    u'migrate_temporal_granularity',
-    help=u'Migrates old schema temporal granularity (string) to the new time_series_precision format (["string"])'
+@opendata_dataset.command(
+    'migrate_temporal_granularity',
+    help='Migrates old schema temporal granularity (string) to the new time_series_precision format (["string"])'
 )
-@click_config_option
-@click.option(u'--dryrun', is_flag=True)
+@click.option('--dryrun', is_flag=True)
 @click.pass_context
-def migrate_temporal_granularity(ctx, config, dryrun):
-    load_config(config or ctx.obj['config'])
-
+def migrate_temporal_granularity(ctx, dryrun):
     package_patches = []
 
     for old_package_dict in package_generator('*:*', 10):
@@ -228,11 +205,11 @@ def migrate_temporal_granularity(ctx, config, dryrun):
         for resource in old_package_dict.get('resources', []):
             temporal_granularity = resource.get('temporal_granularity')
             if temporal_granularity and len(temporal_granularity) > 0:
-                for k, v in temporal_granularity.items():
-                    if isinstance(v, basestring) and len(v) > 0:
+                for k, v in list(temporal_granularity.items()):
+                    if isinstance(v, six.text_type) and len(v) > 0:
                         temporal_granularity[k] = [v]
                         changes = True
-                    elif isinstance(v, basestring):
+                    elif isinstance(v, six.text_type):
                         temporal_granularity.pop(k)
                         changes = True
             resource_patches.append(resource)
@@ -242,21 +219,19 @@ def migrate_temporal_granularity(ctx, config, dryrun):
             package_patches.append(patch)
 
     if dryrun:
-        print '\n'.join('%s' % p for p in package_patches)
+        click.echo('\n'.join('%s' % p for p in package_patches))
     else:
         # No resource patches so empty parameter is passed
         apply_patches(package_patches, [])
 
 
-@ytp_dataset_group.command(
-    u'migrate_high_value_datasets',
-    help=u'Migrates high value datasets to international benchmarks'
+@opendata_dataset.command(
+    'migrate_high_value_datasets',
+    help='Migrates high value datasets to international benchmarks'
 )
-@click_config_option
-@click.option(u'--dryrun', is_flag=True)
+@click.option('--dryrun', is_flag=True)
 @click.pass_context
-def migrate_high_value_datasets(ctx, config, dryrun):
-    load_config(config or ctx.obj['config'])
+def migrate_high_value_datasets(ctx, dryrun):
     package_patches = []
 
     for old_package_dict in package_generator('*:*', 10):
@@ -265,7 +240,7 @@ def migrate_high_value_datasets(ctx, config, dryrun):
             package_patches.append(patch)
 
     if dryrun:
-        print '\n'.join('%s' % p for p in package_patches)
+        click.echo('\n'.join('%s' % p for p in package_patches))
     else:
         # No resources patches so empty parameter is passed
         apply_patches(package_patches, [])
@@ -273,7 +248,7 @@ def migrate_high_value_datasets(ctx, config, dryrun):
 
 def apply_patches(package_patches, resource_patches):
     if not package_patches and not resource_patches:
-        print 'No patches to process.'
+        click.echo('No patches to process.')
     else:
         package_patch = get_action('package_patch')
         resource_patch = get_action('resource_patch')
@@ -282,24 +257,24 @@ def apply_patches(package_patches, resource_patches):
             try:
                 package_patch(context, patch)
             except ValidationError as e:
-                print "Migration failed for package %s reason:" % patch['id']
-                print e
+                click.echo("Migration failed for package %s reason:" % patch['id'])
+                click.echo(e)
         for patch in resource_patches:
             try:
                 resource_patch(context, patch)
             except ValidationError as e:
-                print "Migration failed for resource %s, reason" % patch['id']
-                print e
+                click.echo("Migration failed for resource %s, reason" % patch['id'])
+                click.echo(e)
 
 
 def apply_group_assigns(group_packages_map):
     if not group_packages_map:
-        print 'No group memberships to set.'
+        click.echo('No group memberships to set.')
     else:
         member_create = get_action('member_create')
         context = {'ignore_auth': True}
 
-        for group, packages in group_packages_map.items():
+        for group, packages in list(group_packages_map.items()):
             for package in packages:
                 data = {'id': group,
                         'object': package,
@@ -308,8 +283,8 @@ def apply_group_assigns(group_packages_map):
                 try:
                     member_create(context, data)
                 except Exception as e:
-                    print "Group assign failed for package %s reason:" % package
-                    print e
+                    click.echo("Group assign failed for package %s reason:" % package)
+                    click.echo(e)
 
 
 def package_generator(query, page_size, context={'ignore_auth': True}, dataset_type='dataset'):
@@ -330,17 +305,15 @@ def package_generator(query, page_size, context={'ignore_auth': True}, dataset_t
             return
 
 
-@ytp_dataset_group.command(
-    u'batch_edit',
-    help=u'Make modifications to many datasets at once'
+@opendata_dataset.command(
+    'batch_edit',
+    help='Make modifications to many datasets at once'
 )
-@click_config_option
 @click.argument('search_string')
-@click.option(u'--dryrun', is_flag=True)
-@click.option(u'--group', help="Make datasets members of a group")
+@click.option('--dryrun', is_flag=True)
+@click.option('--group', help="Make datasets members of a group")
 @click.pass_context
-def batch_edit(ctx, config, search_string, dryrun, group):
-    load_config(config or ctx.obj['config'])
+def batch_edit(ctx, search_string, dryrun, group):
     group_assigns = {}
 
     if group:
@@ -351,21 +324,19 @@ def batch_edit(ctx, config, search_string, dryrun, group):
             group_assigns[group].append(package_dict['name'])
 
     if dryrun:
-        print '\n'.join('Add %s to group %s' % (p, g) for (g, ps) in group_assigns.items() for p in ps)
+        click.echo('\n'.join('Add %s to group %s' % (p, g) for (g, ps) in list(group_assigns.items()) for p in ps))
     else:
         if group:
             apply_group_assigns(group_assigns)
 
 
-@ytp_dataset_group.command(
-    u'update_package_deprecation',
-    help=u'Checks package deprecation and updates it if it need updating, and sends emails to users'
+@opendata_dataset.command(
+    'update_package_deprecation',
+    help='Checks package deprecation and updates it if it need updating, and sends emails to users'
 )
-@click_config_option
-@click.option(u'--dryrun', is_flag=True)
+@click.option('--dryrun', is_flag=True)
 @click.pass_context
-def update_package_deprecation(ctx, config, dryrun):
-    load_config(config or ctx.obj['config'])
+def update_package_deprecation(ctx, dryrun):
     # deprecation emails will be sent to items inside deprecated_now array
     deprecated_now = []
     package_patches = []
@@ -388,29 +359,26 @@ def update_package_deprecation(ctx, config, dryrun):
                     deprecated_now.append(old_package_dict['id'])
 
     if dryrun:
-        print '\n'.join(('%s | %s' % (p, p['id'] in deprecated_now)) for p in package_patches)
+        click.echo('\n'.join(('%s | %s' % (p, p['id'] in deprecated_now)) for p in package_patches))
     else:
         # No resources patches so empty parameter is passed
         apply_patches(package_patches, [])
         send_package_deprecation_emails(deprecated_now)
 
 
-@ytp_dataset_group.command(
-    u'validate',
-    help=u'Validate datasets'
+@opendata_dataset.command(
+    'validate',
+    help='Validate datasets'
 )
-@click_config_option
-@click.option(u'--verbose', is_flag=True)
+@click.option('--verbose', is_flag=True)
 @click.pass_context
-def validate(ctx, config, verbose):
-    load_config(config or ctx.obj['config'])
-
+def validate(ctx, verbose):
     no_errors = True
     user = t.get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
     context = {'model': model, 'session': model.Session, 'user': user['name'], 'ignore_auth': True}
     for package_dict in package_generator('*:*', 10):
         if verbose:
-            print "Validating %s" % package_dict['name']
+            click.echo("Validating %s" % package_dict['name'])
 
         if 'type' not in package_dict:
             package_plugin = lib_plugins.lookup_package_plugin()
@@ -432,69 +400,17 @@ def validate(ctx, config, verbose):
 
         if errors:
             no_errors = False
-            print package_dict['name']
-            print pformat(errors)
-            print
+            click.echo(package_dict['name'])
+            click.echo(pformat(errors))
+            click.echo('')
 
     if no_errors:
-        print 'All datasets are valid!'
-
-
-ytp_org_group = paster_click_group(
-    summary=u'Organization related commands.'
-)
-
-
-@ytp_org_group.command(
-    u'migrate',
-    help=u'Migrates organizations to scheming based model'
-)
-@click_config_option
-@click.option(u'--dryrun', is_flag=True)
-@click.pass_context
-def migrate_orgs(ctx, config, dryrun):
-    load_config(config or ctx.obj['config'])
-
-    default_lang = c.get('ckan.locale_default', 'en')
-    languages = ['fi', 'en', 'sv']
-    translated_fields = ['title', 'description']
-
-    org_patches = []
-
-    for old_org_dict in org_generator():
-        flatten_extras(old_org_dict)
-
-        patch = {}
-
-        for field in translated_fields:
-            translated_field = '%s_translated' % field
-            if translated_field not in old_org_dict:
-                patch[translated_field] = {default_lang: old_org_dict[field]}
-                for language in languages:
-                    value = old_org_dict.get('%s_%s' % (field, language))
-                    if value is not None and value != "":
-                        patch[translated_field][language] = value
-            else:
-                patch[field] = old_org_dict[translated_field].get(default_lang)
-
-        if 'features' not in old_org_dict:
-            # 'adminstration' is used in previous data model
-            if old_org_dict.get('public_adminstration_organization'):
-                patch['features'] = ["public_administration_organization"]
-
-        if patch:
-            patch['id'] = old_org_dict['id']
-            org_patches.append(patch)
-
-    if dryrun:
-        print '\n'.join('%s' % p for p in org_patches)
-    else:
-        apply_org_patches(org_patches)
+        click.echo('All datasets are valid!')
 
 
 def apply_org_patches(org_patches):
     if not org_patches:
-        print 'No patches to process.'
+        click.echo('No patches to process.')
     else:
         org_patch = get_action('organization_patch')
         context = {'ignore_auth': True}
@@ -502,8 +418,8 @@ def apply_org_patches(org_patches):
             try:
                 org_patch(context, patch)
             except ValidationError as e:
-                print "Migration failed for organization %s reason:" % patch['id']
-                print e
+                click.echo("Migration failed for organization %s reason:" % patch['id'])
+                click.echo(e)
 
 
 def org_generator():
@@ -524,21 +440,19 @@ def flatten_extras(o):
         o[key] = value
 
 
-opendata_group = paster_click_group(
-    summary=u'Group related commands.'
-)
+@click.group()
+def opendata_group():
+    'Group related commands.'
+    pass
 
 
 @opendata_group.command(
-    u'add',
+    'add',
     help="Adds all users to all groups as editors"
 )
-@click_config_option
-@click.option(u'--dryrun', is_flag=True)
+@click.option('--dryrun', is_flag=True)
 @click.pass_context
-def add_to_groups(ctx, config, dryrun):
-    load_config(config or ctx.obj['config'])
-
+def add_to_groups(ctx, dryrun):
     context = {'ignore_auth': True}
     groups = get_action('group_list')(context, {})
     users = get_action('user_list')(context, {})
@@ -551,48 +465,46 @@ def add_to_groups(ctx, config, dryrun):
                 data_dicts.append({'id': group, 'username': user['name'], 'role': 'editor'})
 
     if dryrun:
-        print '\n'.join('%s' % d for d in data_dicts)
+        click.echo('\n'.join('%s' % d for d in data_dicts))
     else:
         for d in data_dicts:
             get_action('group_member_create')(context, d)
 
 
-opendata_harvest_group = paster_click_group(
-    summary=u'Harvester related commands.'
-)
+@click.group()
+def opendata_harvest():
+    'Harvester related commands.'
+    pass
 
 
-@opendata_harvest_group.command(
-    u'send-status-emails',
+@opendata_harvest.command(
+    'send-status-emails',
     help='Sends harvester status emails to configured recipients'
 )
-@click_config_option
-@click.option(u'--dryrun', is_flag=True)
-@click.option(u'--force', is_flag=True)
-@click.option(u'--all-harvesters', is_flag=True)
+@click.option('--dryrun', is_flag=True)
+@click.option('--force', is_flag=True)
+@click.option('--all-harvesters', is_flag=True)
 @click.pass_context
-def send_harvester_status_emails(ctx, config, dryrun, force, all_harvesters):
-    load_config(config or ctx.obj['config'])
-
+def send_harvester_status_emails(ctx, dryrun, force, all_harvesters):
     email_notification_recipients = t.aslist(t.config.get('ckanext.ytp.harvester_status_recipients', ''))
 
     if not email_notification_recipients and not dryrun:
-        print 'No recipients configured'
+        click.echo('No recipients configured')
         return
 
     status_opts = {} if not all_harvesters else {'include_manual': True, 'include_never_run': True}
     status = get_action('harvester_status')({}, status_opts)
 
-    errored_runs = any(item.get('errors') != 0 for item in status.values())
-    running = (item.get('started') for item in status.values() if item.get('status') == 'running')
+    errored_runs = any(item.get('errors') != 0 for item in list(status.values()))
+    running = (item.get('started') for item in list(status.values()) if item.get('status') == 'running')
     stuck_runs = any(_elapsed_since(started).days > 1 for started in running)
 
     if not (errored_runs or stuck_runs) and not force:
-        print 'Nothing to report'
+        click.echo('Nothing to report')
         return
 
     if len(status) == 0:
-        print 'No harvesters matching criteria found'
+        click.echo('No harvesters matching criteria found')
         return
 
     site_title = t.config.get('ckan.site_title', '')
@@ -619,32 +531,28 @@ def send_harvester_status_emails(ctx, config, dryrun, force, all_harvesters):
     msg = '%(site_title)s - Harvester summary %(today)s\n\n%(status)s' % {
             'site_title': site_title,
             'today': today,
-            'status': '\n'.join(status_string(title, values) for title, values in status.items())
+            'status': '\n'.join(status_string(title, values) for title, values in list(status.items()))
             }
 
     subject = '%s - Harvester summary %s' % (site_title, today)
     _send_harvester_notification(subject, msg, email_notification_recipients, dryrun)
 
     if dryrun:
-        print msg
+        click.echo(msg)
 
 
-@opendata_harvest_group.command(
-    u'send-stuck-runs-report',
+@opendata_harvest.command(
+    'send-stuck-runs-report',
     help='Sends stuck runs report to configured recipients'
 )
-@click_config_option
-@click.option(u'--dryrun', is_flag=True)
-@click.option(u'--force', is_flag=True)
-@click.option(u'--all-harvesters', is_flag=True)
-@click.pass_context
-def send_stuck_runs_report(ctx, config, dryrun, force, all_harvesters):
-    load_config(config or ctx.obj['config'])
-
+@click.option('--dryrun', is_flag=True)
+@click.option('--force', is_flag=True)
+@click.option('--all-harvesters', is_flag=True)
+def send_stuck_runs_report(ctx, dryrun, force, all_harvesters):
     email_notification_recipients = t.aslist(t.config.get('ckanext.ytp.fault_recipients', ''))
 
     if not email_notification_recipients and not dryrun:
-        print('No recipients configured')
+        click.echo('No recipients configured')
         return
 
     status_opts = {} if not all_harvesters else {'include_manual': True, 'include_never_run': True}
@@ -669,9 +577,9 @@ def send_stuck_runs_report(ctx, config, dryrun, force, all_harvesters):
         _send_harvester_notification(subject, msg, email_notification_recipients, dryrun)
 
         if dryrun:
-            print(msg)
+            click.echo(msg)
     else:
-        print('Nothing to report')
+        click.echo('Nothing to report')
 
 
 def _send_harvester_notification(subject, msg, recipients, dryrun):
@@ -683,12 +591,12 @@ def _send_harvester_notification(subject, msg, recipients, dryrun):
                  'body': msg}
 
         if dryrun:
-            print('to: %s' % recipient)
+            click.echo('to: %s' % recipient)
         else:
             try:
                 mailer.mail_recipient(**email)
             except mailer.MailerException as e:
-                print('Sending harvester notification to %s failed: %s' % (recipient, e))
+                click.echo('Sending harvester notification to %s failed: %s' % (recipient, e))
 
 
 def _elapsed_since(t):

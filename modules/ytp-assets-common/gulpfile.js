@@ -28,16 +28,18 @@ var paths = {
     drupal_ckeditor_plugins: "src/less/drupal/custom-elements.less",
     templates: "src/templates/**/*",
     static_pages: "src/static_pages",
-    font: "src/font/**/*",
     fonts: "src/fonts/**/*",
-    fontsCss: "src/less/fonts.less",
+    ckanFontsCss: "src/less/fonts-ckan.less",
+    drupalFontsCss: "src/less/fonts-drupal.less",
     scripts: "src/scripts/**/*",
     bootstrap_styles: "node_modules/bootstrap/less",
     bootstrap_scripts: "node_modules/bootstrap/js/*",
     moment_path: "node_modules/moment",
     root: "src"
   },
-  dist: "resources"
+  drupalTheme: "../avoindata-drupal-theme",
+  ckanResources: "../ckanext-ytp_main/ckanext/ytp/resources",
+  ckanPublic: "../ckanext-ytp_main/ckanext/ytp/public",
 };
 
 let fontawesomeLessPath = 'node_modules/@fortawesome/fontawesome-pro/less';
@@ -47,10 +49,11 @@ if (!fs.existsSync('node_modules/@fortawesome/fontawesome-pro')){
 
 var timestamp = new Date().getTime();
 
-gulp.task("clean", done => {
+// Not possible anymore due to writing resources into extension directories
+/*gulp.task("clean", done => {
   del.sync([paths.dist, paths.root + '/vendor/**']);
   done();
-});
+});*/
 
 
 gulp.task('copy:fontawesomeLess', (done) => {
@@ -81,7 +84,8 @@ gulp.task("ckan",(done) => {
     cleancss({ keepBreaks: false }),
     concat("ckan.css"),
     sourcemaps.write("."),
-    gulp.dest(paths.dist + "/styles")
+    gulp.dest(paths.drupalTheme + "/css"),
+    gulp.dest(paths.ckanResources + "/styles")
   ], done)
 });
 
@@ -93,7 +97,7 @@ gulp.task("openapi_view",(done) => {
     prefixer(),
     cleancss({ keepBreaks: false }),
     concat("openapi_view.css"),
-    gulp.dest(paths.dist + "/styles")
+    gulp.dest(paths.ckanResources + "/styles")
   ], done)
 });
 
@@ -132,17 +136,30 @@ gulp.task("drupal_copy_custom_element_styles_to_plugin", (done) => {
 });
 
 // Separate fonts to their own css to optimize their loading
-gulp.task("fontsCss", (done) => {
+gulp.task("ckanFontsCss", (done) => {
   pump([
-    gulp.src(paths.src.fontsCss),
+    gulp.src(paths.src.ckanFontsCss),
     sourcemaps.init(),
-    less({paths: [paths.src.fontsCss]}),
+    less({paths: [paths.src.ckanFontsCss]}),
     prefixer(),
     template({ timestamp: timestamp }),
     cleancss({ keepBreaks: false }),
     concat("fonts.css"),
     sourcemaps.write("./maps"),
-    gulp.dest(paths.dist + "/styles"),
+    gulp.dest(paths.ckanResources + "/styles"),
+  ], done)
+});
+gulp.task("drupalFontsCss", (done) => {
+  pump([
+    gulp.src(paths.src.drupalFontsCss),
+    sourcemaps.init(),
+    less({paths: [paths.src.drupalFontsCss]}),
+    prefixer(),
+    template({ timestamp: timestamp }),
+    cleancss({ keepBreaks: false }),
+    concat("fonts.css"),
+    sourcemaps.write("./maps"),
+    gulp.dest(paths.drupalTheme + "/css"),
   ], done)
 });
 
@@ -162,7 +179,8 @@ gulp.task("images", (done) => {
         ]
       })
     ]),
-    gulp.dest(paths.dist + "/images")
+    gulp.dest(paths.drupalTheme + "/images"),
+    gulp.dest(paths.ckanPublic + "/images"),
   ], done)
 });
 
@@ -170,7 +188,8 @@ gulp.task("templates", (done) => {
   pump([
     gulp.src(paths.src.templates),
     template({ timestamp: timestamp }),
-    gulp.dest(paths.dist + "/templates")
+    gulp.dest(paths.drupalTheme + "/templates"),
+    gulp.dest(paths.ckanResources + "/templates")
   ], done)
 });
 
@@ -178,7 +197,7 @@ gulp.task("static_css",
   gulp.series('images', (done) => {
   pump([
     gulp.src(paths.src.static_pages + "/css/main.css"),
-    base64('../../resources/images'),
+    base64('/themes/avoindata/images'),
     concat("style.css"),
     gulp.dest(paths.src.static_pages + "/css")
   ], done)
@@ -190,7 +209,7 @@ gulp.task(
     pump([
       gulp.src(paths.src.static_pages + "/*.html"),
       inlineCss(),
-      gulp.dest(paths.dist + "/static")
+      gulp.dest(paths.drupalTheme + "/static")
     ], done)
   })
 );
@@ -198,28 +217,24 @@ gulp.task(
 gulp.task("fonts", (done) => {
   pump([
     gulp.src(paths.src.fonts),
-    gulp.dest(paths.dist + "/fonts")
-  ], done)
-});
-
-gulp.task("font", (done) => {
-  pump([
-    gulp.src(paths.src.font),
-    gulp.dest(paths.dist + "/font")
+    gulp.dest(paths.drupalTheme + "/fonts"),
+    gulp.dest(paths.ckanPublic + "/fonts")
   ], done)
 });
 
 gulp.task("scripts", (done) => {
   pump([
     gulp.src([paths.src.scripts, paths.src.drupal_avoindata_header]),
-    gulp.dest(paths.dist + "/scripts")
+    gulp.dest(paths.drupalTheme + "/js"),
+    gulp.dest(paths.ckanResources + "/js")
   ], done)
 });
 
 gulp.task("bootstrap_scripts", (done) => {
   pump([
     gulp.src([paths.src.bootstrap_scripts]),
-    gulp.dest(paths.dist + "/vendor/bootstrap/js")
+    gulp.dest(paths.drupalTheme + "/vendor/bootstrap/js"),
+    gulp.dest(paths.ckanResources + "/vendor/bootstrap/js")
   ], done)
 });
 
@@ -228,10 +243,11 @@ gulp.task("bootstrap_styles", (done) => {
     gulp.src(paths.src.bootstrap_styles + "/bootstrap.less"),
     less({paths: [paths.src.bootstrap_styles]}),
     concat("bootstrap.css"),
-    gulp.dest(paths.dist + "/vendor"),
+    gulp.dest(paths.drupalTheme + "/vendor"),
     cleancss({ keepBreaks: false }),
     concat("bootstrap.min.css"),
-    gulp.dest(paths.dist + "/vendor")
+    gulp.dest(paths.drupalTheme + "/vendor"),
+    gulp.dest(paths.ckanResources + "/vendor"),
   ], done)
 });
 
@@ -267,7 +283,9 @@ gulp.task("vendor",
     "copy:libs", (done) => {
     pump([
       gulp.src(paths.src.root + "/vendor/**/*"),
-      gulp.dest(paths.dist + "/vendor"),
+      gulp.dest(paths.drupalTheme + "/vendor"),
+      gulp.dest(paths.ckanVendor + "/vendor"),
+      gulp.dest(paths.ckanPublic + "/vendor"),
     ], done)
   })
 );
@@ -276,9 +294,10 @@ gulp.task(
   "minify-vendor-javascript",
   gulp.series("vendor", (done) => {
     pump([
-      gulp.src(paths.dist + "/vendor/**/*.js"),
+      gulp.src(paths.drupalTheme + "/vendor/**/*.js"),
       terser(),
-      gulp.dest(paths.dist + "/vendor")
+      gulp.dest(paths.drupalTheme + "/vendor"),
+      gulp.dest(paths.ckanResources + "/vendor")
     ], done)
   })
 );
@@ -286,14 +305,14 @@ gulp.task(
 gulp.task("config", (done) => {
   pump([
     gulp.src(paths.src.root + "/resource.config"),
-    gulp.dest(paths.dist)
+    gulp.dest(paths.drupalTheme)
   ], done)
 });
 
 gulp.task(
   "default",
   gulp.series(
-    "clean",
+    //"clean",
     "config",
     "copy:fontawesomeLess",
     "lint",
@@ -308,8 +327,8 @@ gulp.task(
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
       "fonts",
-      "font",
-      "fontsCss",
+      "ckanFontsCss",
+      "drupalFontsCss",
       "scripts")
   )
 );
@@ -338,7 +357,8 @@ gulp.task("watch_styles", () => {
       "ckan",
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
-      "fontsCss",
+      "ckanFontsCss",
+      "drupalFontsCss",
       "lint"
     )
   );
@@ -356,7 +376,7 @@ gulp.task("watch_drupal_styles", () => {
     gulp.series(
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
-      "fontsCss",
+      "drupalFontsCss",
       "lint"
     )
   );

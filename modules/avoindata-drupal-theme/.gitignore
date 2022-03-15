@@ -1,3 +1,8 @@
 # Ignore generated styles folder
 css/
-fonts
+fonts/
+images/
+js/
+static/
+vendor/
+resource.config

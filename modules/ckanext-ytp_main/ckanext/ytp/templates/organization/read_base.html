@@ -1,16 +1,18 @@
 {% ckan_extends %}
+{% if group_dict is not defined %}{% set group_dict = c.group_dict %}{% endif %}
+{% if page is not defined %}{% set page = c.page %}{% endif %}
 
 {% block content_action %}
-  {% if h.check_access('organization_update', {'id': c.group_dict.id}) %}
-    {% link_for _('Members'), controller='organization', action='members', id=c.group_dict.name, class_='btn', icon='user' %}
-    {% link_for _('Manage'), controller='organization', action='edit', id=c.group_dict.name, class_='btn', icon='wrench' %}
+  {% if h.check_access('organization_update', {'id': group_dict.id}) %}
+    {% link_for _('Members'), controller='ytp_organization', action='members', id=group_dict.name, class_='btn', icon='user' %}
+    {% link_for _('Manage'), controller='ytp_organization', action='edit', id=group_dict.name, class_='btn', icon='wrench' %}
   {% endif %}
 {% endblock %}
 
 {% block content_primary_nav %}
-  {{ h.build_nav_icon('organization_read_extended', _('Datasets'), id=c.group_dict.name) }}
-  {% if h.check_access('organization_update', {'id': c.group_dict.id})%}
-    {{ h.build_nav_icon('organization_activity', _('Activity Stream'), id=c.group_dict.name, offset=0) }}
+  {{ h.build_nav_icon('organization_read', _('Datasets'), id=group_dict.name) }}
+  {% if h.check_access('organization_update', {'id': group_dict.id})%}
+    {{ h.build_nav_icon('organization_activity', _('Activity Stream'), id=group_dict.name, offset=0) }}
   {% endif %}
-  {{ h.build_nav_icon('organization_about', _('About'), id=c.group_dict.name) }}
+  {{ h.build_nav_icon('organization_about', _('About'), id=group_dict.name) }}
 {% endblock %}

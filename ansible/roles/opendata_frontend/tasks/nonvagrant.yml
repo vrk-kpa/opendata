@@ -3,7 +3,7 @@
 - name: Copy secret .npmrc
   copy:
     src: "/root/avoindata-secrets/{{ deployment_environment_id }}/.npmrc"
-    dest: "{{ opendata_frontend_server_path }}/ytp-assets-common/.npmrc"
+    dest: "{{ opendata_frontend_server_path }}/.npmrc"
     mode: "preserve"
     remote_src: true
   when: opendata_frontend_copy_secret_npmrc
@@ -11,21 +11,52 @@
 - name: Copy fallback package.json if npmrc does not exist
   copy:
     src: package.json
-    dest: "{{ opendata_frontend_server_path }}/ytp-assets-common/package.json"
+    dest: "{{ opendata_frontend_server_path }}/package.json"
     mode: "0644"
   when: not opendata_frontend_copy_secret_npmrc
+
+
+- name: Add NodeSource GPG key
+  apt_key:
+    data: "{{ lookup('file', 'nodesource.gpg.key') }}"
+
+- name: Add NodeSource APT repository
+  apt_repository:
+    repo: 'deb https://deb.nodesource.com/node_17.x {{ ansible_distribution_release }} main'
+
+- name: Ensure required packages are present
+  package:
+    name: "{{ opendata_frontend_packages }}"
+    state: present
+
+- name: Install resource dependencies
+  command: npm install
+  args:
+    chdir: "{{ opendata_frontend_server_path }}"
+  tags:
+    - skip_ansible_lint
+  environment:
+    CYPRESS_INSTALL_BINARY: 0
+
+- name: Run gulp
+  command: "{{ opendata_frontend_server_path }}/node_modules/gulp/bin/gulp.js"
+  args:
+    chdir: "{{ opendata_frontend_server_path }}"
+  tags:
+    - skip_ansible_lint
+
 
 - name: Synchronize avoindata drupal theme to cache folder
   synchronize:
     src: "{{ opendata_frontend_modules_path }}/avoindata-drupal-theme/"
-    dest: "{{ opendata_frontend_server_path }}/avoindata-drupal-theme"
+    dest: "{{ opendata_frontend_cache_path }}/avoindata-drupal-theme"
 
 - name: Synchronize avoindata drupal header to cache folder
   synchronize:
     src: "{{ opendata_frontend_modules_path }}/avoindata-drupal-header/"
-    dest: "{{ opendata_frontend_server_path }}/avoindata-drupal-header"
+    dest: "{{ opendata_frontend_cache_path }}/avoindata-drupal-header"
 
 - name: Synchronize avoindata drupal ckeditor plugins to cache folder
   synchronize:
     src: "{{ opendata_frontend_modules_path }}/avoindata-drupal-ckeditor-plugins/"
-    dest: "{{ opendata_frontend_server_path }}/avoindata-drupal-ckeditor-plugins"
+    dest: "{{ opendata_frontend_cache_path }}/avoindata-drupal-ckeditor-plugins"

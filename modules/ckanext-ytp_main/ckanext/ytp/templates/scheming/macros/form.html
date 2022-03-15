@@ -83,7 +83,7 @@ description - Additional description text between the label and the input
 {% endmacro %}
 
 {% macro input_multiple(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false, description="") %}
-  {% resource 'ytp_dataset_js/form.js' %}
+  {% asset 'ytp_resources/form_js' %}
   {% do classes.append('control-medium') %}
   {%- set extra_html = caller() if caller -%}
   {% call input_block(id or name, label or name, error, classes, control_classes=["editor"], extra_html=extra_html, is_required=is_required, description="") %}

@@ -1,6 +1,7 @@
 ckan_hostname: "{{ hostname }}"
 ckan_secondary_hostname: "{{ secondary_hostname }}"
 ckan_virtual_environment: "{{ virtual_environment }}"
+ckan_port: 5000
 
 ckan_debug_enabled: false
 ckan_postgres_installed_locally: false
@@ -9,7 +10,7 @@ ckan_smtp_use_tls: True
 ckan_smtp_username: "{{ smtp_user }}"
 ckan_smtp_password: "{{ smtp_password }}"
 ckan_smtp_server_domain: "{{ smtp_server_domain }}"
-ckan_enable_cloudstorage: True
+ckan_enable_cloudstorage: false
 ckan_site_protocol: https
 ckan_extension_archiver_cache_protocol: https
 ckan_cloudstorage_driver: "{{ AWS.region }}"

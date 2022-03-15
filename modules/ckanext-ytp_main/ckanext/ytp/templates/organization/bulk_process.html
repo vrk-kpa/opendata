@@ -3,7 +3,7 @@
 
 {% block form %}
     {% if c.page.item_count %}
-        {% resource "ytp_common_js/bulk-confirm-action.js" %}
+        {% asset "ytp_resources/bulk-confirm-action_js" %}
         <form method="POST" data-module="basic-form">
             <table class="table table-bordered table-header table-hover table-bulk-edit table-edit-hover" data-module="table-selectable-rows">
                 <col width="8">
@@ -43,11 +43,11 @@
                                 <input type="checkbox" name="dataset_{{ package.id }}">
                             </td>
                             <td class="context">
-                                <a href="{% url_for controller='package', action='edit', id=package.name %}" class="edit pull-right">
+                                <a href="{% url_for 'dataset.edit', id=package.name %}" class="edit pull-right">
                                 {{ _('Edit') }}
                                 </a>
                                 <h3 class="dataset-heading">
-                                  {{ h.link_to(h.truncate(title, truncate_title), h.url_for(controller='package', action='read', id=package.name)) }}
+                                  {{ h.link_to(h.truncate(title, truncate_title), h.url_for(named_route='dataset.read', id=package.name)) }}
                                 {% if package.get('state', '').startswith('draft') %}
                                     <span class="label label-info">{{ _('Draft') }}</span>
                                 {% elif package.get('state', '').startswith('deleted') %}

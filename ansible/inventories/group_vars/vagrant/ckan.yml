@@ -9,11 +9,13 @@ ckan_postgres_installed_locally: true
 ckan_debug_enabled: true
 ckan_deployment_environment_id: 'vagrant'
 
-ckan_testing_ports:
-  - 9090
+ckan_test_port: 9090
+ckan_test_ini: /etc/ckan/default/test.ini
+ckan_test_supervisor_name: ckan_test
 
 ckan_config_files:
-  - file: /etc/ckan/default/production.ini
+  - template: ckan.ini.j2
+    file: "{{ ckan_ini }}"
     db_server: "{{ ckan_postgres.server.host }}"
     db_ckan_username: "{{ ckan_postgres.users.ckan.username }}"
     db_ckan_password: "{{ ckan_postgres.users.ckan.password }}"
@@ -25,7 +27,8 @@ ckan_config_files:
     hostname: "{{ ckan_hostname }}"
     redis_db: "{{ ckan_redis_db }}"
     debug_enabled: "{{ ckan_debug_enabled }}"
-  - file: /etc/ckan/default/test.ini
+  - template: ckan.ini.j2
+    file: /etc/ckan/default/test.ini
     db_server: "{{ ckan_postgres.server.host }}"
     db_ckan_username: ckan_test
     db_ckan_password: pass
@@ -38,17 +41,31 @@ ckan_config_files:
     redis_db: "1"
     debug_enabled: false
 
-ckan_wsgi_config_files:
-  - file: "/etc/ckan/default/apache.wsgi"
-    logfile: "ckan.log"
-    config_file: production.ini
-  - file: "/etc/ckan/default/apache_test.wsgi"
-    logfile: "ckan_test.log"
-    config_file: test.ini
+wsgi_config_files:
+  - template: ckan-uwsgi.ini.j2
+    file: "{{ ckan_uwsgi_conf }}"
+    ckan_wsgi_script: "{{ ckan_wsgi_script }}"
+    ckan_port: "{{ ckan_port }}"
+    ckan_ini: "{{ ckan_ini }}"
+  - template: ckan-uwsgi.ini.j2
+    file: "{{ ckan_uwsgi_test_conf }}"
+    ckan_wsgi_script: "{{ ckan_wsgi_script }}"
+    ckan_port: "{{ ckan_test_port }}"
+    ckan_ini: "{{ ckan_test_ini }}"
+  - template: wsgi.py.j2
+    file: "{{ ckan_wsgi_script }}"
 
 ckan_log_files:
   - "{{ ckan_log_path }}/ckan.log"
   - "{{ ckan_log_path }}/ckan_test.log"
+
+ckan_supervisor_services:
+  - "{{ ckan_supervisor_name }}:"
+  - "{{ ckan_test_supervisor_name }}:"
+  - ckan_gather_consumer
+  - ckan_fetch_consumer
+  - ckan-worker-bulk
+  - ckan-worker-priority
 
 ckan_sentry_integration_enabled: false
 ckan_notifications_to_maintainers_enabled: true

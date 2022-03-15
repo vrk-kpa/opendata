@@ -1,6 +1,6 @@
 - block:
     - name: Copy prh systemd configurations
-      copy:
+      template:
         src: "{{ item }}"
         dest: "/etc/systemd/system/{{ item }}"
         mode: "0644"

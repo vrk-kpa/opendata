@@ -1,0 +1,8 @@
+sixodp_showcase_js:
+  output: ckanext-sixodp_showcase%(version)s.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - javascript/sixodp_showcase.js

@@ -7,7 +7,7 @@ from ckan.lib.base import render
 from ckan.logic import get_action
 from flask import Blueprint
 
-from helpers import advancedsearch_schema, field_options, query_helper
+from .helpers import advancedsearch_schema, field_options, query_helper
 
 
 log = logging.getLogger(__name__)
@@ -43,7 +43,7 @@ def search():
 
     options = {}
 
-    for key, val in schema['input_fields'].iteritems():
+    for key, val in schema['input_fields'].items():
         # Skip field used for main query
         if key == main_query_field:
             continue
@@ -59,7 +59,7 @@ def search():
 
         # Iterate through all fields in schema except the main_query_field
         # and process every field with the provided query_helper
-        for key, val in schema['input_fields'].iteritems():
+        for key, val in schema['input_fields'].items():
             # Skip field used for main query
             if key == main_query_field:
                 continue
@@ -90,18 +90,18 @@ def search():
     query = get_action('package_search')(context, data_dict)
 
     json_query = json.dumps(
-        {k: v for k, v in params_to_dict(request.form).items() if k != 'page' and type(v) is list and len(v[0]) > 0}
+        {k: v for k, v in list(params_to_dict(request.form).items()) if k != 'page' and type(v) is list and len(v[0]) > 0}
     )
 
     filters = {
-        k: v for k, v in params_to_dict(request.form).items() if k != 'search_target' and k != 'search_query'
+        k: v for k, v in list(params_to_dict(request.form).items()) if k != 'search_target' and k != 'search_query'
         and k != 'page' and k != 'released-before' and k != 'released-after' and k != 'updated-before'
         and k != 'updated-after' and k != 'sort' and type(v) is list and len(v[0]) > 0
     }
 
-    for key, value in filters.iteritems():
-        if u'all' in value:
-            filters[key] = [{'value': u'all', 'label': u'All'}]
+    for key, value in filters.items():
+        if 'all' in value:
+            filters[key] = [{'value': 'all', 'label': 'All'}]
             continue
         if options and options[key]:
             options_list = []

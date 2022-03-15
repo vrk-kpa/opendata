@@ -24,7 +24,7 @@ def harvester_status(context=None, data_dict=None):
         finished = j.get('finished')
         errors = j.get('stats', {}).get('errored', 0)
 
-        if j.get('status') == u'Finished' or finished is not None:
+        if j.get('status') == 'Finished' or finished is not None:
             status = 'finished'
         elif started is not None:
             status = 'running'

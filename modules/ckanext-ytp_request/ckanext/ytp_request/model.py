@@ -21,7 +21,7 @@ REQUEST_CANCEL = "cancel"
 
 
 def make_uuid():
-    return unicode(uuid.uuid4())
+    return str(uuid.uuid4())
 
 
 class MemberRequest(Base):

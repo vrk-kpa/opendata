@@ -1,6 +1,6 @@
 import json
 import datetime
-import urlparse
+import urllib.parse
 import logging
 from ckan.lib.navl.dictization_functions import Invalid, Missing, missing, flatten_list, StopOnError
 from ckan.common import _
@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 
 def to_list_json(value, context):
     """ CKAN converter. Convert value to JSON format. String value is converted to single item list before converting """
-    if isinstance(value, basestring):
+    if isinstance(value, str):
         value = [value]
     return json.dumps([item for item in value if item])
 
@@ -23,21 +23,21 @@ def from_json_list(value, context):
     if not value:
         return value
     try:
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             parsed_value = json.loads(value)
             if not isinstance(parsed_value, list):
                 return [value]
             return parsed_value
     except Exception as e:
-        print e
+        print(e)
         pass
-    return [unicode(value)]  # Return original string as list for non converted values
+    return [str(value)]  # Return original string as list for non converted values
 
 
 def _check_url(url):
     if not url:
         return
-    parts = urlparse.urlsplit(url)
+    parts = urllib.parse.urlsplit(url)
     if not parts.scheme or not parts.netloc:
         if not url.startswith('www.'):
             raise Invalid(_('Incorrect web address format detected. Web address must start with http://, https:// or www.'))
@@ -45,7 +45,7 @@ def _check_url(url):
 
 def is_url(value, context):
     """ CKAN validator. Test is given value is valid URL. Accepts also www-prefix as valid URL. """
-    if isinstance(value, basestring):
+    if isinstance(value, str):
         _check_url(value)
     elif isinstance(value, list):
         for url in value:
@@ -94,12 +94,12 @@ def convert_to_tags_string(vocab):
         Parses tag string and add tags to given vocabulrary.
     """
     def callable_method(key, data, errors, context):
-        if isinstance(data[key], basestring):
+        if isinstance(data[key], str):
             tags = [tag.strip() for tag in data[key].split(',') if tag.strip()]
         else:
             tags = data[key]
 
-        current_index = max([int(k[1]) for k in data.keys() if len(k) == 3 and k[0] == 'tags'] + [-1])
+        current_index = max([int(k[1]) for k in list(data.keys()) if len(k) == 3 and k[0] == 'tags'] + [-1])
 
         model = context['model']
         v = model.Vocabulary.get(vocab)
@@ -154,10 +154,10 @@ def save_to_groups(key, data, errors, context):
 
     if value and value is not missing:
 
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             group_patch = flatten_list([{"name": value}])
-            group_key = ('groups',) + group_patch.keys()[0]
-            group_value = group_patch.values()[0]
+            group_key = ('groups',) + list(group_patch.keys())[0]
+            group_value = list(group_patch.values())[0]
             data[group_key] = group_value
         else:
             if isinstance(value, list):
@@ -167,7 +167,7 @@ def save_to_groups(key, data, errors, context):
                     groups_with_details.append({"name": identifier})
                 group_patch = flatten_list(groups_with_details)
 
-                for k, v in group_patch.items():
+                for k, v in list(group_patch.items()):
                     group_key = ('groups',) + k
                     data[group_key] = v
 

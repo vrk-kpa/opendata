@@ -2,7 +2,7 @@ import ckan.plugins as p
 from ckan.plugins.toolkit import config
 from ckan.lib.plugins import DefaultTranslation
 import ckan.logic as logic
-from urlparse import urlparse
+from urllib.parse import urlparse
 import os
 
 

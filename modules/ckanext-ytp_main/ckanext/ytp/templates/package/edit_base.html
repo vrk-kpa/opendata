@@ -1,7 +1,7 @@
 {% ckan_extends %}
 
 {% block content_action %}
-  {% link_for _('Close without saving'), controller='package', action='read', id=pkg.name, class_='btn', icon='' %}
+{% link_for _('Close without saving'), named_route='dataset.read', id=pkg.name, class_='btn', icon='' %}
 {% endblock %}
 
 {% block secondary_content %}

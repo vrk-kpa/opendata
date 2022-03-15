@@ -1,6 +1,0 @@
-[Unit]
-Description=Clears PRH data
-
-[Service]
-ExecStart=/usr/lib/ckan/default/bin/paster --plugin=ckanext-prh prh-tools clear /srv/ytp/files/prh --config=/etc/ckan/default/production.ini
-

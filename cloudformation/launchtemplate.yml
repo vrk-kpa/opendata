@@ -131,7 +131,7 @@ Resources:
             cd /root/ytp/ansible
             ansible-playbook -i inventories/${EnvironmentName} scheduled-server.yml --tags configure,cron,supervisor
             . /usr/lib/ckan/default/bin/activate
-            /usr/lib/ckan/default/bin/paster --plugin=ckan search-index rebuild --config=/etc/ckan/default/production.ini -i
+            /usr/lib/ckan/default/bin/ckan --config={{ ckan_ini }} search-index rebuild -i
 
             aws autoscaling complete-lifecycle-action \
               --auto-scaling-group-name $(aws autoscaling describe-auto-scaling-instances \

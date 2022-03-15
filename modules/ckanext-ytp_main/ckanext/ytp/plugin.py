@@ -1,22 +1,20 @@
 import json
 import logging
 
+import six
 import iso8601
 import re
 import types
-import urlparse
-import validators
+import urllib
 import sqlalchemy
-
 import ckan.lib.base as base
-import logic as plugin_logic
+from . import logic as plugin_logic
 import ckan.plugins as p
 from ckan import authz as authz
 
 from ckan import plugins, model, logic
 from ckan.common import _, c, request, is_flask_request
 
-from ckan.config.routing import SubMapper
 from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
 from ckan.lib.navl.dictization_functions import Missing, Invalid
@@ -29,35 +27,28 @@ from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester
 from ckanext.showcase.model import ShowcaseAdmin
 from paste.deploy.converters import asbool
-from webhelpers.html import escape
-from webhelpers.html.tags import link_to
 from sqlalchemy import and_, or_
 from sqlalchemy.sql.expression import false
 
-from flask import Blueprint
-from logic import package_autocomplete
-from views import dataset_autocomplete
+from ckanext.ytp.logic import package_autocomplete
+import ckanext.ytp.views as views
+from ckanext.ytp import auth, menu, cli, validators, views_organization
 
-import auth
-import menu
+from .converters import save_to_groups
 
-from converters import save_to_groups
-
-from helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
+from .helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
-    get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, get_visits_for_resource, \
-    get_visits_for_dataset, get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
+    get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, \
+    get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
     sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, \
-    scheming_language_text_or_empty, \
-    get_lang_prefix, call_toolkit_function, get_translation, get_translated, dataset_display_name, \
-    resource_display_name, \
-    get_visits_count_for_dataset_during_last_year, get_current_date, get_download_count_for_dataset_during_last_year, \
-    get_label_for_producer, scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
+    scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function, get_translation, get_translated, \
+    dataset_display_name, resource_display_name, get_current_date, get_label_for_producer, scheming_category_list, \
+    check_group_selected, group_title_by_id, group_list_with_selected, \
     get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin, \
     get_value_from_extras_by_key, get_field_from_dataset_schema, get_field_from_resource_schema, is_boolean_selected, \
     site_url_with_root_path
 
-from tools import create_system_context
+from .tools import create_system_context
 
 from ckan.logic.validators import tag_length_validator, tag_name_validator
 
@@ -88,6 +79,15 @@ class YtpMainTranslation(DefaultTranslation):
         return "ckanext-ytp_main"
 
 
+class OpendataCliPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.IClick)
+
+    # IClick
+
+    def get_commands(self):
+        return cli.get_commands()
+
+
 def create_vocabulary(name, defer=False):
     user = toolkit.get_action('get_site_user')({'ignore_auth': True}, {})
     context = {'user': user['name']}
@@ -104,7 +104,7 @@ def create_vocabulary(name, defer=False):
         if defer:
             context['defer_commit'] = True
         return toolkit.get_action('vocabulary_create')(context, data)
-    except Exception, e:
+    except Exception as e:
         log.error('%s' % e)
 
 
@@ -128,7 +128,7 @@ def create_tag_to_vocabulary(tag, vocab, defer=False):
 
 
 def _escape(value):
-    return escape(unicode(value))
+    return urllib.parse.quote(six.text_type(value))
 
 
 def _prettify(field_name):
@@ -233,11 +233,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IConfigurer #
 
     def update_config(self, config):
-        toolkit.add_public_directory(config, '/var/www/resources')
-        toolkit.add_resource('public/javascript/', 'ytp_dataset_js')
         toolkit.add_template_directory(config, 'templates')
-
-        toolkit.add_resource('public/javascript/', 'ytp_common_js')
         toolkit.add_template_directory(config, '../common/templates')
 
     # IDatasetForm
@@ -310,7 +306,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def _get_user(self, user):
         if not isinstance(user, model.User):
-            user_name = unicode(user)
+            user_name = six.text_type(user)
             user = model.User.get(user_name)
             if not user:
                 return user_name
@@ -358,10 +354,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_upload_size': get_upload_size,
                 'render_date': render_date,
                 'get_license': get_license,
-                'get_visits_for_resource': get_visits_for_resource,
-                'get_visits_for_dataset': get_visits_for_dataset,
-                'get_visits_count_for_dataset_during_last_year': get_visits_count_for_dataset_during_last_year,
-                'get_download_count_for_dataset_during_last_year': get_download_count_for_dataset_during_last_year,
                 'get_current_date': get_current_date,
                 'get_geonetwork_link': get_geonetwork_link,
                 'get_tooltip_content_types': get_tooltip_content_types,
@@ -398,12 +390,12 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         # IPackageController #
 
     def after_show(self, context, pkg_dict):
-        if u'resources' in pkg_dict and pkg_dict[u'resources']:
-            for resource in pkg_dict[u'resources']:
+        if 'resources' in pkg_dict and pkg_dict['resources']:
+            for resource in pkg_dict['resources']:
                 if 'url_type' in resource and isinstance(resource['url_type'], Missing):
                     resource['url_type'] = None
 
-        if (pkg_dict.get(u'categories', None) and pkg_dict.get(u'groups', None)):
+        if (pkg_dict.get('categories', None) and pkg_dict.get('groups', None)):
             translation_dict = {
                 'all_fields': True,
                 'include_extras': True,
@@ -502,15 +494,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         }
 
     def get_blueprint(self):
-        u'''Return a Flask Blueprint object to be registered by the app.'''
-
-        # Create Blueprint for plugin
-        blueprint = Blueprint(self.name, self.__module__)
-
-        # Add plugin url rules to Blueprint object
-        blueprint.add_url_rule(u'/api/util/dataset/autocomplete', view_func=dataset_autocomplete)
-
-        return blueprint
+        return views.get_blueprint()
 
 
 class YTPSpatialHarvester(plugins.SingletonPlugin):
@@ -525,7 +509,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         list_map = {'access_constraints': 'copyright_notice'}
 
-        for source, target in list_map.iteritems():
+        for source, target in list_map.items():
             for extra in package_dict['extras']:
                 if extra['key'] == source:
                     value = json.loads(extra['value'])
@@ -537,7 +521,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         value_map = {'contact-email': ['maintainer_email']}
 
-        for source, target in value_map.iteritems():
+        for source, target in value_map.items():
             for extra in package_dict['extras']:
                 if extra['key'] == source and len(extra['value']):
                     for target_key in target:
@@ -547,7 +531,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         map = {'responsible-party': ['maintainer']}
 
         harvester_context = {'model': model, 'session': Session, 'user': 'harvest'}
-        for source, target in map.iteritems():
+        for source, target in map.items():
             for extra in package_dict['extras']:
                 if extra['key'] == source:
                     value = json.loads(extra['value'])
@@ -695,8 +679,8 @@ def action_organization_tree_list(context, data_dict):
     else:
         # Find names of all non-approved organizations
         query = (model.Session.query(model.Group.name)
-                 .filter(model.Group.state == u'active')
-                 .filter(model.Group.approval_status != u'approved'))
+                 .filter(model.Group.state == 'active')
+                 .filter(model.Group.approval_status != 'approved'))
 
         non_approved = set(result[0] for result in query.all())
 
@@ -705,11 +689,11 @@ def action_organization_tree_list(context, data_dict):
             query = (model.Session.query(model.Group.name)
                      .join(model.Member, model.Member.group_id == model.Group.id)
                      .join(model.User, model.User.id == model.Member.table_id)
-                     .filter(model.Member.state == u'active')
-                     .filter(model.Member.table_name == u'user')
+                     .filter(model.Member.state == 'active')
+                     .filter(model.Member.table_name == 'user')
                      .filter(model.User.name == user)
-                     .filter(model.Group.state == u'active')
-                     .filter(model.Group.approval_status != u'approved'))
+                     .filter(model.Group.state == 'active')
+                     .filter(model.Group.approval_status != 'approved'))
             memberships = set(result[0] for result in query.all())
             non_approved -= memberships
 
@@ -721,11 +705,11 @@ def action_organization_tree_list(context, data_dict):
 
     # Fetch ids of all visible organizations filtered in maybe correct order
     ids_and_titles = (model.Session.query(model.Group.id, model.Group.title, model.GroupExtra.value)
-                      .filter(model.Group.state == u'active')
+                      .filter(model.Group.state == 'active')
                       .filter(model.Group.is_organization.is_(True))
                       .filter(model.Group.name.notin_(non_approved))
                       .join(model.GroupExtra, model.GroupExtra.group_id == model.Group.id)
-                      .filter(model.GroupExtra.key == u'title_translated')
+                      .filter(model.GroupExtra.key == 'title_translated')
                       .order_by(model.Group.title))
 
     # Optionally handle getting only organizations with datasets
@@ -778,16 +762,16 @@ def action_organization_tree_list(context, data_dict):
                                            or_(model.Package.owner_org == model.Group.name,
                                                model.Package.owner_org == model.Group.id)))
             .outerjoin(parent_member, and_(parent_member.group_id == model.Group.id,
-                                           parent_member.table_name == u'group'))
+                                           parent_member.table_name == 'group'))
             .outerjoin(parent_group, parent_group.id == parent_member.table_id)
             .outerjoin(parent_extra, and_(parent_extra.group_id == parent_group.id,
-                                          parent_extra.key == u'title_translated'))
+                                          parent_extra.key == 'title_translated'))
             .outerjoin(child_member, and_(child_member.table_id == model.Group.id,
-                                          child_member.table_name == u'group'))
+                                          child_member.table_name == 'group'))
             .outerjoin(child_group, child_group.id == child_member.group_id)
             .filter(model.Group.id.in_(page_ids))
-            .filter(model.GroupExtra.state == u'active')
-            .filter(model.GroupExtra.key == u'title_translated')
+            .filter(model.GroupExtra.state == 'active')
+            .filter(model.GroupExtra.key == 'title_translated')
             .group_by(model.Group.id, model.Group.name,
                       model.Group.title, model.GroupExtra.value,
                       parent_group.name, parent_group.title, parent_extra.value)
@@ -812,7 +796,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
     """ CKAN plugin to change how organizations work """
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IActions)
-    plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IValidators)
@@ -835,35 +819,10 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
         return {'user_create': action_user_create, 'organization_show': action_organization_show,
                 'organization_tree_list': action_organization_tree_list}
 
-    def before_map(self, map):
-        organization_controller = 'ckanext.ytp.controller:YtpOrganizationController'
+    def get_blueprint(self):
+        '''Return a Flask Blueprint object to be registered by the app.'''
 
-        with SubMapper(map, controller=organization_controller) as m:
-            m.connect('organization_members', '/organization/members/{id}', action='members', ckan_icon='group')
-            m.connect('/user_list', action='user_list', ckan_icon='user')
-            m.connect('/admin_list', action='admin_list', ckan_icon='user')
-
-        map.connect('/organization/new',
-                    controller=organization_controller,
-                    action='new')
-
-        map.connect('/organization',
-                    controller=organization_controller,
-                    action='index')
-
-        map.connect('organization_read_extended',
-                    '/organization/{id}',
-                    controller=organization_controller,
-                    action='read',
-                    ckan_icon='group')
-
-        map.connect('organization_embed',
-                    '/organization/{id}/embed',
-                    controller=organization_controller,
-                    action='embed',
-                    ckan_icon='group')
-
-        return map
+        return views_organization.get_blueprints()
 
     # IValidators
     def get_validators(self):
@@ -888,7 +847,7 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
     # IReport
 
     def register_reports(self):
-        import reports
+        from . import reports
         return [
             reports.administrative_branch_summary_report_info,
             reports.deprecated_datasets_report_info,
@@ -1046,11 +1005,9 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
-        toolkit.add_template_directory(config, '/var/www/resources/templates')
-        toolkit.add_public_directory(config, '/var/www/resources')
-        toolkit.add_resource('/var/www/resources', 'ytp_resources')
+        toolkit.add_template_directory(config, 'resources/templates')
+        toolkit.add_resource('resources', 'ytp_resources')
         toolkit.add_public_directory(config, 'public')
-        toolkit.add_resource('public/javascript', 'theme_javascript')
         toolkit.add_template_directory(config, 'postit')
 
     # IConfigurable #
@@ -1069,7 +1026,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         return '.'.join(hostname.split('.')[-2:])
 
     def _get_menu_tree(self, current_url, language):
-        parsed_url = urlparse.urlparse(current_url)
+        parsed_url = urllib.parse.urlparse(current_url)
         for patterns, handler, selected in self._menu_map:
             for pattern in patterns:
                 if type(pattern) in types.StringTypes:
@@ -1077,16 +1034,16 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                     if c.user:
                         values['username'] = c.user
                     try:
-                        pattern_url = urlparse.urlparse(pattern % values)
+                        pattern_url = urllib.parse.urlparse(pattern % values)
 
                         if parsed_url.path == pattern_url.path:
                             skip = False
                             if pattern_url.query:
-                                parsed_parameters = urlparse.parse_qs(parsed_url.query)
+                                parsed_parameters = urllib.parse.parse_qs(parsed_url.query)
                                 if not parsed_parameters:
                                     skip = True
                                 else:
-                                    for key, value in urlparse.parse_qs(pattern_url.query).iteritems():
+                                    for key, value in urllib.parse.parse_qs(pattern_url.query).items():
                                         parameter = parsed_parameters.get(key, None)
                                         if not parameter or parameter[0] != value[0]:
                                             skip = True
@@ -1121,19 +1078,20 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
             for domain in domains:
                 # Split domain from : and expect first part to be hostname and second part be port.
                 # Here we ignore the port as drupal seems to ignore the port when generating cookiename hashes
-                domain_hash = hashlib.sha256(domain.split(':')[0]).hexdigest()[:32]
+                domain_hash = hashlib.sha256(domain.split(':')[0].encode('utf-8')).hexdigest()[:32]
                 cookienames = (template % domain_hash for template in ('SESS%s', 'SSESS%s'))
                 named_cookies = ((name, p.toolkit.request.cookies.get(name)) for name in cookienames)
                 for cookiename, cookie in named_cookies:
                     if cookie is not None:
                         cookies.update({cookiename: cookie})
 
-            response = requests.get('%s/%s/%s' % (hostname, lang, path), cookies=cookies, verify=verify_cert)
+            snippet_url = '%s/%s/%s' % (hostname, lang, path)
+            response = requests.get(snippet_url, cookies=cookies, verify=verify_cert)
             return response.text
-        except requests.exceptions.RequestException, e:
+        except requests.exceptions.RequestException as e:
             log.error('%s' % e)
             return ''
-        except Exception, e:
+        except Exception as e:
             log.error('%s' % e)
             return ''
 
@@ -1145,15 +1103,11 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
     def _drupal_header(self):
         # Path variable depends on request type
         path = request.full_path if is_flask_request() else request.path_qs
-        try:
-            path = path.decode('utf8')
-        except UnicodeDecodeError:
-            path = path.decode('cp1252')
         result = self._drupal_snippet('api/header?activePath=%s' % path)
         if result:
             # Language switcher links will point to /api/header, fix them based on currently requested page
-            result = re.sub(u'\\?activePath=/(\\w+)', u'', result)
-            return re.sub(u'href="/(\\w+)/api/header([^\"]+)*"', u'href="/data/\\1%s"' % path, result)
+            result = re.sub('\\?activePath=/(\\w+)', '', result)
+            return re.sub('href="/(\\w+)/api/header([^\"]+)*"', 'href="/data/\\1%s"' % path, result)
         return result
 
     def get_helpers(self):
@@ -1172,7 +1126,7 @@ def helper_linked_user(user, maxlength=0, avatar=20):
         user_name = user.name
         user_displayname = user.display_name
     else:
-        user = model.User.get(unicode(user))
+        user = model.User.get(six.text_type(user))
         if not user:
             return user_name
         else:
@@ -1185,7 +1139,7 @@ def helper_linked_user(user, maxlength=0, avatar=20):
 
     if maxlength and len(user_displayname) > maxlength:
         user_displayname = user_displayname[:maxlength] + '...'
-    return link_to(user_displayname, helpers.url_for(controller='user', action='read', id=user_name), class_='')
+    return helpers.link_to(user_displayname, helpers.url_for(controller='user', action='read', id=user_name), class_='')
 
 
 class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
@@ -1200,7 +1154,6 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
-        toolkit.add_resource('public/javascript/', 'ytp_common_js')
         toolkit.add_public_directory(config, 'public')
 
     def configure(self, config):
@@ -1242,7 +1195,7 @@ class YtpIPermissionLabelsPlugin(
         labels = super(YtpIPermissionLabelsPlugin, self).get_dataset_labels(dataset_obj)
 
         if dataset_obj.type == "showcase":
-            labels.append(u'showcase-admin')
+            labels.append('showcase-admin')
 
         return labels
 
@@ -1254,7 +1207,7 @@ class YtpIPermissionLabelsPlugin(
         labels = super(YtpIPermissionLabelsPlugin, self).get_user_dataset_labels(user_obj)
 
         if user_obj and ShowcaseAdmin.is_user_showcase_admin(user_obj):
-            labels.append(u'showcase-admin')
+            labels.append('showcase-admin')
 
         return labels
 

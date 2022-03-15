@@ -12,10 +12,10 @@
 - name: Upgrade pip packages
   pip:
     name:
-      - pip
+      #- pip
       - setuptools==44.1.0
-      - boto
-    virtualenv: "{{ opendata_frontend_virtual_environment }}"
+      #- boto
+    virtualenv: "{{ ckan_virtual_environment }}"
     state: present
   tags:
     - skip_ansible_lint

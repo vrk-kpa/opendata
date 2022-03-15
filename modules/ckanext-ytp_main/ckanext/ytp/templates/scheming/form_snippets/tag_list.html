@@ -1,6 +1,6 @@
 {% import 'scheming/macros/form.html' as form %}
 
-{% resource "ytp_common_js/ytp_select2.js" %}
+{% asset "ytp_resources/ytp_select2_js" %}
 
 {% if data[field.field_name] is string %}
     {% set value =  data[field.field_name] %}

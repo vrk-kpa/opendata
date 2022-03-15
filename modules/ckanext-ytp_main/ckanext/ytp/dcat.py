@@ -107,7 +107,7 @@ class AvoindataDCATAPProfile(RDFProfile):
     def graph_from_dataset(self, dataset_dict, dataset_ref):
         g = self.g
 
-        for prefix, namespace in namespaces.iteritems():
+        for prefix, namespace in namespaces.items():
             g.bind(prefix, namespace)
         g.add((dataset_ref, RDF.type, DCAT.Dataset))
 
@@ -118,7 +118,7 @@ class AvoindataDCATAPProfile(RDFProfile):
                 dataset_dict[key] = extra['value']
 
         # dct:title
-        titles = set(t for t in get_dict(dataset_dict, 'title_translated').values() if t)
+        titles = set(t for t in list(get_dict(dataset_dict, 'title_translated').values()) if t)
 
         if not titles:
             titles.add(dataset_dict.get('title', ''))
@@ -127,7 +127,7 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((dataset_ref, DCT.title, Literal(title)))
 
         # dct:description
-        descriptions = set(d for d in get_dict(dataset_dict, 'notes_translated').values() if d)
+        descriptions = set(d for d in list(get_dict(dataset_dict, 'notes_translated').values()) if d)
 
         if not descriptions:
             descriptions.add(dataset_dict.get('notes', ''))
@@ -159,7 +159,7 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((dataset_ref, DCAT.distribution, distribution))
 
             # dct:title
-            titles = set(t for t in get_dict(resource_dict, 'name_translated').values() if t)
+            titles = set(t for t in list(get_dict(resource_dict, 'name_translated').values()) if t)
 
             if not titles:
                 titles.add(resource_dict.get('title', ''))
@@ -168,7 +168,7 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((distribution, DCT.title, Literal(title)))
 
             # dct:description
-            descriptions = set(d for d in get_dict(resource_dict, 'description_translated').values() if d)
+            descriptions = set(d for d in list(get_dict(resource_dict, 'description_translated').values()) if d)
 
             if not descriptions:
                 descriptions.add(dataset_dict.get('description', ''))
@@ -177,7 +177,7 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((distribution, DCT.description, Literal(description)))
 
             # dct:rights
-            copyright_notices = set(n for n in get_dict(dataset_dict, 'copyright_notice_translated').values() if n)
+            copyright_notices = set(n for n in list(get_dict(dataset_dict, 'copyright_notice_translated').values()) if n)
 
             if copyright_notices:
                 rights_statement = BNode()
@@ -264,7 +264,7 @@ class AvoindataDCATAPProfile(RDFProfile):
                     g.add((period, DCAT.endDate, Literal(temporal_coverage_to)))
 
             # dcat:temporalResolution
-            temporal_granularities = set(t for lang in get_dict(resource_dict, 'temporal_granularity').values()
+            temporal_granularities = set(t for lang in list(get_dict(resource_dict, 'temporal_granularity').values())
                                          for t in lang if t)
 
             if temporal_granularities:
@@ -274,7 +274,7 @@ class AvoindataDCATAPProfile(RDFProfile):
         # dcat:keyword
         keywords = set(
                 keyword
-                for keyword_language in get_dict(dataset_dict, 'keywords').values()
+                for keyword_language in list(get_dict(dataset_dict, 'keywords').values())
                 for keyword in keyword_language)
 
         for keyword in keywords:
@@ -289,7 +289,7 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((publisher, RDF.type, FOAF.Agent))
             g.add((dataset_ref, DCT.publisher, publisher))
 
-            organization_titles = (t for t in get_dict(organization, 'title_translated').values() if t)
+            organization_titles = (t for t in list(get_dict(organization, 'title_translated').values()) if t)
 
             for title in organization_titles:
                 g.add((publisher, FOAF.name, Literal(title)))
@@ -305,7 +305,7 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((theme, RDF.type, SKOS.Concept))
             g.add((dataset_ref, DCAT.theme, theme))
 
-            group_titles = (t for t in get_dict(group_dict, 'title_translated').values() if t)
+            group_titles = (t for t in list(get_dict(group_dict, 'title_translated').values()) if t)
             for title in group_titles:
                 g.add((theme, SKOS.prefLabel, Literal(title)))
 
@@ -381,7 +381,7 @@ class AvoindataDCATAPProfile(RDFProfile):
                 log.debug('Invalid JSON value in field responsible-party')
 
         # dct:accuralPeriodicity
-        update_frequencies = set(u for lang in get_dict(dataset_dict, 'update_frequency').values() for u in lang if u)
+        update_frequencies = set(u for lang in list(get_dict(dataset_dict, 'update_frequency').values()) for u in lang if u)
         spatial_frequency_of_update = dataset_dict.get('frequency-of-update')
 
         if spatial_frequency_of_update:
@@ -394,7 +394,7 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((dataset_ref, DCT.accrualPeriodicity, accrual_periodicity))
 
         # dct:type
-        content_types = set(t for lang in get_dict(dataset_dict, 'content_type').values() for t in lang if t)
+        content_types = set(t for lang in list(get_dict(dataset_dict, 'content_type').values()) for t in lang if t)
 
         if content_types:
             concept = BNode()
@@ -437,7 +437,7 @@ class AvoindataDCATAPProfile(RDFProfile):
                                                                        "include_dataset_count": False})
         g = self.g
 
-        for prefix, namespace in namespaces.iteritems():
+        for prefix, namespace in namespaces.items():
             g.bind(prefix, namespace)
 
         g.add((catalog_ref, RDF.type, DCAT.Catalog))

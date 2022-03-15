@@ -21,7 +21,7 @@ def member_request(context, data_dict):
 
     # Return most current instance from memberrequest table
     member_request = model.Session.query(MemberRequest).filter(
-        MemberRequest.membership_id == mrequest_id).order_by('request_date desc').limit(1).first()
+        MemberRequest.membership_id == mrequest_id).order_by(MemberRequest.request_date.desc()).limit(1).first()
     if not member_request or member_request.status != 'pending':
         raise logic.NotFound(
             "Member request associated with membership not found")
@@ -97,7 +97,7 @@ def get_available_roles(context, data_dict=None):
     roles = logic.get_action("member_roles_list")(context, {})
 
     # Remove member role from the list
-    roles = [role for role in roles if role['value'] != 'member']
+    roles = [role for role in roles if role.get('value') != 'member']
 
     return roles
 
@@ -117,7 +117,7 @@ def _membeship_request_list_dictize(obj_list, context):
             # Fetch the newest member_request associated to this membership (sort
             # by last modified field)
             member_request = model.Session.query(MemberRequest).filter(
-                MemberRequest.membership_id == obj.id).order_by('request_date desc').limit(1).first()
+                MemberRequest.membership_id == obj.id).order_by(MemberRequest.request_date.desc()).limit(1).first()
             # Filter out those with cancel state as there is no need to show them to the end user
             # Show however those with 'rejected' state as user may want to know about them
             # HUOM! If a user creates itself a organization has already a
@@ -154,7 +154,7 @@ def _member_list_dictize(obj_list, context, sort_key=lambda x: x['group_id'], re
         # Member request must always exist since state is pending. Fetch just
         # the latest
         member_request = model.Session.query(MemberRequest).filter(MemberRequest.membership_id == obj.id)\
-            .filter(MemberRequest.status == 'pending').order_by('request_date desc').limit(1).first()
+            .filter(MemberRequest.status == 'pending').order_by(MemberRequest.request_date.desc()).limit(1).first()
         # This should never happen but..
         my_date = ""
         if member_request is not None:

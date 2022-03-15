@@ -17,7 +17,7 @@
     {% if (h.scheming_field_by_name(schema.dataset_fields, 'notes') or
       h.scheming_field_by_name(schema.dataset_fields, 'notes_translated')) and
       pkg.notes%}
-      {% resource "ytp_common_js/show-more-block.js" %}
+      {% asset "ytp_resources/show_more_block_js" %}
       <div class="notes embedded-content" data-module="show-more-block" data-module-max-height="465">
         {{ h.render_markdown(h.get_translated(pkg, 'notes')) }}
       </div>

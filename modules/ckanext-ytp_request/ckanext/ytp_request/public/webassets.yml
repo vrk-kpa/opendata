@@ -1,0 +1,9 @@
+request_js:
+  output: ckanext-ytp_request%(version)s_request.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - javascript/request.js
+

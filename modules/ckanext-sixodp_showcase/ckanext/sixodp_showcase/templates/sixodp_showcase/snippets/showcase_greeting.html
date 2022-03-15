@@ -18,7 +18,7 @@ Example:
             </h1>
             {% if h.check_access('ckanext_showcase_create') %}
               <div class="pull-right">
-                  {% link_for _('Add Showcase'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
+                  {% link_for _('Add Showcase'), named_route='showcase.new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
               </div>
             {% endif %}
           </div>

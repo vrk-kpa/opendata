@@ -23,7 +23,7 @@ Example:
         <div class="dataset-content">
           <div>
             <h3 class="dataset-heading dataset-title">
-                {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type + '_read', controller='package', action='read', id=package.name)) }}
+                {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type + '_read', id=package.name)) }}
                 {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
             </h3>
             {% if package.get('state', '').startswith('deleted') %}

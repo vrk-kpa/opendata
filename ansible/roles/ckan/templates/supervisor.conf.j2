@@ -1,6 +1,6 @@
 [program:ckan_gather_consumer]
 
-command=nice -n 20 {{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester gather_consumer --config={{ ckan_ini }}
+command=nice -n 20 {{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} harvester gather-consumer
 user={{ ckan_harvester_user }}
 numprocs=1
 stdout_logfile={{ ckan_log_path }}/gather_consumer.log
@@ -12,7 +12,7 @@ startsecs=10
 
 [program:ckan_fetch_consumer]
 
-command=nice -n 20 {{ ckan_virtual_environment }}/bin/paster --plugin=ckanext-harvest harvester fetch_consumer --config={{ ckan_ini }}
+command=nice -n 20 {{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} harvester fetch-consumer
 user={{ ckan_harvester_user }}
 numprocs=1
 stdout_logfile={{ ckan_log_path }}/fetch_consumer.log
@@ -24,7 +24,7 @@ startsecs=10
 
 [program:ckan-worker-bulk]
 
-command={{ ckan_virtual_environment }}/bin/paster --plugin=ckan jobs worker bulk --config=/etc/ckan/default/production.ini
+command={{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} jobs worker bulk
 user={{ ckan_www_user }}
 numprocs=1
 stdout_logfile=/var/log/ckan/ckan-worker-bulk.log
@@ -36,7 +36,7 @@ stopwaitsecs = 600
 
 [program:ckan-worker-priority]
 
-command={{ ckan_virtual_environment }}/bin/paster --plugin=ckan jobs worker priority --config=/etc/ckan/default/production.ini
+command={{ ckan_virtual_environment }}/bin/ckan --config {{ ckan_ini }} jobs worker priority
 user={{ ckan_www_user }}
 numprocs=1
 stdout_logfile=/var/log/ckan/ckan-worker-priority.log
@@ -45,3 +45,63 @@ autostart=true
 autorestart=true
 startsecs=10
 stopwaitsecs = 600
+
+[program:{{ ckan_supervisor_name }}]
+
+command=/usr/lib/ckan/default/bin/uwsgi -i {{ ckan_uwsgi_conf }}
+
+; Start just a single worker. Increase this number if you have many or
+; particularly long running background jobs.
+numprocs=1
+process_name=%(program_name)s-%(process_num)02d
+
+; Log files - change this to point to the existing CKAN log files
+stdout_logfile={{ ckan_log_path }}/ckan.log
+stderr_logfile={{ ckan_log_path }}/ckan.log
+
+; Make sure that the worker is started on system start and automatically
+; restarted if it crashes unexpectedly.
+autostart=true
+autorestart=true
+
+; Number of seconds the process has to run before it is considered to have
+; started successfully.
+startsecs=10
+
+; Need to wait for currently executing tasks to finish at shutdown.
+; Increase this if you have very long running tasks.
+stopwaitsecs = 600
+
+; Required for uWSGI as it does not obey SIGTERM.
+stopsignal=QUIT
+
+{% if ckan_test_port is defined and ckan_test_supervisor_name is defined %}
+[program:{{ ckan_test_supervisor_name }}]
+
+command=/usr/lib/ckan/default/bin/uwsgi -i {{ ckan_uwsgi_test_conf }}
+
+; Start just a single worker. Increase this number if you have many or
+; particularly long running background jobs.
+numprocs=1
+process_name=%(program_name)s-%(process_num)02d
+
+; Log files - change this to point to the existing CKAN log files
+stdout_logfile={{ ckan_log_path }}/ckan_test.log
+stderr_logfile={{ ckan_log_path }}/ckan_test.log
+
+; Make sure that the worker is started on system start and automatically
+; restarted if it crashes unexpectedly.
+autostart=true
+autorestart=true
+
+; Number of seconds the process has to run before it is considered to have
+; started successfully.
+startsecs=10
+
+; Need to wait for currently executing tasks to finish at shutdown.
+; Increase this if you have very long running tasks.
+stopwaitsecs = 600
+
+; Required for uWSGI as it does not obey SIGTERM.
+stopsignal=QUIT
+{% endif %}

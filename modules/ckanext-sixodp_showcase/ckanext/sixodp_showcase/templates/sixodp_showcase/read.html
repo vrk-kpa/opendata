@@ -7,7 +7,7 @@
 
 {% block links -%}
   {{ super() }}
-  <link rel="alternate" type="application/rdf+xml" href="{{ h.url_for(controller='ckanext.showcase.controller:ShowcaseController', action='read', id=pkg.id, format='rdf', qualified=True) }}"/>
+  <link rel="alternate" type="application/rdf+xml" href="{{ h.url_for('sixodp_showcase.read', id=pkg.id, format='rdf', qualified=True) }}"/>
 {% endblock -%}
 
 {% block head_extras -%}
@@ -25,7 +25,7 @@
 
 {% block breadcrumb_content %}
   {% set showcase = h.get_translated(pkg, 'title') or pkg.name %}
-  <li>{{ h.nav_link(_('Showcases'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search', highlight_actions = 'new index') }}</li>
+  <li>{{ h.nav_link(_('Showcases'), named_route='sixodp_showcase.search', highlight_actions = 'new index') }}</li>
   <li{{ self.breadcrumb_content_selected() }}>{% link_for showcase|truncate(30), named_route='showcase_read', id=pkg.name %}</li>
 {% endblock %}
 
@@ -94,7 +94,7 @@
     {% block package_description %}
       {% if h.check_access('ckanext_showcase_update', {'id':pkg.id }) %}
         <div class="actions">
-        {% link_for _('Manage'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='edit', id=pkg.name, class_='btn', icon='wrench' %}
+        {% link_for _('Manage'), named_route='sixodp_showcase.edit', id=pkg.name, class_='btn', icon='wrench' %}
         </div>
       {% endif %}
 

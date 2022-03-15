@@ -1,10 +1,15 @@
 {% extends "package/search.html" %}
 {% import 'macros/form.html' as form %}
+{% if q is not defined %}{% set q = c.q %}{% endif %}
+{% if fields_grouped is not defined %}{% set fields_grouped = c.fields_grouped %}{% endif %}
+{% if sort_by_selected is not defined %}{% set sort_by_selected = c.sort_by_selected %}{% endif %}
+{% if page is not defined %}{% set page = c.page %}{% endif %}
+{% if facet_titles is not defined %}{% set facet_titles = c.facet_titles %}{% endif %}
 
 {% block subtitle %}{{ _("Showcases") }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Showcases'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search', highlight_actions = 'new index') }}</li>
+  <li class="active">{{ h.nav_link(_('Showcases'), named_route='sixodp_showcase.search', highlight_actions = 'new index') }}</li>
 {% endblock %}
 
 
@@ -28,7 +33,7 @@
 
   <div class="search-form-container search-form-container-borderless row">
     <div>
-      {{ h.snippet('sixodp_showcase/snippets/showcase_search_input.html', query=c.q, placeholder=_('Search applications...'), query_params=c.fields_grouped, sorting=c.sort_by_selected) }}
+      {{ h.snippet('sixodp_showcase/snippets/showcase_search_input.html', query=q, placeholder=_('Search applications...'), query_params=fields_grouped, sort_by_selected=sort_by_selected, page=page) }}
     </div>
   </div>
 {% endblock %}
@@ -38,7 +43,7 @@
 
 {% block package_search_results_list %}
   <div>
-    {{ h.snippet('sixodp_showcase/snippets/showcase_list.html', packages=c.page.items) }}
+    {{ h.snippet('sixodp_showcase/snippets/showcase_list.html', packages=page.items) }}
   </div>
 {% endblock %}
 
@@ -49,8 +54,8 @@
 {# {{ h.snippet('showcase/snippets/helper.html') }} #}
 <div class="filters">
   <div>
-    {% for facet in c.facet_titles %}
-      {{ h.snippet('snippets/facet_list.html', title=c.facet_titles[facet], name=facet) }}
+    {% for facet in facet_titles %}
+      {{ h.snippet('snippets/facet_list.html', title=facet_titles[facet], name=facet) }}
     {% endfor %}
   </div>
   <!--<a class="close no-text hide-filters"><i class="icon-remove-sign"></i><span class="text">close</span></a>-->

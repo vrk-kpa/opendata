@@ -29,11 +29,11 @@ nginx_snippet_files:
   - template: 'server.config.j2'
     destination: 'ytp.conf'
     root_redirect: "{{ nginx_hostname_language }}"
-    apache_port: "{{ nginx_apache_port }}"
+    ckan_port: "{{ nginx_ckan_port }}"
   - template: 'server.config.j2'
     destination: 'ytp-secondary.conf'
     root_redirect: "{{ nginx_secondary_hostname_language }}"
-    apache_port: "{{ nginx_apache_port }}"
+    ckan_port: "{{ nginx_ckan_port }}"
   - template: 'nginx_security_headers.conf.j2'
     destination: 'nginx_security_headers.conf'
 
@@ -41,4 +41,4 @@ nginx_max_resource_size: "{{ ckan_max_resource_size }}"
 
 nginx_root_path: "/srv/ytp"
 
-nginx_apache_port: "{{ apache_port }}"
+nginx_ckan_port: "{{ ckan_port }}"

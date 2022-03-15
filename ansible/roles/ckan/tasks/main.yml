@@ -44,6 +44,8 @@
     mode: "0755"
   when: ckan_deployment_environment_id == "vagrant"
 
+- include: pip.yml
+
 - include: extension.yml
   with_items: "{{ ckan_extensions }}"
 
@@ -64,9 +66,10 @@
     mode: 0640
   with_items: "{{ ckan_log_files }}"
 
+
 - name: Install CKAN
   pip:
-    name: "git+https://github.com/ckan/ckan.git@ckan-{{ ckan_version }}#egg=ckan"
+    name: "git+https://github.com/ckan/ckan.git@ckan-{{ ckan_version }}#egg=ckan[requirements]"
     virtualenv: "{{ ckan_virtual_environment }}"
     extra_args: "--exists-action=s -e"
 
@@ -76,11 +79,6 @@
     basedir: "{{ ckan_source_path }}"
     strip: 1
   loop: "{{ ckan_patches }}"
-
-- name: Install CKAN requirements
-  pip:
-    requirements: "{{ ckan_virtual_environment }}/src/ckan/requirements.txt"
-    virtualenv: "{{ ckan_virtual_environment }}"
 
 - name: Install CKAN dev requirements
   pip:
@@ -144,14 +142,6 @@
     owner: root
     group: "{{ ckan_www_group }}"
 
-- name: Copy CKAN wrapper file
-  copy:
-    src: ckan.py
-    dest: /usr/bin/ckan
-    mode: "0755"
-    owner: root
-    group: root
-
 - name: Copy data structures for CKAN UI options
   copy:
     src: "{{ item }}"
@@ -173,7 +163,14 @@
 
 - import_tasks: translations.yml
 
+- name: Install uwsgi
+  pip:
+    name:
+      - uwsgi
+    virtualenv: "{{ ckan_virtual_environment }}"
+
 - import_tasks: configure.yml
   tags:
     - configure
     - configure_ckan
+

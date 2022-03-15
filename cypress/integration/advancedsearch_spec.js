@@ -24,7 +24,8 @@ describe('Advanced search tests', () => {
                 data: {
                     "#field-title_translated-fi": 'first dataset',
                     '#field-notes_translated-fi': 'First dataset description',
-                    '#s2id_autogen1': 'test_keyword {enter}',
+                    // FIXME: This should just be 'test_keyword{enter}', see fill_form_fields in support/commands.js
+                    '#s2id_autogen1': {type: 'select2', values: ['test_keyword']},
                     '#field-maintainer': 'test maintainer',
                     '#field-maintainer_email': 'test.maintainer@example.com',
                     '#field-valid_from': '2019-02-04',
@@ -49,7 +50,9 @@ describe('Advanced search tests', () => {
                 data: {
                     "#field-title_translated-fi": 'second dataset',
                     '#field-notes_translated-fi': 'second dataset description with unicorns',
-                    '#s2id_autogen1': 'another_keyword {enter} test_keyword {enter}',
+                    // FIXME: This should just be 'another_keyword {enter} test_keyword {enter}',
+                    // see fill_form_fields in support/commands.js
+                    '#s2id_autogen1': {type: 'select2', values: ['another_keyword', 'test_keyword'] },
                     '#field-maintainer': 'test maintainer',
                     '#field-maintainer_email': 'test.maintainer@example.com',
                     '#field-valid_from': '2019-02-04',
@@ -90,6 +93,7 @@ describe('Advanced search tests', () => {
         cy.get('button[type=submit]').click();
     }
 
+  /*
     describe('Test that advanced search loads correctly', () => {
         it('Check that initial results are shown', () => {
             cy.get('.dataset-list').children().should('have.length', 2)
@@ -127,11 +131,12 @@ describe('Advanced search tests', () => {
             cy.get('.dataset-heading').contains('second dataset')
         })
     })
-
+*/
     describe('Use multiple select to filter query', () => {
         beforeEach(() => {
             cy.wait(3000)
         })
+      /*
         it('Open multiple select', () => {
             cy.get('#category-choicelist').should('not.be.visible')
             cy.get('button[for=advanced-search-dropdown-toggle-category]').click();
@@ -152,12 +157,12 @@ describe('Advanced search tests', () => {
             cy.get('button[for=advanced-search-dropdown-toggle-format]').contains('Kaikki')
             cy.get('#format-checkbox-all').should('be.checked')
         })
-
+      */
         it('Filter by category', () => {
             fill_and_submit({
                 'input[data-option-label="siisti kategoria"]': { type: 'check', force: true }
             })
-            cy.get('.dataset-list').children().should('have.length', 1)
+            cy.get('.dataset-list', {timeout: 30000}).children().should('have.length', 1)
             cy.get('.dataset-heading').contains('first dataset')
         })
         it('Filter by license', () => {

@@ -8,15 +8,25 @@
     owner: root
     group: root
 
-- name: Setup CKAN configuration
+- name: Setup CKAN configuration files
   template:
-    src: "ckan.ini.j2"
+    src: "{{ item.template }}"
     dest: "{{ item.file }}"
     mode: "0640"
     owner: root
     group: "{{ ckan_www_group }}"
   with_items: "{{ ckan_config_files }}"
-  notify: Restart Apache
+  notify: Restart CKAN
+
+- name: Setup WSGI configuration files
+  template:
+    src: "{{ item.template }}"
+    dest: "{{ item.file }}"
+    mode: "0640"
+    owner: root
+    group: "{{ ckan_www_group }}"
+  with_items: "{{ wsgi_config_files }}"
+  notify: Restart CKAN
 
 - name: Setup beaker session cleanup script
   template:
@@ -26,16 +36,6 @@
     owner: root
     group: "root"
 
-- name: Setup Apache WSGI script
-  template:
-    src: "apache.wsgi.j2"
-    dest: "{{ item.file }}"
-    mode: "0640"
-    owner: root
-    group: "{{ ckan_www_group }}"
-  with_items: "{{ ckan_wsgi_config_files }}"
-  notify: Restart Apache
-
 # Background services can block database update
 - name: Stop supervisor services
   command: supervisorctl stop all
@@ -44,7 +44,7 @@
     - supervisor
 
 - name: re-minify CKAN javascript files
-  shell: ./bin/paster --plugin=ckan minify {{ ckan_source_path }}/ckan/public/base/javascript "--config={{ ckan_ini }}" chdir="{{ ckan_virtual_environment }}"
+  shell: ./bin/ckan --config {{ ckan_ini }} minify {{ ckan_source_path }}/ckan/public/base/javascript  chdir="{{ ckan_virtual_environment }}"
   tags:
     - skip_ansible_lint
 
@@ -73,26 +73,26 @@
 
 - name: Add facet translations
   command: >-
-    /usr/lib/ckan/default/bin/paster
-    --plugin=ckanext-ytp_main ytp-facet-translations "{{ ckan_server_path }}/ckanext-ytp_main/ckanext/ytp/i18n"
-    -c /etc/ckan/default/production.ini
+    {{ ckan_virtual_environment }}/bin/ckan
+    -c {{ ckan_ini }}
+    opendata add-facet-translations "{{ ckan_server_path }}/ckanext-ytp_main/ckanext/ytp/i18n"
   tags:
     - skip_ansible_lint
 
 - name: Create platform vocabulary
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-sixodp_showcase sixodp_showcase create_platform_vocabulary
-    --config='{{ item.file }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ item.file }}'
+    sixodp-showcase create_platform_vocabulary
   with_items: "{{ ckan_config_files }}"
   tags:
     - skip_ansible_lint
 
 - name: Create showcase_type vocabulary
   shell: >-
-    {{ ckan_virtual_environment }}/bin/paster
-    --plugin=ckanext-sixodp_showcase sixodp_showcase create_showcase_type_vocabulary
-    --config='{{ item.file }}'
+    {{ ckan_virtual_environment }}/bin/ckan
+    --config '{{ item.file }}'
+    sixodp-showcase create_showcase_type_vocabulary
   with_items: "{{ ckan_config_files }}"
   tags:
     - skip_ansible_lint
@@ -114,15 +114,6 @@
   supervisorctl:
     name: "{{ item }}"
     state: present
-  with_flattened:
-    - "{{ ckan_supervisor_services }}"
-  tags:
-    - supervisor
-
-- name: Start supervisor services
-  supervisorctl:
-    name: "{{ item }}"
-    state: started
   with_flattened:
     - "{{ ckan_supervisor_services }}"
   tags:

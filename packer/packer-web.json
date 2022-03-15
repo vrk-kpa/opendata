@@ -67,12 +67,11 @@
       "type": "shell",
       "inline": [
         "sudo apt-get update",
-        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q python python-pip nfs-common",
-        "sudo pip install --upgrade pip",
-        "sudo pip install setuptools --upgrade",
-        "sudo pip install awscli ansible==2.9.13 markupsafe",
+        "sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q python3 python3-pip nfs-common",
+        "sudo pip3 install awscli ansible==2.9.13 markupsafe",
         "sudo git clone --recursive https://github.com/yhteentoimivuuspalvelut/ytp.git /root/ytp",
-        "sudo git -C /root/ytp checkout {{ user `commit` }}"
+        "sudo git -C /root/ytp checkout {{ user `commit` }}",
+        "sudo git -C /root/ytp submodule update"
       ]
     },
     {

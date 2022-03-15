@@ -3,7 +3,7 @@ body{
 	font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
 	font-size: 14px;
 	line-height: 1.428571429;
-	background: inline('../../../resources/images/avoindata_page_not_found.jpg') no-repeat;
+	background: inline('../../images/avoindata_page_not_found.jpg') no-repeat;
   background-size:cover;
   background-position:center;
 	padding-top: 64px;

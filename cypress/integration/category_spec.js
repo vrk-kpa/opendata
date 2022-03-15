@@ -20,7 +20,8 @@ describe('Category tests', function () {
     const dataset_form_data = {
       "#field-title_translated-fi": dataset_name,
       '#field-notes_translated-fi': 'Dataset test description',
-      '#s2id_autogen1': 'test_keyword {enter}',
+      // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
+      '#s2id_autogen1': {type: 'select2', values: ['test_keyword']},
       '#field-maintainer': 'test maintainer',
       '#field-maintainer_email': 'test.maintainer@example.com'
     };

@@ -99,6 +99,15 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
                 case 'select':
                     field.select(field_value.value, options)
                     break;
+                // TODO: This should not be necessary, but the delay required between typing 
+                // and pressing enter is needed because the select2 component won't accept pressing enter
+                // immediately after typing in ajax-populated instances
+                case 'select2':
+                    field_value.values.forEach((v) => {
+                      field.type(v, options).wait(1000)
+                      cy.get(field_selector).type('{enter}', {'force': true})
+                    })
+                    break;
                 case 'check':
                     field.check(options)
                     break;
@@ -161,7 +170,8 @@ Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, res
     dataset_form_data = {
       "#field-title_translated-fi": dataset_name,
       '#field-notes_translated-fi': 'Dataset test description',
-      '#s2id_autogen1': 'test_keyword {enter}',
+      // FIXME: This should just be 'test_keyword{enter}', see fill_form_fields in support/commands.js
+      '#s2id_autogen1': {type: 'select2', values: ['test_keyword']},
       '#field-maintainer': 'test maintainer',
       '#field-maintainer_email': 'test.maintainer@example.com'
     }
@@ -229,7 +239,8 @@ Cypress.Commands.add('create_new_showcase', (showcase_name, showcase_form_data) 
     showcase_form_data = {
       "#field-title_translated-fi": showcase_name,
       '#field-notes_translated-fi': 'Dataset test description',
-      '#s2id_autogen1': 'test_keyword {enter}',
+      // FIXME: This should just be 'test_keyword{enter}', see fill_form_fields in support/commands.js
+      '#s2id_autogen1': {type: 'select2', values: ['test_keyword']},
       '#field-author': 'test author'
     }
   }
@@ -280,7 +291,7 @@ Cypress.Commands.add('edit_showcase', (showcase_name, showcase_form_data) => {
   cy.get(`a[href='/data/fi/showcase/edit/${showcase_name}']`).first().click();
   cy.fill_form_fields(showcase_form_data)
   cy.get('button[name=save]').click();
-  cy.get('.page-heading').contains(showcase_name+'edit');
+  cy.get('.dataset-title').contains(showcase_name+'edit');
 })
 
 // Deletes a showcase and verifies that it is not found in the search anymore
@@ -296,7 +307,7 @@ Cypress.Commands.add('delete_showcase', (showcase_name) => {
       cy.visit('/data/showcase');
       cy.get('.search-input .search').type(showcase_name + '{enter}');
       cy.get('.showcase-list').should('not.exist');
-      cy.contains("ei löytynyt sovelluksia");
+      cy.contains("Sovelluksia ei löytynyt");
     });
 });
 
@@ -314,7 +325,7 @@ Cypress.Commands.add('add_showcase_user', () => {
   cy.visit('/data/ckan-admin');
   cy.get('a[href="/data/ckan-admin/showcase_admins"]').click();
   cy.get('#s2id_username').click();
-  cy.get('#s2id_autogen1_search').type('test-publisher{enter}', {force: true});
+  cy.get('#s2id_autogen1_search').type('test-publisher', {force: true}).wait(1000).type('{enter}');
   cy.get('button[name=submit]').click();
   cy.logout_request();
 
@@ -337,10 +348,10 @@ Cypress.Commands.add('reset_db', () => {
             DB_CKAN_PASS: 'pass'
           }
         });
-        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckan search-index clear --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
+        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini search-index clear\'", {timeout: 120*1000});
         // Init vocaularies
-        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_platform_vocabulary --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
-        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_showcase_type_vocabulary --config=/etc/ckan/default/test.ini\'", {timeout: 120*1000});
+        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini sixodp-showcase create_platform_vocabulary\'", {timeout: 120*1000});
+        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini sixodp-showcase create_showcase_type_vocabulary\'", {timeout: 120*1000});
       } else {
         cy.exec('npm run reset:db', {
           env: {
@@ -350,10 +361,10 @@ Cypress.Commands.add('reset_db', () => {
             DB_CKAN_PASS: 'ckan_pass'
           }
         });
-        cy.exec('docker exec -i opendata_ckan_1 sh -c "paster --plugin=ckan search-index clear --config=/srv/app/production.ini"');
+        cy.exec('docker exec -i opendata-ckan-1 sh -c "ckan --config /srv/app/production.ini search-index clear"');
         // Init vocaularies
-        cy.exec('docker exec -i opendata_ckan_1 sh -c "paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_platform_vocabulary --config=/srv/app/production.ini"');
-        cy.exec('docker exec -i opendata_ckan_1 sh -c "paster --plugin=ckanext-sixodp_showcase sixodp_showcase create_showcase_type_vocabulary --config=/srv/app/production.ini"');
+        cy.exec('docker exec -i opendata-ckan-1 sh -c "ckan --config /srv/app/production.ini sixodp-showcase create_platform_vocabulary"');
+        cy.exec('docker exec -i opendata-ckan-1 sh -c "ckan --config /srv/app/production.ini sixodp-showcase create_showcase_type_vocabulary"');
       }
     }
 });

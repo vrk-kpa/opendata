@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 
 import datetime
 import six
@@ -13,16 +13,16 @@ log = logging.getLogger(__name__)
 
 
 _category_mapping = {
-    u'alueet-ja-kaupungit': [u'boundaries', u'planningCadastre', u'imageryBaseMapsEarthCover', u'location'],
-    u'liikenne': [u'transportation'],
-    u'maatalous-kalastus-metsatalous-ja-elintarvikkeet': [u'farming'],
-    u'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': [u'intelligenceMilitary'],
-    u'rakennettu-ymparisto-ja-infrastruktuuri': [u'utilitiesCommunication', u'structure'],
-    u'talous-ja-rahoitus': [u'economy'],
-    u'terveys': [u'health'],
-    u'vaesto-ja-yhteiskunta': [u'society'],
-    u'ymparisto-ja-luonto': [u'climatologyMeteorologyAtmosphere', u'elevation', u'environment',
-                             u'geoscientificInformation', u'biota', u'inlandWaters', u'oceans']
+    'alueet-ja-kaupungit': ['boundaries', 'planningCadastre', 'imageryBaseMapsEarthCover', 'location'],
+    'liikenne': ['transportation'],
+    'maatalous-kalastus-metsatalous-ja-elintarvikkeet': ['farming'],
+    'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligenceMilitary'],
+    'rakennettu-ymparisto-ja-infrastruktuuri': ['utilitiesCommunication', 'structure'],
+    'talous-ja-rahoitus': ['economy'],
+    'terveys': ['health'],
+    'vaesto-ja-yhteiskunta': ['society'],
+    'ymparisto-ja-luonto': ['climatologyMeteorologyAtmosphere', 'elevation', 'environment',
+                            'geoscientificInformation', 'biota', 'inlandWaters', 'oceans']
 }
 
 
@@ -39,15 +39,15 @@ class SYKEHarvester(CKANHarvester):
     def modify_package_dict(self, package_dict, harvest_object):
 
         package_dict['title_translated'] = {
-            u"fi": package_dict.get(u'title', u'')
+            "fi": package_dict.get('title', '')
         }
         package_dict['notes_translated'] = {
-            u"fi": package_dict.get(u'notes', u'')
+            "fi": package_dict.get('notes', '')
         }
 
-        package_dict['collection_type'] = u'Open Data'
-        package_dict['license_id'] = u'cc-by-4.0'
-        package_dict['maintainer_website'] = u'https://www.syke.fi'
+        package_dict['collection_type'] = 'Open Data'
+        package_dict['license_id'] = 'cc-by-4.0'
+        package_dict['maintainer_website'] = 'https://www.syke.fi'
 
         package_dict['resources'] = [
             dict(resource.items() + {'name_translated': {'fi': resource.get('name')}}.items())
@@ -55,54 +55,54 @@ class SYKEHarvester(CKANHarvester):
         ]
 
         # Remove tags as we don't use them
-        package_dict.pop(u'tags', None)
+        package_dict.pop('tags', None)
 
         extras = package_dict.get('extras', [])
 
         for k, v, i in [(extra['key'], extra['value'], i) for i, extra in enumerate(extras)]:
 
-            if k == u'responsible-party':
+            if k == 'responsible-party':
                 responsible_party = json.loads(v)[0]
-                package_dict['maintainer'] = responsible_party.get(u'name', u'')
-                package_dict['maintainer_email'] = responsible_party.get(u'email', u'')
+                package_dict['maintainer'] = responsible_party.get('name', '')
+                package_dict['maintainer_email'] = responsible_party.get('email', '')
 
-            if k == u'keywords':
-                keywords = [keywords.get(u'keyword', []) for keywords in json.loads(v)]
+            if k == 'keywords':
+                keywords = [keywords.get('keyword', []) for keywords in json.loads(v)]
                 parsed_keywords = [munge_tag(item) for sublist in keywords for item in sublist]
                 package_dict['keywords'] = {
-                    u'fi': parsed_keywords
+                    'fi': parsed_keywords
                 }
 
                 # Remove keywords from extras as same key cannot be in schema and in extras
                 extras.pop(i)
 
-            if k == u'lineage':
-                package_dict['notes_translated']['fi'] += u'\n\n' + v
+            if k == 'lineage':
+                package_dict['notes_translated']['fi'] += '\n\n' + v
 
-            if k == u'use_constraints':
+            if k == 'use_constraints':
                 package_dict['copyright_notice_translated'] = {
-                    u'fi': json.loads(v)[0]
+                    'fi': json.loads(v)[0]
                 }
 
-            if k == u'metadata-date':
+            if k == 'metadata-date':
                 metadata_date_isoformat = "%s.000000" % date_str_to_datetime(v).isoformat().split('+', 2)[0]
                 package_dict['date_released'] = metadata_date_isoformat
 
-            if k == u'temporal-extent-begin':
+            if k == 'temporal-extent-begin':
                 try:
                     package_dict['valid_from'] = date_str_to_datetime(v)
                 except ValueError:
                     log.info("Invalid date for valid_from, ignoring..")
                     pass
 
-            if k == u'temporal-extent-end':
+            if k == 'temporal-extent-end':
                 try:
                     package_dict['valid_until'] = date_str_to_datetime(v)
                 except ValueError:
                     log.info("Invalid date for valid_until, ignoring..")
                     pass
 
-            if k == u'topic-category':
+            if k == 'topic-category':
                 topic_categories = json.loads(v)
                 categories = [category for topic_category in topic_categories
                               for category, iso_topic_categories in six.iteritems(_category_mapping)
@@ -209,7 +209,7 @@ class SYKEHarvester(CKANHarvester):
                              pkg_dict['id'])
                     continue
 
-                if u'CC BY 4.0' not in pkg_dict.get(u'notes', u""):
+                if 'CC BY 4.0' not in pkg_dict.get('notes', ""):
                     log.info("Not under CC BY 4.0 license, skipping..")
                     continue
                 package_ids.add(pkg_dict['id'])

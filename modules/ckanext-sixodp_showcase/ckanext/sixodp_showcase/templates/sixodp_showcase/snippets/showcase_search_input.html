@@ -3,11 +3,11 @@
 
     {% block form %}
         {% set facets = {
-            'fields': c.fields_grouped,
-            'search': c.search_facets,
-            'titles': c.facet_titles,
-            'translated_fields': c.translated_fields,
-            'remove_field': c.remove_field }
+            'fields': fields_grouped,
+            'search': search_facets,
+            'titles': facet_titles,
+            'translated_fields': translated_fields,
+            'remove_field': remove_field }
         %}
         {% set sorting = [
             (_('Newest first'), 'metadata_created desc'),
@@ -20,6 +20,6 @@
             (_('Top rating'), 'rating desc') ]
         %}
         <div class="search-options">
-            {% snippet 'sixodp_showcase/snippets/showcase_search_form.html', type='showcase', placeholder=_('Search showcases...'), query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, fields=c.fields, no_bottom_border=true, show_advanced_search=false %}
+            {% snippet 'sixodp_showcase/snippets/showcase_search_form.html', type='showcase', placeholder=_('Search showcases...'), query=q, sorting=sorting, sorting_selected=sort_by_selected, count=page.item_count, facets=facets, show_empty=request.params, error=query_error, fields=fields, no_bottom_border=true, show_advanced_search=false %}
         </div>
     {% endblock %}

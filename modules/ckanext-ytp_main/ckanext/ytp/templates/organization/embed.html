@@ -17,10 +17,10 @@
 {%- endblock -%}
 
 {%- block scripts %}
-    {% resource 'base/main' %}
-    {% resource 'base/ckan' %}
+    {% asset 'base/main' %}
+    {% asset 'base/ckan' %}
     {% if g.tracking_enabled %}
-      {% resource 'base/tracking.js' %}
+      {% asset 'base/tracking' %}
     {% endif %}
   {{ super() }}
 {% endblock -%}

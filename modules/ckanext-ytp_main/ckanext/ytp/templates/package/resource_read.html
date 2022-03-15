@@ -1,7 +1,7 @@
 {% extends "package/base.html" %}
 
 {% set res = c.resource %}
-{% set visits =  h.get_visits_for_resource(res.id) %}
+{% set visits =  h.get_visits_for_resource(res.id) if 'get_visits_for_resource' in h else None %}
 {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
 {% block head_extras -%}
   {{ super() }}
@@ -33,7 +33,7 @@
                 <ul>
                   {% block resource_actions_inner %}
                     {% if h.check_access('package_update', {'id':pkg.id }) %}
-                      <li>{% link_for _('Manage'), controller='package', action='resource_edit', id=pkg.name, resource_id=res.id, class_='btn btn-menu-manage', icon='wrench' %}</li>
+                      <li>{% link_for _('Manage'), named_route=pkg.type ~ '_resource.edit', id=pkg.name, resource_id=res.id, class_='btn btn-menu-manage', icon='wrench' %}</li>
                     {% endif %}
                     {% if res.url %}
                       <li>
@@ -84,7 +84,7 @@
                   {% if notes %}
                     <h3>{{ _('From the dataset abstract') }}</h3>
                     <blockquote>{{ notes }}</blockquote>
-                    <p>{% trans dataset=c.package.title, url=h.url_for(controller='package', action='read', id=c.package['name']) %}Source: <a href="{{ url }}">{{ dataset }}</a>{% endtrans %}
+                    <p>{% trans dataset=c.package.title, url=h.url_for(pkg.type ~ '.read', id=c.package['name']) %}Source: <a href="{{ url }}">{{ dataset }}</a>{% endtrans %}
                   {% endif %}
                 {% endif %}
               </div>
@@ -252,6 +252,7 @@
     </div>
   </section>
 
+  {% if visits %}
   <h3>{{ _('Stats') }}</h3>
   <span>{{ _('Last 30 days, updated daily') }}</span>
   <div id="chart_div"></div>
@@ -290,6 +291,7 @@
 
           chart.draw(data, options);
         }
-      </script>
+  </script>
+  {% endif %}
 
 {% endblock %}

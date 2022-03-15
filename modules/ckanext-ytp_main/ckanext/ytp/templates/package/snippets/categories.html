@@ -1,4 +1,4 @@
-{% resource "ytp_common_js/categories.js" %} {% set lang = h.get_lang_prefix()
+{% asset "ytp_resources/categories_js" %} {% set lang = h.get_lang_prefix()
 %} {% if categories %}
 <section class="categories">
   {% block category_list %}
@@ -38,7 +38,7 @@
   </ul>
   {% endblock %}
   {% if h.check_access('package_update', {'id':pkg.id }) %}
-    {% link_for _('Edit categories'), controller='package', action='groups', id=pkg.name %}
+    {% link_for _('Edit categories'), named_route='dataset.groups', id=pkg.name %}
   {% endif %}
 </section>
 {% endif %}

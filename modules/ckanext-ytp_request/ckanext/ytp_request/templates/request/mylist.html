@@ -1,8 +1,8 @@
 {% extends "request/page.html" %}
 
 {% block breadcrumb_content %}
-  <li>{{ h.nav_link(_('Organizations'), named_route='organizations_index') }}</li>
-  <li class="active">{{ h.nav_link(_('My own memberships'), named_route='member_requests_mylist') }}</li>
+  <li>{{ h.nav_link(_('Organizations'), named_route='organization.index') }}</li>
+  <li class="active">{{ h.nav_link(_('My own memberships'), named_route='member_request.mylist') }}</li>
 {% endblock %}
 
 {% block subtitle %}{{ _('My own memberships') }}{% endblock %}
@@ -55,13 +55,13 @@
             <td>{{ mrequest.handled_by }}</td>
             <td>{% if h.check_access('member_request_membership_cancel', {'organization_id': mrequest.organization_id}) %}
               {% set locale = h.dump_json({'content': _('Are you sure you want to end the membership?')}) %}
-              <a class="btn btn-danger" href="{{ h.url_for('member_request_membership_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+              <a class="btn btn-danger" href="{{ h.url_for('member_request.membership_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
               <i class="icon-circle-arrow-right"></i>
                 {% trans %}Cancel membership{% endtrans %}
               </a>
               {% elif h.check_access('member_request_cancel', {'organization_id': mrequest.organization_id}) %}
               {% set locale = h.dump_json({'content': _('Are you sure you want to cancel this pending request?')}) %}
-              <a class="btn btn-primary" href="{{ h.url_for('member_request_cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+              <a class="btn btn-primary" href="{{ h.url_for('member_request.cancel', organization_id=mrequest.organization_id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
               <i class="icon-circle-arrow-right"></i>
                 {% trans %}Cancel request{% endtrans %}
               </a>

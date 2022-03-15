@@ -1,6 +1,6 @@
 {% extends 'page.html' %}
 
-{% set pkg = c.pkg_dict %}
+{% if pkg is not defined %}{% set pkg = c.pkg_dict if c.pkg_dict is defined else {} %}{% endif %}
 {% set name = h.get_translated(pkg, 'title') or pkg.name %}
 
 {% block subtitle %}{{ _('Showcases') }}{% endblock %}
@@ -14,11 +14,11 @@
 {% block breadcrumb_content %}
   {% if pkg %}
     {% set showcase = name %}
-    <li>{% link_for _('Showcases'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search' %}</li>
+    <li>{% link_for _('Showcases'), named_route='sixodp_showcase.search' %}</li>
     <li>{{ self.breadcrumb_content_selected() }}{% link_for showcase|truncate(30), named_route='showcase_read', id=pkg.name %}</li>
-    <li class="active">{% link_for _('Edit'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='edit', id=pkg.name %}</li>
+    <li class="active">{% link_for _('Edit'), named_route='sixodp_showcase.edit', id=pkg.name %}</li>
   {% else %}
-    <li>{% link_for _('Showcases'), controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search' %}</li>
+    <li>{% link_for _('Showcases'), named_route='sixodp_showcase.search' %}</li>
     <li class="active"><a href="">{{ _('Create Showcase') }}</a></li>
   {% endif %}
 {% endblock %}
@@ -32,15 +32,15 @@
             {% if self.content_action() | trim %}
               <div class="content_action">
                 {% block content_action %}
-                  {% link_for _('View showcase'), named_route='showcase_read', id=pkg.name, class_='btn suomifi-button-secondary-noborder', icon='eye-open' %}
+                  {% link_for _('View showcase'), named_route='sixodp_showcase.read', id=pkg.name, class_='btn suomifi-button-secondary-noborder', icon='eye-open' %}
                 {% endblock %}
               </div>
             {% endif %}
             <h1>{{name}}</h1>
             <ul class="nav">
               {% block content_primary_nav %}
-                {{ h.build_nav_icon('ckanext_showcase_edit', _('Edit showcase'), id=pkg.name, icon=None) }}
-                {{ h.build_nav_icon('ckanext_showcase_manage_datasets', _('Manage datasets'), id=pkg.name, icon=None) }}
+                {{ h.build_nav_icon('sixodp_showcase.edit', _('Edit showcase'), id=pkg.name, icon=None) }}
+                {{ h.build_nav_icon('showcase_blueprint.manage_datasets', _('Manage datasets'), id=pkg.name, icon=None) }}
               {% endblock %}
             </ul>
           </header>

@@ -22,7 +22,7 @@ Example:
     {% if s1 != 'complete' %}
       <span class="highlight">{{ _('Create dataset') }}</span>
     {% else %}
-      {% link_for _('Create dataset'), controller='package', action='edit', id=pkg_name, class_="highlight" %}
+    {% link_for _('Create dataset'), named_route='dataset.edit', id=pkg_name, class_="highlight" %}
     {% endif %}
   </li>
   <li class="last {{ s2 }}">
@@ -31,9 +31,9 @@ Example:
     {% else %}
       {% if s1 == 'active' %}
         {# stage 1 #}
-        {% link_for _('Add data'), controller='package', action='new_resource', id=pkg_name, class_="highlight" %}
+        {% link_for _('Add data'), named_route='dataset_resource.new', id=pkg_name, class_="highlight" %}
       {% else %}
-        {% link_for _('Add data'), controller='package', action='new_resource', id=pkg_name, class_="highlight" %}
+        {% link_for _('Add data'), named_route='dataset_resource.new', id=pkg_name, class_="highlight" %}
       {% endif %}
     {% endif %}
   </li>

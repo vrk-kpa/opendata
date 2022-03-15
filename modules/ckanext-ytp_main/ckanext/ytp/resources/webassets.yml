@@ -1,0 +1,170 @@
+main_css:
+  output: ckanext-ytp_main%(version)s_main.css
+  contents:
+    - vendor/bootstrap/dist/css/bootstrap.css
+    - vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css
+    - vendor/jstree/dist/themes/default/style.css
+    - vendor/select2-bootstrap-css/select2-bootstrap.css
+    - styles/fonts.css
+    - styles/ckan.css
+
+main_js:
+  output: ckanext-ytp_main%(version)s_main.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - scripts/offcanvas.js
+    - scripts/avoindata_header.js
+    - scripts/inject_responsive_tables.js
+    - vendor/moment/dist/min/moment-with-locales.js
+    - vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.js
+    - vendor/jstree/dist/jstree.js
+
+openapi_view_css:
+  output: ckanext-ytp_main%(version)s_openapi_view.css
+  contents:
+    - styles/openapi_view.css
+
+bootstrap_table_css:
+  output: ckanext-ytp_main%(version)s_bootstrap_table.css
+  contents:
+    - vendor/bootstrap-table/dist/bootstrap-table.css
+
+bootstrap_table_js:
+  output: ckanext-ytp_main%(version)s_bootstrap-table.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - vendor/bootstrap-table/dist/bootstrap-table.js
+
+
+ytp_select2_js:
+  output: ckanext-ytp_main%(version)s_bootstrap-table.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/ytp_select2.js
+
+administrative_branch_summary_js:
+  output: ckanext-ytp_main%(version)s_administrative_branch_summary.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/administrative_branch_summary.js
+
+bulk-confirm-action_js:
+  output: ckanext-ytp_main%(version)s_bulk-confirm-action.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/bulk-confirm-action.js
+
+categories_js:
+  output: ckanext-ytp_main%(version)s_categories.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/categories.js
+
+d3_js:
+  output: ckanext-ytp_main%(version)s_d3.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/d3.js
+
+form_js:
+  output: ckanext-ytp_main%(version)s_form.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/form.js
+
+jquerysorting_js:
+  output: ckanext-ytp_main%(version)s_jquerysorting.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/jquerysorting.js
+
+jspdf_js:
+  output: ckanext-ytp_main%(version)s_jspdf.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/jspdf.js
+
+related_js:
+  output: ckanext-ytp_main%(version)s_related.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/related.js
+
+search_filtering_js:
+  output: ckanext-ytp_main%(version)s_search_filtering.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/search_filtering.js
+
+table_js:
+  output: ckanext-ytp_main%(version)s_table.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/table.js
+
+translations_js:
+  output: ckanext-ytp_main%(version)s_translations.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/translations.js
+
+ytp_form_js:
+  output: ckanext-ytp_main%(version)s_ytp_form.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/ytp_form.js
+
+show_more_block_js:
+  output: ckanext-ytp_main%(version)s_show_more_block.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/show-more-block.js
+

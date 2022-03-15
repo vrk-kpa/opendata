@@ -24,8 +24,4 @@ setup(name='ckanext-ytp_tasks',
       ytp_tasks=ckanext.ytp_tasks.plugin:YtpTasksPlugin
       [ckan.celery_task]
       tasks = ckanext.ytp_tasks.celery_import:task_imports
-      [paste.paster_command]
-      ytp-task-add = ckanext.ytp_tasks.commands:YtpTaskAdd
-      ytp_tasks-initialize-database = ckanext.ytp_tasks.commands:YtpTaskInitDatabase
-      ytp-task-execute-all = ckanext.ytp_tasks.commands:YtpTaskExecute
       """)

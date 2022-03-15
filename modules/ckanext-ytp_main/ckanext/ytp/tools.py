@@ -27,7 +27,7 @@ def add_translation_modify_schema(schema):
     ignore_missing = toolkit.get_validator('ignore_missing')
     convert_to_extras = toolkit.get_converter('convert_to_extras')
 
-    schema.update({'original_language': [ignore_missing, unicode, convert_to_extras]})
+    schema.update({'original_language': [ignore_missing, str, convert_to_extras]})
     schema.update({'translations': [ignore_missing, to_list_json, convert_to_extras]})
     return schema
 
@@ -40,7 +40,7 @@ def add_languages_modify(schema, fields, locales=None):
     convert_to_extras = toolkit.get_converter('convert_to_extras')
     for locale in locales:
         for field in fields:
-            schema.update({"%s_%s" % (field, locale): [ignore_missing, unicode, convert_to_extras]})
+            schema.update({"%s_%s" % (field, locale): [ignore_missing, str, convert_to_extras]})
     return schema
 
 

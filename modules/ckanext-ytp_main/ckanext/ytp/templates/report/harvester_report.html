@@ -13,7 +13,7 @@
   {% for row in data['sources'] %}
   <tr>
     <td>
-      <a href="{{ h.url_for(controller='package', action='read', id=row.id) }}">
+      <a href="{{ h.url_for(named_route='dataset.read', id=row.id) }}">
         {{ row.title }}
       </a>
     </td>

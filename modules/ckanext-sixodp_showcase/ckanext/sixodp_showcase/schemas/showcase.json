@@ -244,5 +244,6 @@
       "upload_clear": "clear_image_3_upload",
       "upload_label": "Image 3"
     }
-  ]
+  ],
+  "resource_fields": []
 }

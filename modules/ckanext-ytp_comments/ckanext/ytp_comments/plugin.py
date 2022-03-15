@@ -2,6 +2,7 @@ import ckan.plugins as plugins
 from ckan.lib.plugins import DefaultTranslation
 from ckan.plugins import implements, toolkit
 
+import six
 import logging
 
 log = logging.getLogger(__name__)
@@ -106,7 +107,7 @@ class YtpCommentsPlugin(plugins.SingletonPlugin, DefaultTranslation):
     def _get_subscription_status(self, dataset_or_org_id, user_id):
         import ckanext.ytp_comments.model as cmt_model
 
-        if isinstance(dataset_or_org_id, basestring) and isinstance(user_id, basestring):
+        if isinstance(dataset_or_org_id, six.text_type) and isinstance(user_id, six.text_type):
             status = cmt_model.CommentSubscription.get(dataset_or_org_id, user_id)
             if status:
                 return True

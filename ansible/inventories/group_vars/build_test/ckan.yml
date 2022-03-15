@@ -5,6 +5,6 @@ ckan_smtp_use_tls: False
 ckan_smtp_port: 1025
 ckan_site_protocol: "http"
 ckan_disqus_name: "{{ disqus_name }}"
-ckan_enable_cloudstorage: true
+ckan_enable_cloudstorage: false
 ckan_postgres_installed_locally: true
 ckan_admin_email: "{{ admin_email }}"

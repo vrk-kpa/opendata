@@ -5,7 +5,7 @@
       <span>{{ _('Deleted. The dataset is only visible to logged in users of the producer organization.') }}</span>
     </div>
     {% if h.check_access('package_update', {'id':pkg.id }) %}
-      {% link_for _('Edit dataset'), controller='package', action='edit', id=pkg.name %}"
+      {% link_for _('Edit dataset'), named_route='dataset.edit', id=pkg.name %}"
     {% endif %}
   </div>
 {% elif pkg.state.startswith('draft') %}
@@ -15,7 +15,7 @@
       <span>{{ _('In draft state. The dataset is only visible to logged in users of the producer organization.') }}</span>
     </div>
     {% if h.check_access('package_update', {'id':pkg.id }) %}
-      {% link_for _('Edit dataset'), controller='package', action='edit', id=pkg.name %}"
+      {% link_for _('Edit dataset'), named_route='dataset.edit', id=pkg.name %}"
     {% endif %}
   </div>
 {% elif pkg.private %}
@@ -25,13 +25,13 @@
       <span>{{ _('Private mode. The dataset is only visible to logged in users of the producer organization.') }}</span>
     </div>
     {% if h.check_access('package_update', {'id':pkg.id }) %}
-      {% link_for _('Edit dataset'), controller='package', action='edit', id=pkg.name %}
+      {% link_for _('Edit dataset'), named_route='dataset.edit', id=pkg.name %}"
     {% endif %}
   </div>
 {% else %}
   {% if h.check_access('package_update', {'id':pkg.id }) %}
     <div class="admin-banner">
-      {% link_for _('Edit dataset'), controller='package', action='edit', id=pkg.name %}
+      {% link_for _('Edit dataset'), named_route='dataset.edit', id=pkg.name %}
     </div>
   {% endif %}
 {% endif %}

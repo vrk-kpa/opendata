@@ -15,19 +15,18 @@
   {% endif %}
 {% endblock %}
 
+{% set pkg = pkg or c.pkg_dict or data %}
 {% set form_style = c.form_style or c.action %}
 {% block disclaimer %}
-{% if form_style != 'edit' and not c.pkg_dict.id %}
+{% if form_style != 'edit' and (not c.pkg_dict or not c.pkg_dict.id) %}
     {{ super() }}
 {% endif %}
 {% endblock %}
 
 {% block delete_button %}
-    {% if (form_style == 'edit' or c.pkg_dict.id) and h.check_access('package_delete', {'id': c.pkg_dict.id}) %}
-        {% if h.check_access('package_delete', {'id': data.id}) and not data.state == 'deleted' %}
-            {% set locale = h.dump_json({'content': _('Are you sure you want to delete this dataset?')}) %}
-            <a class="btn suomifi-button-secondary pull-left" href="{% url_for controller='package', action='delete', id=data.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}<i class="far fa-trash"></i>{{ _('Delete') }}{% endblock %}</a>
-        {% endif %}
-    {% endif %}
-    <a class="btn suomifi-button-secondary-noborder" href="{% url_for controller='package', action='search' %}">{{_("Abort")}}</a>
+      {% if 'id' in pkg and h.check_access('package_delete', {'id': pkg.id}) and not pkg.state == 'deleted' %}
+          {% set locale = h.dump_json({'content': _('Are you sure you want to delete this dataset?')}) %}
+          <a class="btn suomifi-button-secondary pull-left" href="{% url_for pkg.type ~ '.delete', id=pkg.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}">{% block delete_button_text %}<i class="far fa-trash"></i>{{ _('Delete') }}{% endblock %}</a>
+      {% endif %}
+    <a class="btn suomifi-button-secondary-noborder" href="{% url_for 'dataset.search' %}">{{_("Abort")}}</a>
 {% endblock %}

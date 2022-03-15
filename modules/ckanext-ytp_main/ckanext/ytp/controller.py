@@ -5,7 +5,6 @@ import logging
 
 from ckan import model
 from ckan.common import request, c, response, _, g
-from ckan.controllers.organization import OrganizationController
 from ckan.controllers.package import PackageController
 from ckan.controllers.user import UserController
 from ckan.lib import helpers as h
@@ -13,16 +12,14 @@ from ckan.lib import helpers as h
 from ckan.lib.base import abort, render
 from ckan.logic import get_action, NotFound, NotAuthorized, \
     check_access, clean_dict, tuplize_dict, parse_params, ValidationError
-from paste.deploy.converters import asbool
-from pylons import config
+from ckan.plugins.toolkit import asbool, config
 import ckan.authz as authz
 import ckan.lib.base as base
 import ckan.lib.navl.dictization_functions as dictization_functions
 import ckan.lib.render
 
-from ckanext.organizationapproval.logic import send_new_organization_email_to_admin
 
-from plugin import create_vocabulary
+from .plugin import create_vocabulary
 
 log = logging.getLogger(__name__)
 unflatten = dictization_functions.unflatten
@@ -184,7 +181,7 @@ class YtpDatasetController(PackageController):
 
             # see if we have any data that we are trying to save
             data_provided = False
-            for key, value in data.iteritems():
+            for key, value in data.items():
                 if (value or isinstance(value, cgi.FieldStorage)) and key != 'resource_type':
                     data_provided = True
                     break
@@ -225,7 +222,7 @@ class YtpDatasetController(PackageController):
                     get_action('resource_update')(context, data)
                 else:
                     get_action('resource_create')(context, data)
-            except ValidationError, e:
+            except ValidationError as e:
                 errors = e.error_dict
                 error_summary = e.error_summary
                 return self.new_resource(id, data, errors, error_summary)
@@ -305,7 +302,7 @@ class YtpDatasetController(PackageController):
                     get_action('resource_update')(context, data)
                 else:
                     get_action('resource_create')(context, data)
-            except ValidationError, e:
+            except ValidationError as e:
                 errors = e.error_dict
                 error_summary = e.error_summary
                 return self.resource_edit(id, resource_id, data,
@@ -357,62 +354,6 @@ class YtpDatasetController(PackageController):
 
     def edit_related(self, id, related_id):
         return self._edit_or_new(id, related_id, True)
-
-    def groups(self, id):
-        context = {
-            u'model': model,
-            u'session': model.Session,
-            u'user': g.user,
-            u'for_view': True,
-            u'auth_user_obj': g.userobj,
-            u'use_cache': False
-        }
-
-        if request.method == "POST":
-            group_list = []
-            category_list = []
-            for key, val in request.params.iteritems():
-                if key == 'categories':
-                    group_list.append({'name': val})
-                    category_list.append(val)
-            try:
-                get_action('package_patch')(context, {"id": id, "groups": group_list, "categories": category_list})
-                h.redirect_to('dataset_groups', id=id)
-            except (NotFound, NotAuthorized):
-                return base.abort(404, _(u'Dataset not found'))
-
-        try:
-            pkg_dict = get_action(u'package_show')(context, {u'id': id})
-        except (NotFound, NotAuthorized):
-            return base.abort(404, _(u'Dataset not found'))
-
-        dataset_type = pkg_dict[u'type']
-        context[u'is_member'] = True
-        users_groups = get_action(u'group_list_authz')(context, {u'id': id})
-
-        pkg_group_ids = set(
-            group[u'id'] for group in pkg_dict.get(u'groups', [])
-        )
-
-        user_group_ids = set(group[u'id'] for group in users_groups)
-
-        group_dropdown = [[group[u'id'], group[u'display_name']]
-                          for group in users_groups
-                          if group[u'id'] not in pkg_group_ids]
-
-        for group in pkg_dict.get(u'groups', []):
-            group[u'user_member'] = (group[u'id'] in user_group_ids)
-
-        c.pkg_dict = pkg_dict
-        c.group_dropdown = group_dropdown
-
-        return base.render(
-            u'package/group_list.html', {
-                u'dataset_type': dataset_type,
-                u'pkg_dict': pkg_dict,
-                u'group_dropdown': group_dropdown
-            }
-        )
 
     def _edit_or_new(self, id, related_id, is_edit):
         """
@@ -475,8 +416,8 @@ class YtpDatasetController(PackageController):
                 h.redirect_to(
                     controller='package', action='read', id=c.pkg_dict['name'])
             except DataError:
-                abort(400, _(u'Integrity Error'))
-            except ValidationError, e:
+                abort(400, _('Integrity Error'))
+            except ValidationError as e:
                 errors = e.error_dict
                 error_summary = e.error_summary
         else:
@@ -529,7 +470,7 @@ class YtpDatasetController(PackageController):
         limit = data_dict.get('limit', None)
         q = data_dict.get('q', '')
 
-        like_q = u'%%%s%%' % q
+        like_q = '%%%s%%' % q
 
         query = model.Session.query(model.Package)
         query = query.filter(model.Package.state == 'active')
@@ -614,256 +555,11 @@ class YtpDatasetController(PackageController):
     def _set_response_header(self, name, value):
         try:
             value = str(value)
-        except Exception, inst:
+        except Exception as inst:
             msg = "Couldn't convert '%s' header value '%s' to string: %s" % \
                   (name, value, inst)
             raise Exception(msg)
         response.headers[name] = value
-
-
-class YtpOrganizationController(OrganizationController):
-    # NOTE: should this be in organizationapproval plugin?
-    def _save_new(self, context, group_type=None):
-        try:
-            data_dict = clean_dict(unflatten(tuplize_dict(parse_params(request.params))))
-            data_dict['type'] = group_type or 'group'
-            context['message'] = data_dict.get('log_message', '')
-            data_dict['users'] = [{'name': c.user, 'capacity': 'admin'}]
-            # Set approval status to pending
-            data_dict['approval_status'] = 'pending'
-            group = self._action('group_create')(context, data_dict)
-            send_new_organization_email_to_admin()
-            # Redirect to the appropriate _read route for the type of group
-            h.redirect_to(group['type'] + '_read', id=group['name'])
-        except (NotFound, NotAuthorized) as e:
-            abort(404, _('Group not found'))
-        except DataError:
-            abort(400, _(u'Integrity Error'))
-        except ValidationError as e:
-            errors = e.error_dict
-            error_summary = e.error_summary
-            return self.new(data_dict, errors, error_summary)
-
-    def members(self, id):
-        group_type = self._ensure_controller_matches_group_type(id)
-
-        context = {'model': model, 'session': model.Session,
-                   'user': c.user or c.author}
-
-        try:
-            data_dict = {'id': id}
-            check_access('group_edit_permissions', context, data_dict)
-            c.members = self._action('member_list')(
-                context, {'id': id, 'object_type': 'user'}
-            )
-            data_dict['include_datasets'] = False
-
-            check_access('organization_update', context, {'id': id})
-            context['keep_email'] = True
-            context['auth_user_obj'] = c.userobj
-            c.group_dict = self._action('group_show')(context, {'id': id, 'include_users': True})
-            c.members = c.group_dict['users']
-        except NotAuthorized:
-            abort(403, _('User %r not authorized to edit members of %s') % (c.user, id))
-        except NotFound:
-            abort(404, _('Group not found'))
-        return self._render_template('group/members.html', group_type)
-
-    def user_list(self):
-
-        context = {'model': model, 'session': model.Session,
-                   'user': c.user, 'userobj': c.userobj}
-
-        try:
-            check_access('user_list', context, {})
-
-            q = model.Session.query(model.Group, model.Member, model.User). \
-                filter(model.Member.group_id == model.Group.id). \
-                filter(model.Member.table_id == model.User.id). \
-                filter(model.Member.table_name == 'user'). \
-                filter(model.User.name != 'harvest'). \
-                filter(model.User.name != 'default'). \
-                filter(model.User.state == 'active'). \
-                filter(model.Group.is_organization == 'true')
-
-            users = {}
-
-            for group, member, user in q.all():
-
-                user_obj = users.get(user.name, {})
-                if user_obj == {}:
-                    user_obj = {
-                        'user_id': user.id,
-                        'username': user.name,
-                        'organizations': [group.display_name],
-                        'roles': [member.capacity],
-                        'email': user.email
-                    }
-                else:
-                    user_obj['organizations'].append(group.display_name)
-                    if member.capacity not in user_obj['roles']:
-                        user_obj['roles'].append(member.capacity)
-
-                users[user.name] = user_obj
-
-            c.users = users
-
-            return self._render_template('organization/user_list.html', 'organization')
-
-        except NotAuthorized:
-            abort(403, _('Only system administrators are allowed to view user list.'))
-
-    def admin_list(self):
-
-        context = {'model': model, 'session': model.Session,
-                   'user': c.user, 'userobj': c.userobj}
-
-        try:
-            check_access('user_list', context, {})
-
-            q = model.Session.query(model.Group, model.Member, model.User). \
-                filter(model.Member.group_id == model.Group.id). \
-                filter(model.Member.table_id == model.User.id). \
-                filter(model.Member.table_name == 'user'). \
-                filter(model.Member.capacity == 'admin'). \
-                filter(model.User.name != 'harvest'). \
-                filter(model.User.name != 'default'). \
-                filter(model.User.state == 'active'). \
-                filter(model.Group.is_organization == 'true')
-
-            users = {}
-
-            for group, member, user in q.all():
-
-                user_obj = users.get(user.name, {})
-                if user_obj == {}:
-                    user_obj = {
-                        'user_id': user.id,
-                        'username': user.name,
-                        'organizations': [group.display_name],
-                        'roles': [member.capacity],
-                        'email': user.email
-                    }
-                else:
-                    user_obj['organizations'].append(group.display_name)
-                    if member.capacity not in user_obj['roles']:
-                        user_obj['roles'].append(member.capacity)
-
-                users[user.name] = user_obj
-
-            c.users = users
-
-            return self._render_template('organization/admin_list.html', 'organization')
-
-        except NotAuthorized:
-            abort(403, _('Only system administrators are allowed to view user list.'))
-
-    def read(self, id, limit=20):
-        group_type = self._ensure_controller_matches_group_type(
-            id.split('@')[0])
-        try:
-            context = {
-                'model': model,
-                'session': model.Session,
-                'user': c.user or c.author
-            }
-            check_access('group_show', context, {'id': id})
-        except NotFound:
-            abort(404, _('Group not found'))
-        except NotAuthorized:
-            g = model.Session.query(model.Group).filter(model.Group.name == id).first()
-            if g is None or g.state != 'active':
-                return self._render_template('group/organization_not_found.html', group_type=group_type)
-        return OrganizationController.read(self, id, limit)
-
-    def embed(self, id, limit=5):
-        """
-            Fetch given organization's packages and show them in an embeddable list view.
-            See Nginx config for X-Frame-Options SAMEORIGIN header modifications.
-        """
-
-        def make_pager_url(q=None, page=None):
-            ctrlr = 'ckanext.ytp.controller:YtpOrganizationController'
-            url = h.url_for(controller=ctrlr, action='embed', id=id)
-            return url + u'?page=' + str(page)
-
-        try:
-            context = {
-                'model': model,
-                'session': model.Session,
-                'user': c.user or c.author
-            }
-            check_access('group_show', context, {'id': id})
-        except NotFound:
-            abort(404, _('Group not found'))
-        except NotAuthorized:
-            g = model.Session.query(model.Group).filter(model.Group.name == id).first()
-            if g is None or g.state != 'active':
-                return self._render_template('group/organization_not_found.html')
-
-        page = h.get_page_number(request.params) or 1
-
-        group_dict = {'id': id}
-        group_dict['include_datasets'] = False
-        c.group_dict = self._action('group_show')(context, group_dict)
-        c.group = context['group']
-
-        q = c.q = request.params.get('q', '')
-        q += ' owner_org:"%s"' % c.group_dict.get('id')
-
-        data_dict = {
-            'q': q,
-            'rows': limit,
-            'start': (page - 1) * limit,
-            'extras': {}
-        }
-
-        query = get_action('package_search')(context, data_dict)
-
-        c.page = h.Page(
-            collection=query['results'],
-            page=page,
-            url=make_pager_url,
-            item_count=query['count'],
-            items_per_page=limit
-        )
-
-        c.page.items = query['results']
-
-        return render("organization/embed.html")
-
-    def index(self):
-        group_type = self._guess_group_type()
-
-        page = h.get_page_number(request.params) or 1
-        items_per_page = 21
-        c.with_datasets = with_datasets = request.params.get('with_datasets', '').lower() in ('true', '1', 'yes')
-
-        context = {'model': model, 'session': model.Session,
-                   'user': c.user, 'for_view': True,
-                   'with_private': False,
-                   'user_is_sysadmin': c.userobj.sysadmin if c.userobj else False}
-
-        q = c.q = request.params.get('q', '').lower()
-        sort_by = c.sort_by_selected = request.params.get('sort')
-        try:
-            tree_list_params = {
-                    'q': q, 'sort_by': sort_by, 'with_datasets': with_datasets,
-                    'page': page, 'items_per_page': items_per_page}
-            results = get_action('organization_tree_list')(context, tree_list_params)
-        except NotAuthorized:
-            abort(403, _('Not authorized to see this page'))
-
-        c.page = h.Page(
-            collection=results['global_results'],
-            page=page,
-            url=h.pager_url,
-            items_per_page=items_per_page,
-        )
-        c.page.items = results['page_results']
-
-        return render(self._index_template(group_type),
-                      extra_vars={'group_type': group_type})
 
 
 class YtpThemeController(base.BaseController):
@@ -989,11 +685,11 @@ class YtpUserController(UserController):
             h.redirect_to('home.index')
         except NotAuthorized:
             abort(403, _('Unauthorized to edit user %s') % id)
-        except NotFound, e:
+        except NotFound:
             abort(404, _('User not found'))
         except DataError:
-            abort(400, _(u'Integrity Error'))
-        except ValidationError, e:
+            abort(400, _('Integrity Error'))
+        except ValidationError as e:
             errors = e.error_dict
             error_summary = e.error_summary
             return self.edit(id, data_dict, errors, error_summary)

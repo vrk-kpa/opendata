@@ -96,7 +96,7 @@
     base_hostname: ""
     secondary_base_hostname: ""
     nginx_port: 80
-    apache_port: 8080
+    ckan_port: 8080
     log_path: /var/log/ckan
     ckan_extensions_path: "../../../../../modules"
     ckan_deployment_environment_id: 'molecule'

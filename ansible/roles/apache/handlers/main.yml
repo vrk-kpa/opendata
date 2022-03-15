@@ -1,13 +1,3 @@
 ---
 # handlers file for apache
 
-- name: Stop Apache and disable apache service
-  systemd:
-    name: "{{ apache_service }}"
-    state: stopped
-    enabled: false
-
-- name: Restart Apache
-  service:
-    name: "{{ apache_service }}"
-    state: restarted

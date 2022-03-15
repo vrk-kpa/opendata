@@ -1,42 +1,25 @@
 ---
 # tasks file for opendata_frontend
 
-- name: Add NodeSource GPG key
-  apt_key:
-    data: "{{ lookup('file', 'nodesource.gpg.key') }}"
+- name: Ensure www path is present
+  file:
+    path: "/var/www"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
 
-- name: Add NodeSource APT repository
-  apt_repository:
-    repo: 'deb https://deb.nodesource.com/node_12.x {{ ansible_distribution_release }} main'
-
-- name: Ensure required packages are present
-  package:
-    name: "{{ opendata_frontend_packages }}"
-    state: present
-
-- name: Install gulp
-  npm:
-    name: gulp-cli
-    global: true
-
-- name: Ensure common assets target path is present
+- name: Ensure opendata frontend server path is present
   file:
     path: "{{ opendata_frontend_server_path }}"
     state: directory
     mode: "0755"
+    owner: root
+    group: root
 
-- name: Copy assets common
-  synchronize:
-    src: "{{ opendata_frontend_modules_path }}/ytp-assets-common/"
-    dest: "{{ opendata_frontend_server_path }}/ytp-assets-common"
-    rsync_opts:
-      - "--exclude=node_modules"
-      - "--exclude=src/vendor"
-      - "--exclude=resources"
-
-- name: Ensure www path is present
+- name: Ensure opendata frontend cache path is present
   file:
-    path: "/var/www"
+    path: "{{ opendata_frontend_cache_path }}"
     state: directory
     mode: "0755"
     owner: root
@@ -48,24 +31,3 @@
 - include_tasks: nonvagrant.yml
   when: opendata_frontend_deployment_environment_id != "vagrant"
 
-- name: Install resource dependencies
-  command: npm install --unsafe-perm=true --allow-root
-  args:
-    chdir: "{{ opendata_frontend_server_path }}/ytp-assets-common"
-  tags:
-    - skip_ansible_lint
-
-- name: Run gulp
-  command: gulp
-  args:
-    chdir: "{{ opendata_frontend_server_path }}/ytp-assets-common"
-  tags:
-    - skip_ansible_lint
-
-- name: Copy resources
-  synchronize:
-    src: "{{ opendata_frontend_server_path }}/ytp-assets-common/resources"
-    dest: /var/www/
-  delegate_to: "{{ inventory_hostname }}"
-
-- include: pip.yml

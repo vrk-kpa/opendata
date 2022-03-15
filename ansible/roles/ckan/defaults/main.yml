@@ -51,7 +51,7 @@ ckan_plugin_order:
   - reminder
   - ytp_restrict_category_creation_and_updating
   - archiver
-  - qa
+  # - qa
   - ytp_ipermission_labels
   - organizationapproval
   - ytp_resourcestatus
@@ -61,6 +61,7 @@ ckan_plugin_order:
   - advancedsearch
   - openapi_view
   - statistics
+  - opendata_cli
   - forcetranslation # Must be the last plugin in loading order to override translations with ckanext-ytp_main
   - ytp_recommendation
 
@@ -101,7 +102,7 @@ ckan_extensions:
   - ckanext-disqus
   - ckanext-reminder
   - ckanext-archiver
-  - ckanext-qa
+  # - ckanext-qa
   - ckanext-organizationapproval
   - ckanext-advancedsearch
   #- ckanext-rating
@@ -270,13 +271,7 @@ AWS:
 ckan_patches:
   - enable_multiple_image_uploads
   - remove-ckan-fontawesome
-  - enforce-url-decoding  # CKAN issue #4619
-  - add_error_email_logger_to_flask  # https://github.com/ckan/ckan/pull/4623
-  - add_credentials_to_email_logger  # https://github.com/ckan/ckan/pull/4711
-  - remove_deprecated_resource_preview_call  # https://github.com/ckan/ckan/pull/4669
-  - remove_members_from_group_read # https://github.com/ckan/ckan/pull/4717
-  - fix_unicode_decode_error_in_error_page # https://github.com/ckan/ckan/pull/4829
-  - remove_user_activity_from_group_activity_list # modification from ckan master, can be removed once 2.9 is released
+  #!- enforce-url-decoding  # CKAN issue #4619, probably fixed by python 3 encoding handling
   - optimize_group_show
   - optimize_template_loading # https://github.com/ckan/ckan/pull/4774
   - group_include_extras # https://github.com/ckan/ckan/pull/4774
@@ -306,10 +301,14 @@ ckan_config_files:
     redis_db: "{{ ckan_redis_db }}"
     debug_enabled: "{{ ckan_debug_enabled }}"
 
-ckan_wsgi_config_files:
-  - file: "/etc/ckan/default/apache.wsgi"
-    logfile: "ckan.log"
-    config_file: production.ini
+wsgi_config_files:
+  - template: ckan-uwsgi.ini.j2
+    file: "{{ ckan_uwsgi_conf }}"
+    ckan_wsgi_script: "{{ ckan_wsgi_script }}"
+    ckan_port: "{{ ckan_port }}"
+    ckan_ini: "{{ ckan_ini }}"
+  - template: wsgi.py.j2
+    file: "{{ ckan_wsgi_script }}"
 
 ckan_log_files:
   - "{{ ckan_log_path }}/ckan.log"

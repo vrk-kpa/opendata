@@ -5,7 +5,7 @@
       <ul class="tag-list">
         {% for tag in tags.get(lang) %}
           {% set tag_dict = dict({
-              'controller': 'ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController',
+              'controller': 'sixodp_showcase',
               'action': 'search',
               'vocab_keywords_' + lang: tag }) %}
           <li>

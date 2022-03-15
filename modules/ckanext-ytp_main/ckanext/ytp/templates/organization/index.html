@@ -17,7 +17,7 @@
     {% block organizations_search_form %}
         <form class="search-form list-head-search-form" method="get" data-module="select-switch">
           <div class="search-input control-group">
-            <input data-organization-filter type="text" class="search form-control" name="q" value="{{ c.q }}" autocomplete="off" placeholder="{{ _('Search organizations...') }}">
+            <input data-organization-filter type="text" class="search form-control" name="q" value="{{ q }}" autocomplete="off" placeholder="{{ _('Search organizations...') }}">
             <button type="submit">
               <i class="fa fa-search"></i>
               <span>{{ _('Submit') }}</span>
@@ -25,13 +25,13 @@
           </div>
             {% block search_title %}
             <div class="search-header">
-              <span class="search-result-count">{% snippet 'snippets/search_result_text.html', query=c.q, count=c.page.item_count, type='organization',from='organizations' %}</span>
+              <span class="search-result-count">{% snippet 'snippets/search_result_text.html', query=q, count=page.item_count, type='organization',from='organizations' %}</span>
               <div class="form-select form-group control-order-by">
                 <label for="field-order-by">{{ _('Order by') }}</label>
                 <select id="field-order-by" name="sort" class="form-control">
                   {% for label, value in sorting %}
                     {% if label and value %}
-                      <option value="{{ value }}"{% if c.sort_by_selected == value %} selected="selected"{% endif %}>{{ label }}</option>
+                      <option value="{{ value }}"{% if sort_by_selected == value %} selected="selected"{% endif %}>{{ label }}</option>
                     {% endif %}
                   {% endfor %}
                 </select>
@@ -46,16 +46,16 @@
   </div>
 
   {% block organizations_list %}
-    {#{% if c.q and c.page.items %}
+    {#{% if q and page.items %}
       <ul class="no-bullet">
-       {% for organization in c.page.items %}
+       {% for organization in page.items %}
          {% snippet "organization/snippets/organization_item.html", organization=organization, position=loop.index %}
        {% endfor %}
       </ul>
       {% block page_pagination %}
-        {{ c.page.pager(q=c.q) }}
+        {{ page.pager(q=q) }}
       {% endblock %}
-    {% elif not c.q and c.page.items %}
+    {% elif not q and page.items %}
       <div id="publisher-tree">
         {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.group_tree(), show_dataset_count=true%}
       </div>
@@ -63,20 +63,20 @@
 
 
     <div class="row">
-    {% if c.page.items %}
+    {% if page.items %}
       <ul class="no-bullet organization-list">
-       {% for organization in c.page.items %}
+       {% for organization in page.items %}
          {% snippet "organization/snippets/organization_item.html", organization=organization, position=loop.index %}
        {% endfor %}
       </ul>
       {% block page_pagination %}
-        {{ c.page.pager(q=c.q, with_datasets=c.with_datasets, sort=c.sort_by_selected) }}
+        {{ page.pager(q=q, with_datasets=with_datasets, sort=sort_by_selected) }}
       {% endblock %}
     {% else %}
       <ul class="no-bullet organization-list">
       </ul>
       <p>{% trans %}No organizations found{% endtrans %}</p>
-      
+
     {% endif %}
     </div>
 
@@ -91,12 +91,12 @@
         {{ _('Datasets') }}
       </h3>
       <div class="module-section suomifi-filter-links">
-        {% if c.with_datasets %}
-        <a href="{{ h.url_for(controller='organization', action='index', q=c.q, sort=c.sort_by_selected) }}">
+        {% if with_datasets %}
+        <a href="{{ h.url_for(controller='organization', action='index', q=q, sort=sort_by_selected) }}">
           {{ _('Show organizations without datasets') }}
         </a>
         {% else %}
-        <a href="{{ h.url_for(controller='organization', action='index', q=c.q, sort=c.sort_by_selected, with_datasets=True) }}">
+        <a href="{{ h.url_for(controller='organization', action='index', q=q, sort=sort_by_selected, with_datasets=True) }}">
           {{ _('Show only organizations with datasets') }}
         </a>
         {% endif %}

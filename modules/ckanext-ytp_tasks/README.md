@@ -33,13 +33,13 @@ Execute commands via paster:
 
 ::
 
-    ytp-task-add - add task to scheduling
+    opendata-tasks add ID NAME FREQUENCY DATA - add task to scheduling
 
 ::
 
-    ytp-tasks-initialize-database - initialize scheduling database
+    opendata-tasks init-db - initialize scheduling database
 
 ::
 
-    ytp-task-execute-all - execute (queue) all tasks now
+    opendata-tasks execute-all - execute (queue) all tasks now
 

@@ -82,9 +82,6 @@ setup(
         [ckan.plugins]
         ytp_recommendation=ckanext.ytp_recommendation.plugin:Ytp_RecommendationPlugin
 
-        [paste.paster_command]
-        recommendation=ckanext.ytp_recommendation.commands:RecommendationCommand
-
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan
     ''',

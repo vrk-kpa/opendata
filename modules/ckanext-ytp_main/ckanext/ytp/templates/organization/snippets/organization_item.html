@@ -2,11 +2,11 @@
 {% set parent_display_name = h.extra_translation(organization, 'parent_title') or organization.parent_name %}
 <li>
   {% if organization.parent_name %}
-  <a class="parent-organization" href="{{ h.url_for('organization_read', action='read', id=organization.parent_name) }}">{{ parent_display_name }}</a>
+  <a class="parent-organization" href="{{ h.url_for('organization.read', id=organization.parent_name) }}">{{ parent_display_name }}</a>
   {% else %}
   <span class="parent-organization">&nbsp;</span>
   {% endif %}
-  <a class="organization-title" href="{{ h.url_for('organization_read', action='read', id=organization.id) }}">
+  <a class="organization-title" href="{{ h.url_for('organization.read', id=organization.id) }}">
     <h3>{{ organization_display_name }}</h3>
   </a>
   {% if organization.package_count > 0 %}

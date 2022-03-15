@@ -1,6 +1,6 @@
-import httplib
+import http
 import json
-import urllib
+import urllib.parse
 
 import ckan.logic as logic
 import ckan.model as model
@@ -58,8 +58,8 @@ def validate_google_recaptcha(recaptcha_response):
 
     response_data_dict = {}
     try:
-        connection = httplib.HTTPSConnection('google.com')
-        params = urllib.urlencode({
+        connection = http.client.HTTPSConnection('google.com')
+        params = urllib.parse.urlencode({
             'secret': config.get('ckanext.ytp_recommendation.recaptcha_secret'),
             'response': recaptcha_response,
             'remoteip': p.toolkit.request.environ.get('REMOTE_ADDR')

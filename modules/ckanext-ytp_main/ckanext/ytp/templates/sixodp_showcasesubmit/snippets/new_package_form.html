@@ -1,8 +1,8 @@
 {% import 'macros/form.html' as form %}
 {% import 'scheming/macros/form.html' as scheming_form %}
 
-{% resource "ytp_common_js/ytp_form.js" %}
-{% resource "ytp_common_js/ytp_select2.js" %}
+{% asset "ytp_resources/ytp_form_js" %}
+{% asset "ytp_resources/ytp_select2_js" %}
 
 <script>
   function onSubmit() {
@@ -268,7 +268,7 @@
       {% block form_actions %}
         <div class="form-actions">
           {% block delete_button %}
-            <a class="btn suomifi-button-secondary-noborder" href="{% url_for controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController', action='search' %}">{{_("Abort")}}</a>
+            <a class="btn suomifi-button-secondary-noborder" href="{% url_for 'sixodp_showcase.search' %}">{{_("Abort")}}</a>
           {% endblock %}
           {% block save_button %}
             <div id='recaptcha' class="g-recaptcha"

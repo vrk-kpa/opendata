@@ -29,9 +29,9 @@
               </Directory>
 
           </VirtualHost>
-    apache_port_config: |
-      NameVirtualHost *:{{ apache_port }}
-      Listen {{ apache_port }}
+    ckan_port_config: |
+      NameVirtualHost *:{{ ckan_port }}
+      Listen {{ ckan_port }}
 
       NameVirtualHost *:8800
       Listen 8800
@@ -41,7 +41,7 @@
           Listen {{ port }}
         {% endfor %}
       {% endif %}
-    apache_port: 80
+    ckan_port: 80
     datapusher_env: /usr/lib/ckan/datapusher
     datapusher_group: www-data
     datapusher_user: www-data
