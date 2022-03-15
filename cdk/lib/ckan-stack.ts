@@ -551,7 +551,7 @@ export class CkanStack extends Stack {
       image: ecs.ContainerImage.fromRegistry(`keitaro/ckan-datapusher:${props.envProps.DATAPUSHER_IMAGE_TAG}`),
       environment: {
         // .env.datapusher
-        DATAPUSHER_MAX_CONTENT_LENGTH: '10485760',
+        DATAPUSHER_MAX_CONTENT_LENGTH: '524288000',
         DATAPUSHER_CHUNK_SIZE: '16384',
         DATAPUSHER_CHUNK_INSERT_ROWS: '250',
         DATAPUSHER_DOWNLOAD_TIMEOUT: '30',

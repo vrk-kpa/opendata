@@ -65,7 +65,7 @@ describe('Dataset tests', function() {
 
     cy.get('a').contains(resource_name).click();
 
-    cy.get('a').contains('Avaa')
+    cy.get('a').contains('Lataa')
       .should('have.attr', 'href')
       .then(function (href) {
         cy.request(href).its('status')
