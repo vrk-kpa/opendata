@@ -132,6 +132,7 @@ services:
     image: opendata/ckan:latest
     build:
       context: ../../opendata-ckan
+      target: ckan_development
     volumes:
       # Override the entrypoint script with the one in opendata-ckan
       - ../../opendata-ckan/ckan/scripts/entrypoint_cron.sh:/srv/app/scripts/entrypoint_cron.sh
