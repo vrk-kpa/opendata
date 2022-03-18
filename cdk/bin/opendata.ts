@@ -116,7 +116,7 @@ const cacheStackInfratest = new CacheStack(app, 'CacheStack-infratest', {
   domainName: infratestProps.domainName,
   secondaryDomainName: infratestProps.secondaryDomainName,
   vpc: clusterStackInfratest.vpc,
-  cacheNodeType: 'cache.t2.micro',
+  cacheNodeType: 'cache.t3.small',
   cacheEngineVersion: '6.x',
   cacheNumNodes: 1,
 });
@@ -328,7 +328,7 @@ const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
   domainName: betaProps.domainName,
   secondaryDomainName: betaProps.secondaryDomainName,
   vpc: clusterStackBeta.vpc,
-  cacheNodeType: 'cache.t2.micro',
+  cacheNodeType: 'cache.t3.small',
   cacheEngineVersion: '6.x',
   cacheNumNodes: 1,
 });
@@ -371,7 +371,7 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
   },
   ckanCronTaskDef: {
     taskCpu: 1024,
-    taskMem: 2048,
+    taskMem: 4096,
     taskMinCapacity: 0,
     taskMaxCapacity: 1,
   },
@@ -548,7 +548,7 @@ const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {
   domainName: prodProps.domainName,
   secondaryDomainName: prodProps.secondaryDomainName,
   vpc: clusterStackProd.vpc,
-  cacheNodeType: 'cache.t2.micro',
+  cacheNodeType: 'cache.t3.small',
   cacheEngineVersion: '6.x',
   cacheNumNodes: 1,
 });
@@ -591,7 +591,7 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
   },
   ckanCronTaskDef: {
     taskCpu: 1024,
-    taskMem: 2048,
+    taskMem: 4096,
     taskMinCapacity: 0,
     taskMaxCapacity: 1,
   },
