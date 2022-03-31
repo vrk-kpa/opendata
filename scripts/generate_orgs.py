@@ -37,7 +37,7 @@ def create_organization(api, name, parent_name):
 if __name__ == '__main__':
 
     usage = """
-    Usage: ./organize_orgs.py API_URL API_KEY NUM_ROOTS NUM_LEVELS NUM_CHILDREN
+    Usage: ./generate_orgs.py API_URL API_KEY NUM_ROOTS NUM_LEVELS NUM_CHILDREN
     API_URL:      Url to CKAN excluding api directory and without trailing forward slash,
                   e.g. http://beta.opendata.fi/data
     API_KEY:      API key of the authorized user whose permissions are used for the requests,
@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
 
     if len(sys.argv) != 6:
-        print usage
+        print (usage)
         sys.exit()
 
     binary_name, api_url, api_key, num_roots, num_levels, num_children = sys.argv
