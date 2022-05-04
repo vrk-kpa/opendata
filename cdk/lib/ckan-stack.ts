@@ -518,6 +518,8 @@ export class CkanStack extends Stack {
         sourceVolume: 'ckan_data',
       });
 
+      ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
+      
       this.ckanCronService = new ecs.FargateService(this, 'ckanCronService', {
         platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
         cluster: props.cluster,
