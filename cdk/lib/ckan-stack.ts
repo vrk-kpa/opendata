@@ -518,6 +518,8 @@ export class CkanStack extends Stack {
         sourceVolume: 'ckan_data',
       });
 
+      ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
+      
       this.ckanCronService = new ecs.FargateService(this, 'ckanCronService', {
         platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
         cluster: props.cluster,
@@ -525,6 +527,7 @@ export class CkanStack extends Stack {
         desiredCount: 1,
         minHealthyPercent: 0,
         maxHealthyPercent: 100,
+        enableExecuteCommand: true
       });
 
       this.ckanCronService.connections.allowFrom(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
