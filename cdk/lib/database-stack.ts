@@ -37,7 +37,7 @@ export class DatabaseStack extends Stack {
     });
 
     if (props.backups) {
-      props.backupPlan.addSelection('backupPlanSelection', {
+      props.backupPlan.addSelection('backupPlanDatabaseSelection', {
         resources: [
           bak.BackupResource.fromRdsDatabaseInstance(this.databaseInstance)
         ]

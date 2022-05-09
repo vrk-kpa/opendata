@@ -49,7 +49,7 @@ export class FileSystemStack extends Stack {
     });
 
     if (props.backups) {
-      props.backupPlan.addSelection('backupPlanSelection', {
+      props.backupPlan.addSelection('backupPlanFilesystemSelection', {
         resources: [
           bak.BackupResource.fromEfsFileSystem(this.drupalFs),
           bak.BackupResource.fromEfsFileSystem(this.ckanFs),
