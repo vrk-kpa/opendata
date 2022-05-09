@@ -49,24 +49,15 @@ export class FileSystemStack extends Stack {
     });
 
     if (props.backups) {
-      const backupVault = new bak.BackupVault(this, 'backupVault', {
-        backupVaultName: `opendata-efs-vault-${props.environment}`,
-      });
+      const backupVault = bak.BackupVault.fromBackupVaultName(this, 'backupVault', `opendata-vault-${props.environment}`);
   
       const backupPlan = new bak.BackupPlan(this, 'backupPlan', {
         backupPlanName: `opendata-efs-plan-${props.environment}`,
         backupVault: backupVault,
         backupPlanRules: [
-          new bak.BackupPlanRule({
-            ruleName: `opendata-efs-rule-daily-${props.environment}`,
-            completionWindow: Duration.hours(8),
-            startWindow: Duration.hours(1),
-            scheduleExpression: evt.Schedule.cron({
-              minute: '0',
-              hour: '0',
-            }),
-            deleteAfter: Duration.days(35),
-          })
+          bak.BackupPlanRule.daily(),
+          bak.BackupPlanRule.weekly(),
+          bak.BackupPlanRule.monthly1Year()
         ],
       });
 
