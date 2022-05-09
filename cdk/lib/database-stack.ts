@@ -37,19 +37,7 @@ export class DatabaseStack extends Stack {
     });
 
     if (props.backups) {
-      const backupVault = bak.BackupVault.fromBackupVaultName(this, 'backupVault', `opendata-vault-${props.environment}`);
-
-      const backupPlan = new bak.BackupPlan(this, 'backupPlan', {
-        backupPlanName: `opendata-rds-plan-${props.environment}`,
-        backupVault: backupVault,
-        backupPlanRules: [
-          bak.BackupPlanRule.daily(),
-          bak.BackupPlanRule.weekly(),
-          bak.BackupPlanRule.monthly1Year()
-        ],
-      });
-
-      backupPlan.addSelection('backupPlanSelection', {
+      props.backupPlan.addSelection('backupPlanSelection', {
         resources: [
           bak.BackupResource.fromRdsDatabaseInstance(this.databaseInstance)
         ]
