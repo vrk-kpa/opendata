@@ -284,7 +284,7 @@ const fileSystemStackBeta = new FileSystemStack(app, 'FileSystemStack-beta', {
   domainName: betaProps.domainName,
   secondaryDomainName: betaProps.secondaryDomainName,
   vpc: clusterStackBeta.vpc,
-  backups: false,
+  backups: true,
   importMigrationFs: true,
 });
 
