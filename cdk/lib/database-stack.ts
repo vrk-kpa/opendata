@@ -6,6 +6,8 @@ import * as rds from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 
 import { RdsStackProps } from './rds-stack-props';
+import * as bak from "aws-cdk-lib/aws-backup";
+import * as evt from "aws-cdk-lib/aws-events";
 
 export class DatabaseStack extends Stack {
   readonly databaseSecurityGroup: ec2.ISecurityGroup;
@@ -33,6 +35,14 @@ export class DatabaseStack extends Stack {
       port: 5432,
       securityGroups: [this.databaseSecurityGroup],
     });
-    
+
+    if (props.backups) {
+      props.backupPlan.addSelection('backupPlanDatabaseSelection', {
+        resources: [
+          bak.BackupResource.fromRdsDatabaseInstance(this.databaseInstance)
+        ]
+      });
+    }
+
   }
 }

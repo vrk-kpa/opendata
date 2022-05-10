@@ -7,6 +7,7 @@ import { DatabaseStack } from '../lib/database-stack';
 import { CacheStack } from '../lib/cache-stack';
 import { DrupalStack } from '../lib/drupal-stack';
 import { mockEnv, mockEnvProps } from './mock-constructs';
+import {BackupStack} from "../lib/backup-stack";
 
 test('verify drupal stack resources', () => {
   const app = new cdk.App();
@@ -19,6 +20,18 @@ test('verify drupal stack resources', () => {
     domainName: 'mock.localhost',
     secondaryDomainName: 'mock.localhost',
   });
+
+  const backupStack = new BackupStack(app, 'BackupStack-Test', {
+    envProps: mockEnvProps,
+    env: mockEnv,
+    environment: 'mock-env',
+    fqdn: 'localhost',
+    secondaryFqdn: 'localhost',
+    domainName: 'mock.localhost',
+    secondaryDomainName: 'mock.localhost',
+    backups: true
+  });
+
   const fileSystemStack = new FileSystemStack(app, 'FileSystemStack-test', {
     envProps: mockEnvProps,
     env: mockEnv,
@@ -29,8 +42,10 @@ test('verify drupal stack resources', () => {
     secondaryDomainName: 'mock.localhost',
     vpc: clusterStack.vpc,
     backups: true,
+    backupPlan: backupStack.backupPlan,
     importMigrationFs: true,
   });
+
   const databaseStack = new DatabaseStack(app, 'DatabaseStack-test', {
     envProps: mockEnvProps,
     env: mockEnv,
@@ -40,6 +55,8 @@ test('verify drupal stack resources', () => {
     domainName: 'mock.localhost',
     secondaryDomainName: 'mock.localhost',
     vpc: clusterStack.vpc,
+    backups: true,
+    backupPlan: backupStack.backupPlan
   });
   const cacheStack = new CacheStack(app, 'CacheStack-test', {
     envProps: mockEnvProps,

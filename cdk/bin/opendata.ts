@@ -11,6 +11,7 @@ import { FileSystemStack } from '../lib/filesystem-stack';
 import { DrupalStack } from '../lib/drupal-stack';
 import { CkanStack } from '../lib/ckan-stack';
 import { WebStack } from '../lib/web-stack';
+import {BackupStack} from "../lib/backup-stack";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -60,6 +61,20 @@ const clusterStackInfratest = new ClusterStack(app, 'ClusterStack-infratest', {
   secondaryDomainName: infratestProps.secondaryDomainName,
 });
 
+const backupStackInfratest = new BackupStack(app,'BackupStack-infratest', {
+  envProps: envProps,
+  env: {
+    account: infratestProps.account,
+    region: infratestProps.region,
+  },
+  domainName: infratestProps.domainName,
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryDomainName: infratestProps.secondaryDomainName,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  backups: false
+})
+
 const fileSystemStackInfratest = new FileSystemStack(app, 'FileSystemStack-infratest', {
   envProps: envProps,
   env: {
@@ -73,6 +88,7 @@ const fileSystemStackInfratest = new FileSystemStack(app, 'FileSystemStack-infra
   secondaryDomainName: infratestProps.secondaryDomainName,
   vpc: clusterStackInfratest.vpc,
   backups: false,
+  backupPlan: backupStackInfratest.backupPlan,
   importMigrationFs: true,
 });
 
@@ -88,6 +104,8 @@ const databaseStackInfratest = new DatabaseStack(app, 'DatabaseStack-infratest',
   domainName: infratestProps.domainName,
   secondaryDomainName: infratestProps.secondaryDomainName,
   vpc: clusterStackInfratest.vpc,
+  backups: false,
+  backupPlan: backupStackInfratest.backupPlan
 });
 
 const loadBalancerStackInfratest = new LoadBalancerStack(app, 'LoadBalancerStackInfratest-infratest', {
@@ -272,6 +290,20 @@ const clusterStackBeta = new ClusterStack(app, 'ClusterStack-beta', {
   secondaryDomainName: betaProps.secondaryDomainName,
 });
 
+const backupStackBeta = new BackupStack(app,'BackupStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  domainName: betaProps.domainName,
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  backups: false
+})
+
 const fileSystemStackBeta = new FileSystemStack(app, 'FileSystemStack-beta', {
   envProps: envProps,
   env: {
@@ -285,6 +317,7 @@ const fileSystemStackBeta = new FileSystemStack(app, 'FileSystemStack-beta', {
   secondaryDomainName: betaProps.secondaryDomainName,
   vpc: clusterStackBeta.vpc,
   backups: true,
+  backupPlan: backupStackBeta.backupPlan,
   importMigrationFs: true,
 });
 
@@ -300,6 +333,8 @@ const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
   domainName: betaProps.domainName,
   secondaryDomainName: betaProps.secondaryDomainName,
   vpc: clusterStackBeta.vpc,
+  backups: true,
+  backupPlan: backupStackBeta.backupPlan
 });
 
 const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta', {
@@ -492,6 +527,20 @@ const clusterStackProd = new ClusterStack(app, 'ClusterStack-prod', {
   secondaryDomainName: prodProps.secondaryDomainName,
 });
 
+const backupStackProd = new BackupStack(app,'BackupStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  domainName: prodProps.domainName,
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  backups: false
+})
+
 const fileSystemStackProd = new FileSystemStack(app, 'FileSystemStack-prod', {
   envProps: envProps,
   env: {
@@ -505,6 +554,7 @@ const fileSystemStackProd = new FileSystemStack(app, 'FileSystemStack-prod', {
   secondaryDomainName: prodProps.secondaryDomainName,
   vpc: clusterStackProd.vpc,
   backups: false,
+  backupPlan: backupStackProd.backupPlan,
   importMigrationFs: true,
 });
 
@@ -520,6 +570,8 @@ const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
   domainName: prodProps.domainName,
   secondaryDomainName: prodProps.secondaryDomainName,
   vpc: clusterStackProd.vpc,
+  backups: false,
+  backupPlan: backupStackProd.backupPlan
 });
 
 const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod', {
