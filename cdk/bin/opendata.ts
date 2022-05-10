@@ -11,7 +11,7 @@ import { FileSystemStack } from '../lib/filesystem-stack';
 import { DrupalStack } from '../lib/drupal-stack';
 import { CkanStack } from '../lib/ckan-stack';
 import { WebStack } from '../lib/web-stack';
-import {BackupStack} from "../lib/backup-stack";
+import { BackupStack } from "../lib/backup-stack"
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -301,7 +301,7 @@ const backupStackBeta = new BackupStack(app,'BackupStack-beta', {
   fqdn: betaProps.fqdn,
   secondaryDomainName: betaProps.secondaryDomainName,
   secondaryFqdn: betaProps.secondaryFqdn,
-  backups: false
+  backups: true
 })
 
 const fileSystemStackBeta = new FileSystemStack(app, 'FileSystemStack-beta', {
