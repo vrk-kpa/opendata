@@ -48,7 +48,7 @@ export class FileSystemStack extends Stack {
       encrypted: true,
     });
 
-    if (props.backups) {
+    if (props.backups && props.backupPlan ) {
       props.backupPlan.addSelection('backupPlanFilesystemSelection', {
         resources: [
           bak.BackupResource.fromEfsFileSystem(this.drupalFs),
