@@ -26,7 +26,8 @@ test('verify database stack resources', () => {
     secondaryFqdn: 'localhost',
     domainName: 'mock.localhost',
     secondaryDomainName: 'mock.localhost',
-    backups: true
+    backups: true,
+    importVault: false
   });
 
   // WHEN

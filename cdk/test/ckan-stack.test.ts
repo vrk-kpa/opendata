@@ -30,7 +30,8 @@ test('verify ckan stack resources', () => {
     secondaryFqdn: 'localhost',
     domainName: 'mock.localhost',
     secondaryDomainName: 'mock.localhost',
-    backups: true
+    backups: true,
+    importVault: false
   });
 
   const fileSystemStack = new FileSystemStack(app, 'FileSystemStack-test', {
