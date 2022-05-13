@@ -361,10 +361,12 @@ Cypress.Commands.add('reset_db', () => {
             DB_CKAN_PASS: 'ckan_pass'
           }
         });
-        cy.exec('docker exec -i opendata-ckan-1 sh -c "ckan --config /srv/app/production.ini search-index clear"');
+
+        const containerName = Cypress.env('test_container_name') || 'opendata-ckan-1';
+        cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini search-index clear"`);
         // Init vocaularies
-        cy.exec('docker exec -i opendata-ckan-1 sh -c "ckan --config /srv/app/production.ini sixodp-showcase create_platform_vocabulary"');
-        cy.exec('docker exec -i opendata-ckan-1 sh -c "ckan --config /srv/app/production.ini sixodp-showcase create_showcase_type_vocabulary"');
+        cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini sixodp-showcase create_platform_vocabulary"`);
+        cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini sixodp-showcase create_showcase_type_vocabulary"`);
       }
     }
 });
@@ -421,3 +423,74 @@ function url_Alpha_Numeric() {
 
   return text;
 }
+
+
+/*
+ * Apiset helpers
+ */
+Cypress.Commands.add('create_new_apiset', (apiset_name, apiset_form_data, api_form_data, parent_organization) => {
+
+  // Default values for apiset and resource forms
+  if (!apiset_form_data) {
+    apiset_form_data = {
+      "#field-title_translated-fi": apiset_name,
+      '#field-notes_translated-fi': 'Apiset test description',
+      // FIXME: This should just be 'test_keyword{enter}', see fill_form_fields in support/commands.js
+      '#s2id_autogen1': {type: 'select2', values: ['test_keyword']},
+      '#field-api_provider': 'Api Provider',
+      '#field-api_provider_email': 'test.maintainer@example.com'
+    }
+  }
+  if (!api_form_data) {
+    api_form_data = {
+      "#field-name_translated-fi": 'test data',
+      '#field-image-url': 'http://example.com'
+    }
+  }
+
+  // As there isn't currently link for apisets in nav, we must use exact urls on navigation
+  cy.visit('/data/fi/apiset/new');
+  // cy.get('#field-name').type(apiset_name);
+  cy.fill_form_fields(apiset_form_data);
+
+  // The selector field is hidden so force is required.
+  // The visible UI element for selecting the organization is not as easy to use with cypress
+  if (parent_organization) {
+    cy.get("#field-organizations").select(parent_organization, {force: true});
+  }
+
+  cy.get('button[name=save]').click();
+
+  //Resource form, filled with just the name and api link
+  cy.contains('a', 'Linkki').click()
+  cy.fill_form_fields(api_form_data);
+  cy.get('button[name=save].suomifi-button-primary').click();
+  cy.url().should('include', `/data/fi/dataset/${apiset_name}`);
+});
+
+// Edits an existing apiset
+Cypress.Commands.add('edit_apiset', (apiset_name, apiset_form_data) => {
+
+  if (!apiset_form_data) {
+    apiset_form_data = {
+      "#field-title_translated-fi": 'edit',
+    }
+  }
+  // As there isn't currently link for apisets in nav, we must use exact urls on navigation
+  cy.visit(`/data/fi/apiset/edit/${apiset_name}`);
+  cy.fill_form_fields(apiset_form_data)
+  cy.get('button[name=save]').click();
+  cy.get('.dataset-title').contains(apiset_name+'edit');
+})
+
+// Deletes a dataset and verifies that it is not found in the search anymore
+Cypress.Commands.add('delete_apiset', (apiset_name) => {
+  // As there isn't currently link for apisets in nav, we must use exact urls on navigation
+  cy.visit(`/data/fi/apiset/edit/${apiset_name}`);
+  cy.get('.form-actions').contains('Poista').click();
+  cy.contains('Haluatko varmasti poistaa tietoaineiston');
+  cy.get('body').find('.btn').contains('Vahvista').click();
+  cy.get('.search-input .search').type(apiset_name + '{enter}');
+  cy.get(`a[href="/data/fi/apiset/${apiset_name}"]`).should('not.exist');
+  cy.visit(`/data/fi/apiset/${apiset_name}`);
+});

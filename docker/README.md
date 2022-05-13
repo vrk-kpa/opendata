@@ -227,3 +227,44 @@ If your PC is low on memory, you might have problems running the containers unde
 memory=4GB
 processors=2
 ```
+
+## Tests
+
+### Cypress
+
+#### Running
+
+Install packages `npm install` in root of `opendata`
+Run `npm run cypress:open` and it will open a window where you can run specific tests.
+
+#### Test environment
+
+When you want to separate tests from development environment, you can give docker-compose different project name:
+
+```bash
+docker-compose -p opendata-test up
+```
+
+To get rid of flask debug toolbar (cypress tests will fail when toolbar is visible), you can add environment-variable `TEST: 'true'` for ckan-service in `docker-compose.override.yml`
+
+```yml
+services:
+  ckan:
+    ...
+    environment:
+      ...
+      TEST: "true"
+```
+
+When your environment is up and ready, it might give you a different name for ckan container. You can check this with `docker container ls` and find your ckan-containers name. Then you can create file `cypress.env.json` in root directory of `opendata` and replace the default name used in test preparation commands:
+
+```json
+{
+    "resetDB": true,
+    "cloudStorageEnabled": false,
+    "docker": true,
+    "test_container_name": "opendata-test_ckan_1"
+}
+```
+
+Note that you can override also other env-variables in that file.
