@@ -75,3 +75,6 @@ server.key
 # Docker related
 docker/.env
 docker/docker-compose.override.yml
+
+# Ignore cypress local env-overrides
+cypress.env.json
