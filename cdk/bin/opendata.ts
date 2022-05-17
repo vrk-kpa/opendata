@@ -72,7 +72,8 @@ const backupStackInfratest = new BackupStack(app,'BackupStack-infratest', {
   fqdn: infratestProps.fqdn,
   secondaryDomainName: infratestProps.secondaryDomainName,
   secondaryFqdn: infratestProps.secondaryFqdn,
-  backups: false
+  backups: false,
+  importVault: false
 })
 
 const fileSystemStackInfratest = new FileSystemStack(app, 'FileSystemStack-infratest', {
@@ -301,8 +302,10 @@ const backupStackBeta = new BackupStack(app,'BackupStack-beta', {
   fqdn: betaProps.fqdn,
   secondaryDomainName: betaProps.secondaryDomainName,
   secondaryFqdn: betaProps.secondaryFqdn,
-  backups: true
+  backups: true,
+  importVault: true
 })
+
 
 const fileSystemStackBeta = new FileSystemStack(app, 'FileSystemStack-beta', {
   envProps: envProps,
@@ -538,7 +541,8 @@ const backupStackProd = new BackupStack(app,'BackupStack-prod', {
   fqdn: prodProps.fqdn,
   secondaryDomainName: prodProps.secondaryDomainName,
   secondaryFqdn: prodProps.secondaryFqdn,
-  backups: false
+  backups: false,
+  importVault: false
 })
 
 const fileSystemStackProd = new FileSystemStack(app, 'FileSystemStack-prod', {

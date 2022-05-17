@@ -11,9 +11,18 @@ export class BackupStack extends Stack {
     super(scope, id, props);
 
     if (props.backups) {
-      const backupVault = new bak.BackupVault(this, 'backupVault', {
-        backupVaultName: `opendata-vault-${props.environment}`,
-      });
+
+      let backupVault = null;
+
+      if (props.importVault){
+        backupVault = bak.BackupVault.fromBackupVaultName(this, 'backupVault', `opendata-vault-${props.environment}`)
+      }
+      else{
+        backupVault = new bak.BackupVault(this, 'backupVault', {
+          backupVaultName: `opendata-vault-${props.environment}`,
+        });
+      }
+
 
       this.backupPlan = new bak.BackupPlan(this, 'backupPlan', {
         backupPlanName: `opendata-plan-${props.environment}`,

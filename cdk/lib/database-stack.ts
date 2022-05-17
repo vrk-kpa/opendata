@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import {Duration, Stack, StackProps, Token} from 'aws-cdk-lib';
 import * as cdk from 'aws-cdk-lib/core';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
@@ -7,7 +7,6 @@ import { Construct } from 'constructs';
 
 import { RdsStackProps } from './rds-stack-props';
 import * as bak from "aws-cdk-lib/aws-backup";
-import * as evt from "aws-cdk-lib/aws-events";
 
 export class DatabaseStack extends Stack {
   readonly databaseSecurityGroup: ec2.ISecurityGroup;
@@ -36,13 +35,16 @@ export class DatabaseStack extends Stack {
       securityGroups: [this.databaseSecurityGroup],
     });
 
-    if (props.backups) {
+    // TODO: Enable this once cdk bug with tokens is fixed
+    /*
+    if (props.backups && props.backupPlan ) {
       props.backupPlan.addSelection('backupPlanDatabaseSelection', {
         resources: [
           bak.BackupResource.fromRdsDatabaseInstance(this.databaseInstance)
         ]
       });
     }
+    */
 
   }
 }
