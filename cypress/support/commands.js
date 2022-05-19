@@ -111,6 +111,9 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
                 case 'check':
                     field.check(options)
                     break;
+                case 'radio':
+                    field.check(field_value.value, options)
+                    break;
                 default:
                     field.type(field_value.value, options)
             }
