@@ -15,7 +15,7 @@ client.query('CREATE OR REPLACE FUNCTION truncate_tables(username IN VARCHAR) RE
   'DECLARE\n' +
   '    statements CURSOR FOR\n' +
   '        SELECT tablename FROM pg_tables\n' +
-  '        WHERE tableowner = username AND schemaname = \'public\' AND tablename != \'migrate_version\';\n' +
+  '        WHERE tableowner = username AND schemaname = \'public\' AND tablename != \'migrate_version\' AND tablename != \'alembic_version\';\n' +
   'BEGIN\n' +
   '    FOR stmt IN statements LOOP\n' +
   '        EXECUTE \'TRUNCATE TABLE \' || quote_ident(stmt.tablename) || \' CASCADE;\';\n' +

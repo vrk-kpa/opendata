@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://vagrant.avoindata.fi:9000",
+  "baseUrl": "http://localhost",
   "projectId": "ssb2ut",
   "env": {
     "resetDB": true,
