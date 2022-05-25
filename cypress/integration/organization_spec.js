@@ -15,8 +15,22 @@ describe("Organization tests", function() {
     cy.get('.slug-preview button').contains('Muokkaa').click();
     cy.get("input[name='name']").type(organization_name);
     cy.get("input[name='title_translated-fi']").type(organization_name);
+    cy.get("input[name='title_translated-sv']").type(organization_name + '_sv')
+    cy.get("input[name='title_translated-en']").type(organization_name + '_en')
     cy.get('button[name="save"]').click();
     cy.url().should('include', `/data/fi/organization/${organization_name}`);
+
+    cy.get('.heading').should('have.text', organization_name);
+
+    cy.get(`.nav.nav-tabs a[href="/data/fi/organization/${organization_name}"]`).parent().should('have.class', 'active');
+
+    cy.switch_language('sv');
+    cy.get('.heading').should('have.text', organization_name + '_sv');
+
+    cy.switch_language('en');
+    cy.get('.heading').should('have.text', organization_name + '_en');
+
+    cy.switch_language('fi');
 
     // Edit
     cy.get(`a[href='/data/fi/organization/edit/${organization_name}']`).click();
