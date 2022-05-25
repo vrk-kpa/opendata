@@ -17,6 +17,7 @@ declare namespace Cypress {
     delete_showcase(showcase_name: string): Chainable<any>,
     add_showcase_user(): Chainable<any>,
     reset_db(): Chainable<any>
-    create_category(category_name: string): Chainable<any>
+    create_category(category_name: string): Chainable<any>,
+    switch_language(language: string): Chainable<any>
   }
 }
