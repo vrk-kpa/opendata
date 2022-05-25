@@ -497,3 +497,8 @@ Cypress.Commands.add('delete_apiset', (apiset_name) => {
   cy.get(`a[href="/data/fi/apiset/${apiset_name}"]`).should('not.exist');
   cy.visit(`/data/fi/apiset/${apiset_name}`);
 });
+
+Cypress.Commands.add('switch_language', (language) => {
+  cy.get('#block-avoindata-language-switcher button').click();
+  cy.get('.language-link[hreflang=' + language + ']').click();
+})
