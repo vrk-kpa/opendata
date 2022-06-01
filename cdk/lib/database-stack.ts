@@ -30,13 +30,12 @@ export class DatabaseStack extends Stack {
 
     this.databaseInstance = rds.DatabaseInstance.fromDatabaseInstanceAttributes(this, 'databaseInstance', {
       instanceEndpointAddress: pDbHost.stringValue,
-      instanceIdentifier: pDbHost.stringValue.split('.')[0],
+      instanceIdentifier: `avoindata-${props.environment}`,
       port: 5432,
       securityGroups: [this.databaseSecurityGroup],
     });
 
-    // TODO: Enable this once cdk bug with tokens is fixed
-    /*
+
     if (props.backups && props.backupPlan ) {
       props.backupPlan.addSelection('backupPlanDatabaseSelection', {
         resources: [
@@ -44,7 +43,5 @@ export class DatabaseStack extends Stack {
         ]
       });
     }
-    */
-
   }
 }
