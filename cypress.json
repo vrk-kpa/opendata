@@ -4,6 +4,6 @@
   "env": {
     "resetDB": true,
     "cloudStorageEnabled": false,
-    "docker": false
+    "docker": true
   }
 }
