@@ -541,7 +541,7 @@ const backupStackProd = new BackupStack(app,'BackupStack-prod', {
   fqdn: prodProps.fqdn,
   secondaryDomainName: prodProps.secondaryDomainName,
   secondaryFqdn: prodProps.secondaryFqdn,
-  backups: false,
+  backups: true,
   importVault: false
 })
 
@@ -557,7 +557,7 @@ const fileSystemStackProd = new FileSystemStack(app, 'FileSystemStack-prod', {
   domainName: prodProps.domainName,
   secondaryDomainName: prodProps.secondaryDomainName,
   vpc: clusterStackProd.vpc,
-  backups: false,
+  backups: true,
   backupPlan: backupStackProd.backupPlan,
   importMigrationFs: true,
 });
@@ -574,7 +574,7 @@ const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
   domainName: prodProps.domainName,
   secondaryDomainName: prodProps.secondaryDomainName,
   vpc: clusterStackProd.vpc,
-  backups: false,
+  backups: true,
   backupPlan: backupStackProd.backupPlan
 });
 
