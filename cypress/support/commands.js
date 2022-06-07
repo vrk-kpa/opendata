@@ -365,7 +365,7 @@ Cypress.Commands.add('reset_db', () => {
           }
         });
 
-        const containerName = Cypress.env('test_container_name') || 'opendata-ckan-1';
+        const containerName = Cypress.env('test_container_name') || 'opendata_ckan_1';
         cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini search-index clear"`);
         // Init vocaularies
         cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini sixodp-showcase create_platform_vocabulary"`);

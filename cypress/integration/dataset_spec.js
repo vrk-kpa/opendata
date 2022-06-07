@@ -74,7 +74,7 @@ describe('Dataset tests', function() {
 
     // File size should be calculated automatically
     // Use 'contain' because of surrounding whitespace
-    cy.get('dt').contains('Tiedostokoko').next()
+    cy.get('th').contains('Tiedostokoko').next()
       .should('contain.text', '4123652');
   });
 
