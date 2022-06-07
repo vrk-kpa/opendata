@@ -6,41 +6,90 @@ beforeEach(function () {
     cy.visit('/');
     cy.get('nav a[href="/data/fi/dataset"]').click();
     const dataset_name = 'test_dataset';
-    cy.create_new_dataset(dataset_name); //comment out when testing
+    cy.create_new_dataset(dataset_name); 
     cy.get(`a[href="/data/fi/dataset/${dataset_name}"]`).click();
     cy.get('.resource-item__info__title').click();
   })
 
-// it('Open resource page while not logged in', function() {
-//     cy.logout_request();
-//     cy.visit('/');
-//     cy.get('nav a[href="/data/fi/dataset"]').click();
-//     const dataset_name = 'test_dataset';
-//     cy.get(`a[href="/data/fi/dataset/${dataset_name}"]`).click();
-//     cy.get('.resource-item__info__title').click();
-// });
+it("Can't edit resource while not logged in", function() {
+    cy.logout_request();
+    cy.visit('/');
+    cy.get('nav a[href="/data/fi/dataset"]').click();
+    const dataset_name = 'test_dataset';
+    cy.get(`a[href="/data/fi/dataset/${dataset_name}"]`).click();
+    cy.get('.resource-item__info__title').click();
 
-it('Edit dataset', function(){
+    cy.get('.actions').find('a').contains('Muokkaa').should('not.exist');
+});
+
+
+it('Test links', function(){
     cy.switch_language('fi');
+    //This will fail if db isn't reset before running this test
+    cy.get('.prose').find('p').find('a').click();
+    cy.go('back');
 
-    //starting values for to and from should be empty
-    cy.get('.resource-module-table').find('tbody');
-
+    cy.get('.data-viewer-info').find('a').click();
+    cy.get('.nav--resource-list').find('.active').click();
+    //breadcrumbs
+    cy.get('.breadcrumb').find('li').eq(0).click();
+    cy.go('back');
+    cy.get('.breadcrumb').find('li').eq(1).click();
+    cy.go('back');
+    cy.get('.breadcrumb').find('li').eq(2).click();
+    cy.go('back');
+    cy.get('.breadcrumb').find('li').eq(3).click();
+    cy.go('back');
+    cy.get('.breadcrumb').find('li').eq(4).click();
 
     cy.get('.actions').find('a').contains('Muokkaa').click();
+    cy.go('back');
+    //some datasets link to a webpage instead of having a download link
+    //This gets cors blocked because it tries to open example.com, so don't click
+    cy.get('.actions').find('.resource-url-analytics').should('have.attr', 'href').should('eq', 'http://example.com');
 
-    //change dataset name
-    //cy.get('#field-name_translated-fi').clear().type(`changed test data`);
-    cy.get('#field-image-url').clear().type(`www.testingopendata.com`);
-    cy.get('#field-temporal_coverage_from').click();
-    cy.get('#field-temporal_coverage_to').click();
+    cy.get('.toolbar-resource-secondary').find('a').click();
+    cy.go('back');
+});
+
+
+
+it('Test edit dataset name languages', function(){
+    cy.switch_language('fi');
+    cy.get('.actions').find('a').contains('Muokkaa').click();
+
+    const finnish_dataset_name = "testi datasetti";
+    const english_dataset_name = "test dataset";
+    const swedish_dataset_name = "test datamängd";
+    const finnish_dataset_description = "tämä on suomalainen kuvaus";
+    const english_dataset_description = "this is the english description";
+    const swedish_dataset_description = "detta är den svenksa beskrivningen";
+
+    //update the fields
+    cy.get('#field-name_translated-fi').clear().type(finnish_dataset_name);
+    cy.get('#field-name_translated-en').clear().type(english_dataset_name);
+    cy.get('#field-name_translated-sv').clear().type(swedish_dataset_name);
+    cy.get('#field-description_translated-fi').clear().type(finnish_dataset_description);
+    cy.get('#field-description_translated-en').clear().type(english_dataset_description);
+    cy.get('#field-description_translated-sv').clear().type(swedish_dataset_description);
+
     cy.get('[name="save"]').click();
 
-    //check that the field was updated
+    //check that the dataset name was updated in all languages
+    cy.get('.page-heading').contains(finnish_dataset_name);
+    cy.get('.prose').find('p').contains(finnish_dataset_description)
+    cy.switch_language('en');
+    cy.get('.page-heading').contains(english_dataset_name);
+    cy.get('.prose').find('p').contains(english_dataset_description)
+    cy.switch_language('sv');
+    cy.get('.page-heading').contains(swedish_dataset_name);
+    cy.get('.prose').find('p').contains(swedish_dataset_description)
 
 });
 
+
 it('Finnish UI elements', function() {
+    cy.switch_language('fi');
     const dataset_name = "test_dataset";
     const dataset_data = "test data";
     
