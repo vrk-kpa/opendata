@@ -60,7 +60,7 @@ describe('Dataset tests', function() {
 
     // if cloudstorage is enabled, we wait for window.location to change
     if (Cypress.env('cloudStorageEnabled')){
-      cy.location('pathname', {timeout: 20000}).should('include', dataset_name);
+      cy.location('pathname', {timeout: 20000}).should('not.include', '/resource/new');
     }
 
     cy.get('a').contains(resource_name).click();

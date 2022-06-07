@@ -232,9 +232,18 @@ jobs:
           cp -f docker/.env.template docker/.env
           sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
           sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
+          sed -i.bak -E 's/^(AWS_ACCESS_KEY_ID[[:blank:]]*=[[:blank:]]*).*/\1\"'"${AWS_ACCESS_KEY_ID}"'\"/' docker/.env
+          sed -i.bak -E 's/^(AWS_SECRET_ACCESS_KEY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${AWS_SECRET_ACCESS_KEY}"'\"/' docker/.env
+          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_ENABLED[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_ENABLED}"'\"/' docker/.env
+          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_DRIVER_OPTIONS[[:blank:]]*=[[:blank:]]*).*/\1\"'"{'key': '${AWS_ACCESS_KEY_ID}', 'secret': '${AWS_SECRET_ACCESS_KEY}', 'token': ''}"'\"/' docker/.env
+          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_CONTAINER_NAME[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_CONTAINER_NAME}"'\"/' docker/.env
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CKAN_CLOUDSTORAGE_ENABLED: ${{ secrets.CKAN_CLOUDSTORAGE_ENABLED }}
+          CKAN_CLOUDSTORAGE_CONTAINER_NAME: ${{ secrets.CKAN_CLOUDSTORAGE_CONTAINER_NAME }}
 
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
