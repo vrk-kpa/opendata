@@ -62,7 +62,7 @@ describe('Test contact page', function () {
     cy.get('#edit-subject-0-value').type('Some subject');
     cy.get('#edit-message-0-value').type('Some content for feedback');
     cy.get('#edit-submit').click();
-    cy.get('.messages__wrapper').contains('Your message has been sent.')
+    cy.get('.messages__wrapper').contains('Viestisi on lähetetty. Vastaamme siihen mahdollisimman pian.')
   });
 
   it.skip('Sending feedback containing site url should succeed', function () {
