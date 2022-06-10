@@ -65,7 +65,7 @@ describe('Test contact page', function () {
     cy.get('.messages__wrapper').contains('Your message has been sent.')
   });
 
-  it('Sending feedback containing site url should succeed', function () {
+  it.skip('Sending feedback containing site url should succeed', function () {
     cy.visit('/contact');
     cy.get('#edit-name').type("Some name");
     cy.get('#edit-mail').type('foo@example.com');
