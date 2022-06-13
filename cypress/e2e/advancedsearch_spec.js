@@ -93,6 +93,117 @@ describe('Advanced search tests', () => {
         cy.get('button[type=submit]').click();
     }
 
+    it("Advanced search sidebar contains elements FI", function() {
+        cy.switch_language('fi');
+        cy.get('#advanced-search-options');
+        cy.get('#search-options-header').find('h3.advanced-search__title').contains('Rajaa hakua');
+        cy.get('[data-module-name="dataset_type"]').find('label[for="advanced-search-dropdown-toggle-dataset_type"]').contains('Haun kohdistuminen');
+        cy.get('[data-module-name="dataset_type"]').find('button[for="advanced-search-dropdown-toggle-dataset_type"]');
+
+        cy.get('[data-module-name="publisher"]').find('label[for="advanced-search-dropdown-toggle-publisher"]').contains('Tuottaja');
+        cy.get('[data-module-name="publisher"]').find('button[for="advanced-search-dropdown-toggle-publisher"]');
+
+        cy.get('[data-module-name="category"]').find('label[for="advanced-search-dropdown-toggle-category"]').contains('Kategoria');
+        cy.get('[data-module-name="category"]').find('button[for="advanced-search-dropdown-toggle-category"]');
+
+        cy.get('label#release-interval-label').contains('Julkaistu välillä');
+        cy.get('.released-picker-div').find('label').eq(0).contains('alkaen');
+        cy.get('.released-picker-div').find('label').eq(1).contains('päättyen');
+        cy.get('.released-picker-div').find('.ytp-input-with-icon').eq(0);
+        cy.get('.released-picker-div').find('.ytp-input-with-icon').eq(1);
+
+        cy.get('label#update-interval-label').contains('Päivitetty välillä');
+        cy.get('.updated-picker-div').find('label').eq(0).contains('alkaen');
+        cy.get('.updated-picker-div').find('label').eq(1).contains('päättyen');
+        cy.get('.updated-picker-div').find('.ytp-input-with-icon').eq(0);
+        cy.get('.updated-picker-div').find('.ytp-input-with-icon').eq(1);
+
+        cy.get('[data-target="#search-options-extras"]').find('span').contains('Näytä vähemmän hakuehtoja');
+
+        cy.get('[data-module-name="license"]').find('label[for="advanced-search-dropdown-toggle-license"]').contains('Lisenssi');
+        cy.get('[data-module-name="license"]').find('button[for="advanced-search-dropdown-toggle-license"]');
+
+        cy.get('[data-module-name="format"]').find('label[for="advanced-search-dropdown-toggle-format"]').contains('Muoto');
+        cy.get('[data-module-name="format"]').find('button[for="advanced-search-dropdown-toggle-format"]');
+    });
+
+    it("Advanced search sidebar contains elements EN", function() {
+        cy.switch_language('en');
+        cy.get('#advanced-search-options');
+        cy.get('#search-options-header').find('h3.advanced-search__title').contains('Filter search');
+        cy.get('[data-module-name="dataset_type"]').find('label[for="advanced-search-dropdown-toggle-dataset_type"]').contains('Search target');
+        cy.get('[data-module-name="dataset_type"]').find('button[for="advanced-search-dropdown-toggle-dataset_type"]');
+
+        cy.get('[data-module-name="publisher"]').find('label[for="advanced-search-dropdown-toggle-publisher"]').contains('Producer');
+        cy.get('[data-module-name="publisher"]').find('button[for="advanced-search-dropdown-toggle-publisher"]');
+
+        cy.get('[data-module-name="category"]').find('label[for="advanced-search-dropdown-toggle-category"]').contains('Category');
+        cy.get('[data-module-name="category"]').find('button[for="advanced-search-dropdown-toggle-category"]');
+
+        cy.get('label#release-interval-label').contains('Published between');
+        cy.get('.released-picker-div').find('label').eq(0).contains('after');
+        cy.get('.released-picker-div').find('label').eq(1).contains('before');
+        cy.get('.released-picker-div').find('.ytp-input-with-icon').eq(0);
+        cy.get('.released-picker-div').find('.ytp-input-with-icon').eq(1);
+
+        cy.get('label#update-interval-label').contains('Updated between');
+        cy.get('.updated-picker-div').find('label').eq(0).contains('after');
+        cy.get('.updated-picker-div').find('label').eq(1).contains('before');
+        cy.get('.updated-picker-div').find('.ytp-input-with-icon').eq(0);
+        cy.get('.updated-picker-div').find('.ytp-input-with-icon').eq(1);
+
+        cy.get('[data-target="#search-options-extras"]').find('span').contains('Show less options');
+
+        cy.get('[data-module-name="license"]').find('label[for="advanced-search-dropdown-toggle-license"]').contains('License');
+        cy.get('[data-module-name="license"]').find('button[for="advanced-search-dropdown-toggle-license"]');
+
+        cy.get('[data-module-name="format"]').find('label[for="advanced-search-dropdown-toggle-format"]').contains('Format');
+        cy.get('[data-module-name="format"]').find('button[for="advanced-search-dropdown-toggle-format"]');
+    });
+
+    it("Advanced search sidebar contains elements SV", function() {
+        cy.switch_language('sv');
+        cy.get('#advanced-search-options');
+        cy.get('#search-options-header').find('h3.advanced-search__title').contains('Filtrera sökning');
+        cy.get('[data-module-name="dataset_type"]').find('label[for="advanced-search-dropdown-toggle-dataset_type"]').contains('Sökobjekt');
+        cy.get('[data-module-name="dataset_type"]').find('button[for="advanced-search-dropdown-toggle-dataset_type"]');
+
+        cy.get('[data-module-name="publisher"]').find('label[for="advanced-search-dropdown-toggle-publisher"]').contains('Producent');
+        cy.get('[data-module-name="publisher"]').find('button[for="advanced-search-dropdown-toggle-publisher"]');
+
+        cy.get('[data-module-name="category"]').find('label[for="advanced-search-dropdown-toggle-category"]').contains('Kategori');
+        cy.get('[data-module-name="category"]').find('button[for="advanced-search-dropdown-toggle-category"]');
+
+        cy.get('label#release-interval-label').contains('Publicerad mellan');
+        cy.get('.released-picker-div').find('label').eq(0).contains('från');
+        cy.get('.released-picker-div').find('label').eq(1).contains('till');
+        cy.get('.released-picker-div').find('.ytp-input-with-icon').eq(0);
+        cy.get('.released-picker-div').find('.ytp-input-with-icon').eq(1);
+
+        cy.get('label#update-interval-label').contains('Uppdaterad mellan');
+        cy.get('.updated-picker-div').find('label').eq(0).contains('från');
+        cy.get('.updated-picker-div').find('label').eq(1).contains('till');
+        cy.get('.updated-picker-div').find('.ytp-input-with-icon').eq(0);
+        cy.get('.updated-picker-div').find('.ytp-input-with-icon').eq(1);
+
+        cy.get('[data-target="#search-options-extras"]').find('span').contains('Visa färre sökvillkor');
+
+        cy.get('[data-module-name="license"]').find('label[for="advanced-search-dropdown-toggle-license"]').contains('Licens');
+        cy.get('[data-module-name="license"]').find('button[for="advanced-search-dropdown-toggle-license"]');
+
+        cy.get('[data-module-name="format"]').find('label[for="advanced-search-dropdown-toggle-format"]').contains('Format');
+        cy.get('[data-module-name="format"]').find('button[for="advanced-search-dropdown-toggle-format"]');
+    });
+    
+    it('Pills', function(){
+        //TODO
+        fill_and_submit({
+            '#format-checkbox-csv': { type: 'check', force: true }
+        })
+        cy.get('.dataset-list').children().should('have.length', 1)
+        cy.get('.dataset-heading').contains('first dataset')
+    });
+
   /*
     describe('Test that advanced search loads correctly', () => {
         it('Check that initial results are shown', () => {
@@ -179,6 +290,47 @@ describe('Advanced search tests', () => {
             cy.get('.dataset-list').children().should('have.length', 1)
             cy.get('.dataset-heading').contains('first dataset')
         })
+
+        it('Filter by published', () =>{
+            //currently the test dataset will be created on the day the tests are run
+
+            //This needs to be done twice because cypress loses the reference to the dom element after clear for some reason
+            cy.get('[name="released-after"]').clear();
+            cy.get('[name="released-after"]').type('2000-01-01'); 
+            cy.get('[name="released-before"]').clear();
+            cy.get('[name="released-before"]').type('2100-01-01');
+            cy.get('.dataset-list').children().should('have.length', 2)
+            cy.get('.dataset-heading').contains('first dataset');
+            cy.get('.dataset-heading').contains('second dataset');
+
+            //should not return any datasets (reverse)
+            cy.get('[name="released-after"]').clear();
+            cy.get('[name="released-after"]').type('2100-01-01'); 
+            cy.get('[name="released-before"]').clear();
+            cy.get('[name="released-before"]').type('2000-01-01');
+            cy.get('.dataset-list').should('not.exist')
+        })
+
+        it('Filter by updated', () =>{
+            //currently the test dataset will be created on the day the tests are run
+
+            //This needs to be done twice because cypress loses the reference to the dom element after clear for some reason
+            cy.get('[name="updated-after"]').clear();
+            cy.get('[name="updated-after"]').type('2000-01-01'); 
+            cy.get('[name="updated-before"]').clear();
+            cy.get('[name="updated-before"]').type('2100-01-01');
+            cy.get('.dataset-list').children().should('have.length', 2)
+            cy.get('.dataset-heading').contains('first dataset');
+            cy.get('.dataset-heading').contains('second dataset');
+
+            //should not return any datasets (reverse)
+            cy.get('[name="updated-after"]').clear();
+            cy.get('[name="updated-after"]').type('2100-01-01'); 
+            cy.get('[name="updated-before"]').clear();
+            cy.get('[name="updated-before"]').type('2000-01-01');
+            cy.get('.dataset-list').should('not.exist')
+        })
+
         // TODO: Test publisher filter
         // TODO: Test querying all from a multiselect
     })
