@@ -1,9 +1,0 @@
-{
-  "baseUrl": "http://localhost",
-  "projectId": "ssb2ut",
-  "env": {
-    "resetDB": true,
-    "cloudStorageEnabled": false,
-    "docker": false
-  }
-}

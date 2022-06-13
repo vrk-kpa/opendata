@@ -44,18 +44,7 @@ describe('Apiset tests', function() {
     };
     cy.fill_form_fields(api_form_data);
 
-    cy.get('#field-image-upload').then(function(subject){
-      cy.fixture("FL_insurance_sample.csv", 'base64')
-        .then(Cypress.Blob.base64StringToBlob)
-        .then(function(blob){
-          const el = subject[0];
-          const testFile = new File([blob],"FL_insurance_sample.csv", {type: 'CSV'} );
-          const dataTranfer = new DataTransfer();
-          dataTranfer.items.add(testFile);
-          el.files = dataTranfer.files;
-          cy.wrap(subject).trigger('change', { force: true });
-        })
-    });
+    cy.get('#field-image-upload').selectFile("cypress/FL_insurance_sample.csv")
 
     cy.get('button[name=save].suomifi-button-primary').click();
 
