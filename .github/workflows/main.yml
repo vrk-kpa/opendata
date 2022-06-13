@@ -39,16 +39,21 @@ jobs:
         shell: bash
         run: |
           # configure cypress
-          cat <<EOT > cypress.json
-          {
-            "baseUrl": "http://localhost",
-            "projectId": "ssb2ut",
-            "env": {
-              "resetDB": true,
-              "cloudStorageEnabled": true,
-              "docker": true
-            }
-          }
+          cat <<EOT > cypress.config.js
+          const { defineConfig } = require('cypress')
+
+          module.exports = defineConfig({
+            projectId: 'ssb2ut',
+            env: {
+              resetDB: true,
+              cloudStorageEnabled: true,
+              docker: true
+            },
+            e2e: {
+              baseUrl: 'http://localhost',
+              specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
+            },
+          })
           EOT
           # configure docker
           cp -f docker/.env.template docker/.env
