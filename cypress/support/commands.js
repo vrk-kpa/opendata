@@ -453,7 +453,8 @@ Cypress.Commands.add('create_new_apiset', (apiset_name, apiset_form_data, api_fo
 
   // As there isn't currently link for apisets in nav, we must use exact urls on navigation
   cy.visit('/data/fi/apiset/new');
-  // cy.get('#field-name').type(apiset_name);
+  cy.get('.slug-preview button').contains('Muokkaa').click();
+  cy.get('#field-name').type(apiset_name);
   cy.fill_form_fields(apiset_form_data);
 
   // The selector field is hidden so force is required.
