@@ -265,6 +265,19 @@ services:
       - DRUPAL_HOST=${DRUPAL_HOST}
       - DRUPAL_PORT=${DRUPAL_PORT}
 
+  fuseki:
+    image: stain/jena-fuseki:latest
+    restart: on-failure
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "3030:3030"
+    environment:
+      ADMIN_PASSWORD: "${FUSEKI_ADMIN_PASS}"
+    volumes:
+      - fuseki_data:/fuseki
+
   mailhog:
     image: mailhog/mailhog:latest
     restart: on-failure
@@ -287,6 +300,7 @@ volumes:
   solr_data:
   ckan_data:
   drupal_data:
+  fuseki_data:
 
 networks:
   frontend:
