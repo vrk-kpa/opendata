@@ -53,6 +53,11 @@ x-env-ckan: &env-ckan
   CKAN_SYSADMIN_NAME: ${SYSADMIN_USER}
   CKAN_SYSADMIN_PASSWORD: ${SYSADMIN_PASS}
   CKAN_SYSADMIN_EMAIL: ${SYSADMIN_EMAIL}
+  FUSEKI_HOST: ${FUSEKI_HOST}
+  FUSEKI_PORT: ${FUSEKI_PORT}
+  FUSEKI_ADMIN_USER: ${FUSEKI_ADMIN_USER}
+  FUSEKI_ADMIN_PASS: ${FUSEKI_ADMIN_PASS}
+  FUSEKI_OPENDATA_DATASET: ${FUSEKI_OPENDATA_DATASET}
 
 services:
   postgres:
@@ -275,8 +280,11 @@ services:
       - "3030:3030"
     environment:
       ADMIN_PASSWORD: "${FUSEKI_ADMIN_PASS}"
+      FUSEKI_DATASET_1: "${FUSEKI_OPENDATA_DATASET}"
     volumes:
       - fuseki_data:/fuseki
+    # Clear leftover database locks before starting server
+    command: ["sh", "-c", "rm /fuseki/system/tdb.lock /fuseki/databases/opendata/tdb.lock || /jena-fuseki/fuseki-server"]
 
   mailhog:
     image: mailhog/mailhog:latest
