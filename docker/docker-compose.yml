@@ -277,7 +277,7 @@ services:
       - frontend
       - backend
     ports:
-      - "3030:3030"
+      - "${FUSEKI_PORT}:${FUSEKI_PORT}"
     environment:
       ADMIN_PASSWORD: "${FUSEKI_ADMIN_PASS}"
       FUSEKI_DATASET_1: "${FUSEKI_OPENDATA_DATASET}"
