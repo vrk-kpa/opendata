@@ -90,6 +90,9 @@ export class CkanStack extends Stack {
     const pDisqusDomain = ssm.StringParameter.fromStringParameterAttributes(this, 'pDisqusDomain', {
       parameterName: `/${props.environment}/opendata/common/disqus_domain`,
     });
+    const pFusekiAdminUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pFusekiAdminUser', {
+      parameterName: `/${props.environment}/opendata/common/fuseki_admin_user`,
+    });
 
     // get secrets
     const sCkanSecrets = sm.Secret.fromSecretNameV2(this, 'sCkanSecrets', `/${props.environment}/opendata/ckan`);
@@ -196,6 +199,7 @@ export class CkanStack extends Stack {
       'statistics',
       'opendata_cli',
       'ytp_recommendation',
+      'dcat_sparql',
     ];
 
     const ckanContainerEnv: { [key: string]: string; } = {
@@ -255,6 +259,11 @@ export class CkanStack extends Stack {
       SENTRY_ENV: props.environment,
       CKAN_SYSADMIN_NAME: pSysadminUser.stringValue,
       CKAN_SYSADMIN_EMAIL: pSysadminEmail.stringValue,
+      // fuseki
+      FUSEKI_HOST: `fuseki.${props.namespace.namespaceName}`,
+      FUSEKI_PORT: '3030',
+      FUSEKI_ADMIN_USER: pFusekiAdminUser.stringValue,
+      FUSEKI_OPENDATA_DATASET: 'opendata',
       // dynatrace oneagent
       DT_CUSTOM_PROP: `Environment=${props.environment}`,
     };
@@ -271,6 +280,7 @@ export class CkanStack extends Stack {
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
       CKAN_SYSADMIN_PASSWORD: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
+      FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
     };
 
     if (props.analyticsEnabled) {
