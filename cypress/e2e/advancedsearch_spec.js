@@ -93,11 +93,6 @@ describe('Advanced search tests', () => {
         cy.get('button[type=submit]').click();
     }
 
-    //fail on purpose to test the video upload
-    it('Failure-test', function(){
-        cy.get('#this-doesnt-exist').click();
-    })
-
     it("Advanced search sidebar contains elements FI", function() {
         cy.switch_language('fi');
         cy.get('#advanced-search-options');

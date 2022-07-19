@@ -1,11 +1,15 @@
 describe("Organization tests", function() {
 
   beforeEach(function(){
-    cy.reset_db();
     cy.login_post_request('test-user', 'test-user')
     cy.visit('/');
     cy.get('nav a[href="/data/fi/organization"]').click();
   });
+
+
+  before(function(){
+    cy.reset_db();
+  })
 
   it('Create, edit and delete organization', function(){
     cy.get('a[href="/data/fi/organization/new"]').click();
