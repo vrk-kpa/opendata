@@ -7,35 +7,16 @@ Example:
 
 #}
 {% block package_greeting %}
-    <section class="module module-narrow">
-      <div class="module context-info">
-        <div class="module-content">
-          <div class="row">
-            <h1 class="pull-left">
-              {% trans %}
-              Applications
-              {% endtrans %}
-            </h1>
-            {% if h.check_access('ckanext_showcase_create') %}
-              <div class="pull-right">
-                  {% link_for _('Add Showcase'), named_route='showcase.new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
-              </div>
-            {% endif %}
-          </div>
-          <div class="row">
-            <p>
-              {% trans %}Datasets provided by this service come alive with the help of applications (visualizations, research, webservices and data journalism).{% endtrans %}
-            </p>
-            <p>
-              {% trans %}Commonly the creators of opendata applications are researchers, freelanchers and software developers, but with the help of improved development and visualization tools anyone is able to utilize these datasets. You can find additional information from our guide to open data.{% endtrans %}
-            </p>
-            <p>
-              {% set current_language = h.lang() %}
-              {% trans %}Have you created application that utilizes open data?{% endtrans %}
-              <a href="/data/{{current_language}}/submit-showcase">{% trans %}Inform us about your application by using this form and it will be added to the list below.{% endtrans %}</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div class="showcase__info-box d-flex justify-content-between align-items-center">
+    {% set current_language = h.lang() %}
+    <div class="d-flex align-items-center flex-wrap">
+      <p>
+        {% trans %}Have you created application that utilizes open data?{% endtrans %}
+      </p>
+      <p>
+        {% trans %}Inform us about your application by using this form and it will be added to the list below.{% endtrans %}
+      </p>
+    </div>
+    <a class="btn btn-light" href="/data/{{current_language}}/submit-showcase">{{ _('Report application') }}</a>
+  </div>
 {% endblock %}

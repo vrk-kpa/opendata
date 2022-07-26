@@ -31,6 +31,11 @@ DATETIME_FORMATS = [
 ]
 
 
+LICENSE_MAP = {
+    'cc0-1.0': 'cc-zero-1.0'
+}
+
+
 def parse_datetime(datetime_string):
     if not datetime_string:
         return None
@@ -137,6 +142,13 @@ def sixodp_to_opendata_postprocess(package_dict):
     package_dict['collection_type'] = 'Open Data'
     package_dict['maintainer'] = package_dict.get('maintainer', ' ') or ' '
     package_dict['maintainer_email'] = package_dict.get('maintainer_email', ' ') or ' '
+
+    # Map license IDs from sixodp to opendata format
+    license_id = package_dict.get('license_id')
+    if license_id:
+        package_dict['license_id'] = (LICENSE_MAP.get(license_id.lower())
+                                      or package_dict['license_id'])
+
     date_released = parse_datetime(package_dict['date_released'])
     if date_released:
         date_released_isoformat = "%s.000000" % date_released.isoformat().split('+', 2)[0]
@@ -794,7 +806,7 @@ class SixodpHarvester(HarvesterBase):
 
             return result
         except ValidationError as e:
-            log.error("ValidationError: %s" % e)
+            log.warn("ValidationError: %s" % e)
             self._save_object_error('Invalid package with GUID %s: %r' %
                                     (harvest_object.guid, e.error_dict),
                                     harvest_object, 'Import')

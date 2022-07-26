@@ -1,9 +1,9 @@
 [main]
 host = https://www.transifex.com
 
-[ytp.ckanext-ytp-request]
+[o:avoindata:p:ytp:r:ckanext-ytp-request]
 file_filter = ckanext/ytp_request/i18n/<lang>/LC_MESSAGES/ckanext-ytp_request.po
 source_file = ckanext/ytp_request/i18n/ckanext-ytp_request.pot
 source_lang = en
-type = PO
+type        = PO
 

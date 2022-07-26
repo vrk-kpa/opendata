@@ -1,0 +1,5 @@
+{% if h.check_access('ckanext_showcase_update', {'id':pkg.id }) %}
+    <div class="admin-banner">
+      {% link_for _('Manage'), named_route='sixodp_showcase.edit', id=pkg.name %}
+    </div>
+{% endif %}

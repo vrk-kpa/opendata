@@ -1,18 +1,42 @@
 {% extends "organization/about.html" %}
 
+{% set exclude_fields = [
+    'title_translated',
+    'name',
+    'description_translated',
+    'features',
+    'public_administration_organization',
+    'edit_only_owned_datasets',
+    'image_url'
+    ]%}
+
 {% block primary_content_inner %}
-<dl>
-{% for f in c.scheming_fields %}
-{% if f.field_name in c.group_dict and c.group_dict[f.field_name] %}
-<dt>{{ h.scheming_language_text(f.label) }}:</dt>
-<dd>{{ h.scheming_language_text(c.group_dict[f.field_name]) or ("&nbsp;"|safe) }}</dd>
-{% endif %}
-{% endfor %}
-</dl>
+    <div class="about-organization">
+        <div class="col-sm-8">
+            <h3>{{ _('Description') }}</h3>
+            <div class="notes embedded-content">
+                {{ h.render_markdown(h.get_translated(c.group_dict, 'description')) }}
+            </div>
+            <h3>{{ _('Additional Info') }}</h3>
+            <table class="table table-striped table__additional-info mt-3 mb-0">
+                {% for f in c.scheming_fields %}
+                    {% if f.field_name not in exclude_fields and f.field_name in c.group_dict and c.group_dict[f.field_name] and f.display_snippet is not none %}
+                        <tr>
+                            <th scope="row" class="dataset-label">
+                                {{ h.scheming_language_text(f.label) }}
+                            </th>
+                            <td class="dataset-details">
+                                {%- snippet 'scheming/snippets/display_field.html', field=f, data=c.group_dict -%}
+                            </td>
 
-<h3 class="organization-hierarchy-header">{{_('Organization hierarchy')}}</h3>
-<div id="publisher-tree">
-  {% snippet 'organization/snippets/organization_tree.html', top_nodes=[h.group_tree_section(id_=c.group_dict.id, type_=c.group_dict.type)], show_short_description=false %}
-</div>
-
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-sm-4">
+            {% if c.group_dict['image_display_url'] %}
+                <img class="logo" src="{{c.group_dict.image_display_url}}" alt="{{ _('Logo of organization {org}').format(org=h.get_translated(c.group_dict, 'title')) }}"/>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

@@ -1,73 +1,37 @@
 # Translations template for ckanext-sixodp_showcase.
-# Copyright (C) 2020 ORGANIZATION
+# Copyright (C) 2022 ORGANIZATION
 # This file is distributed under the same license as the ckanext-sixodp_showcase
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-10-29 07:47+0000\n"
+"POT-Creation-Date: 2022-06-02 11:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.3.4\n"
+"Generated-By: Babel 2.7.0\n"
 
-#: ckanext/sixodp_showcase/controller.py:60
-#: ckanext/sixodp_showcase/controller.py:62
-#: ckanext/sixodp_showcase/controller.py:309
-msgid "Showcase not found"
-msgstr ""
-
-#: ckanext/sixodp_showcase/controller.py:101
-msgid "Not authorized to see this page"
-msgstr ""
-
-#: ckanext/sixodp_showcase/controller.py:196
-msgid "Organizations"
-msgstr ""
-
-#: ckanext/sixodp_showcase/controller.py:197 ckanext/sixodp_showcase/plugin.py:101
+#: ckanext/sixodp_showcase/plugin.py:86 ckanext/sixodp_showcase/utils.py:182
+#: ckanext/sixodp_showcase/utils.py:332
 msgid "Groups"
 msgstr ""
 
-#: ckanext/sixodp_showcase/controller.py:198 ckanext/sixodp_showcase/plugin.py:102
+#: ckanext/sixodp_showcase/plugin.py:87
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:33
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_info.html:5
+#: ckanext/sixodp_showcase/utils.py:183 ckanext/sixodp_showcase/utils.py:333
 msgid "Tags"
 msgstr ""
 
-#: ckanext/sixodp_showcase/controller.py:199
-msgid "Formats"
-msgstr ""
-
-#: ckanext/sixodp_showcase/controller.py:200
-msgid "Licenses"
-msgstr ""
-
-#: ckanext/sixodp_showcase/controller.py:250
-msgid "Invalid search query: {error_message}"
-msgstr ""
-
-#: ckanext/sixodp_showcase/controller.py:267
-msgid "Parameter \"{parameter_name}\" is not an integer"
-msgstr ""
-
-#: ckanext/sixodp_showcase/controller.py:296
-#: ckanext/sixodp_showcase/controller.py:307
-msgid "Unauthorized to delete showcase"
-msgstr ""
-
-#: ckanext/sixodp_showcase/controller.py:301
-msgid "Showcase has been deleted."
-msgstr ""
-
-#: ckanext/sixodp_showcase/plugin.py:104
-msgid "Platform"
+#: ckanext/sixodp_showcase/plugin.py:89
+msgid "Platforms"
 msgstr ""
 
 #: ckanext/sixodp_showcase/translations.py:5
@@ -341,7 +305,68 @@ msgstr ""
 msgid "Visualisation"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/admin/base.html:6
+#: ckanext/sixodp_showcase/utils.py:181 ckanext/sixodp_showcase/utils.py:331
+msgid "Organizations"
+msgstr ""
+
+#: ckanext/sixodp_showcase/utils.py:184 ckanext/sixodp_showcase/utils.py:334
+msgid "Formats"
+msgstr ""
+
+#: ckanext/sixodp_showcase/utils.py:185 ckanext/sixodp_showcase/utils.py:335
+msgid "Licenses"
+msgstr ""
+
+#: ckanext/sixodp_showcase/utils.py:245
+msgid "Parameter '{parameter_name}' is not an integer"
+msgstr ""
+
+#: ckanext/sixodp_showcase/utils.py:261
+msgid "Not authorized to see this page"
+msgstr ""
+
+#: ckanext/sixodp_showcase/utils.py:385
+msgid "Invalid search query: {error_message}"
+msgstr ""
+
+#: ckanext/sixodp_showcase/utils.py:410
+msgid "Parameter u\"{parameter_name}\" is not an integer"
+msgstr ""
+
+#: ckanext/sixodp_showcase/utils.py:438 ckanext/sixodp_showcase/utils.py:474
+msgid "Showcase not found"
+msgstr ""
+
+#: ckanext/sixodp_showcase/utils.py:440 ckanext/sixodp_showcase/utils.py:476
+msgid "Unauthorized to read showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/utils.py:467
+msgid "User not authorized to edit {showcase_id}"
+msgstr ""
+
+#: ckanext/sixodp_showcase/utils.py:502
+msgid "The apiset has been removed from the showcase."
+msgid_plural "The apisets have been removed from the showcase."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ckanext/sixodp_showcase/utils.py:534
+msgid "The apiset has been added to the showcase."
+msgid_plural "The apisets have been added to the showcase."
+msgstr[0] ""
+msgstr[1] ""
+
+#: ckanext/sixodp_showcase/views.py:150
+msgid "Dataset not found"
+msgstr ""
+
+#: ckanext/sixodp_showcase/views.py:171
+#, python-format
+msgid "User %r not authorized to edit %s"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/base.html:5
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:38
 msgid "Showcase Admins"
 msgstr ""
@@ -389,8 +414,8 @@ msgid "Are you sure you want to remove this user from the Showcase Admin list?"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:53
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:50
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_form.html:23
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:54
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_form.html:25
 msgid "Remove"
 msgstr ""
 
@@ -400,8 +425,8 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:69
 msgid ""
-" <p><strong>Showcase Admin:</strong> Can create and remove showcases. Can add"
-" and remove datasets from showcases.</p> "
+"<p><strong>Showcase Admin:</strong> Can create and remove showcases. Can add "
+"and remove datasets from showcases.</p>"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/package/dataset_showcase_list.html:3
@@ -413,8 +438,8 @@ msgstr ""
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:21
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:6
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:28
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:4
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:7
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:9
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:12
 msgid "Showcases"
 msgstr ""
 
@@ -466,88 +491,106 @@ msgstr ""
 msgid "Manage datasets"
 msgstr ""
 
+#: ckanext/sixodp_showcase/templates/showcase/manage_apisets.html:4
+msgid "apisets in this showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_apisets.html:8
+msgid "This showcase has no apisets associated to it"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_apisets.html:12
+msgid "Search and add apisets to a showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_apisets.html:16
+msgid "No apisets could be found"
+msgstr ""
+
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:3
 msgid "Showcases - Manage datasets"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:16
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:18
 msgid "Datasets in this showcase"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:41
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:45
 msgid "Remove from Showcase"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:47
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:52
 msgid "This showcase has no datasets associated to it"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:53
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:61
 msgid "Search and add datasets to a showcase"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:63
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:73
 #: ckanext/sixodp_showcase/templates/showcase/search.html:12
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:27
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:16
 msgid "Relevance"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:64
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:74
 #: ckanext/sixodp_showcase/templates/showcase/search.html:13
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:28
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:17
 msgid "Name Ascending"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:65
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:75
 #: ckanext/sixodp_showcase/templates/showcase/search.html:14
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:29
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:18
 msgid "Name Descending"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:66
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:76
 #: ckanext/sixodp_showcase/templates/showcase/search.html:15
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:30
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:19
 msgid "Last Modified"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:67
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:77
 #: ckanext/sixodp_showcase/templates/showcase/search.html:16
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:26
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:15
 msgid "Popular"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:76
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:86
 msgid "Add to Showcase"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:108
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:120
 msgid "No datasets could be found"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:6
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:97
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_state_banner.html:3
 msgid "Manage"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:13
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:108
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:59
 msgid "Private"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:20
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:49
 msgid "Draft"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:38
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:125
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_info.html:22
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:68
 msgid "Launch website"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/search.html:19
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:34
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:23
 msgid "Search showcases..."
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:44
+msgid "Manage apisets"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:5
@@ -634,103 +677,85 @@ msgid ""
 "License</a>."
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:47
-msgid "Archived"
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:60
-msgid "Published"
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:62
-msgid "updated"
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:132
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:92
 msgid "Used datasets"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:136
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:97
 msgid "There are no Datasets in this Showcase"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:151
-msgid " Links "
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:20
+msgid "Applications"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:158
-msgid "Application website"
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:165
-msgid "Author website"
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:180
-msgid " Categories "
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:199
-msgid "More from the author"
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:31
-msgid "Search applications..."
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:15
-msgid " Applications "
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:21
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:28
 msgid "Add Showcase"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:27
-msgid ""
-"Datasets provided by this service come alive with the help of applications "
-"(visualizations, research, webservices and data journalism)."
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:43
+msgid "Search applications..."
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:30
-msgid ""
-"Commonly the creators of opendata applications are researchers, freelanchers "
-"and software developers, but with the help of improved development and "
-"visualization tools anyone is able to utilize these datasets. You can find "
-"additional information from our guide to open data."
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:63
+msgid "Filter list"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:34
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:2
+msgid "Additional Info"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:13
+msgid "Application website"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:24
+msgid "Author website"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:36
+msgid "More from the author"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:52
+msgid "Published"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:62
+msgid "Last Updated"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:14
 msgid "Have you created application that utilizes open data?"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:35
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:17
 msgid ""
 "Inform us about your application by using this form and it will be added to "
 "the list below."
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:46
-msgid "This showcase has no description"
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:20
+msgid "Report application"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:50
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_info.html:12
+msgid "Categories"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:54
 msgid "Remove dataset from this showcase"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:9
-msgid "Submit"
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:24
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:13
 msgid "Newest first"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:25
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:14
 msgid "Oldest first"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:31
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:20
 msgid "Top rating"
 msgstr ""
 

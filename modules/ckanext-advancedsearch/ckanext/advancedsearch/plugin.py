@@ -3,6 +3,7 @@
 
 import inspect
 import logging
+import urllib
 import os
 import sys
 
@@ -10,7 +11,7 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckanext.advancedsearch import action, controller, helpers, loader
 
-from paste.reloader import watch_file
+# from paste.reloader import watch_file
 
 log = logging.getLogger(__name__)
 
@@ -124,12 +125,11 @@ def _load_schema_module_path(url):
         return
     p = os.path.join(os.path.dirname(inspect.getfile(m)), file_name)
     if os.path.exists(p):
-        watch_file(p)
+        # watch_file(p)
         return loader.load(open(p))
 
 
 def _load_schema_url(url):
-    import urllib.request, urllib.error, urllib.parse
     try:
         res = urllib.request.urlopen(url)
         tables = res.read()

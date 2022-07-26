@@ -144,3 +144,59 @@ options     - A list/tuple of fields to be used as <options>.
   </select>
   {% endcall %}
   {% endmacro %}
+
+
+
+{% macro image_upload_dragndrop(data, errors, field_url='image_url', field_upload='image_upload', field_clear='clear_upload',
+                      is_url=false, is_upload=false, is_upload_enabled=false, placeholder=false,
+                      url_label='', upload_label='', field_name='image_url', max_filesize='-', max_total_size='-', is_required=false)  %}
+  {% set placeholder = placeholder if placeholder else _('http://example.com/my-image.jpg') %}
+  {% set url_label = url_label or _('Image URL')  %}
+  {% set upload_label = upload_label or _('Image')  %}
+  {% set previous_upload = data['previous_upload'] %}
+  {% if is_upload_enabled %}
+
+
+  <div class="image-upload"
+       data-module="image-upload"
+       data-module-is_url="{{ 'true' if is_url else 'false' }}"
+       data-module-is_upload="{{ 'true' if is_upload else 'false' }}"
+       data-module-field_url="{{ field_url }}"
+       data-module-field_upload="{{ field_upload }}"
+       data-module-field_clear="{{ field_clear }}"
+       data-module-upload_label="{{ upload_label }}"
+       data-module-field_name="{{ field_name }}"
+       data-module-previous_upload="{{ 'true' if previous_upload else 'false' }}">
+  {% endif %}
+
+
+   {{ input(field_url, label=url_label, id='field-image-url', type='url', placeholder=placeholder, value=data.get(field_url), error=errors.get(field_url), classes=['control-full']) }}
+
+
+  {% if is_upload_enabled %}
+    {{ input_dragndrop(field_upload, label=upload_label, id='field-image-upload', type='file', placeholder='', value='', error='', classes=['control-full'], max_filesize=max_filesize, max_total_size=max_total_size) }}
+    {% if is_upload %}
+      {{ form.checkbox(field_clear, label=_('Clear Upload'), id='field-clear-upload', value='true', error='', classes=['control-full']) }}
+    {% endif %}
+  {% endif %}
+
+  {% if is_upload_enabled %}</div>{% endif %}
+
+{% endmacro %}
+
+{% macro input_dragndrop(name, id='', label=_('Paste or drag file in here'), value='', placeholder='', type='text', error="", classes=[], attrs={'class': 'form-control'}, is_required=false, max_filesize='-', max_total_size='-') %}
+  {%- set extra_html = caller() if caller -%}
+  {% call input_block(id or name, ' ', error, classes, extra_html=extra_html, is_required=is_required) %}
+    {% if type == 'file' %}
+    <div class="dropzone" data-module="drag-n-drop-uploader">
+      <h4>{{ label }}</h4>
+      <p>{{ _('Maximum filesize of single file is {max_filesize}Mb. Total maximum size of all files is {max_total_size}Mb.').format(max_filesize=max_filesize, max_total_size=max_total_size) }}</p>
+      <p>{{ _('Allowed filetypes are: pdf, jpg, jpeg, png, doc, docx, xls, xlsx, ppt, pptx, odt, ods, txt.') }}</p>
+    {% endif %}
+    <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value | empty_and_escape }}" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} />
+    {% if type == 'file' %}
+      </div>
+    {% endif %}
+  {% endcall %}
+
+{% endmacro %}

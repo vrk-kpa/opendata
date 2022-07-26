@@ -28,3 +28,4 @@ def _translations():
     _("Are you sure you want to clear all filters?")
     _("Datasets")
     _("Showcases")
+    _("Release interval")

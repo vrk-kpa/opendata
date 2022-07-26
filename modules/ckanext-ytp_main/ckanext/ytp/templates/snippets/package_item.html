@@ -18,10 +18,10 @@ Example:
 {% set title = h.extra_translation(package, 'title', fallback=package.name) %}
 {% set notes = h.markdown_extract(h.extra_translation(package, 'notes', markdown=False), extract_length=truncate) %}
 
-<div class="{{ item_class or 'row' }}">
+<div class="{{ item_class or 'dataset-item' }}">
     {% block package_item_content %}
         <div class="dataset-content">
-          <div>
+          <div class="d-flex align-items-center">
             <h3 class="dataset-heading dataset-title">
                 {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type + '_read', id=package.name)) }}
                 {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
@@ -41,13 +41,11 @@ Example:
             {% endif %}
           </div>
 
-            <div class="clearfix"></div>
-
             {% if banner %}
                 <span class="banner">{{ _('Popular') }}</span>
             {% endif %}
             {% if notes %}
-                <p class="dataset-item-notes pb-2 pr-4">
+                <p class="dataset-item-notes">
                     {{ notes | urlize }}
                 </p>
             {% endif %}

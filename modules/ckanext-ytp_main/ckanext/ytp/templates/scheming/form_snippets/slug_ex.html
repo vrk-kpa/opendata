@@ -22,8 +22,8 @@
 
 
 {%- if entity_type == 'dataset' %}
-    {%- set controller = 'dataset' -%}
-    {%- set module_placeholder = '<dataset>' -%}
+    {%- set controller = object_type -%}
+    {%- set module_placeholder = '<' + object_type + '>' -%}
 {%- elif entity_type == 'organization' %}
     {%- set controller = 'organization' -%}
     {%- set module_placeholder = '<organization>' -%}

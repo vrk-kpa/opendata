@@ -11,18 +11,20 @@
               <i class="far fa-times fa-stack-1x hide-filters-cross-icon"></i>
             </span>
             {{ _('Hide search filters') }}
-          </button>
-        <aside class="secondary col-xs-6 col-sm-3 mt-4 sidebar-offcanvas search-filters-hidden">
-        {% block secondary_inner %}
-            {%- include('ytp/menu.html') -%}
-            {% block secondary_content -%}{%- endblock %}
-        {% endblock %}
-        </aside>
+        </button>
+        <div class="col-xs-6 col-sm-4 sidebar-offcanvas search-filters-hidden secondary-container">
+            <aside class="secondary">
+            {% block secondary_inner %}
+                {%- include('ytp/menu.html') -%}
+                {% block secondary_content -%}{%- endblock %}
+            {% endblock %}
+            </aside>
+        </div>
         {% endif %}
     {% endblock %}
-    
+
     {% block primary %}
-        <div class="primary col-xs-12 {% if self.secondary()|trim == '' %}col-sm-12{% else %}col-sm-9{% endif %}">
+        <div class="primary col-xs-12 {% if self.secondary()|trim == '' %}col-sm-12{% else %}col-sm-8{% endif %}">
             {% block primary_content %}
                 {{ super() }}
             {% endblock %}

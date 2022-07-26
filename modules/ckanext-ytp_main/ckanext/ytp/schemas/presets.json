@@ -49,7 +49,7 @@
       "preset_name": "organization_slug",
       "values": {
         "validators": "not_empty unicode name_validator group_name_validator",
-        "form_snipper": "slug.html"
+        "form_snippet": "slug_custom.html"
       }
     },
     {
@@ -138,6 +138,19 @@
       }
     },
     {
+      "preset_name": "fluent_core_title_translated_ex",
+      "values": {
+        "form_snippet": "fluent_title.html",
+        "display_snippet": "fluent_text.html",
+        "error_snippet": "fluent_text.html",
+        "validators": "fluent_text only_default_lang_required override_field_with_default_translation(title)",
+        "output_validators": "fluent_core_translated_output",
+        "form_attrs": {
+          "data-module": "slug-preview-target-ex"
+        }
+      }
+    },
+    {
       "preset_name": "vocabulary_with_autocomplete",
       "values": {
         "validators": "not_empty lowercase convert_to_list create_tags(example_vocab)",
@@ -191,7 +204,7 @@
       "preset_name": "group_url_upload",
       "values": {
         "validators": "ignore_missing unicode remove_whitespace",
-        "form_snippet": "upload.html",
+        "form_snippet": "upload_ex.html",
         "form_placeholder": "http://example.com/my-image.png",
         "upload_field": "image_upload",
         "upload_clear": "clear_upload",

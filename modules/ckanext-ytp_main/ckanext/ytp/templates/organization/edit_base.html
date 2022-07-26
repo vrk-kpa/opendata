@@ -1,8 +1,21 @@
 {% ckan_extends %}
 {% if group_dict is not defined %}{% set group_dict = c.group_dict %}{% endif %}
 
-{% block content_action %}
-  {% if organization and h.check_access('organization_update', {'id': organization.id}) %}
-    {% link_for _('Close without saving'), controller='organization', action='read', id=organization.name, class_='btn', icon='' %}
-  {% endif %}
+{% block page_header %}
+{% endblock %}
+
+{% block pre_primary %}
+  <h1>{{ _('Edit information') }}</h1>
+{% endblock %}
+
+{% block secondary %}{% endblock %}
+{% block primary %}
+<div class="primary primary--no-padding-x col-xs-12 {% if self.secondary()|trim == '' %}col-sm-12{% else %}col-sm-8{% endif %}">
+  {% block primary_content %}
+    {% block primary_content_actions %}{% endblock %}
+    <div class="page-container clearfix">
+      {{ super() }}
+    </div>
+  {% endblock %}
+</div>
 {% endblock %}

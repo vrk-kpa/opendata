@@ -1,0 +1,9 @@
+{% set value = data[field.field_name] %}
+{% set boolean = 'boolean_validator' in field.validators %}
+
+{% for choice in field.choices %}
+    {% set chosen = choice.value if not boolean else h.asbool(choice.value) %}
+    {% if chosen == value %}
+    <span>{{ _(choice.label) }}</span>
+    {% endif %}
+{% endfor %}

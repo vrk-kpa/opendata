@@ -9,11 +9,16 @@
       <li>{% link_for organization|truncate(30), named_route='organization.read', id=pkg.organization.name %}</li>
     {% else %}
 
-      <li>{% link_for _('Datasets'), named_route=pkg.type ~'.search' %}</li>
+      <li>{% link_for _('Datasets') if pkg.type!='apiset' else _('Apisets'), named_route=pkg.type ~'.search' %}</li>
     {% endif %}
     <li{{ self.breadcrumb_content_selected() }}>{{ h.link_to(h.extra_translation(pkg, 'title') or pkg.name|truncate(30), h.url_for(pkg.type + '_read', id=pkg.name)) }}</li>
   {% else %}
-    <li>{% link_for _('Datasets'), named_route='dataset.search' %}</li>
-    <li class="active"><a href="">{{ _('Create Dataset') }}</a></li>
+    {% if dataset_type=='apiset' %}
+      <li>{% link_for _('Apisets'), named_route='apiset.search' %}</li>
+      <li class="active"><a href="">{{ _('Create Apiset') }}</a></li>
+    {% else %}
+      <li>{% link_for _('Datasets'), named_route='dataset.search' %}</li>
+      <li class="active"><a href="">{{ _('Create Dataset') }}</a></li>
+    {% endif %}
   {% endif %}
 {% endblock %}

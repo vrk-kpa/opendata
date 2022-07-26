@@ -6,26 +6,21 @@
     {
       "field_name": "title_translated",
       "label": "Title",
-      "preset": "fluent_core_title_translated",
+      "preset": "fluent_core_title_translated_ex",
       "form_languages": [ "fi", "sv", "en" ],
       "form_placeholder": "My Organization",
+      "group_title": "Producer name",
       "only_default_lang_required": true
     },
     {
       "field_name": "name",
       "label": "URL",
       "preset": "organization_slug",
-      "form_snippet": "slug.html",
       "form_placeholder": "my-organization",
       "form_attrs": {
         "class": "form-control"
-      }
-    },
-    {
-      "field_name": "parent_org",
-      "form_snippet": "org_hierarchy.html",
-      "label": "Parent organization",
-      "validators": "is_admin_in_parent_if_changed"
+      },
+      "divider": true
     },
     {
       "field_name": "description_translated",
@@ -33,38 +28,19 @@
       "form_placeholder": "A little information about my organization...",
       "form_languages": [ "fi", "sv", "en" ],
       "label": "Description",
+      "group_title": "Producer description",
+      "group_description": "Common, compact and plain description about producer",
       "form_attrs": {
         "class": "form-control"
-      }
+      },
+      "divider": true
     },
     {
-      "field_name": "homepage",
-      "display_snippet": "link.html",
-      "validators": "ignore_missing unicode",
-      "label": "Home page",
-      "form_attrs": {
-        "class": "form-control"
-      }
-    },
-    {
-      "field_name": "features",
-      "preset": "multiple_checkbox",
-      "validators": "scheming_multiple_choice extra_validators_multiple_choice",
-      "choices": [
-        {
-          "value": "public_administration_organization",
-          "label": "Public administration organization",
-          "extra_validator": "admin_only_feature"
-        },
-        {
-          "value": "personal_datasets",
-          "label": "Members can only edit their own datasets"
-        }
-      ],
-      "label": "Features",
-      "form_attrs": {
-        "class": "form-control"
-      }
+      "field_name": "parent_org",
+      "form_snippet": "org_hierarchy.html",
+      "label": "Parent organization",
+      "group_title": "Other information",
+      "validators": "is_admin_in_parent_if_changed"
     },
     {
       "field_name": "producer_type",
@@ -113,24 +89,97 @@
       }
     },
     {
+      "field_name": "homepage",
+      "display_snippet": "link.html",
+      "validators": "ignore_missing unicode",
+      "label": "Website",
+      "form_attrs": {
+        "class": "form-control"
+      }
+    },
+    {
+      "field_name": "public_administration_organization",
+      "label": "Public administration organization",
+      "preset": "select",
+      "form_snippet": "radio_sysadmin.html",
+      "choices": [
+        {
+          "label": "Yes",
+          "value": "true"
+        },
+        {
+          "label": "No",
+          "value": "false"
+        }
+      ],
+      "default_value": "false",
+      "validators": "ignore_not_sysadmin keep_old_value_if_missing boolean_validator"
+    },
+    {
+      "field_name": "edit_only_owned_datasets",
+      "label": "Members can only edit their own datasets",
+      "preset": "select",
+      "form_snippet": "radio_sysadmin.html",
+      "choices": [
+        {
+          "label": "Yes",
+          "value": "true"
+        },
+        {
+          "label": "No",
+          "value": "false"
+        }
+      ],
+      "default_value": "false",
+      "validators": "ignore_not_sysadmin keep_old_value_if_missing boolean_validator"
+    },
+    {
+      "field_name": "features",
+      "preset": "multiple_checkbox",
+      "validators": "scheming_multiple_choice extra_validators_multiple_choice",
+      "form_snippet": null,
+      "display_snippet": null,
+      "choices": [
+        {
+          "value": "public_administration_organization",
+          "label": "Public administration organization",
+          "extra_validator": "admin_only_feature"
+        },
+        {
+          "value": "personal_datasets",
+          "label": "Members can only edit their own datasets"
+        }
+      ],
+      "label": "Features",
+      "form_attrs": {
+        "class": "form-control"
+      }
+    },
+    {
+      "field_name": "image_url",
+      "label": "Logo",
+      "upload_label": "Upload logo",
+      "preset": "group_url_upload",
+      "form_attrs": {
+        "class": "form-control"
+      },
+      "divider": true
+    },
+    {
       "field_name": "valid_from",
       "preset": "date_opendata",
+      "form_snippet": "date_sysadmin.html",
       "label": "Valid from",
-      "max_date_field": "valid_till"
+      "max_date_field": "valid_till",
+      "validators": "scheming_required isodate from_date_is_before_until_date convert_to_json_if_date ignore_not_sysadmin keep_old_value_if_missing"
     },
     {
       "field_name": "valid_till",
       "preset": "date_opendata",
+      "form_snippet": "date_sysadmin.html",
       "label": "Valid till",
-      "min_date_field": "valid_from"
-    },
-    {
-      "field_name": "image_url",
-      "label": "Image URL",
-      "preset": "group_url_upload",
-      "form_attrs": {
-        "class": "form-control"
-      }
+      "min_date_field": "valid_from",
+      "validators": "scheming_required isodate from_date_is_before_until_date convert_to_json_if_date ignore_not_sysadmin keep_old_value_if_missing"
     },
     {
       "field_name": "last_harvested",

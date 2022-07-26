@@ -1,4 +1,4 @@
-from flask.ext.babel import force_locale
+from flask_babel import force_locale
 from ckan.lib.mailer import mail_user
 from ckan.common import _
 import logging

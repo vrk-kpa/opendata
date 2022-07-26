@@ -1,8 +1,10 @@
 {% set label = field.label %}
 
-<div class="clearfix mb-3">
+
     {% set before_value = h.value_or_blank(prev_query, field.field_name + "-before")[0] %}
     {% set after_value = h.value_or_blank(prev_query, field.field_name + "-after")[0] %}
-    {% snippet 'advanced_search/display_snippets/datepicker.html', label=field.display_options.label.before, name=field.field_name + "-before", value=before_value %}
-    {% snippet 'advanced_search/display_snippets/datepicker.html', label=field.display_options.label.after, name=field.field_name + "-after", value=after_value %}
-</div>
+
+    
+    {% snippet 'advanced_search/display_snippets/datepicker.html', label=_("after"), name=field.field_name + "-after", value=after_value %}
+    {% snippet 'advanced_search/display_snippets/datepicker.html', label=_("before"), name=field.field_name + "-before", value=before_value %}
+    

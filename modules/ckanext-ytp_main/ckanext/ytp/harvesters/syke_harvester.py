@@ -50,7 +50,7 @@ class SYKEHarvester(CKANHarvester):
         package_dict['maintainer_website'] = 'https://www.syke.fi'
 
         package_dict['resources'] = [
-            dict(resource.items() + {'name_translated': {'fi': resource.get('name')}}.items())
+            dict(**resource, **{'name_translated': {'fi': resource.get('name')}})
             for resource in package_dict.get('resources', [])
         ]
 

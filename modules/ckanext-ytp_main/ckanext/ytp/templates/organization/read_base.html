@@ -3,16 +3,42 @@
 {% if page is not defined %}{% set page = c.page %}{% endif %}
 
 {% block content_action %}
-  {% if h.check_access('organization_update', {'id': group_dict.id}) %}
-    {% link_for _('Members'), controller='ytp_organization', action='members', id=group_dict.name, class_='btn', icon='user' %}
-    {% link_for _('Manage'), controller='ytp_organization', action='edit', id=group_dict.name, class_='btn', icon='wrench' %}
-  {% endif %}
+{% endblock %}
+
+{% block page_header %}
+{% endblock %}
+
+
+{% block secondary_content %}
+    {% block organization_facets %}{% endblock %}
+{% endblock %}
+
+
+{% block prelude %}
+    <div id="main_content" class="prelude">
+    <h1 class="heading">{{ h.get_translated(group_dict, 'title') or group_dict.name }}</h1>
+
+    <ul class="nav nav-tabs">
+            {{ h.build_nav_icon('organization_read', _('Datasets'), id=group_dict.name, controller='ytp_organization' ) }}
+            {% if h.check_access('organization_update', {'id': group_dict.id})%}
+                {{ h.build_nav_icon('organization_activity', _('Activity Stream'), id=group_dict.name, offset=0, controller='ytp_organization') }}
+            {% endif %}
+            {{ h.build_nav_icon('organization_about', _('About'), id=group_dict.name, controller='ytp_organization') }}
+        {% if h.check_access('organization_update', {'id': group_dict.id}) %}
+            {{ h.build_nav_icon('organization.members', _('Members'), id=group_dict.name ,controller='ytp_organization') }}
+        {% endif %}
+
+    </ul>
+        {% if h.check_access('organization_update', {'id': group_dict.id}) %}
+            <div class="admin-banner">
+                {% if h.check_access('package_create', {'owner_org': group_dict.id}) and group_dict.approval_status == 'approved' %}
+                        {% snippet 'snippets/add_dataset.html', group=group_dict.id %}
+                {% endif %}
+                {% link_for _('Manage'), controller='ytp_organization', action='edit', id=group_dict.name, class_='btn', icon='wrench' %}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block content_primary_nav %}
-  {{ h.build_nav_icon('organization_read', _('Datasets'), id=group_dict.name) }}
-  {% if h.check_access('organization_update', {'id': group_dict.id})%}
-    {{ h.build_nav_icon('organization_activity', _('Activity Stream'), id=group_dict.name, offset=0) }}
-  {% endif %}
-  {{ h.build_nav_icon('organization_about', _('About'), id=group_dict.name) }}
 {% endblock %}

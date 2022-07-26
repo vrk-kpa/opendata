@@ -1,5 +1,5 @@
 from lxml.html.clean import Cleaner, autolink_html
-from flask.ext.babel import force_locale
+from flask_babel import force_locale
 from ckan.lib.mailer import mail_recipient, MailerException
 from ckan.lib import helpers
 import ckan.plugins.toolkit as toolkit

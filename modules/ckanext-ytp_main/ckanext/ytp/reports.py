@@ -1,7 +1,8 @@
-from ckan.logic import get_action
+from ckan.plugins.toolkit import get_action
 from ckanext.matomo.model import PackageStats
-from .commands import package_generator
+from .cli import package_generator
 from datetime import timedelta, datetime
+import iso8601
 import logging
 from functools import reduce
 
@@ -160,7 +161,7 @@ deprecated_datasets_report_info = {
 
 
 def age(dataset):
-    return datetime.now() - datetime.strptime(dataset['metadata_created'], '%Y-%m-%dT%H:%M:%S.%f')
+    return datetime.now() - iso8601.parse_date(dataset['metadata_created'], default_timezone=None)
 
 
 def glen(generator):
@@ -207,25 +208,3 @@ def openness_score_avg(context, datasets):
 
 def tuple_sum(*xs):
     return tuple(sum(x) for x in zip(*xs))
-
-
-def harvester_report():
-
-    harvest_sources = get_action('harvest_source_list')({}, {})
-
-    sources = [{"id": source['id'], "title": source['title'], "status": source['status'],
-                "next_run": source['next_run']} for source in harvest_sources if source['active']]
-
-    return {
-        'sources': sources
-    }
-
-
-harvester_report_info = {
-    'name': 'harvester-status',
-    'description': 'Harvester statuses',
-    'option_defaults': None,
-    'option_combinations': None,
-    'generate': harvester_report,
-    'template': 'report/harvester_report.html',
-}

@@ -1,15 +1,10 @@
 {% ckan_extends %}
 
 {% block page_primary_action %}
-  {{ super() }}
-  <a class="btn btn-primary" href="/data/{{h.lang()}}/member-request/list">
-  	<i class="icon-wrench"></i>
-		{{_('Membership Requests')}}
- 	</a>
 {% endblock %}
 
 {% block primary_content_inner %}
-  <h3 class="page-heading">{{ _('{0} members'.format(c.members|length)) }}</h3>
+  <h3 class="page-heading">{{ _('{0} members'.format(members|length)) }}</h3>
   <table class="table table-header table-hover table-bordered">
     <col style="width: 20%" />
     <col style="width: 10%" />
@@ -26,7 +21,7 @@
     </tr>
     </thead>
     <tbody>
-    {% for user in c.members %}
+    {% for user in members %}
       <tr>
         <td class="media">
           {{ h.linked_user(user, maxlength=20) }}
@@ -37,14 +32,52 @@
         <td>
           {% set locale = h.dump_json({'content': _('Are you sure you want to delete this member?')}) %}
           <div class="btn-group pull-right">
-            <a class="btn btn-small btn-primary" href="{% url_for controller='organization', action='member_new', id=c.group_dict.id, user=user.id %}" title="{{ _('Edit') }}">
+            <a class="btn btn-small btn-primary" href="{% url_for controller='organization', action='member_new', id=group_dict.id, user=user.id %}" title="{{ _('Edit') }}">
               <i class="fa fa-wrench"></i>
             </a>
-            <a class="btn btn-danger btn-small" href="{% url_for controller='organization', action='member_delete', id=c.group_dict.id, user=user.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}" title="{{ _('Delete') }}">{% block delete_button_text %}<i class="fa fa-times"></i>{% endblock %}</a>
+            <a class="btn btn-danger btn-small" href="{% url_for controller='organization', action='member_delete', id=group_dict.id, user=user.id %}" data-module="confirm-action" data-module-i18n="{{ locale }}" title="{{ _('Delete') }}">{% block delete_button_text %}<i class="fa fa-times"></i>{% endblock %}</a>
           </div>
         </td>
       </tr>
     {% endfor %}
     </tbody>
   </table>
+{% endblock %}
+
+
+
+{% block prelude %}
+    <div id="main_content" class="prelude">
+        <h1 class="heading">{{ h.get_translated(group_dict, 'title') or group_dict.name }}</h1>
+
+        <ul class="nav nav-tabs">
+            {{ h.build_nav_icon('organization_read', _('Datasets'), id=group_dict.name, controller='ytp_organization' ) }}
+            {% if h.check_access('organization_update', {'id': group_dict.id})%}
+                {{ h.build_nav_icon('organization_activity', _('Activity Stream'), id=group_dict.name, offset=0, controller='ytp_organization') }}
+            {% endif %}
+            {{ h.build_nav_icon('organization_about', _('About'), id=group_dict.name, controller='ytp_organization') }}
+            {% if h.check_access('organization_update', {'id': group_dict.id}) %}
+                {{ h.build_nav_icon('organization.members', _('Members'), id=group_dict.name ,controller='ytp_organization') }}
+            {% endif %}
+        </ul>
+
+        <div class="admin-banner">
+            {% if h.check_access('organization_update', {'id': organization.id}) %}
+                <a class="btn btn-primary" href="/data/{{h.lang()}}/member-request/list">
+                    <i class="icon-wrench"></i>
+                    {{_('Membership Requests')}}
+                </a>
+                {% link_for _('Add Member'), named_route=group_type+'.member_new', id=group_dict.id, class_='btn btn-primary', icon='plus-square' %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_primary_nav %}
+{% endblock %}
+
+{% block content_action %}
+{% endblock %}
+
+{% block secondary_content %}
 {% endblock %}

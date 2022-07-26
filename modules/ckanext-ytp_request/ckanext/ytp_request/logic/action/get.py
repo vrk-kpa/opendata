@@ -1,7 +1,7 @@
 from ckan import logic, model
 from ckan.lib.dictization import model_dictize
 from ckanext.ytp_request.model import MemberRequest
-from paste.deploy.converters import asbool
+from ckan.plugins import toolkit
 
 import logging
 import ckan.authz as authz
@@ -201,4 +201,4 @@ def organization_list_without_memberships(context, data_dict):
 
     return model_dictize.group_list_dictize(groups,
                                             context,
-                                            with_package_counts=asbool(data_dict.get('include_dataset_count')))
+                                            with_package_counts=toolkit.asbool(data_dict.get('include_dataset_count')))

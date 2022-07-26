@@ -300,7 +300,8 @@ class AvoindataDCATAPProfile(RDFProfile):
         groups = dataset_dict.get('groups', [])
 
         for group_item in groups:
-            group_dict = get_group(group_item['id'])
+            group_id = group_item['id'] if isinstance(group_item, dict) else group_item
+            group_dict = get_group(group_id)
             theme = URIRef(p.url_for(controller='group', action='read', id=group_dict['id'], qualified=True))
             g.add((theme, RDF.type, SKOS.Concept))
             g.add((dataset_ref, DCAT.theme, theme))
@@ -310,7 +311,13 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((theme, SKOS.prefLabel, Literal(title)))
 
         # dcat:landingPage
-        external_urls = (u for u in dataset_dict.get('external_urls', []) if u)
+        external_urls = dataset_dict.get('external_urls', [])
+        if isinstance(external_urls, six.text_type):
+            try:
+                external_urls = json.loads(external_urls)
+            except json.JSONDecodeError:
+                external_urls = []
+        external_urls = (u for u in external_urls if u)
 
         for external_url in external_urls:
             # some external urls have whitespace in them
@@ -446,8 +453,17 @@ class AvoindataDCATAPProfile(RDFProfile):
         title = p.config.get('ckan.site_title', '')
         g.add((catalog_ref, DCT.title, Literal(title)))
 
-        description = p.config.get('ckan.site_description', '')
+        description = ('Suomen kansallinen avoimen datan portaali. Avoindata.fi on kaikille tarkoitettu palvelu avoimen '
+                       'datan julkaisemiseen ja hyödyntämiseen. Den finska nationella dataportalen för öppna data. '
+                       'Avoindata.fi är en tjänst för att publicera och utnyttja öppna data. The Finnish national open data '
+                       'portal. Opendata.fi is a service for publishing and utilising open data for everyone.')
         g.add((catalog_ref, DCT.description, Literal(description)))
+
+        spatial = 'koko Suomi, hela Finland, entire Finland'
+        g.add((catalog_ref, DCT.spatial, Literal(spatial)))
+
+        issued = '15.09.2014'
+        g.add((catalog_ref, DCT.issued, Literal(issued)))
 
         homepage = URIRef(p.config.get('ckan.site_url', ''))
         g.add((catalog_ref, FOAF.homepage, homepage))
@@ -460,7 +476,8 @@ class AvoindataDCATAPProfile(RDFProfile):
         publisher = BNode()
         g.add((publisher, RDF.type, FOAF.Organization))
         g.add((publisher, FOAF.hasSite, URIRef(p.config.get('ckan.site_url', ''))))
-        g.add((publisher, FOAF.name, Literal(p.config.get('ckan.site_title'))))
+        name = u'Digi- ja väestötietovirasto, Myndigheten för digitalisering och befolkningsdata, the Finnish Digital Agency'
+        g.add((publisher, FOAF.name, Literal(name)))
         g.add((catalog_ref, DCT.publisher, publisher))
 
         # Dates

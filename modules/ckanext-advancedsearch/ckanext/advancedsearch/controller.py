@@ -72,6 +72,8 @@ def search():
                     search_query_filters.append(res)
 
     sort_string = request.form.get('sort', 'metadata_created desc')
+    # if an actual sort parameter is provided, use that for selection in the template
+    sorting_selection = request.form.get('sort')
 
     data_dict = {
         'q': q,
@@ -80,7 +82,7 @@ def search():
         'extras': {},
         'sort': sort_string,
         'defType': 'edismax',
-        'mm': 0
+        'mm': 0,
     }
 
     if search_query_filters:
@@ -122,7 +124,8 @@ def search():
         "json_query": json_query,
         "filters": filters,
         "sort_string": sort_string,
-        "field_options": options
+        "field_options": options,
+        "sorting_selection": sorting_selection
         }
     c.advanced_search['last_query']['page'] = page
 

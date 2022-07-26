@@ -1,0 +1,28 @@
+{#
+Displays a single of dataset.
+
+package        - A package to display.
+item_class     - The class name to use on the list item.
+hide_resources - If true hides the resources (default: false).
+banner         - If true displays a popular banner (default: false).
+truncate       - The length to trucate the description to (default: 400)
+truncate_title - The length to truncate the title to (default: 80).
+
+Example:
+
+    {% snippet 'snippets/package_item.html', package=c.datasets[0] %}
+
+#}
+{% set truncate = truncate or 220 %}
+{% set truncate_title = truncate_title or 120 %}
+{% set title = h.extra_translation(package, 'title', fallback=package.name) %}
+{% set notes = h.markdown_extract(h.extra_translation(package, 'notes', markdown=False), extract_length=truncate) %}
+
+<li class="{{ item_class or 'showcase-package' }}">
+    {% block package_item_content %}
+        <a class="dataset-heading dataset-title">
+            {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type + '_read', id=package.name)) }}
+            {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
+        </a>
+    {% endblock %}
+</li>

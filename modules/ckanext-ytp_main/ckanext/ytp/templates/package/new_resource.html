@@ -4,17 +4,27 @@
 
 {% block prelude %}
 <div class="d-flex justify-content-between align-items-end flex-wrap">
-    <h1 class="page-heading">{% block page_heading %}{{ _("Add data") }}{% endblock %}</h1>
+    <h1 class="page-heading">
+        {% block page_heading %}
+            {% if dataset_type=='apiset' %}
+                {{ _('Add new api') }}
+            {% else %}
+                {{ _('Add data') }}
+            {% endif %}
+        {% endblock %}
+    </h1>
 </div>
 {% endblock %}
 
 {% block secondary %}
     {% block stages %}
-    <aside class="sidebar col-sm-4 pull-left">
-        <h4>{{_("Stages")}}</h4>
-        <div class="ytp-group-divider"></div>
-        {{ h.snippet('package/snippets/stages.html', stages=stage, pkg_name=pkg_name) }}
-    </aside>
+    <div class="col-sm-4 sidebar-container">
+        <aside class="sidebar">
+            <h4>{{_("Stages")}}</h4>
+            <div class="ytp-group-divider"></div>
+            {{ h.snippet('package/snippets/stages.html', stages=stage, pkg_name=pkg_name, dataset_type=dataset_type) }}
+        </aside>
+    </div>
     {% endblock %}
 {% endblock  %}
 

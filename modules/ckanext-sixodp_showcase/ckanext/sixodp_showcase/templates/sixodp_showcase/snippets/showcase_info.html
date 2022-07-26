@@ -1,31 +1,21 @@
-{#
-Displays a sidebard module with information for given package
+{% import 'macros/ytp_layout.html' as layout %}
 
-pkg    - The showcase package dict that owns the resources.
+<aside class="module module-narrow additional-info dataset-sidebar secondary col-lg-4">
+    {% block info_tags %}
+      {{ layout.moduleBoxHead(_('Tags')) }}
+        {% snippet 'package/snippets/tags.html', tags=pkg.get('keywords', {}), field='keywords' %}
+      {{ layout.moduleBoxFoot() }}
+    {% endblock %}
 
-Example:
+    {% block categories %}
+      {% if pkg.get('groups', {}) %}
+        {{ layout.moduleBoxHead(_('Categories')) }}
+            {% snippet 'package/snippets/categories.html', categories=pkg.get('groups', {}), pkg=pkg %}
+        {{ layout.moduleBoxFoot() }}
+      {% endif %}
+    {% endblock %}
 
-{% snippet "package/snippets/info.html", pkg=pkg %}
-
-#}
-{% block package_info %}
-  {% if pkg %}
-    <section class="module module-narrow">
-      <div class="module context-info">
-        <div class="module-content">
-          {% block package_info_inner %}
-            {% block heading %}{% endblock %}
-
-            {% if pkg.url %}
-              <div class="info">
-                <a class="btn btn-primary" href="{{ pkg.url }}" target="_blank">
-                  <i class="icon-external-link"></i> {{ _('Launch website') }}
-                </a>
-              </div>
-            {% endif %}
-          {% endblock %}
-        </div>
-      </div>
-    </section>
-  {% endif %}
-{% endblock %}
+    {% block dataset_social %}
+        {% snippet "package/snippets/dataset_social.html" %}
+    {% endblock %}
+</aside>

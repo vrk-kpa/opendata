@@ -16,10 +16,12 @@ show_remove    - If True, show the remove button to remove showcase/dataset asso
 
 {% block package_item %}
 
-<li class="showcase media-item">
+<li class="showcase showcase-item">
   {% block item_inner %}
     {% block image %}
-      <img src="{{ package.featured_image_display_url or package.icon_display_url or h.url_for_static('/images/showcase_placeholder.png') }}" alt="{{ package.name }}" class="media-image">
+    <div class="showcase-item__image">
+      <img src="{{ package.featured_image_display_url or package.icon_display_url or h.url_for_static('/images/showcase_placeholder.png') }}" alt="{{ package.name }}">
+    </div>
     {% endblock %}
     <div class="item-content item-content-slide-up">
       {% block title %}
@@ -27,6 +29,7 @@ show_remove    - If True, show the remove button to remove showcase/dataset asso
           {{ h.link_to(h.truncate(title, truncate_title), url=h.url_for('showcase_blueprint.read', id=package.name)) }}
         </h3>
       {% endblock %}
+      {# These were removed from layout
       {% block rating %}
       {% endblock %}
       {% block platforms %}
@@ -46,6 +49,7 @@ show_remove    - If True, show the remove button to remove showcase/dataset asso
           <p class="empty">{{ _("This showcase has no description") }}</p>
         {% endif %}
       {% endblock %}
+      #}
       {% if show_remove %}
         <form method="post"><input type="hidden" value="{{ package.id }}" name="remove_showcase_id" /><input value="{{ _('Remove') }}" type="submit" class="btn btn-danger btn-small media-edit" title="{{ _('Remove dataset from this showcase') }}"/></form>
       {% endif %}

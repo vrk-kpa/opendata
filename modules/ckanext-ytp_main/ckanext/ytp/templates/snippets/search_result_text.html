@@ -13,7 +13,13 @@ Example:
 
 #}
 
-{% if type == 'dataset' or type == 'showcase_dataset' or type == 'harvest' %}
+{% if (type == 'apiset' or type == 'showcase_apiset') %}
+  {% set text_query = ungettext('{number} apiset found for "{query}"', '{number} apisets found for "{query}"', count) %}
+  {% set text_query_none = _('No apisets found for "{query}"') %}
+  {% set text_no_query = ungettext('{number} apiset found', '{number} apisets found', count) %}
+  {% set text_no_query_none = _('No apisets found') %}
+
+{% elif (type == 'dataset' or type == 'showcase_dataset' or type == 'harvest') %}
   {% set text_query = ungettext('{number} dataset found for "{query}"', '{number} datasets found for "{query}"', count) %}
   {% set text_query_none = _('No datasets found for "{query}"') %}
   {% set text_no_query = ungettext('{number} dataset found', '{number} datasets found', count) %}

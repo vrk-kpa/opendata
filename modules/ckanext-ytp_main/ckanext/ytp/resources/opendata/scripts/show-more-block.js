@@ -1,7 +1,7 @@
 'use strict';
 
 ckan.module('show-more-block', function ($) {
-    /* An multi-input module that allows to add repeating text-inputs on form
+    /* A module that allows developer to hide rest of content when max-height is exceeded
     *
     * maxHeight - Maximum height (in pixels) of block before adding show-more-button
     *
@@ -40,7 +40,7 @@ ckan.module('show-more-block', function ($) {
             `);
             // Fix button positioning after module-container
             const buttonTop = -parseInt(this.el.css('margin-bottom'));
-            this.$showMoreButton.css({top: buttonTop})
+            this.$showMoreButton.css({marginTop: buttonTop})
             this.el.after(this.$showMoreButton);
             this.$showMoreButton.on('click', this.toggleState.bind(this))
         },

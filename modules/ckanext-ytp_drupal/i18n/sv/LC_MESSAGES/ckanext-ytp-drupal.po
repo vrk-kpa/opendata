@@ -5,14 +5,14 @@
 # 
 # Translators:
 # Alexis Troberg <alexis.troberg@gofore.com>, 2015
-# jpaakko <jari.paakko@gofore.com>, 2014
+# jpaakko <jari.paakko@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2014-08-07 17:32+0300\n"
-"PO-Revision-Date: 2017-09-23 19:37+0000\n"
-"Last-Translator: Alexis Troberg <alexis.troberg@gofore.com>\n"
+"PO-Revision-Date: 2014-03-07 05:33+0000\n"
+"Last-Translator: Alexis Troberg <alexis.troberg@gofore.com>, 2015\n"
 "Language-Team: Swedish (http://www.transifex.com/avoindata/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

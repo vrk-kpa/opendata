@@ -1,24 +1,39 @@
 # Translations template for ckanext-advancedsearch.
-# Copyright (C) 2019 ORGANIZATION
+# Copyright (C) 2022 ORGANIZATION
 # This file is distributed under the same license as the ckanext-advancedsearch
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
-#
-# , fuzzy
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+# 
+# Translators:
+# Teemu Erkkola <teemu.erkkola@iki.fi>, 2020
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
+# Ville Teräväinen, 2022
+# 
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-13 11:36+0000\n"
+"POT-Creation-Date: 2022-06-09 09:59+0000\n"
 "PO-Revision-Date: 2019-07-16 07:12+0000\n"
+"Last-Translator: Ville Teräväinen, 2022\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.3.4\n"
+"Generated-By: Babel 2.7.0\n"
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: \n"
+
+#: ckanext/advancedsearch/helpers.py:118
+#: ckanext/advancedsearch/translations.py:29
+msgid "Datasets"
+msgstr "Datamängder"
+
+#: ckanext/advancedsearch/helpers.py:118
+#: ckanext/advancedsearch/translations.py:30
+msgid "Showcases"
+msgstr "Applikationer"
 
 #: ckanext/advancedsearch/translations.py:8
 msgid "Search terms"
@@ -26,7 +41,7 @@ msgstr "Sökord"
 
 #: ckanext/advancedsearch/translations.py:9
 msgid "Type what are you searching for"
-msgstr "Skriv vad du söker"
+msgstr "Sök efter..."
 
 #: ckanext/advancedsearch/translations.py:10
 msgid "Search target"
@@ -100,7 +115,7 @@ msgstr "Visa fler sökvillkor"
 
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:33
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:38
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:25
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:45
 #: ckanext/advancedsearch/translations.py:26
 msgid "Show less options"
 msgstr "Visa färre sökvillkor"
@@ -116,13 +131,10 @@ msgstr "Inte markerat"
 msgid "Are you sure you want to clear all filters?"
 msgstr "Vill du verkligen tömma alla filter?"
 
-#: ckanext/advancedsearch/translations.py:29
-msgid "Datasets"
-msgstr "Datamängder"
-
-#: ckanext/advancedsearch/translations.py:30
-msgid "Showcases"
-msgstr "Applikationer"
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:24
+#: ckanext/advancedsearch/translations.py:31
+msgid "Release interval"
+msgstr "publicerad mellan"
 
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:16
 msgid "Clear all"
@@ -135,63 +147,73 @@ msgstr "Töm alla"
 msgid "Advanced search"
 msgstr "Avancerad sökning"
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:74
+#: ckanext/advancedsearch/templates/advanced_search/index.html:76
 msgid "Filters"
 msgstr "Filter"
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:78
+#: ckanext/advancedsearch/templates/advanced_search/index.html:80
 msgid "and"
 msgstr "och"
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:83
+#: ckanext/advancedsearch/templates/advanced_search/index.html:85
 msgid "or"
 msgstr "eller"
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:95
+#: ckanext/advancedsearch/templates/advanced_search/index.html:97
 msgid "Relevance"
 msgstr "Relevans"
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:96
+#: ckanext/advancedsearch/templates/advanced_search/index.html:98
 msgid "Name Ascending"
 msgstr "Stigande enligt namn"
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:97
+#: ckanext/advancedsearch/templates/advanced_search/index.html:99
 msgid "Name Descending"
 msgstr "Fallande enligt namn"
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:98
+#: ckanext/advancedsearch/templates/advanced_search/index.html:100
 msgid "Last Modified"
 msgstr "Senast redigerat"
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:99
+#: ckanext/advancedsearch/templates/advanced_search/index.html:101
 msgid "Date Created Ascending"
 msgstr "Stigande enligt skapandedatum"
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:100
+#: ckanext/advancedsearch/templates/advanced_search/index.html:102
 msgid "Date Created Descending"
 msgstr "Fallande enligt skapandedatum"
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:101
+#: ckanext/advancedsearch/templates/advanced_search/index.html:103
 msgid "Source"
 msgstr "Källa"
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:102
+#: ckanext/advancedsearch/templates/advanced_search/index.html:104
 msgid "Popular"
+msgstr "Populärt"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:108
+msgid "Found {count} datasets"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/index.html:106
-msgid "Found {count} dataset"
-msgid_plural "Found {count} datasets"
-msgstr[0] "{count} datamängd hittades"
-msgstr[1] "{count} datamängder hittades"
-
-#: ckanext/advancedsearch/templates/advanced_search/index.html:109
+#: ckanext/advancedsearch/templates/advanced_search/index.html:111
 msgid "Sorting"
 msgstr "Sortering"
 
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:7
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:8
 msgid "Filter search"
 msgstr "Filtrera sökning"
+
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:34
+msgid "Update interval"
+msgstr "uppdaterad mellan"
+
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:6
+msgid "before"
+msgstr "till"
+
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:7
+msgid "after"
+msgstr "från"
 
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:18
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:33
@@ -223,4 +245,3 @@ msgstr "Sista sidan"
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:98
 msgid "Next page"
 msgstr "Nästa sida"
-

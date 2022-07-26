@@ -11,9 +11,10 @@ from ckan.common import g, request, _, c, config
 from ckan.views.group import BulkProcessView, CreateGroupView,\
                             EditGroupView, DeleteGroupView, MembersGroupView, \
                             about, activity, set_org, _action, _check_access, \
-                            _db_to_form_schema, _read, _get_group_template, \
-                            member_delete, history, followers, follow, unfollow, admins
+                            _db_to_form_schema, _read, _get_group_template, _setup_template_variables, \
+                            member_delete, history, followers, follow, unfollow, admins, _replace_group_org
 from ckanext.organizationapproval.logic import send_new_organization_email_to_admin
+from typing import Any
 
 from flask import Blueprint
 
@@ -83,6 +84,61 @@ class CreateOrganizationView(CreateGroupView):
         return h.redirect_to(group['type'] + '.read', id=group['name'])
 
 
+class EditOrganizationView(EditGroupView):
+    '''Edit organization view '''
+
+    def get(self,
+            id: str,
+            group_type: str,
+            is_organization: bool,
+            data=None,
+            errors=None,
+            error_summary=None) -> str:
+        extra_vars = {}
+        set_org(is_organization)
+        context = self._prepare(id, is_organization)
+        data_dict: dict[str, Any] = {u'id': id, u'include_datasets': False}
+        try:
+            group_dict = _action(u'group_show')(context, data_dict)
+        except (NotFound, NotAuthorized):
+            base.abort(404, _(u'Group not found'))
+        data = data or group_dict
+        assert data is not None
+
+        if data.get('features', False):
+            # Convert old features field to match with new radiobuttons
+            data = {**data, **{
+                'public_administration_organization': 'public_administration_organization' in data.get('features', []),
+                'edit_only_owned_datasets': 'personal_datasets' in data.get('features', []),
+            }}
+
+        errors = errors or {}
+        extra_vars: dict[str, Any] = {
+            u'data': data,
+            u"group_dict": group_dict,
+            u'errors': errors,
+            u'error_summary': error_summary,
+            u'action': u'edit',
+            u'group_type': group_type
+        }
+
+        _setup_template_variables(context, data, group_type=group_type)
+        form = base.render(
+            _get_group_template(u'group_form', group_type), extra_vars)
+
+        # TODO: Remove
+        # ckan 2.9: Adding variables that were removed from c object for
+        # compatibility with templates in existing extensions
+        g.grouptitle = group_dict.get(u'title')
+        g.groupname = group_dict.get(u'name')
+        g.data = data
+        g.group_dict = group_dict
+
+        extra_vars["form"] = form
+        return base.render(
+            _get_group_template(u'edit_template', group_type), extra_vars)
+
+
 def read(group_type, is_organization, id=None, limit=20):
     extra_vars = {}
     set_org(is_organization)
@@ -150,15 +206,13 @@ def members(id, group_type, is_organization):
     try:
         data_dict = {'id': id}
         check_access('group_edit_permissions', context, data_dict)
-        members = get_action('member_list')(context, {
-            'id': id,
-            'object_type': 'user'
-        })
+
         data_dict['include_datasets'] = False
         data_dict['include_users'] = True
-        group_dict = _action('group_show')(context, data_dict)
         context['keep_email'] = True
-        context['auth_user_obj'] = c.userobj
+        context['auth_user_obj'] = g.userobj
+        group_dict = _action('group_show')(context, data_dict)
+        members = group_dict['users']
     except NotFound:
         base.abort(404, _('Group not found'))
     except NotAuthorized:
@@ -171,7 +225,7 @@ def members(id, group_type, is_organization):
         "group_dict": group_dict,
         "group_type": group_type
     }
-    return base.render('group/members.html', extra_vars)
+    return base.render(_replace_group_org(u'group/members.html'), extra_vars)
 
 
 # kwargs needed because of blueprint default parameters
@@ -301,26 +355,6 @@ def index(group_type, is_organization):
         context['user_id'] = g.userobj.id
         context['user_is_admin'] = g.userobj.sysadmin
 
-    try:
-        data_dict_global_results = {
-            'all_fields': False,
-            'q': q,
-            'sort': sort_by,
-            'type': group_type or 'group',
-        }
-        global_results = _action('group_list')(context,
-                                               data_dict_global_results)
-    except ValidationError as e:
-        if e.error_dict and e.error_dict.get('message'):
-            msg = e.error_dict['message']
-        else:
-            msg = str(e)
-        h.flash_error(msg)
-        extra_vars["page"] = h.Page([], 0)
-        extra_vars["group_type"] = group_type
-        return base.render(
-            _get_group_template('index_template', group_type), extra_vars)
-
     extra_vars['with_datasets'] = with_datasets = request.params.get('with_datasets', '').lower() in ('true', '1', 'yes')
     tree_list_params = {
                     'q': q, 'sort_by': sort_by, 'with_datasets': with_datasets,
@@ -328,7 +362,7 @@ def index(group_type, is_organization):
     page_results = _action('organization_tree_list')(context, tree_list_params)
 
     extra_vars["page"] = h.Page(
-        collection=global_results,
+        collection=page_results['global_results'],
         page=page,
         url=h.pager_url,
         items_per_page=items_per_page, )
@@ -411,7 +445,7 @@ organization.add_url_rule(
 organization.add_url_rule('/organization/<id>', methods=['GET'], view_func=read)
 organization.add_url_rule('/organization/<id>/embed', methods=['GET'], view_func=embed)
 organization.add_url_rule(
-    '/organization/edit/<id>', view_func=EditGroupView.as_view(str('edit')))
+    '/organization/edit/<id>', view_func=EditOrganizationView.as_view(str('edit')))
 organization.add_url_rule(
     '/organization/activity/<id>/<int:offset>', methods=['GET'], view_func=activity)
 organization.add_url_rule('/organization/about/<id>', methods=['GET'], view_func=about)

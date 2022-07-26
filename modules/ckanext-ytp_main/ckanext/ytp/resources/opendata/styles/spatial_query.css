@@ -1,0 +1,35 @@
+.module-heading .action {
+  color: #888888;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 700;
+  margin-left: auto;
+}
+
+.leaflet-draw-toolbar a.leaflet-draw-draw-rectangle {
+  height: 25px;
+  width: 25px;
+}
+
+.dataset-map-expanded #dataset-map {
+  width: 940px;
+  height: 435px;
+  top: 3% !important;
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid #CCC;
+}
+
+.dataset-map-expanded #dataset-map #dataset-map-attribution div {
+  float: left;
+  margin-right: 10px;
+}
+
+.spatial-search-container {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.select2-container {
+  display: block;
+}

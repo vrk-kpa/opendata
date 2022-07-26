@@ -7,12 +7,10 @@
 {% block ckanext_showcase_edit_span %}span12{% endblock %}
 
 {% block primary_content_inner %}
-  <div class="page-container">
-    {% block form %}
-      {#- passing c to a snippet is bad but is required here
-          for backwards compatibility with old templates and
-          plugins using setup_template_variables() -#}
-      {{- h.snippet(form_snippet, c=c, **form_vars) -}}
-    {% endblock %}
-  </div>
+  {% block form %}
+    {#- passing c to a snippet is bad but is required here
+        for backwards compatibility with old templates and
+        plugins using setup_template_variables() -#}
+    {{- h.snippet(form_snippet, c=c, **form_vars) -}}
+  {% endblock %}
 {% endblock %}

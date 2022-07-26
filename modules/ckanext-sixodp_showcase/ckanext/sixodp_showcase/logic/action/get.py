@@ -5,7 +5,9 @@ import ckan.lib.dictization.model_dictize as model_dictize
 from ckan.lib.navl.dictization_functions import validate
 
 from ckanext.showcase.logic.schema import package_showcase_list_schema
+from ckanext.sixodp_showcase.logic.schema import showcase_apiset_list_schema
 from ckanext.showcase.model import ShowcasePackageAssociation
+from ckanext.sixodp_showcase.model import ShowcaseApisetAssociation
 
 from ckan.logic import NotAuthorized
 import logging
@@ -73,3 +75,41 @@ def package_showcase_list(context, data_dict):
                 pass
 
     return showcase_list
+
+
+@toolkit.side_effect_free
+def showcase_apiset_list(context, data_dict):
+    '''List packages associated with a showcase.
+
+    The context variable is passed forward as a copy to avoid unexpected side effects
+
+    :rtype: list of package dictionaries
+    '''
+
+    toolkit.check_access('ckanext_showcase_package_list', context.copy(), data_dict)
+
+    # validate the incoming data_dict
+    validated_data_dict, errors = validate(data_dict,
+                                           showcase_apiset_list_schema(),
+                                           context.copy())
+
+    if errors:
+        raise toolkit.ValidationError(errors)
+
+    # get a list of package ids associated with showcase id
+    pkg_id_list = ShowcaseApisetAssociation.get_apiset_ids_for_showcase(
+        validated_data_dict['showcase_id'])
+
+    pkg_list = []
+    if pkg_id_list:
+        # for each package id, get the package dict and append to list if
+        # active
+        id_list = []
+        for pkg_id in pkg_id_list:
+            id_list.append(pkg_id[0])
+        q = ' OR '.join(['id:{0}'.format(x) for x in id_list])
+        _pkg_list = toolkit.get_action('package_search')(
+            context,
+            {'q': q, 'rows': 100})
+        pkg_list = _pkg_list['results']
+    return pkg_list

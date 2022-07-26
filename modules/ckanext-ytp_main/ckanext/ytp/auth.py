@@ -4,6 +4,7 @@ import ckan.logic.auth as logic_auth
 import ckan.logic.auth.update as _auth_update
 from ckan.logic import get_action, check_access, NotAuthorized
 import ckan.authz as authz
+import ckan.plugins as p
 
 import logging
 log = logging.getLogger(__name__)
@@ -125,8 +126,10 @@ def package_update(context, data_dict):
         # Showcases don't have organizations
         if package.type != "showcase":
             org = logic_auth.get_group_object(context, {'id': package.owner_org})
+            personal_datasets = (p.toolkit.asbool(org.extras.get('edit_only_owned_datasets', False))
+                                 or ('personal_datasets' in org.extras.get('features', [])
+                                 and 'edit_only_owned_datasets' not in org.extras.keys()))
 
-            personal_datasets = 'personal_datasets' in org.extras.get('features', [])
             if personal_datasets and package.creator_user_id != user.id:
                 result = {
                     'success': False,

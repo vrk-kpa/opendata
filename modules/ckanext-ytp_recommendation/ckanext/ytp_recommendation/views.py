@@ -33,7 +33,7 @@ def submit_recommendation():
 
     p.toolkit.get_action('create_recommendation')(context, data_dict)
 
-    response = h.redirect_to(controller='package', action='read', id=package.name)
+    response = h.redirect_to('dataset.read', id=package.name)
     response.location = response.location + '?nocache=true'
 
     return response

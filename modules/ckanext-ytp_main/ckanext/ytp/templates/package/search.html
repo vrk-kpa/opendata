@@ -7,39 +7,42 @@
 <meta name="robots" content="noindex, follow" />
 {% endblock %}
 
-{% block subtitle %}{{ _("Datasets") }}{% endblock %}
 
 {% block wrapper_class %} search-dataset-wrapper{% endblock %}
 
 {% block breadcrumb_content %}
-<li class="active">{{ h.nav_link(_('Datasets'), named_route='dataset.search', highlight_actions = 'new index') }}</li>
+<li class="active">{{ h.nav_link(_('Datasets') if dataset_type != 'apiset' else _('Apisets'), named_route=dataset_type + '.search', highlight_actions = 'new index') }}</li>
+{% endblock %}
+
+{% block pre_primary %}
+       {% block page_primary_action %}
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+      <h1 class="mb-0">{{ _("Datasets") if dataset_type!='apiset' else _("Apisets") }}</h1>
+      {% if h.check_access('package_create') %}
+        <div>
+          <div class="btn-group d-flex align-items-center flex-wrap">
+            {% if dataset_type=='apiset' %}
+              {% link_for _('Add Apiset'), named_route='apiset.new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
+            {% else %}
+              {% link_for _('My Datasets'), named_route='dashboard.datasets', class_='btn btn-avoindata-header', icon='star-empty' %}
+              {% link_for _('Add Dataset'), named_route='dataset.new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
+            {% endif %}
+          </div>
+        </div>
+      {% elif c.user %}
+        <div class="alert alert-info">
+          <p> {{ _('The Opendata.fi service does not have an organization where you can upload a data set.') }} </p>
+          <p>{{ _('Ask your employer\'s open data administrator to add your user account in your organization. If your employer\'s organization has not been created yet on Opendata.fi, ask the service administration to create it before you can continue. Alternatively, you can also ask the data to be published as a private individual.') }}</p>
+        </div>
+      {% endif %}
+    </div>
+  {% endblock %}
 {% endblock %}
 
 {% block primary_content %}
   <div class="container-apiset mt-1">
     <section class="module">
       <div class="module-content">
-        {% block page_primary_action %}
-          <div class="mb-2">
-            <div class="d-flex justify-content-between align-items-center flex-wrap">
-              <h1 class="mb-0">
-              </h1>
-              {% if h.check_access('package_create') %}
-                <div>
-                  <div class="btn-group d-flex align-items-center flex-wrap">
-                    {% link_for _('My Datasets'), named_route='dashboard.datasets', class_='btn btn-avoindata-header', icon='star-empty' %}
-                    {% link_for _('Add Dataset'), named_route='dataset.new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
-                  </div>
-                </div>
-              {% elif c.user %}
-                <div class="alert alert-info">
-                  <p> {{ _('The Opendata.fi service does not have an organization where you can upload a data set.') }} </p>
-                  <p>{{ _('Ask your employer\'s open data administrator to add your user account in your organization. If your employer\'s organization has not been created yet on Opendata.fi, ask the service administration to create it before you can continue. Alternatively, you can also ask the data to be published as a private individual.') }}</p>
-                </div>
-              {% endif %}
-            </div>
-          </div>
-        {% endblock %}
         {% block form %}
         <div class="container-search-input">
           {% set facets = {
@@ -50,16 +53,16 @@
             'remove_field': c.remove_field }
           %}
           {% set sorting = [
+            ('', 'auto'),
             (_('Relevance'), 'score desc, metadata_modified desc'),
             (_('Name Ascending'), 'title_string asc'),
             (_('Name Descending'), 'title_string desc'),
             (_('Last Modified'), 'metadata_modified desc'),
             (_('Date Created Ascending'), 'metadata_created asc'),
             (_('Date Created Descending'), 'metadata_created desc'),
-            (_('Source'), 'source asc'),
             (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
           %}
-          {% snippet 'snippets/search_form.html', type='dataset', query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, query_params=c.fields_grouped, show_advanced_search=true %}
+          {% snippet 'snippets/search_form.html', type=dataset_type, query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, query_params=c.fields_grouped, show_advanced_search=true %}
         </div>
         {% endblock %}
         <div class="container-search-result">
@@ -97,36 +100,26 @@
 {% endblock %}
 
 {% block secondary_content %}
-  <section class="module module-narrow module-shallow sidebar-header-section">
-      <p>
-        {{ _('FILTER LIST') }}
-      </p>
-  </section>
-
-
+  <div class="secondary__header">
+    <h3 class="secondary__title">{{ _('Filter list') }}</h3>
+  </div>
+  {% if dataset_type != 'apiset'%}
+    {% snippet "spatial/snippets/spatial_query.html", default_extent="[[59.85, 20.65], [70.16, 31.52]]" %}
+  {% endif %}
   {% for facet in c.facet_titles %}
     {% set title = c.facet_titles[facet] or h.get_facet_title(name) %}
     {% if facet.startswith('vocab_content_type_')  %}
       {% for item in items or h.get_facet_items_dict('collection_type') %}
         {% if (item.name == 'Interoperability Tools' and item.active == True) %}
           {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}
-          <hr class="sidebar-content-separator"/>
         {% endif %}
       {% endfor %}
     {% elif facet == 'vocab_international_benchmarks' %}
       {% if h.check_access('sysadmin') %}
         {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}
-        <hr class="sidebar-content-separator"/>
       {% endif %}
     {% else %}
       {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}
-      <hr class="sidebar-content-separator"/>
     {% endif %}
   {% endfor %}
-{% endblock %}
-
-{% block prelude %}
-  <div class="d-flex justify-content-between align-items-end flex-wrap">
-      <h1 class="search-dataset-heading">{% block page_heading %}{{ _('Resources') }}{% endblock %}</h1>
-  </div>
 {% endblock %}

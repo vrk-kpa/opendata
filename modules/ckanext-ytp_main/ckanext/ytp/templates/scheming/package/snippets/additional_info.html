@@ -5,11 +5,15 @@
   {%- set ordered_dataset_fields = [
       'maintainer_email',
       'maintainer_website',
+      'api_provider',
+      'api_provider_email',
       'external_urls',
       'geographical_coverage',
       'update_frequency',
       'valid_from',
       'valid_till',
+      'terms_of_service',
+      'access_rights',
     ] -%}
 
     {% set guid = h.get_value_from_extras_by_key(pkg_dict, 'guid') %}

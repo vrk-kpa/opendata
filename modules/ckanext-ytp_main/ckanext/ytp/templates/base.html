@@ -1,5 +1,6 @@
 
 {% ckan_extends %}
+
 {% block body_extras %}
     {{ super() }}
     {% asset "ytp_resources/main_js" %}
@@ -10,6 +11,9 @@
     {% asset "ytp_resources/main_css" %}
     {% include "head-styles-ckan.html" %}
     {% include "head-scripts.html" %}
+
+    {# Disable ckanext-geoview resource icons as incompatible with CKAN 2.9 #}
+    {% block geo_resource_styles %}{% endblock %}
 {% endblock %}
 
 {%- block title -%}

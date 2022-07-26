@@ -20,20 +20,44 @@ Example:
 <ol class="stages {{ class }}">
   <li class="first {{ s1 }}">
     {% if s1 != 'complete' %}
-      <span class="highlight">{{ _('Create dataset') }}</span>
+      <span class="highlight">
+        {% if dataset_type=='apiset' %}
+          {{ _('Create apiset') }}
+        {% else %}
+          {{ _('Create dataset') }}
+        {% endif %}
+      </span>
     {% else %}
-    {% link_for _('Create dataset'), named_route='dataset.edit', id=pkg_name, class_="highlight" %}
+      {% if dataset_type=='apiset' %}
+        {% link_for _('Create apiset'), named_route='apiset.edit', id=pkg_name, class_="highlight" %}
+      {% else %}
+        {% link_for _('Create dataset'), named_route='dataset.edit', id=pkg_name, class_="highlight" %}
+      {% endif %}
     {% endif %}
   </li>
   <li class="last {{ s2 }}">
     {% if s2 != 'complete' %}
-      <span class="highlight">{{ _('Add data') }}</span>
+      <span class="highlight">
+        {% if dataset_type=='apiset' %}
+          {{ _('Add api') }}
+        {% else %}
+          {{ _('Add data') }}
+        {% endif %}
+      </span>
     {% else %}
       {% if s1 == 'active' %}
         {# stage 1 #}
-        {% link_for _('Add data'), named_route='dataset_resource.new', id=pkg_name, class_="highlight" %}
+        {% if dataset_type=='apiset' %}
+          {% link_for _('Add api'), named_route='apiset_resource.new', id=pkg_name, class_="highlight" %}
+        {% else %}
+          {% link_for _('Add data'), named_route='dataset_resource.new', id=pkg_name, class_="highlight" %}
+        {% endif %}
       {% else %}
-        {% link_for _('Add data'), named_route='dataset_resource.new', id=pkg_name, class_="highlight" %}
+        {% if dataset_type=='apiset' %}
+          {% link_for _('Add api'), named_route='apiset_resource.new', id=pkg_name, class_="highlight" %}
+        {% else %}
+          {% link_for _('Add data'), named_route='dataset_resource.new', id=pkg_name, class_="highlight" %}
+        {% endif %}
       {% endif %}
     {% endif %}
   </li>

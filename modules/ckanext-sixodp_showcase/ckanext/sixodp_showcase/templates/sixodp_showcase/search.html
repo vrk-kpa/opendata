@@ -14,50 +14,55 @@
 
 
 {% block pre_primary %}
-  {% set featured_showcases = h.get_featured_showcases() %}
-  {#
-  {% if featured_showcases %}
-    <div class="page-highlight">
-      {{ h.snippet('snippets/horizontal_accordion.html', items=featured_showcases, image_identifier="featured_image_display_url", meta_identifier="category", controller='ckanext.sixodp_showcase.controller:Sixodp_ShowcaseController') }}
-    </div>
-  {% endif %}
-  #}
+  {% block page_primary_action %}
+  <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+    <h1 class="mb-0">
+      {% trans %}
+        Applications
+      {% endtrans %}
+    </h1>
+
+    {% if h.check_access('ckanext_showcase_create') %}
+      <div>
+        <div class="btn-group d-flex align-items-center flex-wrap">
+          {% link_for _('Add Showcase'), named_route='sixodp_showcase.new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  {% endblock %}
 {% endblock %}
 
-{% block page_primary_action %}
-  <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12">
-        {{ h.snippet('sixodp_showcase/snippets/showcase_greeting.html') }}
+
+{% block primary_content %}
+  <section class="module">
+    <div class="module-content">
+      {{ h.snippet('sixodp_showcase/snippets/showcase_greeting.html') }}
+      {% block form %}
+        <div class="search-form-container search-form-container-borderless">
+          {{ h.snippet('sixodp_showcase/snippets/showcase_search_input.html', query=q, placeholder=_('Search applications...'), query_params=fields_grouped, sorting=sorting, sort_by_selected=sort_by_selected, page=page) }}
+        </div>
+      {% endblock %}
+
+      {% block package_search_results_list %}
+        {{ h.snippet('sixodp_showcase/snippets/showcase_list.html', packages=page.items) }}
+      {% endblock %}
     </div>
-  </div>
 
-  <div class="search-form-container search-form-container-borderless row">
-    <div>
-      {{ h.snippet('sixodp_showcase/snippets/showcase_search_input.html', query=q, placeholder=_('Search applications...'), query_params=fields_grouped, sort_by_selected=sort_by_selected, page=page) }}
-    </div>
-  </div>
-{% endblock %}
-
-{% block form %}
-{% endblock %}
-
-{% block package_search_results_list %}
-  <div>
-    {{ h.snippet('sixodp_showcase/snippets/showcase_list.html', packages=page.items) }}
-  </div>
+    {% block page_pagination %}
+      {{ super() }}
+    {% endblock %}
+  </section>
 {% endblock %}
 
 {% block package_search_results_api %}
 {% endblock %}
 
 {% block secondary_content %}
-{# {{ h.snippet('showcase/snippets/helper.html') }} #}
-<div class="filters">
-  <div>
-    {% for facet in facet_titles %}
-      {{ h.snippet('snippets/facet_list.html', title=facet_titles[facet], name=facet) }}
-    {% endfor %}
+  <div class="secondary__header">
+    <h3 class="secondary__title">{{ _('Filter list') }}</h3>
   </div>
-  <!--<a class="close no-text hide-filters"><i class="icon-remove-sign"></i><span class="text">close</span></a>-->
-</div>
+  {% for facet in facet_titles %}
+    {{ h.snippet('snippets/facet_list.html', title=facet_titles[facet], name=facet) }}
+  {% endfor %}
 {% endblock %}

@@ -55,3 +55,30 @@
   </div>
 </form>
 {% endblock %}
+
+
+{% block prelude %}
+    <div id="main_content" class="prelude">
+        <h1 class="heading">{{ h.get_translated(group_dict, 'title') or group_dict.name }}</h1>
+
+        <ul class="nav nav-tabs">
+            {{ h.build_nav_icon('organization_read', _('Datasets'), id=group_dict.name, controller='ytp_organization' ) }}
+            {% if h.check_access('organization_update', {'id': group_dict.id})%}
+                {{ h.build_nav_icon('organization_activity', _('Activity Stream'), id=group_dict.name, offset=0, controller='ytp_organization') }}
+            {% endif %}
+            {{ h.build_nav_icon('organization_about', _('About'), id=group_dict.name, controller='ytp_organization') }}
+            {% if h.check_access('organization_update', {'id': group_dict.id}) %}
+                {{ h.build_nav_icon('organization.members', _('Members'), id=group_dict.name ,controller='ytp_organization') }}
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content_primary_nav %}
+{% endblock %}
+
+{% block content_action %}
+{% endblock %}
+
+{% block secondary_content %}
+{% endblock %}

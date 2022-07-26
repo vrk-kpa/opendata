@@ -7,7 +7,7 @@
       <ul class="tag-list">
         {% for tag in value %}
           {% set tag_dict = dict({
-              'controller': 'package',
+              'controller': 'dataset',
               'action': 'search',
               'vocab_' + field.field_name + '_' + lang: tag }) %}
           <li>

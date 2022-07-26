@@ -1,0 +1,170 @@
+{% extends "package/resource_read.html" %}
+
+{%- set exclude_fields = [
+    'name',
+    'name_translated',
+    'description',
+    'description_translated',
+    'documentation_translated',
+    'url',
+    'format',
+] -%}
+{%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
+
+{% block resource_additional_information %}
+    <div class="module module-resource">
+        <div class="module-content">
+            <h2>{{ _('Interface manual') }}</h2>
+            <div class="prose notes" property="rdfs:label">
+            {% set documentation = h.extra_translation(res, 'documentation', markdown=True) %}
+            {% if documentation %}
+                {{ documentation }}
+            {% endif %}
+            </div>
+        </div>
+    </div>    
+
+
+    <div class="module module-resource">
+        <div class="module-content">
+            <h2>{{ _('Additional Information') }}</h2>
+            <table class="table table-striped" data-module="table-toggle-more">
+            <tbody>
+                {%- block resource_fields -%}
+                    {%- for field in schema.resource_fields -%}
+                        {%- if field.field_name not in exclude_fields
+                            and field.display_snippet is not none -%}
+                        <tr>
+                            <th scope="row">
+                            {{- h.scheming_language_text(field.label) -}}:
+                            </th>
+                            <td>
+                            {%- snippet 'scheming/snippets/display_field.html',
+                                field=field, data=res, entity_type='dataset',
+                                object_type=dataset_type -%}
+                            </td>
+                        </tr>
+                        {%- endif -%}
+                    {%- endfor -%}
+                {%- endblock -%}
+            </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main_content %}
+    {% block flash %}{{ super() }}{% endblock %}
+    {% block toolbar %}{{ super() }}{% endblock %}
+
+    <div class="row wrapper{% block wrapper_class %}{% endblock %}{% if self.secondary()|trim == '' or c.action=='resource_read' %} no-nav{% endif %}">
+        
+        {% block pre_primary %}
+            <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+                <h1 class="mb-0">{{ h.dataset_display_name(c.package) }}</h1>
+            </div>
+        {% endblock %}
+
+        <div class="resource-container">
+            <div class="row">
+                {% block secondary %}
+                    <aside class="secondary secondary--resource col-sm-3">
+
+                    {% block secondary_content %}
+                        {% block resources_list %}
+                            {% snippet "package/snippets/resources.html", pkg=pkg, active=res.id, list_title=_('Interfaces') %}
+                        {% endblock %}
+                    {% endblock %}
+
+                    </aside>
+                {% endblock %}
+
+                {% block primary %}
+                    <div class="primary primary--resource col-sm-9 col-xs-12" role="main">
+                        {% block primary_content %}
+                            {{ super() }}
+                        {% endblock %}
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block resource %}
+    <section class="module module-resource">
+        <div class="module-content">
+            <div>
+                <div class="actions">
+                    {% block resource_actions %}
+                        <ul>
+                            {% block resource_actions_inner %}
+                                {% if h.check_access('package_update', {'id':pkg.id }) %}
+                                    <li>{% link_for _('Manage'), named_route=pkg.type ~ '_resource.edit', id=pkg.name, resource_id=res.id, class_='btn btn-menu-manage btn-outline-primary' %}</li>
+                                {% endif %}
+                                {% if res.url %}
+                                    <li>
+                                        <a class="btn btn-menu-manage resource-url-analytics resource-type-{{ res.resource_type }} btn-outline-primary" href="{{ res.url }}">
+                                            {% if res.resource_type in ('listing', 'service') %}
+                                                {{ _('View') }}
+                                            {% elif  res.resource_type == 'api' %}
+                                                {{ _('API Endpoint') }}
+                                            {% elif not res.can_be_previewed and res.url_type != 'upload' %}
+                                                {{ _('Open') }}
+                                            {% else %}
+                                                {{ _('Download') }}
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endblock %}
+                        </ul>
+                    {% endblock %}
+                </div>
+                
+                {% block resource_content %}
+                    {% block resource_read_title %}
+                        <h2 class="page-heading">{{ h.extra_translation(res, 'name', fallback=h.resource_display_name) }}</h2>
+                    {% endblock %}
+
+                    <div class="prose notes" property="rdfs:label">
+                    {% set description = h.extra_translation(res, 'description', markdown=True) %}
+                    {% if description %}
+                        {{ description }}
+                    {% else %}
+                        {% set notes = h.extra_translation(c.package, 'notes', markdown=True) %}
+                        {% if notes %}
+                        <h3>{{ _('From the dataset abstract') }}</h3>
+                        <blockquote>{{ notes }}</blockquote>
+                        <p>{% trans dataset=c.package.title, url=h.url_for('dataset.read', id=c.package['name']) %}Source: <a href="{{ url }}">{{ dataset }}</a>{% endtrans %}
+                        {% endif %}
+                    {% endif %}
+                    </div>
+                {% endblock %}
+            </div>
+
+            {% block data_preview %}
+                {% block resource_view %}
+                    {% block resource_view_nav %}
+                        {% set resource_preview = h.resource_preview(c.resource, c.package) %}
+                        {% snippet "package/snippets/resource_views_list.html",
+                        views=resource_views,
+                        pkg=pkg,
+                        is_edit=false,
+                        view_id=current_resource_view['id'],
+                        resource_preview=resource_preview,
+                        resource=c.resource,
+                        extra_class="nav-tabs-plain"
+                        %}
+                    {% endblock %}
+                    
+
+                    {% block resource_view_content %}{% endblock %}
+                {% endblock %}
+            {% endblock %}
+
+        </div>
+    </section>
+{% endblock %}

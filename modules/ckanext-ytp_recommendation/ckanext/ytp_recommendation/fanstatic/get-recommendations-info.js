@@ -5,7 +5,7 @@ var Module = function() {
         packageId: '',
         userLoggedIn: null,
         recommendationCount: null,
-        recommendationCountSpan: null,
+        recommendationCountDiv: null,
         submitBtn: null,
     }
 
@@ -14,7 +14,7 @@ var Module = function() {
         self.urlRecommendationCount = $('#package-data').data().urlRecommendationCount;
         self.packageId = $('#package-data').data().packageId;
         self.recommendationCount = $('#count');
-        self.recommendationCountSpan = $('.recommendation-count');
+        self.recommendationCountDiv = $('.recommendation-count');
         self.userLoggedIn = $('#package-data').data().currentUser;
         self.submitBtn = $('#submit-btn');
     }
@@ -61,7 +61,7 @@ var Module = function() {
     function run() {
         init();
         updateRecommendationInfo();
-        self.recommendationCountSpan.removeClass('hidden');
+        self.recommendationCountDiv.removeClass('hidden');
     }
 
     return {run: run}

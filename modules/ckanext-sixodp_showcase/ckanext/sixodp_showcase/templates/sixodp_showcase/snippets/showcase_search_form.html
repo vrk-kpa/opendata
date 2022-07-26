@@ -2,7 +2,9 @@
 
 {% block search_title %}
   {% if not no_title %}
-    <h2>{% snippet 'sixodp_showcase/snippets/showcase_search_result_text.html', query=query, count=count, type=type %}</h2>
+    <h3 class="m-0 search-form__result-text">
+      {% snippet 'sixodp_showcase/snippets/showcase_search_result_text.html', query=query, count=count, type=type %}
+    </h3>
   {% endif %}
 {% endblock %}
 

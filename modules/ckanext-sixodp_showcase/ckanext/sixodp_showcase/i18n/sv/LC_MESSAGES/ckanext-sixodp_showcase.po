@@ -1,22 +1,23 @@
 # Translations template for ckanext-sixodp_showcase.
-# Copyright (C) 2020 ORGANIZATION
+# Copyright (C) 2022 ORGANIZATION
 # This file is distributed under the same license as the ckanext-sixodp_showcase
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 # 
 # Translators:
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2020
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2020
+# Meeri Hakala <meeri.hakala@dvv.fi>, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-10-29 07:47+0000\n"
+"POT-Creation-Date: 2022-02-22 11:44+0000\n"
 "PO-Revision-Date: 2018-03-14 11:02+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2020\n"
+"Last-Translator: Meeri Hakala <meeri.hakala@dvv.fi>, 2022\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,13 +41,14 @@ msgid "Organizations"
 msgstr "Organisationer"
 
 #: ckanext/sixodp_showcase/controller.py:197
-#: ckanext/sixodp_showcase/plugin.py:101
+#: ckanext/sixodp_showcase/plugin.py:96
 msgid "Groups"
 msgstr "Grupper"
 
 #: ckanext/sixodp_showcase/controller.py:198
-#: ckanext/sixodp_showcase/plugin.py:102
+#: ckanext/sixodp_showcase/plugin.py:97
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:33
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_info.html:5
 msgid "Tags"
 msgstr "Nyckelord"
 
@@ -75,9 +77,9 @@ msgstr ""
 msgid "Showcase has been deleted."
 msgstr ""
 
-#: ckanext/sixodp_showcase/plugin.py:104
-msgid "Platform"
-msgstr "Driftsmiljö (plattform)"
+#: ckanext/sixodp_showcase/plugin.py:99
+msgid "Platforms"
+msgstr ""
 
 #: ckanext/sixodp_showcase/translations.py:5
 msgid ""
@@ -424,8 +426,8 @@ msgid ""
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:53
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:50
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_form.html:23
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:54
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_form.html:25
 msgid "Remove"
 msgstr ""
 
@@ -523,31 +525,31 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:63
 #: ckanext/sixodp_showcase/templates/showcase/search.html:12
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:27
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:16
 msgid "Relevance"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:64
 #: ckanext/sixodp_showcase/templates/showcase/search.html:13
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:28
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:17
 msgid "Name Ascending"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:65
 #: ckanext/sixodp_showcase/templates/showcase/search.html:14
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:29
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:18
 msgid "Name Descending"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:66
 #: ckanext/sixodp_showcase/templates/showcase/search.html:15
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:30
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:19
 msgid "Last Modified"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:67
 #: ckanext/sixodp_showcase/templates/showcase/search.html:16
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:26
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:15
 msgid "Popular"
 msgstr "Populärt"
 
@@ -560,28 +562,26 @@ msgid "No datasets could be found"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:6
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:97
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_state_banner.html:3
 msgid "Manage"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:13
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:108
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:59
 msgid "Private"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:20
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:49
 msgid "Draft"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:38
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:125
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_info.html:22
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:68
 msgid "Launch website"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/search.html:19
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:34
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:23
 msgid "Search showcases..."
 msgstr "Sök applikationer..."
 
@@ -673,83 +673,59 @@ msgstr ""
 "href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database-"
 "licensen</a>."
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:47
-msgid "Archived"
-msgstr "Arkiverat"
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:60
-msgid "Published"
-msgstr "Publicerat"
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:62
-msgid "updated"
-msgstr "uppdaterat"
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:132
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:92
 msgid "Used datasets"
 msgstr "Använda datamängder"
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:136
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:97
 msgid "There are no Datasets in this Showcase"
 msgstr "Denna applikation saknar datamängder"
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:151
-msgid " Links "
-msgstr "Länkar"
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:158
-msgid "Application website"
-msgstr "Applikationens webbplats"
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:165
-msgid "Author website"
-msgstr "Utvecklarens webbplats"
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:180
-msgid " Categories "
-msgstr "Kategorier"
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:199
-msgid "More from the author"
-msgstr "Fler applikationer av samma utvecklare"
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:31
-msgid "Search applications..."
-msgstr "Sök applikationer ..."
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:15
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:15
 msgid " Applications "
 msgstr "Applikationer "
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:21
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:23
 msgid "Add Showcase"
 msgstr "Lägg till applikation"
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:27
-msgid ""
-"Datasets provided by this service come alive with the help of applications "
-"(visualizations, research, webservices and data journalism)."
-msgstr ""
-"Olika applikationer (visualiseringar, undersökningar, webbplatser och "
-"datajournalistik) ger liv åt datamängderna i denna tjänst."
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:38
+msgid "Search applications..."
+msgstr "Sök applikationer ..."
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:30
-msgid ""
-"Commonly the creators of opendata applications are researchers, freelanchers"
-" and software developers, but with the help of improved development and "
-"visualization tools anyone is able to utilize these datasets. You can find "
-"additional information from our guide to open data."
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:54
+msgid "Filter list"
 msgstr ""
-"Ofta är det forskare, frilansare och mjukvaruutvecklare som skapar "
-"applikationer av öppna data, men de förbättrade verktygen för utveckling och"
-" visualisering gör det möjligt för vem som helst att använda sig av "
-"datamängderna. Mer information hittar du i vår guide till öppna data."
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:34
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:2
+msgid "Additional Info"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:13
+msgid "Application website"
+msgstr "Applikationens webbplats"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:24
+msgid "Author website"
+msgstr "Utvecklarens webbplats"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:36
+msgid "More from the author"
+msgstr "Fler applikationer av samma utvecklare"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:52
+msgid "Published"
+msgstr "Publicerat"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:62
+msgid "Last Updated"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:14
 msgid "Have you created application that utilizes open data?"
 msgstr "Har du skapat en applikation som använder sig av öppna data?"
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:35
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:17
 msgid ""
 "Inform us about your application by using this form and it will be added to "
 "the list below."
@@ -757,27 +733,27 @@ msgstr ""
 "Berätta oss om din applikation med detta formulär så lägger vi till den på "
 "listan nedan."
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:46
-msgid "This showcase has no description"
-msgstr "Applikationen saknar beskrivning"
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:20
+msgid "Report application"
+msgstr "Lägg till applikation"
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:50
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_info.html:12
+msgid "Categories"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:54
 msgid "Remove dataset from this showcase"
 msgstr "Ta bort datamängden från denna applikation"
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:9
-msgid "Submit"
-msgstr "Skicka in"
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:24
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:13
 msgid "Newest first"
 msgstr "Nyast först"
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:25
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:14
 msgid "Oldest first"
 msgstr "Äldst först"
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:31
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:20
 msgid "Top rating"
 msgstr "Bästa betyg"
 

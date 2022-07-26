@@ -13,7 +13,11 @@
 <div class="page-container">
   <section class="showcase-datasets-block">
     <div>
-      <h3 class="page-heading">{{ _('Datasets in this showcase') }}</h3>
+      <h3 class="page-heading">
+        {% block showcase_datasets_associated %}
+          {{ _('Datasets in this showcase') }}
+        {% endblock %}
+      </h3>
       {% if c.showcase_pkgs %}
         <form method="POST" data-module="basic-form">
           <table class="table table-bordered table-bulk-edit" data-module="table-selectable-rows">
@@ -25,8 +29,8 @@
                 {% set notes = h.markdown_extract(h.get_translated(package, 'notes'), extract_length=truncate) %}
                 <tr>
                   <td class="selectable-row">
-                    <label for="dataset_{{ package.id }}">
-                      <input id="dataset_{{ package.id }}" class="row-checkbox" type="checkbox" name="dataset_{{ package.id }}">
+                    <label for="{{ package.type }}_{{ package.id }}">
+                      <input id="{{ package.type }}_{{ package.id }}" class="row-checkbox" type="checkbox" name="{{ package.type }}_{{ package.id }}">
                       <span class="check"></span>
                         {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type ~ '.read', id=package.name)) }}
                     </label>
@@ -44,13 +48,19 @@
         </form>
       {% else %}
         <p class="empty">
-          {{ _('This showcase has no datasets associated to it') }}.
+          {% block showcase_no_datasets_associated %}
+            {{ _('This showcase has no datasets associated to it') }}.
+          {% endblock %}
         </p>
       {% endif %}
     </div>
   </section>
 
-  <h3>{{_("Search and add datasets to a showcase")}}</h3>
+  <h3>
+    {% block showcase_searh_and_add_datasets %}
+      {{_("Search and add datasets to a showcase")}}
+    {% endblock %}
+  </h3>
   <section>
   {% set facets = {
     'fields': c.fields_grouped,
@@ -67,7 +77,7 @@
     (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
   %}
   <div>
-    {% snippet 'snippets/search_form_with_table_header.html', type='showcase_dataset', query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, fields=c.fields %}
+    {% snippet 'snippets/search_form_with_table_header.html', type='showcase_' + ('dataset' if view_type!='manage_apisets' else 'apiset'), query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, show_empty=request.params, error=c.query_error, fields=c.fields %}
     {% block package_search_results_list %}
       {% if c.page.items %}
         <form method="POST" data-module="basic-form">
@@ -86,8 +96,8 @@
                 {% set notes = h.markdown_extract(h.get_translated(package, 'notes'), extract_length=truncate) %}
                 <tr>
                   <td class="selectable-row">
-                    <label for="dataset_{{ package.id }}">
-                      <input id="dataset_{{ package.id }}" class="row-checkbox" type="checkbox" name="dataset_{{ package.id }}">
+                    <label for="{{ package.type }}_{{ package.id }}">
+                      <input id="{{ package.type }}_{{ package.id }}" class="row-checkbox" type="checkbox" name="{{ package.type }}_{{ package.id }}">
                       <span class="check"></span>
                         {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type ~'.read', id=package.name)) }}
                     </label>
@@ -105,7 +115,11 @@
           </table>
         </form>
       {% else %}
-        <p class="empty">{{ _('No datasets could be found') }}</p>
+        <p class="empty">
+          {% block showcase_no_datasets_found %}
+            {{ _('No datasets could be found') }}
+          {% endblock %}
+        </p>
       {% endif %}
     {% endblock %}
   </div>

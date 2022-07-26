@@ -7,7 +7,7 @@
           {% set tag_dict = dict({
               'controller': 'dataset',
               'action': 'search',
-              'vocab_' + field + '_' + lang: tag }) %}
+              'vocab_' + field + '_' + lang: tag|lower }) %}
           <li>
             <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{{ h.call_toolkit_function('url_for',[], tag_dict) }}">
               {{ h.truncate(tag, 22) }}

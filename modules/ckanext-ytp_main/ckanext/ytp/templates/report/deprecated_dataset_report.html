@@ -20,7 +20,7 @@
               </a>
             </td>
             <td>
-              <a href="{{ h.url_for(named_route='organization.read', id=row.organization_id )}}">
+              <a href="{{ h.url_for('organization.read', id=row.organization_id )}}">
                 {{ row.organization_title }}
               </a>
               {% if row.organization_homepage %}

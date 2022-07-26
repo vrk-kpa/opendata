@@ -1,6 +1,5 @@
 from ckan import plugins
 from ckan.plugins import toolkit
-from paste.deploy.converters import asbool
 import sqlalchemy
 from ckan.common import c
 from ckan.logic import NotFound
@@ -49,7 +48,7 @@ class YtpDrupalPlugin(plugins.SingletonPlugin, DefaultTranslation):
 
         self.cancel_url = config.get(self._config_template % "cancel_url", "/cancel-user.php")
         self._node_type = config.get(self._config_template % "node_type", self._node_type)
-        self._translations_disabled = asbool(config.get(self._config_template % "translations_disabled", "false"))
+        self._translations_disabled = toolkit.asbool(config.get(self._config_template % "translations_disabled", "false"))
 
         self.engine = sqlalchemy.create_engine(self.drupal_connection_url)
 

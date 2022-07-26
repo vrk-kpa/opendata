@@ -6,6 +6,7 @@ import urllib.error
 import urllib.parse
 import datetime
 import itertools
+import flask
 from ckan.common import _, c, request
 from ckan.lib import helpers, i18n
 from ckan.logic import get_action
@@ -40,7 +41,11 @@ def get_translation(translated):
         translated = get_json_value(translated)
 
     if isinstance(translated, dict):
-        language = i18n.get_lang()
+        if flask.has_request_context():
+            language = i18n.get_lang()
+        else:
+            language = ''
+
         if language in translated:
             return translated[language]
         dialects = [lang for lang in translated
@@ -618,3 +623,14 @@ def site_url_with_root_path():
         return site_url + root_path.replace('{{LANG}}', '').rstrip('/')
     else:
         return site_url.rstrip('/')
+
+
+def get_organization_filters_count():
+    organizations = get_action('organization_list')({}, {'all_fields': False})
+    organizations_with_datasets = (get_action('organization_tree_list')({}, {'with_datasets': True})
+                                   .get('global_results', []))
+
+    with_dataset_count = len(organizations_with_datasets)
+    all_count = len(organizations)
+
+    return {'with_dataset_count': with_dataset_count, 'all_count': all_count}

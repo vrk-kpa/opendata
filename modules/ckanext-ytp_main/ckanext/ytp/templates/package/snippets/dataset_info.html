@@ -96,11 +96,13 @@
     {% endblock %}
 
     {% block follow %}
+        {# FIXME: Pending ckanext-reminder CKAN 2.9 migration
         {{ layout.moduleBoxHead(_('Follow dataset')) }}
         <div class="follow-dataset">
             {% snippet 'package/snippets/follow.html', pkg=pkg %}
         </div>
         {{ layout.moduleBoxFoot() }}
+        #}
     {% endblock %}
 
 

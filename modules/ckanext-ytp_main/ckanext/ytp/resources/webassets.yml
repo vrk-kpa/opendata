@@ -21,6 +21,7 @@ main_js:
     - vendor/moment/dist/min/moment-with-locales.js
     - vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.js
     - vendor/jstree/dist/jstree.js
+    - opendata/scripts/drag-n-drop-uploader.js
 
 openapi_view_css:
   output: ckanext-ytp_main%(version)s_openapi_view.css
@@ -168,3 +169,25 @@ show_more_block_js:
   contents:
     - opendata/scripts/show-more-block.js
 
+spatial_query_css:
+  output: ckanext-ytp_main%(version)s_spatial-query.css
+  contents:
+    - opendata/styles/spatial_query.css
+
+spatial_search_js:
+  output: ckanext-ytp_main%(version)s_spatial-search.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/spatial_search.js
+
+slug_preview_ex:
+  output: ckanext-ytp_main%(version)s_slug_preview_ex.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents:
+    - opendata/scripts/slug-preview-ex.js

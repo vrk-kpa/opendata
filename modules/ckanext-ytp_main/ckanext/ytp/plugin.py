@@ -4,7 +4,6 @@ import logging
 import six
 import iso8601
 import re
-import types
 import urllib
 import sqlalchemy
 import ckan.lib.base as base
@@ -19,18 +18,17 @@ from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
 from ckan.lib.navl.dictization_functions import Missing, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
-from ckan.logic import NotFound, NotAuthorized, get_action, check_access
+from ckan.logic import NotFound, get_action, check_access
 from ckan.model import Session
 from ckan.plugins import toolkit
 from ckan.plugins.toolkit import config, chained_action
 from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester
 from ckanext.showcase.model import ShowcaseAdmin
-from paste.deploy.converters import asbool
 from sqlalchemy import and_, or_
 from sqlalchemy.sql.expression import false
 
-from ckanext.ytp.logic import package_autocomplete
+from ckanext.ytp.logic import package_autocomplete, store_municipality_bbox_data
 import ckanext.ytp.views as views
 from ckanext.ytp import auth, menu, cli, validators, views_organization
 
@@ -46,7 +44,7 @@ from .helpers import extra_translation, render_date, service_database_enabled, g
     check_group_selected, group_title_by_id, group_list_with_selected, \
     get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin, \
     get_value_from_extras_by_key, get_field_from_dataset_schema, get_field_from_resource_schema, is_boolean_selected, \
-    site_url_with_root_path
+    site_url_with_root_path, get_organization_filters_count
 
 from .tools import create_system_context
 
@@ -154,8 +152,15 @@ def action_package_show(original_action, context, data_dict):
 @chained_action
 @logic.side_effect_free
 def action_package_search(original_action, context, data_dict):
-    data_dict['sort'] = data_dict.get('sort') or 'metadata_created desc'
-    return original_action(context, data_dict)
+    sort_auto = data_dict.get('sort') in (None, '', 'auto')
+    if sort_auto:
+        data_dict['sort'] = 'score desc, metadata_modified desc' if data_dict.get('q') else 'metadata_created desc'
+
+    result = original_action(context, data_dict)
+
+    if sort_auto:
+        result['sort'] = 'auto'
+    return result
 
 
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
@@ -189,7 +194,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     # IConfigurable #
 
     def configure(self, config):
-        self.auto_author = asbool(config.get('ckanext.ytp.auto_author', False))
+        self.auto_author = toolkit.asbool(config.get('ckanext.ytp.auto_author', False))
 
     # ITranslation #
 
@@ -234,6 +239,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
+        toolkit.add_resource('public/javascript/', 'ytp_common_js')
+        toolkit.add_resource('public/css/', 'ytp_common_css')
         toolkit.add_template_directory(config, '../common/templates')
 
     # IDatasetForm
@@ -246,7 +253,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def _get_collection_type(self):
         """Gets the type of collection (Open Data, Interoperability Tools, or Public Services).
-
         This method can be used to identify which collection the user is currently looking at or editing,
         i.e., which page the user is on.
         """
@@ -263,16 +269,27 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     def dataset_facets(self, facets_dict, package_type):
         lang = get_lang_prefix()
         facets_dict = OrderedDict()
-        facets_dict.update({'vocab_international_benchmarks': _('International Benchmarks')})
-        facets_dict.update({'collection_type': _('Collection Types')})
-        facets_dict['vocab_keywords_' + lang] = _('Popular Tags')
-        facets_dict.update({'vocab_content_type_' + lang: _('Content Types')})
-        facets_dict.update({'organization': _('Organizations')})
-        facets_dict.update({'res_format': _('Formats')})
-        # BFW: source is not part of the schema. created artificially at before_index function
-        facets_dict.update({'source': _('Sources')})
-        facets_dict.update({'license_id': _('Licenses')})
-        # add more dataset facets here
+        # use different ordering for apisets
+        if package_type == 'apiset':
+            facets_dict['vocab_keywords_' + lang] = _('Tags')
+            facets_dict['organization'] = _('Organization')
+            facets_dict['res_format'] = _('Formats')
+            facets_dict['vocab_update_frequency_' + lang] = _('Update frequency')
+            facets_dict['license_id'] = _('Licenses')
+            facets_dict['groups'] = _('Category')
+            facets_dict['producer_type'] = _('Producer type')
+        else:
+            facets_dict['vocab_international_benchmarks'] = _('International Benchmarks')
+            facets_dict['vocab_geographical_coverage'] = _('Geographical coverage')
+            facets_dict['collection_type'] = _('Collection Types')
+            facets_dict['vocab_keywords_' + lang] = _('Tags')
+            facets_dict['organization'] = _('Organization')
+            facets_dict['res_format'] = _('Formats')
+            facets_dict['license_id'] = _('Licenses')
+            facets_dict['groups'] = _('Category')
+            facets_dict['producer_type'] = _('Producer type')
+            # add more dataset facets here
+
         return facets_dict
 
     def organization_facets(self, facets_dict, organization_type, package_type):
@@ -379,6 +396,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_field_from_resource_schema': get_field_from_resource_schema,
                 "is_boolean_selected": is_boolean_selected,
                 'site_url_with_root_path': site_url_with_root_path,
+                'get_organization_filters_count': get_organization_filters_count,
+                'asbool': toolkit.asbool
                 }
 
     def get_auth_functions(self):
@@ -435,9 +454,19 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             if pkg_dict.get(field):
                 pkg_dict['vocab_%s' % field] = [tag for tag in json.loads(pkg_dict[field])]
 
+        # Populate update frequencies for apisets from validated data_dict
+        validated_data_dict = pkg_dict.get('validated_data_dict')
+        converted_validated_data_dict = json.loads(validated_data_dict)
+        resources = converted_validated_data_dict.get('resources')
+        if resources:
+            update_frequency = resources[0].get('update_frequency')
+            if update_frequency:
+                pkg_dict['update_frequency'] = json.dumps(update_frequency)
+
         # Map keywords to vocab_keywords_{lang}
-        translated_vocabs = ['keywords', 'content_type']
+        translated_vocabs = ['keywords', 'content_type', 'update_frequency']
         languages = ['fi', 'sv', 'en']
+        ignored_tags = ["avoindata.fi"]
         for prop_key in translated_vocabs:
             prop_json = pkg_dict.get(prop_key)
             # Add only if not already there
@@ -447,17 +476,35 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             # Add for each language
             for lang in languages:
                 if prop_value.get(lang):
+                    prop_value[lang] = [tag for tag in {tag.lower() for tag in prop_value[lang]} if tag not in ignored_tags]
                     pkg_dict['vocab_%s_%s' % (prop_key, lang)] = [tag for tag in prop_value[lang]]
+            pkg_dict[prop_key] = json.dumps(prop_value)
 
         if 'date_released' in pkg_dict and ISO_DATETIME_FORMAT.match(pkg_dict['date_released']):
             pkg_dict['metadata_created'] = "%sZ" % pkg_dict['date_released']
+
+        if pkg_dict.get('organization', None) is not None:
+            org = toolkit.get_action('organization_show')({}, {'id': pkg_dict.get('organization')})
+            if 'producer_type' in org:
+                pkg_dict['producer_type'] = org['producer_type']
+
+        return pkg_dict
+
+    def before_view(self, pkg_dict):
+        # remove unwanted keywords from being passed to the view
+        languages = ['fi', 'sv', 'en']
+        ignored_tags = ["avoindata.fi"]
+        keywords = pkg_dict.get('keywords')
+        for lang in languages:
+            if keywords and keywords.get(lang):
+                keywords[lang] = [tag for tag in {tag.lower() for tag in keywords[lang]} if tag not in ignored_tags]
 
         return pkg_dict
 
     # IActions #
     def get_actions(self):
         return {'package_show': action_package_show, 'package_search': action_package_search,
-                'package_autocomplete': package_autocomplete}
+                'package_autocomplete': package_autocomplete, 'store_municipality_bbox_data': store_municipality_bbox_data}
 
     # IValidators
     def get_validators(self):
@@ -649,28 +696,16 @@ def action_user_create(original_action, context, data_dict):
     return result
 
 
-@chained_action
-@logic.side_effect_free
-def action_organization_show(original_action, context, data_dict):
-    try:
-        result = original_action(context, data_dict)
-    except NotAuthorized:
-        raise NotFound
-
-    result['display_name'] = extra_translation(result, 'title') or result.get('display_name', None) or result.get('name', None)
-    return result
-
-
 @logic.side_effect_free
 def action_organization_tree_list(context, data_dict):
     check_access('site_read', context)
     check_access('group_list', context)
 
-    q = data_dict.get('q')
+    q = data_dict.get('q', '')
     sort_by = data_dict.get('sort_by', 'name asc')
-    page = data_dict.get('page', 1)
-    items_per_page = data_dict.get('items_per_page', 21)
-    with_datasets = data_dict.get('with_datasets', False)
+    page = toolkit.asint(data_dict.get('page', 1))
+    items_per_page = toolkit.asint(data_dict.get('items_per_page', 21))
+    with_datasets = toolkit.asbool(data_dict.get('with_datasets', False))
     user = context.get('user')
 
     # Determine non-visible organizations
@@ -708,15 +743,16 @@ def action_organization_tree_list(context, data_dict):
                       .filter(model.Group.state == 'active')
                       .filter(model.Group.is_organization.is_(True))
                       .filter(model.Group.name.notin_(non_approved))
-                      .join(model.GroupExtra, model.GroupExtra.group_id == model.Group.id)
-                      .filter(model.GroupExtra.key == 'title_translated')
+                      .outerjoin(model.GroupExtra, and_(model.GroupExtra.group_id == model.Group.id,
+                                                        model.GroupExtra.key == 'title_translated'))
                       .order_by(model.Group.title))
 
     # Optionally handle getting only organizations with datasets
     if with_datasets:
         ids_and_titles = (
                 ids_and_titles
-                .outerjoin(model.Package, and_(model.Package.private == false(),
+                .outerjoin(model.Package, and_(model.Package.type == 'dataset',
+                                               model.Package.private == false(),
                                                or_(model.Package.owner_org == model.Group.name,
                                                    model.Package.owner_org == model.Group.id)))
                 .group_by(model.Group.id, model.Group.title, model.GroupExtra.value)
@@ -726,7 +762,14 @@ def action_organization_tree_list(context, data_dict):
 
     # Pick translated title for each result
     lang = helpers.lang() or config.get('ckan.locale_default', 'en')
-    translated_titles_and_gids = (((json.loads(translated).get(lang) or title).lower(), gid)
+
+    def translated_or_title(translated, title):
+        if translated is not None:
+            return json.loads(translated)
+        else:
+            return {lang: title}
+
+    translated_titles_and_gids = ((translated_or_title(translated, title).get(lang, title).lower(), gid)
                                   for gid, title, translated in ids_and_titles)
 
     # Filter based on search query if provided
@@ -757,8 +800,11 @@ def action_organization_tree_list(context, data_dict):
                                 model.GroupExtra.value, sqlalchemy.func.count(sqlalchemy.distinct(model.Package.id)),
                                 parent_group.name, parent_group.title, parent_extra.value,
                                 sqlalchemy.func.count(sqlalchemy.distinct(child_group.id)))
-            .join(model.GroupExtra, model.GroupExtra.group_id == model.Group.id)
-            .outerjoin(model.Package, and_(model.Package.private == false(),
+            .outerjoin(model.GroupExtra, and_(model.GroupExtra.group_id == model.Group.id,
+                                              model.GroupExtra.key == 'title_translated',
+                                              model.GroupExtra.state == 'active'))
+            .outerjoin(model.Package, and_(model.Package.type == 'dataset',
+                                           model.Package.private == false(),
                                            or_(model.Package.owner_org == model.Group.name,
                                                model.Package.owner_org == model.Group.id)))
             .outerjoin(parent_member, and_(parent_member.group_id == model.Group.id,
@@ -770,15 +816,13 @@ def action_organization_tree_list(context, data_dict):
                                           child_member.table_name == 'group'))
             .outerjoin(child_group, child_group.id == child_member.group_id)
             .filter(model.Group.id.in_(page_ids))
-            .filter(model.GroupExtra.state == 'active')
-            .filter(model.GroupExtra.key == 'title_translated')
             .group_by(model.Group.id, model.Group.name,
                       model.Group.title, model.GroupExtra.value,
                       parent_group.name, parent_group.title, parent_extra.value)
             .all())
 
     page_results_by_id = {gid: {
-        'id': name, 'title': title, 'title_translated': json.loads(title_translated),
+        'id': name, 'title': title, 'title_translated': translated_or_title(title_translated, title),
         'package_count': package_count, 'parent_name': parent_name,
         'parent_title': parent_title, 'parent_title_translated': parent_title_translated,
         'child_count': child_count
@@ -816,7 +860,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
         return {'organization_create': auth.organization_create}
 
     def get_actions(self):
-        return {'user_create': action_user_create, 'organization_show': action_organization_show,
+        return {'user_create': action_user_create,
                 'organization_tree_list': action_organization_tree_list}
 
     def get_blueprint(self):
@@ -851,7 +895,6 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
         return [
             reports.administrative_branch_summary_report_info,
             reports.deprecated_datasets_report_info,
-            reports.harvester_report_info
         ]
 
     def update_config(self, config):
@@ -1029,7 +1072,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         parsed_url = urllib.parse.urlparse(current_url)
         for patterns, handler, selected in self._menu_map:
             for pattern in patterns:
-                if type(pattern) in types.StringTypes:
+                if type(pattern) in (str,):
                     values = {'language': language}
                     if c.user:
                         values['username'] = c.user
@@ -1071,7 +1114,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
         try:
             # Call our custom Drupal API to get drupal block content
-            hostname = config.get('ckan.site_url', '')
+            hostname = config.get('ckanext.drupal8.site_url') or config.get('ckan.site_url', '')
             domains = config.get('ckanext.drupal8.domain').split(",")
             verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
             cookies = {}
@@ -1086,7 +1129,9 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                         cookies.update({cookiename: cookie})
 
             snippet_url = '%s/%s/%s' % (hostname, lang, path)
-            response = requests.get(snippet_url, cookies=cookies, verify=verify_cert)
+            host = config.get('ckanext.drupal8.domain', '').split(',', 1)[0]
+            headers = {'Host': host}
+            response = requests.get(snippet_url, cookies=cookies, verify=verify_cert, headers=headers)
             return response.text
         except requests.exceptions.RequestException as e:
             log.error('%s' % e)
@@ -1126,13 +1171,13 @@ def helper_linked_user(user, maxlength=0, avatar=20):
         user_name = user.name
         user_displayname = user.display_name
     else:
-        user = model.User.get(six.text_type(user))
-        if not user:
-            return user_name
+        user_obj = model.User.get(six.text_type(user))
+        if not user_obj:
+            return user
         else:
-            user_id = user.id
-            user_name = user.name
-            user_displayname = user.display_name
+            user_id = user_obj.id
+            user_name = user_obj.name
+            user_displayname = user_obj.display_name
 
     if not model.User.VALID_NAME.match(user_name):
         user_name = user_id

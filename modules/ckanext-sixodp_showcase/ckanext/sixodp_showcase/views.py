@@ -68,9 +68,6 @@ class CreateView(views.CreateView):
             u'group_id'
         ] = request.args.get(u'group') or request.args.get(u'groups__0__id')
 
-        form_snippet = _get_pkg_template(
-            u'package_form', package_type=package_type
-        )
         form_vars = {
             u'data': data,
             u'errors': errors,
@@ -93,10 +90,9 @@ class CreateView(views.CreateView):
             new_template,
             extra_vars={
                 u'form_vars': form_vars,
-                u'form_snippet': form_snippet,
+                u'form_snippet': 'sixodp_showcase/package_form.html',
                 u'dataset_type': package_type,
                 u'resources_json': resources_json,
-                u'form_snippet': form_snippet,
                 u'errors_json': errors_json
             }
         )
@@ -180,9 +176,6 @@ class EditView(views.EditView):
                 h.dict_list_reduce(pkg_dict.get(u'tags', {}), u'name')
             )
         errors = errors or {}
-        form_snippet = _get_pkg_template(
-            u'package_form', package_type=package_type
-        )
         form_vars = {
             u'data': data,
             u'errors': errors,
@@ -212,12 +205,11 @@ class EditView(views.EditView):
             edit_template,
             extra_vars={
                 u'form_vars': form_vars,
-                u'form_snippet': form_snippet,
+                u'form_snippet': 'sixodp_showcase/package_form.html',
                 u'dataset_type': package_type,
                 u'pkg_dict': pkg_dict,
                 u'pkg': pkg,
                 u'resources_json': resources_json,
-                u'form_snippet': form_snippet,
                 u'errors_json': errors_json
             }
         )
@@ -254,6 +246,10 @@ def manage_datasets(id):
     return showcase_utils.manage_datasets_view(id)
 
 
+def manage_apisets(id):
+    return utils.manage_apisets_view(id)
+
+
 def delete(id):
     return showcase_utils.delete_view(id)
 
@@ -275,7 +271,7 @@ def upload():
 
 
 showcase = Blueprint(u'sixodp_showcase', __name__)
-showcase.add_url_rule('/showcase', view_func=search)
+showcase.add_url_rule('/showcase', view_func=search, strict_slashes=False)
 showcase.add_url_rule('/showcase/new', view_func=CreateView.as_view('new'))
 showcase.add_url_rule('/showcase/edit/<id>',
                       view_func=EditView.as_view('edit'),
@@ -287,6 +283,10 @@ showcase.add_url_rule('/showcase/delete/<id>',
 showcase.add_url_rule('/showcase/manage_datasets/<id>',
                       endpoint='showcase_manage_datasets',
                       view_func=manage_datasets,
+                      methods=[u'GET', u'POST'])
+showcase.add_url_rule('/showcase/manage_apisets/<id>',
+                      endpoint='manage_apisets',
+                      view_func=manage_apisets,
                       methods=[u'GET', u'POST'])
 showcase.add_url_rule('/dataset/showcases/<id>',
                       view_func=dataset_showcase_list,

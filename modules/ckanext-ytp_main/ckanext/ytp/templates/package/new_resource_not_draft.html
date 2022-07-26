@@ -1,0 +1,31 @@
+{% ckan_extends %}
+
+{% block pre_primary %}
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+        <h1 class="mb-0">
+            {% block page_heading %}
+                {% if dataset_type=='apiset' %}
+                    {{ _('Add new api') }}
+                {% else %}
+                    {{ _('Add data') }}
+                {% endif %}
+            {% endblock %}
+        </h1>
+        <div class="content-actions--resource">
+            {% block content_action %}
+                {{ super() }}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block primary_content %}
+    <article class="module">
+    <div class="module-content">
+        {% block primary_content_inner %}
+            {{ super() }}
+        {% endblock %}
+    </div>
+    </article>
+{% endblock %}
