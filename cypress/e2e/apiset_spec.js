@@ -33,6 +33,11 @@ describe('Apiset tests', function() {
     cy.visit('/');
   });
 
+  before(function(){
+    cy.reset_db();
+    cy.create_organization_for_user('apiset_test_organization', 'test-user', true);
+  })
+
   it('Create a new minimal api, edit it and delete it', function() {
     const apis_name = 'test_api';
     cy.create_new_apiset(apis_name);
