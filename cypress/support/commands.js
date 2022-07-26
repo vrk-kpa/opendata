@@ -93,6 +93,7 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
     Object.keys(form_data).forEach(function(field_selector){
         const field_value = form_data[field_selector];
         const field = cy.get(field_selector)
+
         if (field_value && typeof field_value === 'object') {
             const options = { force: field_value.force ? field_value.force : false };
             switch(field_value.type) {
@@ -375,9 +376,8 @@ Cypress.Commands.add('reset_db', () => {
 });
 
 Cypress.Commands.add('create_category', function (category_name) {
-
-
   cy.visit('/data/group');
+  
   cy.get('a[href="/data/group/new"]').contains("Lisää").click();
   cy.get('.slug-preview button').contains('Muokkaa').click();
   cy.get("input[name='name']").type(category_name);

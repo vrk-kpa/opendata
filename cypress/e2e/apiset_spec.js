@@ -6,22 +6,47 @@ describe('Dataset pre-test', function(){
   });
 
   //necessary to have an empty 'it' block so the before block won't be skipped
-  it('Pre-test functions', function(){
+  it.only('Pre-test functions', function(){
     //Empty
   });
 
 })
 
 describe('Apiset filtering', function(){
+
+  const apiset1_name = 'test_apiset_one';
+  const apiset2_name = 'test_apiset_two';
+  const apiset1_form_data = {
+    '#field-title_translated-fi': apiset1_name,
+    '#field-notes_translated-fi': 'test kuvaus',
+    '#s2id_autogen1': {type: 'select2', values: ['test one']},
+    '#field-license_id':{type: 'select', value: 'cc-by-sa'},
+    '#field-api_provider': 'Api Provider',
+    '#field-api_provider_email': 'test.provider@example.com',
+  }
+
+  const api1_form_data = {
+    '#field-name_translated-fi': 'test api',
+    '#field-image-url': 'http://example.com',
+    '#field-description_translated-fi': 'test kuvaus',
+    '#s2id_autogen1': {type: 'select2', values: ['Kuukausittain']},
+  }
+
   beforeEach(function () {
     cy.login_post_request('test-user', 'test-user')
     cy.visit('/');
   });
 
   before(function(){
-    
+    //create 2 apisets with different filter options
+    cy.login_post_request('test-user', 'test-user')
+    cy.visit('/');
+    cy.create_new_apiset(apiset1_name, apiset1_form_data, api1_form_data);
   })
 
+  it.only('Testing', function(){
+    //
+  })
 
 })
 
