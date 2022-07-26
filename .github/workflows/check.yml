@@ -88,12 +88,12 @@ jobs:
           //npm.fontawesome.com/:_authToken=$NPM_TOKEN
           EOT
           npm ci
-        working-directory: ./modules/ytp-assets-common
+        working-directory: ./opendata-assets
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: run stylelint
         run: $(npm bin)/stylelint "src/less"
-        working-directory: ./modules/ytp-assets-common
+        working-directory: ./opendata-assets
 
   slack:
     name: Slack notification
