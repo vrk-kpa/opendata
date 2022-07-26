@@ -1,11 +1,14 @@
 describe('Dataset tests', function() {
 
   beforeEach(function () {
-    cy.reset_db();
-    cy.create_organization_for_user('dataset_test_organization', 'test-user', true);
     cy.login_post_request('test-user', 'test-user')
     cy.visit('/');
     cy.get('nav a[href="/data/fi/dataset"]').click();
+  })
+
+  before(function(){
+    cy.reset_db();
+    cy.create_organization_for_user('dataset_test_organization', 'test-user', true);
   })
 
   it('Create a new minimal dataset, edit it and delete it', function() {

@@ -1,5 +1,14 @@
 
 beforeEach(function () {
+    cy.login_post_request('test-user', 'test-user')
+    cy.visit('/');
+    cy.get('nav a[href="/data/fi/dataset"]').click();
+    const dataset_name = 'test_dataset';
+    cy.get(`a[href="/data/fi/dataset/${dataset_name}"]`).click();
+    cy.get('.resource-item__info__title').click();
+  })
+
+before(function(){
     cy.reset_db();
     cy.create_organization_for_user('dataset_test_organization', 'test-user', true);
     cy.login_post_request('test-user', 'test-user')
@@ -9,7 +18,7 @@ beforeEach(function () {
     cy.create_new_dataset(dataset_name); 
     cy.get(`a[href="/data/fi/dataset/${dataset_name}"]`).click();
     cy.get('.resource-item__info__title').click();
-  })
+})
 
 it("Can't edit resource while not logged in", function() {
     cy.logout_request();
@@ -53,8 +62,17 @@ it('Test links', function(){
 });
 
 
-
+//Note! This edits a separate dataset so other tests won't be affected
 it('Test edit dataset name languages', function(){
+
+    cy.visit('/');
+    cy.get('nav a[href="/data/fi/dataset"]').click();
+    const dataset_name = 'test_edit_dataset';
+    cy.create_new_dataset(dataset_name); 
+    cy.get(`a[href="/data/fi/dataset/${dataset_name}"]`).click();
+    cy.get('.resource-item__info__title').click();
+
+
     cy.switch_language('fi');
     cy.get('.actions').find('a').contains('Muokkaa').click();
 

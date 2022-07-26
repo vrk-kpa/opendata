@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cypress:open": "cypress open",
-    "reset:db": "node ./bin/db_reset.js"
+    "reset:db": "node ./bin/db_reset.js",
+    "cypress:run": "cypress run"
   },
   "repository": {
     "type": "git",
@@ -22,9 +23,10 @@
   },
   "homepage": "https://github.com/vrk-kpa/opendata#readme",
   "devDependencies": {
-    "cypress": "^10.1.0"
+    "cypress": "^10.3.0"
   },
   "dependencies": {
+    "del": "^6.1.1",
     "pg": "^8.7.1"
   }
 }
