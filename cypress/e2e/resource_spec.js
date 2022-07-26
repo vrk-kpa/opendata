@@ -106,7 +106,6 @@ it('Test edit dataset name languages', function(){
 });
 
 
-//it.only('Finnish UI elements', function() {
 it('Finnish UI elements', function() {
     cy.switch_language('fi');
     const dataset_name = "test_dataset";
