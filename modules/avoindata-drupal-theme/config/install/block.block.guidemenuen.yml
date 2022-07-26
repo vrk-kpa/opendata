@@ -4,7 +4,6 @@ dependencies:
   config:
     - system.menu.guide-menu-en
   module:
-    - ctools
     - language
     - node
     - system
@@ -19,29 +18,34 @@ plugin: 'system_menu_block:guide-menu-en'
 settings:
   id: 'system_menu_block:guide-menu-en'
   label: 'User guide'
-  provider: system
   label_display: visible
+  provider: system
   level: 1
   depth: 0
+  expand_all_items: false
 visibility:
   'entity_bundle:node':
     id: 'entity_bundle:node'
-    bundles:
-      avoindata_guide_page: avoindata_guide_page
     negate: false
     context_mapping:
       node: '@node.node_route_context:node'
+    bundles:
+      avoindata_guide_page: avoindata_guide_page
   language:
     id: language
-    langcodes:
-      en: en
     negate: false
     context_mapping:
       language: '@language.current_language_context:language_interface'
+    langcodes:
+      en: en
   node_type:
     id: node_type
-    bundles:
-      avoindata_guide_page: avoindata_guide_page
     negate: false
     context_mapping:
       node: '@node.node_route_context:node'
+    bundles:
+      avoindata_guide_page: avoindata_guide_page
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/user-guide\r\n/user-guide/*"

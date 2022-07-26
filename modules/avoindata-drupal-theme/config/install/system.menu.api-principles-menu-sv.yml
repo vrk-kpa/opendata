@@ -1,0 +1,7 @@
+langcode: sv
+status: true
+dependencies: {  }
+id: api-principles-menu-sv
+label: 'API principles menu (sv)'
+description: 'Menu for API principles (sv)'
+locked: false

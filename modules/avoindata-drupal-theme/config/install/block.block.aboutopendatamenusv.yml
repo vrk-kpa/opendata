@@ -1,23 +1,24 @@
-langcode: sv
+uuid: 98739e66-140e-4919-a950-735356bffca2
+langcode: fi
 status: true
 dependencies:
   config:
-    - system.menu.guide-menu-sv
+    - system.menu.about-open-data-menu-sv
   module:
     - language
     - node
     - system
   theme:
     - avoindata
-id: guidemenusv
+id: aboutopendatamenusv
 theme: avoindata
 region: guide_menu
 weight: 0
 provider: null
-plugin: 'system_menu_block:guide-menu-sv'
+plugin: 'system_menu_block:about-open-data-menu-sv'
 settings:
-  id: 'system_menu_block:guide-menu-sv'
-  label: 'Bruksanvisningar'
+  id: 'system_menu_block:about-open-data-menu-sv'
+  label: 'Information om öppna data'
   label_display: visible
   provider: system
   level: 1
@@ -38,14 +39,7 @@ visibility:
       language: '@language.current_language_context:language_interface'
     langcodes:
       sv: sv
-  node_type:
-    id: node_type
-    negate: false
-    context_mapping:
-      node: '@node.node_route_context:node'
-    bundles:
-      avoindata_guide_page: avoindata_guide_page
   request_path:
     id: request_path
     negate: false
-    pages: "/bruksanvisningar\r\n/bruksanvisningar/*"
+    pages: "/information-om-oppna-data\r\n/information-om-oppna-data/*"

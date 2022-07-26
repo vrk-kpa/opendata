@@ -45,7 +45,7 @@ class AvoindataCategoriesHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
 
     try {
-      $response = $client->request('GET', 'http://localhost:8080/data/api/3/action/group_list?all_fields=true&include_extras=true');
+      $response = $client->request('GET', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/group_list?all_fields=true&include_extras=true');
       $result = Json::decode($response->getBody());
       $categories = $result['result'];
     } catch (\Exception $e) {

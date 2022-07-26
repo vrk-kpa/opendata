@@ -39,12 +39,13 @@ avoindata_header.news_fi:
   weight: 5
 
 avoindata_header.guide_fi:
-  title: 'Opas'
-  description: 'Opas'
+  title: 'Oppaat'
+  description: 'Oppaat'
   parent: main-fi
   menu_name: main-fi
-  url: 'internal:/fi/opas'
+  url: 'internal:/fi/kayttoohjeet'
   weight: 6
+  expanded: true
 
 avoindata_header.moreoptions_fi:
   title: 'Lisää'
@@ -96,12 +97,13 @@ avoindata_header.news_en:
   weight: 5
 
 avoindata_header.guide_en:
-  title: 'Guide'
-  description: 'Guide'
+  title: 'Guides'
+  description: 'Guides'
   parent: main-en
   menu_name: main-en
-  url: 'internal:/en/guide'
+  url: 'internal:/en/user-guide'
   weight: 6
+  expanded: true
 
 avoindata_header.moreoptions_en:
   title: 'More options'
@@ -145,20 +147,21 @@ avoindata_header.apps_sv:
   weight: 4
 
 avoindata_header.news_sv:
-  title: 'Aktuell'
-  description: 'Aktuell'
+  title: 'Aktuellt'
+  description: 'Aktuellt'
   parent: main-sv
   menu_name: main-sv
   url: 'internal:/sv/articles'
   weight: 5
 
 avoindata_header.guide_sv:
-  title: 'Guide'
-  description: 'Guide'
+  title: 'Guider'
+  description: 'Guider'
   parent: main-sv
   menu_name: main-sv
-  url: 'internal:/sv/guide'
+  url: 'internal:/sv/bruksanvisningar'
   weight: 6
+  expanded: true
 
 avoindata_header.moreoptions_sv:
   title: 'Mer'

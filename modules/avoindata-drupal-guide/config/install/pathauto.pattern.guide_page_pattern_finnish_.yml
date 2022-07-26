@@ -7,7 +7,7 @@ dependencies:
 id: guide_page_pattern_finnish_
 label: 'Guide Page pattern (Finnish)'
 type: 'canonical_entities:node'
-pattern: 'opas/[node:title]'
+pattern: 'kayttoohjeet/[node:title]'
 selection_criteria:
   f8ca3a75-8e82-4178-a617-4d4e19f58ff0:
     id: node_type

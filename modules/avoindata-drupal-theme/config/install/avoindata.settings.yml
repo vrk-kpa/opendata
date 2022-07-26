@@ -15,12 +15,12 @@
 cdn_provider: ''
 
 logo:
-  path: '/themes/avoindata/logo.png'
+  path: 'themes/avoindata/logo.png'
   use_default: false
 fluid_container: 1
 breadcrumb_home: 1  # Breadcrumb shows link to homepage
 breadcrumb_title: 0 # Title is actually shown in breadcrumb, but it is defined in easy_breadcrumb settings
 favicon:
   mimetype: image/vnd.microsoft.icon
-  path: /themes/avoindata/images/logo/favicon.ico
+  path: ../../resources/images/logo/favicon.ico
   use_default: false

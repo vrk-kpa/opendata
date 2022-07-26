@@ -48,7 +48,7 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
 
     try {
-      $datasetResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/package_search');
+      $datasetResponse = $client->request('POST', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/package_search');
       $datasetResult = Json::decode($datasetResponse->getBody());
       $datasetCount = $datasetResult['result']['count'];
     } catch (\Exception $e) {
@@ -71,7 +71,7 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
   {
     $client = \Drupal::httpClient();
     try {
-      $organizationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/organization_list');
+      $organizationResponse = $client->request('GET', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/organization_list');
       $organizationResult = Json::decode($organizationResponse->getBody());
       $organizationCount = count($organizationResult['result']);
     } catch (\Exception $e) {
@@ -95,7 +95,7 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
 
     try {
-      $applicationResponse = $client->request('GET', 'http://localhost:8080/data/api/3/action/ckanext_showcase_list');
+      $applicationResponse = $client->request('GET', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/ckanext_showcase_list');
       $applicationResult = Json::decode($applicationResponse->getBody());
       $applicationCount = count($applicationResult['result']);
     } catch (\Exception $e) {

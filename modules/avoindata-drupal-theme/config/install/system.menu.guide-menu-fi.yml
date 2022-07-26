@@ -1,0 +1,7 @@
+langcode: fi
+status: true
+dependencies: {  }
+id: guide-menu-fi
+label: 'Guide menu (fi)'
+description: 'Menu for guide page (fi)'
+locked: false

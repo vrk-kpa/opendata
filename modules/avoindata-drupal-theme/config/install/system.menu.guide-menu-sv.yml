@@ -1,0 +1,7 @@
+langcode: sv
+status: true
+dependencies: {  }
+id: guide-menu-sv
+label: 'Guide menu (sv)'
+description: 'Menu for guide page (sv)'
+locked: false

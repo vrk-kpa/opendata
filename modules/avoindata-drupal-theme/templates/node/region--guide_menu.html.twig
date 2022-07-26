@@ -3,14 +3,3 @@
         {{ content }}
     </div>
 </div>
-<form action="/{{ language }}/guide-search" id="guide-search-form">
-    <input type="search" id="guide-search-field"
-            maxlength="256" name="search_api_fulltext"
-            placeholder="{% trans %}Guide search{% endtrans %}" required="">
-
-    <button type="submit"class="button" id="guide-search-button">
-    {% trans %}
-    Search
-    {% endtrans %}
-    </button>
-</form>

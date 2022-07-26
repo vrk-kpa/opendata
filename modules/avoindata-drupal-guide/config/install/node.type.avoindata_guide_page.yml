@@ -6,9 +6,18 @@ dependencies:
 third_party_settings:
   menu_ui:
     available_menus:
+      - api-principles-menu-en
+      - api-principles-menu-fi
+      - api-principles-menu-sv
+      - about-open-data-menu-en
+      - about-open-data-menu-fi
+      - about-open-data-menu-sv
       - guide-menu-en
       - guide-menu-fi
       - guide-menu-sv
+      - operating-model-menu-en
+      - operating-model-menu-fi
+      - operating-model-menu-sv
     parent: 'guide-menu-fi:'
 _core:
   default_config_hash: TJ9-xPK8xacrOKUra0l2-DrLJz6nZO7nnq68pl_lT5E

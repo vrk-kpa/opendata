@@ -26,7 +26,7 @@ function avoindata_guide_install() {
 
   $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
     'path' => "/node/" . $node->id(),
-    'alias' => "/opas",
+    'alias' => "/kayttoohjeet",
     'langcode' => "fi"
   ]);
   $path_alias->save();
@@ -40,7 +40,7 @@ function avoindata_guide_install() {
 
   $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
       'path' => "/node/" . $node->id(),
-      'alias' => "/guide",
+      'alias' => "/user-guide",
       'langcode' => "en"
   ]);
   $path_alias->save();
@@ -52,7 +52,7 @@ function avoindata_guide_install() {
   $node_sv->save();
   $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
         'path' => "/node/" . $node->id(),
-        'alias' => "/guide",
+        'alias' => "/bruksanvisningar",
         'langcode' => "sv"
   ]);
   $path_alias->save();

@@ -18,6 +18,83 @@ function avoindata_preprocess_region(array &$variables) {
   $variables['language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
 }
 
+function avoindata_preprocess_block(&$variables) {
+  $linkMap = [
+    'aboutopendatamenuen' => [
+      'href' => '/en/about-open-data',
+      'class' => '',
+      'menucounter' => false,
+      ],
+    'aboutopendatamenufi' => [
+      'href' => '/fi/tietoa-avoimesta-datasta',
+      'class' => '',
+      'menucounter' => false,
+      ],
+    'aboutopendatamenusv' => [
+      'href' => '/sv/information-om-oppna-data',
+      'class' => '',
+      'menucounter' => false,
+      ],
+    'apiprinciplesmenuen' => [
+      'href' => '/en/api-principles',
+      'class' => '',
+      'menucounter' => false,
+      ],
+    'apiprinciplesmenufi' => [
+      'href' => '/fi/rajapintaperiaatteet',
+      'class' => '',
+      'menucounter' => false,
+      ],
+    'apiprinciplesmenusv' => [
+      'href' => '/sv/api-principer',
+      'class' => '',
+      'menucounter' => false,
+      ],
+    'guidemenuen' => [
+      'href' => '/en/user-guide',
+      'class' => '',
+      'menucounter' => false,
+      ],
+    'guidemenufi' => [
+      'href' => '/fi/kayttoohjeet',
+      'class' => '',
+      'menucounter' => false,
+      ],
+    'guidemenusv' => [
+      'href' => '/sv/bruksanvisningar',
+      'class' => '',
+      'menucounter' => false,
+      ],
+    'operatingmodelmenuen' => [
+      'href' => '/en/operating-model',
+      'class' => '',
+      'menucounter' => true,
+      ],
+    'operatingmodelmenufi' => [
+      'href' => '/fi/toimintamalli',
+      'class' => '',
+      'menucounter' => true,
+      ],
+    'operatingmodelmenusv' => [
+      'href' => '/sv/handlingsmodellen',
+      'class' => '',
+      'menucounter' => true,
+      ],
+  ];
+
+  if (array_key_exists($variables['elements']['#id'], $linkMap)) {
+    $currentLanguage = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $currentPathAlias = \Drupal::service('path_alias.manager')->getAliasByPath(\Drupal::service('path.current')->getPath());
+    $activeUrl = '/' . $currentLanguage . $currentPathAlias;
+
+    if ($activeUrl === $linkMap[$variables['elements']['#id']]['href']) {
+      $linkMap[$variables['elements']['#id']]['class'] = 'active';
+    }
+  }
+
+  $variables['link_map'] = $linkMap;
+}
+
 /**
  * Implements hook_views_pre_render().
  */
@@ -99,4 +176,17 @@ function avoindata_preprocess_menu(&$variables, $hook){
       $variables['items'][$key]['is_active'] = $navUrlInPath;
     }
   }
+}
+
+/**
+ * Implements hook_preprocess_node()
+ */
+function avoindata_preprocess_node(&$variables){
+  $dateFormats = [
+    'fi' => 'j.n.Y',
+    'sv' => 'j.n.Y',
+    'en' => 'n/j/Y',
+  ];
+  $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $variables['date_format'] = $dateFormats[$language];
 }

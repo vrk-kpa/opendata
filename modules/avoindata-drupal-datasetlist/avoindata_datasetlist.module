@@ -94,8 +94,9 @@ class AvoindataDatasetHandler implements TrustedCallbackInterface
   {
     $client = \Drupal::httpClient();
     try {
-      $recentDatasetsResponse = $client->request('GET',
-        'http://localhost:8080/data/api/action/package_search?sort=metadata_modified%20desc&facet.limit=1&rows=3'
+      $recentDatasetsResponse = $client->request('POST',
+        'http://' . getenv('NGINX_HOST') . '/data/api/action/package_search',
+        ['json' => ['sort' => 'metadata_modified desc', 'facet.limit' => 1, 'rows' =>3]]
       );
       $recentDatasetsResult = Json::decode($recentDatasetsResponse->getBody());
       $recentDatasets = $recentDatasetsResult['result']['results'];
@@ -116,8 +117,9 @@ class AvoindataDatasetHandler implements TrustedCallbackInterface
   {
     $client = \Drupal::httpClient();
     try {
-      $newDatasetsResponse = $client->request('GET',
-        'http://localhost:8080/data/api/action/package_search?sort=metadata_created%20desc&facet.limit=1&rows=3'
+      $newDatasetsResponse = $client->request('POST',
+        'http://' . getenv('NGINX_HOST') . '/data/api/action/package_search',
+        ['json' => ['sort' => 'metadata_created desc', 'facet.limit' => 1, 'rows' =>3]]
       );
       $newDatasetsResult = Json::decode($newDatasetsResponse->getBody());
       $newDatasets = $newDatasetsResult['result']['results'];
@@ -138,8 +140,9 @@ class AvoindataDatasetHandler implements TrustedCallbackInterface
   {
     $client = \Drupal::httpClient();
     try {
-      $popularDatasetsResponse = $client->request('GET',
-        'http://localhost:8080/data/api/action/package_search?sort=views_recent%20desc&facet.limit=1&rows=3'
+      $popularDatasetsResponse = $client->request('POST',
+        'http://' . getenv('NGINX_HOST') . '/data/api/action/package_search',
+        ['json' => ['sort' => 'views_recent desc', 'facet.limit' => 1, 'rows' =>3]]
       );
       $popularDatasetsResult = Json::decode($popularDatasetsResponse->getBody());
       $popularDatasets = $popularDatasetsResult['result']['results'];

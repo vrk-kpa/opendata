@@ -1,0 +1,7 @@
+langcode: sv
+status: true
+dependencies: {  }
+id: about-open-data-menu-sv
+label: 'About open data menu (sv)'
+description: 'Menu for About open data (sv)'
+locked: false

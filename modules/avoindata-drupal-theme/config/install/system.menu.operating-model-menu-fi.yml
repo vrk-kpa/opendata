@@ -1,0 +1,7 @@
+langcode: fi
+status: true
+dependencies: {  }
+id: operating-model-menu-fi
+label: 'Operating model menu (fi)'
+description: 'Menu for operating model (fi)'
+locked: false

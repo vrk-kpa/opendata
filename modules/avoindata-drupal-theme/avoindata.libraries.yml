@@ -2,21 +2,21 @@ global-styling:
   css:
     theme:
       css/style.css: {}
-      'vendor/@fortawesome/fontawesome/css/v4-shims.css': {preprocess: false}
+      '/resources/vendor/@fortawesome/fontawesome/css/v4-shims.css': {preprocess: false, type: external}
 bootstrap-scripts:
   js:
-    'vendor/bootstrap/js/affix.js': {}
-    'vendor/bootstrap/js/alert.js': {}
-    'vendor/bootstrap/js/button.js': {}
-    'vendor/bootstrap/js/carousel.js': {}
-    'vendor/bootstrap/js/collapse.js': {}
-    'vendor/bootstrap/js/dropdown.js': {}
-    'vendor/bootstrap/js/modal.js': {}
-    'vendor/bootstrap/js/tooltip.js': {}
-    'vendor/bootstrap/js/popover.js': {}
-    'vendor/bootstrap/js/scrollspy.js': {}
-    'vendor/bootstrap/js/tab.js': {}
-    'vendor/bootstrap/js/transition.js': {}
+    '/resources/vendor/bootstrap/js/affix.js': {preprocess: false, type: external}
+    '/resources/vendor/bootstrap/js/alert.js': {preprocess: false, type: external}
+    '/resources/vendor/bootstrap/js/button.js': {preprocess: false, type: external}
+    '/resources/vendor/bootstrap/js/carousel.js': {preprocess: false, type: external}
+    '/resources/vendor/bootstrap/js/collapse.js': {preprocess: false, type: external}
+    '/resources/vendor/bootstrap/js/dropdown.js': {preprocess: false, type: external}
+    '/resources/vendor/bootstrap/js/modal.js': {preprocess: false, type: external}
+    '/resources/vendor/bootstrap/js/tooltip.js': {preprocess: false, type: external}
+    '/resources/vendor/bootstrap/js/popover.js': {preprocess: false, type: external}
+    '/resources/vendor/bootstrap/js/scrollspy.js': {preprocess: false, type: external}
+    '/resources/vendor/bootstrap/js/tab.js': {preprocess: false, type: external}
+    '/resources/vendor/bootstrap/js/transition.js': {preprocess: false, type: external}
 avoindata-custom-elements:
   js:
     'js/avoindata_custom_elements.js': {}
@@ -26,6 +26,9 @@ avoindata-custom-elements:
     - core/drupal
 webfonts:
   css:
-    header: true
     base:
-      'css/fonts.css': {}
+      '/resources/styles/fonts.css': {preprocess: false}
+
+cycle-guide-menu-items:
+  js:
+    'js/cycle_guide_menu_items.js': {}

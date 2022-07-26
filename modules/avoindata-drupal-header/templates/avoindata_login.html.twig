@@ -1,20 +1,20 @@
 {% if not logged_in %}
   <div class="header-login-link">
-    <a href="{{ url('user.login') }}">
+    <a href="{{ path('user.login') }}">
       <i class="far fa-sign-in"></i>
       <span>{% trans %}Log in{%  endtrans %}</span>
     </a>
   </div>
   <div class="header-register-link">
-    <a href="{{ url('user.register') }}">
+    <a href="{{ path('user.register') }}">
       <span>{%  trans %}Register{% endtrans %}</span>
     </a>
   </div>
 {%  else %}
   <div class="header-profile-link">
-    <a href="{{ url('avoindata_header.ckanprofile') }}">
+    <a href="{{ path('avoindata_header.ckanprofile') }}">
       <span>{{avoindata_drupal_username}}</span>
-      <a href="{{ url('user.logout') }}">
+      <a href="{{ path('user.logout') }}">
         <span>{% trans %}Logout{% endtrans %}</span>
       </a>
     </a>
