@@ -1,12 +1,36 @@
+describe('Dataset pre-test', function(){
+
+  before(function(){
+    cy.reset_db();
+    cy.create_organization_for_user('apiset_test_organization', 'test-user', true);
+  });
+
+  //necessary to have an empty 'it' block so the before block won't be skipped
+  it('Pre-test functions', function(){
+    //Empty
+  });
+
+})
+
+describe('Apiset filtering', function(){
+  beforeEach(function () {
+    cy.login_post_request('test-user', 'test-user')
+    cy.visit('/');
+  });
+
+  before(function(){
+    
+  })
+
+
+})
+
+
 describe('Apiset tests', function() {
 
   beforeEach(function () {
-    cy.reset_db();
-    cy.create_organization_for_user('apiset_test_organization', 'test-user', true);
     cy.login_post_request('test-user', 'test-user')
     cy.visit('/');
-    // Apiset is not currently included in nav
-    // cy.get('nav a[href="/data/fi/apiset"]').click();
   });
 
   it('Create a new minimal api, edit it and delete it', function() {
@@ -112,6 +136,7 @@ describe('Apiset tests', function() {
     cy.visit('/data/fi/apiset/new');
     cy.get('button[name=save]').click();
     cy.get('.error-explanation');
+    cy.visit('/');
   });
 
   it('Cannot create apiset if logged out', function() {
