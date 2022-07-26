@@ -1,0 +1,13 @@
+diff --git a/ckan/config/middleware/flask_app.py b/ckan/config/middleware/flask_app.py
+index e69e0e0b4..903a0e4e4 100644
+--- a/ckan/config/middleware/flask_app.py
++++ b/ckan/config/middleware/flask_app.py
+@@ -8,6 +8,8 @@ import inspect
+ import itertools
+ import pkgutil
+ 
++import autodynatrace
++
+ from flask import Blueprint, send_from_directory
+ from flask.ctx import _AppCtxGlobals
+ from flask.sessions import SessionInterface

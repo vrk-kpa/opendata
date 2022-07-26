@@ -1,0 +1,12 @@
+diff --git a/ckan/public/base/vendor/webassets.yml b/ckan/public/base/vendor/webassets.yml
+index 45ea87b74..9641abb18 100644
+--- a/ckan/public/base/vendor/webassets.yml
++++ b/ckan/public/base/vendor/webassets.yml
+@@ -40,7 +40,6 @@ bootstrap:
+   output: vendor/%(version)s_bootstrap.js
+   extra:
+     preload:
+-      - vendor/font-awesome
+       - vendor/jquery
+   contents:
+     - bootstrap/js/bootstrap.js

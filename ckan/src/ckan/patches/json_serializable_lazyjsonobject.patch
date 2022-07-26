@@ -1,0 +1,14 @@
+diff --git a/ckan/lib/lazyjson.py b/ckan/lib/lazyjson.py
+index 54dd92428..beabc007b 100644
+--- a/ckan/lib/lazyjson.py
++++ b/ckan/lib/lazyjson.py
+@@ -30,6 +30,9 @@ class LazyJSONObject(RawJSON):
+             return u'<LazyJSONObject %r>' % self._json_string
+         return u'<LazyJSONObject %r>' % self._json_dict
+ 
++    def for_json(self):
++        return self._loads()
++
+     @property
+     def encoded_json(self):
+         if self._json_string:

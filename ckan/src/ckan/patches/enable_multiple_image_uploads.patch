@@ -1,0 +1,13 @@
+diff --git a/ckan/public/base/javascript/modules/image-upload.js b/ckan/public/base/javascript/modules/image-upload.js
+index b9bc56897..d41a75bef 100644
+--- a/ckan/public/base/javascript/modules/image-upload.js
++++ b/ckan/public/base/javascript/modules/image-upload.js
+@@ -77,7 +77,7 @@ this.ckan.module('image-upload', function($) {
+         .insertBefore(this.field_url_input);
+
+       // Update the main label (this is displayed when no data/image has been uploaded/linked)
+-      $('label[for="field-image-upload"]').text(options.upload_label || this._('Image'));
++      //$('label[for="field-image-upload"]').text(options.upload_label || this._('Image'));
+
+       // Setup the file input
+       this.input

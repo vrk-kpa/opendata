@@ -1,0 +1,22 @@
+diff --git a/ckan/public/base/javascript/modules/image-upload.js b/ckan/public/base/javascript/modules/image-upload.js
+index 49255b711..c5d55e840 100644
+--- a/ckan/public/base/javascript/modules/image-upload.js
++++ b/ckan/public/base/javascript/modules/image-upload.js
+@@ -158,7 +158,16 @@ this.ckan.module('image-upload', function($) {
+         return;
+       }
+ 
+-      this.label_location.text(label_text);
++      if (this.options.is_required) {
++        this.label_location.html(
++          "<span title=" +
++            this._("This field is required") +
++            "class='control-required'>* </span>" +
++            label_text
++        );
++      } else {
++        this.label_location.text(label_text);
++      }
+     },
+ 
+     /* Event listener for when someone sets the field to URL mode

@@ -1,0 +1,32 @@
+# ┌───────────── minute (0 - 59)
+# │ ┌───────────── hour (0 - 23)
+# │ │ ┌───────────── day of month (1 - 31)
+# │ │ │ ┌───────────── month (1 - 12)
+# │ │ │ │ ┌───────────── day of week (0 - 6) (Sunday to Saturday;
+# │ │ │ │ │                                       7 is also Sunday on some systems)
+# │ │ │ │ │
+# │ │ │ │ │
+# * * * * *  command to execute
+#
+# Redirecting the cron's commands output into the docker stdout and stderr
+# which are located respectively in /proc/1/fd/1 and /proc/1/fd/2
+#
+# NOTE: Please make sure this file is using LF line-endings, windows CRLF breaks it!
+#
+*   1   *       *   *   cd /srv/app && ./cron/scripts/matomo-fetch.sh > /proc/1/fd/1 2> /proc/1/fd/2
+*   3   */3     *   *   cd /srv/app && ./cron/scripts/archiver-update.sh > /proc/1/fd/1 2> /proc/1/fd/2
+*/5 *   *       *   *   cd /srv/app && ./cron/scripts/harvester-run.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   22  *       *   *   cd /srv/app && ./cron/scripts/ckan-refresh.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   2   *       *   *   cd /srv/app && ./cron/scripts/qa-update.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   5   *       *   *   cd /srv/app && ./cron/scripts/report-generate.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   9   *       *   *   cd /srv/app && ./cron/scripts/reminder-send.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   10  1       *   *   cd /srv/app && ./cron/scripts/archiver-notifications.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   13  *       *   *   cd /srv/app && ./cron/scripts/reminder-notify-expiry.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   12  *       *   *   cd /srv/app && ./cron/scripts/reminder-notify.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   9   *       *   *   cd /srv/app && ./cron/scripts/dataset-deprecations.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   11  *       *   *   cd /srv/app && ./cron/scripts/harvest-status-emails.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   11  *       *   *   cd /srv/app && ./cron/scripts/harvest-stuck-reports.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   8   *       *   *   cd /srv/app && ./cron/scripts/ckan-notifications.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   0   *       *   *   cd /srv/app && ./cron/scripts/prh-start.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   5   *       *   *   cd /srv/app && ./cron/scripts/prh-stop.sh > /proc/1/fd/1 2> /proc/1/fd/2
+0   22  28-31   *   *   cd /srv/app && ./cron/scripts/prh-clear.sh > /proc/1/fd/1 2> /proc/1/fd/2
