@@ -1,0 +1,3 @@
+User-agent: *
+Crawl-delay: 10
+{% if environ('NGINX_ROBOTS_ALLOW') == 'true' %}Allow: /{% else %}Disallow: /{% endif %}
