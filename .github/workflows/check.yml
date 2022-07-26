@@ -50,16 +50,16 @@ jobs:
           apt-get update &&  apt-get install -y zlib1g-dev libsqlite3-dev libpng-dev libzip-dev unzip git
           docker-php-ext-install gd
       - run: php -d memory_limit=-1 /usr/local/bin/composer install -n --prefer-dist
-        working-directory: ./ansible/roles/drupal/files/drupal8/
+        working-directory: ./drupal/
       - name: Ignore warnings on exit code
         run: ./vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
-        working-directory: ./ansible/roles/drupal/files/drupal8/
+        working-directory: ./drupal/
       - name: Run codesniffer for drupal standard
-        run: ./vendor/bin/phpcs --standard=Drupal $GITHUB_WORKSPACE/modules --ignore=ckanext*,ytp-assets-common
-        working-directory: ./ansible/roles/drupal/files/drupal8/
+        run: ./vendor/bin/phpcs --standard=Drupal $GITHUB_WORKSPACE/modules
+        working-directory: ./drupal
       - name: Run codesniffer for drupal practice
-        run: ./vendor/bin/phpcs --standard=DrupalPractice $GITHUB_WORKSPACE/modules --ignore=ckanext*,ytp-assets-common
-        working-directory: ./ansible/roles/drupal/files/drupal8/
+        run: ./vendor/bin/phpcs --standard=DrupalPractice $GITHUB_WORKSPACE/modules
+        working-directory: ./drupal
 
   stylelint:
     name: stylelint
