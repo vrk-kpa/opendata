@@ -1,0 +1,15 @@
+langcode: fi
+status: true
+dependencies: {  }
+id: anonymous
+label: 'Anonyymi käyttäjä'
+weight: 0
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'search content'
+  - 'services menu retrieve menu'
+  - 'use text format filtered_html'
+  - 'view disqus comments'

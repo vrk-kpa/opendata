@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+id: ckan_admin
+label: ckan_admin
+weight: 4
+is_admin: null
+permissions: {  }

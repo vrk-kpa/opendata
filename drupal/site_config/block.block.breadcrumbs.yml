@@ -1,0 +1,24 @@
+uuid: 14907830-26c5-426d-bf69-b42aa5bc9666
+langcode: fi
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - avoindata
+id: breadcrumbs
+theme: avoindata
+region: header
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  provider: system
+  label_display: visible
+visibility:
+  request_path:
+    id: request_path
+    pages: "/toimintamalli\r\n/toimintamalli/*\r\n/operating-model\r\n/operating-model/*\r\n/handlingsmodellen\r\n/handlingsmodellen/*\r\n/tietoa-avoimesta-datasta\r\n/tietoa-avoimesta-datasta/*\r\n/about-open-data\r\n/about-open-data/*\r\n/information-om-oppna-data\r\n/information-om-oppna-data/*\r\n/kayttoohjeet\r\n/kayttoohjeet/*\r\n/user-guide\r\n/user-guide/*\r\n/bruksanvisningar\r\n/bruksanvisningar/*\r\n/rajapintaperiaatteet\r\n/rajapintaperiaatteet/*\r\n/api-principles\r\n/api-principles/*\r\n/api-principer\r\n/api-principer/*"
+    negate: true

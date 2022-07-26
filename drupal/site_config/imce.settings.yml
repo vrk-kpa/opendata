@@ -1,0 +1,10 @@
+langcode: fi
+abs_urls: false
+admin_theme: false
+roles_profiles:
+  administrator:
+    public: admin
+  editor:
+    public: admin
+  publisher:
+    public: admin

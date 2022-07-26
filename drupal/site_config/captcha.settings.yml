@@ -1,0 +1,3 @@
+default_challenge: recaptcha/reCAPTCHA
+add_captcha_description: false
+default_validation: 1
