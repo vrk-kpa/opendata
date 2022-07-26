@@ -107,8 +107,8 @@ textarea {
 }
 
 .form-actions .control-required-message {
-    align-self: flex-start;
-    order: 2;
+    float: left;
+    margin-left: 20px;
     margin-bottom: 0;
     line-height: 30px;
     &:first-child {
@@ -135,20 +135,15 @@ textarea {
 
 @media (min-width: @screen-sm-min) {
     .form-actions .action-info {
+        float: left;
         width: 50%;
         margin-right: @grid-gutter-width/2;
     }
 }
 
 .form-actions .action-info.small {
-    order: 1;
     font-size: 11px;
     line-height: 1.2;
-}
-
-.form-actions .btn {
-    align-self: flex-end;
-    order: 3;
 }
 
 @media (max-width: @screen-sm-max) {
@@ -158,14 +153,14 @@ textarea {
 }
 
 // Override the default form widths.
-.form-horizontal .control-label {
-    width: 120px;
-}
-@media (min-width: @screen-sm-min) {
-    .form-horizontal .controls {
-        margin-left: 130px;
-    }
-}
+// .form-horizontal .control-label {
+//     width: 120px;
+// }
+// @media (min-width: @screen-sm-min) {
+//     .form-horizontal .controls {
+//         margin-left: 130px;
+//     }
+// }
 .form-group .info-block {
     position: relative;
     display: block;
@@ -601,17 +596,6 @@ select[data-module="autocomplete"] {
     margin-left: 10px;
 }
 
-@media (max-width: @screen-xs-max) {
-    .module-content {
-        padding: 5px;
-    }
-    .slug-preview {
-        .slug-preview-value {
-            display: block;
-        }
-    }
-}
-
 .slug-preview-value {
     background-color: #faedcf;
     margin-right: 3px;
@@ -767,6 +751,12 @@ select[data-module="autocomplete"] {
         .icon-remove {
             margin-right: 0;
         }
+    }
+
+    .error-inline {
+      margin-top: 5px;
+      margin-left: 2px;
+      font-weight: bold;
     }
 }
 

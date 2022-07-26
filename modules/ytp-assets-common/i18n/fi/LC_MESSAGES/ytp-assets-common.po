@@ -3,9 +3,9 @@
 # Translators:
 # Ilja Pyykkönen, 2014
 # Ilja Pyykkönen, 2014
-# jpaakko <jari.paakko@gofore.com>, 2014
+# jpaakko <jari.paakko@gmail.com>, 2014
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
-# jpaakko <jari.paakko@gofore.com>, 2014
+# jpaakko <jari.paakko@gmail.com>, 2014
 # Peter Kronström <peter.kronstrom@gofore.com>, 2015
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 msgid ""

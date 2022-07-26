@@ -60,6 +60,13 @@
     }
 }
 
+.nav-item.active>a span,
+.nav-aside li.active a span {
+    white-space: nowrap;
+    overflow: hidden;
+    // display: block;
+}
+
 .module-narrow .nav-item>a,
 .module-narrow .nav-aside li a {
     padding-left: @gutterSmallX;
@@ -102,12 +109,11 @@
 
 .nav-facet .nav-item>a:hover:after {
     .ckan-icon-circle-add;
-    right: -15px;
 }
 
 .nav-facet .nav-item.active>a:after {
     .ckan-icon-circle-cross;
-    right: -15px;
+    right: 3px;
 }
 
 .user-list {
@@ -115,9 +121,9 @@
     li {
         margin: 0 0 10px 0;
     }
-    .gravatar {
-        vertical-align: -4px;
+    .user-image {
         margin-right: 3px;
+        margin-bottom: 3px;
         .border-radius(100px);
     }
 }

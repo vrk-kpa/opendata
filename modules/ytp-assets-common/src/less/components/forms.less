@@ -14,7 +14,9 @@
 // ------------------------
 .form-control {
   border: 1px solid @opendata-ckan-unhighlight;
-  font-size: 14px;
+  border-radius: @border-radius__input;
+  border-color: @border-color__input;
+  padding: @padding-y__input @padding-x__input;
 
   &[type="file"] {
     height: auto;
@@ -50,6 +52,29 @@
   overflow: inherit;
   display: flex;
   flex-direction: column-reverse;
+
+  .btn {
+    align-self: flex-end;
+
+    &.btn-danger {
+      align-self: flex-start;
+    }
+  }
+}
+
+.control-required-message {
+  align-self: flex-start;
+  font-size: @font-size-slightly-smaller-base;
+  color: @suomi-depthDark27;
+
+  span.control-required,
+  .control-required {
+    &,
+    .page-container & {
+      float: none;
+      color: inherit;
+    }
+  }
 }
 
 label.control-label,
@@ -141,6 +166,8 @@ label.group-label {
 
 .search-form {
   padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
 
   .search-input {
     &.search-giant {
@@ -148,6 +175,28 @@ label.group-label {
         margin-top: -14px;
       }
     }
+
+    button i {
+      color: @color--black;
+    }
+  }
+
+  .filter-list {
+    margin: 0;
+    margin-left: @padding-x--common;
+  }
+
+  .search-form__result-summary {
+    margin-top: @padding-y--common;
+    padding: @padding-y--common @padding-x--common;
+    background-color: @background-color__content;
+    border: 1px solid @opendata-brand-border-gray;
+  }
+
+  .search-form__result-text {
+    font-size: @font-size-h3-alt;
+    line-height: @line-height-h3-alt;
+    font-weight: @font-weight-normal;
   }
 }
 
@@ -158,9 +207,10 @@ label.group-label {
   .search-header {
     border: 1px solid @suomi-depthLight13;
     border-bottom: 0;
-    padding: 20px;
+    padding: @padding-y--common;
     display: flex;
     background-color: @background-color__content;
+    margin-top: @padding-y--common;
   }
 
   .search-result-count {
@@ -366,6 +416,11 @@ fieldset.checkboxes {
     box-shadow: 0 0 3px 0 @suomi-highlightBase;
     outline: 0;
   }
+}
+
+// Frontpage search bar container
+.ytp-bg-highlight-base {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 // Frontpage search bar input.
@@ -656,6 +711,7 @@ label.control-label {
   .form-actions {
     flex-direction: row;
     justify-content: start;
+    align-items: center;
 
     .suomifi-button-primary {
       margin-left: auto;
@@ -663,6 +719,19 @@ label.control-label {
 
     .suomifi-button-secondary {
       margin-right: 20px;
+    }
+
+    .form-actions__delete {
+      font-family: @font-family-sans-serif-semibold;
+      font-weight: @font-weight-heavier;
+      padding: @padding-y__button @padding-x__button;
+    }
+    
+    .form-actions__delete,
+    .form-actions__save,
+    .form-actions__close {
+      margin-left: (@grid-gutter-width--bootstrap / 4);
+      margin-right: (@grid-gutter-width--bootstrap / 4);
     }
   }
 
@@ -857,5 +926,22 @@ td.selectable-row {
 .form-group {
   .input-group-addon {
     border-radius: 0;
+  }
+}
+
+.dataset-form,
+.group-form {
+  .page-container {
+    margin-top: 0;
+  }
+}
+
+.slug-preview--custom {
+  margin-top: 0;
+  margin-left: 0;
+  margin-bottom: @grid-gutter-width--bootstrap / 2;
+
+  .slug-preview-value {
+    background-color: @suomi-accentSecondaryLight40;
   }
 }

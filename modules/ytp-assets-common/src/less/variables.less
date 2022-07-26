@@ -1,9 +1,11 @@
-@import (reference) "../../../../node_modules/bootstrap/less/variables";
+@import (reference) "bootstrap/less/variables";
 @import "./variables/fonts";
 @import "./variables/palette";
 @import "./variables/spacing";
 @import "./variables/transition";
 @import "./variables/components/form.less";
+@import "./variables/components/menu.less";
+@import "./variables/components/showcase.less";
 
 // NOTE: these should be used with @media (max-width: @breakpoints.xs)
 // not min-width.
@@ -15,7 +17,7 @@
 
 @opendata-container-max-width: 1110px;
 @opendata-categories-container-max-width: 1500px;
-@background-hero-image: url("/themes/avoindata/images/logo/opendata.svg");
+@background-hero-image: url("/resources/images/logo/opendata.svg");
 
 // Bootstrap: Alerts
 @alert-padding: 8px;
@@ -92,7 +94,7 @@
 @navbar-inverse-link-color: @opendata-brand-decorative;
 @navbar-color-background: @opendata-brand-primary;
 @navbar-color-links: @color--black;
-@navbar-height: 50px;
+@navbar-height: 67px;
 @navbar-responsive-toggle-background: #000;
 
 @infowell-color-dark: #175971;
@@ -132,7 +134,7 @@
 
 //Dropdown menu hover color that comes to the left border
 //used at least on Frontpage dropdown and guide page dropdown menu
-@menu-hover-border-color: #002e90;
+@menu-hover-border-color: @opendata-brand-primary;
 
 @dataset-count-text-color: #c6c6c6;
 @organization-count-header-color: #c6c6c6;

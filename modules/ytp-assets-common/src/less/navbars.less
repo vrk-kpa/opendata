@@ -1,4 +1,4 @@
-@import "../../../../node_modules/bootstrap/less/variables.less";
+@import "bootstrap/less/variables.less";
 @import "variables.less";
 @import "mixins/mixins.less";
 
@@ -300,9 +300,13 @@ End of dropdown CSS
 //
 #second-navbar {
   background-color: @navbar-background;
-  min-height: @navbar-height;
+  min-height: auto;
   border-top: @navbar-border;
   border-bottom: @navbar-border;
+
+  .navbar {
+    min-height: auto;
+  }
 
   .navbar-header {
     float: left;
@@ -347,7 +351,7 @@ End of dropdown CSS
 
   li {
     a {
-      margin-right: 5px;
+      margin: 0;
       padding-top: @padding-x__navigation;
       // Because border-bottom adds "padding" to bottom, subtract border-width from bottom padding
       padding-bottom: @padding-x__navigation - @border-width__navigation;
@@ -361,6 +365,12 @@ End of dropdown CSS
           position: absolute;
           border-bottom: @border-width__navigation solid @border-bottom-color__main-nav--active;
         }
+      }
+
+      // Bit of a hack to not make the nav go crazy on resize.
+      @media (max-width: 1155px) {
+        padding-left: 10px;
+        padding-right: 10px;
       }
     }
   }
@@ -377,12 +387,12 @@ End of dropdown CSS
     }
   }
 
-  // Bit of a hack to not make the nav go crazy on resize.
-  @media (max-width: 1155px) {
-    li {
-      a {
-        margin: 5px 5px 5px 5px;
-        padding: 5px 5px 5px 5px;
+  .dropdown {
+    .dropdown-menu {
+      li {
+        a {
+          border-bottom: none;
+        }
       }
     }
   }
@@ -400,6 +410,8 @@ End of dropdown CSS
 
     .dropdown.open > .dropdown-menu > li > a {
       color: @navbar-color-links;
+      margin: 0;
+      border: none;
       font-size: 18px;
     }
   }
@@ -417,8 +429,8 @@ End of dropdown CSS
     }
 
     .dropdown.open > .dropdown-menu > li > a {
-      margin-right: 0;
-      margin-bottom: 1px;
+      margin: 0;
+      border: none;
       font-size: 18px;
       padding: 15px 22px 15px 16px;
       border-left: 10px solid transparent;
@@ -593,5 +605,5 @@ End of dropdown CSS
 }
 
 .nav-link-selected {
-  background-color: @nav-link-selected-color;
+  border-left: @border-width__navigation solid @sidebar-block-color-header;
 }

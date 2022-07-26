@@ -1,4 +1,5 @@
 @import "../variables";
+@import "../variables/fonts";
 
 // ------------------
 // Main layout styles
@@ -9,7 +10,7 @@ body {
   .flex-direction(column);
 
   min-height: 100vh;
-  background-color: @background-color__body;
+  background: @background-color__body;
 
   a {
     word-break: break-word;
@@ -53,6 +54,10 @@ body {
 }
 
 .wrapper {
+  &::before {
+    content: none;
+  }
+
   @media (min-width: @screen-sm-min) {
     &::before {
       border-right: transparent;
@@ -65,26 +70,6 @@ body {
   .dataset > .row.equal {
     .flex-display(flex);
     .flex-wrap(wrap);
-  }
-}
-
-.context-info .module-content {
-  padding: 0;
-}
-
-#content > .wrapper > .primary {
-  padding-left: 45px;
-
-  > .module > .module-content {
-    padding-top: 32px;
-  }
-
-  &:first-child > .module > .module-content {
-    padding-left: 0;
-  }
-
-  &:last-child > .module > .module-content {
-    padding-right: 0;
   }
 }
 
@@ -113,10 +98,6 @@ body {
 
   .container > h1 {
     margin-top: 0;
-  }
-
-  .module-content {
-    padding: 0;
   }
 }
 
@@ -154,10 +135,6 @@ body {
   .controls input {
     border: 1px solid @suomi-depthLight13;
   }
-}
-
-.primary .module-content {
-  padding-top: 0;
 }
 
 .suomifi-button-text {
@@ -214,7 +191,17 @@ body {
 .suomifi-button-secondary-black-text {
   .suomifi-button-secondary;
 
+  font-family: @font-family-sans-serif;
   color: rgb(41, 41, 41);
+  border: solid 1px #c8cdd0;
+  font-weight: 400;
+  font-size: 18px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  span {
+    margin-right: 30px;
+  }
 
   i {
     margin-left: 8px;
@@ -326,12 +313,46 @@ body {
   }
 }
 
-.sidebar ~ .primary {
-  .page-container {
-    margin-top: 0;
+.module-content {
+  padding: 0 15px;
+}
+
+
+.prelude{
+  .admin-banner {
+    margin-top: 20px;
+    a {
+      margin: 0;
+    }
+
+    a + a {
+      margin-left: 10px;
+    }
   }
 
-  > .module > .module-content:not(#just-increase-specificity) {
-    padding-top: 0;
+  .nav.nav-tabs{
+    li {
+      a {
+        font-family: @font-family-sans-serif;
+        font-weight: normal;
+        font-size: 18px;
+      }
+
+      &.active,
+      &:hover {
+        a {
+          border: none;
+          background-color: inherit;
+          border-bottom: 5px solid @border-bottom-color__main-nav--active
+        }
+      }
+    }
+  }
+}
+
+.primary {
+  &.primary--no-padding-x {
+    padding-left: 0;
+    padding-right: 0;
   }
 }

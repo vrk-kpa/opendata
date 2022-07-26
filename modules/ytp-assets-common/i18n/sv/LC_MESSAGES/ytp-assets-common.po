@@ -2,17 +2,18 @@
 # 
 # Translators:
 # Alexis Troberg <alexis.troberg@gofore.com>, 2015
-# jpaakko <jari.paakko@gofore.com>, 2014
+# jpaakko <jari.paakko@gmail.com>, 2014
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
-# jpaakko <jari.paakko@gofore.com>, 2014
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
+# jpaakko <jari.paakko@gmail.com>, 2014
 # Peter Kronström <peter.kronstrom@gofore.com>, 2015
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ytp\n"
 "POT-Creation-Date: 2014-01-03 15:16+0200\n"
-"PO-Revision-Date: 2017-09-23 19:36+0000\n"
-"Last-Translator: Alexis Troberg <alexis.troberg@gofore.com>\n"
+"PO-Revision-Date: 2020-08-19 11:14+0000\n"
+"Last-Translator: Jonna Jantunen <jonna.jantunen@vrk.fi>\n"
 "Language-Team: Swedish (http://www.transifex.com/avoindata/ytp/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,13 +34,13 @@ msgid "Home"
 msgstr "Framsida"
 
 msgid "Datasets"
-msgstr "Dataset"
+msgstr "Datamängder"
 
 msgid "Organizations"
 msgstr "Organisationer"
 
 msgid "Publish Datasets"
-msgstr "Publicera dataseten"
+msgstr "Publicera datamängden"
 
 msgid "News"
 msgstr "Aktuellt"

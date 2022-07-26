@@ -815,6 +815,10 @@ p:last-child,
 
 // Card container that has been used for articles and article views
 .avoindata-card-container {
+  background-color: @background-color__content;
+  border: 1px solid @border-color__content;
+  padding: @padding-y--common @padding-x--common;
+
   .opendata-card {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -1038,6 +1042,13 @@ p:last-child,
   overflow-wrap: break-word;
   hyphens: auto;
 
+  &::before,
+  &::after {
+    content: ' ';
+    display: block;
+    clear: both;
+  }
+
   .row {
     margin: 0;
   }
@@ -1223,6 +1234,41 @@ p:last-child,
   }
 }
 
+// Guide page arrowbox
+.arrow-box {
+  position: relative;
+  background: #2A6EBB;
+  height: 125px;
+  text-align: center;
+  margin-bottom: 20px;
+
+  h1 {
+    margin: 0;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: @font-family-sans-serif-semibold;
+    font-weight: 600;
+  }
+}
+
+.arrow-box:after {
+  top: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: "";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(42, 110, 187, 0);
+  border-top-color: #2A6EBB;
+  border-width: 15px;
+  margin-left: -15px;
+}
+
 // Guide page
 .avoindata-guide-container {
   max-width: @opendata-container-max-width;
@@ -1234,12 +1280,8 @@ p:last-child,
   overflow-wrap: break-word;
   hyphens: auto;
 
-  .row {
-    margin: 0;
-  }
-
   .guide-content {
-    overflow: auto;
+    overflow: visible;
 
     img {
       max-width: 100%;

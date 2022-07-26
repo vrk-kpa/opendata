@@ -9,33 +9,44 @@
     line-height: 1;
     width: auto;
     height: auto;
-    right: 5px;
+    right: @padding-x--common;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     margin-top: 0;
   }
 
-  //Plus icon (fa-plus-circle)
+  .nav-item,
+  .nav-item.active {
+    a {
+      font-size: @font-size-slightly-smaller-base;
+      font-weight: @font-weight-normal;
+    }
+  }
+
+  //Plus icon (fa-plus)
   .nav-item:hover {
     > a {
       &:hover::after,
       &::after {
         background-image: none;
-        content: "\f055";
         font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+        font-weight: @font-weight-light;
+        content: "\f067";
         color: @suomi-highlightBase;
-        font-weight: @font-weight-heavier;
+        font-size: @font-size__facet-icon;
       }
     }
   }
 
-  //Cross icon (fa-times-circle)
+  //Minus icon (fa-minus)
   .nav-item.active > a::after,
   .nav-item.active:hover > a::after {
     background-image: none;
-    content: "\f057";
     font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
-    color: @suomi-blackBase;
+    font-weight: @font-weight-light;
+    content: "\f068";
+    color: @suomi-highlightBase;
+    font-size: @font-size__facet-icon;
   }
 }

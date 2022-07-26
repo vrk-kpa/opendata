@@ -64,6 +64,7 @@
 /*
  * Text colors
  */
+@color--dark-black: #222222;
 @color--black: #292929;
 @color--white: #fff;
 @color--light-grey: #6d787e;
@@ -117,11 +118,26 @@
 /**
  * Tables
  */
-@table-bg-accent: #f7f7f8;
-@table-border-color: #c8cdd0;
+@table-bg-accent: @suomi-depthLight30;
+@table-border-color: @suomi-depthLight13;
 
 /**
  * Navbars
  */
 @border-bottom-color__main-nav--active: @opendata-brand-primary;
-@navbarInverseBackgroundHighlight: #222222;
+@navbarInverseBackgroundHighlight: @color--dark-black;
+
+/**
+ * Guide menu
+ */
+@background-color__submenu: rgba(234, 242, 250, 0.5);
+
+/*
+* Custom elements
+*/
+@background-color__expander: #f6f9fc;
+@background-color__expander--open: @color--white;
+@border-color__expander: #ecedee;
+@box-shadow-color__expander: rgba(41, 41, 41, 0.1);
+@background-color__dropzone: #f6f9fc;
+@background-color__dropzone--hover: #e2ebf6;

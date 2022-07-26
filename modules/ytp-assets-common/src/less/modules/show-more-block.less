@@ -2,25 +2,15 @@
   &.show-less {
     position: relative;
     overflow: hidden;
-
-    &::after {
-      content: " ";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 10;
-      background: linear-gradient(transparent, @background-color__content);
-      height: @padding-y--common * 2;
-    }
   }
 }
 
 .show-more-block__btn {
   position: relative;
   z-index: 11;
-  padding-left: 0;
-  padding-right: 0;
+  padding: @padding-y__button @padding-x__button;
+  // To match buttons left side with content when not focused
+  margin-left: -@padding-x__button;
   transition: color @transition-duration--short @transition-timing-function--default;
   color: @opendata-brand-primary;
 

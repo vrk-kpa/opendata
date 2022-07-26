@@ -1,5 +1,5 @@
 .avoindata-guide-container .secondary {
-  padding-top: 15px;
+  background-color: transparent;
 }
 
 #guide-search-form {
@@ -34,25 +34,31 @@
   text-decoration: none;
 }
 
-#guide-page {
-  background-color: #fafafa;
-}
-
 #guide-page > .avoindata-guide-container {
-  background-color: #fff;
-  border: 1px solid #ced2d5;
   padding-top: 0;
   margin-top: 15px;
   margin-bottom: 15px;
+  background: none;
+  border: none;
+
+  @media (min-width: @screen-md-min) {
+    .col--guide-left {
+      padding-right: 40px;
+    }
+
+    .col--guide-right {
+      padding-left: 0;
+    }
+  }
 }
 
 #guide-header {
-  margin: 0 0 24px 0;
+  margin: 0 0 20px 0;
   color: @new-layout-primary-text-color;
   font-family: @font-family-sans-serif;
-  font-size: 40px;
-  font-weight: @font-weight-light;
-  line-height: 48px;
+  font-size: @font-size__module-h1;
+  font-weight: @font-weight-heavier;
+  line-height: @line-height__module-title;
 }
 
 .guide-content {
@@ -67,6 +73,51 @@
   margin-bottom: 27px;
 }
 
-.guide-content p:last-child {
-  margin-bottom: 17px;
+.guide-cycle-btn-container {
+  background-color: rgb(41, 110, 187);
+  margin: auto;
+  padding: 10px;
+  display: flex;
+
+  a {
+    color: rgb(255,255,255);
+    text-decoration: underline;
+    max-width: 50%;
+    position: relative;
+
+    i {
+      position: absolute;
+      top: 5px;
+    }
+
+    &:first-of-type {
+      margin-right: auto;
+      text-align: left;
+      padding-left: 29px;
+
+      i {
+        left: 0;
+      }
+    }
+
+    &:last-of-type {
+      margin-left: auto;
+      text-align: right;
+      padding-right: 29px;
+
+      i {
+        right: 0;
+      }
+    }
+  }
+
+  i {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}
+
+.post-date {
+  color: @suomi-depthDark27;
+  font-size: @font-size-slightly-smaller-base;
 }

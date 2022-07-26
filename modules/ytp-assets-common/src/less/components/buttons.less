@@ -1,5 +1,29 @@
 @import '../variables';
 
+.btn {
+  height: auto;
+  border-radius: @border-radius__button;
+  padding: @padding-y__button @padding-x__button;
+  
+  &.btn-outline-primary {
+    background: transparent;
+    border-width: 1px;
+    border-color: @opendata-brand-primary;
+    color: @opendata-brand-primary;
+
+    &:hover {
+      border-color: @opendata-brand-primary--highlight;
+      color: @opendata-brand-primary--highlight;
+    }
+  }
+}
+
+.btn-light {
+  background-color: @color--white;
+  border: 1px solid @suomi-highlightBase;
+  color: @suomi-highlightBase;
+}
+
 .suomi-button {
   height: 38px;
   padding: 0 20px;
@@ -154,9 +178,7 @@
 .form-actions .btn-danger {
   margin-right: 5px;
   align-self: flex-start;
-  &:not(:only-child) {
-    margin-top: -34px;
-  }
+  margin-top: -34px;
 }
 
 .page_primary_action .btn-primary {
@@ -170,5 +192,16 @@
     color: @btn-dark-bg;
     border-color: transparent;
     font-size: 17px;
+  }
+}
+
+.admin-banner {
+
+  // Use suomi designs without changing classes in templates
+  .btn {
+    .suomi-button;
+  }
+  .btn-primary {
+    .suomi-button.suomi-button-primary;
   }
 }

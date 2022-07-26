@@ -1,53 +1,67 @@
 @import '../variables.less';
 
-.pagination > li {
-  display: inline-block;
+.pagination-wrapper {
+  border: none;
+}
 
-  &.active {
+.pagination {
+  display: flex;
+  justify-content: center;
+  border-radius: 0;
+  border: none;
+
+  > li {
+    position: relative;
+    border: 1px solid @suomi-depthLight13;
+    border-radius: 0;
+    margin-left: -1px;
+
+    a,
     button {
-      color: @suomi-whiteBase;
-      background-color: @suomi-highlightBase;
-      border-color: @suomi-highlightBase;
+      background-color: @background-color__content;
+      color: @opendata-brand-primary;
+      display: block;
+      float: none;
+      margin: 0;
+      border: none;
+      padding: @padding-y__pagination__item @padding-x__pagination__item;
+    }
 
-      &:hover {
-        background-color: @suomi-highlightLight4;
-      }
-
-      &:focus {
-        background-color: @suomi-highlightBase;
-        box-shadow: 0 0 10px @suomi-accentBase;
+    &:hover {
+      a,
+      button {
+        background-color: @background-color__body;
       }
     }
-  }
 
-  a,
-  span {
-    border: 0;
-  }
+    &.active {
+      border-color: @opendata-brand-primary;
+      z-index: 2;
 
-  button {
-    color: @suomi-highlightBase;
-    cursor: pointer;
-    background-color: transparent;
-    border-color: transparent;
-    border-style: none;
-    padding: 6px 12px;
+      a,
+      button {
+        color: @color--white;
+        background-color: @opendata-brand-primary;
 
-    &:hover,
-    &:focus {
-      background-color: @suomi-depthLight26;
+        &:hover {
+          background-color: @suomi-highlightLight4;
+        }
+
+        &:focus {
+          background-color: @suomi-highlightBase;
+          box-shadow: 0 0 10px @suomi-accentBase;
+        }
+      }
     }
-  }
 
-  &:last-of-type button {
-    border-radius: 0 3px 3px 0;
-  }
-
-  &:first-of-type button {
-    border-radius: 3px 0 0 3px;
-  }
-
-  &:only-child button {
-    border-radius: 3px;
+    &:first-child,
+    &:last-child {
+      a {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
   }
 }

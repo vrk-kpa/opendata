@@ -3,6 +3,8 @@
 .dataset-list {
   padding: 0;
   background-color: @background-color__content;
+  // @NOTE: To make top border of first item in search list overlapping with result text border
+  margin-top: -1px;
 }
 
 .dataset-item {
@@ -14,14 +16,8 @@
 
   &:last-of-type {
     border-bottom: 1px solid @opendata-brand-border-gray;
-  }
-
-  .dataset-content {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    color: #6e6e6e;
-    font-size: 14px;
-    font-family: @font-family-sans-serif-semibold;
+    // @NOTE: This is needed as otherwise ckan styles overwrites it with zero bottom padding
+    padding-bottom: @padding-y--common;
   }
 
   .dataset-heading {
@@ -31,10 +27,8 @@
     line-height: 28px;
     color: @new-layout-secondary-text-color;
     margin-top: 0;
-    margin-bottom: 9px;
+    margin-bottom: @margin-bottom-h3;
     word-break: break-word;
-    max-height: 56px;
-    overflow: hidden;
 
     a {
       color: @new-layout-secondary-text-color;
@@ -52,6 +46,7 @@
     font-weight: normal;
     line-height: 27px;
     color: @new-layout-primary-text-color;
+    margin-bottom: @padding-y--common;
   }
 
   .dataset-item-organization {
@@ -74,10 +69,9 @@
   float: left;
 }
 
-.private,
-.draft,
-.deleted {
-  float: right;
+.collection-type {
+  margin-left: auto;
+  margin-right: 0;
   color: @suomi-whiteBase;
   text-transform: uppercase;
   font-size: @font-size-smaller-base;
@@ -86,9 +80,8 @@
   text-align: center;
   background: @opendata-brand-blue;
   border: 1px solid @opendata-brand-blue;
-  height: 28px;
-  padding: 3px 7px;
-  line-height: 18px;
+  border-radius: @border-radius__button;
+  padding: @padding__tag;
 }
 
 .deleted {
