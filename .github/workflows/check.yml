@@ -61,20 +61,6 @@ jobs:
         run: ./vendor/bin/phpcs --standard=DrupalPractice $GITHUB_WORKSPACE/modules --ignore=ckanext*,ytp-assets-common
         working-directory: ./ansible/roles/drupal/files/drupal8/
 
-  ansible-lint:
-    name: ansible-lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-        with:
-          python-version: "3.9"
-      - name: Set up environment
-        run: pip install ansible-lint[community]
-      - name: Run ansible-lint for single-server.yml
-        run: ansible-lint single-server.yml
-        working-directory: ./ansible
-
   stylelint:
     name: stylelint
     runs-on: ubuntu-latest
@@ -102,7 +88,6 @@ jobs:
       - flake8
       - code-sniffer
       - stylelint
-      - ansible-lint
     if: failure() && github.ref == 'refs/heads/master'
     steps:
       - uses: 8398a7/action-slack@v3
