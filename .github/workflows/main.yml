@@ -22,18 +22,22 @@ jobs:
         include:
           - dockerfile: ./docker/solr/Dockerfile
             context: ./docker/solr
+            submodules: ""
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
+            submodules: ""
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
+            submodules: recursive
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
+            submodules: ""
 
     steps:
       - name: checkout
         uses: actions/checkout@v3
         with:
-          submodules: recursive
+          submodules: ${{ matrix.submodules }}
       - name: setup docker buildx
         uses: docker/setup-buildx-action@v2
 
