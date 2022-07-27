@@ -36,12 +36,15 @@ var paths = {
   },
   dist: "resources",
   ckanResources: "../modules/ckanext-ytp_main/ckanext/ytp/resources",
-  ckanPublic: "../modules/ckanext-ytp_main/ckanext/ytp/public"
+  ckanPublic: "../modules/ckanext-ytp_main/ckanext/ytp/public",
+  drupalTheme: "../drupal/modules/avoindata-theme"
 };
 
 let fontawesomeLessPath = './node_modules/@fortawesome/fontawesome-pro/less';
+let fontawesomeFontPath = './node_modules/@fortawesome/fontawesome-pro/webfonts'
 if (!fs.existsSync('./node_modules/@fortawesome/fontawesome-pro')){
   fontawesomeLessPath = './node_modules/@fortawesome/fontawesome-free/less'
+  fontawesomeFontPath = './node_modules/@fortawesome/fontawesome-free/webfonts'
 }
 
 var timestamp = new Date().getTime();
@@ -61,6 +64,12 @@ gulp.task('copy:fontawesomeLess', (done) => {
   ], done)
 });
 
+gulp.task('copy:fontawesomeFonts', (done) => {
+  pump([
+    gulp.src(fontawesomeFontPath + "/*.*"),
+    gulp.dest(paths.drupalTheme + "/fonts")
+  ], done)
+})
 
 gulp.task('lint', (done) => {
   pump([
@@ -295,6 +304,7 @@ gulp.task(
     "clean",
     "config",
     "copy:fontawesomeLess",
+    "copy:fontawesomeFonts",
     gulp.parallel(
       "bootstrap_styles",
       "bootstrap_scripts",

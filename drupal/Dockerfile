@@ -134,7 +134,6 @@ FROM production-dynatrace-${DYNATRACE_ENABLED} AS production
 # copy modules and themes
 COPY --from=modules_build ${MOD_DIR} ${MOD_DIR}
 RUN mv ${MOD_DIR}/avoindata-theme ${THEME_DIR}/avoindata/ && \
-    cp -rf ${WWW_DIR}/html/resources/vendor/@fortawesome/fontawesome/webfonts/.  ${THEME_DIR}/avoindata/fonts && \
     cp -rf ${WWW_DIR}/html/resources/vendor/bootstrap/dist/fonts/.               ${THEME_DIR}/avoindata/fonts
 
 ENTRYPOINT ["/opt/drupal/scripts/entrypoint.sh"]
