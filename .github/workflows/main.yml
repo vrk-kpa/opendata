@@ -19,19 +19,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        submodules: ""
         include:
           - dockerfile: ./docker/solr/Dockerfile
             context: ./docker/solr
-            submodules: ""
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
-            submodules: ""
+          - dockerfile: ./drupal/Dockerfile
+            context: ./drupal
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
-          - dockerfile: ./drupal/Dockerfile
-            context: ./drupal
-            submodules: ""
 
     steps:
       - name: checkout
