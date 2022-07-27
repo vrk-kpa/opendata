@@ -35,8 +35,8 @@ var paths = {
     root: "src"
   },
   dist: "resources",
-  ckanResources: "../modules/ckanext-ytp_main/ckanext/ytp/resources",
-  ckanPublic: "../modules/ckanext-ytp_main/ckanext/ytp/public",
+  ckanResources: "../ckan/ckanext/ckanext-ytp_main/ckanext/ytp/resources",
+  ckanPublic: "../ckan/ckanext/ckanext-ytp_main/ckanext/ytp/public",
   drupalTheme: "../drupal/modules/avoindata-theme"
 };
 
