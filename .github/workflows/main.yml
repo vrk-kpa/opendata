@@ -35,21 +35,21 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: configure NPM credentials
-          run: |
-            cat <<EOT >> ./opendata-assets/.npmrc
-            @fortawesome:registry=https://npm.fontawesome.com/
-            //npm.fontawesome.com/:_authToken=$NPM_TOKEN
-            EOT
-          env:
-            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cat <<EOT >> ./opendata-assets/.npmrc
+          @fortawesome:registry=https://npm.fontawesome.com/
+          //npm.fontawesome.com/:_authToken=$NPM_TOKEN
+          EOT
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: configure AWS credentials
-          id: login-aws
-          uses: aws-actions/configure-aws-credentials@v1
-          with:
-            role-to-assume: ${{ secrets.AWS_ROLE }}
-            role-session-name: github-actions
-            aws-region: eu-west-1
+        id: login-aws
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
 
       - name: login to AWS ECR
         id: login-ecr
