@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        submodules: ""
+        submodules: [""]
         include:
           - dockerfile: ./docker/solr/Dockerfile
           - dockerfile: ./docker/nginx/Dockerfile
