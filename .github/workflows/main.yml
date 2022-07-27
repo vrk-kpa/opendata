@@ -22,13 +22,9 @@ jobs:
         submodules: ""
         include:
           - dockerfile: ./docker/solr/Dockerfile
-            context: ./docker/solr
           - dockerfile: ./docker/nginx/Dockerfile
-            context: ./docker/nginx
           - dockerfile: ./drupal/Dockerfile
-            context: ./drupal
           - dockerfile: ./ckan/Dockerfile
-            context: ./ckan
             submodules: recursive
 
     steps:
@@ -72,7 +68,6 @@ jobs:
       - name: build images
         uses: docker/build-push-action@v3
         with:
-          context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
 
   test-e2e:
