@@ -7,7 +7,6 @@ var sourcemaps = require("gulp-sourcemaps");
 var prefixer = require("gulp-autoprefixer");
 var del = require("del");
 var template = require("gulp-template");
-var inlineCss = require("gulp-inline-css");
 var cleancss = require("gulp-clean-css");
 var terser = require("gulp-terser");
 var base64 = require("gulp-base64-inline");
@@ -17,38 +16,40 @@ var rename = require('gulp-rename');
 var imageminJpegoptim = require('imagemin-jpegoptim');
 var gulpStylelint = require('gulp-stylelint');
 
-
 var paths = {
   src: {
     images: "src/images/**/*",
     less: "src/less",
     ckan: "src/less/ckan",
     drupal: "src/less/drupal/style.less",
-    drupal_avoindata_header: "../avoindata-drupal-header/resources/avoindata_header.js",
+    drupal_avoindata_header: "../drupal/modules/avoindata-header/resources/avoindata_header.js",
     drupal_ckeditor_plugins: "src/less/drupal/custom-elements.less",
     templates: "src/templates/**/*",
     static_pages: "src/static_pages",
-    font: "src/font/**/*",
     fonts: "src/fonts/**/*",
     fontsCss: "src/less/fonts.less",
     scripts: "src/scripts/**/*",
-    bootstrap_styles: "node_modules/bootstrap/less",
-    bootstrap_scripts: "node_modules/bootstrap/js/*",
-    moment_path: "node_modules/moment",
+    bootstrap_styles: "./node_modules/bootstrap/less",
+    bootstrap_scripts: "./node_modules/bootstrap/js/*",
+    moment_path: "./node_modules/moment",
     root: "src"
   },
-  dist: "resources"
+  dist: "resources",
+  ckanResources: "../modules/ckanext-ytp_main/ckanext/ytp/resources",
+  ckanPublic: "../modules/ckanext-ytp_main/ckanext/ytp/public"
 };
 
-let fontawesomeLessPath = 'node_modules/@fortawesome/fontawesome-pro/less';
-if (!fs.existsSync('node_modules/@fortawesome/fontawesome-pro')){
-  fontawesomeLessPath = 'node_modules/@fortawesome/fontawesome-free/less'
+let fontawesomeLessPath = './node_modules/@fortawesome/fontawesome-pro/less';
+if (!fs.existsSync('./node_modules/@fortawesome/fontawesome-pro')){
+  fontawesomeLessPath = './node_modules/@fortawesome/fontawesome-free/less'
 }
 
 var timestamp = new Date().getTime();
 
 gulp.task("clean", done => {
-  del.sync([paths.dist, paths.root + '/vendor/**']);
+  del.sync([paths.dist, paths.root + '/vendor/**'], {
+    force: true
+  });
   done();
 });
 
@@ -81,7 +82,8 @@ gulp.task("ckan",(done) => {
     cleancss({ keepBreaks: false }),
     concat("ckan.css"),
     sourcemaps.write("."),
-    gulp.dest(paths.dist + "/styles")
+    gulp.dest(paths.dist + "/styles"),
+    gulp.dest(paths.ckanResources + "/styles"),
   ], done)
 });
 
@@ -93,7 +95,8 @@ gulp.task("openapi_view",(done) => {
     prefixer(),
     cleancss({ keepBreaks: false }),
     concat("openapi_view.css"),
-    gulp.dest(paths.dist + "/styles")
+    gulp.dest(paths.dist + "/styles"),
+    gulp.dest(paths.ckanResources + "/styles"),
   ], done)
 });
 
@@ -111,7 +114,7 @@ gulp.task("drupal", (done) => {
     cleancss({ keepBreaks: false }),
     concat("style.css"),
     sourcemaps.write("./maps"),
-    gulp.dest("../avoindata-drupal-theme/css"),
+    gulp.dest("../drupal/modules/avoindata-theme/css"),
   ], done)
 });
 
@@ -127,7 +130,7 @@ gulp.task("drupal_copy_custom_element_styles_to_plugin", (done) => {
     cleancss({ keepBreaks: false }),
     concat("style.css"),
     sourcemaps.write("./maps"),
-    gulp.dest("../avoindata-drupal-ckeditor-plugins/css"),
+    gulp.dest("../drupal/modules/avoindata-ckeditor-plugins/css"),
   ], done)
 });
 
@@ -143,6 +146,7 @@ gulp.task("fontsCss", (done) => {
     concat("fonts.css"),
     sourcemaps.write("./maps"),
     gulp.dest(paths.dist + "/styles"),
+    gulp.dest(paths.ckanResources + "/styles"),
   ], done)
 });
 
@@ -170,7 +174,8 @@ gulp.task("templates", (done) => {
   pump([
     gulp.src(paths.src.templates),
     template({ timestamp: timestamp }),
-    gulp.dest(paths.dist + "/templates")
+    gulp.dest(paths.dist + "/templates"),
+    gulp.dest(paths.ckanResources + "/styles"),
   ], done)
 });
 
@@ -179,8 +184,8 @@ gulp.task("static_css",
   pump([
     gulp.src(paths.src.static_pages + "/css/main.css"),
     base64('../../resources/images'),
-    concat("style.css"),
-    gulp.dest(paths.src.static_pages + "/css")
+    concat("error.css"),
+    gulp.dest(paths.dist + "/styles")
   ], done)
 }));
 
@@ -189,7 +194,6 @@ gulp.task(
   gulp.series("static_css", (done) => {
     pump([
       gulp.src(paths.src.static_pages + "/*.html"),
-      inlineCss(),
       gulp.dest(paths.dist + "/static")
     ], done)
   })
@@ -202,17 +206,11 @@ gulp.task("fonts", (done) => {
   ], done)
 });
 
-gulp.task("font", (done) => {
-  pump([
-    gulp.src(paths.src.font),
-    gulp.dest(paths.dist + "/font")
-  ], done)
-});
-
 gulp.task("scripts", (done) => {
   pump([
     gulp.src([paths.src.scripts, paths.src.drupal_avoindata_header]),
-    gulp.dest(paths.dist + "/scripts")
+    gulp.dest(paths.dist + "/scripts"),
+    gulp.dest(paths.ckanResources + "/scripts")
   ], done)
 });
 
@@ -268,6 +266,7 @@ gulp.task("vendor",
     pump([
       gulp.src(paths.src.root + "/vendor/**/*"),
       gulp.dest(paths.dist + "/vendor"),
+      gulp.dest(paths.ckanPublic + "/vendor"),
     ], done)
   })
 );
@@ -296,7 +295,6 @@ gulp.task(
     "clean",
     "config",
     "copy:fontawesomeLess",
-    "lint",
     gulp.parallel(
       "bootstrap_styles",
       "bootstrap_scripts",
@@ -308,7 +306,6 @@ gulp.task(
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
       "fonts",
-      "font",
       "fontsCss",
       "scripts")
   )
@@ -352,7 +349,7 @@ gulp.task("watch_styles", () => {
 
 gulp.task("watch_drupal_styles", () => {
   var watcher = gulp.watch(
-    ["./src/less/**/*.less", "./src/less/*.less", "../avoindata-drupal-theme/less"],
+    ["src/less/**/*.less", "src/less/*.less", "../avoindata-theme/less"],
     gulp.series(
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
