@@ -56,6 +56,7 @@ describe('Apiset filtering', function(){
     cy.fill_form_fields(api1_form_data);
     cy.get('#field-image-upload').selectFile("cypress/sample_text_file.txt")
     cy.get('button[name=save].suomifi-button-primary').click();
+    cy.wait(2000);
 
     //apiset two
     cy.visit('/data/fi/apiset/new');
