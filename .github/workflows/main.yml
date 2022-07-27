@@ -20,10 +20,8 @@ jobs:
       fail-fast: false
       matrix:
         submodules: [""]
+        dockerfile: [./docker/solr/Dockerfile, ./docker/nginx/Dockerfile, ./drupal/Dockerfile]
         include:
-          - dockerfile: ./docker/solr/Dockerfile
-          - dockerfile: ./docker/nginx/Dockerfile
-          - dockerfile: ./drupal/Dockerfile
           - dockerfile: ./ckan/Dockerfile
             submodules: recursive
 
