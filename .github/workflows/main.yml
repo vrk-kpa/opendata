@@ -59,9 +59,9 @@ jobs:
 
       - name: login to AWS ECR
         id: login-ecr
-        uses: docker/login-action@v2
+        uses: aws-actions/amazon-ecr-login@v1
         with:
-          registry: ${{ steps.login-aws.outputs.aws-account-id }}.dkr.ecr.eu-west-1.amazonaws.com
+          registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
 
       - name: login to DynaTrace Registry
         id: login-dtr
