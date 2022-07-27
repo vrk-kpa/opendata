@@ -78,7 +78,6 @@ describe('Apiset filtering', function(){
 
     //click keyword one filter
     cy.get(':nth-child(2) > nav > .list-unstyled > :nth-child(1) > a > span').click();
-    cy.wait(500);
 
     //filter list and results should now only contain the chosen keyword
     cy.get('.secondary > :nth-child(2)').should('contain.text', 'keyword one');
@@ -88,7 +87,6 @@ describe('Apiset filtering', function(){
 
     //release the filter
     cy.get('.remove > .fal').click();
-    cy.wait(500);
 
     //both keywords and results exist
     cy.get('.secondary > :nth-child(2)').should('contain.text', 'keyword one');
@@ -98,7 +96,6 @@ describe('Apiset filtering', function(){
 
     //click keyword two filter
     cy.get(':nth-child(2) > nav > .list-unstyled > :nth-child(2) > a > span').click();
-    cy.wait(500);
 
     //filter list and results should now only contain the chosen keyword
     cy.get('.secondary > :nth-child(2)').should('not.contain.text', 'keyword one');
@@ -108,7 +105,6 @@ describe('Apiset filtering', function(){
 
     //release the filter
     cy.get('.remove > .fal').click();
-    cy.wait(500);
 
     //both keywords and results exist
     cy.get('.secondary > :nth-child(2)').should('contain.text', 'keyword one');
@@ -125,7 +121,6 @@ describe('Apiset filtering', function(){
     cy.get('.container-search-result').should('contain.text', apiset2_name);
 
     cy.get(':nth-child(3) > nav > .list-unstyled > .nav-item > a > span').click();
-    cy.wait(500);
 
     //the results should still be the same
     cy.get('.secondary > :nth-child(3)').should('contain.text', 'apiset_test_organization');
@@ -134,7 +129,6 @@ describe('Apiset filtering', function(){
 
     //release the filter
     cy.get('.remove > .fal').click();
-    cy.wait(500);
 
     //the results should still be the same
     cy.get('.secondary > :nth-child(3)').should('contain.text', 'apiset_test_organization');
@@ -151,7 +145,6 @@ describe('Apiset filtering', function(){
 
     //filter to csv
     cy.get(':nth-child(4) > nav > .list-unstyled > :nth-child(1) > a > span').click();
-    cy.wait(500);
 
     //should not contain apiset1 (txt)
     cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
@@ -161,7 +154,6 @@ describe('Apiset filtering', function(){
 
     //release the filter
     cy.get('.remove > .fal').click();
-    cy.wait(500);
 
     cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
     cy.get('.secondary > :nth-child(4)').should('contain.text', 'txt');
@@ -170,7 +162,6 @@ describe('Apiset filtering', function(){
 
     //filter to txt
     cy.get(':nth-child(4) > nav > .list-unstyled > :nth-child(2) > a > span').click();
-    cy.wait(500);
 
     //should not contain apiset2 (csv)
     cy.get('.secondary > :nth-child(4)').should('not.contain.text', 'csv');
@@ -180,7 +171,6 @@ describe('Apiset filtering', function(){
 
     //release the filter
     cy.get('.remove > .fal').click();
-    cy.wait(500);
 
     cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
     cy.get('.secondary > :nth-child(4)').should('contain.text', 'txt');
@@ -196,7 +186,6 @@ describe('Apiset filtering', function(){
 
     //filter by monthly
     cy.get(':nth-child(5) > nav > .list-unstyled > :nth-child(1) > a > span').click();
-    cy.wait(500);
 
     cy.get('.secondary > :nth-child(5)').should('contain.text', 'kuukausittain');
     cy.get('.secondary > :nth-child(5)').should('not.contain.text', 'päivittäin');
@@ -205,7 +194,6 @@ describe('Apiset filtering', function(){
 
     //release the filter
     cy.get('.remove > .fal').click();
-    cy.wait(500);
 
     cy.get('.secondary > :nth-child(5)').should('contain.text', 'kuukausittain');
     cy.get('.secondary > :nth-child(5)').should('contain.text', 'päivittäin');
@@ -214,7 +202,6 @@ describe('Apiset filtering', function(){
    
     //filter by daily
     cy.get(':nth-child(5) > nav > .list-unstyled > :nth-child(2) > a > span').click();
-    cy.wait(500);
 
     cy.get('.secondary > :nth-child(5)').should('not.contain.text', 'kuukausittain');
     cy.get('.secondary > :nth-child(5)').should('contain.text', 'päivittäin');
@@ -223,7 +210,6 @@ describe('Apiset filtering', function(){
 
     //release the filter
     cy.get('.remove > .fal').click();
-    cy.wait(500);
 
     cy.get('.secondary > :nth-child(5)').should('contain.text', 'kuukausittain');
     cy.get('.secondary > :nth-child(5)').should('contain.text', 'päivittäin');
@@ -239,7 +225,6 @@ describe('Apiset filtering', function(){
 
     //filter by Creative Commons Attribution
     cy.get(':nth-child(6) > nav > .list-unstyled > :nth-child(1) > a > span').click();
-    cy.wait(500);
 
     cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Attribution');
     cy.get('.secondary > :nth-child(6)').should('not.contain.text', 'Creative Commons Non-Commercial');
@@ -248,7 +233,6 @@ describe('Apiset filtering', function(){
 
     //release the filter
     cy.get('.remove > .fal').click();
-    cy.wait(500);
 
     cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Attribution');
     cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Non-Commercial');
@@ -257,7 +241,6 @@ describe('Apiset filtering', function(){
    
     //filter by Creative Commons Non-Commercial
     cy.get(':nth-child(6) > nav > .list-unstyled > :nth-child(2) > a > span').click();
-    cy.wait(500);
 
     cy.get('.secondary > :nth-child(6)').should('not.contain.text', 'Creative Commons Attribution');
     cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Non-Commercial');
@@ -266,7 +249,6 @@ describe('Apiset filtering', function(){
 
     //release the filter
     cy.get('.remove > .fal').click();
-    cy.wait(500);
 
     cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Attribution');
     cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Non-Commercial');
