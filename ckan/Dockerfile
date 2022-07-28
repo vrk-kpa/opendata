@@ -163,15 +163,6 @@ COPY ckanext/ckanext-statistics             ${EXT_DIR}/ckanext-statistics/
 COPY ckanext/ckanext-sentry                 ${EXT_DIR}/ckanext-sentry/
 COPY ckanext/ckanext-ytp_recommendation     ${EXT_DIR}/ckanext-ytp_recommendation/
 
-# copy frontend project
-COPY ../opendata-assets                     ${APP_DIR}/opendata-assets/
-COPY build_frontend.sh                      ${APP_DIR}/
-
-# build frontend
-WORKDIR ${APP_DIR}/
-RUN chmod +x ./build_frontend.sh
-RUN --mount=type=secret,id=npmrc ./build_frontend.sh
-
 #
 # Production stage, dynatrace enabled
 #

@@ -100,15 +100,6 @@ COPY modules/avoindata-user                 ${MOD_DIR}/avoindata-user/
 COPY modules/avoindata-ckeditor-plugins     ${MOD_DIR}/avoindata-ckeditor-plugins/
 COPY modules/avoindata-theme                ${MOD_DIR}/avoindata-theme/
 
-# copy frontend
-COPY opendata-assets                        ${MOD_DIR}/opendata-assets/
-COPY build_frontend.sh                      ${WEB_DIR}/
-
-# build frontend
-WORKDIR ${WEB_DIR}
-RUN chmod +x ./build_frontend.sh
-RUN --mount=type=secret,id=npmrc ./build_frontend.sh
-
 #
 # Production stage, dynatrace enabled
 #
@@ -133,7 +124,6 @@ FROM production-dynatrace-${DYNATRACE_ENABLED} AS production
 
 # copy modules and themes
 COPY --from=modules_build ${MOD_DIR} ${MOD_DIR}
-RUN mv ${MOD_DIR}/avoindata-theme ${THEME_DIR}/avoindata/ && \
-    cp -rf ${WWW_DIR}/html/resources/vendor/bootstrap/dist/fonts/.               ${THEME_DIR}/avoindata/fonts
+RUN mv ${MOD_DIR}/avoindata-theme ${THEME_DIR}/avoindata/
 
 ENTRYPOINT ["/opt/drupal/scripts/entrypoint.sh"]
