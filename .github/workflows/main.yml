@@ -219,10 +219,10 @@ jobs:
 
       - name: load built images
         run: |
-          docker load --input /tmp/ckan/ckan.tar
-          docker load --input /tmp/drupal/drupal.tar
-          docker load --input /tmp/solr/solr.tar
-          docker load --input /tmp/nginx/nginx.tar
+          docker load --input /tmp/ckan.tar
+          docker load --input /tmp/drupal.tar
+          docker load --input /tmp/solr.tar
+          docker load --input /tmp/nginx.tar
 
       - name: bring services up
         working-directory: docker
