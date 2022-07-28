@@ -87,7 +87,7 @@ jobs:
         with:
           node-version: 16
           cache: 'npm'
-          cache-dependancy-path: opendata-assets/package-lock.json
+          cache-dependency-path: opendata-assets/package-lock.json
 
       - name: install npm packages
         if: ${{ matrix.build-frontend }} == true
