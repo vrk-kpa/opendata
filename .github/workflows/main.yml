@@ -109,7 +109,7 @@ jobs:
       - name: upload images
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.name }}
+          name: ${{ matrix.name }}.tar
           path: /tmp/${{ matrix.name }}.tar
 
   test-e2e:
@@ -219,10 +219,10 @@ jobs:
 
       - name: load built images
         run: |
-          docker load --input /tmp/ckan.tar
-          docker load --input /tmp/drupal.tar
-          docker load --input /tmp/solr.tar
-          docker load --input /tmp/nginx.tar
+          docker load --input /tmp/ckan/ckan.tar
+          docker load --input /tmp/drupal/drupal.tar
+          docker load --input /tmp/solr/solr.tar
+          docker load --input /tmp/nginx/nginx.tar
 
       - name: bring services up
         working-directory: docker
