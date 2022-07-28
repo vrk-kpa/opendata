@@ -104,9 +104,11 @@ jobs:
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
-          push: true
+          push: false
           tags: |
             ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   test-e2e:
     name: test-e2e
