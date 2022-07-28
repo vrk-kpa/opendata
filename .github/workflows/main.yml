@@ -20,13 +20,18 @@ jobs:
       fail-fast: false
       matrix:
         submodules: [""]
-        dockerfile: [./docker/solr/Dockerfile, ./docker/nginx/Dockerfile]
         build-frontend: [false]
         include:
-          - dockerfile: ./ckan/Dockerfile
-            submodules: recursive
-            build-frontend: true
+          - dockerfile: ./docker/solr/Dockerfile
+            context: ./docker/solr
+          - dockerfile: ./docker/nginx/Dockerfile
+            context: ./docker/nginx
           - dockerfile: ./drupal/Dockerfile
+            context: ./drupal
+            build-frontend: true
+          - dockerfile: ./ckan/Dockerfile
+            context: ./ckan
+            submodules: recursive
             build-frontend: true
 
     steps:
@@ -90,6 +95,7 @@ jobs:
       - name: build images
         uses: docker/build-push-action@v3
         with:
+          context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
 
   test-e2e:
