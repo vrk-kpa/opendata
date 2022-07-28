@@ -10,4 +10,5 @@ export interface WebStackProps extends EcsStackProps {
   nginxTaskDef: EcsStackPropsTaskDef,
   drupalService: ecs.FargateService;
   ckanService: ecs.FargateService;
+  allowRobots: string
 }
