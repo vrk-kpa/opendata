@@ -104,14 +104,9 @@ jobs:
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
-          outputs: type=docker,dest=/tmp/${{ matrix.name }}.tar
-          tags: ${{ matrix.name }}:staging
-
-      - name: upload images
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.name }}
-          path: /tmp/${{ matrix.name }}.tar
+          push: true
+          tags: |
+            ${{ steps.login.outputs.registry }}/opendata/${{{ matrix.name }}:${{ github.sha }}
 
   test-e2e:
     name: test-e2e
@@ -166,10 +161,10 @@ jobs:
           cp -f docker/.env.template docker/.env
           sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
           sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
-          sed -i.bak -E 's/^(CKAN_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"staging"'\"/' docker/.env
-          sed -i.bak -E 's/^(DRUPAL_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"staging"'\"/' docker/.env
-          sed -i.bak -E 's/^(NGINX_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"staging"'\"/' docker/.env
-          sed -i.bak -E 's/^(SOLR_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"staging"'\"/' docker/.env
+          sed -i.bak -E 's/^(CKAN_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}'\"/' docker/.env
+          sed -i.bak -E 's/^(DRUPAL_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
+          sed -i.bak -E 's/^(NGINX_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
+          sed -i.bak -E 's/^(SOLR_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
           sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_ENABLED[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_ENABLED}"'\"/' docker/.env.ckan.local
           sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_DRIVER_OPTIONS[[:blank:]]*=[[:blank:]]*).*/\1\"'"{'key': '${AWS_ACCESS_KEY_ID}', 'secret': '${AWS_SECRET_ACCESS_KEY}', 'token': ''}"'\"/' docker/.env.ckan.local
           sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_CONTAINER_NAME[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_CONTAINER_NAME}"'\"/' docker/.env.ckan.local
@@ -216,18 +211,6 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
         with:
           registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
-
-      - name: download built images
-        uses: actions/download-artifact@v3
-        with:
-          path: /tmp
-
-      - name: load built images
-        run: |
-          docker load --input /tmp/ckan/ckan.tar
-          docker load --input /tmp/drupal/drupal.tar
-          docker load --input /tmp/solr/solr.tar
-          docker load --input /tmp/nginx/nginx.tar
 
       - name: bring services up
         working-directory: docker
