@@ -19,15 +19,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        submodules: [""]
-        build-frontend: [false]
         include:
           - dockerfile: ./docker/solr/Dockerfile
             context: ./docker/solr
+            submodules: ""
+            build-frontend: false
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
+            submodules: ""
+            build-frontend: false
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
+            submodules: ""
             build-frontend: true
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
