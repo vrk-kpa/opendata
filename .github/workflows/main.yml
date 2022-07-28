@@ -24,18 +24,22 @@ jobs:
             context: ./docker/solr
             submodules: ""
             build-frontend: false
+            name: solr
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
             build-frontend: false
+            name: nginx
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
             submodules: ""
             build-frontend: true
+            name: drupal
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
             build-frontend: true
+            name: ckan
 
     steps:
       - name: checkout
@@ -100,6 +104,13 @@ jobs:
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
+          outputs: type=docker,dest=/tmp/${{ matrix.name }}.tar
+
+      - name: upload images
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.name }}
+          path: /tmp/${{ matrix.name }}.tar
 
   test-e2e:
     name: test-e2e
