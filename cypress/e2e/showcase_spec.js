@@ -1,9 +1,9 @@
 describe('Showcase tests', function() {
 
-  beforeEach(function () {
+  before(function(){
     cy.reset_db();
     cy.create_organization_for_user('showcase_test_organization', 'test-publisher', true);
-  });
+  })
 
   it('Create a new minimal showcase, edit it and delete it', function() {
     cy.add_showcase_user();

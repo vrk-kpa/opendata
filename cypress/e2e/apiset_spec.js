@@ -1,13 +1,14 @@
 describe('Apiset tests', function() {
 
   beforeEach(function () {
-    cy.reset_db();
-    cy.create_organization_for_user('apiset_test_organization', 'test-user', true);
     cy.login_post_request('test-user', 'test-user')
     cy.visit('/');
-    // Apiset is not currently included in nav
-    // cy.get('nav a[href="/data/fi/apiset"]').click();
   });
+
+  before(function(){
+    cy.reset_db();
+    cy.create_organization_for_user('apiset_test_organization', 'test-user', true);
+  })
 
   it('Create a new minimal api, edit it and delete it', function() {
     const apis_name = 'test_api';
