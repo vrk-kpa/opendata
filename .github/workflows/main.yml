@@ -227,8 +227,32 @@ jobs:
         with:
           context: ./docker/solr
           push: false
+          load: true
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+
+      - name: build nginx from cache
+        uses: docker/build-push-action@v3
+        with:
+          context: ./docker/nginx
+          push: false
+          load: true
+          cache-from: type=gha
+
+      - name: build drupal from cache
+        uses: docker/build-push-action@v3
+        with:
+          context: ./drupal
+          push: false
+          load: true
+          cache-from: type=gha
+
+      - name: build ckan from cache
+        uses: docker/build-push-action@v3
+        with:
+          context: ./ckan
+          push: false
+          load: true
+          cache-from: type=gha
 
       - name: bring services up
         working-directory: docker
