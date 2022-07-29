@@ -278,6 +278,18 @@ jobs:
           docker logs opendata_solr_1
           docker logs opendata_nginx_1
 
+      - name: debug ckan
+        shell: bash
+        run: |
+          while [[ $(curl -L --write-out '%{http_code}' --silent --output /dev/null http://localhost/data/dataset) != "200" ]]; do
+            echo "waiting for ckan to start up and initialize ..."
+            sleep 5s
+          done
+          sleep 5s
+
+          docker logs opendata_ckan_1
+          docker logs opendata_nginx_1
+
       - name: run cypress e2e tests
         run: |
           npx cypress run --browser chrome:stable --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
