@@ -284,6 +284,7 @@ jobs:
           while [[ $(curl -L --write-out '%{http_code}' --silent --output /dev/null http://localhost/data/dataset) != "200" ]]; do
             echo "waiting for ckan to start up and initialize ..."
             sleep 5s
+            docker logs opendata_ckan_1
           done
           sleep 5s
 
