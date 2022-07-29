@@ -4,6 +4,8 @@ services:
     image: opendata/ckan:latest
     build:
       context: ../ckan
+  ckan_cron:
+    image: opendata/ckan:latest
   drupal:
     image: opendata/drupal:latest
     build:
