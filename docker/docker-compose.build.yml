@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  ckan:
+    image: opendata/ckan:latest
+    build:
+      context: ../ckan
+  drupal:
+    image: opendata/drupal:latest
+    build:
+      context: ../drupal
+  nginx:
+    image: opendata/nginx:latest
+    build:
+      context: ./nginx
+  solr:
+    image: opendata/solr:latest
+    build:
+      context: ./solr
