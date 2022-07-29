@@ -4,17 +4,29 @@ services:
     image: opendata/ckan:latest
     build:
       context: ../ckan
+      cache_from:
+        - opendata/ckan:latest
+        - type=gha
   ckan_cron:
     image: opendata/ckan:latest
   drupal:
     image: opendata/drupal:latest
     build:
       context: ../drupal
+      cache_from:
+        - opendata/drupal:latest
+        - type=gha
   nginx:
     image: opendata/nginx:latest
     build:
       context: ./nginx
+      cache_from:
+        - opendata/nginx:latest
+        - type=gha
   solr:
     image: opendata/solr:latest
     build:
       context: ./solr
+      cache_from:
+        - opendata/solr:latest
+        - type=gha
