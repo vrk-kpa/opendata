@@ -2,27 +2,11 @@ version: "3.8"
 services:
   ckan:
     image: opendata/ckan:latest
-    build:
-      context: ../ckan
-      cache_from:
-        - type=gha
   ckan_cron:
     image: opendata/ckan:latest
   drupal:
     image: opendata/drupal:latest
-    build:
-      context: ../drupal
-      cache_from:
-        - type=gha
   nginx:
     image: opendata/nginx:latest
-    build:
-      context: ./nginx
-      cache_from:
-        - type=gha
   solr:
     image: opendata/solr:latest
-    build:
-      context: ./solr
-      cache_from:
-        - type=gha
