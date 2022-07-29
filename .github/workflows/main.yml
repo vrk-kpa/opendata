@@ -229,6 +229,7 @@ jobs:
           push: false
           load: true
           cache-from: type=gha
+          tags: opendata/solr:latest
 
       - name: build nginx from cache
         uses: docker/build-push-action@v3
@@ -237,6 +238,7 @@ jobs:
           push: false
           load: true
           cache-from: type=gha
+          tags: opendata/nginx:latest
 
       - name: build drupal from cache
         uses: docker/build-push-action@v3
@@ -245,6 +247,7 @@ jobs:
           push: false
           load: true
           cache-from: type=gha
+          tags: opendata/drupal:latest
 
       - name: build ckan from cache
         uses: docker/build-push-action@v3
@@ -253,6 +256,7 @@ jobs:
           push: false
           load: true
           cache-from: type=gha
+          tags: opendata/ckan:latest
 
       - name: bring services up
         working-directory: docker
