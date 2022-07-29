@@ -105,8 +105,6 @@ jobs:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: false
-          tags: |
-            opendata/${{ matrix.name }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -224,10 +222,18 @@ jobs:
         with:
           registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
 
+      - name: build solr from cache
+        uses: docker/build-push-action@v3
+        with:
+          context: ./docker/solr
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
       - name: bring services up
         working-directory: docker
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose.build.yml -p opendata up --build -d
+          docker-compose -f docker-compose.yml -f docker-compose.build.yml -p opendata up -d
 
       - name: wait until services have started
         shell: bash
