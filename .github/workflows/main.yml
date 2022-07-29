@@ -106,7 +106,7 @@ jobs:
           file: ${{ matrix.dockerfile }}
           push: false
           tags: |
-            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
+            opendata/${{ matrix.name }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
