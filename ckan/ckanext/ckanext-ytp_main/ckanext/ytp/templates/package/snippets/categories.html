@@ -15,11 +15,11 @@
       />
       {% if category.get('title_translated', {}).get(lang) %}
       <h5 class="categories__list__item__title">
-        {{ category.get('title_translated', {}).get(lang) }}
+        {% link_for category.get('title_translated', {}).get(lang), named_route='group_read', id=category.get('name') %}
       </h5>
       {% else %}
       <h5 class="categories__list__item__title">
-        {{ category.get('display_name') }}
+        {% link_for category.get('display_name'), named_route='group_read', id=category.get('name') %}
       </h5>
       {% endif %}
     </li>

@@ -11,15 +11,16 @@
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
 # Daniel Vainio, 2021
 # Meeri Hakala <meeri.hakala@dvv.fi>, 2022
+# Ville Teräväinen, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-10 09:54+0000\n"
+"POT-Creation-Date: 2022-07-13 10:02+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Meeri Hakala <meeri.hakala@dvv.fi>, 2022\n"
+"Last-Translator: Ville Teräväinen, 2022\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,47 +29,47 @@ msgstr ""
 "Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ckanext/ytp/auth.py:17 ckanext/ytp/auth.py:31
+#: ckanext/ytp/auth.py:18 ckanext/ytp/auth.py:32
 msgid "Only the owner can update a related item"
 msgstr ""
 
-#: ckanext/ytp/auth.py:36
+#: ckanext/ytp/auth.py:37
 msgid "You must be a sysadmin to change a related item's featured field."
 msgstr ""
 
-#: ckanext/ytp/auth.py:53
+#: ckanext/ytp/auth.py:54
 msgid "You must be a sysadmin to create a featured related item"
 msgstr ""
 
-#: ckanext/ytp/auth.py:61 ckanext/ytp/auth.py:64
+#: ckanext/ytp/auth.py:62 ckanext/ytp/auth.py:65
 msgid "You must be logged in to add a related item"
 msgstr ""
 
-#: ckanext/ytp/auth.py:71 ckanext/ytp/auth.py:76
+#: ckanext/ytp/auth.py:72 ckanext/ytp/auth.py:77
 #, python-format
 msgid "User %s not authorized to create public organizations"
 msgstr "User %s not authorized to create public organisations"
 
-#: ckanext/ytp/auth.py:89
+#: ckanext/ytp/auth.py:90
 msgid "Only registered users can create organizations"
 msgstr "Only registered users can create organisations"
 
-#: ckanext/ytp/auth.py:104 ckanext/ytp/validators.py:468
+#: ckanext/ytp/auth.py:105 ckanext/ytp/validators.py:468
 #, python-format
 msgid "User %s is not administrator in the selected parent organization"
 msgstr "User %s is not administrator in the selected parent organisation"
 
-#: ckanext/ytp/auth.py:113
+#: ckanext/ytp/auth.py:114
 #, python-format
 msgid "User %s not authorized to create organizations"
 msgstr "User %s not authorized to create organisations"
 
-#: ckanext/ytp/auth.py:133
+#: ckanext/ytp/auth.py:136
 msgid "Cannot modify dataset because of organization policy"
 msgstr "Cannot modify dataset because of organisation policy"
 
-#: ckanext/ytp/auth.py:141 ckanext/ytp/views_organization.py:219
-#: ckanext/ytp/views_organization.py:267
+#: ckanext/ytp/auth.py:144 ckanext/ytp/views_organization.py:275
+#: ckanext/ytp/views_organization.py:323
 msgid "Only system administrators are allowed to view user list."
 msgstr ""
 
@@ -174,11 +175,11 @@ msgid "Related item was successfully updated"
 msgstr ""
 
 #: ckanext/ytp/controller.py:419 ckanext/ytp/controller.py:691
-#: ckanext/ytp/views_organization.py:76
+#: ckanext/ytp/views_organization.py:77
 msgid "Integrity Error"
 msgstr ""
 
-#: ckanext/ytp/controller.py:439 ckanext/ytp/templates/package/search.html:84
+#: ckanext/ytp/controller.py:439 ckanext/ytp/templates/package/search.html:83
 #: ckanext/ytp/templates/package/snippets/related_item.html:21
 msgid "API"
 msgstr ""
@@ -250,11 +251,11 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:98 ckanext/ytp/plugin.py:322
+#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:321
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:578
+#: ckanext/ytp/helpers.py:583
 msgid "-"
 msgstr ""
 
@@ -321,7 +322,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: ckanext/ytp/menu.py:155 ckanext/ytp/plugin.py:270
+#: ckanext/ytp/menu.py:155
 #: ckanext/ytp/templates/organization/admin_list.html:31
 #: ckanext/ytp/templates/organization/edit.html:4
 #: ckanext/ytp/templates/organization/index.html:13
@@ -352,43 +353,55 @@ msgstr ""
 msgid "Publish Data"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:266
+#: ckanext/ytp/plugin.py:265
 msgid "International Benchmarks"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:267 ckanext/ytp/plugin.py:281
+#: ckanext/ytp/plugin.py:266 ckanext/ytp/translations.py:68
+msgid "Geographical coverage"
+msgstr ""
+
+#: ckanext/ytp/plugin.py:267 ckanext/ytp/plugin.py:280
 msgid "Collection Types"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:268
-msgid "Popular Tags"
-msgstr ""
-
-#: ckanext/ytp/plugin.py:269 ckanext/ytp/plugin.py:283
-msgid "Content Types"
-msgstr ""
-
-#: ckanext/ytp/plugin.py:271 ckanext/ytp/plugin.py:284
-#: ckanext/ytp/translations.py:35
-msgid "Formats"
-msgstr ""
-
-#: ckanext/ytp/plugin.py:273
-msgid "Sources"
-msgstr ""
-
-#: ckanext/ytp/plugin.py:274
-msgid "Licenses"
-msgstr ""
-
-#: ckanext/ytp/plugin.py:282
+#: ckanext/ytp/plugin.py:268 ckanext/ytp/plugin.py:281
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 msgid "Tags"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:322
+#: ckanext/ytp/plugin.py:269
+#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
+#: ckanext/ytp/templates/snippets/organization.html:21
+#: ckanext/ytp/translations.py:36
+msgid "Organization"
+msgstr "Publisher"
+
+#: ckanext/ytp/plugin.py:270 ckanext/ytp/plugin.py:283
+#: ckanext/ytp/translations.py:35
+msgid "Formats"
+msgstr ""
+
+#: ckanext/ytp/plugin.py:271
+msgid "Licenses"
+msgstr ""
+
+#: ckanext/ytp/plugin.py:272
+msgid "Category"
+msgstr ""
+
+#: ckanext/ytp/plugin.py:273 ckanext/ytp/translations.py:87
+msgid "Producer type"
+msgstr "Regional coverage / Producer type"
+
+#: ckanext/ytp/plugin.py:282
+msgid "Content Types"
+msgstr ""
+
+#: ckanext/ytp/plugin.py:321
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
-#: ckanext/ytp/templates/scheming/organization/about.html:18
+#: ckanext/ytp/templates/scheming/organization/about.html:20
 msgid "Additional Info"
 msgstr ""
 
@@ -452,7 +465,7 @@ msgstr ""
 msgid "Internal"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:230
+#: ckanext/ytp/templates/package/resource_read.html:252
 #: ckanext/ytp/templates/package/snippets/additional_info.html:68
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:8
 #: ckanext/ytp/translations.py:28
@@ -483,13 +496,6 @@ msgstr ""
 #: ckanext/ytp/translations.py:34
 msgid "Size"
 msgstr ""
-
-#: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
-#: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
-#: ckanext/ytp/templates/snippets/organization.html:21
-#: ckanext/ytp/translations.py:36
-msgid "Organization"
-msgstr "Publisher"
 
 #: ckanext/ytp/translations.py:37
 msgid "Key"
@@ -613,10 +619,6 @@ msgstr ""
 msgid "Copyright notice"
 msgstr ""
 
-#: ckanext/ytp/translations.py:68
-msgid "Geographical coverage"
-msgstr ""
-
 #: ckanext/ytp/translations.py:69
 msgid "Select the municipalities from which the dataset contains data."
 msgstr ""
@@ -689,10 +691,6 @@ msgstr ""
 #: ckanext/ytp/translations.py:86
 msgid "Categories"
 msgstr ""
-
-#: ckanext/ytp/translations.py:87
-msgid "Producer type"
-msgstr "Regional coverage / Producer type"
 
 #: ckanext/ytp/translations.py:88
 msgid "Public administration organization"
@@ -1108,7 +1106,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:203
 msgid "Dataset visibility"
-msgstr ""
+msgstr "Dataset visibility in opendata.fi"
 
 #: ckanext/ytp/translations.py:204
 msgid ""
@@ -1184,25 +1182,61 @@ msgstr ""
 msgid "e.g. avoindata@dvv.fi"
 msgstr ""
 
+#: ckanext/ytp/translations.py:219
+msgid ""
+"Deleted. The dataset is only visible to logged in users of the producer "
+"organization."
+msgstr ""
+
+#: ckanext/ytp/translations.py:220
+msgid ""
+"In draft state. The dataset is only visible to logged in users of the "
+"producer organization."
+msgstr ""
+
 #: ckanext/ytp/translations.py:221
-msgid "Data resource title"
+msgid ""
+"Private mode. The dataset is only visible to logged in users of the producer"
+" organization."
 msgstr ""
 
 #: ckanext/ytp/translations.py:222
+msgid ""
+"Deleted. The apiset is only visible to logged in users of the producer "
+"organization."
+msgstr ""
+
+#: ckanext/ytp/translations.py:223
+msgid ""
+"In draft state. The apiset is only visible to logged in users of the "
+"producer organization."
+msgstr ""
+
+#: ckanext/ytp/translations.py:224
+msgid ""
+"Private mode. The apiset is only visible to logged in users of the producer "
+"organization."
+msgstr ""
+
+#: ckanext/ytp/translations.py:227
+msgid "Data resource title"
+msgstr ""
+
+#: ckanext/ytp/translations.py:228
 msgid ""
 "Write a short and descriptive name for the data resource. If the data covers"
 " a specific time frame, mention that in the name."
 msgstr ""
 
-#: ckanext/ytp/translations.py:223
+#: ckanext/ytp/translations.py:229
 msgid "e.g. Most popular Finnish first names 2019"
 msgstr ""
 
-#: ckanext/ytp/translations.py:224
+#: ckanext/ytp/translations.py:230
 msgid "Resource *"
 msgstr ""
 
-#: ckanext/ytp/translations.py:225
+#: ckanext/ytp/translations.py:231
 msgid ""
 "Add the data resource by uploading a file or adding a link to the "
 "data.<br>Select or drag the files here.<br>The maximum file size is 5 Gb. "
@@ -1213,271 +1247,273 @@ msgstr ""
 "data.<br>The maximum file size is 5 Gb. Valid data formats are e.g. pdf, "
 "jpg, jpeg, png, doc, docx, xls, xlsx, csv, ppt, pptx, odt, ods, txt."
 
-#: ckanext/ytp/translations.py:226
+#: ckanext/ytp/translations.py:232
 msgid "Data resource description"
 msgstr ""
 
-#: ckanext/ytp/translations.py:227
+#: ckanext/ytp/translations.py:233
 msgid "Write a description for the resource"
 msgstr ""
 
-#: ckanext/ytp/translations.py:228
+#: ckanext/ytp/translations.py:234
 msgid ""
 "Describe the data clearly and concisely. Use as confining terms as possible "
 "to make it easier to find and understand the data."
 msgstr ""
 
-#: ckanext/ytp/translations.py:229
+#: ckanext/ytp/translations.py:235
 msgid "Additional information"
 msgstr ""
 
-#: ckanext/ytp/translations.py:230
+#: ckanext/ytp/translations.py:236
 msgid "Data status"
 msgstr ""
 
-#: ckanext/ytp/translations.py:231
+#: ckanext/ytp/translations.py:237
 msgid ""
 "Define a state for the data. This is recommended especially if your dataset "
 "has data resources from multiple years."
 msgstr ""
 
-#: ckanext/ytp/translations.py:232
+#: ckanext/ytp/translations.py:238
 msgid "Coordinate system"
 msgstr ""
 
-#: ckanext/ytp/translations.py:233
+#: ckanext/ytp/translations.py:239
 msgid ""
 "If your data includes geographic information, specify the coordinate system "
 "it uses."
 msgstr ""
 
-#: ckanext/ytp/translations.py:234
+#: ckanext/ytp/translations.py:240
 msgid "e.g. WGS84 (World Geodetic System 1984)"
 msgstr ""
 
-#: ckanext/ytp/translations.py:235
+#: ckanext/ytp/translations.py:241
 msgid ""
 "Select the time frame by which the data is separated. For example, does the "
 "resource include data from every week or month."
 msgstr ""
 
-#: ckanext/ytp/translations.py:236
+#: ckanext/ytp/translations.py:242
 msgid "e.g. a month"
 msgstr ""
 
-#: ckanext/ytp/translations.py:237
+#: ckanext/ytp/translations.py:243
 msgid "Time Frame"
 msgstr ""
 
-#: ckanext/ytp/translations.py:238
+#: ckanext/ytp/translations.py:244
 msgid "Start date"
 msgstr ""
 
-#: ckanext/ytp/translations.py:239
+#: ckanext/ytp/translations.py:245
 msgid "End date"
 msgstr ""
 
-#: ckanext/ytp/translations.py:242
+#: ckanext/ytp/translations.py:248
 msgid "Producer name"
 msgstr ""
 
-#: ckanext/ytp/translations.py:243
+#: ckanext/ytp/translations.py:249
 msgid "Producer description"
 msgstr ""
 
-#: ckanext/ytp/translations.py:244
+#: ckanext/ytp/translations.py:250
 msgid "Common, compact and plain description about producer"
 msgstr ""
+"Describe what your organisation does and what kind of services and data it "
+"produces."
 
-#: ckanext/ytp/translations.py:245
+#: ckanext/ytp/translations.py:251
 msgid "Other information"
 msgstr ""
 
-#: ckanext/ytp/translations.py:248
+#: ckanext/ytp/translations.py:254
 msgid "cc-by"
 msgstr "Creative Commons Attribution"
 
-#: ckanext/ytp/translations.py:249
+#: ckanext/ytp/translations.py:255
 msgid "cc-by-4-fi"
 msgstr "Creative Commons Nimeä 4.0"
 
-#: ckanext/ytp/translations.py:250
+#: ckanext/ytp/translations.py:256
 msgid "cc-by-4.0"
 msgstr "Creative Commons Attribution 4.0"
 
-#: ckanext/ytp/translations.py:251
+#: ckanext/ytp/translations.py:257
 msgid "cc-by-sa"
 msgstr "Creative Commons Attribution Share-Alike"
 
-#: ckanext/ytp/translations.py:252
+#: ckanext/ytp/translations.py:258
 msgid "cc-by-sa-1-fi"
 msgstr "Creative Commons Nimeä-Tarttuva 1.0 Suomi (CC BY-SA 1.0)"
 
-#: ckanext/ytp/translations.py:253
+#: ckanext/ytp/translations.py:259
 msgid "cc-nc"
 msgstr "Creative Commons Non-Commercial (Any)"
 
-#: ckanext/ytp/translations.py:254
+#: ckanext/ytp/translations.py:260
 msgid "cc-zero"
 msgstr "Creative Commons CCZero"
 
-#: ckanext/ytp/translations.py:255
+#: ckanext/ytp/translations.py:261
 msgid "cc-zero-1.0"
 msgstr "Creative Commons CCZero 1.0"
 
-#: ckanext/ytp/translations.py:256
+#: ckanext/ytp/translations.py:262
 msgid "gfdl"
 msgstr "GNU Free Documentation License"
 
-#: ckanext/ytp/translations.py:257
+#: ckanext/ytp/translations.py:263
 msgid "helsinkikanava-opendata-tos"
 msgstr "Helsinkikanava Open Data käyttöehdot"
 
-#: ckanext/ytp/translations.py:258
+#: ckanext/ytp/translations.py:264
 msgid "hri-tietoaineistot-lisenssi-nimea"
 msgstr "HRI - tietoaineistojen lisenssi - nimeä"
 
-#: ckanext/ytp/translations.py:259
+#: ckanext/ytp/translations.py:265
 msgid "ilmoitettumuualla"
 msgstr "Lisenssi ilmoitettu tietoaineiston ylläpitäjän palvelussa"
 
-#: ckanext/ytp/translations.py:260
+#: ckanext/ytp/translations.py:266
 msgid "kmo-aluejakorajat"
 msgstr "KMO aluejakorajojen vektoriaineistojen käyttöehdot"
 
-#: ckanext/ytp/translations.py:261
+#: ckanext/ytp/translations.py:267
 msgid "notspecified"
 msgstr "License Not Specified"
 
-#: ckanext/ytp/translations.py:262
+#: ckanext/ytp/translations.py:268
 msgid "odc-by"
 msgstr "Open Data Commons Attribution License"
 
-#: ckanext/ytp/translations.py:263
+#: ckanext/ytp/translations.py:269
 msgid "odc-odbl"
 msgstr "Open Data Commons Open Database License (ODbL)"
 
-#: ckanext/ytp/translations.py:264
+#: ckanext/ytp/translations.py:270
 msgid "odc-pddl"
 msgstr "Open Data Commons Public Domain Dedication and Licence (PDDL)"
 
-#: ckanext/ytp/translations.py:265
+#: ckanext/ytp/translations.py:271
 msgid "other"
 msgstr "Other"
 
-#: ckanext/ytp/translations.py:266
+#: ckanext/ytp/translations.py:272
 msgid "other-at"
 msgstr "Other (Attribution)"
 
-#: ckanext/ytp/translations.py:267
+#: ckanext/ytp/translations.py:273
 msgid "other-closed"
 msgstr "Other (Not Open)"
 
-#: ckanext/ytp/translations.py:268
+#: ckanext/ytp/translations.py:274
 msgid "other-nc"
 msgstr "Other (Non-Commercial)"
 
-#: ckanext/ytp/translations.py:269
+#: ckanext/ytp/translations.py:275
 msgid "other-open"
 msgstr "Other (Open)"
 
-#: ckanext/ytp/translations.py:270
+#: ckanext/ytp/translations.py:276
 msgid "other-pd"
 msgstr "Other (Public Domain)"
 
-#: ckanext/ytp/translations.py:271
+#: ckanext/ytp/translations.py:277
 msgid "uk-ogl"
 msgstr "UK Open Government Licence (OGL)"
 
-#: ckanext/ytp/translations.py:274
+#: ckanext/ytp/translations.py:280
 msgid "Platforms"
 msgstr ""
 
-#: ckanext/ytp/translations.py:277
+#: ckanext/ytp/translations.py:283
 msgid "Show more collection_type"
 msgstr "Show more Collection Types"
 
-#: ckanext/ytp/translations.py:278
+#: ckanext/ytp/translations.py:284
 msgid "Show more vocab_international_benchmarks"
 msgstr "Show more International Benchmarks"
 
-#: ckanext/ytp/translations.py:279
+#: ckanext/ytp/translations.py:285
 msgid "Show more vocab_keywords_en"
 msgstr "Show more Keywords"
 
-#: ckanext/ytp/translations.py:280
+#: ckanext/ytp/translations.py:286
 msgid "Show more vocab_keywords_fi"
 msgstr ""
 
-#: ckanext/ytp/translations.py:281
+#: ckanext/ytp/translations.py:287
 msgid "Show more vocab_keywords_sv"
 msgstr ""
 
-#: ckanext/ytp/translations.py:282
+#: ckanext/ytp/translations.py:288
 msgid "Show more organization"
 msgstr "Show more Publishers"
 
-#: ckanext/ytp/translations.py:283
+#: ckanext/ytp/translations.py:289
 msgid "Show more res_format"
 msgstr "Show more Formats"
 
-#: ckanext/ytp/translations.py:284
+#: ckanext/ytp/translations.py:290
 msgid "Show more source"
 msgstr "Show more Sources"
 
-#: ckanext/ytp/translations.py:285
+#: ckanext/ytp/translations.py:291
 msgid "Show more license_id"
 msgstr "Show more Licenses"
 
-#: ckanext/ytp/translations.py:286
+#: ckanext/ytp/translations.py:292
 msgid "Show more groups"
 msgstr "Show more Groups"
 
-#: ckanext/ytp/translations.py:287
+#: ckanext/ytp/translations.py:293
 msgid "Show more vocab_platform"
 msgstr "Show more Platforms"
 
-#: ckanext/ytp/translations.py:290
+#: ckanext/ytp/translations.py:296
 msgid "Show less collection_type"
 msgstr "Show less Collection Types"
 
-#: ckanext/ytp/translations.py:291
+#: ckanext/ytp/translations.py:297
 msgid "Show less vocab_international_benchmarks"
 msgstr "Show less International Benchmarks"
 
-#: ckanext/ytp/translations.py:292
+#: ckanext/ytp/translations.py:298
 msgid "Show less vocab_keywords_en"
 msgstr "Show less Keywords"
 
-#: ckanext/ytp/translations.py:293
+#: ckanext/ytp/translations.py:299
 msgid "Show less vocab_keywords_fi"
 msgstr ""
 
-#: ckanext/ytp/translations.py:294
+#: ckanext/ytp/translations.py:300
 msgid "Show less vocab_keywords_sv"
 msgstr ""
 
-#: ckanext/ytp/translations.py:295
+#: ckanext/ytp/translations.py:301
 msgid "Show less organization"
 msgstr "Show less Publishers"
 
-#: ckanext/ytp/translations.py:296
+#: ckanext/ytp/translations.py:302
 msgid "Show less res_format"
 msgstr "Show less Formats"
 
-#: ckanext/ytp/translations.py:297
+#: ckanext/ytp/translations.py:303
 msgid "Show less source"
 msgstr "Show less Sources"
 
-#: ckanext/ytp/translations.py:298
+#: ckanext/ytp/translations.py:304
 msgid "Show less license_id"
 msgstr "Show less Licenses"
 
-#: ckanext/ytp/translations.py:299
+#: ckanext/ytp/translations.py:305
 msgid "Show less groups"
 msgstr "Show less Groups"
 
-#: ckanext/ytp/translations.py:300
+#: ckanext/ytp/translations.py:306
 msgid "Show less vocab_platform"
 msgstr "Show less Platforms"
 
@@ -1533,21 +1569,22 @@ msgstr ""
 msgid "Only sysadmin can change feature: %s"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:53
+#: ckanext/ytp/views_organization.py:54
 msgid "Unauthorized to create a group"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:74 ckanext/ytp/views_organization.py:114
-#: ckanext/ytp/views_organization.py:161 ckanext/ytp/views_organization.py:342
+#: ckanext/ytp/views_organization.py:75 ckanext/ytp/views_organization.py:104
+#: ckanext/ytp/views_organization.py:170 ckanext/ytp/views_organization.py:217
+#: ckanext/ytp/views_organization.py:398
 msgid "Group not found"
 msgstr "Category not found"
 
-#: ckanext/ytp/views_organization.py:164
+#: ckanext/ytp/views_organization.py:220
 #, python-format
 msgid "User %r not authorized to edit members of %s"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:288
+#: ckanext/ytp/views_organization.py:344
 msgid "Not authorized to see this page"
 msgstr ""
 
@@ -1588,7 +1625,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: ckanext/ytp/resources/opendata/scripts/slug-preview-ex.js:53
+#: ckanext/ytp/resources/opendata/scripts/slug-preview-ex.js:59
 #: ckanext/ytp/templates/organization/admin_list.html:50
 #: ckanext/ytp/templates/organization/bulk_process.html:47
 #: ckanext/ytp/templates/organization/members.html:35
@@ -1655,6 +1692,11 @@ msgstr ""
 msgid "Hide search filters"
 msgstr ""
 
+#: ckanext/ytp/templates/apiset/read.html:28
+#: ckanext/ytp/templates/apiset/resource_read.html:75
+msgid "Interfaces"
+msgstr ""
+
 #: ckanext/ytp/templates/apiset/resource_read.html:17
 msgid "Interface manual"
 msgstr ""
@@ -1663,30 +1705,26 @@ msgstr ""
 msgid "Additional Information"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:75
-msgid "Interfaces"
-msgstr ""
-
 #: ckanext/ytp/templates/apiset/resource_read.html:105
 #: ckanext/ytp/templates/organization/read_base.html:37
-#: ckanext/ytp/templates/package/resource_read.html:64
+#: ckanext/ytp/templates/package/resource_read.html:66
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:9
 #: ckanext/ytp/templates/package/snippets/resource_item3.html:9
 msgid "Manage"
 msgstr ""
 
 #: ckanext/ytp/templates/apiset/resource_read.html:111
-#: ckanext/ytp/templates/package/resource_read.html:70
+#: ckanext/ytp/templates/package/resource_read.html:72
 msgid "View"
 msgstr ""
 
 #: ckanext/ytp/templates/apiset/resource_read.html:113
-#: ckanext/ytp/templates/package/resource_read.html:72
+#: ckanext/ytp/templates/package/resource_read.html:74
 msgid "API Endpoint"
 msgstr ""
 
 #: ckanext/ytp/templates/apiset/resource_read.html:115
-#: ckanext/ytp/templates/package/resource_read.html:74
+#: ckanext/ytp/templates/package/resource_read.html:76
 #: ckanext/ytp/templates/package/snippets/related_item.html:65
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:13
 #: ckanext/ytp/templates/package/snippets/resource_item3.html:11
@@ -1694,19 +1732,19 @@ msgid "Open"
 msgstr ""
 
 #: ckanext/ytp/templates/apiset/resource_read.html:117
-#: ckanext/ytp/templates/package/resource_read.html:76
+#: ckanext/ytp/templates/package/resource_read.html:78
 #: ckanext/ytp/templates/package/snippets/resource_item.html:51
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:15
 msgid "Download"
 msgstr ""
 
 #: ckanext/ytp/templates/apiset/resource_read.html:139
-#: ckanext/ytp/templates/package/resource_read.html:109
+#: ckanext/ytp/templates/package/resource_read.html:113
 msgid "From the dataset abstract"
 msgstr ""
 
 #: ckanext/ytp/templates/apiset/resource_read.html:141
-#: ckanext/ytp/templates/package/resource_read.html:111
+#: ckanext/ytp/templates/package/resource_read.html:115
 #, python-format
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
 msgstr ""
@@ -1913,7 +1951,7 @@ msgid "No organizations found"
 msgstr "No publishers found"
 
 #: ckanext/ytp/templates/organization/index.html:91
-#: ckanext/ytp/templates/package/search.html:104
+#: ckanext/ytp/templates/package/search.html:103
 msgid "Filter list"
 msgstr ""
 
@@ -1958,6 +1996,10 @@ msgstr ""
 msgid "Membership Requests"
 msgstr ""
 
+#: ckanext/ytp/templates/organization/new.html:6
+msgid "Create an Organization"
+msgstr ""
+
 #: ckanext/ytp/templates/organization/organization_not_found.html:3
 #: ckanext/ytp/templates/organization/organization_not_found.html:9
 msgid "Organization does not exist"
@@ -1975,7 +2017,7 @@ msgid "Last Modified"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/read.html:19
-#: ckanext/ytp/templates/package/search.html:63
+#: ckanext/ytp/templates/package/search.html:62
 #: ckanext/ytp/templates/snippets/package_item.html:45
 #: ckanext/ytp/templates/snippets/popular.html:3
 msgid "Popular"
@@ -2120,107 +2162,107 @@ msgstr ""
 msgid "Views"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:41
+#: ckanext/ytp/templates/package/resource_read.html:43
 #, python-format
 msgid "<a href=\"%(url)s\">"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:41
+#: ckanext/ytp/templates/package/resource_read.html:43
 msgid "dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:89
+#: ckanext/ytp/templates/package/resource_read.html:93
 #, python-format
 msgid "%(dataset)s"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:135
+#: ckanext/ytp/templates/package/resource_read.html:157
 #: ckanext/ytp/templates/package/snippets/resource_item.html:40
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:18
 msgid "Preview"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:155
+#: ckanext/ytp/templates/package/resource_read.html:177
 msgid "There are no views created for this resource yet."
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:159
+#: ckanext/ytp/templates/package/resource_read.html:181
 msgid "Not seeing the views you were expecting?"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:161
+#: ckanext/ytp/templates/package/resource_read.html:183
 #: ckanext/ytp/templates/package/snippets/resource_view.html:26
 msgid "Click here for more information."
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:164
+#: ckanext/ytp/templates/package/resource_read.html:186
 msgid "Here are some reasons you may not be seeing expected views:"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:166
+#: ckanext/ytp/templates/package/resource_read.html:188
 msgid "No view has been created that is suitable for this resource"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:167
+#: ckanext/ytp/templates/package/resource_read.html:189
 msgid "The site administrators may not have enabled the relevant view plugins"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:168
+#: ckanext/ytp/templates/package/resource_read.html:190
 msgid ""
 "If a view requires the DataStore, the DataStore plugin may not be enabled, "
 "or the data may not have been pushed to the DataStore, or the DataStore "
 "hasn't finished processing the data yet"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:184
+#: ckanext/ytp/templates/package/resource_read.html:206
 msgid "Extra information"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:188
+#: ckanext/ytp/templates/package/resource_read.html:210
 #: ckanext/ytp/templates/package/snippets/resource_form.html:31
 msgid "Format"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:189
-#: ckanext/ytp/templates/package/resource_read.html:227
-#: ckanext/ytp/templates/package/resource_read.html:231
-#: ckanext/ytp/templates/package/resource_read.html:235
+#: ckanext/ytp/templates/package/resource_read.html:211
+#: ckanext/ytp/templates/package/resource_read.html:249
+#: ckanext/ytp/templates/package/resource_read.html:253
+#: ckanext/ytp/templates/package/resource_read.html:257
 msgid "unknown"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:220
+#: ckanext/ytp/templates/package/resource_read.html:242
 msgid "Temporal Coverage"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:226
+#: ckanext/ytp/templates/package/resource_read.html:248
 msgid "Last updated"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:234
+#: ckanext/ytp/templates/package/resource_read.html:256
 msgid "sha256"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:264
+#: ckanext/ytp/templates/package/resource_read.html:286
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:111
 msgid "Stats"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:265
+#: ckanext/ytp/templates/package/resource_read.html:287
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:112
 msgid "Last 30 days, updated daily"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:268
+#: ckanext/ytp/templates/package/resource_read.html:290
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:119
 msgid "All time downloads:"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:278
+#: ckanext/ytp/templates/package/resource_read.html:300
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:127
 msgid "Year"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:278
+#: ckanext/ytp/templates/package/resource_read.html:300
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:127
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
@@ -2258,31 +2300,30 @@ msgstr ""
 msgid "Date Created Descending"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:62
-#: ckanext/ytp/templates/package/snippets/additional_info.html:12
-msgid "Source"
-msgstr ""
-
-#: ckanext/ytp/templates/package/search.html:85
+#: ckanext/ytp/templates/package/search.html:84
 msgid "API Docs"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:87
+#: ckanext/ytp/templates/package/search.html:86
 msgid "full {format} dump"
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:88
+#: ckanext/ytp/templates/package/search.html:87
 #, python-format
 msgid ""
 "You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s) or download a %(dump_link)s."
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:92
+#: ckanext/ytp/templates/package/search.html:91
 #, python-format
 msgid ""
 "You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s)."
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/additional_info.html:12
+msgid "Source"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/additional_info.html:23
@@ -2315,7 +2356,7 @@ msgid "Show more categories"
 msgstr "Show more Categories"
 
 #: ckanext/ytp/templates/package/snippets/categories.html:34
-#: ckanext/ytp/templates/snippets/facet_list.html:84
+#: ckanext/ytp/templates/snippets/facet_list.html:93
 msgid "Show more"
 msgstr "Show more"
 
@@ -2361,31 +2402,6 @@ msgstr ""
 msgid "Social"
 msgstr "Share in social media"
 
-#: ckanext/ytp/templates/package/snippets/dataset_state_banner.html:5
-msgid ""
-"Deleted. The dataset is only visible to logged in users of the producer "
-"organization."
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/dataset_state_banner.html:8
-#: ckanext/ytp/templates/package/snippets/dataset_state_banner.html:18
-#: ckanext/ytp/templates/package/snippets/dataset_state_banner.html:28
-#: ckanext/ytp/templates/package/snippets/dataset_state_banner.html:34
-msgid "Edit dataset"
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/dataset_state_banner.html:15
-msgid ""
-"In draft state. The dataset is only visible to logged in users of the "
-"producer organization."
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/dataset_state_banner.html:25
-msgid ""
-"Private mode. The dataset is only visible to logged in users of the producer"
-" organization."
-msgstr ""
-
 #: ckanext/ytp/templates/package/snippets/license_rdf.html:17
 #, python-format
 msgid ""
@@ -2412,6 +2428,14 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/license_rdf.html:43
 msgid "https://creativecommons.org/licenses/by/4.0/"
 msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/new_data_api_button.html:7
+msgid "Loading..."
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/new_data_api_button.html:9
+msgid "Data API Instructions"
+msgstr "Open API guide"
 
 #: ckanext/ytp/templates/package/snippets/package_form.html:30
 msgid "Next: Add Data"
@@ -2488,7 +2512,7 @@ msgid "eg. January 2011 Gold Prices"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/resource_form.html:26
-#: ckanext/ytp/templates/scheming/organization/about.html:14
+#: ckanext/ytp/templates/scheming/organization/about.html:16
 msgid "Description"
 msgstr ""
 
@@ -2782,7 +2806,7 @@ msgid ""
 " odt, ods, txt."
 msgstr ""
 
-#: ckanext/ytp/templates/scheming/organization/about.html:36
+#: ckanext/ytp/templates/scheming/organization/about.html:38
 msgid "Logo of organization {org}"
 msgstr ""
 
@@ -2989,11 +3013,11 @@ msgstr ""
 msgid "Height:"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/facet_list.html:87
+#: ckanext/ytp/templates/snippets/facet_list.html:96
 msgid "Show less"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/facet_list.html:91
+#: ckanext/ytp/templates/snippets/facet_list.html:100
 msgid "There are no {facet_type} that match this search"
 msgstr ""
 

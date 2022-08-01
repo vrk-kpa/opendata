@@ -805,6 +805,7 @@ def action_organization_tree_list(context, data_dict):
                                               model.GroupExtra.state == 'active'))
             .outerjoin(model.Package, and_(model.Package.type == 'dataset',
                                            model.Package.private == false(),
+                                           model.Package.state == 'active',
                                            or_(model.Package.owner_org == model.Group.name,
                                                model.Package.owner_org == model.Group.id)))
             .outerjoin(parent_member, and_(parent_member.group_id == model.Group.id,

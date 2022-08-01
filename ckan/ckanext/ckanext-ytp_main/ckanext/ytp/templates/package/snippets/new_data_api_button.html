@@ -1,0 +1,10 @@
+{# Data API Help Button
+  custom implementation of teh data_api_button.html
+   resource: the resource
+    #}
+
+    {% if resource.datastore_active %}
+      {% set loading_text = _('Loading...') %}
+      {% set api_info_url = h.url_for(controller='api', action='snippet', ver=1, snippet_path='api_info.html', resource_id=resource.id) %}
+      <a class="btn btn-menu-manage resource-url-analytics" href="{{ api_info_url }}" data-module="api-info" data-module-template="{{ api_info_url }}" data-loading-text="{{ loading_text }}">{{ _('Data API Instructions') }}</a>
+      {% endif %}
