@@ -184,7 +184,7 @@ gulp.task("templates", (done) => {
     gulp.src(paths.src.templates),
     template({ timestamp: timestamp }),
     gulp.dest(paths.dist + "/templates"),
-    gulp.dest(paths.ckanResources + "/styles"),
+    gulp.dest(paths.ckanResources + "/templates"),
   ], done)
 });
 
