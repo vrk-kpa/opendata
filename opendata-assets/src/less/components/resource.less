@@ -1,20 +1,20 @@
-.toolbar-secondary-wrapper{
+.toolbar-secondary-wrapper {
   padding-bottom: @padding-y__resource_toolbar;
 }
 
-.toolbar-resource-secondary{
+.toolbar-resource-secondary {
   max-width: 1110px;
   margin: 0 auto;
   padding: 0 @padding-right__module--resource;
 
-  i{
-    border-radius: 0px;
+  i {
+    border-radius: 0;
     height: 16px;
     width: 16px;
     color: @suomi-highlightBase;
   }
 
-  a{
+  a {
     color: @suomi-highlightBase;
     font-family: @font-family-sans-serif;
     font-size: @font-size-smaller-base;
@@ -24,7 +24,6 @@
     text-transform: uppercase;
   }
 }
-
 
 .module-resource {
   border: none;
@@ -40,52 +39,47 @@
   padding-left: @padding-left__module--resource;
   padding-right: @padding-right__module--resource;
 
-  
   .actions {
     top: 0;
     right: 0;
 
-    ul{
+    ul {
       float: right;
     }
   }
 
-  .module-small-title{
-    // height: 24px;
+  .module-small-title {
     color: @suomi-depthDark27;
     font-size: @font-size-slightly-smaller-base;
-    font-family: @font-family-sans-serif; 
+    font-family: @font-family-sans-serif;
     font-weight: @font-weight-normal;
     line-height: @line-height-base;
     padding-top: @padding-y__resource_toolbar;
   }
 
-  .resource-module-table{
+  .resource-module-table {
     width: 100%;
   }
 
-  .resource-module-table th{
+  .resource-module-table th {
     text-align: left;
     padding: @padding__resource_table;
     font-size: @font-size-slightly-smaller-base;
+    font-weight: @font-weight-light;
   }
 
-  .resource-module-table td, .resource-module-table tr{
+  .resource-module-table td,
+  .resource-module-table tr {
     border: 1px solid @suomi-depthLight13;
     padding: @padding__resource_table;
     border-collapse: collapse;
   }
 
-  .resource-module-table tr:nth-child(odd){
+  .resource-module-table tr:nth-child(odd) {
     background-color: @suomi-depthLight30;
   }
 
-  .resource-module-table th{
-    font-weight: @font-weight-light; 
-    font-size: @font-size-slightly-smaller-base;
-  }
-
-  .resource-module-table th:nth-child(odd){
+  .resource-module-table th:nth-child(odd) {
     font-weight: @font-weight-heavier;
   }
 }
@@ -124,7 +118,7 @@
 .container-module-resource {
   border: 1px solid @color--extra-light-grey;
 
-  .resource-block{
+  .resource-block {
     padding-bottom: @padding-bottom__module--resource;
   }
 
@@ -157,6 +151,7 @@
 
 .resource-list .resource-item {
   padding: 0;
+
   .format-label {
     margin-top: 0;
     margin-left: 0;
