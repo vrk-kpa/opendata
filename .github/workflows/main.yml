@@ -107,6 +107,13 @@ jobs:
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          outputs: type=docker,dest=/tmp/${{ matrix.name }}.tar
+
+      - name: upload images
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.name }}
+          path: /tmp/${{ matrix.name }}.tar
 
   test-e2e:
     name: test-e2e
@@ -220,41 +227,17 @@ jobs:
         with:
           registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
 
-      - name: build solr from cache
-        uses: docker/build-push-action@v3
+      - name: download built images
+        uses: actions/download-artifact@v3
         with:
-          context: ./docker/solr
-          push: false
-          load: true
-          cache-from: type=gha
-          tags: opendata/solr:latest
+          path: /tmp
 
-      - name: build nginx from cache
-        uses: docker/build-push-action@v3
-        with:
-          context: ./docker/nginx
-          push: false
-          load: true
-          cache-from: type=gha
-          tags: opendata/nginx:latest
-
-      - name: build drupal from cache
-        uses: docker/build-push-action@v3
-        with:
-          context: ./drupal
-          push: false
-          load: true
-          cache-from: type=gha
-          tags: opendata/drupal:latest
-
-      - name: build ckan from cache
-        uses: docker/build-push-action@v3
-        with:
-          context: ./ckan
-          push: false
-          load: true
-          cache-from: type=gha
-          tags: opendata/ckan:latest
+      - name: load built images
+        run: |
+          docker load --input /tmp/ckan/ckan.tar
+          docker load --input /tmp/drupal/drupal.tar
+          docker load --input /tmp/solr/solr.tar
+          docker load --input /tmp/nginx/nginx.tar
 
       - name: bring services up
         working-directory: docker
