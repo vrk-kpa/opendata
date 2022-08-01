@@ -108,6 +108,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           outputs: type=docker,dest=/tmp/${{ matrix.name }}.tar
+          tags: opendata/${{ matrix.name }}:latest
 
       - name: upload images
         uses: actions/upload-artifact@v3
