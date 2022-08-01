@@ -271,11 +271,13 @@ gulp.task("copy:moment", (done) => {
 gulp.task("vendor",
   gulp.series(
     "copy:moment",
-    "copy:libs", (done) => {
+    "copy:libs",
+    "bootstrap_scripts",
+    "bootstrap_styles", (done) => {
     pump([
       gulp.src(paths.src.root + "/vendor/**/*"),
       gulp.dest(paths.dist + "/vendor"),
-      gulp.dest(paths.ckanPublic + "/vendor"),
+      gulp.dest(paths.ckanResources + "/vendor"),
     ], done)
   })
 );
@@ -306,8 +308,6 @@ gulp.task(
     "copy:fontawesomeLess",
     "copy:fontawesomeFonts",
     gulp.parallel(
-      "bootstrap_styles",
-      "bootstrap_scripts",
       "minify-vendor-javascript",
       "templates",
       "static_pages",
