@@ -32,7 +32,8 @@ var paths = {
     bootstrap_styles: "./node_modules/bootstrap/less",
     bootstrap_scripts: "./node_modules/bootstrap/js/*",
     moment_path: "./node_modules/moment",
-    root: "src"
+    root: "src",
+    fontawesome: "./node_modules/@fortawesome/fontawesome-pro"
   },
   dist: "resources",
   ckanResources: "../ckan/ckanext/ckanext-ytp_main/ckanext/ytp/resources",
@@ -40,11 +41,8 @@ var paths = {
   drupalTheme: "../drupal/modules/avoindata-theme"
 };
 
-let fontawesomeLessPath = './node_modules/@fortawesome/fontawesome-pro/less';
-let fontawesomeFontPath = './node_modules/@fortawesome/fontawesome-pro/webfonts'
-if (!fs.existsSync('./node_modules/@fortawesome/fontawesome-pro')){
-  fontawesomeLessPath = './node_modules/@fortawesome/fontawesome-free/less'
-  fontawesomeFontPath = './node_modules/@fortawesome/fontawesome-free/webfonts'
+if (!fs.existsSync(paths.src.fontawesome)){
+  paths.src.fontawesome = "./node_modules/@fortawesome/fontawesome-free";
 }
 
 var timestamp = new Date().getTime();
@@ -59,17 +57,25 @@ gulp.task("clean", done => {
 
 gulp.task('copy:fontawesomeLess', (done) => {
   pump([
-    gulp.src(fontawesomeLessPath + "/*.less"),
+    gulp.src(paths.src.fontawesome + "/less/*.less"),
     gulp.dest(paths.src.root + "/vendor/@fortawesome/fontawesome/less")
   ], done)
 });
 
 gulp.task('copy:fontawesomeFonts', (done) => {
   pump([
-    gulp.src(fontawesomeFontPath + "/*.*"),
+    gulp.src(paths.src.fontawesome + "/webfonts/*.*"),
     gulp.dest(paths.drupalTheme + "/fonts")
   ], done)
 })
+
+gulp.task('copy:fontawesome', (done) => {
+  pump([
+    gulp.src(paths.src.fontawesome + "/**/**.*"),
+    gulp.dest(paths.ckanPublic + "/vendor/@fortawesome/fontawesome")
+  ], done)
+})
+
 
 gulp.task('lint', (done) => {
   pump([
@@ -245,16 +251,11 @@ gulp.task("bootstrap_styles", (done) => {
 gulp.task('copy:libs', (done) => {
   pump([
     gulp.src(npmDist({
+      excludes: ['/@fortawesome/**/*']
     }), {base: './node_modules'}),
     rename((path) => {
       if (path.extname === '.js' || path.extname === '.css'){
         path.basename = path.basename.replace(".min", "");
-      }
-      if (path.dirname.includes("-pro")){
-        path.dirname = path.dirname.replace("-pro", "");
-      }
-      if (path.dirname.includes("-free")){
-        path.dirname = path.dirname.replace("-free", "");
       }
     }),
     gulp.dest(paths.src.root + '/vendor')
@@ -306,7 +307,7 @@ gulp.task(
     "clean",
     "config",
     "copy:fontawesomeLess",
-    "copy:fontawesomeFonts",
+    "copy:fontawesome",
     gulp.parallel(
       "minify-vendor-javascript",
       "templates",
