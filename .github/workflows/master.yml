@@ -1,0 +1,93 @@
+name: Build and deploy containers
+
+on:
+  push:
+    #branches:
+      #- master
+  workflow_dispatch:
+
+jobs:
+  build-containers-and-test-containers:
+    uses: ./.github/workflows/test.yml
+    secrets: inherit
+
+
+  deploy-beta:
+    name: deploy-beta
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs:
+      - test-e2e
+      - test-cdk
+    if: github.ref == 'refs/heads/master'
+    concurrency:
+      group: ${{ github.ref }}/deploy-beta
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: install nodejs v16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_cdk_v16-
+
+      - name: install cdk npm packages and verify installation
+        working-directory: cdk
+        run: |
+          npm install
+          $(npm bin)/cdk doctor
+
+      - name: configure environment
+        shell: bash
+        run: |
+          # configure docker
+          cp -f docker/.env.template docker/.env
+          sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
+          sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
+        env:
+          REGISTRY: ${{ secrets.REGISTRY }}
+          REPOSITORY: ${{ secrets.REPOSITORY }}
+
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+
+      - name: build cdk project
+        working-directory: cdk
+        run: |
+          npm run build
+
+      - name: synthesize cdk stacks
+        working-directory: cdk
+        run: |
+          $(npm bin)/cdk synth WebStack-beta --quiet >/dev/null 2>&1
+
+      - name: deploy cdk stacks
+        working-directory: cdk
+        run: |
+          $(npm bin)/cdk deploy WebStack-beta --require-approval=never >/dev/null 2>&1
+
+      - name: Notify Zulip
+        uses: zulip/github-actions-zulip/send-message@v1
+        with:
+          api-key: ${{ secrets.ZULIP_API_KEY }}
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Beta Deployments'
+          content: 'Beta deployment succeeded! (${{ github.event.head_commit.message }})'
