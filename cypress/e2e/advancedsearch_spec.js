@@ -295,40 +295,37 @@ describe('Advanced search tests', () => {
             //currently the test dataset will be created on the day the tests are run
 
             //This needs to be done twice because cypress loses the reference to the dom element after clear for some reason
-            cy.get('[name="released-after"]').clear();
-            cy.get('[name="released-after"]').type('2000-01-01'); 
-            cy.get('[name="released-before"]').clear();
-            cy.get('[name="released-before"]').type('2100-01-01');
+            cy.get('[name="released-after"]').type('{selectAll}2000-01-01', {force: true});
+            cy.get('[name="released-before"]').type('{selectAll}2100-01-01', {force: true});
             cy.get('.dataset-list').children().should('have.length', 2)
             cy.get('.dataset-heading').contains('first dataset');
             cy.get('.dataset-heading').contains('second dataset');
 
-            //should not return any datasets (reverse)
             cy.get('[name="released-after"]').clear();
-            cy.get('[name="released-after"]').type('2100-01-01'); 
             cy.get('[name="released-before"]').clear();
-            cy.get('[name="released-before"]').type('2000-01-01');
-            cy.get('.dataset-list').should('not.exist')
+
+            //should not return any datasets (reverse)
+            cy.get('[name="released-after"]').type('{selectAll}2100-01-01', {force: true});
+            cy.get('[name="released-before"]').type('{selectAll}2000-01-01', {force: true});
+            cy.get('.dataset-list').should('not.exist');
         })
 
         it('Filter by updated', () =>{
             //currently the test dataset will be created on the day the tests are run
 
-            //This needs to be done twice because cypress loses the reference to the dom element after clear for some reason
-            cy.get('[name="updated-after"]').clear();
-            cy.get('[name="updated-after"]').type('2000-01-01'); 
-            cy.get('[name="updated-before"]').clear();
-            cy.get('[name="updated-before"]').type('2100-01-01');
+            cy.get('[name="updated-after"]').type('{selectAll}2000-01-01', {force: true});
+            cy.get('[name="updated-before"]').type('{selectAll}2100-01-01', {force: true});
             cy.get('.dataset-list').children().should('have.length', 2)
             cy.get('.dataset-heading').contains('first dataset');
             cy.get('.dataset-heading').contains('second dataset');
 
-            //should not return any datasets (reverse)
             cy.get('[name="updated-after"]').clear();
-            cy.get('[name="updated-after"]').type('2100-01-01'); 
             cy.get('[name="updated-before"]').clear();
-            cy.get('[name="updated-before"]').type('2000-01-01');
-            cy.get('.dataset-list').should('not.exist')
+
+            //should not return any datasets (reverse)
+            cy.get('[name="updated-after"]').type('{selectAll}2100-01-01', {force: true});
+            cy.get('[name="updated-before"]').type('{selectAll}2000-01-01', {force: true});
+            cy.get('.dataset-list').should('not.exist');
         })
 
         // TODO: Test publisher filter
