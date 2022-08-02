@@ -16,9 +16,9 @@ jobs:
     name: deploy-beta
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    needs:
-      - test-e2e
-      - test-cdk
+    #needs:
+    #  - test-e2e
+    #  - test-cdk
     if: github.ref == 'refs/heads/master'
     concurrency:
       group: ${{ github.ref }}/deploy-beta
