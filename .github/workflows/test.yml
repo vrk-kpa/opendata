@@ -1,10 +1,7 @@
 name: CI/CD
 
 on:
-  push:
-    branches:
-    branches-ignore:
-      - master
+  pull_request:
   workflow_dispatch:
   workflow_call:
 
