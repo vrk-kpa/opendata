@@ -53,7 +53,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
         with:
-          submodules: recursive
+          submodules: ${{ matrix.submodules }}
 
       - name: setup docker buildx
         uses: docker/setup-buildx-action@v1
