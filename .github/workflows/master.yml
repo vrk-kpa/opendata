@@ -29,25 +29,25 @@ jobs:
             submodules: ""
             build-frontend: false
             name: solr
-            dynatrace: DYNATRACE_ENABLED=0
+            dynatrace: false
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
             build-frontend: false
             name: nginx
-            dynatrace: DYNATRACE_ENABLED=0
+            dynatrace: false
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
             submodules: ""
             build-frontend: true
             name: drupal
-            dynatrace: DYNATRACE_ENABLED=1
+            dynatrace: true
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
             build-frontend: true
             name: ckan
-            dynatrace: DYNATRACE_ENABLED=1
+            dynatrace: true
 
     steps:
       - name: checkout
@@ -71,6 +71,7 @@ jobs:
 
       - name: login to DynaTrace Registry
         id: login-dtr
+        if: ${{ matrix.dynatrace == true }}
         uses: docker/login-action@v2
         with:
           registry: ${{ secrets.DYNATRACE_USERNAME }}.live.dynatrace.com
@@ -116,12 +117,13 @@ jobs:
           tags: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
 
       - name: build images with dynatrace
+        if: ${{ matrix.dynatrace == true }}
         uses: docker/build-push-action@v3
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           build-args: |
-            ${{ matrix.dynatrace }}
+            DYNATRACE_ENABLED=1
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -171,6 +173,10 @@ jobs:
           cp -f docker/.env.template docker/.env
           sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
           sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
+          sed -i.bak -E 's/^(CKAN_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
+          sed -i.bak -E 's/^(DRUPAL_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
+          sed -i.bak -E 's/^(NGINX_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
+          sed -i.bak -E 's/^(SOLR_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
