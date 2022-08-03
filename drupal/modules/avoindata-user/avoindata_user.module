@@ -54,6 +54,10 @@ function avoindata_user_validate_name(array $form, FormStateInterface &$form_sta
 
   $name = $form_state->getValue('name', NULL);
 
+  if (strlen($name) < 2) {
+    $error = t('The username has to consist of at least 2 characters.');
+  }
+
   if (!preg_match('/^[a-z0-9_\-]*$/', $name)) {
 
     $error = t('The username contains an illegal character.');

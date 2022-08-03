@@ -84,7 +84,7 @@ p:last-child,
 
 // Help region.
 .region-help {
-  > .glyphicon {
+  >.glyphicon {
     font-size: @font-size-large;
     float: left;
     margin: -0.05em 0.5em 0 0;
@@ -542,10 +542,8 @@ p:last-child,
           width: 100%;
           position: absolute;
           background-image:
-            linear-gradient(
-              rgba(255, 255, 255, 0) 0%,
-              white 75%
-            );
+            linear-gradient(rgba(255, 255, 255, 0) 0%,
+              white 75%);
           bottom: 0;
         }
       }
@@ -593,7 +591,7 @@ p:last-child,
 }
 
 .avoindata-datasetlist-single-dataset {
-  & + & {
+  &+& {
     padding-left: 40px;
 
     @media (max-width: 768px) {
@@ -692,7 +690,7 @@ p:last-child,
 }
 
 .avoindata-newsfeed-column {
-  & + & {
+  &+& {
     border-top: 1px solid #979797;
   }
 }
@@ -803,7 +801,7 @@ p:last-child,
 }
 
 .avoindata-appfeed-application-box {
-  & + & {
+  &+& {
     margin-left: 32px;
 
     @media (max-width: 768px) {
@@ -827,7 +825,7 @@ p:last-child,
     background-color: @resource-list-background;
     margin-bottom: 10px;
 
-    .avoindata-article-category-filter > * {
+    .avoindata-article-category-filter>* {
       /*
       Click target should register to the category-filter element and not any of its child elements, because
       otherwise function searchArticlesApplyFilter(event) doesn't work correctly.
@@ -977,6 +975,7 @@ p:last-child,
   .tag-list-item:first-child::before {
     content: '';
   }
+
   // First element is an icon
   .tag-list-item:nth-child(2)::before {
     content: '';
@@ -1197,11 +1196,9 @@ p:last-child,
           width: 70%;
           height: 20px;
           background:
-            linear-gradient(
-              to right,
+            linear-gradient(to right,
               rgba(255, 255, 255, 0),
-              rgba(255, 255, 255, 1) 50%
-            );
+              rgba(255, 255, 255, 1) 50%);
         }
       }
     }
@@ -1237,7 +1234,7 @@ p:last-child,
 // Guide page arrowbox
 .arrow-box {
   position: relative;
-  background: #2a6ebb;
+  background: #2A6EBB;
   height: 125px;
   text-align: center;
   margin-bottom: 20px;
@@ -1254,7 +1251,7 @@ p:last-child,
   }
 }
 
-.arrow-box::after {
+.arrow-box:after {
   top: 100%;
   left: 50%;
   border: solid transparent;
@@ -1264,7 +1261,7 @@ p:last-child,
   position: absolute;
   pointer-events: none;
   border-color: rgba(42, 110, 187, 0);
-  border-top-color: #2a6ebb;
+  border-top-color: #2A6EBB;
   border-width: 15px;
   margin-left: -15px;
 }
@@ -1387,7 +1384,7 @@ p:last-child,
   background-color: @breadcrumb-bg;
   border-radius: @border-radius-base;
 
-  > li {
+  >li {
     display: inline-block;
 
     // Drupal admin panel was overriding this.
@@ -1395,14 +1392,14 @@ p:last-child,
       display: inline-block;
     }
 
-    + li::before {
+    +li::before {
       content: '@{breadcrumb-separator}\00a0';
       padding: 0 5px;
       color: @color__breadcrumb-link;
     }
   }
 
-  > .active {
+  >.active {
     color: @breadcrumb-active-color;
   }
 }
@@ -1504,7 +1501,7 @@ p:last-child,
       }
     }
 
-    li > a {
+    li>a {
       color: @btn-dark-bg;
     }
   }
@@ -1523,4 +1520,77 @@ p:last-child,
 .avoindata-frontpage-header-text-container {
   text-align: center;
   width: 100%;
+}
+
+.messages__wrapper {
+  .alert {
+
+    &.alert-info.alert-dismissible p::before {
+      font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free";
+      /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+      content: "\f05a";
+      display: inline-block;
+      padding-right: 22px;
+      vertical-align: middle;
+      font-weight: 900;
+      color: @suomi-highlightDark9;
+    }
+
+    &.alert-warning.alert-dismissible p::before {
+      font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free";
+      /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+      content: "\f071";
+      display: inline-block;
+      padding-right: 22px;
+      vertical-align: middle;
+      font-weight: 900;
+      color: @suomi-warningBase;
+    }
+
+    &.alert-danger.alert-dismissible p::before {
+      font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free";
+      /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+      content: "\f06a";
+      display: inline-block;
+      padding-right: 22px;
+      vertical-align: middle;
+      font-weight: 900;
+      color: @suomi-alertBase;
+    }
+
+    p,
+    button {
+      color: @new-layout-primary-text-color;
+    }
+
+    a {
+      color: @link-color;
+
+      &:hover {
+        color: @link-hilight;
+      }
+
+      &:focus {
+        color: @link-color-focus;
+      }
+    }
+  }
+}
+
+@media (min-width: @screen-lg) {
+  .messages__wrapper {
+    .alert {
+      padding-left: 15%;
+      padding-right: 40px;
+    }
+  }
+}
+
+@media (max-width: @screen-md-max) {
+  .messages__wrapper {
+    .alert {
+      padding-left: 10%;
+      padding-right: 10%;
+    }
+  }
 }

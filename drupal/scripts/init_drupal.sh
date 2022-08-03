@@ -162,25 +162,25 @@ drush config:import -y --partial --source ${APP_DIR}/site_config
 drush cache:rebuild
 
 # update translations (if file has changed, otherwise skip)
-SHA1_I18N_FI=$(sha1sum ${I18N_DIR}/fi/drupal8.po)
+SHA1_I18N_FI=$(sha1sum ${I18N_DIR}/fi/drupal.po)
 if [[ "$SHA1_I18N_FI" != "$(cat ${DATA_DIR}/.sha1_18n_fi)" ]]; then
-  drush language:import:translations ${I18N_DIR}/fi/drupal8.po --langcode "fi"
+  drush language:import:translations ${I18N_DIR}/fi/drupal.po --langcode "fi"
   echo "$SHA1_I18N_FI" > ${DATA_DIR}/.sha1_18n_fi
 else
   echo "skipping import of 'fi' i18n because file hasn't changed ..."
 fi
 
-SHA1_I18N_SV=$(sha1sum ${I18N_DIR}/sv/drupal8.po)
+SHA1_I18N_SV=$(sha1sum ${I18N_DIR}/sv/drupal.po)
 if [[ "$SHA1_I18N_SV" != "$(cat ${DATA_DIR}/.sha1_18n_sv)" ]]; then
-  drush language:import:translations ${I18N_DIR}/sv/drupal8.po --langcode "sv"
+  drush language:import:translations ${I18N_DIR}/sv/drupal.po --langcode "sv"
   echo "$SHA1_I18N_SV" > ${DATA_DIR}/.sha1_18n_sv
 else
   echo "skipping import of 'sv' i18n because file hasn't changed ..."
 fi
 
-SHA1_I18N_EN=$(sha1sum ${I18N_DIR}/en_GB/drupal8.po)
+SHA1_I18N_EN=$(sha1sum ${I18N_DIR}/en_GB/drupal.po)
 if [[ "$SHA1_I18N_EN" != "$(cat ${DATA_DIR}/.sha1_18n_en)" ]]; then
-  drush language:import:translations ${I18N_DIR}/en_GB/drupal8.po --langcode "en"
+  drush language:import:translations ${I18N_DIR}/en_GB/drupal.po --langcode "en"
   echo "$SHA1_I18N_EN" > ${DATA_DIR}/.sha1_18n_en
 else
   echo "skipping import of 'en' i18n because file hasn't changed ..."
