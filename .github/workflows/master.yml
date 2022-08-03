@@ -105,7 +105,7 @@ jobs:
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:{{ github.sha }}
+          tags: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
 
       - name: build images with dynatrace
         uses: docker/build-push-action@v3
@@ -117,7 +117,7 @@ jobs:
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:{{ github.sha }}-dynatrace
+          tags: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}-dynatrace
 
 
   deploy-beta:
