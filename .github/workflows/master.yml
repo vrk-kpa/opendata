@@ -2,8 +2,8 @@ name: Build and deploy containers
 
 on:
   push:
-    #branches:
-      #- master
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
@@ -137,7 +137,6 @@ jobs:
     needs:
       - build-and-test-containers
       - build-and-push
-    if: github.ref == 'refs/heads/master'
     concurrency:
       group: ${{ github.ref }}/deploy-beta
     permissions:
