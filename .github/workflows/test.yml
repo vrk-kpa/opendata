@@ -3,6 +3,8 @@ name: CI/CD
 on:
   push:
     branches:
+    branches-ignore:
+      - master
   workflow_dispatch:
   workflow_call:
 
