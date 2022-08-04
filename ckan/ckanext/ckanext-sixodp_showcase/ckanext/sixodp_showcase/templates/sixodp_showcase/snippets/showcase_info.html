@@ -3,7 +3,7 @@
 <aside class="module module-narrow additional-info dataset-sidebar secondary col-lg-4">
     {% block info_tags %}
       {{ layout.moduleBoxHead(_('Tags')) }}
-        {% snippet 'package/snippets/tags.html', tags=pkg.get('keywords', {}), field='keywords' %}
+        {% snippet 'package/snippets/tags.html', tags=pkg.get('keywords', {}), field='keywords', pkg=pkg %}
       {{ layout.moduleBoxFoot() }}
     {% endblock %}
 
