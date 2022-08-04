@@ -4,10 +4,17 @@
     {% block tag_list %}
       <ul class="tag-list">
         {% for tag in tags.get(lang) %}
-          {% set tag_dict = dict({
-              'controller': 'dataset',
+          {% if pkg.get('type', {}) == 'showcase' %}
+            {% set tag_dict = dict({
+              'controller': 'sixodp_showcase',
               'action': 'search',
               'vocab_' + field + '_' + lang: tag|lower }) %}
+          {% else %}
+          {% set tag_dict = dict({
+            'controller': 'dataset',
+            'action': 'search',
+            'vocab_' + field + '_' + lang: tag|lower }) %}
+          {% endif %}
           <li>
             <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{{ h.call_toolkit_function('url_for',[], tag_dict) }}">
               {{ h.truncate(tag, 22) }}

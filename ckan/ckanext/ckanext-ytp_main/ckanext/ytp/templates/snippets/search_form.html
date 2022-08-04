@@ -18,7 +18,7 @@
                                 {%- if facets.translated_fields and facets.translated_fields.has_key((field,value)) -%}
                                     {{ facets.translated_fields[(field,value)] }}
                                 {%- else -%}
-                                    {{ h.list_dict_filter(search_facets_items, 'name', 'display_name', value) }}
+                                    {{ _( h.list_dict_filter(search_facets_items, 'name', 'display_name', value) ) }}
                                 {%- endif %}
                                 <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fal fa-times pill__icon"></i></a>
                             </span>

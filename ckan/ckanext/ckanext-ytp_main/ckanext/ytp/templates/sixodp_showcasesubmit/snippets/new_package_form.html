@@ -172,10 +172,10 @@
     <div class="ytp-group-divider"></div>
 
     <h3 class="ytp-group-title">{{_("Showcase images")}}</h3>
-    <h5 class="ytp-group-description">{{_("Images will be shown on the showcase page. You can upload images from your computer or link to an URL.")}}</h5>
+    <h5 class="ytp-group-description">{{_("Images will be shown on the showcase page. You can upload images from your computer or link to an URL. Telling us about a mobile app? If you want the app logo to show as the featured image, upload the app logo (and possible other images), but do not upload a featured image.")}}</h5>
 
-    {%- set is_upload = (data.url_type == 'upload') -%}
-    {{ form.image_upload(
+    {%- set is_upload = (data.url_type == 'upload') or (data.image_url and not data.image_url.startswith('http')) -%}
+    {{ scheming_form.image_upload_dragndrop(
       data,
       errors,
       field_url='icon',
@@ -186,7 +186,7 @@
       is_upload=is_upload,
       upload_label=_('Icon'),
       url_label=_('Icon'),
-      placeholder=''
+      placeholder='http://example.com/my-image.jpg'
       )
     }}
     <div class="field-assistive-text">
@@ -195,8 +195,8 @@
       {% endtrans %}
     </div>
 
-    {%- set is_upload = (data.url_type == 'upload') -%}
-    {{ form.image_upload(
+    {%- set is_upload = (data.url_type == 'upload') or (data.image_url and not data.image_url.startswith('http')) -%}
+    {{ scheming_form.image_upload_dragndrop(
       data,
       errors,
       field_url='featured_image',
@@ -207,17 +207,23 @@
       is_upload=is_upload,
       upload_label=_('Featured image'),
       url_label=_('Featured image'),
-      placeholder=''
+      placeholder='http://example.com/my-image.jpg'
       )
     }}
     <div class="field-assistive-text">
       {% trans %}
-        Featured image will be shown on the cards in showcase list page.
+        The featured image will be shown on the Showcases-page as well as on the showcase's own page.
       {% endtrans %}
     </div>
 
-    {%- set is_upload = (data.url_type == 'upload') -%}
-    {{ form.image_upload(
+    <h5 class="ytp-group-description">
+      {% trans %}
+        Add max. 3 images of your showcase. Good images are for example those that show the user interface and features of the showcase.)
+      {% endtrans %}
+    </h5>
+
+    {%- set is_upload = (data.url_type == 'upload') or (data.image_url and not data.image_url.startswith('http')) -%}
+    {{ scheming_form.image_upload_dragndrop(
       data,
       errors,
       field_url='image_1',
@@ -228,12 +234,12 @@
       is_upload=is_upload,
       upload_label=_('Image 1'),
       url_label=_('Image 1'),
-      placeholder=''
+      placeholder='http://example.com/my-image.jpg'
       )
     }}
 
-    {%- set is_upload = (data.url_type == 'upload') -%}
-    {{ form.image_upload(
+    {%- set is_upload = (data.url_type == 'upload') or (data.image_url and not data.image_url.startswith('http')) -%}
+    {{ scheming_form.image_upload_dragndrop(
       data,
       errors,
       field_url='image_2',
@@ -244,12 +250,12 @@
       is_upload=is_upload,
       upload_label=_('Image 2'),
       url_label=_('Image 2'),
-      placeholder=''
+      placeholder='http://example.com/my-image.jpg'
       )
     }}
 
-    {%- set is_upload = (data.url_type == 'upload') -%}
-    {{ form.image_upload(
+    {%- set is_upload = (data.url_type == 'upload') or (data.image_url and not data.image_url.startswith('http')) -%}
+    {{ scheming_form.image_upload_dragndrop(
       data,
       errors,
       field_url='image_3',
@@ -260,7 +266,7 @@
       is_upload=is_upload,
       upload_label=_('Image 3'),
       url_label=_('Image 3'),
-      placeholder=''
+      placeholder='http://example.com/my-image.jpg'
       )
     }}
 
