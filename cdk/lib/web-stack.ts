@@ -95,6 +95,7 @@ export class WebStack extends Stack {
         DRUPAL_PORT: '80',
         // dynatrace oneagent
         DT_CUSTOM_PROP: `Environment=${props.environment}`,
+        NGINX_ROBOTS_ALLOW: props.allowRobots,
       },
       logging: ecs.LogDrivers.awsLogs({
         logGroup: nginxLogGroup,

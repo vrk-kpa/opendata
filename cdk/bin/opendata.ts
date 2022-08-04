@@ -61,7 +61,7 @@ const clusterStackInfratest = new ClusterStack(app, 'ClusterStack-infratest', {
   secondaryDomainName: infratestProps.secondaryDomainName,
 });
 
-const backupStackInfratest = new BackupStack(app,'BackupStack-infratest', {
+const backupStackInfratest = new BackupStack(app, 'BackupStack-infratest', {
   envProps: envProps,
   env: {
     account: infratestProps.account,
@@ -262,6 +262,7 @@ const webStackInfratest = new WebStack(app, 'WebStack-infratest', {
   },
   drupalService: drupalStackInfratest.drupalService,
   ckanService: ckanStackInfratest.ckanService,
+  allowRobots: 'false',
 });
 
 //
@@ -291,7 +292,7 @@ const clusterStackBeta = new ClusterStack(app, 'ClusterStack-beta', {
   secondaryDomainName: betaProps.secondaryDomainName,
 });
 
-const backupStackBeta = new BackupStack(app,'BackupStack-beta', {
+const backupStackBeta = new BackupStack(app, 'BackupStack-beta', {
   envProps: envProps,
   env: {
     account: betaProps.account,
@@ -501,6 +502,7 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
   },
   drupalService: drupalStackBeta.drupalService,
   ckanService: ckanStackBeta.ckanService,
+  allowRobots: 'false',
 });
 
 //
@@ -530,7 +532,7 @@ const clusterStackProd = new ClusterStack(app, 'ClusterStack-prod', {
   secondaryDomainName: prodProps.secondaryDomainName,
 });
 
-const backupStackProd = new BackupStack(app,'BackupStack-prod', {
+const backupStackProd = new BackupStack(app, 'BackupStack-prod', {
   envProps: envProps,
   env: {
     account: prodProps.account,
@@ -739,4 +741,5 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
   },
   drupalService: drupalStackProd.drupalService,
   ckanService: ckanStackProd.ckanService,
+  allowRobots: 'true',
 });
