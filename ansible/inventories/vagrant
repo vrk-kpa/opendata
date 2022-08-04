@@ -1,5 +1,0 @@
-[vagrant]
-localhost ansible_connection=local
-
-[vagrant:vars]
-ansible_python_interpreter=/usr/bin/python3

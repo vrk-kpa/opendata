@@ -1,7 +1,0 @@
----
-drupal_disqus_name: "{{ disqus_name }}"
-drupal_admin_email: vagrant@localhost
-drupal_smtp_protocol: standard
-drupal_smtp_port: 1025
-drupal_captcha_enabled: false
-drupal_matomo_analytics: "{{ matomo_analytics }}"

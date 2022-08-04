@@ -1,7 +1,0 @@
----
-# tasks file for prh_tools
-
-- name: Configure Prh instance
-  import_tasks: configure_prh_tools.yml
-  tags:
-    - configure

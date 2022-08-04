@@ -1,3 +1,0 @@
-dynatrace_oneagent_installer_script_url: "{{ secret_dynatrace_oneagent_installer_script_url }}"
-dynatrace_install_oneagent: false
-dynatrace_host_group: beta

@@ -1,8 +1,0 @@
----
-- name: Converge
-  hosts: all
-  become: true
-  vars:
-    opendata_frontend_modules_path: "../../../../modules"
-  roles:
-    - role: opendata_frontend

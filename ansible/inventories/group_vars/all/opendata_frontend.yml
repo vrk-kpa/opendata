@@ -1,2 +1,0 @@
----
-opendata_frontend_deployment_environment_id: "{{ deployment_environment_id }}"

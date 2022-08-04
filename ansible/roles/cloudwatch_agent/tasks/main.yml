@@ -1,7 +1,0 @@
----
-- name: Install latest Cloudwatch agent
-  apt:
-    deb: 'https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb'
-
-- import_tasks: configure.yml
-  tags: configure

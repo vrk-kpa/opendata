@@ -1,6 +1,0 @@
----
-# handlers file for datapusher
-- name: Restart CKAN
-  supervisorctl:
-    name: "{{ ckan_supervisor_name }}:"
-    state: restarted

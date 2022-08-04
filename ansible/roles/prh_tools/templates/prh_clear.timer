@@ -1,9 +1,0 @@
-[Unit]
-Description=Run prh clear service at last of day month
-
-[Timer]
-OnCalendar=*-*~01 0:22:00
-Persistent=True
-
-[Install]
-WantedBy=timers.target

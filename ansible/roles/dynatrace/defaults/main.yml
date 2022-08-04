@@ -1,7 +1,0 @@
----
-# defaults file for dynatrace
-
-dynatrace_oneagent_installer_script_url: null
-dynatrace_app_log_content_access: 1
-dynatrace_install_oneagent: true
-dynatrace_host_group: "default"

@@ -1,7 +1,0 @@
----
-# defaults file for composer
-
-composer_path: /usr/local/bin/composer
-composer_home_path: '~/.composer'
-composer_home_owner: www-data
-composer_home_group: www-data
