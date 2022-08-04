@@ -1,0 +1,68 @@
+# auth token mapping, prevents caching
+map $http_cookie $no_cache {
+  default $cookie_auth_tkt;
+  ~SESS 1;
+}
+
+# http scheme mapping
+map "$http_cloudfront_forwarded_proto:$http_x_forwarded_proto" $real_scheme {
+  default "http";
+  "~https" "https";
+}
+
+# resolvers
+resolver_timeout 5s;
+resolver ${NAMESERVER} valid=60s;
+
+# upstream servers
+# NOTE: doesn't work without NGINX Plus
+#       left here as an example...
+#upstream ckan_backend {
+#  ip_hash;
+#
+#  server ${CKAN_HOST}:${CKAN_PORT} max_fails=3 resolve;
+#}
+#upstream drupal_backend {
+#  ip_hash;
+#
+#  server ${DRUPAL_HOST}:${DRUPAL_PORT} max_fails=3 resolve;
+#}
+
+# listeners
+server {
+  listen ${NGINX_PORT};
+  server_name ${DOMAIN_NAME};
+
+  location ^~ /health {
+    access_log off;
+    default_type text/plain;
+    return 200 "health ok";
+  }
+
+  include /etc/nginx/conf.d/server.conf;
+}
+
+server {
+  listen ${NGINX_PORT};
+  server_name ${BASE_DOMAIN_NAME};
+  return 301 $real_scheme://${DOMAIN_NAME}$request_uri;
+}
+
+server {
+  listen ${NGINX_PORT};
+  server_name ${SECONDARY_DOMAIN_NAME};
+
+  location ^~ /health {
+    access_log off;
+    default_type text/plain;
+    return 200 "health ok";
+  }
+
+  include /etc/nginx/conf.d/server.conf;
+}
+
+server {
+  listen ${NGINX_PORT};
+  server_name ${SECONDARY_BASE_DOMAIN_NAME};
+  return 301 $real_scheme://${SECONDARY_DOMAIN_NAME}$request_uri;
+}

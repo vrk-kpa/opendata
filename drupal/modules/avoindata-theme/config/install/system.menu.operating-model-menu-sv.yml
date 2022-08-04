@@ -1,0 +1,7 @@
+langcode: sv
+status: true
+dependencies: {  }
+id: operating-model-menu-sv
+label: 'Operating model menu (sv)'
+description: 'Menu for operating model (sv)'
+locked: false

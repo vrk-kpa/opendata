@@ -1,0 +1,44 @@
+langcode: fi
+status: true
+dependencies:
+  config:
+    - system.menu.operating-model-menu-fi
+  module:
+    - language
+    - node
+    - system
+  theme:
+    - avoindata
+id: operatingmodelmenufi
+theme: avoindata
+region: guide_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:operating-model-menu-fi'
+settings:
+  id: 'system_menu_block:operating-model-menu-fi'
+  label: 'Tiedon jakamisen toimintamalli'
+  label_display: visible
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      avoindata_guide_page: avoindata_guide_page
+  language:
+    id: language
+    negate: false
+    context_mapping:
+      language: '@language.current_language_context:language_interface'
+    langcodes:
+      fi: fi
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/toimintamalli\r\n/toimintamalli/*"

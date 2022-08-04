@@ -1,0 +1,11 @@
+<!-- From ckanext-scheming -->
+{#- master snippet for all scheming display fields -#}
+{#- render the field the user requested, or use a default field -#}
+
+{%- set display_snippet = field.display_snippet -%}
+
+{%- if '/' not in display_snippet -%}
+  {%- set display_snippet = 'advanced_search/display_snippets/' + display_snippet -%}
+{%- endif -%}
+
+{%- snippet display_snippet, field=field, prev_query=prev_query, options=options -%}

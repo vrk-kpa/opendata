@@ -1,0 +1,112 @@
+{% extends "page.html" %}
+
+{% set pkg = c.pkg_dict %}
+{% set name = h.get_translated(pkg, 'title') or pkg.name %}
+
+{% block subtitle %}{{ name }} - {{ _('Showcases') }}{% endblock %}
+
+{% block links -%}
+  {{ super() }}
+  <link rel="alternate" type="application/rdf+xml" href="{{ h.url_for('sixodp_showcase.read', id=pkg.id, format='rdf', qualified=True) }}"/>
+{% endblock -%}
+
+{% block head_extras -%}
+  {{ super() }}
+  {% set description = h.markdown_extract(pkg.notes, extract_length=200)|forceescape %}
+  <meta property="og:title" content="{{ h.dataset_display_name(pkg) }} - {{ g.site_title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:url" content="{{ h.full_current_url() }}">
+  {% if pkg.image_display_url %}
+     <meta property="og:image" content="{{ pkg.image_display_url }}">
+  {% endif %}
+{% endblock -%}
+
+{% block breadcrumb_content_selected %} class="active"{% endblock %}
+
+{% block breadcrumb_content %}
+  {% set showcase = h.get_translated(pkg, 'title') or pkg.name %}
+  <li>{{ h.nav_link(_('Showcases'), named_route='sixodp_showcase.search', highlight_actions = 'new index') }}</li>
+  <li{{ self.breadcrumb_content_selected() }}>{% link_for showcase|truncate(30), named_route='showcase_read', id=pkg.name %}</li>
+{% endblock %}
+
+{% block page_header %}
+{% endblock %}
+{% block primary %}
+  {% snippet "sixodp_showcase/snippets/showcase_state_banner.html", pkg=pkg %}
+  <div class="dataset-container showcase-content">
+    <div class="dataset-header-row d-flex align-items-end justify-content-between flex-wrap">
+      <div>
+        <h1 class="dataset-title page-heading m-0">
+          {% block page_heading %}
+            {{ h.get_translated(pkg, 'title') or pkg.name }}
+          {% endblock %}
+        </h1>
+      </div>
+      <div class="content_action">
+        {% block content_action %}
+        {% endblock %}
+      </div>
+    </div>
+    <div id="dataset-primary" class="row">
+      {% block primary_content %}
+        <section class="dataset-primary-content col-lg-8">
+          {% block primary_content_inner %}
+            {% block package_description %}
+
+              {% if pkg.private %}
+                <span class="dataset-private label label-inverse pull-right">
+                  <i class="icon-lock"></i>
+                  {{ _('Private') }}
+                </span>
+              {% endif %}
+
+              {% if pkg.image_display_url %}
+                <p class="ckanext-showcase-image-container"><img src="{{ pkg.image_display_url }}" alt="{{ name }}" class="media-image ckanext-showcase-image"></p>
+              {% endif %}
+
+              {% if pkg.url %}
+                <p><a class="btn btn-primary ckanext-showcase-launch" href="{{ pkg.url }}" target="_blank"><i class="icon-external-link"></i> {{ _('Launch website') }}</a></p>
+              {% endif %}
+
+              {% block package_notes %}
+                {% if pkg.notes_translated %}
+                  <div class="notes embedded-content ckanext-showcase-notes">
+                    {{ h.render_markdown(h.get_translated(pkg, 'notes')) }}
+                  </div>
+                {% endif %}
+              {% endblock %}
+            {% endblock %}
+
+            {% if pkg.featured_image_display_url or pkg.image_1_display_url or pkg.image_2_display_url or pkg.image_3_display_url %}
+              <div class="image-slider-wrapper">
+                <ol class="image-slider">
+                  {% if pkg.featured_image_display_url %}<li><a href="{{ pkg.featured_image_display_url }}"><img class="image-modal-open" alt="{{ pkg.featured_image }}" src="{{ pkg.featured_image_display_url }}"></a></li>{% endif %}
+                  {% if pkg.image_1_display_url %}<li><a href="{{ pkg.image_1_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_1 }}" src="{{ pkg.image_1_display_url }}"></a></li>{% endif %}
+                  {% if pkg.image_2_display_url %}<li><a href="{{ pkg.image_2_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_2 }}" src="{{ pkg.image_2_display_url }}"></a></li>{% endif %}
+                  {% if pkg.image_3_display_url %}<li><a href="{{ pkg.image_3_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_3 }}" src="{{ pkg.image_3_display_url }}"></a></li>{% endif %}
+                </ol>
+              </div>
+            {% endif %}
+
+
+            <h3 class="showcase-packages-title">{{ _('Used datasets') }}</h3>
+            {% set showcase_pkgs = h.get_showcase_pkgs(pkg.id) %}
+            {% if showcase_pkgs %}
+              {{ h.snippet('sixodp_showcase/snippets/showcase_package_list.html', packages=showcase_pkgs, list_class='showcase-packages') }}
+            {% else %}
+              <p class="module-content empty">{{_('There are no Datasets in this Showcase')}}</p>
+            {% endif %}
+
+            {% snippet "sixodp_showcase/snippets/showcase_additional_info.html", pkg_dict=pkg %}
+          {% endblock %}
+        </section>
+        {% block package_info %}
+          {% snippet "sixodp_showcase/snippets/showcase_info.html", pkg=pkg %}
+        {% endblock %}
+      {% endblock %}
+    </div>
+
+    {% block secondary_content %}
+    {% endblock %}
+  </div>
+{% endblock %}

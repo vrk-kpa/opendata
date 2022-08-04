@@ -1,5 +1,0 @@
-[prod]
-localhost ansible_connection=local
-
-[prod:vars]
-ansible_python_interpreter=/usr/bin/python3

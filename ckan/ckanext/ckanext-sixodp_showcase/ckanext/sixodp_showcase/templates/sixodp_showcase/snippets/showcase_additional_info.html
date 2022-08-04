@@ -1,0 +1,82 @@
+<section class="additional-info">
+    <h3>{{ _('Additional Info') }}</h3>
+
+    <table class="table table-striped table__additional-info mt-3 mb-0">
+      <colgroup>
+        <col class="dataset-label">
+        <col class="dataset-details">
+      </colgroup>
+      <tbody>
+        {% block package_additional_info %}
+          {% if pkg_dict.application_website %}
+            <tr>
+              <th scope="row" class="dataset-label">{{ _('Application website') }}:</th>
+              {% if h.is_url(pkg_dict.application_website) %}
+                <td class="dataset-details" property="foaf:homepage">{{ h.link_to(pkg_dict.application_website, pkg_dict.application_website, rel='foaf:homepage', target='_blank') }}</td>
+              {% else %}
+                <td class="dataset-details" property="foaf:homepage">{{ pkg_dict.application_website }}</td>
+              {% endif %}
+            </tr>
+          {% endif %}
+
+          {% if pkg_dict.author_website %}
+            <tr>
+              <th scope="row" class="dataset-label">{{ _('Author website') }}:</th>
+              {% if h.is_url(pkg_dict.author_website) %}
+                <td class="dataset-details" property="foaf:homepage">{{ h.link_to(pkg_dict.author_website, pkg_dict.author_website, rel='foaf:homepage', target='_blank') }}</td>
+              {% else %}
+                <td class="dataset-details" property="foaf:homepage">{{ pkg_dict.author_website }}</td>
+              {% endif %}
+            </tr>
+          {% endif %}
+
+          {% set author_showcases = h.get_showcases_by_author(pkg_dict.author, 5, pkg_dict.id) %}
+          {% if author_showcases %}
+            <tr>
+              <th scope="row" class="dataset-label">{{ _('More from the author') }}:</th>
+              <td>
+                <ul class="list-unstyled">
+                  {% for related_showcase in author_showcases %}
+                    {% set title = h.get_translated(related_showcase, 'title') or related_showcase.name %}
+                    <li>
+                        {{ h.link_to(title, h.url_for('showcase_read', id=related_showcase.name)) }}
+                    </li>
+                    {% endfor %}
+                </ul>
+              </td>
+            </section>
+          {% endif %}
+
+          {% if pkg_dict.metadata_created %}
+            <tr>
+              <th scope="row" class="dataset-label">{{ _("Published") }}:</th>
+
+              <td class="dataset-details">
+                  {% snippet 'snippets/local_friendly_datetime.html', datetime_obj=pkg_dict.metadata_created %}
+              </td>
+            </tr>
+          {% endif %}
+
+          {% if pkg_dict.metadata_modified %}
+            <tr>
+              <th scope="row" class="dataset-label">{{ _("Last Updated") }}:</th>
+              <td class="dataset-details">
+                  {% snippet 'snippets/local_friendly_datetime.html', datetime_obj=pkg_dict.metadata_modified %}
+              </td>
+            </tr>
+          {% endif %}
+
+          {% block extras scoped %}
+            {% for extra in h.sorted_extras(pkg_dict.extras) %}
+              {% set key, value = extra %}
+              <tr rel="dc:relation" resource="_:extra{{ i }}">
+                <th scope="row" class="dataset-label" property="rdfs:label">{{ _(key) }}:</th>
+                <td class="dataset-details" property="rdf:value">{{ value }}</td>
+              </tr>
+            {% endfor %}
+          {% endblock %}
+
+        {% endblock %}
+      </tbody>
+    </table>
+  </section>

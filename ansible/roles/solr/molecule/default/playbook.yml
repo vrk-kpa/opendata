@@ -1,8 +1,0 @@
----
-- name: Converge
-  hosts: all
-  become: true
-  vars:
-    - solr_server_path: "/srv/ytp"
-  roles:
-    - role: solr

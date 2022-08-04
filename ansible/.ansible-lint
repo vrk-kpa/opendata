@@ -1,5 +1,0 @@
-parseable: true
-skip_list:
-  - skip_ansible_lint
-  - '701' # skip meta info
-use_default_rules: true

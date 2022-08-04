@@ -1,82 +1,82 @@
 [submodule "modules/ckanext-report"]
-	path = modules/ckanext-report
+	path = ckan/ckanext/ckanext-report
 	url = https://github.com/vrk-kpa/ckanext-report.git
 [submodule "modules/ckanext-harvest"]
-	path = modules/ckanext-harvest
+	path = ckan/ckanext/ckanext-harvest
 	url = https://github.com/vrk-kpa/ckanext-harvest.git
 [submodule "modules/ckanext-dcat"]
-	path = modules/ckanext-dcat
+	path = ckan/ckanext/ckanext-dcat
 	url = https://github.com/vrk-kpa/ckanext-dcat.git
 [submodule "modules/ckanext-hierarchy"]
-	path = modules/ckanext-hierarchy
+	path = ckan/ckanext/ckanext-hierarchy
 	url = https://github.com/yhteentoimivuuspalvelut/ckanext-hierarchy.git
 [submodule "modules/ckanext-spatial"]
-	path = modules/ckanext-spatial
+	path = ckan/ckanext/ckanext-spatial
 	url = https://github.com/vrk-kpa/ckanext-spatial.git
 	branch = ytp
 [submodule "modules/ckanext-cloudstorage"]
-	path = modules/ckanext-cloudstorage
+	path = ckan/ckanext/ckanext-cloudstorage
 	url = https://github.com/vrk-kpa/ckanext-cloudstorage.git
 [submodule "modules/ckanext-scheming"]
-	path = modules/ckanext-scheming
+	path = ckan/ckanext/ckanext-scheming
 	url = https://github.com/vrk-kpa/ckanext-scheming.git
 [submodule "modules/ckanext-fluent"]
-	path = modules/ckanext-fluent
+	path = ckan/ckanext/ckanext-fluent
 	url = https://github.com/vrk-kpa/ckanext-fluent.git
 [submodule "modules/ckanext-qa"]
-	path = modules/ckanext-qa
+	path = ckan/ckanext/ckanext-qa
 	url = https://github.com/vrk-kpa/ckanext-qa.git
 [submodule "modules/ckanext-archiver"]
-	path = modules/ckanext-archiver
+	path = ckan/ckanext/ckanext-archiver
 	url = https://github.com/vrk-kpa/ckanext-archiver.git
 [submodule "modules/ckanext-showcase"]
-	path = modules/ckanext-showcase
+	path = ckan/ckanext/ckanext-showcase
 	url = https://github.com/vrk-kpa/ckanext-showcase.git
 [submodule "modules/ckanext-geoview"]
-	path = modules/ckanext-geoview
+	path = ckan/ckanext/ckanext-geoview
 	url = https://github.com/vrk-kpa/ckanext-geoview.git
 [submodule "modules/ckanext-pdfview"]
-	path = modules/ckanext-pdfview
+	path = ckan/ckanext/ckanext-pdfview
 	url = https://github.com/ckan/ckanext-pdfview.git
 [submodule "modules/ckanext-drupal8"]
-	path = modules/ckanext-drupal8
+	path = ckan/ckanext/ckanext-drupal8
 	url = https://github.com/vrk-kpa/ckanext-drupal8.git
 [submodule "modules/ckanext-disqus"]
-	path = modules/ckanext-disqus
+	path = ckan/ckanext/ckanext-disqus
 	url = https://github.com/vrk-kpa/ckanext-disqus.git
 [submodule "modules/ckanext-reminder"]
-	path = modules/ckanext-reminder
+	path = ckan/ckanext/ckanext-reminder
 	url = https://github.com/vrk-kpa/ckanext-reminder.git
 [submodule "modules/ckanext-sixodp_showcasesubmit"]
-	path = modules/ckanext-sixodp_showcasesubmit
+	path = ckan/ckanext/ckanext-sixodp_showcasesubmit
 	url = https://github.com/vrk-kpa/ckanext-sixodp_showcasesubmit.git
 [submodule "modules/ckanext-datarequests"]
-	path = modules/ckanext-datarequests
+	path = ckan/ckanext/ckanext-datarequests
 	url = https://github.com/vrk-kpa/ckanext-datarequests.git
 [submodule "modules/ckanext-organizationapproval"]
-	path = modules/ckanext-organizationapproval
+	path = ckan/ckanext/ckanext-organizationapproval
 	url = https://github.com/vrk-kpa/ckanext-organizationapproval.git
 [submodule "modules/ckanext-rating"]
-	path = modules/ckanext-rating
+	path = ckan/ckanext/ckanext-rating
 	url = https://github.com/6aika/ckanext-rating
 [submodule "modules/ckanext-forcetranslation"]
-	path = modules/ckanext-forcetranslation
+	path = ckan/ckanext/ckanext-forcetranslation
 	url = https://github.com/vrk-kpa/ckanext-forcetranslation
 [submodule "modules/ckanext-apis"]
-	path = modules/ckanext-apis
+	path = ckan/ckanext/ckanext-apis
 	url = https://github.com/vrk-kpa/ckanext-apis.git
 [submodule "modules/ckanext-prh_tools"]
-	path = modules/ckanext-prh_tools
+	path = ckan/ckanext/ckanext-prh_tools
 	url = https://github.com/Mygee/Avoindata.fi-Python-Tools
 [submodule "modules/ckanext-openapiviewer"]
-	path = modules/ckanext-openapiviewer
+	path = ckan/ckanext/ckanext-openapiviewer
 	url = https://github.com/vrk-kpa/ckanext-openapiviewer.git
 [submodule "modules/ckanext-statistics"]
-	path = modules/ckanext-statistics
+	path = ckan/ckanext/ckanext-statistics
 	url = https://github.com/vrk-kpa/ckanext-statistics
 [submodule "modules/ckanext-matomo"]
-	path = modules/ckanext-matomo
+	path = ckan/ckanext/ckanext-matomo
 	url = https://github.com/vrk-kpa/ckanext-matomo.git
 [submodule "modules/ckanext-sentry"]
-	path = modules/ckanext-sentry
+	path = ckan/ckanext/ckanext-sentry
 	url = https://github.com/vrk-kpa/ckanext-sentry.git

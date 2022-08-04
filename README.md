@@ -8,13 +8,6 @@ Main repository for Yhteentoimivuuspalvelut (_Interoperability services_ in Finn
 
 The service is publicly available at [Avoindata.fi](https://www.avoindata.fi/). Free registration is required for features such as commenting and publishing of datasets. A developer sandbox is also available at [betaavoindata.fi](http://betaavoindata.fi) or [betaopendata.fi](http://betaopendata.fi).
 
-This source repository contains:
-
-- Configuration management scripts ([Ansible](http://www.ansible.com))
-- Tools for local development ([Vagrant](http://www.vagrantup.com))
-- Configuration for Continuous integration ([Circle](https://circleci.com/gh/vrk-kpa/opendata))
-- Source code as submodules under the _modules_ directory
-
 ### Getting started
 
 To try out the service, visit the sandbox/development environment [betaavoindata.fi](http://betaavoindata.fi) or the production environment [avoindata.fi](http://avoindata.fi), and register a user account to create new datasets.
@@ -27,11 +20,11 @@ Please refer to the [documentation directory](doc) and [API documentation](https
 
 ### Contact
 
-Please file [issues at Github](https://github.com/vrk-kpa/ytp/issues).
+Please file [issues at Github](https://github.com/vrk-kpa/opendata/issues).
 
 ### Copying and License
 
-This material is copyright (c) 2013-2021 Digital and Population Data Services Agency, Finland.
+This material is copyright (c) 2013-2022 Digital and Population Data Services Agency, Finland.
 
 CKAN extensions and Drupal components are licensed under the GNU Affero General Public License (AGPL) v3.0
 whose full text may be found at: http://www.fsf.org/licensing/licenses/agpl-3.0.html

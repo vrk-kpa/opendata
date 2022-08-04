@@ -1,0 +1,282 @@
+[DEFAULT]
+
+debug = {% if environ('DEV_MODE') == 'true' and environ('TEST') != 'true' %} true {% else %} false {% endif %}
+
+# smtp settings that need to be configured in default section for WebError middleware
+smtp_username = {{ environ('SMTP_USERNAME') }}
+smtp_password = {{ environ('SMTP_PASS') }}
+smtp_use_tls = {% if environ('SMTP_PROTOCOL') == 'standard' %} false {% else %} true {% endif %}
+
+
+[server:main]
+
+use = egg:Paste#http
+host = 0.0.0.0
+port = {{ environ('CKAN_PORT') }}
+
+[app:main]
+
+use = egg:ckan
+full_stack = true
+cache_dir = /tmp/%(ckan.site_id)s/
+
+beaker.session.key = ckan
+beaker.session.secret = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
+# Secure session does not currently work in our environments as ssl is terminated on Load balancerreq
+#beaker.session.secure = True
+beaker.session.httponly = True
+beaker.session.type = ext:database
+beaker.session.url = postgres://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_CKAN') }}
+
+app_instance_uuid = {{ environ('CKAN_APP_INSTANCE_UUID') }}
+
+who.config_file = %(here)s/who.ini
+who.log_level = warning
+who.log_file = %(cache_dir)s/who_log.ini
+
+sqlalchemy.url = postgres://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_CKAN') }}
+ckan.site_url = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_NAME') }}
+ckan.site_url_internally = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_NAME') }}/data/
+
+{% raw %}
+ckan.root_path = /data/{{LANG}}
+{% endraw %}
+
+ckan.datastore.write_url = postgres://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DATASTORE_READONLY') }}
+ckan.datastore.read_url = postgres://{{ environ('DB_DATASTORE_READONLY_USER') }}:{{ environ('DB_DATASTORE_READONLY_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DATASTORE_READONLY') }}
+ckan.datastore.sqlsearch.enabled = True
+
+ckan.redis.url = redis://{{ environ('REDIS_HOST') }}:{{ environ('REDIS_PORT') }}/{{ environ('REDIS_DB') }}
+
+ckan.auth.anon_create_dataset = false
+ckan.auth.create_unowned_dataset = false
+ckan.auth.create_dataset_if_not_in_organization = false
+ckan.auth.user_create_groups = true
+ckan.auth.user_create_organizations = true
+ckan.auth.user_delete_groups = true
+ckan.auth.user_delete_organizations = true
+ckan.auth.create_user_via_api = false
+ckan.auth.create_user_via_web = true
+ckan.auth.roles_that_cascade_to_sub_groups = admin
+ckan.auth.public_user_details = False
+
+ckan.site_id = {{ environ('CKAN_SITE_ID') }}
+
+ckan.plugins = {{ environ('CKAN_PLUGINS') }} {% if environ('MATOMO_ENABLED') == 'true' %}matomo{% endif %} {% if environ('CKAN_CLOUDSTORAGE_ENABLED') == 'true' %}cloudstorage{% endif %} {{ environ('CKAN_PLUGINS_DEFAULT') }}
+
+scheming.dataset_schemas = ckanext.ytp.schemas:dataset.json
+                           ckanext.sixodp_showcase.schemas:showcase.json
+                           ckanext.apis.schemas:apiset.json
+scheming.presets = ckanext.ytp.schemas:presets.json
+                   ckanext.scheming:presets.json
+                   ckanext.fluent:presets.json
+scheming.group_schemas = ckanext.ytp.schemas:group.json
+scheming.organization_schemas = ckanext.ytp.schemas:organization.json
+advancedsearch.schema = ckanext.advancedsearch:search_fields.json
+
+ckan.site_title = avoindata.fi
+ckan.site_logo =
+ckan.site_description =
+
+ckan.favicon = /resources/images/logo/favicon.ico
+ckan.gravatar_default = identicon
+
+ckan.locale_default = fi
+ckan.locale_order = en_GB pt_BR ja it cs_CZ ca es fr el sv sr sr@latin no sk fi ru de pl nl bg ko_KR hu sa sl lv
+ckan.locales_offered = fi sv en_GB
+ckan.locales_filtered_out = en
+ckan.feeds.authority_name =
+ckan.feeds.date = 2019-01-01
+ckan.feeds.author_name =
+ckan.feeds.author_link =
+ckan.search.show_all_types = False
+ckan.max_image_size = 5
+
+ckan.cors.origin_allow_all = True
+ckan.activity_streams_email_notifications = True
+ckan.cache_enabled = True
+ckan.cache_expires = 90
+
+email_to = {{ environ('SMTP_TO') }}
+error_email_from = {{ environ('SMTP_FROM_ERROR') }}
+
+smtp.server = {{ environ('SMTP_HOST') }}:{{ environ('SMTP_PORT') }}
+smtp.user = {{ environ('SMTP_USERNAME') }}
+smtp.password = {{ environ('SMTP_PASS') }}
+smtp.starttls = {% if environ('SMTP_PROTOCOL') == 'standard' %} false {% else %} true {% endif %}
+# smtp settings for WebError middleware
+from_address = {{ environ('SMTP_FROM_ERROR') }}
+smtp_server = {{ environ('SMTP_HOST') }}:{{ environ('SMTP_PORT') }}
+
+smtp.mail_from = {{ environ('SMTP_FROM') }}
+
+ckan.views.default_views = recline_grid_view geo_view
+
+ckanext.ytp.drupal.connection = postgres://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DRUPAL') }}
+
+ckan.harvest.mq.type = redis
+ckan.harvest.mq.hostname = {{ environ('REDIS_HOST') }}
+ckan.harvest.mq.port = {{ environ('REDIS_PORT') }}
+ckan.harvest.mq.redis_db = {{ environ('REDIS_DB') }}
+
+ckanext.organizationapproval.admin_email = {{ environ('SYSADMIN_EMAIL') }}
+
+ckanext-archiver.archive_dir = {{ environ('CKAN_ARCHIVER_PATH') }}
+ckanext-archiver.max_content_length = 50000000
+ckanext-archiver.cache_url_root = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_NAME') }}/resource_cache/
+ckanext-archiver.user_agent_string = {{ environ('DOMAIN_NAME') }} archiver
+ckanext-archiver.archive_cloud = True
+ckanext-archiver.send_notification_emails_to_maintainers = {{ environ('CKAN_ARCHIVER_SEND_NOTIFICATION_EMAILS_TO_MAINTAINERS') }}
+ckanext-archiver.exempt_domains_from_broken_link_notifications = {{ environ('CKAN_ARCHIVER_EXEMPT_DOMAINS_FROM_BROKEN_LINK_NOTIFICATIONS') }}
+
+ckanext.sixodp_showcasesubmit.creating_user_username = {{ environ('SYSADMIN_USER') }}
+ckanext.sixodp_showcasesubmit.recaptcha_sitekey = {{ environ('RECAPTCHA_PUBLIC_KEY') }}
+ckanext.sixodp_showcasesubmit.recaptcha_secret = {{ environ('RECAPTCHA_PRIVATE_KEY') }}
+ckanext.sixodp_showcasesubmit.recipient_emails = {{ environ('SYSADMIN_EMAIL') }}
+
+ckanext.ytp_recommendation.recaptcha_sitekey = {{ environ('RECAPTCHA_PUBLIC_KEY') }}
+ckanext.ytp_recommendation.recaptcha_secret = {{ environ('RECAPTCHA_PRIVATE_KEY') }}
+
+disqus.name = {{ environ('DISQUS_DOMAIN') }}
+disqus.notify = True
+disqus.notify.name_field = maintainer
+disqus.notify.email_field = maintainer_email
+
+ckanext-datarequests.datarequest_notifications_admin_email = None
+
+ckanext.drupal8.site_url = {{ environ('CKAN_DRUPAL_SITE_URL') }}
+ckanext.drupal8.domain = {{ environ('DOMAIN_NAME') }},{{ environ('SECONDARY_DOMAIN_NAME') }}
+ckanext.drupal8.sysadmin_role = {{ environ('ROLES_CKAN_ADMIN') }}
+ckanext.drupal8.connection = postgres://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DRUPAL') }}
+ckanext.drupal8.allow_edit = true
+
+licenses_group_url = file://{{ environ('CKAN_STORAGE_PATH') }}/license.json
+service_classes_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/service_classes.json
+municipalities_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/municipalities.json
+life_situation_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/life_situations.json
+producer_type_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/producer_types.json
+producer_type_private_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/producer_types_private.json
+target_group_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/target_groups.json
+
+ckanext.ytp.harvester_status_recipients = {% if environ('CKAN_HARVESTER_STATUS_RECIPIENTS') != 'null' %} {{ environ('CKAN_HARVESTER_STATUS_RECIPIENTS') }} {% else %} '' {% endif %}
+ckanext.ytp.fault_recipients = {% if environ('CKAN_HARVESTER_FAULT_RECIPIENTS') != 'null' %} {{ environ('CKAN_HARVESTER_FAULT_RECIPIENTS') }} {% else %} '' {% endif %}
+ckanext.ytp.harvester_instruction_url = {% if environ('CKAN_HARVESTER_INSTRUCTION_URL') != 'null' %} {{ environ('CKAN_HARVESTER_INSTRUCTION_URL') }} {% else %} '' {% endif %}
+
+ckanext.prh_tools.mail_recipients = {% if environ('CKAN_HARVESTER_STATUS_RECIPIENTS') != 'null' %} {{ environ('CKAN_HARVESTER_STATUS_RECIPIENTS') }} {% else %} '' {% endif %}
+
+ckanext.forcetranslation.module = ckanext.ytp
+ckanext.forcetranslation.path = i18n
+ckanext.forcetranslation.domain = ckanext-ytp_main
+
+ckanext.dcat.rdf.profiles = avoindata_dcat_ap
+ckanext.dcat.translate_keys = False
+ckanext.dcat.base_uri = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_NAME') }}/data
+ckanext.dcat.sparql.profiles = avoindata_dcat_ap
+ckanext.dcat.sparql.query_endpoint = http://{{ environ('FUSEKI_HOST') }}:{{ environ('FUSEKI_PORT') }}/{{ environ('FUSEKI_OPENDATA_DATASET') }}
+ckanext.dcat.sparql.update_endpoint = http://{{ environ('FUSEKI_HOST') }}:{{ environ('FUSEKI_PORT') }}/{{ environ('FUSEKI_OPENDATA_DATASET') }}/update
+ckanext.dcat.sparql.username = {{ environ('FUSEKI_ADMIN_USER') }}
+ckanext.dcat.sparql.password = {{ environ('FUSEKI_ADMIN_PASS') }}
+
+ckanext.geoview.ol_viewer.formats = wms wfs geojson
+
+# The email links for reminders will be prefixed with this site url
+ckanext.reminder.site_url = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_NAME') }}/data
+
+# This configuration can be overwritten in the admin configuration UI
+# Default address for sending the reminders
+ckanext.reminder.email = <YOUR_EMAIL_ADDRESS>
+
+#The field that is checked for the expiry date for reminders
+ckanext.reminder.date_field = valid_till
+
+#Fields for recipients name and email
+ckanext.reminder.recipient_name = maintainer
+ckanext.reminder.email_field = maintainer_email
+
+{% if environ('CKAN_CLOUDSTORAGE_ENABLED') == 'true' %}
+ckanext.cloudstorage.driver = {{ environ('CKAN_CLOUDSTORAGE_DRIVER') }}
+ckanext.cloudstorage.container_name = {{ environ('CKAN_CLOUDSTORAGE_CONTAINER_NAME') }}
+ckanext.cloudstorage.use_secure_urls = {{ environ('CKAN_CLOUDSTORAGE_USE_SECURE_URLS') }}
+ckanext.cloudstorage.aws_use_boto3_sessions = {{ environ('CKAN_CLOUDSTORAGE_AWS_USE_BOTO3_SESSIONS') }}
+ckanext.cloudstorage.driver_options = {{ environ('CKAN_CLOUDSTORAGE_DRIVER_OPTIONS') }}
+{% endif %}
+
+sentry.dsn = {{ environ('SENTRY_DSN') }}
+sentry.environment = {{ environ('SENTRY_ENV') }}
+
+
+ofs.impl = pairtree
+
+# 2.1 filestore:
+ofs.storage_dir = {{ environ('CKAN_STORAGE_PATH') }}
+
+# 2.2 filestore:
+ckan.storage_path = {{ environ('CKAN_STORAGE_PATH') }}
+
+{% if environ('MATOMO_ENABLED') == 'true' %}
+ckanext.matomo.site_id = {{ environ('MATOMO_SITE_ID') }}
+ckanext.matomo.domain = https://{{ environ('MATOMO_DOMAIN') }}/
+ckanext.matomo.script_domain = {{ environ('MATOMO_SCRIPT_DOMAIN') }}
+ckanext.matomo.token_auth = {{ environ('MATOMO_TOKEN') }}
+{% endif %}
+
+ckanext.spatial.harvest.continue_on_validation_errors = true
+ckanext.spatial.search_backend = solr
+ckanext.spatial.common_map.type = custom
+ckanext.spatial.common_map.custom.url = https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+ckanext.spatial.common_map.attribution = &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
+
+solr_url = http://{{ environ('SOLR_HOST') }}:{{ environ('SOLR_PORT') }}/{{ environ('SOLR_PATH') }}
+
+ckan.tracking_enabled = true
+
+ckan.max_resource_size = {{ environ('CKAN_MAX_RESOURCE_SIZE') }}
+
+ckanext.ytp.theme.show_postit_demo = {{ environ('CKAN_SHOW_POSTIT_DEMO') }}
+
+ckan.datapusher.url = http://{{ environ('DATAPUSHER_HOST') }}:{{ environ('DATAPUSHER_PORT') }}/
+ckan.datapusher.callback_url_base = http://{{ environ('CKAN_HOST') }}:{{ environ('CKAN_PORT') }}/
+
+{% if environ('CKAN_PROFILING_ENABLED') == 'true' %}
+filter-with = linesman
+{% endif %}
+
+[loggers]
+keys = root, ckan, ckanext
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = WARNING
+handlers = console
+
+[logger_ckan]
+level = {{ environ('CKAN_LOG_LEVEL') }}
+handlers = console
+qualname = ckan
+propagate = 0
+
+[logger_ckanext]
+level = {{ environ('CKAN_EXT_LOG_LEVEL') }}
+handlers = console
+qualname = ckanext
+propagate = 0
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
+
+{% if environ('CKAN_PROFILING_ENABLED') == 'true' %}
+[filter:linesman]
+use = egg:linesman#profiler
+filename = /tmp/linesman.sqlite
+{% endif %}

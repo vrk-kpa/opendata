@@ -16,6 +16,14 @@ This folder contains dockerized versions of the opendata services.
 * folders
   * postgres/
     * PostgrSQL / PostGIS docker image, for local env
+  * nginx/
+    * nginx docker image
+  * solr/
+    * solr docker image
+  * ../ckan/
+    * ckan docker image
+  * ../drupal
+    * drupal docker image 
 
 ## Build requirements
 
@@ -75,18 +83,11 @@ If you're not on MacOS, make sure you have enabled Buildkit for docker and docke
 
 1. Create a file `docker-compose.override.yml` to the `docker` directory and populate its contents with the example below (next topic)
 
-2. Clone the following repos to the {root} path:
-  - opendata (https://github.com/vrk-kpa/opendata)
-  - opendata-ckan (https://github.com/vrk-kpa/opendata-ckan)
-  - opendata-drupal (https://github.com/vrk-kpa/opendata-drupal)
-  - opendata-nginx (https://github.com/vrk-kpa/opendata-nginx)
-  - opendata-solr (https://github.com/vrk-kpa/opendata-solr)
+2. Run `git submodule update --init --recursive`
 
-3. Run `git submodule update --init --recursive` in opendata-ckan and opendata-drupal repo directories
+3. Create a `.npmrc` (content below) file to `../opendata-assets`. Link to .npmrc content: `https://wiki.dvv.fi/display/AV/Font+Awesome+Pro`
 
-4. Create a `.npmrc` (content below) file to this directory and copy it to the following places:  `../../opendata-ckan/frontend` and `../../opendata-drupal/frontend`. Link to .npmrc content: `https://wiki.dvv.fi/display/AV/Font+Awesome+Pro`
-
-5. (Only on MacOS and Windows) Make sure buildkit is enabled in Docker Desktop. Go to Preferences -> Docker Engine, it should contain this:
+4. (Only on MacOS and Windows) Make sure buildkit is enabled in Docker Desktop. Go to Preferences -> Docker Engine, it should contain this:
 ```
 "features": {
   "buildkit": true
@@ -95,7 +96,7 @@ If you're not on MacOS, make sure you have enabled Buildkit for docker and docke
 
 6. (Only on MacOS) Go to Docker Desktop's Dashboard, open settings and navigate to `Resources` -> `File Sharing`. Add the directories to the repos you cloned in step 2 to the list
 
-7. Build assets in `../../opendata-ckan/frontend` and `../../opendata-drupal/frontend` with `npm install && npm run gulp`
+7. Build assets in `../opendata-assets` with `npm install && npm run gulp`
 
 8. Run `docker-compose up --build` in the docker directory. Once this is done, navigate to `localhost` in the browser (the avoindata site should run on port 80).
 
@@ -111,12 +112,11 @@ This file is automatically detected by docker-compose so you don't need to pass 
 # NOTE: We don't want node_modules in our bind-mount, thus we mask it with empty volume!
 # NOTE: Remember to build the `opendata-assets` frontend project on the host machine!
 version: "3.8"
-
 services:
   ckan:
     image: opendata/ckan:latest
     build:
-      context: ../../opendata-ckan
+      context: ../ckan
       target: ckan_development
     ports:
       - "5000:5000"
@@ -125,55 +125,62 @@ services:
       AWS_SECRET_ACCESS_KEY: "temp-secret-key-if-using-ckanext-cloudstorage"
       AWS_DEFAULT_REGION: "eu-west-1"
     volumes:
-      - ../../opendata-ckan/modules:/srv/app/modules
-      - /srv/app/modules/opendata-assets/node_modules/
-
+      - ../ckan/ckanext:/srv/app/ckanext
+      - /srv/app/opendata-assets/node_modules/
+    restart: unless-stopped
   ckan_cron:
     image: opendata/ckan:latest
-    build:
-      context: ../../opendata-ckan
-      target: ckan_development
     volumes:
-      # Override the entrypoint script with the one in opendata-ckan
-      - ../../opendata-ckan/ckan/scripts/entrypoint_cron.sh:/srv/app/scripts/entrypoint_cron.sh
       # Mount the rest of the override files to be installed by entrypoint_cron.sh
-      - ../../opendata-ckan/ckan:/srv/app/overrides
-      - ../../opendata-ckan/modules:/srv/app/modules
-      - /srv/app/modules/opendata-assets/node_modules/
-
+      - ../ckan:/srv/app/overrides
+      - ../ckan/ckanext:/srv/app/ckanext
+      - /srv/app/opendata-assets/node_modules/
+    restart: unless-stopped
+    depends_on:
+      - ckan
   drupal:
     image: opendata/drupal:latest
     build:
-      context: ../../opendata-drupal
+      context: ../drupal
       target: drupal_development
     volumes:
-      - ../../opendata-drupal/modules/avoindata-header/:/opt/drupal/web/modules/avoindata-header
-      - ../../opendata-drupal/modules/avoindata-servicemessage/:/opt/drupal/web/modules/avoindata-servicemessage
-      - ../../opendata-drupal/modules/avoindata-hero/:/opt/drupal/web/modules/avoindata-hero
-      - ../../opendata-drupal/modules/avoindata-categories/:/opt/drupal/web/modules/avoindata-categories
-      - ../../opendata-drupal/modules/avoindata-infobox/:/opt/drupal/web/modules/avoindata-infobox
-      - ../../opendata-drupal/modules/avoindata-datasetlist/:/opt/drupal/web/modules/avoindata-datasetlist
-      - ../../opendata-drupal/modules/avoindata-newsfeed/:/opt/drupal/web/modules/avoindata-newsfeed
-      - ../../opendata-drupal/modules/avoindata-appfeed/:/opt/drupal/web/modules/avoindata-appfeed
-      - ../../opendata-drupal/modules/avoindata-footer/:/opt/drupal/web/modules/avoindata-footer
-      - ../../opendata-drupal/modules/avoindata-articles/:/opt/drupal/web/modules/avoindata-articles
-      - ../../opendata-drupal/modules/avoindata-events/:/opt/drupal/web/modules/avoindata-events
-      - ../../opendata-drupal/modules/avoindata-guide/:/opt/drupal/web/modules/avoindata-guide
-      - ../../opendata-drupal/modules/avoindata-user/:/opt/drupal/web/modules/avoindata-user
-      - ../../opendata-drupal/modules/avoindata-ckeditor-plugins/:/opt/drupal/web/modules/avoindata-ckeditor-plugins
-      - ../../opendata-drupal/modules/opendata-assets:/opt/drupal/web/modules/opendata-assets
-      - ../../opendata-drupal/modules/avoindata-theme:/opt/drupal/web/themes/avoindata
+      - ../drupal/modules/avoindata-header/:/opt/drupal/web/modules/avoindata-header
+      - ../drupal/modules/avoindata-servicemessage/:/opt/drupal/web/modules/avoindata-servicemessage
+      - ../drupal/modules/avoindata-hero/:/opt/drupal/web/modules/avoindata-hero
+      - ../drupal/modules/avoindata-categories/:/opt/drupal/web/modules/avoindata-categories
+      - ../drupal/modules/avoindata-infobox/:/opt/drupal/web/modules/avoindata-infobox
+      - ../drupal/modules/avoindata-datasetlist/:/opt/drupal/web/modules/avoindata-datasetlist
+      - ../drupal/modules/avoindata-newsfeed/:/opt/drupal/web/modules/avoindata-newsfeed
+      - ../drupal/modules/avoindata-appfeed/:/opt/drupal/web/modules/avoindata-appfeed
+      - ../drupal/modules/avoindata-footer/:/opt/drupal/web/modules/avoindata-footer
+      - ../drupal/modules/avoindata-articles/:/opt/drupal/web/modules/avoindata-articles
+      - ../drupal/modules/avoindata-events/:/opt/drupal/web/modules/avoindata-events
+      - ../drupal/modules/avoindata-guide/:/opt/drupal/web/modules/avoindata-guide
+      - ../drupal/modules/avoindata-user/:/opt/drupal/web/modules/avoindata-user
+      - ../drupal/modules/avoindata-ckeditor-plugins/:/opt/drupal/web/modules/avoindata-ckeditor-plugins
+      - ../drupal/modules/avoindata-theme:/opt/drupal/web/themes/avoindata
+      - ../opendata-assets:/opt/drupal/web/modules/opendata-assets
       - /opt/drupal/web/modules/opendata-assets/node_modules/
-
+    restart: unless-stopped
   nginx:
     image: opendata/nginx:latest
     build:
-      context: ../../opendata-nginx
-
+      context: ./nginx
+    restart: unless-stopped
   solr:
     image: opendata/solr:latest
     build:
-      context: ../../opendata-solr
+      context: ./solr
+    ports:
+      - "8983:8983"
+    restart: unless-stopped
+  postgres:
+    restart: unless-stopped
+
+  redis:
+    restart: unless-stopped
+  mailhog:
+    restart: unless-stopped
 ```
 
 ## Local environment operations

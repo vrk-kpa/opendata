@@ -1,0 +1,22 @@
+{#
+Displays a showcase greeting module with information for given showcase
+
+Example:
+
+{% snippet "package/snippets/showcase_greeting.html"}
+
+#}
+{% block package_greeting %}
+  <div class="showcase__info-box d-flex justify-content-between align-items-center">
+    {% set current_language = h.lang() %}
+    <div class="d-flex align-items-center flex-wrap">
+      <p>
+        {% trans %}Have you created application that utilizes open data?{% endtrans %}
+      </p>
+      <p>
+        {% trans %}Inform us about your application by using this form and it will be added to the list below.{% endtrans %}
+      </p>
+    </div>
+    <a class="btn btn-light" href="/data/{{current_language}}/submit-showcase">{{ _('Report application') }}</a>
+  </div>
+{% endblock %}

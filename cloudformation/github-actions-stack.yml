@@ -17,6 +17,9 @@ Parameters:
     Description: Arn for the GitHub OIDC Provider.
     Default: ""
     Type: String
+  ECRRepositoryArn:
+    Description: Arn for the ECR repositories.
+    Type: String
 
 Conditions:
   CreateOIDCProvider: !Equals 
@@ -95,6 +98,38 @@ Resources:
         #           ForAnyValue:StringEquals:
         #             aws:CalledVia: cloudformation.amazonaws.com
 
+  BuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: Role for GitHub actions build workflow.
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRoleWithWebIdentity
+            Principal:
+              Federated: !If
+                - CreateOIDCProvider
+                - !Ref GitHubOIDC
+                - !Ref OIDCProviderArn
+            Condition:
+              StringLike:
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrgName}/${GitHubRepositoryName}:*
+      Policies:
+        - PolicyName: ecr-login
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "ecr:GetAuthorizationToken"
+                Resource: "*"
+        - PolicyName: ecr-access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "ecr:*"
+                Resource: !Ref ECRRepositoryArn
+
   GitHubOIDC:
     Type: AWS::IAM::OIDCProvider
     Condition: CreateOIDCProvider
@@ -107,4 +142,6 @@ Resources:
 
 Outputs:
   Role:
-    Value: !GetAtt Role.Arn 
+    Value: !GetAtt Role.Arn
+  BuildRole:
+    Value: !GetAtt BuildRole.Arn

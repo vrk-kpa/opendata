@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: api-principles-menu-en
+label: 'API principles menu (en)'
+description: 'Menu for API principles (en)'
+locked: false

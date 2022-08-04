@@ -1,0 +1,41 @@
+<hr class="page-break">
+<table class="table table-condensed table-bordered table-striped" id="report-table">
+  <thead>
+    <tr>
+      <th>{{ _("Dataset") }}</th>
+      <th>{{ _("Organization") }}</th>
+      <th>{{ _("Maintainer") }}</th>
+      <th class="sorter-dates">{{ _("Created") }}</th>
+      <th class="sorter-dates">{{ _("Deprecated") }}</th>
+      <th>{{ _("Visits") }}</th>
+      <th>{{ _("Downloads") }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in data['top'] %}
+        <tr>
+            <td>
+              <a href="{{h.url_for('dataset.read', id=row.id)}}">
+                {{ row.title }}
+              </a>
+            </td>
+            <td>
+              <a href="{{ h.url_for('organization.read', id=row.organization_id )}}">
+                {{ row.organization_title }}
+              </a>
+              {% if row.organization_homepage %}
+                <a href="{{ row.organization_homepage }}" class="ml-2"><i class="fas fa-globe"></i></a>
+              {% endif %}
+            </td>
+            <td>
+              {{ row.maintainer_name }}
+              <a href="mailto:{{ row.maintainer_email }}" class="ml-2"><i class="fas fa-envelope"></i></a>
+            </td>
+            <td>{{ h.render_datetime(row.metadata_created) }}</td>
+            <td>{{ h.render_datetime(row.valid_till) }}</td>
+            <td>{{ row.visits }}</td>
+            <td>{{ row.downloads }}</td>
+        </tr>
+    {% endfor %}
+  </tbody>
+</table>

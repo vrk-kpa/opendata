@@ -1,0 +1,16 @@
+<script type="text/javascript">
+    // Windows phone 8 fix for responsive layout from getbootstrap.com
+    if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+        var msViewportStyle = document.createElement('style');
+        msViewportStyle.appendChild(
+            document.createTextNode(
+                '@-ms-viewport{width:auto!important}'
+            )
+        );
+        document.querySelector('head').appendChild(msViewportStyle);
+        }
+
+</script>
+<script async type="application/javascript" src="/resources/scripts/inject_responsive_tables.js"></script>
+<script async type="application/javascript" src="/resources/scripts/avoindata_header.js"></script>
+

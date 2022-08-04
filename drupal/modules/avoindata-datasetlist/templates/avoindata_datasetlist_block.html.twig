@@ -1,0 +1,113 @@
+{#
+/**
+ * @file
+ * Avoindata Dataset List Block
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="avoindata-datasetlist">
+  <div class="avoindata-datasetlist-container">
+    <div class="row avoindata-datasetlist-header-row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h1>
+          {% trans %}
+            Datasets
+          {% endtrans %}
+        </h1>
+      </div>
+    </div>
+    <div class="row avoindata-datasetlist-nav">
+      <div class="col-xs-12">
+        <ul class="nav nav-pills">
+          <li class="active">
+            <a data-toggle="pill" href="#avoindata-datasetlist-recent">
+              {% trans with {'context': 'recently modified datasets'} %}
+              Recently modified
+              {% endtrans %}
+            </a>
+          </li>
+          <li>
+            <a data-toggle="pill" href="#avoindata-datasetlist-new">
+              {% trans with {'context': 'new datasets'} %}
+              New
+              {% endtrans %}
+            </a>
+          </li>
+          <li>
+            <a data-toggle="pill" href="#avoindata-datasetlist-popular">
+              {% trans with {'context': 'popular datasets'} %}
+              Popular
+              {% endtrans %}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row"></div>
+    <div class="tab-content row avoindata-datasetlist-table">
+      <div id="avoindata-datasetlist-recent" class="tab-pane fade active in col-md-12 col-sm-12 col-xs-12">
+        <div class="avoindata-datasetlist-wrapper">
+          {{ recentdatasets }}
+        </div>
+        <div class="row avoindata-datasetlist-links">
+          <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=metadata_modified+desc">
+            {% trans %}More recently modified datasets{% endtrans %} <i class="far fa-long-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <div id="avoindata-datasetlist-new" class="tab-pane fade in col-md-12 col-sm-12 col-xs-12">
+        <div class="avoindata-datasetlist-wrapper">
+          {{ newdatasets }}
+        </div>
+        <div class="row avoindata-datasetlist-links">
+          <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=metadata_created+desc">
+            {% trans %}More new data sets{% endtrans %} <i class="far fa-long-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <div id="avoindata-datasetlist-popular" class="tab-pane fade in col-md-12 col-sm-12 col-xs-12">
+        <div class="avoindata-datasetlist-wrapper">
+          {{ populardatasets }}
+        </div>
+        <div class="row avoindata-datasetlist-links">
+          <a class="pull-right" href="/data/{{ language }}/dataset?q=&sort=views_recent+desc">
+            {% trans %}More popular datasets{% endtrans %} <i class="far fa-long-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <hr class="avoindata-divider">
+    <div class="avoindata-datasetlist-offer-data clearfix">
+      <div class="col-sm-8 mb-5">
+        <h2 class="mb-4">
+          {% trans with {'context': 'datasetlist offer data heading'} %}
+            Open your data
+          {% endtrans %}
+        </h2>
+        <p>
+          {% trans with {'context': 'datasetlist offer data paragraph'} %}
+            Does your organization produce data that could benefit or interest others? We offer guidance and a distribution channel for your datasets.
+          {% endtrans %}
+        </p>
+        </div>
+        <div class="col-sm-4">
+            {% if not logged_in %}
+            <div class="login-link">
+              <a href="{{ path('user.login') }}">
+                <i class="far fa-sign-in"></i>
+                <span>&nbsp;&nbsp;{% trans %}Log in{%  endtrans %}</span>
+              </a>
+            </div>
+            <div class="register-link clearfix">
+              <a class="pull-right" href="{{ path('user.register') }}">
+                <span>{%  trans with {'context': 'datasetlist offer data register'} %}Become publisher{% endtrans %}</span>
+              </a>
+            </div>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

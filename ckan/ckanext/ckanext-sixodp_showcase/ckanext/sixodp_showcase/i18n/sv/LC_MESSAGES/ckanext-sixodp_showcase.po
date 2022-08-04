@@ -1,0 +1,778 @@
+# Translations template for ckanext-sixodp_showcase.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the ckanext-sixodp_showcase
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+# 
+# Translators:
+# Teemu Erkkola <teemu.erkkola@iki.fi>, 2020
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2020
+# Meeri Hakala <meeri.hakala@dvv.fi>, 2022
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-02-22 11:44+0000\n"
+"PO-Revision-Date: 2018-03-14 11:02+0000\n"
+"Last-Translator: Meeri Hakala <meeri.hakala@dvv.fi>, 2022\n"
+"Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.3.4\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ckanext/sixodp_showcase/controller.py:60
+#: ckanext/sixodp_showcase/controller.py:62
+#: ckanext/sixodp_showcase/controller.py:309
+msgid "Showcase not found"
+msgstr ""
+
+#: ckanext/sixodp_showcase/controller.py:101
+msgid "Not authorized to see this page"
+msgstr "Behörighet krävs för att visa sidan"
+
+#: ckanext/sixodp_showcase/controller.py:196
+msgid "Organizations"
+msgstr "Organisationer"
+
+#: ckanext/sixodp_showcase/controller.py:197
+#: ckanext/sixodp_showcase/plugin.py:96
+msgid "Groups"
+msgstr "Grupper"
+
+#: ckanext/sixodp_showcase/controller.py:198
+#: ckanext/sixodp_showcase/plugin.py:97
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:33
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_info.html:5
+msgid "Tags"
+msgstr "Nyckelord"
+
+#: ckanext/sixodp_showcase/controller.py:199
+msgid "Formats"
+msgstr ""
+
+#: ckanext/sixodp_showcase/controller.py:200
+msgid "Licenses"
+msgstr "Licenser"
+
+#: ckanext/sixodp_showcase/controller.py:250
+msgid "Invalid search query: {error_message}"
+msgstr ""
+
+#: ckanext/sixodp_showcase/controller.py:267
+msgid "Parameter \"{parameter_name}\" is not an integer"
+msgstr "Parametern \"{parameter_name}\" är inte ett heltal"
+
+#: ckanext/sixodp_showcase/controller.py:296
+#: ckanext/sixodp_showcase/controller.py:307
+msgid "Unauthorized to delete showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/controller.py:301
+msgid "Showcase has been deleted."
+msgstr ""
+
+#: ckanext/sixodp_showcase/plugin.py:99
+msgid "Platforms"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:5
+msgid ""
+"An URL-address which refers to the dataset. The automatically filled option "
+"derived from the title is the best option in most cases."
+msgstr ""
+"Applikationens webbadress. Den adress som härletts automatiskt från titeln "
+"är oftast det bästa alternativet."
+
+#: ckanext/sixodp_showcase/translations.py:7
+msgid "Category which represents showcase."
+msgstr "Applikationens kategori"
+
+#: ckanext/sixodp_showcase/translations.py:8
+msgid "Platforms of the showcase."
+msgstr "Plattformarna för applikationen"
+
+#: ckanext/sixodp_showcase/translations.py:9
+msgid ""
+"Keywords or tags through which users are able to find this dataset easily "
+"through the search page or other datasets which have the same tag."
+msgstr ""
+"Nyckelord eller taggar som användaren kan använda för att enkelt hitta denna"
+" datamängd eller motsvarande datamängder på söksidan"
+
+#: ckanext/sixodp_showcase/translations.py:11
+msgid "Author Website"
+msgstr "Utvecklarens webbplats"
+
+#: ckanext/sixodp_showcase/translations.py:12
+msgid "Application Website"
+msgstr "Applikationens webbplats"
+
+#: ckanext/sixodp_showcase/translations.py:13
+msgid "Links to stores"
+msgstr "Länkar till appbutiker"
+
+#: ckanext/sixodp_showcase/translations.py:14
+msgid "Kuvaus"
+msgstr "Beskrivning"
+
+#: ckanext/sixodp_showcase/translations.py:15
+msgid ""
+"An universal, compact and easy to understand description of the added "
+"resource."
+msgstr ""
+"En komplett, kortfattad och tydlig beskrivning om det tillagda materialet."
+
+#: ckanext/sixodp_showcase/translations.py:16
+msgid "Featured"
+msgstr "I blickfånget"
+
+#: ckanext/sixodp_showcase/translations.py:17
+msgid "Icon"
+msgstr "Ikon"
+
+#: ckanext/sixodp_showcase/translations.py:18
+msgid "Featured Image"
+msgstr "Presentationsbild"
+
+#: ckanext/sixodp_showcase/translations.py:19
+msgid "Image 1"
+msgstr "Bild 1"
+
+#: ckanext/sixodp_showcase/translations.py:20
+msgid "Image 2"
+msgstr "Bild 2"
+
+#: ckanext/sixodp_showcase/translations.py:21
+msgid "Image 3"
+msgstr "Bild 3"
+
+#: ckanext/sixodp_showcase/translations.py:22
+msgid "Notifier"
+msgstr "Meddelare"
+
+#: ckanext/sixodp_showcase/translations.py:23
+msgid "Notifier Email"
+msgstr "Meddelarens e-post"
+
+#: ckanext/sixodp_showcase/translations.py:24
+msgid "eg. android"
+msgstr "t.ex. Android"
+
+#: ckanext/sixodp_showcase/translations.py:25
+msgid "eg. visualization"
+msgstr "t.ex. visualisering"
+
+#: ckanext/sixodp_showcase/translations.py:26
+msgid "eg. traffic"
+msgstr "t.ex. trafik"
+
+#: ckanext/sixodp_showcase/translations.py:27
+msgid "The dataset has been added to the showcase."
+msgid_plural "The datasets have been added to the showcase."
+msgstr[0] "Datamängden har lagts till i applikationen."
+msgstr[1] "Datamängden har lagts till i applikationen."
+
+#: ckanext/sixodp_showcase/translations.py:28
+msgid "The dataset has been removed from the showcase."
+msgid_plural "The datasets have been removed from the showcase."
+msgstr[0] "Datamängden har tagits bort från applikationen."
+msgstr[1] "Datamängden har tagits bort från applikationen."
+
+#: ckanext/sixodp_showcase/translations.py:29
+msgid "Showcase name"
+msgstr "Applikationens namn"
+
+#: ckanext/sixodp_showcase/translations.py:30
+msgid "* Required field"
+msgstr "* Obligatoriskt fält"
+
+#: ckanext/sixodp_showcase/translations.py:31
+msgid "e.g. Most popular first names by region"
+msgstr "t.ex. De mest populära förnamnen efter region"
+
+#: ckanext/sixodp_showcase/translations.py:32
+msgid ""
+"The showcase’s URL on opendata.fi. The URL is created automatically based on"
+" the publisher’s name. You can edit the URL if you want."
+msgstr ""
+"Applikationens webbadress på avoindata.fi. Webbadressen skapas automatiskt "
+"utifrån namnet. Du kan redigera adressen om du vill."
+
+#: ckanext/sixodp_showcase/translations.py:33
+msgid "Showcase description"
+msgstr "Beskrivning av applikationen"
+
+#: ckanext/sixodp_showcase/translations.py:34
+msgid ""
+"A short and descriptive explanation about the showcase. Tell for example "
+"about possible applications and the creation process, as well as about how "
+"open data has been used in the showcase."
+msgstr ""
+"En kortfattad och lättbegriplig presentationstext över applikationen. "
+"Berätta till exempel om hur applikation skapades och vad den kan användas "
+"till samt hur öppna data har använts i den. "
+
+#: ckanext/sixodp_showcase/translations.py:35
+msgid "Write a description for the showcase."
+msgstr "Ange en beskrivning av applikationen"
+
+#: ckanext/sixodp_showcase/translations.py:36
+msgid "Keywords and categories"
+msgstr "Nyckelord och kategorier"
+
+#: ckanext/sixodp_showcase/translations.py:37
+msgid "Keywords"
+msgstr "Nyckelord"
+
+#: ckanext/sixodp_showcase/translations.py:38
+msgid ""
+"Keywords help users to find your showcase. Select at least one keyword in "
+"Finnish."
+msgstr ""
+"Nyckelorden gör det lättare att hitta din applikation. Välj minst ett finskt"
+" nyckelord."
+
+#: ckanext/sixodp_showcase/translations.py:39
+msgid "e.g. names"
+msgstr "t.ex. namn"
+
+#: ckanext/sixodp_showcase/translations.py:40
+msgid "Showcase type"
+msgstr "Applikationstyp"
+
+#: ckanext/sixodp_showcase/translations.py:41
+msgid "Select one or more type that describes your showcase."
+msgstr "Välj en eller flera typer som beskriver applikationen."
+
+#: ckanext/sixodp_showcase/translations.py:42
+msgid "Select at least one category."
+msgstr "Välj en eller flera kategorier som beskriver applikationen."
+
+#: ckanext/sixodp_showcase/translations.py:43
+msgid "Additional showcase information"
+msgstr "Övriga uppgifter om applikationen"
+
+#: ckanext/sixodp_showcase/translations.py:44
+msgid ""
+"If you have created a mobile or desktop application, select which platforms "
+"it supports."
+msgstr ""
+"Om du har skapat en mobilapp eller skrivbordsapp, välj vilken plattform den "
+"fungerar på. "
+
+#: ckanext/sixodp_showcase/translations.py:45
+msgid "Showcase website"
+msgstr "Appens webbplats"
+
+#: ckanext/sixodp_showcase/translations.py:46
+msgid "Links to app stores"
+msgstr "Länkar till appbutiker"
+
+#: ckanext/sixodp_showcase/translations.py:47
+msgid "Developer"
+msgstr "Utvecklare"
+
+#: ckanext/sixodp_showcase/translations.py:48
+msgid "e.g. Digital and Population Data Services Agency"
+msgstr "t.ex. Myndigheten för digitalisering och befolkningsdata"
+
+#: ckanext/sixodp_showcase/translations.py:49
+msgid "Developer website"
+msgstr "Utvecklarens webbplats"
+
+#: ckanext/sixodp_showcase/translations.py:50
+msgid "e.g. www.dvv.fi"
+msgstr "t.ex. www.dvv.fi"
+
+#: ckanext/sixodp_showcase/translations.py:51
+msgid "e.g. dvv.fi/showcase"
+msgstr "t.ex. dvv.fi/applikation"
+
+#: ckanext/sixodp_showcase/translations.py:52
+msgid "e.g. appstore.com/app"
+msgstr "t.ex. appbutik.com/applikation"
+
+#: ckanext/sixodp_showcase/translations.py:53
+msgid "e.g. Jane Doe"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:54
+msgid "e.g. jane.doe@dvv.fi"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:55
+msgid "Yes"
+msgstr "Ja"
+
+#: ckanext/sixodp_showcase/translations.py:56
+msgid "No"
+msgstr "Nej"
+
+#: ckanext/sixodp_showcase/translations.py:57
+msgid "Type in application website"
+msgstr "Ange applikationens webbadress"
+
+#: ckanext/sixodp_showcase/translations.py:58
+msgid "Type in URL"
+msgstr "Skriv in URL"
+
+#: ckanext/sixodp_showcase/translations.py:59
+msgid "Logo will be shown at the top of the showcase page."
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:60
+msgid ""
+"The featured image will be shown on the Showcases-page as well as on the "
+"showcase’s own page."
+msgstr ""
+"Presentationsbilden visas på sidan Applikationer och på applikationens egen "
+"sida."
+
+#: ckanext/sixodp_showcase/translations.py:61
+msgid ""
+"Add max. 3 images of your showcase. Good images are for example those that "
+"show the user interface and features of the showcase."
+msgstr ""
+"Lägg till högst tre bilder av applikationen. Bra bilder är till exempel "
+"sådana där man ser användargränssnittet och dess egenskaper."
+
+#: ckanext/sixodp_showcase/translations.py:62
+msgid ""
+"Images will be shown on the showcase page. You can upload images from your "
+"computer or link to an URL. Telling us about a mobile app? If you want the "
+"app logo to show as the featured image, upload the app logo (and possible "
+"other images), but do not upload a featured image."
+msgstr ""
+"Bilderna kommer att visas på applikationens presentationssida och på Apps- "
+"sidan. Du kan ladda upp filerna från datorn eller lägga till en länk till "
+"bilden. Berättar du oss om en mobilapp? Om du vill att ikonen används som "
+"presentationsbild på Apps- sidan, ladda ikonen och möjliga andra bilder, men"
+" ladda inte en presentationsbild."
+
+#: ckanext/sixodp_showcase/translations.py:63
+msgid "Logo"
+msgstr "Logotyp"
+
+#: ckanext/sixodp_showcase/translations.py:64
+msgid "Mobile application"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:65
+msgid "Other application"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:66
+msgid "Tools"
+msgstr ""
+
+#: ckanext/sixodp_showcase/translations.py:67
+msgid "Visualisation"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/base.html:6
+#: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:38
+msgid "Showcase Admins"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/confirm_remove_showcase_admin.html:3
+#: ckanext/sixodp_showcase/templates/admin/confirm_remove_showcase_admin.html:16
+msgid "Confirm Remove"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/confirm_remove_showcase_admin.html:11
+msgid ""
+"Are you sure you want to remove this user as a Showcase Admin - {name}?"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/confirm_remove_showcase_admin.html:15
+#: ckanext/sixodp_showcase/templates/showcase/confirm_delete.html:14
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:9
+msgid "Manage Showcase Admins"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:16
+msgid "Add an Existing User"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:19
+msgid ""
+"To make an existing user a Showcase Admin, search for their username below."
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:23
+msgid "Username"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:32
+msgid "Add User"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:43
+msgid "User"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:51
+msgid ""
+"Are you sure you want to remove this user from the Showcase Admin list?"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:53
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:54
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_form.html:25
+msgid "Remove"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:61
+msgid "There are currently no Showcase Admins."
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/admin/manage_showcase_admins.html:69
+msgid ""
+" <p><strong>Showcase Admin:</strong> Can create and remove showcases. Can "
+"add and remove datasets from showcases.</p> "
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/package/dataset_showcase_list.html:3
+#: ckanext/sixodp_showcase/templates/showcase/edit_base.html:5
+#: ckanext/sixodp_showcase/templates/showcase/edit_base.html:12
+#: ckanext/sixodp_showcase/templates/showcase/edit_base.html:16
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:6
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:17
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:21
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:6
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:28
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:4
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:7
+msgid "Showcases"
+msgstr "Applikationer"
+
+#: ckanext/sixodp_showcase/templates/package/dataset_showcase_list.html:13
+msgid "Associate this showcase with this dataset"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/package/dataset_showcase_list.html:13
+msgid "Add to showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/package/dataset_showcase_list.html:21
+msgid "There are no showcases that feature this dataset"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/confirm_delete.html:3
+#: ckanext/sixodp_showcase/templates/showcase/confirm_delete.html:15
+msgid "Confirm Delete"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/confirm_delete.html:11
+msgid "Are you sure you want to delete showcase - {showcase_name}?"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/edit_base.html:14
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:19
+msgid "Edit"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/edit_base.html:17
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:22
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:63
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:15
+msgid "Create Showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/edit_base.html:30
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:35
+msgid "View showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/edit_base.html:36
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:42
+msgid "Edit showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/edit_base.html:37
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:43
+msgid "Manage datasets"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:3
+msgid "Showcases - Manage datasets"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:16
+msgid "Datasets in this showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:41
+msgid "Remove from Showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:47
+msgid "This showcase has no datasets associated to it"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:53
+msgid "Search and add datasets to a showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:63
+#: ckanext/sixodp_showcase/templates/showcase/search.html:12
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:16
+msgid "Relevance"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:64
+#: ckanext/sixodp_showcase/templates/showcase/search.html:13
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:17
+msgid "Name Ascending"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:65
+#: ckanext/sixodp_showcase/templates/showcase/search.html:14
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:18
+msgid "Name Descending"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:66
+#: ckanext/sixodp_showcase/templates/showcase/search.html:15
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:19
+msgid "Last Modified"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:67
+#: ckanext/sixodp_showcase/templates/showcase/search.html:16
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:15
+msgid "Popular"
+msgstr "Populärt"
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:76
+msgid "Add to Showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:108
+msgid "No datasets could be found"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/read.html:6
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_state_banner.html:3
+msgid "Manage"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/read.html:13
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:59
+msgid "Private"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/read.html:20
+msgid "Draft"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/read.html:38
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:68
+msgid "Launch website"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/showcase/search.html:19
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:23
+msgid "Search showcases..."
+msgstr "Sök applikationer..."
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:5
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:10
+msgid "Create new showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:15
+msgid "Title"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:15
+msgid "eg. A descriptive title"
+msgstr "t ex Beskrivande rubrik"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:24
+msgid "URL"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:24
+msgid "eg. my-showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:28
+msgid "Description"
+msgstr "Beskrivning"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:28
+msgid "eg. Some useful notes about the data"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:33
+msgid "eg. economy, mental health, government"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:44
+msgid "External link"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:44
+msgid "http://www.example.com"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:48
+msgid "Submitted By"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:48
+msgid "Joe Bloggs"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:50
+msgid "Submitter Email"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:50
+msgid "joe@example.com"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:58
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:10
+msgid "Are you sure you want to delete this showcase?"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:59
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:10
+msgid "Delete"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:63
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:15
+msgid "Update Showcase"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:12
+msgid "Abort"
+msgstr "Avbryt"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/package_form.html:20
+msgid ""
+"By submitting this form, you agree to release the <i>metadata</i> values "
+"that you enter into the form under the <a "
+"href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database "
+"License</a>."
+msgstr ""
+"Genom att skicka in detta formulär godkänner du att de <i>metadata</i> du "
+"angett publiceras enligt <a "
+"href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database-"
+"licensen</a>."
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:92
+msgid "Used datasets"
+msgstr "Använda datamängder"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:97
+msgid "There are no Datasets in this Showcase"
+msgstr "Denna applikation saknar datamängder"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:15
+msgid " Applications "
+msgstr "Applikationer "
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:23
+msgid "Add Showcase"
+msgstr "Lägg till applikation"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:38
+msgid "Search applications..."
+msgstr "Sök applikationer ..."
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:54
+msgid "Filter list"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:2
+msgid "Additional Info"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:13
+msgid "Application website"
+msgstr "Applikationens webbplats"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:24
+msgid "Author website"
+msgstr "Utvecklarens webbplats"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:36
+msgid "More from the author"
+msgstr "Fler applikationer av samma utvecklare"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:52
+msgid "Published"
+msgstr "Publicerat"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:62
+msgid "Last Updated"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:14
+msgid "Have you created application that utilizes open data?"
+msgstr "Har du skapat en applikation som använder sig av öppna data?"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:17
+msgid ""
+"Inform us about your application by using this form and it will be added to "
+"the list below."
+msgstr ""
+"Berätta oss om din applikation med detta formulär så lägger vi till den på "
+"listan nedan."
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:20
+msgid "Report application"
+msgstr "Lägg till applikation"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_info.html:12
+msgid "Categories"
+msgstr ""
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:54
+msgid "Remove dataset from this showcase"
+msgstr "Ta bort datamängden från denna applikation"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:13
+msgid "Newest first"
+msgstr "Nyast först"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:14
+msgid "Oldest first"
+msgstr "Äldst först"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:20
+msgid "Top rating"
+msgstr "Bästa betyg"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:7
+msgid "{number} showcase found for '{query}'"
+msgid_plural "{number} showcases found for '{query}'"
+msgstr[0] "{number} applikation hittades för '{query}'"
+msgstr[1] "{number} applikationer hittades för '{query}'"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:8
+msgid "No showcases found for '{query}'"
+msgstr "Inga applikationer hittades för '{query}'"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:9
+msgid "{number} showcase found"
+msgid_plural "{number} showcases found"
+msgstr[0] "{number} applikation hittades"
+msgstr[1] "{number} applikationer hittades"
+
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:10
+msgid "No showcases found"
+msgstr "Inga applikationer hittades"

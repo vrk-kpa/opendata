@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: operating-model-menu-en
+label: 'Operating model menu (en)'
+description: 'Menu for operating model (en)'
+locked: false

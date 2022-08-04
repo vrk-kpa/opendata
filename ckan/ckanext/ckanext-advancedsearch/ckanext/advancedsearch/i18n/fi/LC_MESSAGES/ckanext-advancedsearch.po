@@ -1,0 +1,249 @@
+# Translations template for ckanext-advancedsearch.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the ckanext-advancedsearch
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+# 
+# Translators:
+# Aaron Hakala <aaron.hakala@gofore.com>, 2019
+# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
+# Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2019
+# Meeri Hakala <meeri.hakala@dvv.fi>, 2022
+# Ville Teräväinen, 2022
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-06-09 09:59+0000\n"
+"PO-Revision-Date: 2019-07-16 07:12+0000\n"
+"Last-Translator: Ville Teräväinen, 2022\n"
+"Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+"Language: fi\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ckanext/advancedsearch/helpers.py:118
+#: ckanext/advancedsearch/translations.py:29
+msgid "Datasets"
+msgstr "Tietoaineistot"
+
+#: ckanext/advancedsearch/helpers.py:118
+#: ckanext/advancedsearch/translations.py:30
+msgid "Showcases"
+msgstr "Sovellukset"
+
+#: ckanext/advancedsearch/translations.py:8
+msgid "Search terms"
+msgstr "Hakusanat"
+
+#: ckanext/advancedsearch/translations.py:9
+msgid "Type what are you searching for"
+msgstr "Kirjoita mitä olet etsimässä"
+
+#: ckanext/advancedsearch/translations.py:10
+msgid "Search target"
+msgstr "Haun kohdistuminen"
+
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:17
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:36
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:70
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:76
+#: ckanext/advancedsearch/translations.py:11
+msgid "All"
+msgstr "Kaikki"
+
+#: ckanext/advancedsearch/translations.py:12
+msgid "Only title"
+msgstr "Vain otsikko"
+
+#: ckanext/advancedsearch/translations.py:13
+msgid "Only description"
+msgstr "Vain kuvaus"
+
+#: ckanext/advancedsearch/translations.py:14
+msgid "Category"
+msgstr "Kategoria"
+
+#: ckanext/advancedsearch/translations.py:15
+msgid "Publisher"
+msgstr "Tuottaja"
+
+#: ckanext/advancedsearch/translations.py:16
+msgid "License"
+msgstr "Lisenssi"
+
+#: ckanext/advancedsearch/translations.py:17
+msgid "Format"
+msgstr "Formaatti"
+
+#: ckanext/advancedsearch/translations.py:18
+msgid "Date released"
+msgstr "Julkaisupäivä"
+
+#: ckanext/advancedsearch/translations.py:19
+msgid "Released before"
+msgstr "Julkaistu ennen"
+
+#: ckanext/advancedsearch/translations.py:20
+msgid "Released after"
+msgstr "Julkaistu jälkeen"
+
+#: ckanext/advancedsearch/translations.py:21
+msgid "Date updated"
+msgstr "Päivityspäivä"
+
+#: ckanext/advancedsearch/translations.py:22
+msgid "Updated before"
+msgstr "Päivitetty ennen"
+
+#: ckanext/advancedsearch/translations.py:23
+msgid "Updated after"
+msgstr "Päivitetty jälkeen"
+
+#: ckanext/advancedsearch/translations.py:24
+msgid "Search datasets"
+msgstr "Hae tietoaineistoa"
+
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:23
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:28
+#: ckanext/advancedsearch/translations.py:25
+msgid "Show more options"
+msgstr "Näytä lisää hakuehtoja"
+
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:33
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:38
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:45
+#: ckanext/advancedsearch/translations.py:26
+msgid "Show less options"
+msgstr "Näytä vähemmän hakuehtoja"
+
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:41
+#: ckanext/advancedsearch/translations.py:27
+msgid "Not selected"
+msgstr "Ei valittu"
+
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:46
+#: ckanext/advancedsearch/translations.py:28
+msgid "Are you sure you want to clear all filters?"
+msgstr "Haluatko varmasti tyhjentää kaikki rajaukset?"
+
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:24
+#: ckanext/advancedsearch/translations.py:31
+msgid "Release interval"
+msgstr "julkaistu välillä"
+
+#: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:16
+msgid "Clear all"
+msgstr "Tyhjennä kaikki"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:11
+#: ckanext/advancedsearch/templates/advanced_search/index.html:42
+#: ckanext/advancedsearch/templates/advanced_search/index.html:43
+#: ckanext/advancedsearch/templates/advanced_search/index.html:57
+msgid "Advanced search"
+msgstr "Laajennettu haku"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:76
+msgid "Filters"
+msgstr "Rajaukset"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:80
+msgid "and"
+msgstr "ja"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:85
+msgid "or"
+msgstr "tai"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:97
+msgid "Relevance"
+msgstr "Osuvin ensin"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:98
+msgid "Name Ascending"
+msgstr "Nimen mukaan nousevasti"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:99
+msgid "Name Descending"
+msgstr "Nimen mukaan laskevasti"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:100
+msgid "Last Modified"
+msgstr "Viimeksi muokattu"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:101
+msgid "Date Created Ascending"
+msgstr "Luomispäivän mukaan nousevasti"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:102
+msgid "Date Created Descending"
+msgstr "Luomispäivän mukaan laskevasti"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:103
+msgid "Source"
+msgstr "Lähde"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:104
+msgid "Popular"
+msgstr "Suosittu"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:108
+msgid "Found {count} datasets"
+msgstr "Löytyi {count} tietoaineistoa"
+
+#: ckanext/advancedsearch/templates/advanced_search/index.html:111
+msgid "Sorting"
+msgstr "Lajittelu"
+
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:8
+msgid "Filter search"
+msgstr "Rajaa hakua"
+
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:34
+msgid "Update interval"
+msgstr "päivitetty välillä"
+
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:6
+msgid "before"
+msgstr "päättyen"
+
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:7
+msgid "after"
+msgstr "alkaen"
+
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:18
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:33
+msgid "selected"
+msgstr "valittu"
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:12
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:18
+msgid "Previous page"
+msgstr "Edellinen sivu"
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:27
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:36
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:58
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:70
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:84
+msgid "Page number:"
+msgstr "Sivun numero:"
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:51
+msgid "Current page number:"
+msgstr "Nykyisen sivun numero:"
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:83
+msgid "Last page"
+msgstr "Viimeinen sivu"
+
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:92
+#: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:98
+msgid "Next page"
+msgstr "Seuraava sivu"

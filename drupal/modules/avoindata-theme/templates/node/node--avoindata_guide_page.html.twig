@@ -1,0 +1,58 @@
+{#
+/**
+ * @file
+ * Avoindata Guide block
+ *
+ * @ingroup themeable
+ */
+#}
+{{ attach_library('avoindata/cycle-guide-menu-items') }}
+{% set has_menu = drupal_region('guide_menu')|render|striptags|trim %}
+
+
+{% if has_menu %}
+    <div class="arrow-box" id="js-arrow-box">
+        <h1 id="arrow-box-title"></h1>
+    </div>
+{% endif %}
+
+<div id="guide-page" class="container-fluid">
+    <div class="avoindata-guide-container avoindata-card-container">
+        <div class="row guide-header-container">
+            <div class="col-xs-12 {{ has_menu ? 'col-md-8 col-md-push-4 col--guide-right' : ''}}">
+                <h2 id="guide-header">
+                    {{ label }}
+                </h2>
+            </div>
+        </div>
+        <div class="row">
+            {% if has_menu %}
+                <div id="guide-menu-column" class="secondary col-xs-12 col-md-4 col--guide-left">
+                    {{ drupal_region('guide_menu') }}
+                </div>
+            {% endif %}
+
+            <div class="secondary col-xs-12 {{ has_menu ? 'col-md-8 col--guide-right' : ''}}">
+                <div class="guide-image">
+                    {{ content.field_page_image|field_value }}
+                </div>
+                <div class="guide-content">
+                    {{ content.field_content|field_value }}
+                </div>
+                <div>
+                    {{ content.field_guide_comments|field_value }}
+                </div>
+                {% if has_menu %}
+                    <div class="guide-cycle-btn-container">
+                        <a href="" id="previous-page-btn"></a>
+                        <a href="" id="next-page-btn"></a>
+                    </div>
+                {% endif %}
+
+                <div class="mt-4">
+                    <span class="post-date"><b>{{ 'Updated date' | t }}</b>: {{ node.changed.value | date(date_format) }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,0 @@
----
-
-- name: Remove Apache
-  apt:
-    package:
-      - apache2
-      - libapache2-mod-wsgi
-    state: absent
-

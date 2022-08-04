@@ -1,0 +1,33 @@
+
+{% ckan_extends %}
+
+{% block body_extras %}
+    {{ super() }}
+    {% asset "ytp_resources/main_js" %}
+
+{% endblock %}
+{% block styles %}
+    {{ super() }}
+    {% asset "ytp_resources/main_css" %}
+    {% include "head-styles-ckan.html" %}
+    {% include "head-scripts.html" %}
+
+    {# Disable ckanext-geoview resource icons as incompatible with CKAN 2.9 #}
+    {% block geo_resource_styles %}{% endblock %}
+{% endblock %}
+
+{%- block title -%}
+    {%- block subtitle %}{% endblock -%}
+    {%- if self.subtitle()|trim %} {{ g.template_title_deliminater }} {% endif -%}
+    {{ h.short_domain(request.environ.HTTP_HOST, 'avoindata.fi') }}
+{%- endblock -%}
+
+{% block meta %}
+    {{ super() }}
+    {% set lang = h.lang() %}
+    {% set base_url = h.short_domain(request.environ.HTTP_HOST, 'avoindata.fi') %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:image" content="https://{{ base_url }}/resources/images/logo/avoindata_fb_{{ lang }}_600x600.jpg" />
+    <meta property="og:image:width" content="600" />
+    <meta property="og:image:height" content="600" />      
+{% endblock %}

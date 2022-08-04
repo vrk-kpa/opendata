@@ -1,0 +1,9 @@
+get_recommendations_info_js:
+  filters: rjsmin
+  output: ckanext-ytp_recommendation%(version)s_get-recommendations-info.js
+  extra:
+    preload:
+      - base/main
+  contents:
+    - get-recommendations-info.js
+

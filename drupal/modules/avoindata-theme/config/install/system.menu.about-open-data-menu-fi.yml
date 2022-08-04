@@ -1,0 +1,7 @@
+langcode: fi
+status: true
+dependencies: {  }
+id: about-open-data-menu-fi
+label: 'About open data menu (fi)'
+description: 'Menu for About open data (fi)'
+locked: false

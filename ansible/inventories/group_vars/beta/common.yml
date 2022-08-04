@@ -1,2 +1,0 @@
----
-common_users: "{{ secret_users }}"

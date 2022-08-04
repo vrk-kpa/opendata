@@ -1,0 +1,21 @@
+{% import 'macros/ytp_layout.html' as layout %}
+
+<aside class="module module-narrow additional-info dataset-sidebar secondary col-lg-4">
+    {% block info_tags %}
+      {{ layout.moduleBoxHead(_('Tags')) }}
+        {% snippet 'package/snippets/tags.html', tags=pkg.get('keywords', {}), field='keywords', pkg=pkg %}
+      {{ layout.moduleBoxFoot() }}
+    {% endblock %}
+
+    {% block categories %}
+      {% if pkg.get('groups', {}) %}
+        {{ layout.moduleBoxHead(_('Categories')) }}
+            {% snippet 'package/snippets/categories.html', categories=pkg.get('groups', {}), pkg=pkg %}
+        {{ layout.moduleBoxFoot() }}
+      {% endif %}
+    {% endblock %}
+
+    {% block dataset_social %}
+        {% snippet "package/snippets/dataset_social.html" %}
+    {% endblock %}
+</aside>

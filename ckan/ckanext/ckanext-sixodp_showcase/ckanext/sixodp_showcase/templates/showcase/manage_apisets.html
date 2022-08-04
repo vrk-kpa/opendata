@@ -1,0 +1,17 @@
+{% extends 'showcase/manage_datasets.html' %}
+
+{% block showcase_datasets_associated %}
+    {{ _('apisets in this showcase') }}
+{% endblock %}
+
+{% block showcase_no_datasets_associated %}
+    {{ _('This showcase has no apisets associated to it') }}.
+{% endblock %}
+
+{% block showcase_searh_and_add_datasets %}
+    {{_("Search and add apisets to a showcase")}}
+{% endblock %}
+
+{% block showcase_no_datasets_found %}
+    {{ _('No apisets could be found') }}
+{% endblock %}

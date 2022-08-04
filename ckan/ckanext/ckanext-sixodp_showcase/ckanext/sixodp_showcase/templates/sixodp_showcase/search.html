@@ -1,0 +1,68 @@
+{% extends "package/search.html" %}
+{% import 'macros/form.html' as form %}
+{% if q is not defined %}{% set q = c.q %}{% endif %}
+{% if fields_grouped is not defined %}{% set fields_grouped = c.fields_grouped %}{% endif %}
+{% if sort_by_selected is not defined %}{% set sort_by_selected = c.sort_by_selected %}{% endif %}
+{% if page is not defined %}{% set page = c.page %}{% endif %}
+{% if facet_titles is not defined %}{% set facet_titles = c.facet_titles %}{% endif %}
+
+{% block subtitle %}{{ _("Showcases") }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{{ h.nav_link(_('Showcases'), named_route='sixodp_showcase.search', highlight_actions = 'new index') }}</li>
+{% endblock %}
+
+
+{% block pre_primary %}
+  {% block page_primary_action %}
+  <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+    <h1 class="mb-0">
+      {% trans %}
+        Applications
+      {% endtrans %}
+    </h1>
+
+    {% if h.check_access('ckanext_showcase_create') %}
+      <div>
+        <div class="btn-group d-flex align-items-center flex-wrap">
+          {% link_for _('Add Showcase'), named_route='sixodp_showcase.new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  {% endblock %}
+{% endblock %}
+
+
+{% block primary_content %}
+  <section class="module">
+    <div class="module-content">
+      {{ h.snippet('sixodp_showcase/snippets/showcase_greeting.html') }}
+      {% block form %}
+        <div class="search-form-container search-form-container-borderless">
+          {{ h.snippet('sixodp_showcase/snippets/showcase_search_input.html', query=q, placeholder=_('Search applications...'), query_params=fields_grouped, sorting=sorting, sort_by_selected=sort_by_selected, page=page) }}
+        </div>
+      {% endblock %}
+
+      {% block package_search_results_list %}
+        {{ h.snippet('sixodp_showcase/snippets/showcase_list.html', packages=page.items) }}
+      {% endblock %}
+    </div>
+
+    {% block page_pagination %}
+      {{ super() }}
+    {% endblock %}
+  </section>
+{% endblock %}
+
+{% block package_search_results_api %}
+{% endblock %}
+
+{% block secondary_content %}
+  <div class="secondary__header">
+    <h3 class="secondary__title">{{ _('Filter list') }}</h3>
+  </div>
+  {% for facet in facet_titles %}
+    {{ h.snippet('snippets/facet_list.html', title=facet_titles[facet], name=facet) }}
+  {% endfor %}
+{% endblock %}

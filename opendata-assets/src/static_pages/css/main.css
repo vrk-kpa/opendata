@@ -1,0 +1,185 @@
+@font-face {
+	font-family: 'Source Sans Pro';
+	font-style: normal;
+	font-weight: 300;
+	font-display: block; /* or auto, swap, fallback, optional */
+	src: url('/resources/fonts/source-sans-pro-v13-latin-300.eot'); /* IE9 Compat Modes */
+	src:
+		local('Source Sans Pro Light'), local('SourceSansPro-Light'),
+		url('/resources/fonts/source-sans-pro-v13-latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+		url('/resources/fonts/source-sans-pro-v13-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
+		url('/resources/fonts/source-sans-pro-v13-latin-300.woff') format('woff'), /* Modern Browsers */
+		url('/resources/fonts/source-sans-pro-v13-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
+		url('/resources/fonts/source-sans-pro-v13-latin-300.svg#SourceSansPro') format('svg'); /* Legacy iOS */
+}
+
+@font-face {
+	font-family: 'Source Sans Pro';
+	font-style: normal;
+	font-weight: 400;
+	font-display: block; /* or auto, swap, fallback, optional */
+	src: url('/resources/fonts/source-sans-pro-v13-latin-regular.eot'); /* IE9 Compat Modes */
+	src:
+		local('Source Sans Pro Regular'), local('SourceSansPro-Regular'),
+		url('/resources/fonts/source-sans-pro-v13-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+		url('/resources/fonts/source-sans-pro-v13-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+		url('/resources/fonts/source-sans-pro-v13-latin-regular.woff') format('woff'), /* Modern Browsers */
+		url('/resources/fonts/source-sans-pro-v13-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+		url('/resources/fonts/source-sans-pro-v13-latin-regular.svg#SourceSansPro') format('svg'); /* Legacy iOS */
+}
+
+@font-face {
+	font-family: 'Source Sans Pro';
+	font-style: normal;
+	font-weight: 600;
+	font-display: block; /* or auto, swap, fallback, optional */
+	src: url('/resources/fonts/source-sans-pro-v13-latin-600.eot'); /* IE9 Compat Modes */
+	src:
+		local('Source Sans Pro SemiBold'), local('SourceSansPro-SemiBold'),
+		url('/resources/fonts/source-sans-pro-v13-latin-600.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+		url('/resources/fonts/source-sans-pro-v13-latin-600.woff2') format('woff2'), /* Super Modern Browsers */
+		url('/resources/fonts/source-sans-pro-v13-latin-600.woff') format('woff'), /* Modern Browsers */
+		url('/resources/fonts/source-sans-pro-v13-latin-600.ttf') format('truetype'), /* Safari, Android, iOS */
+		url('/resources/fonts/source-sans-pro-v13-latin-600.svg#SourceSansPro') format('svg'); /* Legacy iOS */
+}
+
+body {
+	margin: 0;
+	font-family: "Source Sans Pro", "Helvetica Neue", "Arial", "sans-serif";
+	font-size: 18px;
+	line-height: 1.428571429;
+	background-color: #fafafa;
+	color: #222222;
+}
+
+h1 {
+	font-size: 40px;
+	font-weight: 300;
+	line-height: 48px;
+	margin-bottom: 40px;
+}
+
+h2 {
+	font-size: 28px;
+	font-weight: 600;
+	line-height: 34px;
+}
+
+p {
+	margin-bottom: 10px;
+}
+
+.header {
+	background-color: #fff;
+	border-bottom: 1px solid #c8cdd0;
+	position: sticky;
+	top: 0;
+	min-height: 80px;
+	width: 100%;
+	padding: 0;
+	margin-bottom: 70px;
+	display: flex;
+	align-items: center;
+}
+
+.header .container {
+	display: flex;
+	justify-content: flex-start;
+	align-content: center;
+}
+
+.header a {
+	font-size: 40px;
+	line-height: 40px;
+	color: #222;
+}
+
+.header img {
+	width: auto;
+	height: 22px;
+}
+
+#logo {
+	height: 40px;
+	width: auto;
+}
+
+.container {
+    max-width: 800px;
+    min-width: 480px;
+    width: 90%;
+	margin: 0 auto;
+}
+
+a {
+	color: #2a6ebb;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #2a6ebb;
+	text-decoration: underline;
+}
+
+.instructions {
+	margin-top: 40px;
+}
+
+/* #heading > div {
+	padding-left: 50px;
+	margin-left: auto;
+	margin-right: auto
+}
+
+#heading > div > a{
+	padding: 10px;
+	color: #ffffff;
+	margin-right: 40%;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 18px;
+	line-height: 20px;
+	float: left;
+}
+
+.container{
+    max-width: 800px;
+    min-width: 480px;
+    width: 90%;
+    height: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 20px;
+    color: white;
+}
+
+.container a{
+  color: white;
+  font-weight: 800;
+}
+
+.container p {
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+#content{
+  background: linear-gradient(to right, rgba(56, 86, 128, 0.4), rgba(56, 86, 128, 0.0));
+  border-radius: 5px;
+  padding: 50px;
+}
+
+#content > h1 {
+	font-weight: 700;
+	line-height: 1.1;
+	color: inherit;
+  margin-top: 0;
+  font-size: 48px;
+}
+
+#content > div {
+	width: 400px;
+	background-color: #cbe7ff;
+	padding: 20px;
+    border-radius: 20px;
+} */

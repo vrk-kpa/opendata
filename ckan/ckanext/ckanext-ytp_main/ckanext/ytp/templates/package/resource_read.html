@@ -1,0 +1,312 @@
+{% extends "package/base.html" %}
+
+{% set res = c.resource %}
+{% set visits =  h.get_visits_for_resource(res.id) if 'get_visits_for_resource' in h else None %}
+{%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
+{% block head_extras -%}
+  {{ super() }}
+
+  {% set description = h.markdown_extract(res.description, extract_length=200) if res.description else h.markdown_extract(c.package.notes, extract_length=200) %}
+  <meta property="og:title" content="{{ h.dataset_display_name(c.package) }} - {{ h.resource_display_name(res) }} - {{ g.site_title }}">
+  <meta property="og:description" content="{{ description|forceescape }}">
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+{% endblock -%}
+
+
+
+
+{% block subtitle %}{{ h.dataset_display_name(c.package) }} - {{ h.resource_display_name(res) }}{% endblock %}
+
+  {% block toolbar %}
+  <div class="toolbar">
+    {% block breadcrumb %}
+      {% if self.breadcrumb_content() | trim %}
+        <ol class="breadcrumb">
+          {% snippet 'snippets/home_breadcrumb_item.html' %}
+          {% block breadcrumb_content %}
+          {{ super() }}
+          <!-- Remove active from preceeding lists -->
+          <script>
+            var elements = document.querySelectorAll("breadcrumb");
+            [].forEach.call(elements, function(el){
+              el.classList.remove("active");
+            });
+          </script>
+          <li class="active"><a href="">{{ h.resource_display_name(res)| truncate(30) }}</a></li>
+          {% endblock %}
+        </ol>
+      {% endif %}
+    {% endblock %}
+    <div class="toolbar-secondary-wrapper">
+      <div class="row toolbar-resource-secondary">
+        <i class="fas fa-long-arrow-left"></i>
+        {% trans  url=h.url_for(pkg.type ~ '.read', id=c.package['name']) %}<a href="{{ url }}">{% endtrans %}{{_('dataset')}}</a>
+      </div>
+     
+    </div>
+      
+  </div>
+  {% endblock %}
+
+{% block prelude %}
+
+{% endblock %}
+
+{% block primary_content %}
+  {% block resource %}
+    <div class="container-module-resource">
+      <section class="module module-resource">
+        <div class="module-content">
+            <div class="row justify-content-between pb-2">
+              <div class="actions col-md-6 justify-content-end">
+                {% block resource_actions %}
+                  <ul>
+                    {% block resource_actions_inner %}
+                      {% if h.check_access('package_update', {'id':pkg.id }) %}
+                        <li>{% link_for _('Manage'), named_route=pkg.type ~ '_resource.edit', id=pkg.name, resource_id=res.id, class_='btn btn-menu-manage', icon='wrench' %}</li>
+                      {% endif %}
+                      {% if res.url %}
+                        <li>
+                          <a class="btn btn-menu-manage resource-url-analytics resource-type-{{ res.resource_type }}" href="{{ res.url }}">
+                            {% if res.resource_type in ('listing', 'service') %}
+                              <i class="fas fa-eye"></i> {{ _('View') }}
+                            {% elif  res.resource_type == 'api' %}
+                              <i class="fas fa-key"></i> {{ _('API Endpoint') }}
+                            {% elif not res.can_be_previewed and res.url_type != 'upload' %}
+                              <i class="fas fa-external-link-alt"></i> {{ _('Open') }}
+                            {% else %}
+                              <i class="fas fa-download"></i> {{ _('Download') }}
+                            {% endif %}
+                          </a>
+                        </li>
+                      {% endif %}
+                    {% endblock %}
+                  </ul>
+                {% endblock %}
+              </div>
+              <div class="col-md-4 order-first">
+                <p class="module-small-title">{% trans dataset=c.package.title %}{{ dataset }}{% endtrans %}</p>
+              </div>
+            </div>
+            
+            <div class="row justify-content-center pb-3">
+              {% block resource_content %}
+              <div class="col-md-12">
+                {% block resource_read_title %}
+                  <h1 class="page-heading">{{ h.extra_translation(res, 'name', fallback=h.resource_display_name) }}</h1>
+                {% endblock %}
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-md-12 prose notes" property="rdfs:label">
+                {% set description = h.extra_translation(res, 'description', markdown=True) %}
+                {% if description %}
+                  {{ description }}
+                {% else %}
+                  {% set notes = h.extra_translation(c.package, 'notes', markdown=True) %}
+                  {% if notes %}
+                    <h3>{{ _('From the dataset abstract') }}</h3>
+                    <blockquote>{{ notes }}</blockquote>
+                    <p>{% trans dataset=c.package.title, url=h.url_for(pkg.type ~ '.read', id=c.package['name']) %}Source: <a href="{{ url }}">{{ dataset }}</a>{% endtrans %}
+                  {% endif %}
+                {% endif %}
+              </div>
+            {% endblock %}
+            </div>
+
+          <div class="row justify-content-center">
+            <div class="col md-12 p-2">
+              {% if 'datastore' in g.plugins %}
+                {% snippet 'package/snippets/new_data_api_button.html', resource=res, datastore_root_url=c.datastore_api %}
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row justify-content-center pb-3">
+            {% block data_preview %}
+              {% block resource_view %}
+                {% block resource_view_nav %}
+                  {% set resource_preview = h.resource_preview(c.resource, c.package) %}
+                  {% snippet "package/snippets/resource_views_list.html",
+                    views=resource_views,
+                    pkg=pkg,
+                    is_edit=false,
+                    view_id=current_resource_view['id'],
+                    resource_preview=resource_preview,
+                    resource=c.resource,
+                    extra_class="nav-tabs-plain"
+                  %}
+                {% endblock %}
+                  {% block resource_view_content %}
+                    <div class="resource-view col-md-12">
+                      <h3 class="mt-0">{{ _('Preview') }}</h3>
+                      {% set resource_preview = h.resource_preview(c.resource, c.package) %}
+                      {% set views_created = res.has_views or resource_preview %}
+                      {% if views_created %}
+                        {% if resource_preview and not current_resource_view %}
+                          {{ h.resource_preview(c.resource, c.package) }}
+                        {% else %}
+                          {% for resource_view in resource_views %}
+                            {% if resource_view == current_resource_view %}
+                              {% snippet 'package/snippets/resource_view.html',
+                                resource_view=resource_view,
+                                resource=c.resource,
+                                package=c.package
+                              %}
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %}
+                      {% else %}
+                        {# Views not created #}
+                        <div class="data-viewer-info">
+                          <p>{{ _("There are no views created for this resource yet.") }}</p>
+                          {% if h.check_access('resource_view_create', {'resource_id': c.resource.id}) %}
+                            <p class="text-muted">
+                              <i class="fa fa-info-circle"></i>
+                              {{ _("Not seeing the views you were expecting?")}}
+                              <a href="javascript:void(0);" data-toggle="collapse" data-target="#data-view-info">
+                                {{ _('Click here for more information.') }}</a>
+                            </p>
+                            <div id="data-view-info" class="collapse">
+                              <p>{{ _('Here are some reasons you may not be seeing expected views:') }}</p>
+                              <ul>
+                                <li>{{ _("No view has been created that is suitable for this resource")}}</li>
+                                <li>{{ _("The site administrators may not have enabled the relevant view plugins")}}</li>
+                                <li>{{ _("If a view requires the DataStore, the DataStore plugin may not be enabled, or the data may not have been pushed to the DataStore, or the DataStore hasn't finished processing the data yet")}}</li>
+                              </ul>
+                            </div>
+                          {% endif %}
+                        </div>
+                      {% endif %}
+                    </div>
+                  {% endblock %}
+              {% endblock %}
+            {% endblock %}
+          </div>
+          <div class="row justify-content-center pb-3">
+            {% block resource_additional_information %}
+              {% if res %}
+                  <div class="col-md-12">
+                    <div class="module-content ">
+                      <h3 class="mt-0">{{ _('Extra information') }}</h3>
+                        <div>
+                          <table class="resource-module-table">
+                            <tr>
+                              <th>{{ _('Format') }}</th>
+                              <th>{{ res.mimetype_inner or res.mimetype or res.format or _('unknown') }}</th>
+                            {%- set exclude_fields = [
+                              'name_translated',
+                              'name',
+                              'description',
+                              'description_translated',
+                              'temporal_granularity',
+                              'temporal_coverage_from',
+                              'temporal_coverage_to',
+                              'update_frequency',
+                              'description_translated',
+                              'url',
+                              'format',
+                              'status_updated',
+                              'malware',
+                              'sha256',
+                              'url_type'
+                            ] -%}
+                            {%- for field in schema.resource_fields -%}
+                              {%- if field.field_name not in exclude_fields and field.display_snippet is not none
+                              and field.field_name in res and field[field.field_name] != "" -%}
+                                <tr>
+                                  <th>{{- h.scheming_language_text(field.label) -}} </th>
+                                  <th>{%- snippet 'scheming/snippets/display_field.html',
+                                    field=field, data=res, entity_type='dataset',
+                                    object_type=dataset_type -%}</th>
+                                </tr>
+                              {%- endif -%}
+                            {%- endfor -%}
+                          </tr>
+                          <tr>
+                            <th>{{ _('Temporal Coverage') }}</th>
+                            <th>{% if res.temporal_coverage_from %}{{ h.render_date(h.date_str_to_datetime(res.temporal_coverage_from)) }}{% endif %} -
+                              {% if res.temporal_coverage_to %}{{ h.render_date(h.date_str_to_datetime(res.temporal_coverage_to))}}{% endif %}
+                            </th>
+                          </tr>
+                          <tr>
+                            <th>{{ _('Last updated') }}</th>
+                            <th>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.revision_timestamp) or h.render_datetime(res.created) or _('unknown') }}</th>
+                          </tr>
+                          <tr>
+                            <th>{{ _('Created') }}</th>
+                            <th>{{ h.render_datetime(res.created) or _('unknown') }}</th>
+                          </tr>
+                          <tr>
+                            <th>{{ _('sha256')|upper }}</th>
+                            <th>{{ h.get_resource_sha256(res.id) or _('unknown') }}</th>
+                          </tr>
+                          </table>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+              {% endif %}
+            {% endblock %}
+          </div>
+        </div>
+      </section>
+
+    {% endblock %}
+
+  {% endblock %}
+
+{% block secondary_content %}
+  {% block resources_list %}
+    {% snippet "package/snippets/resources.html", pkg=pkg, active=res.id %}
+  {% endblock %}
+  <section class="module module-narrow">
+    <h2 class="module-heading">Lisenssi </h2>
+    <div class="ml-3">
+      {% snippet "snippets/license.html", pkg_dict=pkg, text_only=True %}
+    </div>
+  </section>
+
+  {% if visits %}
+  <h3>{{ _('Stats') }}</h3>
+  <span>{{ _('Last 30 days, updated daily') }}</span>
+  <div id="chart_div"></div>
+
+  <span>{{ _('All time downloads:' ) }} {{ visits.count }}</span>
+
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+          var data = google.visualization.arrayToDataTable([
+            ["{{ _('Year') }}", "{{ _('Downloads') }}"],
+            {% for v in visits.downloads %}
+              [new Date({{ v.year }}, {{ v.month - 1 }}, {{ v.day }}), {{ v.visits }}],
+            {% endfor %}
+          ]);
+
+          var options = {
+            hAxis: {
+              textPosition: 'none',
+              format: 'dd.MM.yyyy',
+              gridlines: {
+                count : 4
+              }
+            },
+            vAxis: {
+              minValue: 4
+            },
+            legend: { position: 'bottom' }
+          };
+
+          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+          chart.draw(data, options);
+        }
+  </script>
+  {% endif %}
+
+{% endblock %}

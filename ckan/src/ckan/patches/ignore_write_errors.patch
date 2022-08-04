@@ -1,0 +1,13 @@
+diff --git a/ckan-uwsgi.ini b/ckan-uwsgi.ini
+index 33995484e..d2d316abf 100644
+--- a/ckan-uwsgi.ini
++++ b/ckan-uwsgi.ini
+@@ -14,3 +14,8 @@ vacuum          =  true
+ callable        =  application
+ buffer-size     =  32768
+ strict          =  true
++
++ignore-sigpipe
++ignore-write-errors
++disable-write-exception
++

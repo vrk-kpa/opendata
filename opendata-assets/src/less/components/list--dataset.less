@@ -1,0 +1,90 @@
+@import "../variables.less";
+
+.dataset-list {
+  padding: 0;
+  background-color: @background-color__content;
+  // @NOTE: To make top border of first item in search list overlapping with result text border
+  margin-top: -1px;
+}
+
+.dataset-item {
+  position: relative;
+  border: 1px solid @opendata-brand-border-gray;
+  border-bottom: none;
+  margin-bottom: 0;
+  padding: @padding__content;
+
+  &:last-of-type {
+    border-bottom: 1px solid @opendata-brand-border-gray;
+    // @NOTE: This is needed as otherwise ckan styles overwrites it with zero bottom padding
+    padding-bottom: @padding-y--common;
+  }
+
+  .dataset-heading {
+    font-family: @font-family-sans-serif-semibold;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 28px;
+    color: @new-layout-secondary-text-color;
+    margin-top: 0;
+    margin-bottom: @margin-bottom-h3;
+    word-break: break-word;
+
+    a {
+      color: @new-layout-secondary-text-color;
+
+      &:hover,
+      &:active {
+        color: @new-layout-secondary-text-color;
+      }
+    }
+  }
+
+  .dataset-item-notes {
+    font-family: @font-family-sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 27px;
+    color: @new-layout-primary-text-color;
+    margin-bottom: @padding-y--common;
+  }
+
+  .dataset-item-organization {
+    margin-bottom: 12px;
+    color: @new-layout-nonimportant-text-color;
+    font-family: @font-family-sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 24px;
+
+    a,
+    a:hover,
+    a:active {
+      color: @new-layout-nonimportant-text-color;
+    }
+  }
+}
+
+.dataset-title {
+  float: left;
+}
+
+.collection-type {
+  margin-left: auto;
+  margin-right: 0;
+  color: @suomi-whiteBase;
+  text-transform: uppercase;
+  font-size: @font-size-smaller-base;
+  font-family: @font-family-sans-serif-semibold;
+  font-weight: @font-weight-heavier;
+  text-align: center;
+  background: @opendata-brand-blue;
+  border: 1px solid @opendata-brand-blue;
+  border-radius: @border-radius__button;
+  padding: @padding__tag;
+}
+
+.deleted {
+  background: @suomi-alertBase;
+  border: 1px solid @suomi-alertBase;
+}

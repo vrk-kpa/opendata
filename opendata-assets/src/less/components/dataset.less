@@ -1,0 +1,230 @@
+@import "../variables.less";
+
+.dataset-container {
+  background-color: @background-color__content;
+  border: 1px solid @border-color__content;
+  padding: @padding__content;
+
+  > .row {
+    margin-left: -@padding-x--common;
+    margin-right: -@padding-x--common;
+  }
+
+  .dataset-primary-content,
+  .dataset-sidebar {
+    padding: 0 @padding-x--common;
+
+    .embedded-content {
+      font-size: @font-size-base;
+    }
+
+    .embedded-content,
+    .resources,
+    .additional-info,
+    .disqus-comments {
+      margin-bottom: @margin__module--large;
+
+      h3 {
+        margin-bottom: @padding-y--common;
+      }
+    }
+  }
+}
+
+.dataset-header-row {
+  margin-bottom: @padding-y--common;
+
+  .content_action {
+    font-weight: 600;
+    font-size: 16px;
+
+    .opendata-content-action {
+      color: @active-tab-color;
+
+      a {
+        color: @active-tab-color;
+      }
+    }
+  }
+}
+
+.high-value-dataset {
+  .fa-stack {
+    // Bigger (2x) icon in stack should be sized as given font size, so divide size-variable by 2
+    font-size: (@font-size__high-value-dataset-icon / 2);
+    width: @font-size__high-value-dataset-icon;
+    height: @font-size__high-value-dataset-icon;
+    line-height: @font-size__high-value-dataset-icon;
+    color: @opendata-brand-complementary;
+    margin-right: @padding-x--small;
+  }
+}
+
+.icon-private {
+  color: @opendata-brand-danger;
+  vertical-align: middle;
+  height: 1.3em;
+}
+
+.admin-banner {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+
+  a {
+    display: block;
+    margin-left: auto;
+    color: @opendata-brand-primary;
+    font-size: @font-size-smaller-base;
+    font-family: @font-family-sans-serif-semibold;
+    font-weight: @font-weight-heavier;
+    letter-spacing: 0.4px;
+    line-height: 20px;
+    border: 1px solid @opendata-brand-primary;
+    border-radius: 2px;
+    padding: @padding-y--small @padding-x--common;
+    text-decoration: none;
+  }
+}
+
+.private-or-draft-dataset {
+  background: @opendata-brand-blue;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+  }
+
+  span {
+    color: @suomi-whiteBase;
+    font-family: @font-family-sans-serif;
+    font-size: @font-size-slightly-smaller-base;
+    font-weight: @font-weight-normal;
+    line-height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  a {
+    color: @suomi-whiteBase;
+    border: 1px solid @suomi-whiteBase;
+  }
+}
+
+.deleted-dataset {
+  background: @suomi-alertBase;
+}
+
+#content .container-apiset {
+  .filter-list .pill {
+    font-size: 16px;
+    font-weight: 600;
+    height: 24px;
+    line-height: 21px;
+    color: rgb(255, 255, 255);
+    background: @opendata-brand-primary;
+    border-radius: 14px;
+    padding: 0 13px 0 13px;
+
+    i {
+      margin-left: 5px;
+    }
+  }
+
+  .search-results {
+    color: @navbarInverseBackgroundHighlight;
+    font-family: @font-family-sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .label-field-order {
+    font-family: @font-family-sans-serif-semibold;
+    color: @navbarInverseBackgroundHighlight;
+    font-size: 16px;
+    font-weight: 600;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 21px;
+  }
+
+  .facet {
+    font-family: @font-family-sans-serif-semibold;
+    color: @navbarInverseBackgroundHighlight;
+    font-size: 16px;
+    font-weight: 600;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 15px;
+  }
+
+  .row {
+    padding: 21px 20px 21px 20px;
+    border: 1px solid @table-border-color;
+    background: #fff;
+    margin-bottom: -1px;
+  }
+
+  .search-form .search-dataset {
+    border-radius: 0;
+    height: 40px;
+  }
+}
+
+.container-search-result,
+.dataset-list {
+  .dataset-heading a {
+    color: @opendata-brand-primary;
+    font-family: @font-family-sans-serif-semibold;
+    font-size: 22px;
+    font-weight: 600;
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .dataset-item-notes {
+    color: @color--black;
+    font-family: @font-family-sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    height: 81px;
+    line-height: 27px;
+  }
+
+  .search-item-tag {
+    background: @suomi-whiteBase;
+    border: 1px solid @opendata-brand-border-gray;
+    margin: 0;
+    margin-right: @margin__tag;
+    border-radius: 2px;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  .search-item-tag-organization {
+    padding: @padding__tag;
+  }
+
+  .search-item-tag-type {
+    padding: @padding__tag;
+  }
+
+  .search-item-tag span {
+    color: @suomi-depthDark27;
+    font-family: @font-family-sans-serif-semibold;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    text-align: center;
+  }
+}

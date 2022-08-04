@@ -1,0 +1,117 @@
+<?php
+
+/**
+ * @file
+ * Adds avoindata hero module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Security\TrustedCallbackInterface;
+
+/**
+ * Implements hook_help().
+ */
+function avoindata_hero_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.avoindata_hero':
+      return t('
+        Creates header that can be exported to non-Drupal pages.
+      ');
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function avoindata_hero_theme($existing, $type, $theme, $path) {
+  return [
+    'avoindata_hero' => [
+      'render element' => 'form',
+      'template' => 'avoindata_hero_form',
+    ],
+  ];
+}
+
+class AvoindataHeroHandler implements TrustedCallbackInterface
+{
+
+
+  /**
+   * Queries dataset count from ckan.
+   *
+   * @return array
+   *   Returns markup.
+   */
+  function avoindata_hero_dataset_count()
+  {
+    $client = \Drupal::httpClient();
+
+    try {
+      $datasetResponse = $client->request('POST', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/package_search');
+      $datasetResult = Json::decode($datasetResponse->getBody());
+      $datasetCount = $datasetResult['result']['count'];
+    } catch (\Exception $e) {
+      $datasetCount = 0;
+    }
+
+    return [
+      '#markup' => $datasetCount,
+      '#cache' => ['max-age' => 0],
+    ];
+  }
+
+  /**
+   * Queries organization count from ckan.
+   *
+   * @return array
+   *   Returns markup.
+   */
+  function avoindata_hero_organization_count()
+  {
+    $client = \Drupal::httpClient();
+    try {
+      $organizationResponse = $client->request('GET', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/organization_list');
+      $organizationResult = Json::decode($organizationResponse->getBody());
+      $organizationCount = count($organizationResult['result']);
+    } catch (\Exception $e) {
+      $organizationCount = 0;
+    }
+
+    return [
+      '#markup' => $organizationCount,
+      '#cache' => ['max-age' => 0],
+    ];
+  }
+
+  /**
+   * Queries application count from ckan.
+   *
+   * @return array
+   *   Returns markup.
+   */
+  function avoindata_hero_application_count()
+  {
+    $client = \Drupal::httpClient();
+
+    try {
+      $applicationResponse = $client->request('GET', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/ckanext_showcase_list');
+      $applicationResult = Json::decode($applicationResponse->getBody());
+      $applicationCount = count($applicationResult['result']);
+    } catch (\Exception $e) {
+      $applicationCount = 0;
+    }
+
+    return [
+      '#markup' => $applicationCount,
+      '#cache' => ['max-age' => 0],
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function trustedCallbacks() {
+    return ['avoindata_hero_dataset_count', 'avoindata_hero_organization_count', 'avoindata_hero_application_count'];
+  }
+}

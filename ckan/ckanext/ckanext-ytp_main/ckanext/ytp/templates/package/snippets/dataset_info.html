@@ -1,0 +1,187 @@
+{% import 'macros/ytp_layout.html' as layout %}
+
+<aside class="module module-narrow additional-info dataset-sidebar secondary col-lg-4">
+    {% set interoperability_tools = (pkg.collection_type == 'Yhteentoimivuuden kuvaukset ja ohjeet' or pkg.collection_type == 'Interoperability Tools') %}
+
+    {% block geospatial_map %}
+        {% set dataset_extent = h.get_pkg_dict_extra(c.pkg_dict, 'spatial', '') %}
+        {% if dataset_extent %}
+            {% snippet "spatial/snippets/dataset_map_sidebar.html", extent=dataset_extent %}
+        {% endif %}
+    {% endblock %}
+
+    {% block info_tags %}
+        {{ layout.moduleBoxHead(_('Tags')) }}
+            {% snippet 'package/snippets/tags.html', tags=pkg.get('keywords', {}), field='keywords', pkg=pkg %}
+        {{ layout.moduleBoxFoot() }}
+    {% endblock %}
+
+    {% block categories %}
+        {{ layout.moduleBoxHead(_('Categories')) }}
+            {% snippet 'package/snippets/categories.html', categories=pkg.get('groups', {}), pkg=pkg %}
+        {{ layout.moduleBoxFoot() }}
+    {% endblock %}
+
+    {% block license_info %}
+        {{ layout.moduleBoxHead(_('License')) }}
+            {% if  pkg.license_id == 'cc-zero-1.0' or pkg.license_id == 'cc-by-4.0' or pkg.license_id == 'cc-by-4-fi' %}
+                {% set creator_user=h.get_user(pkg.get('creator_user_id')) %}
+                {% if pkg.organization and pkg.organization.get('name') == "yksityishenkilo"  and creator_user.display_name %}
+                    {% snippet 'package/snippets/license_rdf.html',
+                    license_id=pkg.license_id,
+                    content_title=pkg.title,
+                    creator=creator_user.display_name,
+                    creator_url=creator_user.url,
+                    attribution_url='/data/' + h.lang() + '/dataset/'+pkg.get('name') %}
+                {% elif pkg.organization %}
+                    {% snippet 'package/snippets/license_rdf.html',
+                    license_id=pkg.license_id,
+                    content_title=pkg.title,
+                    creator=h.extra_translation(pkg.organization, 'title'),
+                    creator_url='/data/' +  h.lang() + '/organization/' + pkg.organization.get('name'),
+                    attribution_url='/data/' +  h.lang() + '/dataset/' + pkg.get('name') %}
+                {% endif %}
+            {% else %}
+                {% if 'license_url' in pkg %}
+                    <a href="{{ pkg.license_url }}" rel="dc:rights">{{ _(pkg.license_title) }}</a>
+                {% elif pkg.license_title != None %}
+                    <span property="dc:rights">{{ _(pkg.license_title) }}</span>
+                {% else %}
+                {% set license_url = h.get_value_from_extras_by_key(pkg, 'license_url') %}
+                {% if license_url %}
+                    <a href="{{ license_url }}" rel="dc:rights" class="licenseUrl">
+                    {% set license_title = h.get_value_from_extras_by_key(pkg, 'license_title') %}
+                      {% if license_title != None %}
+                        {{ license_title }}
+                    {% else %}
+                        {{ license_url }}
+                    {% endif %}
+                    </a>
+                {% else %}
+                    {{ _('License Not Specified') }}
+                {% endif %}
+                {% endif %}
+            {% endif %}
+        {{ layout.moduleBoxFoot() }}
+    {% endblock %}
+
+    {% block openness_score %}
+        {% if pkg['qa'] %}
+        {{ layout.moduleBoxHead(_('Openness score')) }}
+        <div class="openness-score">
+            {% for i in range(5)  %}
+                {% if i < pkg['qa']['openness_score'] %}
+                    <i class="fas fa-star"></i>
+                {% else %}
+                    <i class="far fa-star"></i>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {{ layout.moduleBoxFoot() }}
+        {% endif %}
+    {% endblock %}
+
+    {#
+        {% block package_info %}
+            {% snippet 'package/snippets/info.html', pkg=pkg %}
+        {% endblock %}
+    #}
+
+    {% block recommendations %}
+        {{ layout.moduleBoxHead(_('Recommend dataset')) }}
+            <div class="recommendations-dataset">
+                {% snippet 'recommendations/snippets/recommendations.html', package=pkg %}
+            </div>
+        {{ layout.moduleBoxFoot() }}
+    {% endblock %}
+
+    {% block follow %}
+        {# FIXME: Pending ckanext-reminder CKAN 2.9 migration
+        {{ layout.moduleBoxHead(_('Follow dataset')) }}
+        <div class="follow-dataset">
+            {% snippet 'package/snippets/follow.html', pkg=pkg %}
+        </div>
+        {{ layout.moduleBoxFoot() }}
+        #}
+    {% endblock %}
+
+
+    {% block stats %}
+        {% if 'get_visits_for_dataset' in h %}
+        {{ layout.moduleBoxHead(_('Stats')) }}
+            <span>{{ _('Last 30 days, updated daily') }}</span>
+            <div id="chart_div"></div>
+            {% set visits = h.get_visits_for_dataset(pkg.id) %}
+            {% set download_count_last_year = h.get_download_count_for_dataset_during_last_year(pkg.id) %}
+            {% set last_year = h.get_current_date().year - 1 %}
+            <span>{{ _('Downloads during year') }} {{last_year}}: {{ download_count_last_year }}</span><br/>
+            <span>{{ _('All time visits:') }} {{ visits.count }}</span><br/>
+            <span>{{ _('All time downloads:') }} {{ visits.download_count }}</span>
+            <script src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+              google.charts.load('current', {packages: ['corechart']});
+              google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                    ["{{ _('Year') }}", "{{ _('Visits') }}", "{{ _('Downloads') }}"],
+                    {% for v in visits.visits %}
+                        [new Date({{ v.year }}, {{ v.month - 1 }}, {{ v.day }}), {{ v.visits }}, {{ v.downloads }}],
+                    {% endfor %}
+                    ]);
+
+                    var options = {
+                    hAxis: {
+                        textPosition: 'none',
+                        format: 'dd.MM.yyyy',
+                        gridlines: {
+                            count : 0
+                        }
+                    },
+                    vAxis: {
+                        minValue: 4
+                    },
+                    legend: { position: 'bottom' },
+                    chartArea: {
+                        left: 32
+                    },
+                    series: {
+                        0: {
+                            lineDashStyle: null
+                        },
+                        1: {
+                            lineDashStyle: [5, 3]
+                        },
+                    }
+                    };
+
+                    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+                    chart.draw(data, options);
+                }
+            </script>
+        {{ layout.moduleBoxFoot() }}
+        {% endif %}
+    {% endblock %}
+
+    {% block dataset_social %}
+        {% snippet "package/snippets/dataset_social.html" %}
+    {% endblock %}
+
+    {#
+    {% block changelog_info %}
+
+        <!-- Dataset Creation and Modification dates-->
+
+        {{ layout.moduleBoxHead(_('Change log')) }}
+            <h5 class="sidebar-title">{{_('Dataset')}}</h5>
+
+            <div>{{_('Last Modified')}}: {{ h.render_datetime(pkg.get('metadata_modified'), "%d.%m.%Y")}}</div>
+            <div>{{_('Created')}}: {{ h.render_datetime(pkg.get('metadata_created'), "%d.%m.%Y")}}</div>
+            <br />
+
+            <a href="/data/{{ h.lang() }}/dataset/activity/{{pkg.get('name')}}">{{_('Show change log')}} ></a>
+        {{ layout.moduleBoxFoot() }}
+    {% endblock %}
+    #}
+</aside>

@@ -1,0 +1,45 @@
+uuid: 98739e66-140e-4919-a950-735356bffca2
+langcode: fi
+status: true
+dependencies:
+  config:
+    - system.menu.about-open-data-menu-sv
+  module:
+    - language
+    - node
+    - system
+  theme:
+    - avoindata
+id: aboutopendatamenusv
+theme: avoindata
+region: guide_menu
+weight: 0
+provider: null
+plugin: 'system_menu_block:about-open-data-menu-sv'
+settings:
+  id: 'system_menu_block:about-open-data-menu-sv'
+  label: 'Information om öppna data'
+  label_display: visible
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      avoindata_guide_page: avoindata_guide_page
+  language:
+    id: language
+    negate: false
+    context_mapping:
+      language: '@language.current_language_context:language_interface'
+    langcodes:
+      sv: sv
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/information-om-oppna-data\r\n/information-om-oppna-data/*"

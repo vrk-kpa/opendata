@@ -1,0 +1,202 @@
+{% import 'macros/form.html' as form %}
+
+{# Added is_required support for image_upload to show that nice red asterisk when file upload fields are set as required #}
+{% macro image_upload(data, errors, field_url='image_url', field_upload='image_upload', field_clear='clear_upload',
+                      is_url=false, is_upload=false, is_upload_enabled=false, placeholder=false,
+                      url_label='', upload_label='', field_name='image_url', is_required=false)  %}
+  {% set placeholder = placeholder if placeholder else _('http://example.com/my-image.jpg') %}
+  {% set url_label = url_label or _('Image URL')  %}
+  {% set upload_label = upload_label or _('Image')  %}
+
+  {% if is_upload_enabled %}
+  <div class="image-upload" data-module="image-upload" data-module-is_url="{{ 'true' if is_url else 'false' }}" data-module-is_upload="{{ 'true' if is_upload else 'false' }}"
+       data-module-field_url="{{ field_url }}" data-module-field_upload="{{ field_upload }}" data-module-field_clear="{{ field_clear }}" data-module-upload_label="{{ upload_label }}" data-module-field_name="{{ field_name }}", data-module-is_required="{{ is_required }}">
+  {% endif %}
+
+  {{ form.input(field_url, label=url_label, id='field-image-url', type='url', placeholder=placeholder, value=data.get(field_url), error=errors.get(field_url), classes=['control-full'], is_required=is_required) }}
+
+  {% if is_upload_enabled %}
+    {{ form.input(field_upload, label=upload_label, id='field-image-upload', type='file', placeholder='', value='', error='', classes=['control-full'], is_required=is_required) }}
+    {% if is_upload %}
+      {{ form.checkbox(field_clear, label=_('Clear Upload'), id='field-clear-upload', value='true', error='', classes=['control-full']) }}
+    {% endif %}
+  {% endif %}
+
+  {% if is_upload_enabled %}</div>{% endif %}
+
+{% endmacro %}
+
+{#
+ADDED DESCRIPTION PROPERTY
+Creates all the markup required for an input element. Handles matching labels to
+inputs, error messages and other useful elements.
+
+name        - The name of the form parameter.
+id          - The id to use on the input and label. Convention is to prefix with 'field-'.
+label       - The human readable label.
+value       - The value of the input.
+placeholder - Some placeholder text.
+type        - The type of input eg. email, url, date (default: text).
+error       - A list of error strings for the field or just true to highlight the field.
+classes     - An array of classes to apply to the form-group.
+is_required - Boolean of whether this input is requred for the form to validate
+description - Additional description text between the label and the input
+
+#}
+
+{% macro input(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={'class': 'form-control'}, is_required=false, description="") %}
+{%- set extra_html = caller() if caller -%}
+
+{% call input_block(id or name, label or name, error, classes, extra_html=extra_html, is_required=is_required, description=description) %}
+<input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value | empty_and_escape }}" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} />
+{% endcall %}
+{% endmacro %}
+
+{#
+  ADDED DESCRIPTION PROPERTY
+  A generic input_block for providing the default markup for CKAN form elements.
+  It is expected to be called using a {% call %} block, the contents of which
+  will be inserted into the .controls element.
+
+  for     - The id for the input that the label should match.
+  label   - A human readable label.
+  error   - A list of error strings for the field or just true.
+  classes - An array of custom classes for the outer element.
+  control_classes - An array of custom classes for the .control wrapper.
+  extra_html - An html string to be inserted after the errors eg. info text.
+  is_required - Boolean of whether this input is requred for the form to validate
+  description - Additional description text between the label and the input
+
+  #}
+{% macro input_block(for, label="", error="", classes=[], control_classes=[], extra_html="", is_required=false, description="") %}
+  <div class="form-group{{ " error" if error }}{{ " " ~ classes | join(' ') }}">
+  <label class="control-label" for="{{ for }}">{% if is_required %}<span title="{{ _("This field is required") }}" class="control-required">*</span> {% endif %}{{ label or _('Custom') }}</label>
+  {% if description and description.strip() %}
+    <div class="field-description-text">{{ _(description) }}</div>
+  {% endif %}
+  <div class="controls{{ " " ~ control_classes | join(' ') }}">
+    {{ caller() }}
+    {% if error and error is iterable %}<span class="error-block">{{ error|join(', ') }}</span>{% endif %}
+    {{ extra_html }}
+  </div>
+  </div>
+{% endmacro %}
+
+{% macro input_multiple(name, id='', label='', value='', placeholder='', type='text', error="", classes=[], attrs={}, is_required=false, description="") %}
+  {% asset 'ytp_resources/form_js' %}
+  {% do classes.append('control-medium') %}
+  {%- set extra_html = caller() if caller -%}
+  {% call input_block(id or name, label or name, error, classes, control_classes=["editor"], extra_html=extra_html, is_required=is_required, description="") %}
+  <div class="multiple-values">
+      {% if value %}
+      {% set values = value if value.append else [value] %}
+      {% for value_item in values %}
+      {% if value_item %}
+      <div class="multiple-value-group">
+          <input id="{{ id or name }}-{{ loop.index }}" type="{{ type }}" name="{{ name }}" value="{{ value_item | empty_and_escape }}" placeholder="{{ placeholder }}" class="multiple-value form-control" {{ form.attributes(attrs) }} />
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% else %}
+      <div class="multiple-value-group">
+        <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="" placeholder="{{ placeholder }}" class="multiple-value form-control" {{ form.attributes(attrs) }} />
+      </div>
+      {% endif %}
+  </div>
+  {% endcall %}
+{% endmacro %}
+
+{#
+ADDED DESCRIPTION PROPERTY
+Creates all the markup required for an select element. Handles matching labels to
+inputs and error messages.
+
+A field should be a dict with a "value" key and an optional "text" key which
+will be displayed to the user. We use a dict to easily allow extension in
+future should extra options be required.
+
+name        - The name of the form parameter.
+id          - The id to use on the input and label. Convention is to prefix with 'field-'.
+label       - The human readable label.
+description - Additional description text between the label and the input
+options     - A list/tuple of fields to be used as <options>.
+  selected    - The value of the selected <option>.
+    error       - A list of error strings for the field or just true to highlight the field.
+    classes     - An array of classes to apply to the form-group.
+    is_required - Boolean of whether this input is requred for the form to validate
+
+    Examples:
+
+    {% import 'macros/form.html' as form %}
+    {{ form.select('year', label=_('Year'), options=[{'name':2010, 'value': 2010},{'name': 2011, 'value': 2011}], selected=2011, error=errors.year) }}
+
+    #}
+    {% macro select(name, id='', label='', options='', selected='', error='', classes=[], attrs={'class': 'form-control'}, is_required=false, description='') %}
+    {% set classes = (classes|list) %}
+    {% do classes.append('control-select') %}
+
+    {%- set extra_html = caller() if caller -%}
+    {% call input_block(id or name, label or name, error, classes, extra_html=extra_html, is_required=is_required, description=description) %}
+    <select id="{{ id or name }}" name="{{ name }}" {{ form.attributes(attrs) }}>
+      {% for option in options %}
+  <option value="{{ option.value }}"{% if option.value == selected %} selected{% endif %}>{{ option.text or option.value }}</option>
+  {% endfor %}
+  </select>
+  {% endcall %}
+  {% endmacro %}
+
+
+
+{% macro image_upload_dragndrop(data, errors, field_url='image_url', field_upload='image_upload', field_clear='clear_upload',
+                      is_url=false, is_upload=false, is_upload_enabled=false, placeholder=false,
+                      url_label='', upload_label='', field_name='image_url', max_filesize='-', max_total_size='-', is_required=false)  %}
+  {% set placeholder = placeholder if placeholder else _('http://example.com/my-image.jpg') %}
+  {% set url_label = url_label or _('Image URL')  %}
+  {% set upload_label = upload_label or _('Image')  %}
+  {% set previous_upload = data['previous_upload'] %}
+  {% if is_upload_enabled %}
+
+
+  <div class="image-upload"
+       data-module="image-upload"
+       data-module-is_url="{{ 'true' if is_url else 'false' }}"
+       data-module-is_upload="{{ 'true' if is_upload else 'false' }}"
+       data-module-field_url="{{ field_url }}"
+       data-module-field_upload="{{ field_upload }}"
+       data-module-field_clear="{{ field_clear }}"
+       data-module-upload_label="{{ upload_label }}"
+       data-module-field_name="{{ field_name }}"
+       data-module-previous_upload="{{ 'true' if previous_upload else 'false' }}">
+  {% endif %}
+
+
+   {{ input(field_url, label=url_label, id='field-image-url', type='url', placeholder=placeholder, value=data.get(field_url), error=errors.get(field_url), classes=['control-full']) }}
+
+
+  {% if is_upload_enabled %}
+    {{ input_dragndrop(field_upload, label=upload_label, id='field-image-upload', type='file', placeholder='', value='', error='', classes=['control-full'], max_filesize=max_filesize, max_total_size=max_total_size) }}
+    {% if is_upload %}
+      {{ form.checkbox(field_clear, label=_('Clear Upload'), id='field-clear-upload', value='true', error='', classes=['control-full']) }}
+    {% endif %}
+  {% endif %}
+
+  {% if is_upload_enabled %}</div>{% endif %}
+
+{% endmacro %}
+
+{% macro input_dragndrop(name, id='', label=_('Paste or drag file in here'), value='', placeholder='', type='text', error="", classes=[], attrs={'class': 'form-control'}, is_required=false, max_filesize='-', max_total_size='-') %}
+  {%- set extra_html = caller() if caller -%}
+  {% call input_block(id or name, ' ', error, classes, extra_html=extra_html, is_required=is_required) %}
+    {% if type == 'file' %}
+    <div class="dropzone" data-module="drag-n-drop-uploader">
+      <h4>{{ label }}</h4>
+      <p>{{ _('Maximum filesize of single file is {max_filesize}Mb. Total maximum size of all files is {max_total_size}Mb.').format(max_filesize=max_filesize, max_total_size=max_total_size) }}</p>
+      <p>{{ _('Allowed filetypes are: pdf, jpg, jpeg, png, doc, docx, xls, xlsx, ppt, pptx, odt, ods, txt.') }}</p>
+    {% endif %}
+    <input id="{{ id or name }}" type="{{ type }}" name="{{ name }}" value="{{ value | empty_and_escape }}" placeholder="{{ placeholder }}" {{ form.attributes(attrs) }} />
+    {% if type == 'file' %}
+      </div>
+    {% endif %}
+  {% endcall %}
+
+{% endmacro %}

@@ -1,0 +1,24 @@
+{% import 'scheming/macros/form.html' as form %} {%- set is_upload = (data.url_type
+== 'upload') or (data.image_url and not data.image_url.startswith('http')) -%}
+{{ form.image_upload_dragndrop(
+    data,
+    errors,
+    field_url=field.field_name,
+    field_upload=field.upload_field,
+    field_clear=field.upload_clear,
+    is_upload_enabled=h.uploads_enabled(),
+    is_url=data[field.field_name] and not is_upload,
+    is_upload=is_upload,
+    upload_label=h.scheming_language_text(field.upload_label),
+    url_label=h.scheming_language_text(field.label),
+    placeholder=field.form_placeholder,
+    is_required=h.scheming_field_required(field)
+    )
+}}
+{% if field.description and field.description.strip() %}
+<div class="field-assistive-text">
+    {{ _(field.description) }}
+</div>
+{% endif %}
+{# image_upload macro doesn't support call #} {%- snippet
+'scheming/form_snippets/help_text.html', field=field -%}

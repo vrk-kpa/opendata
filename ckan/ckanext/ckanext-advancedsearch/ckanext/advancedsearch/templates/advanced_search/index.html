@@ -1,0 +1,149 @@
+{% extends "page.html" %}
+
+{%- set schema = h.advancedsearch_schema() -%}
+
+{% block meta %}
+  {{ super() }}
+  <meta name="robots" content="noindex, follow"/>
+{% endblock %}
+
+{% block subtitle %}
+  {{ _("Advanced search") }}
+{% endblock %}
+
+{%- block content %}
+{% asset 'advancedsearch/clear_filter_js' %}
+
+{% block maintag %}
+  <div role="main">
+  {% endblock %}
+  <div id="content" class="container advanced-search-container">
+    {% block main_content %}
+      {% block flash %}
+        <div class="flash-messages">
+          {% block flash_inner %}
+            {% for message in h.flash.pop_messages() | list %}
+              <div class="alert alert-warning fade in {{ message.category }}">
+                {{ h.literal(message) }}
+              </div>
+            {% endfor %}
+          {% endblock %}
+        </div>
+      {% endblock %}
+
+      {% block toolbar %}
+        <div class="toolbar">
+          {% block breadcrumb %}
+            {% if self.breadcrumb_content() | trim %}
+              <ol class="breadcrumb">
+                {% snippet 'snippets/home_breadcrumb_item.html' %}
+                {% block breadcrumb_content %}
+                  <li class="active">
+                    <a href="{{ h.url_for('advanced_search_blueprint.search') }}" title="{{ _('Advanced search') }}">
+                      {{_('Advanced search')}}
+                    </a>
+                  </li>
+                {% endblock %}
+              </ol>
+            {% endif %}
+          {% endblock %}
+        </div>
+      {% endblock %}
+
+      <div class="row wrapper{% block wrapper_class %} advanced-search-wrapper {% endblock %}{% if self.secondary()|trim == '' or c.action=='resource_read' %} no-nav{% endif %}">
+        {% block pre_primary %}
+          <h1 id="advanced-search-title">
+            {% block page_heading %}
+              {{ _('Advanced search') }}
+            {% endblock %}
+          </h1>
+        {% endblock %}
+        <form class="advanced-search-form" method="post">
+          {% block secondary %}
+            {% block secondary_content %}
+              {% snippet 'advanced_search/search_form.html', input_fields=schema.input_fields %}
+            {% endblock %}
+          {% endblock %}
+
+          {% block primary %}
+            {% block primary_content %}
+              <div class="primary col-sm-8">
+                <section class="module">
+                  <div class="module-content">
+                    {%- set filters = c.advanced_search.filters -%}
+                    {% if filters|length > 0 %}
+                      <div class="filter-bar clearfix">
+                        <span id="filter-bar-title">{{_('Filters')}}</span>
+                        {% for key in filters %}
+                          {% if loop.index > 1 %}
+                          <div class="avoindata-vertical-divider clearfix"></div>
+                            <span class="avoindata-filter-group-and">{{_('and')}}</span>
+                          {% endif %}
+                          <!-- <span class="avoindata-filter-group-title">{{_(key|replace('-', ' ')|capitalize)}}</span> -->
+                          {% for value in filters[key] %}
+                            {% if loop.index > 1 %}
+                              <span class="avoindata-filter-group-or">{{_('or')}}</span>
+                            {% endif %}
+                            <span class="avoindata-pill badge badge-pill" data-module="clear-filter" data-query="{{c.advanced_search.json_query}}" data-key="{{key}}" data-value="{{value.value}}"><span class="truncate-text">{{_(value.label)}}</span><i class="fal fa-times"></i>
+                            </span>
+                          {% endfor %}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                    <div class="clearfix">
+                      {% snippet 'advanced_search/display_field.html', field=schema.input_fields.search_query, prev_query=c.advanced_search.last_query %}
+                    </div>
+                    {% set sorting = [
+                      ('', 'auto'),
+                      (_('Relevance'), 'score desc, metadata_modified desc'),
+                      (_('Name Ascending'), 'title_string asc'),
+                      (_('Name Descending'), 'title_string desc'),
+                      (_('Last Modified'), 'metadata_modified desc'),
+                      (_('Date Created Ascending'), 'metadata_created asc'),
+                      (_('Date Created Descending'), 'metadata_created desc'),
+                      (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
+                    %}
+                    {% set sorting_selected = c.advanced_search.sort_string %}
+                    {% set sorting_selection = c.advanced_search["sorting_selection"] %}
+                    <div id="search-results">
+                      <div id="search-results-header" class="d-flex flex-wrap justify-content-between align-items-center mt-3">{{_('Found {count} datasets').format(count=c.advanced_search.item_count)}}
+                        <div class="form-inline">
+                          <div class="form-select form-group control-order-by">
+                            <label for="field-order-by">{{ _('Sorting') }}</label>
+                            <span class="select-wrapper">
+                              <select id="field-order-by" name="sort" class="form-control ytp-input-element avoindata-order-by" data-module="avoindata-utils">
+                                <!-- Default empty option -->
+                                <option disable selected value="auto" {% if not sorting_selection or sorting_selection == "auto" %} selected="selected"{% endif %} style="display:none;"></option>
+                                {% for label, value in sorting %}
+                                  {% if label and value %}
+                                    <option value="{{ value }}" {% if sorting_selection == value  %} selected="selected" {% endif %}>{{ label }}</option>
+                                  {% endif %}
+                                {% endfor %}
+                                
+                              </select>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="search-results-content">
+                        {% snippet 'snippets/package_list.html', packages=c.advanced_search.collection %}
+                      </div>
+                    </div>
+                    {% if c.advanced_search.item_count > 0 %}
+                      <div>
+                        {% snippet 'advanced_search/snippets/post_pagination.html',
+                          page=c.advanced_search.last_query.page,
+                          total_pages=c.advanced_search.total_pages,
+                          prev_query=c.advanced_search.last_query %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </section>
+              </div>
+            {% endblock %}
+          {% endblock %}
+        </form>
+      </div>
+    {% endblock %}
+  </div>
+</div>{% endblock -%}

@@ -1,8 +1,0 @@
-{% ckan_extends %}
-{% if group_dict is not defined %}{% set group_dict = c.group_dict %}{% endif %}
-
-{% block content_action %}
-  {% if organization and h.check_access('organization_update', {'id': organization.id}) %}
-    {% link_for _('Close without saving'), controller='organization', action='read', id=organization.name, class_='btn', icon='' %}
-  {% endif %}
-{% endblock %}

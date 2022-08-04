@@ -1,6 +1,0 @@
----
-# handlers file for prh_tools
-
-- name: Reload systemd
-  systemd:
-    daemon_reload: yes

@@ -1,0 +1,57 @@
+{% extends "ckan_page.html" %}
+
+{# Note: ckanext-ytp_drupal overrides header block #}
+
+{% block secondary %}
+        {% set inner = self.secondary_inner() %}
+        {% if inner | trim %}
+        <button type="button" class="btn" id="search-filter-upper-hide-button">
+            <span class="fa-stack">
+              <i class="far fa-filter fa-stack-1x"></i>
+              <i class="far fa-times fa-stack-1x hide-filters-cross-icon"></i>
+            </span>
+            {{ _('Hide search filters') }}
+        </button>
+        <div class="col-xs-6 col-sm-4 sidebar-offcanvas search-filters-hidden secondary-container">
+            <aside class="secondary">
+            {% block secondary_inner %}
+                {%- include('ytp/menu.html') -%}
+                {% block secondary_content -%}{%- endblock %}
+            {% endblock %}
+            </aside>
+        </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block primary %}
+        <div class="primary col-xs-12 {% if self.secondary()|trim == '' %}col-sm-12{% else %}col-sm-8{% endif %}">
+            {% block primary_content %}
+                {{ super() }}
+            {% endblock %}
+        </div>
+    {% endblock %}
+
+{%- block footer %}
+    {{ h.drupal_footer()|safe }}
+    {% if g.debug %}
+        {% include 'snippets/debug.html' %}
+    {% endif %}
+{% endblock -%}
+
+{% block header %}
+    {% set lang = h.lang() %}
+    {{ super() }}
+    {#{% if h.service_alerts().rowcount != 0 %}
+    <div class="container">
+        <div class="alert alert-info">
+            <ul class="service_alerts">
+                {% for service_alert in h.service_alerts() %}
+                <li>
+                    <a href="/node/{{ service_alert[0] }}">{{ service_alert[1] }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}#}
+{% endblock %}

@@ -1,0 +1,23 @@
+@import "../variables.less";
+
+.organization-list {
+  li {
+    padding: @padding-y__text @padding-x--common;
+  }
+}
+
+.organization-filters {
+  font-size: @font-size-slightly-smaller-base;
+
+  a {
+    margin-bottom: @padding-y--common;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  .organization-filter-active {
+    font-weight: @font-weight-heavier;
+  }
+}

@@ -1,2 +1,0 @@
-[beta]
-localhost ansible_connection=local

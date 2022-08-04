@@ -1,0 +1,8 @@
+{% ckan_extends %}
+{% block content_primary_nav %}
+  {{ h.build_nav_icon(pkg.type ~ '_resource.edit', _('Edit resource'), id=pkg.name, resource_id=res.id) }}
+  {% if 'datapusher' in g.plugins %}
+    {{ h.build_nav_icon('datapusher.resource_data', _('DataStore'), id=pkg.name, resource_id=res.id) }}
+  {% endif %}
+    {{ h.build_nav_icon(pkg.type ~ '_resource.views', _('Views'), id=pkg.name, resource_id=res.id) }}
+{% endblock %}

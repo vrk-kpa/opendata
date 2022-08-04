@@ -1,6 +1,0 @@
----
-postgres_package: "postgresql-9.5"
-postgres_version: "9.5"
-postgres_spatial_requirement_packages:
-  - postgresql-9.5-postgis-2.2
-postgres_postgis_version: 2.2

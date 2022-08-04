@@ -1,0 +1,16 @@
+{# FIXME: Pending ckanext-reminder CKAN 2.9 migration
+{% block follow_button %}
+    {% if not hide_follow_button %}
+        <div class="follow_button">
+            {% set follow_button = h.follow_button('dataset', pkg.name) %}
+            {% if follow_button != "" %}
+                {{ follow_button }}
+            {% else %}
+                {% snippet "reminder/snippets/subscription_form.html", package=pkg %}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
+#}
+{% block nums %}
+{% endblock %}

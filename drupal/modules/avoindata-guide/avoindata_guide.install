@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * Adds avoindata guide functionality.
+ */
+
+use Drupal\node\Entity\Node;
+
+/**
+ * Installs guide configuration.
+ *
+ * These changes only take effect when the module is completely reinstalled.
+ */
+function avoindata_guide_install() {
+  $node = Node::create([
+    'type' => 'avoindata_guide_page',
+    'langcode' => 'fi',
+    'created' => \Drupal::time()->getRequestTime(),
+    'changed' => \Drupal::time()->getRequestTime(),
+    'uid' => 1,
+    'title' => 'Oppaan etusivu. ',
+    'field_content' => 'Oppaan etusivun sisältö',
+  ]);
+  $node->save();
+
+  $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
+    'path' => "/node/" . $node->id(),
+    'alias' => "/kayttoohjeet",
+    'langcode' => "fi"
+  ]);
+  $path_alias->save();
+
+
+  // English translation.
+  $node_en = $node->addTranslation('en');
+  $node_en->title = 'Guide frontpage';
+  $node_en->field_content = 'Guide frontpage content';
+  $node_en->save();
+
+  $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
+      'path' => "/node/" . $node->id(),
+      'alias' => "/user-guide",
+      'langcode' => "en"
+  ]);
+  $path_alias->save();
+
+  // Swedish translation.
+  $node_sv = $node->addTranslation('sv');
+  $node_sv->title = 'Guide startsidan';
+  $node_sv->field_content = 'Guide innehåll';
+  $node_sv->save();
+  $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
+        'path' => "/node/" . $node->id(),
+        'alias' => "/bruksanvisningar",
+        'langcode' => "sv"
+  ]);
+  $path_alias->save();
+
+}

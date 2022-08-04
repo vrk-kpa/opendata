@@ -1,0 +1,7 @@
+{% ckan_extends %}
+
+{% block breadcrumb_content %}
+  <li>{% link_for _('Organizations'), named_route='organization.index' %}</li>
+  <li>{% link_for data.display_name|truncate(35), named_route=group_type+'.read', id=data.name %}</li>
+  <li class="active">{% link_for _('Edit information'), named_route=group_type+'.edit', id=data.name %}</li>
+{% endblock %}

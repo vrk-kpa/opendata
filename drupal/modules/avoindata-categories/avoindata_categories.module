@@ -1,0 +1,100 @@
+<?php
+
+/**
+ * @file
+ * Adds categories component.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Security\TrustedCallbackInterface;
+
+/**
+ * Implements hook_help().
+ */
+function avoindata_categories_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.avoindata_categories':
+      return t('
+        Creates categories module.
+      ');
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function avoindata_categories_theme($existing, $type, $theme, $path) {
+  return [
+    'avoindata_categories' => [
+      'variables' => ['categories' => NULL, 'language' => NULL],
+      'template' => 'avoindata_categories_block',
+    ],
+  ];
+}
+
+class AvoindataCategoriesHandler implements TrustedCallbackInterface
+{
+
+
+  /**
+   * Gets categories from CKAN.
+   */
+  public function avoindata_categories() : array
+  {
+    $client = \Drupal::httpClient();
+
+    try {
+      $response = $client->request('GET', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/group_list?all_fields=true&include_extras=true');
+      $result = Json::decode($response->getBody());
+      $categories = $result['result'];
+    } catch (\Exception $e) {
+      $categories = NULL;
+    }
+
+    $category_markup = '';
+    $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    foreach ($categories as $category) {
+
+      $package_count = $category['package_count'];
+      $category_name = $category['name'];
+      $category_display_url = $category['image_display_url'];
+      $category_title = $category['title'];
+      if ($category['title_translated'][$language]) {
+        $category_title_translated = (substr($category['title_translated'][$language], 0, 55) . (strlen($category['title_translated'][$language]) > 55 ? '…' : ''));
+      } else {
+        $category_title_translated = (substr($category['title'], 0, 55) . (strlen($category['title']) > 55 ? '…' : ''));
+      }
+
+      $category_markup .= <<<EOT
+        <div class="avoindata-category-box">
+          <div class="avoindata-category-image-wrapper">
+            <span class="avoindata-category-dataset-count">{$package_count}</span>
+            <a href="/data/{$language}/group/{$category_name}">
+              <img class="avoindata-category-img" src={$category_display_url} alt="{$category_title}">
+            </a>
+          </div>
+          <div class="avoindata-category-text-wrapper">
+            <a href="/data/{$language}/group/{$category_name}">
+              {$category_title_translated}
+            </a>
+          </div>
+        </div>
+EOT;
+    }
+
+    return [
+      '#markup' => $category_markup,
+      '#cache' => ['max-age' => 0],
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function trustedCallbacks() {
+    return ['avoindata_categories'];
+  }
+
+
+}
