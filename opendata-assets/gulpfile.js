@@ -72,7 +72,8 @@ gulp.task('copy:fontawesomeFonts', (done) => {
 gulp.task('copy:fontawesome', (done) => {
   pump([
     gulp.src(paths.src.fontawesome + "/**/**.*"),
-    gulp.dest(paths.ckanPublic + "/vendor/@fortawesome/fontawesome")
+    gulp.dest(paths.ckanPublic + "/vendor/@fortawesome/fontawesome"),
+    gulp.dest(paths.drupalTheme + "/vendor/@fortawesome/fontawesome")
   ], done)
 })
 
@@ -129,7 +130,7 @@ gulp.task("drupal", (done) => {
     cleancss({ keepBreaks: false }),
     concat("style.css"),
     sourcemaps.write("./maps"),
-    gulp.dest("../drupal/modules/avoindata-theme/css"),
+    gulp.dest(paths.drupalTheme + "/css"),
   ], done)
 });
 
@@ -160,7 +161,7 @@ gulp.task("fontsCss", (done) => {
     cleancss({ keepBreaks: false }),
     concat("fonts.css"),
     sourcemaps.write("./maps"),
-    gulp.dest(paths.dist + "/styles"),
+    gulp.dest(paths.drupalTheme + "/css"),
     gulp.dest(paths.ckanResources + "/styles"),
   ], done)
 });
@@ -277,7 +278,7 @@ gulp.task("vendor",
     "bootstrap_styles", (done) => {
     pump([
       gulp.src(paths.src.root + "/vendor/**/*"),
-      gulp.dest(paths.dist + "/vendor"),
+      gulp.dest(paths.drupalTheme + "/vendor"),
       gulp.dest(paths.ckanResources + "/vendor"),
     ], done)
   })
@@ -307,6 +308,7 @@ gulp.task(
     "clean",
     "config",
     "copy:fontawesomeLess",
+    "copy:fontawesomeFonts",
     "copy:fontawesome",
     gulp.parallel(
       "minify-vendor-javascript",
