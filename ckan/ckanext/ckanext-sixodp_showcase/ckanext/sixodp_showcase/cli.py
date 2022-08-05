@@ -57,7 +57,7 @@ def migrate_title_to_title_translated(dryrun):
 def create_platform_vocabulary(dryrun):
     context = {'ignore_auth': True}
     vocab_id = 'platform'
-    tags = (u"Android", u"iOS Apple", u"Windows", u"Mac OS X", u"Other")
+    tags = (u"Android", u"iOS Apple", u"Windows", u"Mac OS X", u"Website", u"Other")
     tags_to_delete = []
     tags_to_create = []
     if dryrun:
@@ -110,132 +110,34 @@ def create_platform_vocabulary(dryrun):
 
 
 @sixodp_showcase.command(
-    u'create_showcase_type_vocabulary',
-    help=u'Creates a showcase_type vocabulary to use as a preset list of options'
+    u'migrate_website_showcase_type_to_platform',
+    help=u'Migrates old website info from showcase_type to platform'
 )
+@click.pass_context
 @click.option(u'--dryrun', is_flag=True)
-def create_showcase_type_vocabulary(dryrun):
-    context = {'ignore_auth': True}
-    vocab_id = 'showcase_type'
-    tags = (u"Mobile application", u"Other application", u"Tools", u"Website", u"Visualisation")
-    tags_to_delete = []
-    tags_to_create = []
-    if dryrun:
-        click.echo("-- Dryrun --")
-    try:
-        data = {'id': vocab_id}
-        old_tags = toolkit.get_action('vocabulary_show')(context, data)
-        click.echo('Showcase type vocabulary found; clearing old tags if needed')
-        for old_tag in old_tags.get('tags'):
-            if old_tag['name'] in tags:
-                continue
-            else:
-                tags_to_delete.append({'name': old_tag['name']})
-                if dryrun:
-                    continue
-                toolkit.get_action('tag_delete')(context, {'id': old_tag['id']})
-        for tag in tags:
-            try:
-                toolkit.get_action('tag_show')(context, {'id': tag, 'vocabulary_id': vocab_id})
-            except toolkit.ObjectNotFound:
-                tags_to_create.append({'name': tag})
-                if dryrun:
-                    continue
-                toolkit.get_action('tag_create')(context, {'name': tag, 'vocabulary_id': old_tags.get('id')})
-    except NotFound:
-        click.echo('Showcase type vocabulary not found')
-        data = {'name': vocab_id}
-        vocab = toolkit.get_action('vocabulary_create')(context, data)
-        click.echo('Showcase type vocabulary created')
-        for tag in tags:
-            data = {'name': tag, 'vocabulary_id': vocab['id']}
-            tags_to_create.append({'name': tag})
-            if dryrun:
-                continue
-            else:
-                toolkit.get_action('tag_create')(context, data)
-
-    if len(tags_to_create) > 0 or len(tags_to_delete) > 0:
-        click.echo("Tags to be deleted:" if dryrun else "Deleted tags:")
-        click.echo(tags_to_delete)
-        click.echo("")
-        click.echo("Tags to be created:" if dryrun else "Created tags:")
-        click.echo(tags_to_create)
-        click.echo("")
-    else:
-        click.echo("No changes")
-
-
-@sixodp_showcase.command(
-    u'migrate_category_to_showcase_type_and_new_categories',
-    help=u'Migrates old showcase category to the new showcase_type AND new showcase (dataset) categories'
-)
-@click.option(u'--dryrun', is_flag=True)
-def migrate_category_to_showcase_type_and_new_categories(dryrun):
-    context = {'ignore_auth': True}
+def migrate_website_showcase_type_to_platform(ctx, dryrun):
     showcase_patches = []
-    showcase_type_options = toolkit.get_action('vocabulary_show')(context, {'id': 'showcase_type'}).get('tags', [])
-    showcase_type_options = list(map(lambda x: x['name'], showcase_type_options))
-
     for old_showcase_dict in package_generator('*:*', 1000, dataset_type='showcase'):
-
-        if 'showcase_type' in old_showcase_dict:
+        if 'showcase_type' not in old_showcase_dict:
             continue
 
-        new_showcase_categories = []
-        new_showcase_types = []
-        new_showcase_keywords = old_showcase_dict.get('keywords', {})
-
-        old_showcase_categories = old_showcase_dict.get('category', {})
-
-        if old_showcase_categories:
-            old_showcase_categories = old_showcase_categories
-
-        for showcase_category in old_showcase_categories.get('en', []):
-            if showcase_category in showcase_type_options:
-                new_showcase_types.append(showcase_category)
-            else:
-                if showcase_category == 'Maps':
-                    new_showcase_categories.append("alueet-ja-kaupungit")
-                elif showcase_category == 'Transport':
-                    new_showcase_categories.append("liikenne")
-                elif showcase_category == 'Economy':
-                    new_showcase_categories.append("talous-ja-rahoitus")
-                elif showcase_category == 'Environment and nature':
-                    new_showcase_categories.append("ymparisto-ja-luonto")
-                elif showcase_category == 'Government':
-                    new_showcase_categories.append("hallinto-ja-julkinen-sektori")
-                elif showcase_category == 'Population':
-                    new_showcase_categories.append("vaesto-ja-yhteiskunta")
-                elif showcase_category == 'Health':
-                    new_showcase_categories.append("terveys")
-                elif showcase_category == 'Maps':
-                    new_showcase_keywords.setdefault('fi', ['Kartat']).append('Kartat')
-                    new_showcase_keywords.setdefault('en', ['Maps']).append('Maps')
-                    new_showcase_keywords.setdefault('sv', ['Kartor']).append('Kartor')
-                elif showcase_category == 'Enterprise':
-                    new_showcase_keywords.setdefault('fi', ['Yritys']).append('Yritys')
-                    new_showcase_keywords.setdefault('en', ['Enterprise']).append('Enterprise')
-                    new_showcase_keywords.setdefault('sv', ['Företag']).append('Företag')
-
-        showcase_categories_fi = old_showcase_categories.get('fi', [])
-        if 'Ilmoitetut' in showcase_categories_fi:
-            new_showcase_keywords.setdefault('fi', ['Ilmoitetut']).append('Ilmoitetut')
-
-        patch = {
-            'id': old_showcase_dict['id'],
-            'showcase_type': new_showcase_types,
-            'category': new_showcase_categories,
-            'keywords': new_showcase_keywords
-        }
-
-        showcase_patches.append(patch)
+        showcase_platforms = old_showcase_dict.get('platform', [])
+        if 'Website' in old_showcase_dict.get('showcase_type', []) and 'Website' not in showcase_platforms:
+            showcase_platforms.append('Website')
+            showcase_patches.append({
+                'id': old_showcase_dict['id'],
+                'platform': showcase_platforms,
+            })
 
     if dryrun:
         click.echo('\n'.join('%s' % p for p in showcase_patches))
     else:
-        # No resource patches so empty parameter is passed
-        apply_patches(showcase_patches, [])
+        flask_app = ctx.meta['flask_app']
+        # Current user is tested agains sysadmin role during model
+        # dictization, thus we need request context
+        with flask_app.test_request_context():
+            # No resource patches so empty parameter is passed
+            apply_patches(showcase_patches, [])
 
 
 def package_generator(query, page_size, context={'ignore_auth': True}, dataset_type='dataset'):
@@ -262,7 +164,15 @@ def apply_patches(package_patches, resource_patches):
     else:
         package_patch = get_action('package_patch')
         resource_patch = get_action('resource_patch')
-        context = {'ignore_auth': True}
+        site_user = get_action(u'get_site_user')({
+            u'ignore_auth': True},
+            {}
+        )
+        toolkit.g.user = site_user['name']
+        context = {
+            u'ignore_auth': True,
+            u'user': site_user['name'],
+        }
         for patch in package_patches:
             try:
                 package_patch(context, patch)

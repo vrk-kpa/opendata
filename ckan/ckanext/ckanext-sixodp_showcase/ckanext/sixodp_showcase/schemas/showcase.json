@@ -51,15 +51,6 @@
       "group_description": "Keywords help users to find your showcase. Select at least one keyword in Finnish."
     },
     {
-      "field_name": "showcase_type",
-      "label": "Showcase type",
-      "validators": "empty_string_if_value_missing list_to_string",
-      "output_validators": "string_to_list",
-      "description": "Select one or more type that describes your showcase.",
-      "form_snippet": "select_preset_options.html",
-      "vocabulary": "showcase_type"
-    },
-    {
       "field_name": "category",
       "label": "Categories",
       "preset": "multiple_checkbox",

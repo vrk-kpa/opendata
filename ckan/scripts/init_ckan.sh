@@ -27,7 +27,6 @@ cat ${SCRIPT_DIR}/datastore_permissions.sql | PGPASSWORD="${DB_CKAN_PASS}" psql 
 echo "init ckan extensions ..."
 #ckan -c ${APP_DIR}/production.ini opendata add-facet-translations ${EXT_DIR}/ckanext-ytp_main/ckanext/ytp/i18n
 ckan -c ${APP_DIR}/production.ini sixodp-showcase create_platform_vocabulary
-ckan -c ${APP_DIR}/production.ini sixodp-showcase create_showcase_type_vocabulary
 
 # init ckan extension databases
 echo "init ckan extension databases ..."
