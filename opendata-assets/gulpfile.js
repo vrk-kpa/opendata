@@ -48,7 +48,17 @@ if (!fs.existsSync(paths.src.fontawesome)){
 var timestamp = new Date().getTime();
 
 gulp.task("clean", done => {
-  del.sync([paths.dist, paths.root + '/vendor/**'], {
+  del.sync([
+    paths.dist,
+    paths.root + '/vendor/**',
+    paths.ckanResources + '/styles',
+    paths.ckanResources + '/scripts',
+    paths.ckanResources + '/templates',
+    paths.ckanResources + '/vendor',
+    paths.ckanPublic + '/vendor',
+    paths.drupalTheme + '/css',
+    paths.drupalTheme + '/fonts',
+    paths.drupalTheme + '/vendor'], {
     force: true
   });
   done();
