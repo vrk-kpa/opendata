@@ -12,18 +12,18 @@
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2021
 # Daniel Vainio, 2021
-# Pasi Laakso <pasi.laakso@gofore.com>, 2022
 # Meeri Hakala <meeri.hakala@dvv.fi>, 2022
 # Ville Teräväinen, 2022
+# Pasi Laakso <pasi.laakso@gofore.com>, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-07-13 10:02+0000\n"
+"POT-Creation-Date: 2022-08-05 13:04+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Ville Teräväinen, 2022\n"
+"Last-Translator: Pasi Laakso <pasi.laakso@gofore.com>, 2022\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,7 +182,7 @@ msgstr "Tähän liittyvä kohde päivitettiin onnistuneesti"
 msgid "Integrity Error"
 msgstr "Eheysvirhe"
 
-#: ckanext/ytp/controller.py:439 ckanext/ytp/templates/package/search.html:83
+#: ckanext/ytp/controller.py:439 ckanext/ytp/templates/package/search.html:84
 #: ckanext/ytp/templates/package/snippets/related_item.html:21
 msgid "API"
 msgstr "API"
@@ -256,7 +256,7 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr "Päivämäärän muoto väärä"
 
-#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:321
+#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:339
 msgid "Unnamed resource"
 msgstr "Nimetön data-aineisto"
 
@@ -330,7 +330,7 @@ msgstr "Käyttäjät"
 #: ckanext/ytp/menu.py:155
 #: ckanext/ytp/templates/organization/admin_list.html:31
 #: ckanext/ytp/templates/organization/edit.html:4
-#: ckanext/ytp/templates/organization/index.html:13
+#: ckanext/ytp/templates/organization/index.html:14
 #: ckanext/ytp/templates/organization/organization_not_found.html:6
 #: ckanext/ytp/templates/organization/user_list.html:31
 #: ckanext/ytp/templates/package/base.html:8
@@ -358,24 +358,13 @@ msgstr "Julkaise avointa dataa"
 msgid "Publish Data"
 msgstr "Julkaise dataa"
 
-#: ckanext/ytp/plugin.py:265
-msgid "International Benchmarks"
-msgstr "Kansainväliset vertailut"
-
-#: ckanext/ytp/plugin.py:266 ckanext/ytp/translations.py:68
-msgid "Geographical coverage"
-msgstr "Maantieteellinen kattavuus"
-
-#: ckanext/ytp/plugin.py:267 ckanext/ytp/plugin.py:280
-msgid "Collection Types"
-msgstr "Tietoaineisto"
-
-#: ckanext/ytp/plugin.py:268 ckanext/ytp/plugin.py:281
+#: ckanext/ytp/plugin.py:274 ckanext/ytp/plugin.py:285
+#: ckanext/ytp/plugin.py:299
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 msgid "Tags"
 msgstr "Avainsanat"
 
-#: ckanext/ytp/plugin.py:269
+#: ckanext/ytp/plugin.py:275 ckanext/ytp/plugin.py:286
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
 #: ckanext/ytp/templates/snippets/organization.html:21
@@ -383,28 +372,45 @@ msgstr "Avainsanat"
 msgid "Organization"
 msgstr "Tuottaja"
 
-#: ckanext/ytp/plugin.py:270 ckanext/ytp/plugin.py:283
-#: ckanext/ytp/translations.py:35
+#: ckanext/ytp/plugin.py:276 ckanext/ytp/plugin.py:287
+#: ckanext/ytp/plugin.py:301 ckanext/ytp/translations.py:35
 msgid "Formats"
 msgstr "Tiedostomuoto"
 
-#: ckanext/ytp/plugin.py:271
+#: ckanext/ytp/plugin.py:277 ckanext/ytp/translations.py:72
+msgid "Update frequency"
+msgstr "Päivitystiheys"
+
+#: ckanext/ytp/plugin.py:278 ckanext/ytp/plugin.py:288
 msgid "Licenses"
 msgstr "Lisenssi"
 
-#: ckanext/ytp/plugin.py:272
+#: ckanext/ytp/plugin.py:279 ckanext/ytp/plugin.py:289
 msgid "Category"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:273 ckanext/ytp/translations.py:87
+#: ckanext/ytp/plugin.py:280 ckanext/ytp/plugin.py:290
+#: ckanext/ytp/translations.py:87
 msgid "Producer type"
 msgstr "Alueellinen kattavuus / Tuottajatyyppi"
 
 #: ckanext/ytp/plugin.py:282
+msgid "International Benchmarks"
+msgstr "Kansainväliset vertailut"
+
+#: ckanext/ytp/plugin.py:283 ckanext/ytp/translations.py:68
+msgid "Geographical coverage"
+msgstr "Maantieteellinen kattavuus"
+
+#: ckanext/ytp/plugin.py:284 ckanext/ytp/plugin.py:298
+msgid "Collection Types"
+msgstr "Tietoaineisto"
+
+#: ckanext/ytp/plugin.py:300
 msgid "Content Types"
 msgstr "Sisältötyyppi"
 
-#: ckanext/ytp/plugin.py:321
+#: ckanext/ytp/plugin.py:339
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
 #: ckanext/ytp/templates/scheming/organization/about.html:20
 msgid "Additional Info"
@@ -470,7 +476,7 @@ msgstr "Ulkoinen"
 msgid "Internal"
 msgstr "Sisäinen"
 
-#: ckanext/ytp/templates/package/resource_read.html:252
+#: ckanext/ytp/templates/package/resource_read.html:237
 #: ckanext/ytp/templates/package/snippets/additional_info.html:68
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:8
 #: ckanext/ytp/translations.py:28
@@ -640,10 +646,6 @@ msgstr "Lisätietoa verkossa"
 #: ckanext/ytp/translations.py:71
 msgid "Links to additional information concerning the dataset."
 msgstr "Linkkejä lisätietoon aiheesta verkossa"
-
-#: ckanext/ytp/translations.py:72
-msgid "Update frequency"
-msgstr "Päivitystiheys"
 
 #: ckanext/ytp/translations.py:73
 msgid "A short description of how frequently the dataset will get updated."
@@ -830,7 +832,7 @@ msgstr "Sovellukset"
 msgid "Add to group"
 msgstr "Lisää kategoriaan"
 
-#: ckanext/ytp/templates/package/group_list.html:8
+#: ckanext/ytp/templates/package/group_list.html:15
 #: ckanext/ytp/translations.py:126
 msgid "There are no groups associated with this dataset"
 msgstr "Tietoaineistoon ei ole liitetty kategorioita"
@@ -839,7 +841,7 @@ msgstr "Tietoaineistoon ei ole liitetty kategorioita"
 msgid "Remove dataset from this group"
 msgstr "Poista tietoaineisto tästä kategoriasta"
 
-#: ckanext/ytp/templates/package/group_list.html:29
+#: ckanext/ytp/templates/package/group_list.html:36
 #: ckanext/ytp/translations.py:128
 msgid "Associate this group with this dataset"
 msgstr "Liitä kategoria tähän tietoaineistoon"
@@ -858,7 +860,8 @@ msgstr "Etsi kategorioita..."
 
 #: ckanext/ytp/templates/group/index.html:4
 #: ckanext/ytp/templates/group/read_base.html:4
-#: ckanext/ytp/templates/package/group_list.html:3
+#: ckanext/ytp/templates/package/group_list.html:5
+#: ckanext/ytp/templates/package/group_list.html:10
 #: ckanext/ytp/translations.py:132
 msgid "Groups"
 msgstr "Kategoriat"
@@ -1646,18 +1649,6 @@ msgstr ""
 msgid "Not authorized to see this page"
 msgstr "Ei oikeuksia nähdä tätä sivua"
 
-#: ckanext/ytp/public/vendor/bootstrap-table/dist/bootstrap-table.js:10
-#: ckanext/ytp/public/vendor/bootstrap-table/dist/extensions/auto-refresh/bootstrap-table-auto-refresh.js:10
-#: ckanext/ytp/public/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.js:10
-msgid "div"
-msgstr ""
-
-#: ckanext/ytp/public/vendor/bootstrap-table/dist/bootstrap-table.js:10
-#: ckanext/ytp/public/vendor/bootstrap-table/dist/extensions/auto-refresh/bootstrap-table-auto-refresh.js:10
-#: ckanext/ytp/public/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.js:10
-msgid "iframe"
-msgstr ""
-
 #: ckanext/ytp/resources/opendata/scripts/bulk-confirm-action.js:69
 msgid "Please Confirm Action"
 msgstr "Vahvista toimenpide"
@@ -1683,7 +1674,7 @@ msgstr "Peruuta"
 msgid "Remove"
 msgstr "Poista"
 
-#: ckanext/ytp/resources/opendata/scripts/slug-preview-ex.js:59
+#: ckanext/ytp/resources/opendata/scripts/slug-preview-ex.js:53
 #: ckanext/ytp/templates/organization/admin_list.html:50
 #: ckanext/ytp/templates/organization/bulk_process.html:47
 #: ckanext/ytp/templates/organization/members.html:35
@@ -1740,12 +1731,24 @@ msgstr ""
 "Ota hiirellä kiinni data-aineiston laatikosta ja raahaa se haluamallesi "
 "paikalle. Valitse lopuksi \"Tallenna järjestys\"."
 
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/bootstrap-table.js:10
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/auto-refresh/bootstrap-table-auto-refresh.js:10
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.js:10
+msgid "div"
+msgstr ""
+
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/bootstrap-table.js:10
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/auto-refresh/bootstrap-table-auto-refresh.js:10
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.js:10
+msgid "iframe"
+msgstr ""
+
 #: ckanext/ytp/templates/disqus_comments.html:2
 msgid "Give feedback"
 msgstr "Anna palautetta"
 
 #: ckanext/ytp/templates/page.html:13
-#: ckanext/ytp/templates/snippets/search_form.html:104
+#: ckanext/ytp/templates/snippets/search_form.html:106
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:72
 msgid "Hide search filters"
 msgstr "Piilota suodattimet"
@@ -1797,12 +1800,12 @@ msgid "Download"
 msgstr "Lataa"
 
 #: ckanext/ytp/templates/apiset/resource_read.html:139
-#: ckanext/ytp/templates/package/resource_read.html:113
+#: ckanext/ytp/templates/package/resource_read.html:108
 msgid "From the dataset abstract"
 msgstr "Tietoaineiston yhteenvedosta"
 
 #: ckanext/ytp/templates/apiset/resource_read.html:141
-#: ckanext/ytp/templates/package/resource_read.html:115
+#: ckanext/ytp/templates/package/resource_read.html:110
 #, python-format
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
 msgstr "Lähde: <a href=\"%(url)s\">%(dataset)s</a>"
@@ -1835,7 +1838,7 @@ msgid "Are you sure you want to delete this member?"
 msgstr "Haluatko varmasti poistaa tämän jäsenen?"
 
 #: ckanext/ytp/templates/group/member_new.html:46
-#: ckanext/ytp/templates/package/group_list.html:29
+#: ckanext/ytp/templates/package/group_list.html:36
 #: ckanext/ytp/templates/scheming/organization/group_form.html:57
 msgid "Save"
 msgstr "Tallenna"
@@ -1964,65 +1967,65 @@ msgstr "Tällä tuottajalla ei ole vielä tietoaineistoja"
 msgid "Edit information"
 msgstr "Muokkaa tietoja"
 
-#: ckanext/ytp/templates/organization/index.html:3
+#: ckanext/ytp/templates/organization/index.html:4
 #: ckanext/ytp/templates/organization/read.html:16
-#: ckanext/ytp/templates/package/search.html:57
+#: ckanext/ytp/templates/package/search.html:58
 #: ckanext/ytp/templates/snippets/search_form.html:59
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:30
 msgid "Name Ascending"
 msgstr "Nimen mukaan nousevasti"
 
-#: ckanext/ytp/templates/organization/index.html:3
+#: ckanext/ytp/templates/organization/index.html:4
 #: ckanext/ytp/templates/organization/read.html:17
-#: ckanext/ytp/templates/package/search.html:58
+#: ckanext/ytp/templates/package/search.html:59
 #: ckanext/ytp/templates/snippets/search_form.html:59
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:30
 msgid "Name Descending"
 msgstr "Nimen mukaan laskevasti"
 
-#: ckanext/ytp/templates/organization/index.html:23
+#: ckanext/ytp/templates/organization/index.html:24
 msgid "Search organizations..."
 msgstr "Etsi tuottajia..."
 
-#: ckanext/ytp/templates/organization/index.html:26
+#: ckanext/ytp/templates/organization/index.html:27
 #: ckanext/ytp/templates/snippets/search_form.html:42
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:17
 msgid "Submit"
 msgstr "Lähetä"
 
-#: ckanext/ytp/templates/organization/index.html:33
+#: ckanext/ytp/templates/organization/index.html:34
 #: ckanext/ytp/templates/snippets/search_form.html:82
 msgid "Sorting"
 msgstr "Lajittelu"
 
-#: ckanext/ytp/templates/organization/index.html:42
-#: ckanext/ytp/templates/snippets/search_form.html:91
+#: ckanext/ytp/templates/organization/index.html:44
+#: ckanext/ytp/templates/snippets/search_form.html:93
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:59
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:44
 msgid "Go"
 msgstr "Siirry"
 
-#: ckanext/ytp/templates/organization/index.html:81
+#: ckanext/ytp/templates/organization/index.html:83
 #: ckanext/ytp/templates/snippets/search_result_text.html:38
 msgid "No organizations found"
 msgstr "Tuottajia ei löytynyt"
 
-#: ckanext/ytp/templates/organization/index.html:91
-#: ckanext/ytp/templates/package/search.html:103
+#: ckanext/ytp/templates/organization/index.html:93
+#: ckanext/ytp/templates/package/search.html:104
 msgid "Filter list"
 msgstr "Rajaa listaa"
 
-#: ckanext/ytp/templates/organization/index.html:95
+#: ckanext/ytp/templates/organization/index.html:97
 msgid "Filter by data"
 msgstr "Suodata tuottajia"
 
-#: ckanext/ytp/templates/organization/index.html:100
+#: ckanext/ytp/templates/organization/index.html:102
 msgid "Show all organizations"
 msgstr "Näytä kaikki organisaatiot"
 
-#: ckanext/ytp/templates/organization/index.html:103
+#: ckanext/ytp/templates/organization/index.html:105
 msgid "Show only organizations with datasets"
 msgstr "Näytä vain dataa julkaisseet tuottajat"
 
@@ -2033,6 +2036,7 @@ msgstr "Päivitä jäsen"
 #: ckanext/ytp/templates/organization/member_new.html:67
 #: ckanext/ytp/templates/organization/members.html:56
 #: ckanext/ytp/templates/organization/read_base.html:24
+#: ckanext/ytp/templates/package/group_list.html:6
 msgid "Activity Stream"
 msgstr "Tapahtumatiedot"
 
@@ -2065,24 +2069,34 @@ msgid "Organization does not exist"
 msgstr "Organisaatiota ei ole"
 
 #: ckanext/ytp/templates/organization/read.html:15
-#: ckanext/ytp/templates/package/search.html:56
+#: ckanext/ytp/templates/package/search.html:57
 msgid "Relevance"
 msgstr "Osuvin ensin"
 
 #: ckanext/ytp/templates/organization/read.html:18
-#: ckanext/ytp/templates/package/search.html:59
+#: ckanext/ytp/templates/package/search.html:60
 #: ckanext/ytp/templates/package/snippets/resource_form.html:45
 msgid "Last Modified"
 msgstr "Viimeksi muokattu"
 
 #: ckanext/ytp/templates/organization/read.html:19
+#: ckanext/ytp/templates/package/search.html:61
+msgid "Date Created Ascending"
+msgstr "Luomispäivän mukaan nousevasti"
+
+#: ckanext/ytp/templates/organization/read.html:20
 #: ckanext/ytp/templates/package/search.html:62
+msgid "Date Created Descending"
+msgstr "Luomispäivän mukaan laskevasti"
+
+#: ckanext/ytp/templates/organization/read.html:21
+#: ckanext/ytp/templates/package/search.html:63
 #: ckanext/ytp/templates/snippets/package_item.html:45
 #: ckanext/ytp/templates/snippets/popular.html:3
 msgid "Popular"
 msgstr "Suosittu"
 
-#: ckanext/ytp/templates/organization/read.html:21
+#: ckanext/ytp/templates/organization/read.html:23
 #: ckanext/ytp/templates/snippets/search_form.html:3
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:3
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:3
@@ -2151,11 +2165,16 @@ msgstr "Lisää rajapintakokoelma"
 msgid "Close without saving"
 msgstr "Sulje tallentamatta"
 
-#: ckanext/ytp/templates/package/group_list.html:14
+#: ckanext/ytp/templates/package/group_list.html:4
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:5
+msgid "Dataset"
+msgstr "Tietoaineisto"
+
+#: ckanext/ytp/templates/package/group_list.html:21
 msgid "Dataset categories"
 msgstr "Datakategoriat"
 
-#: ckanext/ytp/templates/package/group_list.html:26
+#: ckanext/ytp/templates/package/group_list.html:33
 msgid ""
 "Categories to which the dataset is mainly related to. Choose one category or"
 " multiple accurate categories."
@@ -2192,7 +2211,7 @@ msgstr "Haluatko varmasti poistaa tietoaineiston?"
 #: ckanext/ytp/templates/package/new_package_form.html:31
 #: ckanext/ytp/templates/package/snippets/package_form.html:27
 #: ckanext/ytp/templates/package/snippets/resource_form.html:62
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:271
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:277
 msgid "Abort"
 msgstr "Keskeytä"
 
@@ -2234,98 +2253,98 @@ msgstr ""
 msgid "dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:93
+#: ckanext/ytp/templates/package/resource_read.html:88
 #, python-format
 msgid "%(dataset)s"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:157
+#: ckanext/ytp/templates/package/resource_read.html:142
 #: ckanext/ytp/templates/package/snippets/resource_item.html:40
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:18
 msgid "Preview"
 msgstr "Esikatselu"
 
-#: ckanext/ytp/templates/package/resource_read.html:177
+#: ckanext/ytp/templates/package/resource_read.html:162
 msgid "There are no views created for this resource yet."
 msgstr "Data-aineistolle ei ole lisätty esikatselunäkymiä."
 
-#: ckanext/ytp/templates/package/resource_read.html:181
+#: ckanext/ytp/templates/package/resource_read.html:166
 msgid "Not seeing the views you were expecting?"
 msgstr "Puuttuvatko odottamasi esikatselunäkymät?"
 
-#: ckanext/ytp/templates/package/resource_read.html:183
+#: ckanext/ytp/templates/package/resource_read.html:168
 #: ckanext/ytp/templates/package/snippets/resource_view.html:26
 msgid "Click here for more information."
 msgstr "Klikkaa tästä saadaksesi lisätietoa."
 
-#: ckanext/ytp/templates/package/resource_read.html:186
+#: ckanext/ytp/templates/package/resource_read.html:171
 msgid "Here are some reasons you may not be seeing expected views:"
 msgstr "Mahdollisia syitä puuttuville esikatselunäkymille:"
 
-#: ckanext/ytp/templates/package/resource_read.html:188
+#: ckanext/ytp/templates/package/resource_read.html:173
 msgid "No view has been created that is suitable for this resource"
 msgstr "Tälle data-aineistolle ei ole luotu esikatselunäkymiä. "
 
-#: ckanext/ytp/templates/package/resource_read.html:189
+#: ckanext/ytp/templates/package/resource_read.html:174
 msgid "The site administrators may not have enabled the relevant view plugins"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:190
+#: ckanext/ytp/templates/package/resource_read.html:175
 msgid ""
 "If a view requires the DataStore, the DataStore plugin may not be enabled, "
 "or the data may not have been pushed to the DataStore, or the DataStore "
 "hasn't finished processing the data yet"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:206
+#: ckanext/ytp/templates/package/resource_read.html:191
 msgid "Extra information"
 msgstr "Lisätietoja"
 
-#: ckanext/ytp/templates/package/resource_read.html:210
+#: ckanext/ytp/templates/package/resource_read.html:195
 #: ckanext/ytp/templates/package/snippets/resource_form.html:31
 msgid "Format"
 msgstr "Muoto"
 
-#: ckanext/ytp/templates/package/resource_read.html:211
-#: ckanext/ytp/templates/package/resource_read.html:249
-#: ckanext/ytp/templates/package/resource_read.html:253
-#: ckanext/ytp/templates/package/resource_read.html:257
+#: ckanext/ytp/templates/package/resource_read.html:196
+#: ckanext/ytp/templates/package/resource_read.html:234
+#: ckanext/ytp/templates/package/resource_read.html:238
+#: ckanext/ytp/templates/package/resource_read.html:242
 msgid "unknown"
 msgstr "tuntematon"
 
-#: ckanext/ytp/templates/package/resource_read.html:242
+#: ckanext/ytp/templates/package/resource_read.html:227
 msgid "Temporal Coverage"
 msgstr "Katettu ajanjakso"
 
-#: ckanext/ytp/templates/package/resource_read.html:248
+#: ckanext/ytp/templates/package/resource_read.html:233
 msgid "Last updated"
 msgstr "Viimeisin päivitys"
 
-#: ckanext/ytp/templates/package/resource_read.html:256
+#: ckanext/ytp/templates/package/resource_read.html:241
 msgid "sha256"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:286
+#: ckanext/ytp/templates/package/resource_read.html:271
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:111
 msgid "Stats"
 msgstr "Tilastot"
 
-#: ckanext/ytp/templates/package/resource_read.html:287
+#: ckanext/ytp/templates/package/resource_read.html:272
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:112
 msgid "Last 30 days, updated daily"
 msgstr "Viimeiset 30 päivää, päivitetään päivittäin"
 
-#: ckanext/ytp/templates/package/resource_read.html:290
+#: ckanext/ytp/templates/package/resource_read.html:275
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:119
 msgid "All time downloads:"
 msgstr "Latauksia kaikkiaan:"
 
-#: ckanext/ytp/templates/package/resource_read.html:300
+#: ckanext/ytp/templates/package/resource_read.html:285
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:127
 msgid "Year"
 msgstr "Vuosi"
 
-#: ckanext/ytp/templates/package/resource_read.html:300
+#: ckanext/ytp/templates/package/resource_read.html:285
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:127
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
@@ -2362,30 +2381,22 @@ msgstr ""
 " voit jatkaa. Vaihtoehtoisesti voit myös pyytää datan julkaisua "
 "yksityishenkilönä."
 
-#: ckanext/ytp/templates/package/search.html:60
-msgid "Date Created Ascending"
-msgstr "Luomispäivän mukaan nousevasti"
-
-#: ckanext/ytp/templates/package/search.html:61
-msgid "Date Created Descending"
-msgstr "Luomispäivän mukaan laskevasti"
-
-#: ckanext/ytp/templates/package/search.html:84
+#: ckanext/ytp/templates/package/search.html:85
 msgid "API Docs"
 msgstr "API-dokumentaatio"
 
-#: ckanext/ytp/templates/package/search.html:86
+#: ckanext/ytp/templates/package/search.html:87
 msgid "full {format} dump"
 msgstr "täysi {format} dumppi"
 
-#: ckanext/ytp/templates/package/search.html:87
+#: ckanext/ytp/templates/package/search.html:88
 #, python-format
 msgid ""
 "You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s) or download a %(dump_link)s."
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:91
+#: ckanext/ytp/templates/package/search.html:92
 #, python-format
 msgid ""
 "You can also access this registry using the %(api_link)s (see "
@@ -2452,8 +2463,8 @@ msgid "Recommend dataset"
 msgstr "Tykkää tietoaineistosta"
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:117
-msgid "Downloads during year"
-msgstr "Latauksia vuonna"
+msgid "Downloads during last 12 months"
+msgstr "Latauksia viimeisen 12kk aikana."
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:118
 msgid "All time visits:"
@@ -2827,13 +2838,41 @@ msgstr ""
 " lisätietoja esimerkiksi verkko-osoitteesta <a "
 "href=\\\"http://5stardata.info\\\">http://5stardata.info</a>."
 
-#: ckanext/ytp/templates/report/deprecated_dataset_report.html:5
-msgid "Dataset"
-msgstr "Tietoaineisto"
-
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:9
 msgid "Deprecated"
 msgstr "Vanhentunut"
+
+#: ckanext/ytp/templates/report/harvester_report.html:5
+msgid "Harvester"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:6
+msgid "Last run"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:7
+msgid "Next scheduled run"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:8
+msgid "Overall statistics"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:9
+msgid "Times harvested"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:28
+msgid "Not yet scheduled"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:31
+msgid "Added"
+msgstr ""
+
+#: ckanext/ytp/templates/report/harvester_report.html:31
+msgid "Errors"
+msgstr ""
 
 #: ckanext/ytp/templates/report/index.html:3
 #: ckanext/ytp/templates/report/index.html:6
@@ -3062,11 +3101,10 @@ msgstr "Sovelluksen kuvat"
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:175
 msgid ""
 "Images will be shown on the showcase page. You can upload images from your "
-"computer or link to an URL."
+"computer or link to an URL. Telling us about a mobile app? If you want the "
+"app logo to show as the featured image, upload the app logo (and possible "
+"other images), but do not upload a featured image."
 msgstr ""
-"Kuvat näkyvät sovelluksen sivulla. Voit ladata tiedostot tietokoneelta tai "
-"lisätä linkin kuvaan. Huomioi, että tiedostojen nimet eivät saa sisältää "
-"skandinaavisia merkkejä, kuten ä tai ö."
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:187
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:188
@@ -3083,25 +3121,33 @@ msgid "Featured image"
 msgstr "Esittelykuva"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:214
-msgid "Featured image will be shown on the cards in showcase list page."
-msgstr "Esittelykuva näytetään sovellussivulla."
+msgid ""
+"The featured image will be shown on the Showcases-page as well as on the "
+"showcase's own page."
+msgstr ""
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:229
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:230
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:220
+msgid ""
+"Add max. 3 images of your showcase. Good images are for example those that "
+"show the user interface and features of the showcase.)"
+msgstr ""
+
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:235
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:236
 msgid "Image 1"
 msgstr "Kuva 1"
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:245
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:246
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:251
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:252
 msgid "Image 2"
 msgstr "Kuva 2"
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:261
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:262
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:267
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:268
 msgid "Image 3"
 msgstr "Kuva 3"
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:282
+#: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:288
 msgid "Send submission"
 msgstr "Lähetä ilmoitus"
 
@@ -3161,19 +3207,19 @@ msgstr "Rajaukset"
 msgid " Use advanced search "
 msgstr "Käytä laajennettua hakua"
 
-#: ckanext/ytp/templates/snippets/search_form.html:98
+#: ckanext/ytp/templates/snippets/search_form.html:100
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:66
 msgid "Filter search"
 msgstr "Rajaa hakua"
 
-#: ckanext/ytp/templates/snippets/search_form.html:112
+#: ckanext/ytp/templates/snippets/search_form.html:114
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:102
 msgid "Please try another search or change search facets."
 msgstr ""
 "Tarkista, että kirjoitit hakusanan oikein. Kokeile käyttää erilaisia "
 "hakusanoja tai muuttaa valitsemiasi hakuehtoja. "
 
-#: ckanext/ytp/templates/snippets/search_form.html:120
+#: ckanext/ytp/templates/snippets/search_form.html:122
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:110
 msgid "<strong>There was an error while searching.</strong> Please try again."
 msgstr "<strong>Haussa tapahtui virhe.</strong> Yritä uudelleen."
