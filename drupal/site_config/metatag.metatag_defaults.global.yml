@@ -8,6 +8,6 @@ tags:
   title: '[current-page:title] | [site:name]'
   og_title: '[current-page:title]'
   og_url: '[current-page:url]'
-  og_image: /themes/avoindata/logo.png
+  og_image: /themes/avoindata/images/logo.png
   og_type: website
   og_site_name: '[site:name]'

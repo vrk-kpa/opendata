@@ -31,6 +31,7 @@ var paths = {
     scripts: "src/scripts/**/*",
     bootstrap_styles: "./node_modules/bootstrap/less",
     bootstrap_scripts: "./node_modules/bootstrap/js/*",
+    bootstrap_fonts: "./node_modules/bootstrap/dist/fonts/*",
     moment_path: "./node_modules/moment",
     root: "src",
     fontawesome: "./node_modules/@fortawesome/fontawesome-pro"
@@ -172,7 +173,7 @@ gulp.task("fontsCss", (done) => {
     concat("fonts.css"),
     sourcemaps.write("./maps"),
     gulp.dest(paths.drupalTheme + "/css"),
-    gulp.dest(paths.ckanResources + "/styles"),
+    gulp.dest(paths.ckanPublic + "/vendor/styles"),
   ], done)
 });
 
@@ -192,7 +193,8 @@ gulp.task("images", (done) => {
         ]
       })
     ]),
-    gulp.dest(paths.dist + "/images")
+    gulp.dest(paths.drupalTheme + "/images"),
+    gulp.dest(paths.ckanPublic + "/images")
   ], done)
 });
 
@@ -228,7 +230,8 @@ gulp.task(
 gulp.task("fonts", (done) => {
   pump([
     gulp.src(paths.src.fonts),
-    gulp.dest(paths.dist + "/fonts")
+    gulp.dest(paths.drupalTheme + "/fonts"),
+    gulp.dest(paths.ckanPublic + "/vendor/fonts")
   ], done)
 });
 
@@ -259,6 +262,13 @@ gulp.task("bootstrap_styles", (done) => {
   ], done)
 });
 
+gulp.task("bootstrap_fonts", (done) => {
+  pump([
+    gulp.src(paths.src.bootstrap_fonts),
+    gulp.dest(paths.drupalTheme + '/fonts')
+  ], done)
+})
+
 gulp.task('copy:libs', (done) => {
   pump([
     gulp.src(npmDist({
@@ -285,7 +295,8 @@ gulp.task("vendor",
     "copy:moment",
     "copy:libs",
     "bootstrap_scripts",
-    "bootstrap_styles", (done) => {
+    "bootstrap_styles",
+    "bootstrap_fonts", (done) => {
     pump([
       gulp.src(paths.src.root + "/vendor/**/*"),
       gulp.dest(paths.drupalTheme + "/vendor"),
