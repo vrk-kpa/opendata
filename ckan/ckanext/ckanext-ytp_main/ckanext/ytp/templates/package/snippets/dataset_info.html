@@ -112,9 +112,9 @@
             <span>{{ _('Last 30 days, updated daily') }}</span>
             <div id="chart_div"></div>
             {% set visits = h.get_visits_for_dataset(pkg.id) %}
-            {% set download_count_last_year = h.get_download_count_for_dataset_during_last_year(pkg.id) %}
+            {% set download_count_last_12_month = h.get_download_count_for_dataset_during_last_12_months(pkg.id) %}
             {% set last_year = h.get_current_date().year - 1 %}
-            <span>{{ _('Downloads during year') }} {{last_year}}: {{ download_count_last_year }}</span><br/>
+            <span>{{ _('Downloads during last 12 months') }}: {{ download_count_last_12_month }}</span><br/>
             <span>{{ _('All time visits:') }} {{ visits.count }}</span><br/>
             <span>{{ _('All time downloads:') }} {{ visits.download_count }}</span>
             <script src="https://www.gstatic.com/charts/loader.js"></script>
