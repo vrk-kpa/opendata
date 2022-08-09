@@ -71,6 +71,10 @@ Parameters:
   Vpc:
     Description: Select an existing Vpc
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>'
+  DBAllocatedStorage:
+    Description: "The size of the database (GiB)"
+    Type: Number
+    Default: '50'
 
 Conditions:
   UseDBSnapshot: !Not [!Equals [!Ref SnapshotIdentifier,  ""]]
@@ -79,7 +83,7 @@ Resources:
   RDSInstance:
     Type: AWS::RDS::DBInstance
     Properties:
-      AllocatedStorage: 50
+      AllocatedStorage: !Ref DBAllocatedStorage
       Engine: postgres
       BackupRetentionPeriod: !Ref BackupRetention
       DBInstanceClass: !Ref DbInstance
