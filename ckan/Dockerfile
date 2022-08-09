@@ -85,8 +85,6 @@ RUN chmod +x ${CRON_DIR}/scripts/*.sh && \
     crontab -u ckan ${CRON_DIR}/crontab && \
     chmod u+s /usr/sbin/cron
 
-# create symbolic links
-RUN ln -s ${EXT_DIR}/opendata-assets/resources ${WWW_DIR}/resources
 
 #
 # Development image (for local development)

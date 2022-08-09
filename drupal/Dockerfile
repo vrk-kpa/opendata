@@ -50,8 +50,6 @@ RUN chmod +x ${SCRIPT_DIR}/*.sh && \
 # install composer project
 RUN composer install --no-cache
 
-# create symbolic links
-RUN ln -s ${MOD_DIR}/opendata-assets/resources ${WWW_DIR}/html/resources
 
 #
 # Development image (For local development)
