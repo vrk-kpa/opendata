@@ -86,6 +86,9 @@ drush theme:enable -y bootstrap
 [[ "$MODULE_INFO" != *"upgrade_status"* ]]                && drush pm:enable -y upgrade_status
 [[ "$MODULE_INFO" != *"imce"* ]]                          && drush pm:enable -y imce
 [[ "$MODULE_INFO" != *"transliterate_filenames"* ]]       && drush pm:enable -y transliterate_filenames
+[[ "$MODULE_INFO" != *"password_policy"* ]]               && drush pm:enable -y password_policy
+[[ "$MODULE_INFO" != *"password_policy_character_types"* ]] && drush pm:enable -y password_policy_character_types
+[[ "$MODULE_INFO" != *"password_policy_length"* ]]        && drush pm:enable -y password_policy_length
 
 # enable custom modules
 [[ "$MODULE_INFO" != *"avoindata_header"* ]]            && drush pm:enable -y avoindata_header
