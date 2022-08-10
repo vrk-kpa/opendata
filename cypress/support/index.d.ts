@@ -2,6 +2,7 @@
 
 declare namespace Cypress {
   interface Chainable<Subject> {
+    register(username: string, email: string): Chainable<any>
     login_post_request(username: string, password: string): Chainable<any>
     login(username: string, password: string): Chainable<any>
     logout(): Chainable<any>

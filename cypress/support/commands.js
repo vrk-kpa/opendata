@@ -24,6 +24,46 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+
+//registers an user to the point where the confirm registration email is sent
+Cypress.Commands.add('register', (username, email) => {
+  cy.visit('/user/register');
+  cy.get('#edit-mail').type(email);
+  cy.get('#edit-name').type(username);
+  cy.get('#edit-submit').click();
+});
+
+// MailHog commands
+const mhApiUrl = (path) => {
+  return `http://localhost:8025/api${path}`;
+};
+
+Cypress.Commands.add('mhGetAllMails', () => {
+  return cy
+    .request({
+      method: 'GET',
+      url: mhApiUrl('/v2/messages?limit=9999'),
+      auth: {'user': 'test', 'password': 'test'}
+    })
+    .then((response) => {
+        if (typeof response.body === 'string') {
+            return JSON.parse(response.body);
+        } else {
+            return response.body;
+        }
+    })
+    .then((parsed) => parsed.items);
+});
+
+Cypress.Commands.add('mhFirst', {prevSubject: true}, (mails) => {
+  return Array.isArray(mails) && mails.length > 0 ? mails[0] : mails;
+});
+
+Cypress.Commands.add('mhGetBody', {prevSubject: true}, (mail) => {
+  return cy.wrap(mail.Content).its('Body');
+});
+
+
 Cypress.Commands.add('login_post_request', (username, password) => {
   cy.request({
       method: 'POST',
