@@ -155,6 +155,9 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
                 case 'radio':
                     field.check(field_value.value, options)
                     break;
+                case 'datepicker':
+                    field.clear();
+                    field.type(field_value.value);
                 default:
                     field.type(field_value.value, options)
             }
