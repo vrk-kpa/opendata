@@ -27,6 +27,7 @@
       "field_name": "description_translated",
       "preset": "fluent_core_markdown_translated",
       "form_placeholder": "A little information about my group...",
+      "validators": "fluent_text only_default_lang_required override_field_with_default_translation(description)",
       "form_languages": [
         "fi",
         "sv",
