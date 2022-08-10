@@ -25,8 +25,6 @@ describe('Showcase tests', function() {
       '#s2id_autogen1': {type: 'select2', values: ['test']},
       '#s2id_autogen2': {type: 'select2', values: ['test']},
       '#s2id_autogen3': {type: 'select2', values: ['test']},
-      '#s2id_field-showcase_type': 'Mobi{enter}',
-      '#s2id_autogen5': {type: 'select2', values: ['Android']},
       '#field-author': {type: 'select2', values: ['test']},
       '#field-author_website': 'www.example.com',
       '#field-application_website': 'www.example.com',
