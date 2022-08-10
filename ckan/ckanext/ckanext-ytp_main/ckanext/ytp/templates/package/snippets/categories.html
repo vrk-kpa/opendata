@@ -6,13 +6,10 @@
     {% for category in categories %}
     {% set item_classes = ['categories__list__item'] %}
     {% if loop.index > 3 %}
-      {% set item_classes = item_classes + ['categories__list__item--hidden'] %}
+    {% set item_classes = item_classes + ['categories__list__item--hidden'] %}
     {% endif %}
     <li class="{{ item_classes | join(' ') }}">
-      <img
-        class="categories__list__item__icon"
-        src="{{ category.get('image_display_url') }}"
-      />
+      <img class="categories__list__item__icon" src="{{ category.get('image_display_url') }}" />
       {% if category.get('title_translated', {}).get(lang) %}
       <h5 class="categories__list__item__title">
         {% link_for category.get('title_translated', {}).get(lang), named_route='group_read', id=category.get('name') %}
@@ -26,10 +23,7 @@
     {% endfor %}
     {% if categories | length > 3 %}
     <li class="categories__list__show-more">
-      <button
-        id="show-more-categories"
-        aria-label="{{_('Show more categories')}}"
-      >
+      <button id="show-more-categories" aria-label="{{_('Show more categories')}}">
         <i class="fal fa-plus"></i>
         {{_('Show more')}}
       </button>
@@ -37,8 +31,19 @@
     {% endif %}
   </ul>
   {% endblock %}
-  {% if h.check_access('package_update', {'id':pkg.id }) %}
-    {% link_for _('Edit categories'), named_route='dataset.groups', id=pkg.name %}
+
+  {% if pkg.type == 'apiset' %}
+    {% if h.check_access('package_update', {'id':pkg.id }) %}
+      {% link_for _('Edit categories'), named_route='apiset.groups', id=pkg.name %}
+    {% endif %}
+  {% elif pkg.type == 'showcase' %}
+    {% if h.check_access('ckanext_showcase_update', {'id':pkg.id }) %}
+      {% link_for _('Edit categories'), named_route='showcase.groups', id=pkg.name %}
+    {% endif %}
+  {% else %}
+    {% if h.check_access('package_update', {'id':pkg.id }) %}
+      {% link_for _('Edit categories'), named_route='dataset.groups', id=pkg.name %}
+    {% endif %}
   {% endif %}
 </section>
 {% endif %}
