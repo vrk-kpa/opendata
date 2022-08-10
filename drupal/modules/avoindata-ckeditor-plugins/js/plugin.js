@@ -60,7 +60,7 @@
       editor.widgets.add('avoindata_note', {
         template:
           '<div class="avoindata-note"><div class="avoindata-note-header">' +
-          '<img class="avoindata-note-header-image" src="/resources/images/avoindata-note-icon.svg"/>' +
+          '<img class="avoindata-note-header-image" src="/themes/avoindata/images/avoindata-note-icon.svg"/>' +
           '<div class="avoindata-note-title">Title</div></div>' +
           '<div class="avoindata-note-content">Content</div></div>',
 
@@ -92,7 +92,7 @@
       editor.widgets.add('avoindata_hint', {
         template:
           '<div class="avoindata-hint">' +
-          '<img class="avoindata-hint-image" src="/resources/images/avoindata-hint-icon.svg"/>' +
+          '<img class="avoindata-hint-image" src="/themes/avoindata/images/avoindata-hint-icon.svg"/>' +
           '<div class="avoindata-hint-content">Content</div></div>',
 
         editables: {
