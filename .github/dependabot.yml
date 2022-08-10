@@ -17,6 +17,29 @@ updates:
     versions:
     - 3.8.4
     - 3.9.0
+- package-ecosystem: "docker"
+  directory: "/ckan/"
+  schedule:
+    interval: daily
+    time: "03:00"
+- package-ecosystem: "docker"
+  directory: "/drupal/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: "docker"
+  directory: "/docker/solr/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: "docker"
+  directory: "/docker/nginx/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
 - package-ecosystem: npm
   directory: "/"
   schedule:
@@ -24,10 +47,17 @@ updates:
     time: "03:00"
   open-pull-requests-limit: 10
 - package-ecosystem: npm
-  directory: "/modules/ytp-assets-common/"
+  directory: "/opendata-assets/"
   schedule:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
   registries:
   - npm-registry-npm-fontawesome-com
+
+- package-ecosystem: "composer"
+  directory: "/drupal/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
