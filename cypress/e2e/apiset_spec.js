@@ -352,6 +352,7 @@ describe('Apiset tests', function() {
       '#field-name_translated-en': 'test api',
       '#field-name_translated-sv': 'test api',
       '#field-image-url': 'http://example.com',
+      '#field-format': 'CSV',
       '#field-description_translated-fi': 'test kuvaus',
       '#field-description_translated-en': 'test description',
       '#field-description_translated-sv': 'test beskrivning',
@@ -359,7 +360,6 @@ describe('Apiset tests', function() {
       '#field-documentation_translated-en': 'test dokumentaatio',
       '#field-documentation_translated-sv': 'test dokumentaatio',
       '[name="registration_required"]': {type: 'radio', value: 'true', force: true},
-      '#field-format': 'CSV',
       // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
       '#s2id_autogen1': {type: 'select2', values: ['Päivittäin']},
       '#s2id_autogen2': {type: 'select2', values: ['Päivittäin']},
