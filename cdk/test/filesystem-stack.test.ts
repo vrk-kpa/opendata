@@ -46,6 +46,6 @@ test('verify filesystem stack resources', () => {
   // THEN
   const template = Template.fromStack(stack);
   template.resourceCountIs('AWS::EC2::SecurityGroup', 4);
-  template.resourceCountIs('AWS::EFS::MountTarget', 7);
+  template.resourceCountIs('AWS::EFS::MountTarget', 8);
   template.resourceCountIs('AWS::EFS::FileSystem', 4);
 });
