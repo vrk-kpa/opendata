@@ -124,6 +124,12 @@ test('verify ckan stack resources', () => {
       taskMinCapacity: 0,
       taskMaxCapacity: 1,
     },
+    fusekiTaskDef: {
+      taskCpu: 512,
+      taskMem: 1024,
+      taskMinCapacity: 0,
+      taskMaxCapacity: 1,
+    },
     ckanCronEnabled: true,
     archiverSendNotificationEmailsToMaintainers: false,
     archiverExemptDomainsFromBrokenLinkNotifications: [],
