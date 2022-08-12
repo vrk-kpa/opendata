@@ -16,6 +16,7 @@ import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 export class CkanStack extends Stack {
   readonly ckanFsDataAccessPoint: efs.IAccessPoint;
   readonly solrFsDataAccessPoint: efs.IAccessPoint;
+  readonly fusekiFsDataAccessPoint: efs.IAccessPoint;
   readonly migrationFsAccessPoint?: efs.IAccessPoint;
   readonly ckanService: ecs.FargateService;
   readonly ckanCronService?: ecs.FargateService;
@@ -101,6 +102,7 @@ export class CkanStack extends Stack {
     // get repositories
     const ckanRepo = ecr.Repository.fromRepositoryArn(this, 'ckanRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/ckan`);
     const solrRepo = ecr.Repository.fromRepositoryArn(this, 'solrRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/solr`);
+    const fusekiRepo = ecr.Repository.fromRepositoryArn(this, 'fusekiRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/fuseki`);
 
     // ckan service
     this.ckanFsDataAccessPoint = props.fileSystems['ckan'].addAccessPoint('ckanFsDataAccessPoint', {

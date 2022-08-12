@@ -16,4 +16,5 @@ export const mockEnvProps: EnvProps = {
   NGINX_IMAGE_TAG: 'v0.0.0',
   // 3rd party images
   DATAPUSHER_IMAGE_TAG: 'v0.0.0',
+  FUSEKI_IMAGE_TAG: 'v0.0.0',
 };
