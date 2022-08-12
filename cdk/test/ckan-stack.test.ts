@@ -88,6 +88,7 @@ test('verify ckan stack resources', () => {
     fileSystems: {
       'ckan': fileSystemStack.ckanFs,
       'solr': fileSystemStack.solrFs,
+      'fuseki': fileSystemStack.fusekiFs,
     },
     migrationFileSystemProps: {
       securityGroup: fileSystemStack.migrationFsSg!,
