@@ -32,6 +32,7 @@ const envProps: EnvProps = {
   NGINX_IMAGE_TAG: parseEnv('NGINX_IMAGE_TAG'),
   // 3rd party images
   DATAPUSHER_IMAGE_TAG: parseEnv('DATAPUSHER_IMAGE_TAG'),
+  FUSEKI_IMAGE_TAG: parseEnv('FUSEKI_IMAGE_TAG'),
 };
 
 //
@@ -185,10 +186,16 @@ const ckanStackInfratest = new CkanStack(app, 'CkanStack-infratest', {
     taskMaxCapacity: 2,
   },
   solrTaskDef: {
-    taskCpu: 512,
-    taskMem: 1024,
-    taskMinCapacity: 0,
-    taskMaxCapacity: 1,
+    taskcpu: 512,
+    taskmem: 1024,
+    taskmincapacity: 0,
+    taskmaxcapacity: 1,
+  },
+  fusekiTaskDef: {
+    taskcpu: 512,
+    taskmem: 1024,
+    taskmincapacity: 0,
+    taskmaxcapacity: 1,
   },
   ckanCronEnabled: false,
   archiverSendNotificationEmailsToMaintainers: false,
@@ -421,6 +428,12 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     taskMaxCapacity: 3,
   },
   solrTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  fusekiTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
     taskMinCapacity: 0,
@@ -660,6 +673,12 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     taskMaxCapacity: 4,
   },
   solrTaskDef: {
+    taskCpu: 1024,
+    taskMem: 2048,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  fusekiTaskDef: {
     taskCpu: 1024,
     taskMem: 2048,
     taskMinCapacity: 0,

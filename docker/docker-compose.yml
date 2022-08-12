@@ -271,7 +271,7 @@ services:
       - DRUPAL_PORT=${DRUPAL_PORT}
 
   fuseki:
-    image: stain/jena-fuseki:latest
+    image: stain/jena-fuseki:${FUSEKI_IMAGE_TAG}
     restart: on-failure
     networks:
       - frontend
