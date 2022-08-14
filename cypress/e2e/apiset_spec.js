@@ -351,7 +351,7 @@ describe('Apiset tests', function() {
       '#field-name_translated-fi': 'test api',
       '#field-name_translated-en': 'test api',
       '#field-name_translated-sv': 'test api',
-      '#field-format': 'CSV',
+      '#s2id_field-format': {type: 'select2', values: ['CSV']},
       '#field-image-url': 'http://example.com',
       '#field-description_translated-fi': 'test kuvaus',
       '#field-description_translated-en': 'test description',
