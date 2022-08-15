@@ -398,7 +398,7 @@ describe('Miscellaneous dataset tests', function(){
   it('Deleted datasets are not visible on users profile', function(){
     cy.visit('/data/dataset');
     cy.get('[href="/fi/profile"] > span').click();
-    cy.get(':nth-child(1) > .dataset-content > .align-items-center > .dataset-heading > a').should('not.have.text', misc_dataset_name);
+    cy.get('.primary > .module > .module-content > .empty').should('contain.text', 'Käyttäjä ei ole luonut tietoaineistoja.');
   });
 
 });
