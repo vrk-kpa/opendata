@@ -23,11 +23,12 @@ jobs:
       - uses: dorny/paths-filter@v2
         id: filter
         with:
+          initial-fetch-depth: '10'
           filters: |
-            ckan: ckan
-            drupal: drupal
-            solr: docker/solr
-            nginx: docker/nginx
+            ckan: ckan/**
+            drupal: drupal/**
+            solr: docker/solr/**
+            nginx: docker/nginx/**
 
 
   build-and-push:
