@@ -127,6 +127,20 @@ function avoindata_form_user_login_form_alter(&$form, FormStateInterface $form_s
     '#title' => t('Register new account'),
     '#attributes' => ['class' => ['register-user-link']],
   ];
+
+  $form['#submit'][] = 'avoindata_user_login_form_submit';
+}
+
+
+/**
+ * This function is called in login submit and there we override redirection url to point in ckans user profile
+ */
+function avoindata_user_login_form_submit($form, FormStateInterface &$form_state) {
+  $user = \Drupal::currentUser();
+  $base_url = \Drupal::request()->getSchemeAndHttpHost();
+  $ckan_admin = '/data/user/' . $user->getAccountName();
+  $redirect_url = \Drupal\Core\Url::fromUri($base_url . $ckan_admin);
+  $form_state->setRedirectUrl($redirect_url);
 }
 
 /**
