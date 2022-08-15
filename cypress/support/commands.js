@@ -89,7 +89,7 @@ Cypress.Commands.add('login', (username, password) => {
   cy.get('input[name=name]').type(username);
   cy.get('input[name=pass]').type(password);
   cy.get('#edit-submit').click();
-  cy.url().should('include', '/fi/user');
+  cy.url().should('include', '/data/fi/user');
 
   cy.getCookies().should('have.length.greaterThan', 0).then((cookies) => {
     let drupal_cookie = cookies.find(cookie => cookie.name.match(/^SESS/))
