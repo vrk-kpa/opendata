@@ -6,7 +6,7 @@ describe('Apiset filtering', function(){
   const apiset1_form_data = {
     '#field-title_translated-fi': apiset1_name,
     '#field-notes_translated-fi': 'test kuvaus',
-    '#s2id_autogen1': {type: 'select2', values: ['keyword one'], force: true},
+    '#s2id_autogen1': {type: 'select2', values: ['keyword one']},
     '#field-license_id':{type: 'select', value: 'cc-nc'},
     '#field-api_provider': 'Api Provider',
     '#field-api_provider_email': 'test.provider@example.com',
@@ -15,7 +15,7 @@ describe('Apiset filtering', function(){
   const apiset2_form_data = {
     '#field-title_translated-fi': apiset2_name,
     '#field-notes_translated-fi': 'test kuvaus',
-    '#s2id_autogen1': {type: 'select2', values: ['keyword two'], force: true},
+    '#s2id_autogen1': {type: 'select2', values: ['keyword two']},
     '#field-license_id':{type: 'select', value: 'cc-by'},
     '#field-api_provider': 'Api Provider',
     '#field-api_provider_email': 'test.provider@example.com',
