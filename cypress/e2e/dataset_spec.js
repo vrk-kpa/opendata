@@ -1,25 +1,13 @@
 const test_organization = 'dataset_test_organization';
 
-describe('Dataset pre-test', function(){
-
-  before(function(){
-    cy.reset_db();
-    cy.create_organization_for_user(test_organization, 'test-user', true);
-  });
-
-  //necessary to have an empty 'it' block so the before block won't be skipped
-  it('Pre-test functions', function(){
-    //Empty
-  });
-
-})
-
 describe('Dataset sorting tests', function(){
 
   const dataset_name_1 = "first_dataset";
   const dataset_name_2 = "second_dataset";
 
   before(function(){
+    cy.reset_db();
+    cy.create_organization_for_user(test_organization, 'test-user', true);
     cy.login_post_request('test-user', 'test-user')
     cy.visit('/data/dataset');
     cy.create_new_dataset(dataset_name_1);
@@ -42,9 +30,11 @@ describe('Dataset sorting tests', function(){
   it('Dataset chosen sorting option persists after search', function(){
     cy.visit('/data/dataset');
     cy.get('#field-order-by').select('score desc, metadata_modified desc');
-    cy.wait(1000); //wait a bit as the above load a new page 
+    // wait for url to contain the updated sorting option
+    cy.url().should('include', `sort=score+desc%2C+metadata_modified+desc`); //wait for page load after choosing sorting option
     cy.get('.search').type('random search');
     cy.get('.fal').click();
+    cy.url().should('include', `sort=score+desc%2C+metadata_modified+desc`); //wait for page load after choosing sorting option
     cy.get('#field-order-by').should('have.value', 'score desc, metadata_modified desc');
   });
 
@@ -83,7 +73,8 @@ describe('Dataset sorting tests', function(){
 
     // change the sorting to creation date asc
     cy.get('#field-order-by').select('metadata_created asc');
-    cy.wait(1000); //cypress doesn't know to wait for the page load
+    cy.url().should('include', `sort=metadata_created+asc`); //wait for page load after choosing sorting option
+
     cy.get(':nth-child(1) > .dataset-content > .align-items-center > .dataset-heading > a').should('have.text', dataset_name_1);
     cy.get(':nth-child(2) > .dataset-content > .align-items-center > .dataset-heading > a').should('have.text', dataset_name_2);
   });
@@ -283,15 +274,20 @@ describe('Miscellaneous dataset tests', function(){
     //Manually create the dataset
     cy.get('#second-navbar a[href="/data/fi/dataset"]').click();
     cy.get('a[href="/data/fi/dataset/new"]').click();
-
+    cy.get('.slug-preview button').contains('Muokkaa').click();
+    cy.get('#field-name').type(misc_dataset_name);
     cy.fill_form_fields(misc_dataset_form_data);
     cy.get('button[name=save]').click();
+
+    //check that we are on the second form page
+    cy.get('.last', {timeout: 20000}).should('have.class', 'active');
 
     cy.get('#field-image-upload').selectFile("cypress/FL_insurance_sample.csv");
     cy.fill_form_fields(misc_dataset_resource_form_data);
     cy.get('button[name=save].suomifi-button-primary').click();
-    cy.url().should('include', `/data/fi/dataset/${misc_dataset_name.replace(" ", "-")}`);
-    cy.location('pathname', {timeout: 20000}).should('contain', `/dataset/${misc_dataset_name}`);
+
+    cy.url().should('not.include', `/data/fi/dataset/${misc_dataset_name.replace(" ", "-")}/resource/new`); // after submission is complete, the /resource/new should not be part of the url anymore
+    cy.location('pathname', {timeout: 20000}).should('contain', `/dataset/${misc_dataset_name.replace(" ", "-")}`);
   });
 
   beforeEach(function () {
