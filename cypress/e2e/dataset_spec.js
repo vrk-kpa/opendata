@@ -268,6 +268,10 @@ describe('Miscellaneous dataset tests', function(){
 
 
   before(function(){
+    cy.reset_db()
+    cy.create_organization_for_user(test_organization, 'test-user', true);
+
+
     cy.login_post_request('test-user', 'test-user')
     cy.visit('/data/dataset');
 
@@ -286,7 +290,7 @@ describe('Miscellaneous dataset tests', function(){
     cy.fill_form_fields(misc_dataset_resource_form_data);
     cy.get('button[name=save].suomifi-button-primary').click();
 
-    cy.url().should('not.include', `/data/fi/dataset/${misc_dataset_name.replace(" ", "-")}/resource/new`); // after submission is complete, the /resource/new should not be part of the url anymore
+    cy.url({timeout: 60000}).should('not.include', `/data/fi/dataset/${misc_dataset_name.replace(" ", "-")}/resource/new`); // after submission is complete, the /resource/new should not be part of the url anymore
     cy.location('pathname', {timeout: 20000}).should('contain', `/dataset/${misc_dataset_name.replace(" ", "-")}`);
   });
 
@@ -295,7 +299,7 @@ describe('Miscellaneous dataset tests', function(){
     cy.visit('/');
   });
 
-  it('Created datasets are visible on users profile', function(){
+  it.only('Created datasets are visible on users profile', function(){
     cy.visit('/data/dataset');
     cy.get('[href="/fi/profile"] > span').click();
     cy.get(':nth-child(1) > .dataset-content > .align-items-center > .dataset-heading > a').should('have.text', misc_dataset_name);
