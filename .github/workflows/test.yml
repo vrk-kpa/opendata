@@ -247,6 +247,20 @@ jobs:
         run: |
           npx cypress run --browser chrome:stable --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
 
+      - name: export e2e test logs 
+        shell: bash
+        run: |
+          docker logs opendata_ckan_1 > /tmp/opendata_ckan_1.log
+          docker logs opendata_drupal_1 > /tmp/opendata_drupal_1.log
+          docker logs opendata_solr_1 > /tmp/opendata_solr_1.log
+          docker logs opendata_nginx_1 > /tmp/opendata_nginx_1.log
+          docker logs opendata_fuseki_1 > /tmp/opendata_fuseki_1.log
+
+      - name: upload log artifacts
+        with:
+          name: docker-logs
+          path: /tmp/opendata_*.log
+
       - name: upload cypress screenshot artifacts
         uses: actions/upload-artifact@v2
         if: failure()
