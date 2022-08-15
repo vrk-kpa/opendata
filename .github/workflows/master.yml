@@ -3,7 +3,7 @@ name: Build and deploy containers
 on:
   push:
     branches:
-      #- master
+      - master
   workflow_dispatch:
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
     name: Build and push containers
     runs-on: ubuntu-latest
     needs:
-      #- build-and-test-containers
+      - build-and-test-containers
       - changes
     permissions:
       id-token: write
