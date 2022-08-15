@@ -12,10 +12,30 @@ jobs:
     uses: ./.github/workflows/test.yml
     secrets: inherit
 
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      containers: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            ckan: ckan
+            drupal: drupal
+            solr: docker/solr
+            nginx: docker/nginx
+
+
   build-and-push:
     name: Build and push containers
     runs-on: ubuntu-latest
-    #needs: build-and-test-containers
+    needs:
+      #- build-and-test-containers
+      - changes
     permissions:
       id-token: write
       contents: read
@@ -30,37 +50,34 @@ jobs:
             build-frontend: false
             name: solr
             dynatrace: false
+            container: ${{ fromJSON(needs.changes.outputs.containers) }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
             build-frontend: false
             name: nginx
             dynatrace: true
+            container: ${{ fromJSON(needs.changes.outputs.containers) }}
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
             submodules: ""
             build-frontend: true
             name: drupal
             dynatrace: true
+            container: ${{ fromJSON(needs.changes.outputs.containers) }}
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
             build-frontend: true
             name: ckan
             dynatrace: true
+            container: ${{ fromJSON(needs.changes.outputs.containers) }}
 
     steps:
       - name: checkout
         uses: actions/checkout@v2
         with:
           submodules: ${{ matrix.submodules }}
-
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          filters: |
-            matched:
-              - ${{ matrix.context }}
 
       - name: setup docker buildx
         uses: docker/setup-buildx-action@v1
