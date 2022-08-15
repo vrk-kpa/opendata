@@ -360,7 +360,7 @@ describe('Apiset tests', function() {
       '#field-documentation_translated-sv': 'test dokumentaatio',
       '[name="registration_required"]': {type: 'radio', value: 'true', force: true},
       // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
-      '#s2id_autogen1': {type: 'select2', values: ['CSV']},
+      '#s2id_autogen1_search': {type: 'select2', values: ['CSV']},
       '#s2id_autogen2': {type: 'select2', values: ['Päivittäin']},
       '#s2id_autogen3': {type: 'select2', values: ['Päivittäin']},
       '#s2id_autogen4': {type: 'select2', values: ['Päivittäin']}
