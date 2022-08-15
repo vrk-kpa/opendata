@@ -241,6 +241,7 @@ jobs:
           docker logs opendata_drupal_1
           docker logs opendata_solr_1
           docker logs opendata_nginx_1
+          docker logs opendata_fuseki_1
 
       - name: run cypress e2e tests
         run: |
