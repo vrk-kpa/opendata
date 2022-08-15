@@ -299,7 +299,7 @@ describe('Miscellaneous dataset tests', function(){
     cy.visit('/');
   });
 
-  it.only('Created datasets are visible on users profile', function(){
+  it('Created datasets are visible on users profile', function(){
     cy.visit('/data/dataset');
     cy.get('[href="/fi/profile"] > span').click();
     cy.get(':nth-child(1) > .dataset-content > .align-items-center > .dataset-heading > a').should('have.text', misc_dataset_name);
