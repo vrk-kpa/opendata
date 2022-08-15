@@ -743,8 +743,13 @@ export class CkanStack extends Stack {
       logGroupName: `/${props.environment}/opendata/fuseki`,
     });
 
+    const fusekiContainerSecrets: { [key: string]: ecs.Secret; } = {
+      FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
+    };
+
     const fusekiContainer = fusekiTaskDef.addContainer('fuseki', {
       image: ecs.ContainerImage.fromEcrRepository(fusekiRepo, props.envProps.FUSEKI_IMAGE_TAG),
+      secrets: fusekiContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
         logGroup: fusekiLogGroup,
         streamPrefix: 'fuseki-service',
@@ -756,6 +761,9 @@ export class CkanStack extends Stack {
         retries: 5,
         startPeriod: Duration.seconds(15),
       },
+      environment: {
+        FUSEKI_DATASET_1: ckanContainerEnv.FUSEKI_OPENDATA_DATASET,
+      }
     });
 
     fusekiContainer.addPortMappings({
