@@ -257,6 +257,7 @@ jobs:
           docker logs opendata_fuseki_1 > /tmp/opendata_fuseki_1.log
 
       - name: upload log artifacts
+        uses: actions/upload-artifact@v3
         with:
           name: docker-logs
           path: /tmp/opendata_*.log
