@@ -145,7 +145,7 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
                 // immediately after typing in ajax-populated instances
                 case 'select2':
                     field_value.values.forEach((v) => {
-                      field.type(v, options).wait(1000)
+                      field.type(v, options).wait(2000)
                       cy.get(field_selector).type('{enter}', {'force': true})
                     })
                     break;
