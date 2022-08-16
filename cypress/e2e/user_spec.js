@@ -15,7 +15,7 @@ describe('User registration', function() {
         cy.register(username, email);
       })
 
-    this.beforeEach(function(){
+    beforeEach(function(){
         cy.visit("/");
     })
 
