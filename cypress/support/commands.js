@@ -138,6 +138,7 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
             const options = { force: field_value.force ? field_value.force : false };
             switch(field_value.type) {
                 case 'select':
+                    // note. Some fields do not appear with the correct value in the cypress UI, but the correct value is still selected 
                     field.select(field_value.value, options)
                     break;
                 // TODO: This should not be necessary, but the delay required between typing 
@@ -145,7 +146,9 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
                 // immediately after typing in ajax-populated instances
                 case 'select2':
                     field_value.values.forEach((v) => {
-                      field.type(v, options).wait(1000)
+                      field.type(v, options);
+                      // wait for the results load before pressing enter
+                      cy.get(`${field_selector}.select2-active`, {timeout: 20000}).should('not.exist');
                       cy.get(field_selector).type('{enter}', {'force': true})
                     })
                     break;
@@ -155,6 +158,9 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
                 case 'radio':
                     field.check(field_value.value, options)
                     break;
+                case 'datepicker':
+                    field.clear();
+                    field.type(field_value.value);
                 default:
                     field.type(field_value.value, options)
             }

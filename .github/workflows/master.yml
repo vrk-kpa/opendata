@@ -35,7 +35,7 @@ jobs:
             submodules: ""
             build-frontend: false
             name: nginx
-            dynatrace: false
+            dynatrace: true
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
             submodules: ""
