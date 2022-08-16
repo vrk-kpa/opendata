@@ -6,8 +6,7 @@ describe('Apiset filtering', function(){
   const apiset1_form_data = {
     '#field-title_translated-fi': apiset1_name,
     '#field-notes_translated-fi': 'test kuvaus',
-     '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
-    '#s2id_autogen2': {type: 'select2', values: ['keyword one']},
+    '#s2id_autogen1': {type: 'select2', values: ['keyword one']},
     '#field-license_id':{type: 'select', value: 'cc-nc'},
     '#field-api_provider': 'Api Provider',
     '#field-api_provider_email': 'test.provider@example.com',
@@ -16,8 +15,7 @@ describe('Apiset filtering', function(){
   const apiset2_form_data = {
     '#field-title_translated-fi': apiset2_name,
     '#field-notes_translated-fi': 'test kuvaus',
-    '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
-    '#s2id_autogen2': {type: 'select2', values: ['keyword two']},
+    '#s2id_autogen1': {type: 'select2', values: ['keyword two']},
     '#field-license_id':{type: 'select', value: 'cc-by'},
     '#field-api_provider': 'Api Provider',
     '#field-api_provider_email': 'test.provider@example.com',
@@ -27,13 +25,16 @@ describe('Apiset filtering', function(){
   const api1_form_data = {
     '#field-name_translated-fi': 'test api',
     '#field-description_translated-fi': 'test kuvaus',
-    '#s2id_autogen1': {type: 'select2', values: ['Kuukausittain']},
+    '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
+    '#s2id_autogen2': {type: 'select2', values: ['Kuukausittain']},
   }
 
   const api2_form_data = {
     '#field-name_translated-fi': 'test api',
     '#field-description_translated-fi': 'test kuvaus',
-    '#s2id_autogen1': {type: 'select2', values: ['Päivittäin']},
+    '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
+    '#s2id_autogen2': {type: 'select2', values: ['Päivittäin']},
+
   }
 
   beforeEach(function () {
