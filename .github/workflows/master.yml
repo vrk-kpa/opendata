@@ -12,10 +12,34 @@ jobs:
     uses: ./.github/workflows/test.yml
     secrets: inherit
 
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+        ckan: ${{ steps.filter.outputs.ckan }}
+        drupal: ${{ steps.filter.outputs.drupal }}
+        nginx: ${{ steps.filter.outputs.nginx }}
+        solr: ${{ steps.filter.outputs.solr }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          initial-fetch-depth: '10'
+          filters: |
+            ckan: ckan/**
+            drupal: drupal/**
+            solr: docker/solr/**
+            nginx: docker/nginx/**
+
+
   build-and-push:
     name: Build and push containers
     runs-on: ubuntu-latest
-    needs: build-and-test-containers
+    needs:
+      - build-and-test-containers
+      - changes
     permissions:
       id-token: write
       contents: read
@@ -30,24 +54,28 @@ jobs:
             build-frontend: false
             name: solr
             dynatrace: false
+            build-container: ${{ needs.changes.outputs.solr }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
             build-frontend: false
             name: nginx
             dynatrace: true
+            build-container: ${{ needs.changes.outputs.nginx }}
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
             submodules: ""
             build-frontend: true
             name: drupal
             dynatrace: true
+            build-container: ${{ needs.changes.outputs.drupal }}
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
             build-frontend: true
             name: ckan
             dynatrace: true
+            build-container: ${{ needs.changes.outputs.ckan }}
 
     steps:
       - name: checkout
@@ -71,7 +99,7 @@ jobs:
 
       - name: login to DynaTrace Registry
         id: login-dtr
-        if: ${{ matrix.dynatrace == true }}
+        if: ${{ matrix.dynatrace == true && matrix.build-container == 'true' }}
         uses: docker/login-action@v2
         with:
           registry: ${{ secrets.DYNATRACE_USERNAME }}.live.dynatrace.com
@@ -79,7 +107,7 @@ jobs:
           password: ${{ secrets.DYNATRACE_TOKEN }}
 
       - name: configure NPM credentials
-        if: ${{ matrix.build-frontend == true}}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == 'true' }}
         run: |
           cat <<EOT >> ./opendata-assets/.npmrc
           @fortawesome:registry=https://npm.fontawesome.com/
@@ -89,7 +117,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: install nodejs v16
-        if: ${{ matrix.build-frontend == true }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == 'true' }}
         uses: actions/setup-node@v2
         with:
           node-version: 16
@@ -97,27 +125,30 @@ jobs:
           cache-dependency-path: opendata-assets/package-lock.json
 
       - name: install npm packages
-        if: ${{ matrix.build-frontend == true }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == 'true' }}
         run: npm ci
         working-directory: ./opendata-assets
 
       - name: build frontend with gulp
-        if: ${{ matrix.build-frontend == true }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == 'true' }}
         run: npx gulp
         working-directory: ./opendata-assets
 
       - name: build images
         uses: docker/build-push-action@v3
+        if: ${{ matrix.build-container == 'true' }}
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
+          tags: |
+            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
+            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest
 
       - name: build images with dynatrace
-        if: ${{ matrix.dynatrace == true }}
+        if: ${{ matrix.dynatrace == true  && matrix.build-container == 'true'}}
         uses: docker/build-push-action@v3
         with:
           context: ${{ matrix.context }}
@@ -127,7 +158,28 @@ jobs:
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}-dynatrace
+          tags: |
+            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}-dynatrace
+            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest-dynatrace
+
+
+      - name: Retag old image if new ones are not built
+        uses: akhilerm/tag-push-action@v2.0.0
+        if: ${{ matrix.build-container == 'false' }}
+        with:
+          src: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest
+          dst: |
+            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
+
+      - name: Retag old dynatrace image if new ones are not built
+        uses: akhilerm/tag-push-action@v2.0.0
+        if: ${{ matrix.dynatrace == true  && matrix.build-container == 'false' }}
+        with:
+          src: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest-dynatrace
+          dst: |
+            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}-dynatrace
+
+
 
 
   deploy-beta:
