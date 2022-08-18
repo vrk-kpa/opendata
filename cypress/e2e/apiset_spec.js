@@ -25,13 +25,16 @@ describe('Apiset filtering', function(){
   const api1_form_data = {
     '#field-name_translated-fi': 'test api',
     '#field-description_translated-fi': 'test kuvaus',
-    '#s2id_autogen1': {type: 'select2', values: ['Kuukausittain']},
+    '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
+    '#s2id_autogen2': {type: 'select2', values: ['Kuukausittain']},
   }
 
   const api2_form_data = {
     '#field-name_translated-fi': 'test api',
     '#field-description_translated-fi': 'test kuvaus',
-    '#s2id_autogen1': {type: 'select2', values: ['Päivittäin']},
+    '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
+    '#s2id_autogen2': {type: 'select2', values: ['Päivittäin']},
+
   }
 
   beforeEach(function () {
@@ -360,9 +363,10 @@ describe('Apiset tests', function() {
       '#field-documentation_translated-sv': 'test dokumentaatio',
       '[name="registration_required"]': {type: 'radio', value: 'true', force: true},
       // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
-      '#s2id_autogen1': {type: 'select2', values: ['Päivittäin']},
+      '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
       '#s2id_autogen2': {type: 'select2', values: ['Päivittäin']},
-      '#s2id_autogen3': {type: 'select2', values: ['Päivittäin']}
+      '#s2id_autogen3': {type: 'select2', values: ['Päivittäin']},
+      '#s2id_autogen4': {type: 'select2', values: ['Päivittäin']}
     };
     cy.create_new_apiset(apiset_name, apiset_form_data, api_form_data);
   });

@@ -100,10 +100,6 @@ location ~ ^/data/(.*)$ {
     proxy_cache_bypass 1;
     proxy_intercept_errors off;
   }
-
-  location ~ /data/(fi/|en_GB/|sv/)?feeds {
-    return 404;
-  }
 }
 
 # drupal upstream target, re-evaluates DNS properly
