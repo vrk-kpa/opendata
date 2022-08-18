@@ -3,13 +3,13 @@ name: Changes
 on:
   workflow_call:
     outputs:
-      ckan: ${{ jobs.changes.outputs.ckan }}
-      drupal: ${{ jobs.changes.outputs.drupal }}
-      nginx: ${{ jobs.changes.outputs.nginx }}
-      solr: ${{ jobs.changes.outputs.solr }}
+      ckan: ${{ jobs.changes_in_containers.outputs.ckan }}
+      drupal: ${{ jobs.changes_in_containers.outputs.drupal }}
+      nginx: ${{ jobs.changes_in_containers.outputs.nginx }}
+      solr: ${{ jobs.changes_in_containers.outputs.solr }}
 
 jobs:
-  changes:
+  changes_in_containers:
     runs-on: ubuntu-latest
     outputs:
       ckan: ${{ steps.filter.outputs.ckan }}
