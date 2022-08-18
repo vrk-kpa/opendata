@@ -251,7 +251,7 @@ jobs:
       - name: bring services up
         working-directory: docker
         run: |
-          docker-compose -p opendata up --build -d
+          docker-compose -f docker-compose.yml -f docker-compose.build.yml -p opendata up -d
 
       - name: wait until services have started
         shell: bash
