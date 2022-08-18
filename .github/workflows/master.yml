@@ -42,7 +42,7 @@ jobs:
       - changes
     permissions:
       id-token: write
-      contents: read
+      contents: write
     outputs:
       sha: ${{ steps.envtemplate.outputs.commit_sha || github.sha }}
 
