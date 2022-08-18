@@ -3,7 +3,9 @@ name: Changes
 on:
   workflow_call:
     outputs:
-      ckan: ${{ jobs.changes_in_containers.outputs.ckan }}
+      ckan:
+        description: "Change in ckan container"
+        value: ${{ jobs.changes_in_containers.outputs.ckan }}
       drupal: ${{ jobs.changes_in_containers.outputs.drupal }}
       nginx: ${{ jobs.changes_in_containers.outputs.nginx }}
       solr: ${{ jobs.changes_in_containers.outputs.solr }}
