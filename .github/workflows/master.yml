@@ -178,10 +178,10 @@ jobs:
         id: envtemplate
         if: ${{ matrix.build-container == 'true' }}
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add docker/.env.template
-          git commit -m "Image tags updated"
+          git commit -m ".env.template updated by new image tags"
           git push
 
 
