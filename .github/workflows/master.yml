@@ -177,9 +177,12 @@ jobs:
       - name: Commit updated .env.template
         id: envtemplate
         if: ${{ matrix.build-container == 'true' }}
-        uses: EndBug/add-and-commit@v9
-        with:
-          add: docker/.env.template
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docker/.env.template
+          git commit -m "Image tags updated"
+          git push
 
 
   deploy-beta:
