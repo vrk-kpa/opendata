@@ -53,6 +53,7 @@ jobs:
             submodules: ""
             build-frontend: false
             name: solr
+            image_tag: SOLR_IMAGE_TAG
             dynatrace: false
             build-container: ${{ needs.changes.outputs.solr }}
           - dockerfile: ./docker/nginx/Dockerfile
@@ -60,6 +61,7 @@ jobs:
             submodules: ""
             build-frontend: false
             name: nginx
+            image_tag: NGINX_IMAGE_TAG
             dynatrace: true
             build-container: ${{ needs.changes.outputs.nginx }}
           - dockerfile: ./drupal/Dockerfile
@@ -67,6 +69,7 @@ jobs:
             submodules: ""
             build-frontend: true
             name: drupal
+            image_tag: DRUPAL_IMAGE_TAG
             dynatrace: true
             build-container: ${{ needs.changes.outputs.drupal }}
           - dockerfile: ./ckan/Dockerfile
@@ -74,6 +77,7 @@ jobs:
             submodules: recursive
             build-frontend: true
             name: ckan
+            image_tag: CKAN_IMAGE_TAG
             dynatrace: true
             build-container: ${{ needs.changes.outputs.ckan }}
 
@@ -162,24 +166,17 @@ jobs:
             ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}-dynatrace
             ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest-dynatrace
 
+      - name: Update .env.template to reference new images
+        if: ${{ matrix.build-container == 'true' }}
+        run: |
+          sed -i.bak -E 's/^(${{ matrix.image_tag }}[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
 
-      - name: Retag old image if new ones are not built
-        uses: akhilerm/tag-push-action@v2.0.0
-        if: ${{ matrix.build-container == 'false' }}
+      - name: Commit updated .env.template
+        if: ${{ matrix.build-container == 'true' }}
+        uses: EndBug/add-and-commit@v9
         with:
-          src: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest
-          dst: |
-            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
-
-      - name: Retag old dynatrace image if new ones are not built
-        uses: akhilerm/tag-push-action@v2.0.0
-        if: ${{ matrix.dynatrace == true  && matrix.build-container == 'false' }}
-        with:
-          src: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest-dynatrace
-          dst: |
-            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}-dynatrace
-
-
+          add: docker/.env.template
+          
 
 
   deploy-beta:
@@ -224,10 +221,6 @@ jobs:
           cp -f docker/.env.template docker/.env
           sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
           sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
-          sed -i.bak -E 's/^(CKAN_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
-          sed -i.bak -E 's/^(DRUPAL_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
-          sed -i.bak -E 's/^(NGINX_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
-          sed -i.bak -E 's/^(SOLR_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
