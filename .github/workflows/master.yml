@@ -43,6 +43,9 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    outputs:
+      sha: ${{ steps.envtemplate.outputs.commit_sha || github.sha }}
+
 
     strategy:
       fail-fast: false
@@ -172,11 +175,11 @@ jobs:
           sed -i.bak -E 's/^(${{ matrix.image_tag }}[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
 
       - name: Commit updated .env.template
+        id: envtemplate
         if: ${{ matrix.build-container == 'true' }}
         uses: EndBug/add-and-commit@v9
         with:
           add: docker/.env.template
-          
 
 
   deploy-beta:
@@ -194,6 +197,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ needs.build-and-push.outputs.sha }}
 
       - name: install nodejs v16
         uses: actions/setup-node@v2
