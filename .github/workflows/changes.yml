@@ -1,0 +1,26 @@
+name: Changes
+
+on:
+  workflow_call:
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      ckan: ${{ steps.filter.outputs.ckan }}
+      drupal: ${{ steps.filter.outputs.drupal }}
+      nginx: ${{ steps.filter.outputs.nginx }}
+      solr: ${{ steps.filter.outputs.solr }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          initial-fetch-depth: '10'
+          filters: |
+            ckan: ckan/**
+            drupal: drupal/**
+            solr: docker/solr/**
+            nginx: docker/nginx/**
