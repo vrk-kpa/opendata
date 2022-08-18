@@ -103,7 +103,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           outputs: type=docker,dest=/tmp/${{ matrix.name }}.tar
-          tags: opendata/${{ matrix.name }}:latest
+          tags: ${REGISTRY}/${REPOSITORY}/opendata/${{ matrix.name }}:latest
 
       - name: upload images
         if: ${{ matrix.build-container == 'true' }}
@@ -239,7 +239,6 @@ jobs:
         if: ${{ needs.detect-changes.outputs.solr == 'true' }}
         run: |
           docker load --input /tmp/solr/solr.tar
-          docker load --input /tmp/nginx/nginx.tar
 
       - name: load built nginx image
         if: ${{ needs.detect-changes.outputs.nginx == 'true' }}
