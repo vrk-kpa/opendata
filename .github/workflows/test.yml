@@ -34,25 +34,25 @@ jobs:
             submodules: ""
             build-frontend: false
             name: solr
-            build-container: ${{ needs.detect-changes.changes.outputs.solr }}
+            build-container: ${{ needs.detect-changes.outputs.solr }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
             build-frontend: false
             name: nginx
-            build-container: ${{ needs.detect-changes.changes.outputs.nginx }}
+            build-container: ${{ needs.detect-changes.outputs.nginx }}
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
             submodules: ""
             build-frontend: true
             name: drupal
-            build-container: ${{ needs.detect-changes.changes.outputs.drupal }}
+            build-container: ${{ needs.detect-changes.outputs.drupal }}
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
             build-frontend: true
             name: ckan
-            build-container: ${{ needs.detect-changes.changes.outputs.ckan }}
+            build-container: ${{ needs.detect-changes.outputs.ckan }}
 
     steps:
       - name: checkout
@@ -225,23 +225,23 @@ jobs:
           path: /tmp
 
       - name: load built ckan image
-        if: ${{ needs.detect-changes.changes.outputs.ckan == 'true' }}
+        if: ${{ needs.detect-changes.outputs.ckan == 'true' }}
         run: |
           docker load --input /tmp/ckan/ckan.tar
 
       - name: load built drupal image
-        if: ${{ needs.detect-changes.changes.outputs.drupal == 'true' }}
+        if: ${{ needs.detect-changes.outputs.drupal == 'true' }}
         run: |
           docker load --input /tmp/drupal/drupal.tar
 
 
       - name: load built solr image
-        if: ${{ needs.detect-changes.changes.outputs.solr == 'true' }}
+        if: ${{ needs.detect-changes.outputs.solr == 'true' }}
         run: |
           docker load --input /tmp/solr/solr.tar
 
       - name: load built nginx image
-        if: ${{ needs.detect-changes.changes.outputs.nginx == 'true' }}
+        if: ${{ needs.detect-changes.outputs.nginx == 'true' }}
         run: |
           docker load --input /tmp/nginx/nginx.tar
 

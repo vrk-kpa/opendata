@@ -2,6 +2,11 @@ name: Changes
 
 on:
   workflow_call:
+    outputs:
+      ckan: ${{ jobs.changes.outputs.ckan }}
+      drupal: ${{ jobs.changes.outputs.drupal }}
+      nginx: ${{ jobs.changes.outputs.nginx }}
+      solr: ${{ jobs.changes.outputs.solr }}
 
 jobs:
   changes:
