@@ -127,8 +127,6 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-        with:
-          submodules: recursive
 
       - name: setup docker buildx
         uses: docker/setup-buildx-action@v1
