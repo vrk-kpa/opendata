@@ -115,13 +115,10 @@ jobs:
           name: ${{ matrix.name }}
           path: /tmp/${{ matrix.name }}.tar
 
-      - name: Set built-container output to true
-        if: ${{ matrix.build-container == 'true' }}
-        run: echo '::set-output name=${{ matrix.name }}-container-built::true'
-
   test-e2e:
     name: test-e2e
     needs:
+      - detect-changes
       - build-containers
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -232,23 +229,23 @@ jobs:
           path: /tmp
 
       - name: load built ckan image
-        if: ${{ needs.build-containers.outputs.ckan-container-built == 'true' }}
+        if: ${{ needs.detect-changes.outputs.ckan == 'true' || needs.detect-changes.outputs.assets == 'true'}}
         run: |
           docker load --input /tmp/ckan/ckan.tar
 
       - name: load built drupal image
-        if: ${{ needs.build-containers.outputs.drupal-container-built == 'true' }}
+        if: ${{ needs.detect-changes.outputs.drupal == 'true' || needs.detect-changes.outputs.assets == 'true' }}
         run: |
           docker load --input /tmp/drupal/drupal.tar
 
 
       - name: load built solr image
-        if: ${{ needs.build-containers.outputs.solr-container-built == 'true' }}
+        if: ${{ needs.detect-changes.outputs.solr == 'true' }}
         run: |
           docker load --input /tmp/solr/solr.tar
 
       - name: load built nginx image
-        if: ${{ needs.build-containers.outputs.nginx-container-built == 'true' }}
+        if: ${{ needs.detect-changes.outputs.nginx == 'true' }}
         run: |
           docker load --input /tmp/nginx/nginx.tar
 
