@@ -15,6 +15,9 @@ on:
       solr:
         description: "Change in solr container"
         value: ${{ jobs.changes_in_containers.outputs.solr }}
+      assets:
+        description: "Change in assets"
+        value: ${{ jobs.changes_in_containers.outputs.assets }}
 
 jobs:
   changes_in_containers:
@@ -37,3 +40,4 @@ jobs:
             drupal: drupal/**
             solr: docker/solr/**
             nginx: docker/nginx/**
+            assets: opendata-assets/**
