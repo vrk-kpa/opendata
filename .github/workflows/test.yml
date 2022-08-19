@@ -54,12 +54,6 @@ jobs:
             name: ckan
             build-container: ${{ needs.detect-changes.outputs.ckan || needs.detect-changes.outputs.assets }}
 
-    outputs:
-      ckan-container-built: 'false'
-      drupal-container-built: 'false'
-      nginx-container-built: 'false'
-      solr-container-built: 'false'
-
     steps:
       - name: checkout
         if: ${{ matrix.build-container == 'true' }}
