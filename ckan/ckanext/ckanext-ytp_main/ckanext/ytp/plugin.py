@@ -459,10 +459,23 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         validated_data_dict = pkg_dict.get('validated_data_dict')
         converted_validated_data_dict = json.loads(validated_data_dict)
         resources = converted_validated_data_dict.get('resources')
-        if resources:
-            update_frequency = resources[0].get('update_frequency')
-            if update_frequency:
-                pkg_dict['update_frequency'] = json.dumps(update_frequency)
+        
+        if not 'update_frequency' in pkg_dict:
+            pkg_dict['update_frequency'] = ""
+
+        update_frequency_list = {}
+        try:
+            for resource in resources:
+                res_update_frequency = resource.get('update_frequency')
+                if res_update_frequency:
+                    for key in res_update_frequency.keys():
+                        for value in res_update_frequency[key]:
+                            if not key in update_frequency_list:
+                                update_frequency_list[key] = []
+                            update_frequency_list[key].append(value)
+        except Exception as e:
+            logging.error(f"Error while populating update frequencies: {e}")
+        pkg_dict['update_frequency'] = json.dumps(update_frequency_list)
 
         # Map keywords to vocab_keywords_{lang}
         translated_vocabs = ['keywords', 'content_type', 'update_frequency']
