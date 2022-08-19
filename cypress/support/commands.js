@@ -528,7 +528,7 @@ Cypress.Commands.add('edit_apiset', (apiset_name, apiset_form_data) => {
   cy.visit(`/data/fi/apiset/edit/${apiset_name}`);
   cy.fill_form_fields(apiset_form_data)
   cy.get('button[name=save]').click();
-  cy.get('.apiset-title').contains(apiset_name+'edit');
+  cy.get('.dataset-title').contains(apiset_name+'edit');
 })
 
 // Deletes a dataset and verifies that it is not found in the search anymore
