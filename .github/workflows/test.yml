@@ -104,6 +104,9 @@ jobs:
           cache-to: type=gha,mode=max
           outputs: type=docker,dest=/tmp/${{ matrix.name }}.tar
           tags: ${REGISTRY}/${REPOSITORY}/${{ matrix.name }}:latest
+        env:
+          REGISTRY: ${{ secrets.REGISTRY }}
+          REPOSITORY: ${{ secrets.REPOSITORY }}
 
       - name: upload images
         if: ${{ matrix.build-container == 'true' }}
