@@ -588,6 +588,11 @@ def get_package_showcase_list(package_id):
     return get_action('ckanext_package_showcase_list')(context, {'package_id': package_id})
 
 
+def get_apiset_package_list(package_id):
+    context = {'model': model, 'session': model.Session, 'user': c.user}
+    return get_action('apiset_package_list')(context, {'apiset_id': package_id})
+
+
 def get_groups_where_user_is_admin():
     context = {'model': model, 'session': model.Session, 'user': c.user}
     return get_action('organization_list_for_user')(context, {'permission': 'admin'})

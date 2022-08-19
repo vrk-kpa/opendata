@@ -52,7 +52,18 @@
 
           {% block package_additional_info %}
           {% endblock %}
+
         {% endblock %}
+
+            {% if dataset_type=='apiset' %}
+              <h3 class="apiset-packages-title">{{ _('Used datasets') }}</h3>
+              {% set pkgs = h.get_apiset_package_list(pkg.id) %}
+              {% if pkgs %}
+                  {% snippet "sixodp_showcase/snippets/showcase_package_list.html", packages=pkgs, list_class='apiset-packages' %}
+              {% else %}
+                  <p class="module-content empty">{{_('There are no Datasets in this Apiset')}}</p>
+              {% endif %}
+            {% endif %}
 
         {{h.disqus_comments()}}
       </section>

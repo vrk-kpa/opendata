@@ -228,3 +228,21 @@
     text-align: center;
   }
 }
+
+.apiset-packages-title {
+  margin-bottom: @padding-y--common;
+}
+
+.apiset-packages {
+  list-style: none;
+  padding: 0;
+
+  .apiset-package {
+    padding: @padding-y__apiset-package @padding-x__apiset-package;
+    border-top: 1px solid @suomi-depthLight13;
+
+    &:last-child {
+      border-bottom: 1px solid @suomi-depthLight13;
+    }
+  }
+}
