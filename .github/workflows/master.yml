@@ -55,7 +55,7 @@ jobs:
             name: drupal
             image_tag: DRUPAL_IMAGE_TAG
             dynatrace: true
-            build-container: ${{ needs.changes.outputs.drupal }}
+            build-container: ${{ needs.changes.outputs.drupal || needs.detect-changes.outputs.assets }}
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
@@ -63,7 +63,7 @@ jobs:
             name: ckan
             image_tag: CKAN_IMAGE_TAG
             dynatrace: true
-            build-container: ${{ needs.changes.outputs.ckan }}
+            build-container: ${{ needs.changes.outputs.ckan || needs.detect-changes.outputs.assets }}
 
     steps:
       - name: checkout

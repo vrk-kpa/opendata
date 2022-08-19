@@ -46,7 +46,7 @@ jobs:
             submodules: ""
             build-frontend: true
             name: drupal
-            build-container: ${{ needs.detect-changes.outputs.drupal || needs.detect-changes.outputs.assets}}
+            build-container: ${{ needs.detect-changes.outputs.drupal || needs.detect-changes.outputs.assets }}
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
