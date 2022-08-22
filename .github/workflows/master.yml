@@ -12,34 +12,15 @@ jobs:
     uses: ./.github/workflows/test.yml
     secrets: inherit
 
-  changes:
-    runs-on: ubuntu-latest
-    outputs:
-        ckan: ${{ steps.filter.outputs.ckan }}
-        drupal: ${{ steps.filter.outputs.drupal }}
-        nginx: ${{ steps.filter.outputs.nginx }}
-        solr: ${{ steps.filter.outputs.solr }}
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          initial-fetch-depth: '10'
-          filters: |
-            ckan: ckan/**
-            drupal: drupal/**
-            solr: docker/solr/**
-            nginx: docker/nginx/**
-
+  detect-changes:
+    uses: ./.github/workflows/changes.yml
 
   build-and-push:
     name: Build and push containers
     runs-on: ubuntu-latest
     needs:
       - build-and-test-containers
-      - changes
+      - detect-changes
     permissions:
       id-token: write
       contents: write
@@ -58,7 +39,7 @@ jobs:
             name: solr
             image_tag: SOLR_IMAGE_TAG
             dynatrace: false
-            build-container: ${{ needs.changes.outputs.solr }}
+            build-container: ${{ needs.changes.changes.outputs.solr }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
@@ -74,7 +55,7 @@ jobs:
             name: drupal
             image_tag: DRUPAL_IMAGE_TAG
             dynatrace: true
-            build-container: ${{ needs.changes.outputs.drupal }}
+            build-container: ${{ needs.changes.outputs.drupal || needs.detect-changes.outputs.assets }}
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
@@ -82,7 +63,7 @@ jobs:
             name: ckan
             image_tag: CKAN_IMAGE_TAG
             dynatrace: true
-            build-container: ${{ needs.changes.outputs.ckan }}
+            build-container: ${{ needs.changes.outputs.ckan || needs.detect-changes.outputs.assets }}
 
     steps:
       - name: checkout

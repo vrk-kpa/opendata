@@ -1,0 +1,43 @@
+name: Changes
+
+on:
+  workflow_call:
+    outputs:
+      ckan:
+        description: "Change in ckan container"
+        value: ${{ jobs.changes_in_containers.outputs.ckan }}
+      drupal:
+        description: "Change in drupal container"
+        value: ${{ jobs.changes_in_containers.outputs.drupal }}
+      nginx:
+        description: "Change in nginx container"
+        value: ${{ jobs.changes_in_containers.outputs.nginx }}
+      solr:
+        description: "Change in solr container"
+        value: ${{ jobs.changes_in_containers.outputs.solr }}
+      assets:
+        description: "Change in assets"
+        value: ${{ jobs.changes_in_containers.outputs.assets }}
+
+jobs:
+  changes_in_containers:
+    runs-on: ubuntu-latest
+    outputs:
+      ckan: ${{ steps.filter.outputs.ckan }}
+      drupal: ${{ steps.filter.outputs.drupal }}
+      nginx: ${{ steps.filter.outputs.nginx }}
+      solr: ${{ steps.filter.outputs.solr }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          initial-fetch-depth: '10'
+          filters: |
+            ckan: ckan/**
+            drupal: drupal/**
+            solr: docker/solr/**
+            nginx: docker/nginx/**
+            assets: opendata-assets/**
