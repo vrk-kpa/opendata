@@ -593,6 +593,17 @@ def get_groups_where_user_is_admin():
     return get_action('organization_list_for_user')(context, {'permission': 'admin'})
 
 
+def is_user_member_of_organization(organization_id):
+    context = {'model': model, 'session': model.Session, 'user': c.user}
+    result = get_action('organization_list_for_user')(context, {})
+
+    for org in result:
+        if org.get('id', '') == organization_id:
+            return True
+
+    return False
+
+
 def get_value_from_extras_by_key(object_with_extras, key):
     extras = object_with_extras.get('extras', [])
 
