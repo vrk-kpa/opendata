@@ -34,39 +34,39 @@ jobs:
             submodules: ""
             build-frontend: false
             name: solr
-            build-container: ${{ needs.detect-changes.outputs.solr }}
+            build-container: ${{ needs.detect-changes.outputs.solr == 'true' }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
             build-frontend: false
             name: nginx
-            build-container: ${{ needs.detect-changes.outputs.nginx }}
+            build-container: ${{ needs.detect-changes.outputs.nginx == 'true' }}
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
             submodules: ""
             build-frontend: true
             name: drupal
-            build-container: ${{ needs.detect-changes.outputs.drupal || needs.detect-changes.outputs.assets }}
+            build-container: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
             build-frontend: true
             name: ckan
-            build-container: ${{ needs.detect-changes.outputs.ckan || needs.detect-changes.outputs.assets }}
+            build-container: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
 
     steps:
       - name: checkout
-        if: ${{ matrix.build-container == 'true' }}
+        if: ${{ matrix.build-container == true }}
         uses: actions/checkout@v3
         with:
           submodules: ${{ matrix.submodules }}
 
       - name: setup docker buildx
-        if: ${{ matrix.build-container == 'true' }}
+        if: ${{ matrix.build-container == true }}
         uses: docker/setup-buildx-action@v2
 
       - name: configure NPM credentials
-        if: ${{ matrix.build-frontend == true && matrix.build-container == 'true' }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: |
           cat <<EOT >> ./opendata-assets/.npmrc
           @fortawesome:registry=https://npm.fontawesome.com/
@@ -76,7 +76,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: install nodejs v16
-        if: ${{ matrix.build-frontend == true && matrix.build-container == 'true' }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         uses: actions/setup-node@v2
         with:
           node-version: 16
@@ -84,17 +84,17 @@ jobs:
           cache-dependency-path: opendata-assets/package-lock.json
 
       - name: install npm packages
-        if: ${{ matrix.build-frontend == true && matrix.build-container == 'true' }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npm ci
         working-directory: ./opendata-assets
 
       - name: build frontend with gulp
-        if: ${{ matrix.build-frontend == true && matrix.build-container == 'true' }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npx gulp
         working-directory: ./opendata-assets
 
       - name: build images
-        if: ${{ matrix.build-container == 'true' }}
+        if: ${{ matrix.build-container == true }}
         uses: docker/build-push-action@v3
         with:
           context: ${{ matrix.context }}
@@ -109,7 +109,7 @@ jobs:
           REPOSITORY: ${{ secrets.REPOSITORY }}
 
       - name: upload images
-        if: ${{ matrix.build-container == 'true' }}
+        if: ${{ matrix.build-container == true }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.name }}
@@ -229,12 +229,12 @@ jobs:
           path: /tmp
 
       - name: load built ckan image
-        if: ${{ needs.detect-changes.outputs.ckan == 'true' || needs.detect-changes.outputs.assets == 'true'}}
+        if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true')}}
         run: |
           docker load --input /tmp/ckan/ckan.tar
 
       - name: load built drupal image
-        if: ${{ needs.detect-changes.outputs.drupal == 'true' || needs.detect-changes.outputs.assets == 'true' }}
+        if: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
         run: |
           docker load --input /tmp/drupal/drupal.tar
 
