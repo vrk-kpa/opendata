@@ -8,22 +8,22 @@
 # Pentti Laitinen, 2018
 # Aaron Hakala <aaron.hakala@gofore.com>, 2019
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2020
-# Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2021
 # Daniel Vainio, 2021
 # Meeri Hakala <meeri.hakala@dvv.fi>, 2022
 # Ville Teräväinen, 2022
 # Pasi Laakso <pasi.laakso@gofore.com>, 2022
+# Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-08-05 13:04+0000\n"
+"POT-Creation-Date: 2022-08-22 09:51+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Pasi Laakso <pasi.laakso@gofore.com>, 2022\n"
+"Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2022\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -115,7 +115,7 @@ msgstr "Luo uusi tietoaineisto"
 msgid "Unauthorized to read package %s"
 msgstr "Ei oikeuksia lukea tietoaineistoa %s"
 
-#: ckanext/ytp/controller.py:116 ckanext/ytp/views.py:70
+#: ckanext/ytp/controller.py:116 ckanext/ytp/views.py:76
 msgid "Dataset not found"
 msgstr "Tietoaineistoa ei löydy"
 
@@ -1731,16 +1731,8 @@ msgstr ""
 "Ota hiirellä kiinni data-aineiston laatikosta ja raahaa se haluamallesi "
 "paikalle. Valitse lopuksi \"Tallenna järjestys\"."
 
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/bootstrap-table.js:10
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/auto-refresh/bootstrap-table-auto-refresh.js:10
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.js:10
-msgid "div"
-msgstr ""
-
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/bootstrap-table.js:10
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/auto-refresh/bootstrap-table-auto-refresh.js:10
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.js:10
-msgid "iframe"
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/filter-control/utils.js:10
+msgid "Can't call method on "
 msgstr ""
 
 #: ckanext/ytp/templates/disqus_comments.html:2
@@ -1767,7 +1759,7 @@ msgid "Additional Information"
 msgstr "Lisätiedot"
 
 #: ckanext/ytp/templates/apiset/resource_read.html:105
-#: ckanext/ytp/templates/organization/read_base.html:37
+#: ckanext/ytp/templates/organization/read_base.html:42
 #: ckanext/ytp/templates/package/resource_read.html:66
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:9
 #: ckanext/ytp/templates/package/snippets/resource_item3.html:9
@@ -2103,6 +2095,10 @@ msgstr "Suosittu"
 msgid "Search datasets..."
 msgstr "Etsi tietoaineistoja..."
 
+#: ckanext/ytp/templates/organization/read_base.html:34
+msgid "Apply for membership"
+msgstr "Hae jäsenyyttä"
+
 #: ckanext/ytp/templates/organization/user_list.html:19
 msgid "Show admins only"
 msgstr "Näytä vain ylläpitäjät"
@@ -2432,16 +2428,18 @@ msgstr "Tila"
 msgid "Last Updated"
 msgstr "Viimeksi päivitetty"
 
-#: ckanext/ytp/templates/package/snippets/categories.html:31
+#: ckanext/ytp/templates/package/snippets/categories.html:26
 msgid "Show more categories"
 msgstr "Näytä lisää kategorioita"
 
-#: ckanext/ytp/templates/package/snippets/categories.html:34
+#: ckanext/ytp/templates/package/snippets/categories.html:28
 #: ckanext/ytp/templates/snippets/facet_list.html:93
 msgid "Show more"
 msgstr "Näytä lisää"
 
+#: ckanext/ytp/templates/package/snippets/categories.html:37
 #: ckanext/ytp/templates/package/snippets/categories.html:41
+#: ckanext/ytp/templates/package/snippets/categories.html:45
 msgid "Edit categories"
 msgstr "Muokkaa kategorioita"
 
