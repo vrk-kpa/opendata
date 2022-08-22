@@ -27,6 +27,7 @@ jobs:
       drupal: ${{ steps.filter.outputs.drupal }}
       nginx: ${{ steps.filter.outputs.nginx }}
       solr: ${{ steps.filter.outputs.solr }}
+      assets: ${{ steps.filter.outputs.assets }}
     steps:
       - uses: actions/checkout@v2
         with:
