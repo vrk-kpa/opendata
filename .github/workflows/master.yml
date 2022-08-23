@@ -184,7 +184,7 @@ jobs:
 
       - name: Commit updated .env.template
         id: envtemplate
-        if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true') || (needs.detect-changes.outputs.drupal == 'true ) || (needs.detect-changes.outputs.solr == 'true') || (needs.detect-changes.outputs.nginx == 'true') }}
+        if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true') || (needs.detect-changes.outputs.drupal == 'true' ) || (needs.detect-changes.outputs.solr == 'true') || (needs.detect-changes.outputs.nginx == 'true') }}
         run: |
           git config user.name "YTP Bot"
           git config user.email "yhteentoimivuus.kehittajat@gofore.com"
