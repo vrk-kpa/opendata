@@ -163,7 +163,7 @@ jobs:
           git config user.name "YTP Bot"
           git config user.email "yhteentoimivuus.kehittajat@gofore.com"
           git add docker/.env.template
-          git commit -m ".env.template updated by new image tags"
+          git commit -m "[skip ci] .env.template updated by new image tags"
           git push
 
 
