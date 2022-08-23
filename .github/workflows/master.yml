@@ -235,7 +235,14 @@ jobs:
       - name: deploy cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk deploy WebStack-beta --require-approval=never >/dev/null 2>&1
+          $(npm bin)/cdk deploy WebStack-beta --require-approval=never > /tmp/deploy.log 2>&1
+
+      - name: upload log artifacts
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: deploy-logs
+          path: /tmp/deploy.log
 
       - name: Notify Zulip
         uses: zulip/github-actions-zulip/send-message@v1
