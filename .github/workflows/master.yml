@@ -35,7 +35,6 @@ jobs:
             submodules: ""
             build-frontend: false
             name: solr
-            image_tag: SOLR_IMAGE_TAG
             dynatrace: false
             build-container: ${{ needs.detect-changes.outputs.solr == 'true' }}
           - dockerfile: ./docker/nginx/Dockerfile
@@ -43,7 +42,6 @@ jobs:
             submodules: ""
             build-frontend: false
             name: nginx
-            image_tag: NGINX_IMAGE_TAG
             dynatrace: true
             build-container: ${{ needs.detect-changes.outputs.nginx == 'true' }}
           - dockerfile: ./drupal/Dockerfile
@@ -51,7 +49,6 @@ jobs:
             submodules: ""
             build-frontend: true
             name: drupal
-            image_tag: DRUPAL_IMAGE_TAG
             dynatrace: true
             build-container: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
           - dockerfile: ./ckan/Dockerfile
@@ -59,7 +56,6 @@ jobs:
             submodules: recursive
             build-frontend: true
             name: ckan
-            image_tag: CKAN_IMAGE_TAG
             dynatrace: true
             build-container: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
 
@@ -196,7 +192,7 @@ jobs:
           git add docker/.env.template
           git commit -m "[skip ci] .env.template updated by new image tags"
           git push
-          echo '::set-output name=commit_sha::$(git rev-parse HEAD)'
+          echo "::set-output name=commit_sha::$(git rev-parse HEAD)"
 
 
   deploy-beta:
