@@ -196,7 +196,7 @@ jobs:
           git add docker/.env.template
           git commit -m "[skip ci] .env.template updated by new image tags"
           git push
-          echo '::set-output name=commit_sha::$(git rev-parse HEAD)"
+          echo '::set-output name=commit_sha::$(git rev-parse HEAD)'
 
 
   deploy-beta:
