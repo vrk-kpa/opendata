@@ -196,6 +196,7 @@ jobs:
           git add docker/.env.template
           git commit -m "[skip ci] .env.template updated by new image tags"
           git push
+          echo '::set-output name=commit_sha::$(git rev-parse HEAD)"
 
 
   deploy-beta:
@@ -250,7 +251,7 @@ jobs:
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
+          role-to-assume: ${{ secrets.AWS_BETA_DEPLOY_ROLE }}
           role-session-name: github-actions
           aws-region: eu-west-1
 
