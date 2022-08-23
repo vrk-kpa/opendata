@@ -70,6 +70,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: ${{ matrix.submodules }}
+          token: ${{ secrets.BOT_TOKEN }}
 
       - name: setup docker buildx
         uses: docker/setup-buildx-action@v1
@@ -159,8 +160,8 @@ jobs:
         id: envtemplate
         if: ${{ matrix.build-container == true }}
         run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config user.name "YTP Bot"
+          git config user.email "yhteentoimivuus.kehittajat@gofore.com"
           git add docker/.env.template
           git commit -m ".env.template updated by new image tags"
           git push
