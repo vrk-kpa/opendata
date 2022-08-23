@@ -16,6 +16,7 @@ import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 export class CkanStack extends Stack {
   readonly ckanFsDataAccessPoint: efs.IAccessPoint;
   readonly solrFsDataAccessPoint: efs.IAccessPoint;
+  readonly fusekiFsDataAccessPoint: efs.IAccessPoint;
   readonly migrationFsAccessPoint?: efs.IAccessPoint;
   readonly ckanService: ecs.FargateService;
   readonly ckanCronService?: ecs.FargateService;
@@ -90,6 +91,9 @@ export class CkanStack extends Stack {
     const pDisqusDomain = ssm.StringParameter.fromStringParameterAttributes(this, 'pDisqusDomain', {
       parameterName: `/${props.environment}/opendata/common/disqus_domain`,
     });
+    const pFusekiAdminUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pFusekiAdminUser', {
+      parameterName: `/${props.environment}/opendata/common/fuseki_admin_user`,
+    });
 
     // get secrets
     const sCkanSecrets = sm.Secret.fromSecretNameV2(this, 'sCkanSecrets', `/${props.environment}/opendata/ckan`);
@@ -98,6 +102,7 @@ export class CkanStack extends Stack {
     // get repositories
     const ckanRepo = ecr.Repository.fromRepositoryArn(this, 'ckanRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/ckan`);
     const solrRepo = ecr.Repository.fromRepositoryArn(this, 'solrRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/solr`);
+    const fusekiRepo = ecr.Repository.fromRepositoryArn(this, 'fusekiRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/fuseki`);
 
     // ckan service
     this.ckanFsDataAccessPoint = props.fileSystems['ckan'].addAccessPoint('ckanFsDataAccessPoint', {
@@ -196,6 +201,7 @@ export class CkanStack extends Stack {
       'statistics',
       'opendata_cli',
       'ytp_recommendation',
+      'dcat_sparql',
     ];
 
     const ckanContainerEnv: { [key: string]: string; } = {
@@ -255,6 +261,11 @@ export class CkanStack extends Stack {
       SENTRY_ENV: props.environment,
       CKAN_SYSADMIN_NAME: pSysadminUser.stringValue,
       CKAN_SYSADMIN_EMAIL: pSysadminEmail.stringValue,
+      // fuseki
+      FUSEKI_HOST: `fuseki.${props.namespace.namespaceName}`,
+      FUSEKI_PORT: '3030',
+      FUSEKI_ADMIN_USER: pFusekiAdminUser.stringValue,
+      FUSEKI_OPENDATA_DATASET: 'opendata',
       // dynatrace oneagent
       DT_CUSTOM_PROP: `Environment=${props.environment}`,
     };
@@ -271,6 +282,7 @@ export class CkanStack extends Stack {
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
       CKAN_SYSADMIN_PASSWORD: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
+      FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
     };
 
     if (props.analyticsEnabled) {
@@ -695,6 +707,103 @@ export class CkanStack extends Stack {
     const solrServiceAsg = solrService.autoScaleTaskCount({
       minCapacity: props.solrTaskDef.taskMinCapacity,
       maxCapacity: props.solrTaskDef.taskMaxCapacity,
+    });
+    // fuseki service
+    this.fusekiFsDataAccessPoint = props.fileSystems['fuseki'].addAccessPoint('fusekiFsDataAccessPoint', {
+      path: '/fuseki_data',
+      createAcl: {
+        ownerGid: '3030',
+        ownerUid: '3030',
+        permissions: '0755',
+      },
+      posixUser: {
+        gid: '3030',
+        uid: '3030',
+      },
+    });
+
+    const fusekiTaskDef = new ecs.FargateTaskDefinition(this, 'fusekiTaskDef', {
+      cpu: props.fusekiTaskDef.taskCpu,
+      memoryLimitMiB: props.fusekiTaskDef.taskMem,
+      volumes: [
+        {
+          name: 'fuseki_data',
+          efsVolumeConfiguration: {
+            fileSystemId: props.fileSystems['fuseki'].fileSystemId,
+            authorizationConfig: {
+              accessPointId: this.fusekiFsDataAccessPoint.accessPointId,
+            },
+            transitEncryption: 'ENABLED',
+          },
+        }
+      ],
+    });
+
+    const fusekiLogGroup = new logs.LogGroup(this, 'fusekiLogGroup', {
+      logGroupName: `/${props.environment}/opendata/fuseki`,
+    });
+
+    const fusekiContainerSecrets: { [key: string]: ecs.Secret; } = {
+      FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
+    };
+
+    const fusekiContainer = fusekiTaskDef.addContainer('fuseki', {
+      image: ecs.ContainerImage.fromEcrRepository(fusekiRepo, props.envProps.FUSEKI_IMAGE_TAG),
+      secrets: fusekiContainerSecrets,
+      logging: ecs.LogDrivers.awsLogs({
+        logGroup: fusekiLogGroup,
+        streamPrefix: 'fuseki-service',
+      }),
+      healthCheck: {
+        command: ['CMD-SHELL', 'curl --fail -s http://localhost:3030/$/ping'],
+        interval: Duration.seconds(15),
+        timeout: Duration.seconds(5),
+        retries: 5,
+        startPeriod: Duration.seconds(15),
+      },
+      environment: {
+        FUSEKI_DATASET_1: ckanContainerEnv.FUSEKI_OPENDATA_DATASET,
+      }
+    });
+
+    fusekiContainer.addPortMappings({
+      containerPort: 3030,
+      protocol: ecs.Protocol.TCP,
+    });
+
+    fusekiContainer.addMountPoints({
+      containerPath: '/fuseki',
+      readOnly: false,
+      sourceVolume: 'fuseki_data',
+    });
+
+    const fusekiService = new ecs.FargateService(this, 'fusekiService', {
+      platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
+      cluster: props.cluster,
+      taskDefinition: fusekiTaskDef,
+      desiredCount: 1,
+      minHealthyPercent: 0,
+      maxHealthyPercent: 100,
+      cloudMapOptions: {
+        cloudMapNamespace: props.namespace,
+        dnsRecordType: sd.DnsRecordType.A,
+        dnsTtl: Duration.minutes(1),
+        name: 'fuseki',
+        container: fusekiContainer,
+        containerPort: 3030
+      },
+    });
+
+    fusekiService.connections.allowFrom(props.fileSystems['fuseki'], ec2.Port.tcp(2049), 'EFS connection (fuseki)');
+    fusekiService.connections.allowTo(props.fileSystems['fuseki'], ec2.Port.tcp(2049), 'EFS connection (fuseki)');
+    fusekiService.connections.allowFrom(this.ckanService, ec2.Port.tcp(3030), 'ckan - fuseki connection');
+    if (props.ckanCronEnabled) {
+      this.ckanCronService?.connections.allowTo(fusekiService, ec2.Port.tcp(3030), 'ckan_cron - fuseki connection');
+    }
+
+    const fusekiServiceAsg = fusekiService.autoScaleTaskCount({
+      minCapacity: props.fusekiTaskDef.taskMinCapacity,
+      maxCapacity: props.fusekiTaskDef.taskMaxCapacity,
     });
   }
 }

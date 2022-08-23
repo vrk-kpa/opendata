@@ -32,6 +32,7 @@ const envProps: EnvProps = {
   NGINX_IMAGE_TAG: parseEnv('NGINX_IMAGE_TAG'),
   // 3rd party images
   DATAPUSHER_IMAGE_TAG: parseEnv('DATAPUSHER_IMAGE_TAG'),
+  FUSEKI_IMAGE_TAG: parseEnv('FUSEKI_IMAGE_TAG'),
 };
 
 //
@@ -157,6 +158,7 @@ const ckanStackInfratest = new CkanStack(app, 'CkanStack-infratest', {
   fileSystems: {
     'ckan': fileSystemStackInfratest.ckanFs,
     'solr': fileSystemStackInfratest.solrFs,
+    'fuseki': fileSystemStackInfratest.fusekiFs,
   },
   databaseSecurityGroup: databaseStackInfratest.databaseSecurityGroup,
   databaseInstance: databaseStackInfratest.databaseInstance,
@@ -185,6 +187,12 @@ const ckanStackInfratest = new CkanStack(app, 'CkanStack-infratest', {
     taskMaxCapacity: 2,
   },
   solrTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  fusekiTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
     taskMinCapacity: 0,
@@ -389,6 +397,7 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
   fileSystems: {
     'ckan': fileSystemStackBeta.ckanFs,
     'solr': fileSystemStackBeta.solrFs,
+    'fuseki': fileSystemStackBeta.fusekiFs,
   },
   migrationFileSystemProps: {
     securityGroup: fileSystemStackBeta.migrationFsSg!,
@@ -421,6 +430,12 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     taskMaxCapacity: 3,
   },
   solrTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  fusekiTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
     taskMinCapacity: 0,
@@ -628,6 +643,7 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
   fileSystems: {
     'ckan': fileSystemStackProd.ckanFs,
     'solr': fileSystemStackProd.solrFs,
+    'fuseki': fileSystemStackProd.fusekiFs,
   },
   migrationFileSystemProps: {
     securityGroup: fileSystemStackProd.migrationFsSg!,
@@ -660,6 +676,12 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     taskMaxCapacity: 4,
   },
   solrTaskDef: {
+    taskCpu: 1024,
+    taskMem: 2048,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  fusekiTaskDef: {
     taskCpu: 1024,
     taskMem: 2048,
     taskMinCapacity: 0,

@@ -271,7 +271,7 @@ services:
       - DRUPAL_PORT=${DRUPAL_PORT}
 
   fuseki:
-    image: stain/jena-fuseki:latest
+    image: stain/jena-fuseki:${FUSEKI_IMAGE_TAG}
     restart: on-failure
     networks:
       - frontend
@@ -284,7 +284,7 @@ services:
     volumes:
       - fuseki_data:/fuseki
     # Clear leftover database locks before starting server
-    command: ["sh", "-c", "rm /fuseki/system/tdb.lock /fuseki/databases/opendata/tdb.lock || /jena-fuseki/fuseki-server"]
+    # command: ["sh", "-c", "rm /fuseki/system/tdb.lock /fuseki/databases/opendata/tdb.lock || /jena-fuseki/fuseki-server"]
 
   mailhog:
     image: mailhog/mailhog:latest
