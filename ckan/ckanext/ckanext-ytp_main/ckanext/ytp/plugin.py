@@ -919,7 +919,6 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
         ]
 
     def update_config(self, config):
-        from ckan.plugins import toolkit
         toolkit.add_template_directory(config, 'templates')
 
 
