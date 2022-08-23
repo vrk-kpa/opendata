@@ -24,8 +24,6 @@ jobs:
     permissions:
       id-token: write
       contents: write
-    outputs:
-      sha: ${{ steps.envtemplate.outputs.commit_sha || github.sha }}
 
 
     strategy:
@@ -151,19 +149,47 @@ jobs:
             ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}-dynatrace
             ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest-dynatrace
 
-      - name: Update .env.template to reference new images
-        if: ${{ matrix.build-container == true }}
+
+  commit-new-images:
+    name: Commit new image tags
+    runs-on: ubuntu-latest
+    needs:
+      - build-and-push
+      - detect-changes
+    permissions:
+      id-token: write
+      contents: write
+    outputs:
+      sha: ${{ steps.envtemplate.outputs.commit_sha || github.sha }}
+    steps:
+      - name: Update .env.template to reference new ckan image
+        if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true')}}
         run: |
-          sed -i.bak -E 's/^(${{ matrix.image_tag }}[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+          sed -i.bak -E 's/^(CKAN_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
+      - name: Update .env.template to reference new drupal image
+        if: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true')}}
+        run: |
+          sed -i.bak -E 's/^(DRUPAL_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
+      - name: Update .env.template to reference new solr image
+        if: ${{ (needs.detect-changes.outputs.solr == 'true') }}
+        run: |
+          sed -i.bak -E 's/^(SOLR_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
+      - name: Update .env.template to reference new nginx image
+        if: ${{ (needs.detect-changes.outputs.nginx == 'true') }}
+        run: |
+          sed -i.bak -E 's/^(NGINX_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
 
       - name: Commit updated .env.template
         id: envtemplate
-        if: ${{ matrix.build-container == true }}
+        if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true') || (needs.detect-changes.outputs.drupal == 'true ) || (needs.detect-changes.outputs.solr == 'true') || (needs.detect-changes.outputs.nginx == 'true') }}
         run: |
           git config user.name "YTP Bot"
           git config user.email "yhteentoimivuus.kehittajat@gofore.com"
           git add docker/.env.template
-          git commit -m ".env.template updated by new image tags"
+          git commit -m "[skip ci] .env.template updated by new image tags"
           git push
 
 
@@ -174,6 +200,7 @@ jobs:
     needs:
       - build-and-test-containers
       - build-and-push
+      - commit-new-images
     concurrency:
       group: ${{ github.ref }}/deploy-beta
     permissions:
@@ -183,7 +210,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
         with:
-          ref: ${{ needs.build-and-push.outputs.sha }}
+          ref: ${{ needs.commit-new-images.outputs.sha }}
 
       - name: install nodejs v16
         uses: actions/setup-node@v2
