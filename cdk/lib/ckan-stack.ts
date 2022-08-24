@@ -102,7 +102,6 @@ export class CkanStack extends Stack {
     // get repositories
     const ckanRepo = ecr.Repository.fromRepositoryArn(this, 'ckanRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/ckan`);
     const solrRepo = ecr.Repository.fromRepositoryArn(this, 'solrRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/solr`);
-    const fusekiRepo = ecr.Repository.fromRepositoryArn(this, 'fusekiRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/fuseki`);
 
     // ckan service
     this.ckanFsDataAccessPoint = props.fileSystems['ckan'].addAccessPoint('ckanFsDataAccessPoint', {
@@ -748,7 +747,7 @@ export class CkanStack extends Stack {
     };
 
     const fusekiContainer = fusekiTaskDef.addContainer('fuseki', {
-      image: ecs.ContainerImage.fromEcrRepository(fusekiRepo, props.envProps.FUSEKI_IMAGE_TAG),
+      image: ecs.ContainerImage.fromRegistry(`stain/jena-fuseki:${props.envProps.FUSEKI_IMAGE_TAG}`),
       secrets: fusekiContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
         logGroup: fusekiLogGroup,
