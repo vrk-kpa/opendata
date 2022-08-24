@@ -9,7 +9,8 @@ ckan.module("ytp-datepicker", function($) {
       this.el.find("[data-datepicker]").each(function() {
         $(this)
           .datetimepicker({
-            format: "YYYY-MM-DD"
+            format: "YYYY-MM-DD",
+            showClear: true
           })
           .on("dp.hide", function(e) {
             if (!e.oldDate && e.date.isSame(moment(), "day")) {
