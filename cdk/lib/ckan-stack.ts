@@ -743,7 +743,7 @@ export class CkanStack extends Stack {
     });
 
     const fusekiContainerSecrets: { [key: string]: ecs.Secret; } = {
-      ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
+      ADMIN_PASSWORD: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
     };
 
     const fusekiContainer = fusekiTaskDef.addContainer('fuseki', {
