@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-08-22 09:51+0000\n"
+"POT-Creation-Date: 2022-08-05 13:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,7 +101,7 @@ msgstr ""
 msgid "Unauthorized to read package %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:116 ckanext/ytp/views.py:76
+#: ckanext/ytp/controller.py:116 ckanext/ytp/views.py:70
 msgid "Dataset not found"
 msgstr ""
 
@@ -1631,8 +1631,16 @@ msgid ""
 "When you are done, click the \"Save order\" -button."
 msgstr ""
 
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/filter-control/utils.js:10
-msgid "Can't call method on "
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/bootstrap-table.js:10
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/auto-refresh/bootstrap-table-auto-refresh.js:10
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.js:10
+msgid "div"
+msgstr ""
+
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/bootstrap-table.js:10
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/auto-refresh/bootstrap-table-auto-refresh.js:10
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.js:10
+msgid "iframe"
 msgstr ""
 
 #: ckanext/ytp/templates/disqus_comments.html:2
@@ -1659,7 +1667,7 @@ msgid "Additional Information"
 msgstr ""
 
 #: ckanext/ytp/templates/apiset/resource_read.html:105
-#: ckanext/ytp/templates/organization/read_base.html:42
+#: ckanext/ytp/templates/organization/read_base.html:37
 #: ckanext/ytp/templates/package/resource_read.html:66
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:9
 #: ckanext/ytp/templates/package/snippets/resource_item3.html:9
@@ -1994,10 +2002,6 @@ msgstr ""
 msgid "Search datasets..."
 msgstr ""
 
-#: ckanext/ytp/templates/organization/read_base.html:34
-msgid "Apply for membership"
-msgstr ""
-
 #: ckanext/ytp/templates/organization/user_list.html:19
 msgid "Show admins only"
 msgstr ""
@@ -2311,18 +2315,16 @@ msgstr ""
 msgid "Last Updated"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/categories.html:26
+#: ckanext/ytp/templates/package/snippets/categories.html:31
 msgid "Show more categories"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/categories.html:28
+#: ckanext/ytp/templates/package/snippets/categories.html:34
 #: ckanext/ytp/templates/snippets/facet_list.html:93
 msgid "Show more"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/categories.html:37
 #: ckanext/ytp/templates/package/snippets/categories.html:41
-#: ckanext/ytp/templates/package/snippets/categories.html:45
 msgid "Edit categories"
 msgstr ""
 
