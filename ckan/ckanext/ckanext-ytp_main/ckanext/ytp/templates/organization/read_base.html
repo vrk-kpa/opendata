@@ -29,19 +29,14 @@
         {% endif %}
 
     </ul>
-    {% if not h.is_user_member_of_organization(group_dict.id) and h.is_loggedinuser() %}
-        <div class="admin-banner">
-            {% link_for _('Apply for membership'), controller='member_request', action='new', selected_organization=group_dict.name, class_='btn' %}
-        </div>
-    {% endif %}
-    {% if h.check_access('organization_update', {'id': group_dict.id}) %}
-        <div class="admin-banner">
-            {% if h.check_access('package_create', {'owner_org': group_dict.id}) and group_dict.approval_status == 'approved' %}
-                    {% snippet 'snippets/add_dataset.html', group=group_dict.id %}
-            {% endif %}
-            {% link_for _('Manage'), controller='ytp_organization', action='edit', id=group_dict.name, class_='btn', icon='wrench' %}
-        </div>
-    {% endif %}
+        {% if h.check_access('organization_update', {'id': group_dict.id}) %}
+            <div class="admin-banner">
+                {% if h.check_access('package_create', {'owner_org': group_dict.id}) and group_dict.approval_status == 'approved' %}
+                        {% snippet 'snippets/add_dataset.html', group=group_dict.id %}
+                {% endif %}
+                {% link_for _('Manage'), controller='ytp_organization', action='edit', id=group_dict.name, class_='btn', icon='wrench' %}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 
