@@ -14,66 +14,80 @@ describe('Dataset sorting tests', function(){
     cy.create_new_dataset(dataset_name_2);
   });
 
-  it('Dataset default sorting option is empty', function(){
-    cy.visit('/data/dataset');
-    cy.get('#field-order-by').should('have.value', 'auto');
+  beforeEach(function(){
+    cy.visit('/');
+    // open dataset page manually
+    cy.get('.opendata-menu-container > .nav > :nth-child(2) > a').click();
+    // wait for page to load
+    cy.location('pathname', {timeout: 20000}).should('contain', `data/fi/dataset`)
+  })
 
+  it('Default sorting option is sorting by relevance', function(){
+    cy.get('#field-order-by').should('have.value', 'score desc, metadata_created desc');
+    cy.location('pathname', {timeout: 20000}).should('contain', `data/fi/dataset`)
   });
-
-  it('Dataset default sorting option is empty after search', function(){
+  
+  it('Default sorting option persists after search', function(){
     cy.visit('/data/dataset');
     cy.get('.search').type('random search');
     cy.get('.fal').click();
-    cy.get('#field-order-by').should('have.value', 'auto');
+    cy.url({timeout: 20000}).should('contain', `dataset?q=random+search&sort=score+desc%2C+metadata_created+desc`)
+    cy.get('#field-order-by').should('have.value', 'score desc, metadata_created desc');
   });
 
-  it('Dataset chosen sorting option persists after search', function(){
-    cy.visit('/data/dataset');
-    cy.get('#field-order-by').select('score desc, metadata_modified desc');
-    // wait for url to contain the updated sorting option
-    cy.url().should('include', `sort=score+desc%2C+metadata_modified+desc`); //wait for page load after choosing sorting option
+  it('Chosen sorting options changes the way datasets are sorted', function(){
+    cy.get('#field-order-by').select('title_string asc');
+    cy.url({timeout: 20000}).should('contain', `dataset?q=&sort=title_string+asc`)
+
+    cy.get('#field-order-by').select('score desc, metadata_created desc');
+    cy.url({timeout: 20000}).should('contain', `dataset?q=&sort=score+desc%2C+metadata_created`)
+
+    cy.get('#field-order-by').select('title_string desc');
+    cy.url({timeout: 20000}).should('contain', `dataset?q=&sort=title_string+desc`)
+
+    cy.get('#field-order-by').select('metadata_modified desc');
+    cy.url({timeout: 20000}).should('contain', `dataset?q=&sort=metadata_modified+desc`)
+
+    cy.get('#field-order-by').select('metadata_created asc');
+    cy.url({timeout: 20000}).should('contain', `dataset?q=&sort=metadata_created+asc`)
+
+    cy.get('#field-order-by').select('metadata_created desc');
+    cy.url({timeout: 20000}).should('contain', `dataset?q=&sort=metadata_created+desc`)
+
+    cy.get('#field-order-by').select('views_recent desc');
+    cy.url({timeout: 20000}).should('contain', `dataset?q=&sort=views_recent+desc`)
+  });
+
+  it('Chosen sorting option persists after search', function(){
+    cy.get('#field-order-by').select('views_recent desc');
+    cy.url({timeout: 20000}).should('contain', `dataset?q=&sort=views_recent+desc`)
     cy.get('.search').type('random search');
     cy.get('.fal').click();
-    cy.url().should('include', `sort=score+desc%2C+metadata_modified+desc`); //wait for page load after choosing sorting option
-    cy.get('#field-order-by').should('have.value', 'score desc, metadata_modified desc');
+    cy.url({timeout: 20000}).should('contain', `dataset?q=random+search&sort=views_recent+desc`)
+    cy.get('#field-order-by').select('views_recent desc');
   });
 
   it('Datasets have sorting options', function(){
-    cy.visit('/data/dataset');
-    cy.get('#field-order-by > option').eq(0).should('have.value', 'auto');
-    cy.get('#field-order-by > option').eq(1).should('have.value', 'score desc, metadata_modified desc');
-    cy.get('#field-order-by > option').eq(2).should('have.value', 'title_string asc');
-    cy.get('#field-order-by > option').eq(3).should('have.value', 'title_string desc');
-    cy.get('#field-order-by > option').eq(4).should('have.value', 'metadata_modified desc');
-    cy.get('#field-order-by > option').eq(5).should('have.value', 'metadata_created asc');
-    cy.get('#field-order-by > option').eq(6).should('have.value', 'metadata_created desc');
-    cy.get('#field-order-by > option').eq(7).should('have.value', 'views_recent desc');
+    cy.get('#field-order-by > option').eq(0).should('have.value', 'score desc, metadata_created desc');
+    cy.get('#field-order-by > option').eq(1).should('have.value', 'title_string asc');
+    cy.get('#field-order-by > option').eq(2).should('have.value', 'title_string desc');
+    cy.get('#field-order-by > option').eq(3).should('have.value', 'metadata_modified desc');
+    cy.get('#field-order-by > option').eq(4).should('have.value', 'metadata_created asc');
+    cy.get('#field-order-by > option').eq(5).should('have.value', 'metadata_created desc');
+    cy.get('#field-order-by > option').eq(6).should('have.value', 'views_recent desc');
   });
 
-  it('Dataset advanced search has sorting options', function(){
-    cy.visit('/data/dataset');
-
-    cy.get('.mb-2 > .btn-avoindata-header').click();
-
-    cy.get('#field-order-by > option').eq(0).should('have.value', 'auto');
-    cy.get('#field-order-by > option').eq(1).should('have.value', 'score desc, metadata_modified desc');
-    cy.get('#field-order-by > option').eq(2).should('have.value', 'title_string asc');
-    cy.get('#field-order-by > option').eq(3).should('have.value', 'title_string desc');
-    cy.get('#field-order-by > option').eq(4).should('have.value', 'metadata_modified desc');
-    cy.get('#field-order-by > option').eq(5).should('have.value', 'metadata_created asc');
-    cy.get('#field-order-by > option').eq(6).should('have.value', 'metadata_created desc');
-    cy.get('#field-order-by > option').eq(7).should('have.value', 'views_recent desc');
-  });
-
-  it('Datasets are sorted by creation date by default', function(){  
+  // NOTE! This test currently is dependent on the ordering of the datasets, so if any datasets are created before in 
+  // another describe block, the test will fail
+  it('Datasets appear sorted by creation date by default', function(){  
     // check if the ordering is correct (creation date desc)
-    cy.visit('/data/dataset');
+    // cy.visit('/data/dataset');
     cy.get(':nth-child(1) > .dataset-content > .align-items-center > .dataset-heading > a').should('have.text', dataset_name_2);
     cy.get(':nth-child(2) > .dataset-content > .align-items-center > .dataset-heading > a').should('have.text', dataset_name_1);
 
     // change the sorting to creation date asc
     cy.get('#field-order-by').select('metadata_created asc');
-    cy.url().should('include', `sort=metadata_created+asc`); //wait for page load after choosing sorting option
+    cy.url({timeout: 20000}).should('include', `sort=metadata_created+asc`); //wait for page load after choosing sorting option
 
     cy.get(':nth-child(1) > .dataset-content > .align-items-center > .dataset-heading > a').should('have.text', dataset_name_1);
     cy.get(':nth-child(2) > .dataset-content > .align-items-center > .dataset-heading > a').should('have.text', dataset_name_2);
