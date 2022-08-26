@@ -152,15 +152,10 @@ def action_package_show(original_action, context, data_dict):
 @chained_action
 @logic.side_effect_free
 def action_package_search(original_action, context, data_dict):
-    sort_auto = data_dict.get('sort') in (None, '', 'auto')
-    if sort_auto:
-        data_dict['sort'] = 'score desc, metadata_modified desc' if data_dict.get('q') else 'metadata_created desc'
+    # sort by the given sorting option or by relevancy
+    data_dict['sort'] = data_dict.get('sort') or 'score desc, metadata_created desc'
+    return original_action(context, data_dict)
 
-    result = original_action(context, data_dict)
-
-    if sort_auto:
-        result['sort'] = 'auto'
-    return result
 
 
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):

@@ -53,9 +53,8 @@
             'remove_field': c.remove_field }
           %}
           {% set sorting = [
-            ('', 'auto'),
-            (_('Relevance'), 'score desc, metadata_modified desc'),
             (_('Name Ascending'), 'title_string asc'),
+            (_('Relevance'), 'score desc, metadata_created desc'),
             (_('Name Descending'), 'title_string desc'),
             (_('Last Modified'), 'metadata_modified desc'),
             (_('Date Created Ascending'), 'metadata_created asc'),
