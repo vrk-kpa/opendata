@@ -26,15 +26,12 @@ describe('Apiset filtering', function(){
     '#field-name_translated-fi': 'test api',
     '#field-description_translated-fi': 'test kuvaus',
     '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
-    '#s2id_autogen2': {type: 'select2', values: ['Kuukausittain']},
   }
 
   const api2_form_data = {
     '#field-name_translated-fi': 'test api',
     '#field-description_translated-fi': 'test kuvaus',
     '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
-    '#s2id_autogen2': {type: 'select2', values: ['Päivittäin']},
-
   }
 
   beforeEach(function () {
@@ -115,7 +112,6 @@ describe('Apiset filtering', function(){
     cy.get('.secondary > :nth-child(2)').should('contain.text', 'keyword two');
     cy.get('.container-search-result').should('contain.text', apiset1_name);
     cy.get('.container-search-result').should('contain.text', apiset2_name);
-
   })
 
   it('Organization filters are working', function(){
@@ -182,85 +178,45 @@ describe('Apiset filtering', function(){
     cy.get('.container-search-result').should('contain.text', apiset2_name);
   });
 
-  it('Update frequency filters are working', function(){
-    cy.get('.secondary > :nth-child(5)').should('contain.text', 'kuukausittain');
-    cy.get('.secondary > :nth-child(5)').should('contain.text', 'päivittäin');
-    cy.get('.container-search-result').should('contain.text', apiset1_name);
-    cy.get('.container-search-result').should('contain.text', apiset2_name);
-
-    //filter by monthly
-    cy.get(':nth-child(5) > nav > .list-unstyled > :nth-child(1) > a > span').click();
-
-    cy.get('.secondary > :nth-child(5)').should('contain.text', 'kuukausittain');
-    cy.get('.secondary > :nth-child(5)').should('not.contain.text', 'päivittäin');
-    cy.get('.container-search-result').should('contain.text', apiset1_name);
-    cy.get('.container-search-result').should('not.contain.text', apiset2_name);
-
-    //release the filter
-    cy.get('.remove > .fal').click();
-
-    cy.get('.secondary > :nth-child(5)').should('contain.text', 'kuukausittain');
-    cy.get('.secondary > :nth-child(5)').should('contain.text', 'päivittäin');
-    cy.get('.container-search-result').should('contain.text', apiset1_name);
-    cy.get('.container-search-result').should('contain.text', apiset2_name);
-   
-    //filter by daily
-    cy.get(':nth-child(5) > nav > .list-unstyled > :nth-child(2) > a > span').click();
-
-    cy.get('.secondary > :nth-child(5)').should('not.contain.text', 'kuukausittain');
-    cy.get('.secondary > :nth-child(5)').should('contain.text', 'päivittäin');
-    cy.get('.container-search-result').should('not.contain.text', apiset1_name);
-    cy.get('.container-search-result').should('contain.text', apiset2_name);
-
-    //release the filter
-    cy.get('.remove > .fal').click();
-
-    cy.get('.secondary > :nth-child(5)').should('contain.text', 'kuukausittain');
-    cy.get('.secondary > :nth-child(5)').should('contain.text', 'päivittäin');
-    cy.get('.container-search-result').should('contain.text', apiset1_name);
-    cy.get('.container-search-result').should('contain.text', apiset2_name);
-  })
-
   it('Licence filters are working', function(){
-    cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Attribution');
-    cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Non-Commercial');
+    cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Attribution');
+    cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Non-Commercial');
     cy.get('.container-search-result').should('contain.text', apiset1_name);
     cy.get('.container-search-result').should('contain.text', apiset2_name);
 
     //filter by Creative Commons Attribution
-    cy.get(':nth-child(6) > nav > .list-unstyled > :nth-child(1) > a > span').click();
+    cy.get(':nth-child(5) > nav > .list-unstyled > :nth-child(1) > a > span').click();
 
-    cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Attribution');
-    cy.get('.secondary > :nth-child(6)').should('not.contain.text', 'Creative Commons Non-Commercial');
+    cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Attribution');
+    cy.get('.secondary > :nth-child(5)').should('not.contain.text', 'Creative Commons Non-Commercial');
     cy.get('.container-search-result').should('not.contain.text', apiset1_name);
     cy.get('.container-search-result').should('contain.text', apiset2_name);
 
     //release the filter
     cy.get('.remove > .fal').click();
 
-    cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Attribution');
-    cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Non-Commercial');
+    cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Attribution');
+    cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Non-Commercial');
     cy.get('.container-search-result').should('contain.text', apiset1_name);
     cy.get('.container-search-result').should('contain.text', apiset2_name);
    
     //filter by Creative Commons Non-Commercial
-    cy.get(':nth-child(6) > nav > .list-unstyled > :nth-child(2) > a > span').click();
+    cy.get(':nth-child(5) > nav > .list-unstyled > :nth-child(2) > a > span').click();
 
-    cy.get('.secondary > :nth-child(6)').should('not.contain.text', 'Creative Commons Attribution');
-    cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Non-Commercial');
+    cy.get('.secondary > :nth-child(5)').should('not.contain.text', 'Creative Commons Attribution');
+    cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Non-Commercial');
     cy.get('.container-search-result').should('contain.text', apiset1_name);
     cy.get('.container-search-result').should('not.contain.text', apiset2_name);
 
     //release the filter
     cy.get('.remove > .fal').click();
 
-    cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Attribution');
-    cy.get('.secondary > :nth-child(6)').should('contain.text', 'Creative Commons Non-Commercial');
+    cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Attribution');
+    cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Non-Commercial');
     cy.get('.container-search-result').should('contain.text', apiset1_name);
     cy.get('.container-search-result').should('contain.text', apiset2_name);
   })
 })
-
 
 describe('Apiset tests', function() {
 
@@ -364,9 +320,6 @@ describe('Apiset tests', function() {
       '[name="registration_required"]': {type: 'radio', value: 'true', force: true},
       // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
       '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
-      '#s2id_autogen2': {type: 'select2', values: ['Päivittäin']},
-      '#s2id_autogen3': {type: 'select2', values: ['Päivittäin']},
-      '#s2id_autogen4': {type: 'select2', values: ['Päivittäin']}
     };
     cy.create_new_apiset(apiset_name, apiset_form_data, api_form_data);
   });
