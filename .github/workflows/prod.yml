@@ -40,7 +40,7 @@ jobs:
       - name: install cdk npm packages and verify installation
         working-directory: cdk
         run: |
-          npm install
+          npm ci
           $(npm bin)/cdk doctor
 
       - name: configure environment
