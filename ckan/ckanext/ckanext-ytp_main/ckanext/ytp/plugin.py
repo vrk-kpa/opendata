@@ -454,7 +454,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 pkg_dict['vocab_%s' % field] = [tag for tag in json.loads(pkg_dict[field])]
 
         # Map keywords to vocab_keywords_{lang}
-        translated_vocabs = ['keywords', 'content_type']
+        translated_vocabs = ['keywords', 'content_type', 'update_frequency']
         languages = ['fi', 'sv', 'en']
         ignored_tags = ["avoindata.fi"]
         for prop_key in translated_vocabs:
