@@ -5,6 +5,10 @@
 {%- block page -%}
   {{ h.drupal_header()|safe }}
 
+  {% block header_debug %} {% if g.debug and not g.debug_supress_header %}
+    <div class="debug" style="position: fixed; z-index: 1; padding: 5px;">DEBUG:<br/>Blueprint : {{ c.controller }}<br/>View : {{ c.action }}</div>
+  {% endif %} {% endblock %}
+
   <div id="page_wrapper">
   {# The content block allows you to replace the content of the page if needed #}
   {%- block content %}
