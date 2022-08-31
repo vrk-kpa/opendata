@@ -9,6 +9,7 @@ export interface EnvProps {
   NGINX_IMAGE_TAG: string,
   // 3rd party images
   DATAPUSHER_IMAGE_TAG: string,
+  FUSEKI_IMAGE_TAG: string,
 }
 
 export function parseEnv(key: string): string {

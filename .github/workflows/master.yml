@@ -12,37 +12,19 @@ jobs:
     uses: ./.github/workflows/test.yml
     secrets: inherit
 
-  changes:
-    runs-on: ubuntu-latest
-    outputs:
-        ckan: ${{ steps.filter.outputs.ckan }}
-        drupal: ${{ steps.filter.outputs.drupal }}
-        nginx: ${{ steps.filter.outputs.nginx }}
-        solr: ${{ steps.filter.outputs.solr }}
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          initial-fetch-depth: '10'
-          filters: |
-            ckan: ckan/**
-            drupal: drupal/**
-            solr: docker/solr/**
-            nginx: docker/nginx/**
-
+  detect-changes:
+    uses: ./.github/workflows/changes.yml
 
   build-and-push:
     name: Build and push containers
     runs-on: ubuntu-latest
     needs:
       - build-and-test-containers
-      - changes
+      - detect-changes
     permissions:
       id-token: write
       contents: read
+
 
     strategy:
       fail-fast: false
@@ -54,28 +36,28 @@ jobs:
             build-frontend: false
             name: solr
             dynatrace: false
-            build-container: ${{ needs.changes.outputs.solr }}
+            build-container: ${{ needs.detect-changes.outputs.solr == 'true' }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
             build-frontend: false
             name: nginx
             dynatrace: true
-            build-container: ${{ needs.changes.outputs.nginx }}
+            build-container: ${{ needs.detect-changes.outputs.nginx == 'true' }}
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
             submodules: ""
             build-frontend: true
             name: drupal
             dynatrace: true
-            build-container: ${{ needs.changes.outputs.drupal }}
+            build-container: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
             build-frontend: true
             name: ckan
             dynatrace: true
-            build-container: ${{ needs.changes.outputs.ckan }}
+            build-container: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
 
     steps:
       - name: checkout
@@ -99,7 +81,7 @@ jobs:
 
       - name: login to DynaTrace Registry
         id: login-dtr
-        if: ${{ matrix.dynatrace == true && matrix.build-container == 'true' }}
+        if: ${{ matrix.dynatrace == true && matrix.build-container == true }}
         uses: docker/login-action@v2
         with:
           registry: ${{ secrets.DYNATRACE_USERNAME }}.live.dynatrace.com
@@ -107,7 +89,7 @@ jobs:
           password: ${{ secrets.DYNATRACE_TOKEN }}
 
       - name: configure NPM credentials
-        if: ${{ matrix.build-frontend == true && matrix.build-container == 'true' }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: |
           cat <<EOT >> ./opendata-assets/.npmrc
           @fortawesome:registry=https://npm.fontawesome.com/
@@ -117,7 +99,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: install nodejs v16
-        if: ${{ matrix.build-frontend == true && matrix.build-container == 'true' }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         uses: actions/setup-node@v2
         with:
           node-version: 16
@@ -125,18 +107,18 @@ jobs:
           cache-dependency-path: opendata-assets/package-lock.json
 
       - name: install npm packages
-        if: ${{ matrix.build-frontend == true && matrix.build-container == 'true' }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npm ci
         working-directory: ./opendata-assets
 
       - name: build frontend with gulp
-        if: ${{ matrix.build-frontend == true && matrix.build-container == 'true' }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npx gulp
         working-directory: ./opendata-assets
 
       - name: build images
         uses: docker/build-push-action@v3
-        if: ${{ matrix.build-container == 'true' }}
+        if: ${{ matrix.build-container == true }}
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
@@ -148,7 +130,7 @@ jobs:
             ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest
 
       - name: build images with dynatrace
-        if: ${{ matrix.dynatrace == true  && matrix.build-container == 'true'}}
+        if: ${{ matrix.dynatrace == true  && matrix.build-container == true }}
         uses: docker/build-push-action@v3
         with:
           context: ${{ matrix.context }}
@@ -163,23 +145,54 @@ jobs:
             ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest-dynatrace
 
 
-      - name: Retag old image if new ones are not built
-        uses: akhilerm/tag-push-action@v2.0.0
-        if: ${{ matrix.build-container == 'false' }}
+  commit-new-images:
+    name: Commit new image tags
+    runs-on: ubuntu-latest
+    needs:
+      - build-and-push
+      - detect-changes
+    permissions:
+      id-token: write
+      contents: write
+    outputs:
+      sha: ${{ steps.envtemplate.outputs.commit_sha || github.sha }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
         with:
-          src: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest
-          dst: |
-            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
+          submodules: ${{ matrix.submodules }}
+          token: ${{ secrets.BOT_TOKEN }}
 
-      - name: Retag old dynatrace image if new ones are not built
-        uses: akhilerm/tag-push-action@v2.0.0
-        if: ${{ matrix.dynatrace == true  && matrix.build-container == 'false' }}
-        with:
-          src: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest-dynatrace
-          dst: |
-            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}-dynatrace
+      - name: Update .env.template to reference new ckan image
+        if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true')}}
+        run: |
+          sed -i.bak -E 's/^(CKAN_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
 
+      - name: Update .env.template to reference new drupal image
+        if: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true')}}
+        run: |
+          sed -i.bak -E 's/^(DRUPAL_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
 
+      - name: Update .env.template to reference new solr image
+        if: ${{ (needs.detect-changes.outputs.solr == 'true') }}
+        run: |
+          sed -i.bak -E 's/^(SOLR_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
+      - name: Update .env.template to reference new nginx image
+        if: ${{ (needs.detect-changes.outputs.nginx == 'true') }}
+        run: |
+          sed -i.bak -E 's/^(NGINX_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
+      - name: Commit updated .env.template
+        id: envtemplate
+        if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true') || (needs.detect-changes.outputs.drupal == 'true' ) || (needs.detect-changes.outputs.solr == 'true') || (needs.detect-changes.outputs.nginx == 'true') }}
+        run: |
+          git config user.name "YTP Bot"
+          git config user.email "yhteentoimivuus.kehittajat@gofore.com"
+          git add docker/.env.template
+          git commit -m "[skip ci] .env.template updated by new image tags"
+          git push
+          echo "::set-output name=commit_sha::$(git rev-parse HEAD)"
 
 
   deploy-beta:
@@ -189,6 +202,7 @@ jobs:
     needs:
       - build-and-test-containers
       - build-and-push
+      - commit-new-images
     concurrency:
       group: ${{ github.ref }}/deploy-beta
     permissions:
@@ -197,6 +211,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+        with:
+          ref: ${{ needs.commit-new-images.outputs.sha }}
 
       - name: install nodejs v16
         uses: actions/setup-node@v2
@@ -224,10 +240,6 @@ jobs:
           cp -f docker/.env.template docker/.env
           sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
           sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
-          sed -i.bak -E 's/^(CKAN_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
-          sed -i.bak -E 's/^(DRUPAL_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
-          sed -i.bak -E 's/^(NGINX_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
-          sed -i.bak -E 's/^(SOLR_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
@@ -235,7 +247,7 @@ jobs:
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
+          role-to-assume: ${{ secrets.AWS_BETA_DEPLOY_ROLE }}
           role-session-name: github-actions
           aws-region: eu-west-1
 
@@ -252,7 +264,14 @@ jobs:
       - name: deploy cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk deploy WebStack-beta --require-approval=never >/dev/null 2>&1
+          $(npm bin)/cdk deploy WebStack-beta --require-approval=never > /tmp/deploy.log 2>&1
+
+      - name: upload log artifacts
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: deploy-logs
+          path: /tmp/deploy.log
 
       - name: Notify Zulip
         uses: zulip/github-actions-zulip/send-message@v1

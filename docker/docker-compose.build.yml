@@ -1,12 +1,12 @@
 version: "3.8"
 services:
   ckan:
-    image: opendata/ckan:latest
+    image: ${REGISTRY}/${REPOSITORY}/ckan:latest
   ckan_cron:
-    image: opendata/ckan:latest
+    image: ${REGISTRY}/${REPOSITORY}/ckan:latest
   drupal:
-    image: opendata/drupal:latest
+    image: ${REGISTRY}/${REPOSITORY}/drupal:latest
   nginx:
-    image: opendata/nginx:latest
+    image: ${REGISTRY}/${REPOSITORY}/nginx:latest
   solr:
-    image: opendata/solr:latest
+    image: ${REGISTRY}/${REPOSITORY}/solr:latest

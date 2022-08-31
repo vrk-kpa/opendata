@@ -50,4 +50,3 @@ Check out `resources` folder for results.
 ## Font Awesome
 
 * .npmrc is required for npm install to work, available in confluence
-* If new modules are added to package.json, remember to update [fallback package.json](../../ansible/roles/common_webserver/files/package.json) to reflect that.

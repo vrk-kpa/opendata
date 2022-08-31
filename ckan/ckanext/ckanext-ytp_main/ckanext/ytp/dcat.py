@@ -462,7 +462,7 @@ class AvoindataDCATAPProfile(RDFProfile):
         spatial = 'koko Suomi, hela Finland, entire Finland'
         g.add((catalog_ref, DCT.spatial, Literal(spatial)))
 
-        issued = '15.09.2014'
+        issued = '2014-09-15'
         g.add((catalog_ref, DCT.issued, Literal(issued)))
 
         homepage = URIRef(p.config.get('ckan.site_url', ''))

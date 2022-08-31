@@ -12,6 +12,7 @@ export class FileSystemStack extends Stack {
   readonly drupalFs: efs.FileSystem;
   readonly ckanFs: efs.FileSystem;
   readonly solrFs: efs.FileSystem;
+  readonly fusekiFs: efs.FileSystem;
   readonly migrationFsSg?: ec2.ISecurityGroup;
   readonly migrationFs?: efs.IFileSystem;
 
@@ -48,12 +49,21 @@ export class FileSystemStack extends Stack {
       encrypted: true,
     });
 
+    this.fusekiFs = new efs.FileSystem(this, 'fusekiFs', {
+      vpc: props.vpc,
+      performanceMode: efs.PerformanceMode.GENERAL_PURPOSE,
+      throughputMode: efs.ThroughputMode.BURSTING,
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
+      },
+      encrypted: true,
+    });
     if (props.backups && props.backupPlan ) {
       props.backupPlan.addSelection('backupPlanFilesystemSelection', {
         resources: [
           bak.BackupResource.fromEfsFileSystem(this.drupalFs),
           bak.BackupResource.fromEfsFileSystem(this.ckanFs),
-          // NOTE: we probably don't want to backup solrFs!
+          // NOTE: we probably don't want to backup fusekiFs!
         ]
       });
     }

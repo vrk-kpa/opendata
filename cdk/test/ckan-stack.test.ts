@@ -88,6 +88,7 @@ test('verify ckan stack resources', () => {
     fileSystems: {
       'ckan': fileSystemStack.ckanFs,
       'solr': fileSystemStack.solrFs,
+      'fuseki': fileSystemStack.fusekiFs,
     },
     migrationFileSystemProps: {
       securityGroup: fileSystemStack.migrationFsSg!,
@@ -119,6 +120,12 @@ test('verify ckan stack resources', () => {
       taskMaxCapacity: 2,
     },
     solrTaskDef: {
+      taskCpu: 512,
+      taskMem: 1024,
+      taskMinCapacity: 0,
+      taskMaxCapacity: 1,
+    },
+    fusekiTaskDef: {
       taskCpu: 512,
       taskMem: 1024,
       taskMinCapacity: 0,
