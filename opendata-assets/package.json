@@ -31,7 +31,7 @@
     "gulp-cli": "^2.3.0"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-pro": "^5.15.4",
+    "@fortawesome/fontawesome-pro": "^6.2.0",
     "bootstrap": "^3.4.1",
     "bootstrap-table": "^1.20.2",
     "eonasdan-bootstrap-datetimepicker": "^4.17.49",
