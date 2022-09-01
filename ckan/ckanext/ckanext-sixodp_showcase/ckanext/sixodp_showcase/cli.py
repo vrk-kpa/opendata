@@ -124,7 +124,7 @@ def migrate_website_showcase_type_to_platform(ctx, dryrun):
         for item in old_showcase_dict.get('extras', []):
             if 'showcase_type' in item.get('key'):
                 # Look for website in the showcase_type
-                if 'website' in item.get('value'):
+                if 'website' in item.get('value').lower():
                     apply_website = True
                 # As there was a showcase_type, this will ensure it gets removed from the extras
                 apply_patch = True
@@ -133,7 +133,7 @@ def migrate_website_showcase_type_to_platform(ctx, dryrun):
 
         # There might be a showcase_type field in the resource
         if 'showcase_type' in old_showcase_dict:
-            if 'Website' in old_showcase_dict.get('showcase_type'):
+            if 'website' in old_showcase_dict.get('showcase_type').lower():
                 apply_patch = True
                 apply_website = True
 
