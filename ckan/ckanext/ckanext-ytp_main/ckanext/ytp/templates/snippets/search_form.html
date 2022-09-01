@@ -81,11 +81,9 @@
                     <div id="field-order-by-container" class="field-order-by-container">
                         <label for="field-order-by">{{ _('Sorting') }}</label>
                         <select id="field-order-by" class="form-control" name="sort">
-                            <!-- Default empty option -->
-                            <option disable selected value="auto" {% if not request.params['sort'] or request.params['sort'] == 'auto' %} selected="selected"{% endif %} style="display:none;"></option>
                             {% for label, value in disableable_sorting %}
                                 {% if label and value %}
-                                    <option value="{{ value }}"{% if request.params['sort'] == value  %} selected="selected"{% endif %}>{{ label }}</option>
+                                <option value="{{ value }}"{% if sorting_selected == value  %} selected="selected"{% endif %}>{{ label }}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
