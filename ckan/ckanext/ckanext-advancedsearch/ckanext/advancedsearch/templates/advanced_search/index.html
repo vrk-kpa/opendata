@@ -94,8 +94,7 @@
                       {% snippet 'advanced_search/display_field.html', field=schema.input_fields.search_query, prev_query=c.advanced_search.last_query %}
                     </div>
                     {% set sorting = [
-                      ('', 'auto'),
-                      (_('Relevance'), 'score desc, metadata_modified desc'),
+                      (_('Relevance'), 'score desc, metadata_created desc'),
                       (_('Name Ascending'), 'title_string asc'),
                       (_('Name Descending'), 'title_string desc'),
                       (_('Last Modified'), 'metadata_modified desc'),
@@ -113,7 +112,6 @@
                             <span class="select-wrapper">
                               <select id="field-order-by" name="sort" class="form-control ytp-input-element avoindata-order-by" data-module="avoindata-utils">
                                 <!-- Default empty option -->
-                                <option disable selected value="auto" {% if not sorting_selection or sorting_selection == "auto" %} selected="selected"{% endif %} style="display:none;"></option>
                                 {% for label, value in sorting %}
                                   {% if label and value %}
                                     <option value="{{ value }}" {% if sorting_selection == value  %} selected="selected" {% endif %}>{{ label }}</option>
