@@ -355,7 +355,11 @@ def index(group_type, is_organization):
         context['user_id'] = g.userobj.id
         context['user_is_admin'] = g.userobj.sysadmin
 
-    extra_vars['with_datasets'] = with_datasets = request.params.get('with_datasets', '').lower() in ('true', '1', 'yes')
+    # Look for without datasets filter option, defaults to false for the default view
+    display_all_organizations = request.params.get('without_datasets', '').lower() in ('true', '1', 'yes')
+    # assign reverse to extra vars and to tree list params
+    extra_vars['without_datasets'] = with_datasets = not display_all_organizations
+
     tree_list_params = {
                     'q': q, 'sort_by': sort_by, 'with_datasets': with_datasets,
                     'page': page, 'items_per_page': items_per_page}
