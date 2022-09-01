@@ -236,8 +236,8 @@ describe('Miscellaneous dataset tests', function(){
   //"29. heinäkuuta 2022" format is used for some fields
   const finnish_month_names = ['tammikuuta', 'helmikuuta', 'maaliskuuta', 'huhtikuuta', 'toukokuuta', 'kesäkuuta',
     'heinäkuuta', 'elokuuta', 'syyskuuta', 'lokakuuta', 'marraskuuta', 'joulukuuta'];
-  const verbose_current_date = dd + '. ' + finnish_month_names[today.getMonth()] + ' ' + yyyy;
-
+  const simpleday = parseInt(dd, 10)
+  const verbose_current_date = simpleday + '. ' + finnish_month_names[today.getMonth()] + ' ' + yyyy;
 
   const misc_dataset_form_data = {
     '#field-title_translated-fi': misc_dataset_name,

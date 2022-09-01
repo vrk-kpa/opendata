@@ -142,7 +142,7 @@ def migrate_website_showcase_type_to_platform(ctx, dryrun):
         if 'Website' not in showcase_platforms and apply_website:
             showcase_platforms.append('Website')
 
-        # patch showcase if something was changed
+        # Patch showcase if something was changed
         # Usually means the showcase_type is removed from extras and website added to platform if present in showcase_type
         if apply_patch:
             showcase_patches.append({
