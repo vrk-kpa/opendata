@@ -57,7 +57,7 @@ describe('Apiset filtering', function(){
     cy.get('#field-image-upload').selectFile("cypress/sample_text_file.txt")
     cy.get('button[name=save].suomifi-button-primary').click();
     //wait for file to upload properly and the page to render before continuing
-    cy.location('pathname', {timeout: 20000}).should('contain', `/dataset/${apiset1_name}`)
+    cy.location('pathname', {timeout: 40000}).should('contain', `/dataset/${apiset1_name}`)
 
     //apiset two
     cy.visit('/data/fi/apiset/new');
@@ -68,6 +68,7 @@ describe('Apiset filtering', function(){
     cy.fill_form_fields(api2_form_data);
     cy.get('#field-image-upload').selectFile("cypress/FL_insurance_sample.csv")
     cy.get('button[name=save].suomifi-button-primary').click();
+    cy.location('pathname', {timeout: 40000}).should('contain', `/dataset/${apiset2_name}`)
   })
 
   it('Keyword filters are working', function(){
