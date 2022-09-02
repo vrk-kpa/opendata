@@ -152,15 +152,10 @@ def action_package_show(original_action, context, data_dict):
 @chained_action
 @logic.side_effect_free
 def action_package_search(original_action, context, data_dict):
-    sort_auto = data_dict.get('sort') in (None, '', 'auto')
-    if sort_auto:
-        data_dict['sort'] = 'score desc, metadata_modified desc' if data_dict.get('q') else 'metadata_created desc'
+    # sort by the given sorting option or by relevancy
+    data_dict['sort'] = data_dict.get('sort') or 'score desc, metadata_created desc'
+    return original_action(context, data_dict)
 
-    result = original_action(context, data_dict)
-
-    if sort_auto:
-        result['sort'] = 'auto'
-    return result
 
 
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
@@ -274,7 +269,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             facets_dict['vocab_keywords_' + lang] = _('Tags')
             facets_dict['organization'] = _('Organization')
             facets_dict['res_format'] = _('Formats')
-            facets_dict['vocab_update_frequency_' + lang] = _('Update frequency')
             facets_dict['license_id'] = _('Licenses')
             facets_dict['groups'] = _('Category')
             facets_dict['producer_type'] = _('Producer type')
@@ -453,28 +447,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         for field in vocab_fields:
             if pkg_dict.get(field):
                 pkg_dict['vocab_%s' % field] = [tag for tag in json.loads(pkg_dict[field])]
-
-        # Populate update frequencies for apisets from validated data_dict
-        validated_data_dict = pkg_dict.get('validated_data_dict')
-        converted_validated_data_dict = json.loads(validated_data_dict)
-        resources = converted_validated_data_dict.get('resources')
-        
-        if not 'update_frequency' in pkg_dict:
-            pkg_dict['update_frequency'] = ""
-
-        update_frequency_list = {}
-        try:
-            for resource in resources:
-                res_update_frequency = resource.get('update_frequency')
-                if res_update_frequency:
-                    for key in res_update_frequency.keys():
-                        for value in res_update_frequency[key]:
-                            if not key in update_frequency_list:
-                                update_frequency_list[key] = []
-                            update_frequency_list[key].append(value)
-        except Exception as e:
-            logging.error(f"Error while populating update frequencies: {e}")
-        pkg_dict['update_frequency'] = json.dumps(update_frequency_list)
 
         # Map keywords to vocab_keywords_{lang}
         translated_vocabs = ['keywords', 'content_type', 'update_frequency']

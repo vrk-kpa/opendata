@@ -390,3 +390,33 @@ describe('Advanced search tests', () => {
     // TODO: Test searching with multiple field
     // TODO: Test pagination (with search queries and without)
 });
+
+describe('Sorting tests', function(){
+
+    beforeEach(function(){
+        cy.visit('/');
+        // open dataset page manually and wait page to load
+        cy.get('.opendata-menu-container > .nav > :nth-child(2) > a').click();
+        cy.location('pathname', {timeout: 20000}).should('contain', `data/fi/dataset`)
+        //open advanced search page manually and wait for load
+        cy.get('.mb-2 > .btn-avoindata-header').click();
+        cy.location('pathname', {timeout: 20000}).should('contain', `data/fi/advanced_search`)
+      })
+
+      it('Advanced search has sorting options', function(){
+        cy.get('#field-order-by > option').eq(0).should('have.value', 'score desc, metadata_created desc');
+        cy.get('#field-order-by > option').eq(1).should('have.value', 'title_string asc');
+        cy.get('#field-order-by > option').eq(2).should('have.value', 'title_string desc');
+        cy.get('#field-order-by > option').eq(3).should('have.value', 'metadata_modified desc');
+        cy.get('#field-order-by > option').eq(4).should('have.value', 'metadata_created asc');
+        cy.get('#field-order-by > option').eq(5).should('have.value', 'metadata_created desc');
+        cy.get('#field-order-by > option').eq(6).should('have.value', 'views_recent desc');
+      });
+
+      it('Default sorting option is sorting by relevance', function(){
+        cy.get('#field-order-by').should('have.value', 'score desc, metadata_created desc');
+        cy.location('pathname', {timeout: 20000}).should('contain', `data/fi/advanced_search`)
+      });
+
+
+})
