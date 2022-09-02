@@ -746,7 +746,7 @@ def action_organization_tree_list(context, data_dict):
                 ids_and_titles
                 .outerjoin(model.Package, and_(model.Package.type == 'dataset',
                                                model.Package.private == false(),
-                                               model.Package.state != 'deleted',
+                                               model.Package.state == 'active',
                                                or_(model.Package.owner_org == model.Group.name,
                                                    model.Package.owner_org == model.Group.id)))
                 .group_by(model.Group.id, model.Group.title, model.GroupExtra.value)
