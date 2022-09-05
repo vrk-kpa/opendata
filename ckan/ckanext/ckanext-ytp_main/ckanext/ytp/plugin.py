@@ -740,11 +740,13 @@ def action_organization_tree_list(context, data_dict):
                       .order_by(model.Group.title))
 
     # Optionally handle getting only organizations with datasets
+    # Note! Check if state is deleted for the results or else it will return all dataset collections that have had a dataset at some point
     if with_datasets:
         ids_and_titles = (
                 ids_and_titles
                 .outerjoin(model.Package, and_(model.Package.type == 'dataset',
                                                model.Package.private == false(),
+                                               model.Package.state == 'active',
                                                or_(model.Package.owner_org == model.Group.name,
                                                    model.Package.owner_org == model.Group.id)))
                 .group_by(model.Group.id, model.Group.title, model.GroupExtra.value)
