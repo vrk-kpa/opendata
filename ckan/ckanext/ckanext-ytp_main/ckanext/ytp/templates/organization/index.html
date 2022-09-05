@@ -74,7 +74,7 @@
        {% endfor %}
       </ul>
       {% block page_pagination %}
-        {{ page.pager(q=q, with_datasets=with_datasets, sort=sort_by_selected) }}
+        {{ page.pager(q=q, without_datasets=without_datasets, sort=sort_by_selected) }}
       {% endblock %}
     {% else %}
       <ul class="no-bullet organization-list">
@@ -97,10 +97,10 @@
       </h2>
       <div class="module-content">
         <div class="organization-filters">
-          <a class="{% if not with_datasets %} organization-filter-active{% endif %} d-block" href="{{ h.url_for('organization.index', q=q, sort=sort_by_selected) }}">
+          <a class="{% if not without_datasets %} organization-filter-active{% endif %} d-block" href="{{ h.url_for('organization.index', q=q, sort=sort_by_selected, without_datasets=True) }}">
             {{ _('Show all organizations') }} ({{ organization_filters_count['all_count'] }})
           </a>
-          <a class="{% if with_datasets %} organization-filter-active{% endif %} d-block" href="{{ h.url_for('organization.index', q=q, sort=sort_by_selected, with_datasets=True) }}">
+          <a class="{% if without_datasets %} organization-filter-active{% endif %} d-block" href="{{ h.url_for('organization.index', q=q, sort=sort_by_selected) }}">
             {{ _('Show only organizations with datasets') }} ({{ organization_filters_count['with_dataset_count'] }})
           </a>
         </div>
