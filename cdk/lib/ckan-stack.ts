@@ -188,7 +188,7 @@ export class CkanStack extends Stack {
       'disqus',
       'reminder',
       'ytp_restrict_category_creation_and_updating',
-      //'archiver',
+      'archiver',
       //'qa',
       'ytp_ipermission_labels',
       'organizationapproval',
