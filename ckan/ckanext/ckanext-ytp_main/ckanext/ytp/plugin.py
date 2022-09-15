@@ -648,6 +648,25 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         package_dict['keywords'] = {'fi': []}
 
+        iso_values = data_dict.get('iso_values')
+
+        # Fallback creation date if it wasn't found from creation date in xml
+        if not package_dict.get('metadata_created', None):
+            ref_dates = iso_values.get('dataset-reference-date')
+            creation_date = None
+            publication_date = None
+            for ref_date in ref_dates:
+                if ref_date.get('type') == 'creation':
+                    creation_date = iso8601.parse_date(ref_date.get('value'))\
+                                       .replace(tzinfo=None).isoformat()
+                elif ref_date.get('type') == 'publication':
+                    publication_date = iso8601.parse_date(ref_date.get('value'))\
+                                       .replace(tzinfo=None).isoformat()
+            if creation_date:
+                package_dict['metadata_created'] = creation_date
+            elif publication_date:
+                package_dict['metadata_created'] = publication_date
+                
         # Map tags to keywords
 
         tags = package_dict.get('tags')
