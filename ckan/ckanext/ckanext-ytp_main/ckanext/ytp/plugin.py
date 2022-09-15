@@ -675,6 +675,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                           for category, iso_topic_categories in six.iteritems(_category_mapping)
                           if topic_category in iso_topic_categories]
             package_dict['categories'] = categories
+            package_dict['extras'].append({'key': 'topic-category', 'value': topic_categories})
 
         package_dict['keywords'] = {'fi': []}
 
