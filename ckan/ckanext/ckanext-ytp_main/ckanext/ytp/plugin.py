@@ -70,6 +70,27 @@ PUBLIC_SERVICES = 'Public Services'
 
 ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
 
+_category_mapping = {
+    'alueet-ja-kaupungit': ['imagery base maps earth cover', 'planning cadastre', 'structure'],
+    'energia': [],
+    'hallinto-ja-julkinen-sektori': [],
+    'kansainvaliset-asiat': [],
+    'koulutus-ja-urheilu': [],
+    'kulttuuri-taide-ja-vapaa-aika': [],
+    'liikenne': ['transportation'],
+    'maatalous-kalastus-metsatalous-ja-elintarvikkeet': ['farming'],
+    'matkailu-ja-turismi': [],
+    'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligence military'],
+    'rakennettu-ymparisto-ja-infrastruktuuri': ['boundaries', 'elevation', 'imagery base maps earth cover', 'location',
+                                                'planning cadastre', 'structure', 'utilities communication'],
+    'talous-ja-rahoitus': ['economy'],
+    'terveys': ['health'],
+    'tiede-ja-teknologia': ['geoscientific information'],
+    'vaesto-ja-yhteiskunta': ['society'],
+    'ymparisto-ja-luonto': ['biota', 'elevation', 'environment', 'geoscientific information', 'imagery base maps earth cover',
+                            'inland waters', 'oceans']
+}
+
 
 class YtpMainTranslation(DefaultTranslation):
 
@@ -590,18 +611,22 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         if license_from_source is not None:
             package_dict['license_id'] = license_from_source
 
-        for extra in package_dict['extras']:
-            if extra['key'] == 'licence' and license_from_source is None:
-                value = json.loads(extra['value'])
+        licenses = get_action('license_list')(context, {})
+        extras = {extra['key']: extra['value'] for extra in package_dict['extras']}
 
-                license_id = 'other'
-                license_obj = value
+        # If license wasn't found from source, try to figure it out from url:s
+        if license_from_source is None:
+            license_id = 'notspecified'
+            license_value = json.loads(extras.get('licence', '[]'))
+            access_constraints_value = json.loads(extras.get('access_constraints', '[]'))
 
+            if len(license_value) > 0:
+                license_obj = license_value
                 url_pattern = re.compile(r'(https?://\S+[^.,) ])')
-                urls = [url for v in value for url in url_pattern.findall(v)]
+                urls = [url for v in license_value for url in url_pattern.findall(v)]
 
                 if urls:
-                    licenses = get_action('license_list')(context, {})
+                    license_id = 'other'
                     http_urls = {re.sub('^https', 'http', url) for url in urls}
                     matching_license = next((li for li in licenses if li.get('url') in http_urls), None)
                     if matching_license is not None:
@@ -616,35 +641,69 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                 package_dict['license_id'] = license_id
                 package_dict['license'] = license_obj
 
-            elif extra['key'] == 'temporal-extent-begin':
-                try:
-                    value = iso8601.parse_date(extra['value'])
-                    package_dict['valid_from'] = value
-                except iso8601.ParseError:
-                    log.info("Could not convert %s to datetime" % extra['value'])
+            if len(access_constraints_value) > 0 and license_id in ['other', 'notspecified']:
+                license_obj = access_constraints_value
+                url_pattern = re.compile(r'(https?://\S+[^.,) ])')
+                urls = [url for v in access_constraints_value for url in url_pattern.findall(v)]
 
-            elif extra['key'] == 'temporal-extent-end':
-                try:
-                    value = iso8601.parse_date(extra['value'])
-                    package_dict['valid_till'] = value
-                except iso8601.ParseError:
-                    log.info("Could not convert %s to datetime" % extra['value'])
+                if urls:
+                    license_id = 'other'
+                    http_urls = {re.sub('^https', 'http', url) for url in urls}
+                    matching_license = next((li for li in licenses if li.get('url') in http_urls), None)
+                    if matching_license is not None:
+                        license_id = matching_license['id']
+                        license_obj = matching_license
+                    else:
+                        package_dict['extras'].append({
+                            "key": 'license_url',
+                            'value': urls[0]
+                        })
 
-            elif extra['key'] == 'dataset-reference-date':
-                try:
-                    value_list = json.loads(extra['value'])
-                    for value in value_list:
-                        if value.get('type') == "creation":
-                            if not package_dict.get('date_released'):
-                                package_dict['date_released'] = iso8601.parse_date(value.get('value'))\
-                                    .replace(tzinfo=None).isoformat()
-                except json.JSONDecodeError:
-                    pass
+                package_dict['license_id'] = license_id
+                package_dict['license'] = license_obj
 
-            # TODO: Move to dataset level
-            elif extra['key'] == "spatial-reference-system":
-                for resource in package_dict.get('resources', []):
-                    resource['position_info'] = extra['value']
+            if package_dict.get('license_id', None) is None:
+                package_dict['license_id'] = license_id
+
+        if extras.get('temporal-extent-begin', None) is not None:
+            try:
+                value = iso8601.parse_date(extras['temporal-extent-begin'])
+                package_dict['valid_from'] = value
+            except iso8601.ParseError:
+                log.info("Could not convert %s to datetime" % extras['temporal-extent-begin'])
+
+        if extras.get('temporal-extent-end', None) is not None:
+            try:
+                value = iso8601.parse_date(extras['temporal-extent-end'])
+                package_dict['valid_till'] = value
+            except iso8601.ParseError:
+                log.info("Could not convert %s to datetime" % extras['temporal-extent-end'])
+
+        if extras.get('dataset-reference-date', None) is not None:
+            try:
+                value_list = json.loads(extras['dataset-reference-date'])
+                for value in value_list:
+                    if value.get('type') == "creation":
+                        if not package_dict.get('date_released'):
+                            package_dict['date_released'] = iso8601.parse_date(value.get('value'))\
+                                .replace(tzinfo=None).isoformat()
+            except json.JSONDecodeError:
+                pass
+
+        # TODO: Move to dataset level
+        if extras.get('spatial-reference-system', None) is not None:
+            for resource in package_dict.get('resources', []):
+                resource['position_info'] = extras['spatial-reference-system']
+
+        # Map topic-categories to categories
+        iso_values = data_dict.get('iso_values')
+        if iso_values.get('topic-category', None) is not None:
+            topic_categories = iso_values.get('topic-category')
+            categories = [category for topic_category in topic_categories
+                          for category, iso_topic_categories in six.iteritems(_category_mapping)
+                          if topic_category in iso_topic_categories]
+            package_dict['categories'] = categories
+            package_dict['extras'].append({'key': 'topic-category', 'value': topic_categories})
 
         package_dict['keywords'] = {'fi': []}
 
