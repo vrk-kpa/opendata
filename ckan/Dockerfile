@@ -30,7 +30,7 @@ RUN apt-get update -yq && \
     pip install \
       jinja2-cli \
       supervisor \
-      cryptography \
+      cryptography==37.0.4 \
       pyOpenSSL \
       ndg-httpsclient \
       pyasn1 \
