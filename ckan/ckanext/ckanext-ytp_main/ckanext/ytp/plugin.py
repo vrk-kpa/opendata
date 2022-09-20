@@ -70,6 +70,27 @@ PUBLIC_SERVICES = 'Public Services'
 
 ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
 
+_category_mapping = {
+    'alueet-ja-kaupungit': ['imagery base maps earth cover', 'planning cadastre', 'structure'],
+    'energia': [],
+    'hallinto-ja-julkinen-sektori': [],
+    'kansainvaliset-asiat': [],
+    'koulutus-ja-urheilu': [],
+    'kulttuuri-taide-ja-vapaa-aika': [],
+    'liikenne': ['transportation'],
+    'maatalous-kalastus-metsatalous-ja-elintarvikkeet': ['farming'],
+    'matkailu-ja-turismi': [],
+    'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligence military'],
+    'rakennettu-ymparisto-ja-infrastruktuuri': ['boundaries', 'elevation', 'imagery base maps earth cover', 'location',
+                                                'planning cadastre', 'structure', 'utilities communication'],
+    'talous-ja-rahoitus': ['economy'],
+    'terveys': ['health'],
+    'tiede-ja-teknologia': ['geoscientific information'],
+    'vaesto-ja-yhteiskunta': ['society'],
+    'ymparisto-ja-luonto': ['biota', 'elevation', 'environment', 'geoscientific information', 'imagery base maps earth cover',
+                            'inland waters', 'oceans']
+}
+
 
 class YtpMainTranslation(DefaultTranslation):
 
@@ -673,6 +694,16 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         if extras.get('spatial-reference-system', None) is not None:
             for resource in package_dict.get('resources', []):
                 resource['position_info'] = extras['spatial-reference-system']
+
+        # Map topic-categories to categories
+        iso_values = data_dict.get('iso_values')
+        if iso_values.get('topic-category', None) is not None:
+            topic_categories = iso_values.get('topic-category')
+            categories = [category for topic_category in topic_categories
+                          for category, iso_topic_categories in six.iteritems(_category_mapping)
+                          if topic_category in iso_topic_categories]
+            package_dict['categories'] = categories
+            package_dict['extras'].append({'key': 'topic-category', 'value': topic_categories})
 
         package_dict['keywords'] = {'fi': []}
 
