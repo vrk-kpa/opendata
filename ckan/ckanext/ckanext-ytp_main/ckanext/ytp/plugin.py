@@ -707,7 +707,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         package_dict['keywords'] = {'fi': []}
 
-        iso_values = data_dict.get('iso_values')
         if not package_dict.get('maintainer') and iso_values.get('metadata-point-of-contact'):
             package_dict['extras']['metadata-point-of-contact'] = iso_values.get('metadata-point-of-contact')
             package_dict['maintainer'] = iso_values.get('metadata-point-of-contact')

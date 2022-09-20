@@ -41,7 +41,7 @@
     <tr>
       <th>{{ _('Maintainer') }}</th>
       <td>
-        <a href="/data/{{ h.lang() }}/organization/{{ pkg_dict.organization.get('name') }}">{{ h.extra_translation(pkg_dict.organization, 'title') }}</a>
+        <a href="/data/{{ h.lang() }}/organization/{{ pkg_dict.organization.get('name') }}">{{ h.get_translated(pkg_dict.organization, 'title') }}</a>
       </td>
     </tr>
     {% endif %}
