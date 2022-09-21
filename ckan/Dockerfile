@@ -202,7 +202,7 @@ RUN pip install \
     flask-login==0.3.0 \
     simplejson==3.16.0 \
     six==1.13.0 \
-    pyOpenSSL==20.0.0
+    pyOpenSSL>21.0.0
 
 # fix permissions
 RUN chown -R ckan:ckan ${APP_DIR}
