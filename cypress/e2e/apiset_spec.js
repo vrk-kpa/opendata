@@ -340,3 +340,100 @@ describe('Apiset tests', function() {
     cy.contains('Ei oikeuksia luoda tietoaineistoa');
   });
 })
+
+
+describe('Apiset datasets', function(){
+
+  const dataset_name_1 = "first_dataset";
+  const dataset_name_2 = "second_dataset";
+  const apiset_name = 'test_api';
+
+  beforeEach(function () {
+    cy.login_post_request('test-user', 'test-user')
+    cy.visit('/');
+  });
+
+  before(function(){
+    cy.reset_db();
+    cy.create_organization_for_user('apiset_test_organization', 'test-user', true);
+    cy.login_post_request('test-user', 'test-user')
+    cy.visit('/');
+    cy.create_new_dataset(dataset_name_1);
+    cy.create_new_dataset(dataset_name_2);
+    cy.create_new_apiset(apiset_name);
+  })
+
+
+  it('Add datasets to an apiset', function() {
+    //Currently there is no Ui navigation to apisets page, so use the direct url
+    cy.visit("/data/fi/apiset/");
+
+    cy.get('.dataset-heading > a').contains(apiset_name).click();
+    // Wait for page to load
+    cy.url().should('include', `/apiset/${apiset_name}`); 
+    // No datasets should be associated
+    cy.get('.empty').should('exist');
+
+    cy.get('.well > a').click();
+    cy.url().should('include', `/apiset/edit/${apiset_name}`); 
+
+    cy.visit(`data/fi/apiset/manage_datasets/${apiset_name}`)
+
+    cy.get('.page-header > .nav > li').eq(2).click();
+    cy.url().should('include', `/apiset/manage_datasets/${apiset_name}`); 
+
+    // apiset should not have any datasets associated with it yet
+    cy.get('.table > .table-bordered > .table-bulk-edit').should('not.exist'); 
+    cy.get('.empty').should('exist');
+
+    // add a dataset to the apiset
+    cy.get(':nth-child(3) > :nth-child(1) > [method="POST"] > .table > tbody > tr > td').contains(dataset_name_1)
+    .parent()
+    .within($tr => { 
+      cy.get('span').click()
+    })
+    cy.get('.action-button-group > button').click();
+
+    // Wait for the dataset to get added
+    cy.get('.apiset-datasets-block > :nth-child(1) > form > .table > tbody > tr > .selectable-row').should('exist');
+
+    // Check if the dataset has been added to the apiset
+    cy.visit(`data/fi/apiset/${apiset_name}`)
+    cy.url().should('include', `/apiset/${apiset_name}`); 
+    cy.get('.showcase-package > a').contains(dataset_name_1);
+  });
+
+  it("Remove dataset from apiset", function(){
+      //Currently there is no Ui navigation to apisets page, so use the direct url
+      cy.visit(`data/fi/apiset/manage_datasets/${apiset_name}`);
+
+      // select dataset to add to the apiset
+      cy.get(':nth-child(3) > :nth-child(1) > [method="POST"] > .table > tbody > tr > td').contains(dataset_name_2)
+      .parent()
+      .within($tr => { 
+        cy.get('span').click()
+      })
+      cy.get('.action-button-group > button').click();
+      
+      // Wait for dataset to be added
+      cy.get('.apiset-datasets-block > :nth-child(1) > form > .table > tbody > tr > .selectable-row').contains(dataset_name_2)
+      // Check that the dataset is added on the apiset page
+      cy.visit(`data/fi/apiset/${apiset_name}`)
+      cy.get('.showcase-package > a').contains(dataset_name_2);
+
+      // Remove dataset from apiset
+      cy.visit(`data/fi/apiset/manage_datasets/${apiset_name}`);
+      cy.get(`.apiset-datasets-block > :nth-child(1) > [method="POST"] > .table > tbody > tr > td`).contains(dataset_name_2)
+      .parent()
+      .within($tr => { 
+        cy.get('span').click()
+      })
+      cy.get('.btn-group > .btn').click();
+
+      // Check that datasets doesn't contain the removed dataset
+      cy.get('.apiset-datasets-block > :nth-child(1) > form > .table > tbody > tr ').contains(dataset_name_2).should('not.exist');
+      cy.visit(`data/fi/apiset/${apiset_name}`)
+      cy.get('.showcase-package > a').contains(dataset_name_2).should('not.exist');
+  })
+
+})
