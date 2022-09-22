@@ -26,7 +26,8 @@ RUN apt-get update -yq && \
       libgeos-c1v5 \
       libxml2-dev \
       libssl-dev \
-      libffi-dev && \
+      libffi-dev \
+      file && \
     pip install \
       jinja2-cli \
       supervisor \
