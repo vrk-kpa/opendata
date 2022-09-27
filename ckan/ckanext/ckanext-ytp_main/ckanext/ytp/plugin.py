@@ -683,13 +683,22 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                 log.info("Could not convert %s to datetime" % extras['temporal-extent-end'])
 
         if extras.get('dataset-reference-date', None) is not None:
+            creation_date = None
+            publication_date = None
             try:
                 value_list = json.loads(extras['dataset-reference-date'])
                 for value in value_list:
                     if value.get('type') == "creation":
-                        if not package_dict.get('date_released'):
-                            package_dict['date_released'] = iso8601.parse_date(value.get('value'))\
-                                .replace(tzinfo=None).isoformat()
+                        creation_date = iso8601.parse_date(value.get('value'))\
+                                    .replace(tzinfo=None).isoformat()
+                    elif value.get('type') == 'publication':
+                        publication_date = iso8601.parse_date(value.get('value'))\
+                                    .replace(tzinfo=None).isoformat()
+                        
+                if creation_date:
+                    package_dict['date_released'] = creation_date
+                elif publication_date:
+                    package_dict['date_released'] = publication_date
             except json.JSONDecodeError:
                 pass
 
@@ -709,7 +718,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
             package_dict['extras'].append({'key': 'topic-category', 'value': topic_categories})
 
         package_dict['keywords'] = {'fi': []}
-
 
         # Map tags to keywords
         tags = package_dict.get('tags')
