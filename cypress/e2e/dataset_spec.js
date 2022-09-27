@@ -21,6 +21,8 @@ describe('Dataset tests', function(){
     const dataset_name_2 = "second_dataset";
 
     before(function(){
+      // cy.reset_db();
+      // cy.create_organization_for_user(test_organization, 'test-user', true);
       cy.login_post_request('test-user', 'test-user')
       cy.visit('/data/dataset');
       cy.create_new_dataset(dataset_name_1);
@@ -91,6 +93,7 @@ describe('Dataset tests', function(){
     // another describe block, the test will fail
     it('Datasets appear sorted by creation date by default', function(){  
       // check if the ordering is correct (creation date desc)
+      // cy.visit('/data/dataset');
       cy.get(':nth-child(1) > .dataset-content > .align-items-center > .dataset-heading > a').should('have.text', dataset_name_2);
       cy.get(':nth-child(2) > .dataset-content > .align-items-center > .dataset-heading > a').should('have.text', dataset_name_1);
 
@@ -336,6 +339,9 @@ describe('Dataset tests', function(){
 
 
     before(function(){
+      // cy.reset_db()
+      // cy.create_organization_for_user(test_organization, 'test-user', true);
+
       cy.login_post_request('test-user', 'test-user')
       cy.visit('/data/dataset');
 

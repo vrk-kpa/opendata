@@ -1,19 +1,20 @@
-// Quides page search with and without login to service
-describe('Guides search functionality', function() {
-  // TODO: Haku tehdään sekä kirjautuneena että ilman sitä
-  // TODO: Haun Teko
+describe('Guide page tests', function() {
 
-  // Without login
-  //it('Guides search basic', function() {
-  it('Visitor opens guide front page', function () {
-    cy.visit("/");
+  it.skip('Navigation', function(){
+    // The navigation template will be changed soon, so write this test after that
+  });
+
+  // Without login 
+  it('Open guide without logging in', function () {
     cy.visit("/fi/kayttoohjeet");
-  })
+  });
   
   // With login
-  it('Logged in user opens guide front page', function () {
-    cy.login_post_request('test-publisher', 'test-publisher');
-    cy.visit("/");
+  it('Open guide while logged in', function () {
+    cy.login_post_request('test-user', 'test-user');
     cy.visit("/fi/kayttoohjeet");
-  })
+  });
+
+  //TODO translation tests
+
 })

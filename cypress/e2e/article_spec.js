@@ -15,4 +15,28 @@ describe('Articles page', function() {
     cy.get('#avoindata-articles-search-btn').click(options);
   });
 
+  it('User creates an article', function() {
+    cy.visit('/')
+    cy.login_post_request('test-publisher', 'test-publisher');
+    cy.visit('/fi/node/add')
+    cy.contains('Avoindata Article').click();
+
+    const news_name = 'news_test';
+    const news_form_data = {
+     "#edit-title-0-value": 'news_name',                                      
+     '#id=editlangcode-0-value': 'Kielivalinta',                              
+     '#cke_wysiwyg_frame cke_reset': 'tähän tulee juttua {enter}',            
+     '#field-maintainer': '',                                                    
+     '#edit-field-tags-target-id': 'Helsinki, Turku, Tampere, Hämeenlinna'
+    };
+
+    // Title field
+    cy.get('#edit-title-0-value').click({force:true}).type(news_name)
+    cy.get('#edit-langcode-0-value').select('fi', {force: true})
+    cy.get('#edit-field-tags-target-id').click({force: true}).type('test')
+
+    // Save
+    cy.contains('Tallenna').click()
+  })
+
 })

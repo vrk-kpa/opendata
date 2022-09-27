@@ -44,4 +44,36 @@ describe('Profile page tests', function(){
 
     });
 
+    describe('User settings', function(){
+
+        // Remnant from general_spec.js
+        // This test currently does not work as intended and will be skipped until refactored properly
+        it.skip('User sets their default language', function(){
+            cy.visit('/');
+            cy.login_post_request('test-user', 'test-user');
+            cy.contains('Tietoaineistot').click();
+            cy.contains('Minun tietoaineistoni').click();
+            cy.contains('Käyttäjätilin asetukset').click();
+            // Change language to Svedish
+            cy.get('select').eq(0).select('sv').should('have.value', 'sv');
+            cy.get('button[name="op"]').click();
+            
+            cy.visit('/');
+            cy.contains('Tietoaineistot').click()
+            cy.contains('Minun tietoaineistoni').click()
+            cy.contains('Käyttäjätilin asetukset').click()
+            // Change lanquage to English
+            cy.get('select').eq(0).select('en').should('have.value', 'en') //[name="preferred_langcode"]').click();
+            cy.get('button[name="op"]').click();
+            
+            cy.visit('/');
+            cy.contains('Tietoaineistot').click()
+            cy.contains('Minun tietoaineistoni').click()
+            cy.contains('Käyttäjätilin asetukset').click()
+            cy.get('select').eq(0).select('fi').should('have.value', 'fi') //[name="preferred_langcode"]').click();
+            cy.get('button[name="op"]').click();
+        });
+
+    });
+
 });
