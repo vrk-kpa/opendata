@@ -529,6 +529,8 @@ Cypress.Commands.add('edit_apiset', (apiset_name, apiset_form_data) => {
   cy.visit(`/data/fi/apiset/edit/${apiset_name}`);
   cy.fill_form_fields(apiset_form_data)
   cy.get('button[name=save]').click();
+  // Check if the url has changed in order to determine when the form has been properly submitted
+  cy.url().should('include', `/data/fi/apiset/${apiset_name}`); 
   cy.get('.dataset-title').contains(apiset_name+'edit');
 })
 

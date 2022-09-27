@@ -11,7 +11,7 @@ module.exports = defineConfig({
   },
   videoCompression: 20,
   videoUploadOnPasses: false,
-
+  defaultCommandTimeout: 30000,
   e2e: {
     baseUrl: 'http://localhost',
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',

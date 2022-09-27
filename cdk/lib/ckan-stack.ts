@@ -189,7 +189,7 @@ export class CkanStack extends Stack {
       'reminder',
       'ytp_restrict_category_creation_and_updating',
       'archiver',
-      //'qa',
+      'qa',
       'ytp_ipermission_labels',
       'organizationapproval',
       'ytp_resourcestatus',
