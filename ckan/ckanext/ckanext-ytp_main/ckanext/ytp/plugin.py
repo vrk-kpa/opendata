@@ -551,17 +551,19 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         return views.get_blueprint()
 
 
+
 class YTPSpatialHarvester(plugins.SingletonPlugin):
     plugins.implements(ISpatialHarvester, inherit=True)
 
     # ISpatialHarvester
 
     def get_package_dict(self, context, data_dict):
-
+    
         context['defer'] = True
         package_dict = data_dict['package_dict']
 
         list_map = {'access_constraints': 'copyright_notice'}
+
 
         for source, target in list_map.items():
             for extra in package_dict['extras']:
@@ -708,8 +710,8 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         package_dict['keywords'] = {'fi': []}
 
-        # Map tags to keywords
 
+        # Map tags to keywords
         tags = package_dict.get('tags')
 
         for tag in tags:
@@ -727,6 +729,22 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         package_dict['notes_translated'] = {"fi": package_dict['notes']}
         package_dict['title_translated'] = {"fi": package_dict['title']}
         package_dict['collection_type'] = 'Open Data'
+
+
+        # Apiset mapping (resource-type 'services' are mapped to apisets)
+        res_type = iso_values.get('resource-type', None)
+
+        # res_type is in the form ['dataset', ...], usually containing one or more resource types
+        if 'service' in res_type:
+            package_dict['type'] = 'apiset'
+            package_dict['api_provider'] = package_dict.get('maintainer', None)
+            # maintainer email is provided as an array
+            if package_dict.get('maintainer_email', None):
+                package_dict['api_provider_email'] = package_dict['maintainer_email'][0]
+
+            # remove maintainer and maintainer_email or they will cause validation error for apisets
+            package_dict.pop('maintainer', None)
+            package_dict.pop('maintainer_email', None)
 
         return package_dict
 
