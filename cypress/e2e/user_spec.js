@@ -1,6 +1,13 @@
 
 // User registration
-describe('User registration', function() {
+describe('User registration', 
+{
+    retries:{
+        runMode: 2,
+        openMode: 2,
+    }
+},
+function() {
 
     let uuid = require("uuid");
     let weakpassword = "123456"
@@ -11,7 +18,6 @@ describe('User registration', function() {
     let email = username + "@mail.com" 
 
     before(function(){
-        //register user
         cy.register(username, email);
       })
 
@@ -32,7 +38,7 @@ describe('User registration', function() {
 
                 cy.get('#edit-pass-pass1').type(weakpassword);
                 cy.get('#edit-pass-pass2').type(weakpassword);
-                cy.get('.input-group-addon', {timeout: 20000}).should('not.exist'); //waits for password policy module to compare the passwords
+                cy.get('.input-group-addon').should('not.exist'); //waits for password policy module to compare the passwords
                 cy.get('#edit-submit').click();
 
                 // setting the password should fail
@@ -42,7 +48,7 @@ describe('User registration', function() {
             
                 cy.get('#edit-pass-pass1').type(strongpassword);
                 cy.get('#edit-pass-pass2').type(strongpassword);
-                cy.get('.input-group-addon', {timeout: 20000}).should('not.exist'); //waits for password policy module to compare the passwords
+                cy.get('.input-group-addon').should('not.exist'); //waits for password policy module to compare the passwords
                 cy.get('#edit-submit').click();
 
                 cy.get('.alert').should('contain.text', 'Muutokset tallennettiin.');
@@ -65,7 +71,7 @@ describe('User registration', function() {
 
         cy.get('#edit-pass-pass1').type(newpassword);
         cy.get('#edit-pass-pass2').type(newpassword);
-        cy.get('.input-group-addon', {timeout: 20000}).should('not.exist'); //waits for password policy module to compare the passwords
+        cy.get('.input-group-addon').should('not.exist'); //waits for password policy module to compare the passwords
         cy.get('#edit-submit').click();
         cy.get('.alert').should('contain.text', 'Muutokset tallennettiin.');
     })
@@ -87,8 +93,8 @@ describe('User registration', function() {
         cy.get('.header-login-link').click();
         cy.get('#edit-name').type(username);
         cy.get('#edit-pass').type(newpassword);
-        cy.get('.input-group-addon', {timeout: 20000}).should('not.exist'); //waits for password policy module to compare the passwords
+        cy.get('.input-group-addon').should('not.exist'); //waits for password policy module to compare the passwords
         cy.get('#edit-submit').click();
-        
+      
     })
   })
