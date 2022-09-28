@@ -315,9 +315,6 @@ describe('Apiset tests', function() {
       '#field-description_translated-fi': 'test kuvaus',
       '#field-description_translated-en': 'test description',
       '#field-description_translated-sv': 'test beskrivning',
-      '#field-documentation_translated-fi': 'test dokumentaatio',
-      '#field-documentation_translated-en': 'test dokumentaatio',
-      '#field-documentation_translated-sv': 'test dokumentaatio',
       '[name="registration_required"]': {type: 'radio', value: 'true', force: true},
       // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
       '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
