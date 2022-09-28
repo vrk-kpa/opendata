@@ -1,6 +1,13 @@
 
 // User registration
-describe('User registration', function() {
+describe('User registration', 
+{
+    retries:{
+        runMode: 2,
+        openMode: 2,
+    }
+},
+function() {
 
     let uuid = require("uuid");
     let weakpassword = "123456"
@@ -88,6 +95,6 @@ describe('User registration', function() {
         cy.get('#edit-pass').type(newpassword);
         cy.get('.input-group-addon').should('not.exist'); //waits for password policy module to compare the passwords
         cy.get('#edit-submit').click();
-        
+      
     })
   })
