@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import logging
+from select import select
 
 import ckan.lib.base as base
 import ckan.logic as logic
@@ -355,10 +356,10 @@ def index(group_type, is_organization):
         context['user_id'] = g.userobj.id
         context['user_is_admin'] = g.userobj.sysadmin
 
-    # Look for without datasets filter option, defaults to false for the default view
-    display_all_organizations = request.params.get('without_datasets', '').lower() in ('true', '1', 'yes')
-    # assign reverse to extra vars and to tree list params
-    extra_vars['without_datasets'] = with_datasets = not display_all_organizations
+    # Check if to display all organizations or only those that have datasets 
+    only_with_datasets_param = request.params.get('only_with_datasets', "True").lower() in ['true', True, 1, ]
+    extra_vars['only_with_datasets'] = only_with_datasets_param
+    with_datasets = only_with_datasets_param
 
     tree_list_params = {
                     'q': q, 'sort_by': sort_by, 'with_datasets': with_datasets,
