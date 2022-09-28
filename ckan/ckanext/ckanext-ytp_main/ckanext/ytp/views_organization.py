@@ -1,8 +1,6 @@
 # encoding: utf-8
 
 import logging
-from select import select
-
 import ckan.lib.base as base
 import ckan.logic as logic
 import ckan.lib.helpers as h
