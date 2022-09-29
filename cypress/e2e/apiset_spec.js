@@ -29,13 +29,13 @@ describe('Apiset tests', function(){
     const api1_form_data = {
       '#field-name_translated-fi': 'test api',
       '#field-description_translated-fi': 'test kuvaus',
-      '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
+      '#s2id_autogen1': {type: 'select2', values: ['JSON'], force:true},
     }
 
     const api2_form_data = {
       '#field-name_translated-fi': 'test api',
       '#field-description_translated-fi': 'test kuvaus',
-      '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
+      '#s2id_autogen1': {type: 'select2', values: ['CSV'], force:true},
     }
 
     beforeEach(function () {
@@ -141,42 +141,42 @@ describe('Apiset tests', function(){
     });
 
     it('Filter by file format', function(){
+      cy.get('.secondary > :nth-child(4)').should('contain.text', 'json');
       cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'txt');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
 
       //filter to csv
-      cy.get(':nth-child(4) > nav > .list-unstyled > :nth-child(1) > a > span').click();
-
-      //should not contain apiset1 (txt)
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
-      cy.get('.secondary > :nth-child(4)').should('not.contain.text', 'txt');
-      cy.get('.container-search-result').should('not.contain.text', apiset1_name);
-      cy.get('.container-search-result').should('contain.text', apiset2_name);
-
-      //release the filter
-      cy.get('.remove > .fal').click();
-
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'txt');
-      cy.get('.container-search-result').should('contain.text', apiset1_name);
-      cy.get('.container-search-result').should('contain.text', apiset2_name);
-
-      //filter to txt
       cy.get(':nth-child(4) > nav > .list-unstyled > :nth-child(2) > a > span').click();
 
-      //should not contain apiset2 (csv)
+      //should not contain apiset1 (txt)
+      cy.get('.secondary > :nth-child(4)').should('contain.text', 'json');
       cy.get('.secondary > :nth-child(4)').should('not.contain.text', 'csv');
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'txt');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('not.contain.text', apiset2_name);
 
       //release the filter
       cy.get('.remove > .fal').click();
 
+      cy.get('.secondary > :nth-child(4)').should('contain.text', 'json');
       cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'txt');
+      cy.get('.container-search-result').should('contain.text', apiset1_name);
+      cy.get('.container-search-result').should('contain.text', apiset2_name);
+
+      //filter to txt
+      cy.get(':nth-child(4) > nav > .list-unstyled > :nth-child(1) > a > span').click();
+
+      //should not contain apiset2 (csv)
+      cy.get('.secondary > :nth-child(4)').should('not.contain.text', 'json');
+      cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
+      cy.get('.container-search-result').should('not.contain.text', apiset1_name);
+      cy.get('.container-search-result').should('contain.text', apiset2_name);
+
+      //release the filter
+      cy.get('.remove > .fal').click();
+
+      cy.get('.secondary > :nth-child(4)').should('contain.text', 'json');
+      cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
     });
@@ -311,14 +311,15 @@ describe('Apiset tests', function(){
         '#field-description_translated-fi': 'test kuvaus',
         '#field-description_translated-en': 'test description',
         '#field-description_translated-sv': 'test beskrivning',
-        '#field-documentation_translated-fi': 'test dokumentaatio',
-        '#field-documentation_translated-en': 'test dokumentaatio',
-        '#field-documentation_translated-sv': 'test dokumentaatio',
         '[name="registration_required"]': {type: 'radio', value: 'true', force: true},
         // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
-        '#s2id_autogen1_search': {type: 'select2', values: ['CSV'], force:true},
+        '#s2id_autogen1': {type: 'select2', values: ['CSV', 'JSON'], force:true},
       };
       cy.create_new_apiset(apiset_name, apiset_form_data, api_form_data);
+      cy.visit('/data/fi/apiset');
+      cy.get('.secondary > :nth-child(4) .nav-facet > .nav-item:nth-child(1) > a').contains('csv');
+      cy.get('.secondary > :nth-child(4) .nav-facet > .nav-item:nth-child(2) > a').contains('json');
+
     });
   
     it('Creating an empty apiset fails', function() {
