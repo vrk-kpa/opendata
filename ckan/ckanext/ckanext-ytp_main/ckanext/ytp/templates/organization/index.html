@@ -29,7 +29,7 @@
           </div>
             {% block search_title %}
             <div class="search-header">
-              <span class="search-result-count">{% snippet 'snippets/search_result_text.html', query=q, count=page.item_count, type='organization',from='organizations' %}</span>
+              <span class="search-result-count">{% snippet 'snippets/search_result_text.html', query=q, count=page.item_count, type='organization',from='organizations'%}</span>
               <div class="form-select form-group control-order-by">
                 <label for="field-order-by">{{ _('Sorting') }}</label>
                 <select id="field-order-by" name="sort" class="form-control">
@@ -50,21 +50,6 @@
   </div>
 
   {% block organizations_list %}
-    {#{% if q and page.items %}
-      <ul class="no-bullet">
-       {% for organization in page.items %}
-         {% snippet "organization/snippets/organization_item.html", organization=organization, position=loop.index %}
-       {% endfor %}
-      </ul>
-      {% block page_pagination %}
-        {{ page.pager(q=q) }}
-      {% endblock %}
-    {% elif not q and page.items %}
-      <div id="publisher-tree">
-        {% snippet 'organization/snippets/organization_tree.html', top_nodes=h.group_tree(), show_dataset_count=true%}
-      </div>
-    {% endif %}#}
-
 
     <div>
     {% if page.items %}
@@ -74,7 +59,7 @@
        {% endfor %}
       </ul>
       {% block page_pagination %}
-        {{ page.pager(q=q, without_datasets=without_datasets, sort=sort_by_selected) }}
+        {{ page.pager(q=q, only_with_datasets=only_with_datasets, sort=sort_by_selected) }}
       {% endblock %}
     {% else %}
       <ul class="no-bullet organization-list">
@@ -97,10 +82,10 @@
       </h2>
       <div class="module-content">
         <div class="organization-filters">
-          <a class="{% if not without_datasets %} organization-filter-active{% endif %} d-block" href="{{ h.url_for('organization.index', q=q, sort=sort_by_selected, without_datasets=True) }}">
+          <a class="{% if not only_with_datasets %} organization-filter-active{% endif %} d-block" href="{{ h.url_for('organization.index', q=q, sort=sort_by_selected, only_with_datasets=False) }}">
             {{ _('Show all organizations') }} ({{ organization_filters_count['all_count'] }})
           </a>
-          <a class="{% if without_datasets %} organization-filter-active{% endif %} d-block" href="{{ h.url_for('organization.index', q=q, sort=sort_by_selected) }}">
+          <a class="{% if only_with_datasets %} organization-filter-active{% endif %} d-block" href="{{ h.url_for('organization.index', q=q, sort=sort_by_selected, only_with_datasets=True) }}">
             {{ _('Show only organizations with datasets') }} ({{ organization_filters_count['with_dataset_count'] }})
           </a>
         </div>

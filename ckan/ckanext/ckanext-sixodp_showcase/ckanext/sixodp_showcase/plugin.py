@@ -139,7 +139,8 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
             'get_showcases_by_author': helpers.get_showcases_by_author,
             'get_vocabulary': helpers.get_vocabulary,
             'translate_list_items': helpers.translate_list_items,
-            'get_showcase_pkgs': helpers.get_showcase_pkgs
+            'get_showcase_pkgs': helpers.get_showcase_pkgs,
+            'get_showcase_apisets': helpers.get_showcase_apisets
         }
 
     def _add_image_urls(self, pkg_dict):
