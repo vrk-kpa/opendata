@@ -48,7 +48,7 @@ RUN chmod +x ${SCRIPT_DIR}/*.sh && \
     chown -R www-data:www-data ${SITE_DIR}/default/files
 
 # install composer project
-RUN composer install --no-cache
+RUN composer install --no-cache --no-dev
 
 
 #
@@ -59,7 +59,7 @@ FROM drupal_build as drupal_development
 ENV DEV_MODE=true
 
 # install drupal dev requirements
-RUN composer require --no-interaction --no-cache --dev drupal/devel
+RUN composer install --no-cache --dev
 
 ENTRYPOINT ["/opt/drupal/scripts/entrypoint.sh"]
 
