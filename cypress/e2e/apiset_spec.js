@@ -294,11 +294,11 @@ describe('Apiset tests', function(){
         '#s2id_autogen1': {type: 'select2', values: ['test']},
         '#s2id_autogen2': {type: 'select2', values: ['test']},
         '#s2id_autogen3': {type: 'select2', values: ['test']},
-        '#field-private': 'False',
+        '[name="private"]': {type: 'radio', value: 'true', force: true},
         '#field-license_id': 'cc-by-4.0',
-        '#field-access_rights-fi': 'Käyttöoikeudet',
-        '#field-access_rights-en': 'Käyttöoikeudet',
-        '#field-access_rights-sv': 'Käyttöoikeudet',
+        '#field-access_rights_translated-fi': 'Käyttöoikeudet',
+        '#field-access_rights_translated-en': 'Käyttöoikeudet',
+        '#field-access_rights_translated-sv': 'Käyttöoikeudet',
         '#field-api_provider': 'Api Provider',
         '#field-api_provider_email': 'test.provider@example.com',
       };
@@ -368,7 +368,7 @@ describe('Apiset tests', function(){
       // No datasets should be associated
       cy.get('.empty').should('exist');
   
-      cy.get('.well > a').click();
+      cy.get('.admin-banner > a').click();
       cy.url().should('include', `/apiset/edit/${apiset_name}`); 
   
       cy.visit(`data/fi/apiset/manage_datasets/${apiset_name}`)
