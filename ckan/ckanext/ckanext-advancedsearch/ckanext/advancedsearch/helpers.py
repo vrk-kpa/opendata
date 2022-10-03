@@ -98,11 +98,13 @@ def advanced_publisher_options(field=None):
         .filter(model.Group.is_organization.is_(True)) \
         .filter(model.GroupExtra.state == 'active')\
         .filter(model.GroupExtra.key == 'title_translated')\
+        .filter(model.Group.approval_status =='approved')\
         .all()
 
     publishers = [
             {'id': gid, 'title': title, 'title_translated': json.loads(title_translated)}
             for gid, title, title_translated in data]
+
     return make_options(publishers, has_translated=True)
 
 
