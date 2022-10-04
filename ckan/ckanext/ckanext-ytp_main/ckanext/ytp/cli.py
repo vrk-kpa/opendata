@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 
 from ckan.logic import get_action, ValidationError
+import ckan.plugins.toolkit as toolkit
 from ckan import model
 from ckanext.ytp.translations import facet_translations
 import ckan.plugins.toolkit as t
@@ -287,7 +288,15 @@ def apply_patches(package_patches, resource_patches):
     else:
         package_patch = get_action('package_patch')
         resource_patch = get_action('resource_patch')
-        context = {'ignore_auth': True}
+        site_user = get_action(u'get_site_user')({
+            u'ignore_auth': True},
+            {}
+        )
+        toolkit.g.user = site_user['name']
+        context = {
+            u'ignore_auth': True,
+            u'user': site_user['name'],
+        }
         for patch in package_patches:
             try:
                 package_patch(context, patch)
@@ -441,6 +450,44 @@ def validate(ctx, verbose):
 
     if no_errors:
         click.echo('All datasets are valid!')
+
+
+@opendata_dataset.command(
+    'combine_licenses',
+    help='Combines comma separated list of SOURCE_LICENSES into license id of DESTINATION_LICENSE'
+)
+@click.argument('source_licenses')
+@click.argument('destination_license')
+@click.option('--dryrun', is_flag=True)
+@click.pass_context
+def combine_licenses(context, source_licenses, destination_license, dryrun):
+    fq = ''
+    license_ids = [license.get('id') for license in get_action('license_list')({'ignore_auth': True}, {})]
+
+    if destination_license not in license_ids:
+        raise ValueError(f"\"{destination_license}\" isn't allowed. Allowed license ids: {license_ids}")
+
+    for i, source_license in enumerate(source_licenses.split(',')):
+        if source_license not in license_ids:
+            raise ValueError(f"\"{source_license}\" isn't allowed. Allowed license ids: {license_ids}")
+        if i == 0:
+            fq += f'license_id:"{source_license}"'
+        else:
+            fq += f' OR license_id:"{source_license}"'
+
+    package_patches = []
+    for package in package_generator(fq, 20):
+        package_patches.append({'id': package.get('id'), 'license_id': destination_license})
+    
+    if dryrun:
+        click.echo('\n'.join('%s' % p for p in package_patches))
+    else:
+        flask_app = context.meta['flask_app']
+        # Current user is tested agains sysadmin role during model
+        # dictization, thus we need request context
+        with flask_app.test_request_context():
+            # No resources patches so empty parameter is passed
+            apply_patches(package_patches, [])
 
 
 def apply_org_patches(org_patches):
