@@ -19,14 +19,8 @@
 0   22  *       *   *   cd /srv/app && ./cron/scripts/ckan-refresh.sh > /proc/1/fd/1 2> /proc/1/fd/2
 0   2   *       *   *   cd /srv/app && ./cron/scripts/qa-update.sh > /proc/1/fd/1 2> /proc/1/fd/2
 0   5   *       *   *   cd /srv/app && ./cron/scripts/report-generate.sh > /proc/1/fd/1 2> /proc/1/fd/2
-0   9   *       *   *   cd /srv/app && ./cron/scripts/reminder-send.sh > /proc/1/fd/1 2> /proc/1/fd/2
-0   10  1       *   *   cd /srv/app && ./cron/scripts/archiver-notifications.sh > /proc/1/fd/1 2> /proc/1/fd/2
-0   13  *       *   *   cd /srv/app && ./cron/scripts/reminder-notify-expiry.sh > /proc/1/fd/1 2> /proc/1/fd/2
-0   12  *       *   *   cd /srv/app && ./cron/scripts/reminder-notify.sh > /proc/1/fd/1 2> /proc/1/fd/2
-0   9   *       *   *   cd /srv/app && ./cron/scripts/dataset-deprecations.sh > /proc/1/fd/1 2> /proc/1/fd/2
 0   11  *       *   *   cd /srv/app && ./cron/scripts/harvest-status-emails.sh > /proc/1/fd/1 2> /proc/1/fd/2
 0   11  *       *   *   cd /srv/app && ./cron/scripts/harvest-stuck-reports.sh > /proc/1/fd/1 2> /proc/1/fd/2
-0   8   *       *   *   cd /srv/app && ./cron/scripts/ckan-notifications.sh > /proc/1/fd/1 2> /proc/1/fd/2
 0   0   *       *   *   cd /srv/app && ./cron/scripts/prh-start.sh > /proc/1/fd/1 2> /proc/1/fd/2
 0   5   *       *   *   cd /srv/app && ./cron/scripts/prh-stop.sh > /proc/1/fd/1 2> /proc/1/fd/2
 0   22  28-31   *   *   cd /srv/app && ./cron/scripts/prh-clear.sh > /proc/1/fd/1 2> /proc/1/fd/2
