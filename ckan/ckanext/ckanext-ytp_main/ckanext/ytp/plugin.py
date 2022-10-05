@@ -319,10 +319,14 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     # ITemplateHelpers #
 
-    def _unique_formats(self, resources):
+    def _unique_formats(self, resources, package_type='dataset'):
         formats = set()
         for resource in resources:
-            formats.add(resource.get('format'))
+            if package_type == 'apiset':
+                for format in resource.get('formats', '').split(','):
+                    formats.add(format)
+            else:
+                formats.add(resource.get('format'))
         formats.discard('')
         return formats
 
