@@ -468,8 +468,6 @@ def combine_licenses(context, source_licenses, destination_license, dryrun):
         raise ValueError(f"\"{destination_license}\" isn't allowed. Allowed license ids: {license_ids}")
 
     for i, source_license in enumerate(source_licenses.split(',')):
-        if source_license not in license_ids:
-            raise ValueError(f"\"{source_license}\" isn't allowed. Allowed license ids: {license_ids}")
         if i == 0:
             fq += f'license_id:"{source_license}"'
         else:
