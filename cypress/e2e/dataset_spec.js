@@ -389,11 +389,11 @@ describe('Dataset tests', function(){
       cy.get(':nth-child(3) > .dataset-details').should('contain.text', dataset_maintainer_email);
       cy.get(':nth-child(4) > .dataset-details').should('contain.text', dataset_maintainer_website);
       cy.get(':nth-child(5) > .dataset-details').should('contain.text', dataset_external_url);
-      cy.get(':nth-child(7) > .dataset-details').should('contain.text', dataset_update_interval);
-      cy.get(':nth-child(8) > .dataset-details').should('contain.text', check_from);
-      cy.get(':nth-child(9) > .dataset-details').should('contain.text', check_till);
+      cy.get(':nth-child(6) > .dataset-details').should('contain.text', dataset_update_interval);
+      cy.get(':nth-child(7) > .dataset-details').should('contain.text', check_from);
+      cy.get(':nth-child(8) > .dataset-details').should('contain.text', check_till);
+      cy.get(':nth-child(9) > .dataset-details').should('contain.text', current_date);
       cy.get(':nth-child(10) > .dataset-details').should('contain.text', current_date);
-      cy.get(':nth-child(11) > .dataset-details').should('contain.text', current_date);
 
       //tags and licence
       cy.get('.module-content > .tags > .tag-list').should('contain.text', test_tag);
