@@ -153,8 +153,6 @@ describe('Dataset resource tests', function(){
             cy.get('.module-content').find('h3').contains("Lisätietoja"); //there isn't a good identifier to find this element without using the contains text
             cy.get('.resource-module-table');
             cy.get('.resource-module-table').find('th').contains("Muoto");
-            cy.get('.resource-module-table').find('th').contains("Aineiston tila");
-            cy.get('.resource-module-table').find('th').contains("Sijaintikoordinaattien muoto");
             cy.get('.resource-module-table').find('th').contains("Katettu ajanjakso");
             cy.get('.resource-module-table').find('th').contains("Viimeisin päivitys");
             cy.get('.resource-module-table').find('th').contains("Luotu");
@@ -200,8 +198,6 @@ describe('Dataset resource tests', function(){
             cy.get('.module-content').find('h3').contains("Extra information"); //there isn't a good identifier to find this element without using the contains text
             cy.get('.resource-module-table');
             cy.get('.resource-module-table').find('th').contains("Format");
-            cy.get('.resource-module-table').find('th').contains("Data status");
-            cy.get('.resource-module-table').find('th').contains("Coordinate system");
             cy.get('.resource-module-table').find('th').contains("Temporal Coverage");
             cy.get('.resource-module-table').find('th').contains("Last updated");
             cy.get('.resource-module-table').find('th').contains("Created");
@@ -247,8 +243,6 @@ describe('Dataset resource tests', function(){
             cy.get('.module-content').find('h3').contains("Ytterligare information"); //there isn't a good identifier to find this element without using the contains text
             cy.get('.resource-module-table');
             cy.get('.resource-module-table').find('th').contains("Format");
-            cy.get('.resource-module-table').find('th').contains("Datastatus");
-            cy.get('.resource-module-table').find('th').contains("Koordinatsystem");
             cy.get('.resource-module-table').find('th').contains("Tidsmässig täckning");
             cy.get('.resource-module-table').find('th').contains("Senaste uppdatering");
             cy.get('.resource-module-table').find('th').contains("Skapad");

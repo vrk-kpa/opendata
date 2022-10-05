@@ -48,7 +48,7 @@
 
   {%- for field_key in ordered_dataset_fields -%}
     {%- set field = schema.dataset_fields | selectattr('field_name', 'equalto', field_key) | list -%}
-      {% if field[0] %}
+      {% if field[0] and pkg_dict.get(field[0].field_name, '') not in ['', [], {}, ['']] %}
         <tr>
           <th scope="row" class="dataset-label">{{ h.scheming_language_text(field[0].label) }}</th>
           <td class="dataset-details"{% if field[0].display_property %} property="{{ field[0].display_property }}" {% endif %}>
