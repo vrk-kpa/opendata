@@ -32,7 +32,8 @@ DATETIME_FORMATS = [
 
 
 LICENSE_MAP = {
-    'cc0-1.0': 'cc-zero-1.0'
+    'cc0-1.0': 'cc-zero-1.0',
+    'CC-BY-4.0': 'cc-by-4.0'
 }
 
 
@@ -816,6 +817,7 @@ class SixodpHarvester(HarvesterBase):
 
     def modify_package_dict(self, package_dict, harvest_object):
         package_dict['license_id'] = package_dict.get('license_id').lower()
+        
         return package_dict
 
 
