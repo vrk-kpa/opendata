@@ -170,13 +170,13 @@ options     - A list/tuple of fields to be used as <options>.
   {% endif %}
 
 
-   {{ input(field_url, label=url_label, id='field-image-url', type='url', placeholder=placeholder, value=data.get(field_url), error=errors.get(field_url), classes=['control-full']) }}
+   {{ input(field_url, label=url_label, id='field-image-url', type='url', placeholder=placeholder, value=data.get(field_url), error=errors.get(field_url), classes=['control-full'], is_required=is_required) }}
 
 
   {% if is_upload_enabled %}
-    {{ input_dragndrop(field_upload, label=upload_label, id='field-image-upload', type='file', placeholder='', value='', error='', classes=['control-full'], max_filesize=max_filesize, max_total_size=max_total_size) }}
+    {{ input_dragndrop(field_upload, label=upload_label, id='field-image-upload', type='file', placeholder='', value='', error='', classes=['control-full'], max_filesize=max_filesize, max_total_size=max_total_size, is_required=is_required) }}
     {% if is_upload %}
-      {{ form.checkbox(field_clear, label=_('Clear Upload'), id='field-clear-upload', value='true', error='', classes=['control-full']) }}
+      {{ form.checkbox(field_clear, label=_('Clear Upload'), id='field-clear-upload', value='true', error='', classes=['control-full'], is_required=is_required) }}
     {% endif %}
   {% endif %}
 
@@ -186,10 +186,10 @@ options     - A list/tuple of fields to be used as <options>.
 
 {% macro input_dragndrop(name, id='', label=_('Paste or drag file in here'), value='', placeholder='', type='text', error="", classes=[], attrs={'class': 'form-control'}, is_required=false, max_filesize='-', max_total_size='-') %}
   {%- set extra_html = caller() if caller -%}
-  {% call input_block(id or name, ' ', error, classes, extra_html=extra_html, is_required=is_required) %}
+  {% call input_block(id or name, ' ', error, classes, extra_html=extra_html, is_required=false) %}
     {% if type == 'file' %}
     <div class="dropzone" data-module="drag-n-drop-uploader">
-      <h4>{{ label }}</h4>
+      <h4 class="d-block">{{ label }}{% if is_required %}<span title="{{ _("This field is required") }}" class="control-required float-none">*</span>{% endif %}</h4>
       <p>{{ _('Maximum filesize of single file is {max_filesize}Mb. Total maximum size of all files is {max_total_size}Mb.').format(max_filesize=max_filesize, max_total_size=max_total_size) }}</p>
       <p>{{ _('Allowed filetypes are: pdf, jpg, jpeg, png, doc, docx, xls, xlsx, ppt, pptx, odt, ods, txt.') }}</p>
     {% endif %}

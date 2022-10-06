@@ -14,9 +14,13 @@
     {% if field.group_title %}
       <h3 class="ytp-group-title">{{_(field.group_title)}}</h3>
     {% endif %}
-
+    
     {% if field.group_description %}
-      <h5 class="ytp-group-description">{{_(field.group_description)}}</h5>
+    <h5 class="ytp-group-description">{{_(field.group_description)}}</h5>
+    {% endif %}
+
+    {% if field.group_post_description %}
+      <p>{{_(field.group_post_description)}}</p>
     {% endif %}
 
     {%- if field.form_snippet is not none -%}
@@ -39,6 +43,15 @@
 {% endblock %}
 
 {% block metadata_fields %}
+  <p class="field-description-text">
+  {% if dataset_type == 'showcase' %}
+    {{ _('Additional fields are meant for the information that does not fit in any other field on the form. The information in the fields is not shown on the showcase’s page.') }}
+  {% elif dataset_type == 'apiset' %}
+    {{ _('Additional fields are meant for the information that does not fit in any other field on the form. The information in the fields is not shown on the API’s page.') }}
+  {% else %}
+    {{ _('Additional fields are meant for the information that does not fit in any other field on the form. The information in the fields is not shown on the dataset’s page.') }}
+  {% endif %}
+  </p>
   {% block package_metadata_fields_custom %}
     {% block custom_fields %}
       {% snippet 'snippets/custom_form_fields.html', extras=data.extras, errors=errors, limit=3 %}

@@ -1,5 +1,6 @@
 import ckan.plugins as plugins
 from ckan.plugins import toolkit
+from ckan.lib.plugins import DefaultTranslation
 
 from ckanext.ytp_recommendation import views, helpers, cli
 from ckanext.ytp_recommendation.logic.action import create, get
@@ -7,12 +8,13 @@ from ckanext.ytp_recommendation.logic.action import create, get
 log = __import__('logging').getLogger(__name__)
 
 
-class Ytp_RecommendationPlugin(plugins.SingletonPlugin):
+class Ytp_RecommendationPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IActions, inherit=True)
     plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.ITranslation)
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IClick)
 

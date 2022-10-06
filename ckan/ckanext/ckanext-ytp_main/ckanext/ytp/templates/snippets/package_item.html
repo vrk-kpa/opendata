@@ -74,7 +74,7 @@ Example:
                 {% endif %}
                 <div class="d-flex flex-1 justify-content-end flex-wrap">
                     {%- if package.get('resources') -%}
-                        {% set formats = h.unique_formats(package.get('resources')) %}
+                        {% set formats = h.unique_formats(package.get('resources'), package.get('type')) %}
                         {%- for format in formats -%}
                             <div class="search-item-tag search-item-tag-type">
                               <span class="">

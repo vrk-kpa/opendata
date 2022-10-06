@@ -213,9 +213,9 @@
                             ] -%}
                             {%- for field in schema.resource_fields -%}
                               {%- if field.field_name not in exclude_fields and field.display_snippet is not none
-                              and field.field_name in res and field[field.field_name] != "" -%}
+                              and field.field_name in res and field[field.field_name] != "" and res.get(field.field_name, '') != '' -%}
                                 <tr>
-                                  <th>{{- h.scheming_language_text(field.label) -}} </th>
+                                  <th>{{- h.scheming_language_text(field.label) -}}   </th>
                                   <th>{%- snippet 'scheming/snippets/display_field.html',
                                     field=field, data=res, entity_type='dataset',
                                     object_type=dataset_type -%}</th>

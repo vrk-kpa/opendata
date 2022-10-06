@@ -90,7 +90,7 @@ def _add_apiset_search(showcase_id, showcase_name):
     params_nosort = [(k, v) for k, v in params_nopage if k != 'sort']
 
     def _search_url(params, name):
-        url = h.url_for('sixodp_showcase_manage_apisets', id=name)
+        url = h.url_for('sixodp_showcase.manage_apisets', id=name)
         return url_with_params(url, params)
 
     def url_with_params(url, params):
