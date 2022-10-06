@@ -14,13 +14,21 @@ avoindata_header.datasets_fi:
   url: 'internal:/data/fi/dataset'
   weight: 2
 
+avoindata_header.apisets_fi:
+  title: 'Rajapinnat'
+  description: 'Rajapinnat'
+  parent: main-fi
+  menu_name: main-fi
+  url: 'internal:/data/fi/apiset'
+  weight: 3
+
 avoindata_header.organizations_fi:
   title: 'Tuottajat'
   description: 'Tuottajat'
   parent: main-fi
   menu_name: main-fi
   url: 'internal:/data/fi/organization'
-  weight: 3
+  weight: 4
 
 avoindata_header.apps_fi:
   title: 'Käyttösovellukset'
@@ -28,14 +36,6 @@ avoindata_header.apps_fi:
   parent: main-fi
   menu_name: main-fi
   url: 'internal:/data/fi/showcase'
-  weight: 4
-
-avoindata_header.news_fi:
-  title: 'Ajankohtaista'
-  description: 'Ajankohtaista'
-  parent: main-fi
-  menu_name: main-fi
-  url: 'internal:/fi/articles'
   weight: 5
 
 avoindata_header.guide_fi:
@@ -72,13 +72,21 @@ avoindata_header.datasets_en:
   url: 'internal:/data/en/dataset'
   weight: 2
 
+avoindata_header.apisets_en:
+  title: 'Apisets'
+  description: 'Apisets'
+  parent: main-en
+  menu_name: main-en
+  url: 'internal:/data/en/apiset'
+  weight: 3
+
 avoindata_header.organizations_en:
   title: 'Publishers'
   description: 'Publishers'
   parent: main-en
   menu_name: main-en
   url: 'internal:/data/en/organization'
-  weight: 3
+  weight: 4
 
 avoindata_header.apps_en:
   title: 'Applications'
@@ -86,14 +94,6 @@ avoindata_header.apps_en:
   parent: main-en
   menu_name: main-en
   url: 'internal:/data/en/showcase'
-  weight: 4
-
-avoindata_header.news_en:
-  title: 'News and articles'
-  description: 'News and articles'
-  parent: main-en
-  menu_name: main-en
-  url: 'internal:/en/articles'
   weight: 5
 
 avoindata_header.guide_en:
@@ -130,13 +130,21 @@ avoindata_header.datasets_sv:
   url: 'internal:/data/sv/dataset'
   weight: 2
 
+avoindata_header.apisets_sv:
+  title: 'Apisets'
+  description: 'Apisets'
+  parent: main-sv
+  menu_name: main-sv
+  url: 'internal:/data/sv/apiset'
+  weight: 3
+
 avoindata_header.organizations_sv:
   title: 'Organisationer'
   description: 'Organisationer'
   parent: main-sv
   menu_name: main-sv
   url: 'internal:/data/sv/organization'
-  weight: 3
+  weight: 4
 
 avoindata_header.apps_sv:
   title: 'Apps'
@@ -144,14 +152,6 @@ avoindata_header.apps_sv:
   parent: main-sv
   menu_name: main-sv
   url: 'internal:/data/sv/showcase'
-  weight: 4
-
-avoindata_header.news_sv:
-  title: 'Aktuellt'
-  description: 'Aktuellt'
-  parent: main-sv
-  menu_name: main-sv
-  url: 'internal:/sv/articles'
   weight: 5
 
 avoindata_header.guide_sv:
@@ -171,6 +171,30 @@ avoindata_header.moreoptions_sv:
   url: 'internal:/sv'
   weight: 99
   expanded: true
+
+avoindata_header.news_fi:
+  title: 'Ajankohtaista'
+  description: 'Ajankohtaista'
+  parent: avoindata_header.moreoptions_fi
+  menu_name: main-fi
+  url: 'internal:/fi/articles'
+  weight: 5
+
+avoindata_header.news_en:
+  title: 'News and articles'
+  description: 'News and articles'
+  parent: avoindata_header.moreoptions_en
+  menu_name: main-en
+  url: 'internal:/en/articles'
+  weight: 5
+
+avoindata_header.news_sv:
+  title: 'Aktuellt'
+  description: 'Aktuellt'
+  parent: avoindata_header.moreoptions_sv
+  menu_name: main-sv
+  url: 'internal:/sv/articles'
+  weight: 5
 
 avoindata_header.events_fi:
   title: 'Tapahtumakalenteri'
