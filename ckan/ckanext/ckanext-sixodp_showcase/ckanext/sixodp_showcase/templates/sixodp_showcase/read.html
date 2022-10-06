@@ -98,7 +98,6 @@
 
             {% set showcase_apisets = h.get_showcase_apisets(pkg.id) %}
             {% if showcase_apisets %}
-            <!-- VAATII KÄÄNNÖKSEN -->
               <h3 class="showcase-packages-title">{{ _('Used apisets') }}</h3>
               {{ h.snippet('sixodp_showcase/snippets/showcase_package_list.html', packages=showcase_apisets, list_class='showcase-packages') }}
             {% endif %}
