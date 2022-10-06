@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-02 11:57+0000\n"
+"POT-Creation-Date: 2022-10-06 09:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -529,7 +529,7 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:73
 #: ckanext/sixodp_showcase/templates/showcase/search.html:12
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:16
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:13
 msgid "Relevance"
 msgstr ""
 
@@ -553,7 +553,7 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:77
 #: ckanext/sixodp_showcase/templates/showcase/search.html:16
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:15
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:16
 msgid "Popular"
 msgstr ""
 
@@ -585,7 +585,7 @@ msgid "Launch website"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/search.html:19
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:23
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:22
 msgid "Search showcases..."
 msgstr ""
 
@@ -677,12 +677,12 @@ msgid ""
 "License</a>."
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:92
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:95
 msgid "Used datasets"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:97
-msgid "There are no Datasets in this Showcase"
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:102
+msgid "Used apisets"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:20
@@ -747,16 +747,12 @@ msgstr ""
 msgid "Remove dataset from this showcase"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:13
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:14
 msgid "Newest first"
 msgstr ""
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:14
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:15
 msgid "Oldest first"
-msgstr ""
-
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:20
-msgid "Top rating"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:7
