@@ -57,19 +57,6 @@
     "domain_data": false,
     "domain_software": false,
     "family": "",
-    "id": "cc-by",
-    "is_okd_compliant": true,
-    "is_osi_compliant": false,
-    "maintainer": "",
-    "status": "active",
-    "title": "Creative Commons Attribution",
-    "url": "http://www.opendefinition.org/licenses/cc-by"
-  },
-  {
-    "domain_content": true,
-    "domain_data": false,
-    "domain_software": false,
-    "family": "",
     "id": "cc-by-sa",
     "is_okd_compliant": true,
     "is_osi_compliant": false,
@@ -240,21 +227,6 @@
     "title": "Creative Commons Attribution-NoDerivs 3.0",
     "url": "http://creativecommons.org/licenses/by-nd/3.0/"
   },
-
-  {
-    "domain_content": true,
-    "domain_data": false,
-    "domain_software": false,
-    "family": "",
-    "id": "cc-by-4-fi",
-    "is_okd_compliant": true,
-    "is_osi_compliant": false,
-    "maintainer": "",
-    "status": "active",
-    "title": "Creative Commons Nimeä 4.0",
-    "url": "http://creativecommons.org/licenses/by/4.0/deed.fi"
-  },
-
   {
     "domain_content": false,
     "domain_data": true,
