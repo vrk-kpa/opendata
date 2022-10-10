@@ -62,6 +62,30 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
   }
 
   /**
+   * Queries apiset count from ckan.
+   *
+   * @return array
+   *   Returns markup.
+   */
+  function avoindata_hero_apiset_count()
+  {
+    $client = \Drupal::httpClient();
+
+    try {
+      $apisetResponse = $client->request('POST', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/apiset_list');
+      $apisetResult = Json::decode($apisetResponse->getBody());
+      $apisetCount = count($apisetResult['result']);
+    } catch (\Exception $e) {
+      $apisetCount = 0;
+    }
+
+    return [
+      '#markup' => $apisetCount,
+      '#cache' => ['max-age' => 0],
+    ];
+  }
+
+  /**
    * Queries organization count from ckan.
    *
    * @return array
@@ -112,6 +136,6 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
    * {@inheritdoc}
    */
   public static function trustedCallbacks() {
-    return ['avoindata_hero_dataset_count', 'avoindata_hero_organization_count', 'avoindata_hero_application_count'];
+    return ['avoindata_hero_dataset_count', 'avoindata_hero_apiset_count', 'avoindata_hero_organization_count', 'avoindata_hero_application_count'];
   }
 }

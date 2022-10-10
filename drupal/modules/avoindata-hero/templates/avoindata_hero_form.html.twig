@@ -14,18 +14,23 @@
     <div class="avoindata-hero-search-container">
         <div>
             <div class="d-inline-block avoindata-frontpage-header-text-container">
-                <h2>
+                <h1>
                     {% trans %}
                         All Finnish open data from one place
                     {% endtrans %}
-                </h2>
+                </h1>
             </div>
         </div>
-        <!-- TODO: Add api endpoints when they are available and change justify "evenly" to "between" -->
+        <!-- TODO: Change justify "evenly" to "between" -->
         <div class="d-flex flex-wrap justify-content-evenly mt-2">
             {% set dataset_text %}
                 {% trans with {'context': 'x datasets'} %}
                 Datasets
+                {% endtrans %}
+            {% endset %}
+            {% set apiset_text %}
+                {% trans with {'context': 'x apisets'} %}
+                Apisets
                 {% endtrans %}
             {% endset %}
             {% set organization_text %}
@@ -40,10 +45,11 @@
             {% endset %}
 
             {% set dataset = {'url': 'dataset', 'count': form.datasetcount | default("0"), 'text': dataset_text} %}
+            {% set apiset = {'url': 'apiset', 'count': form.apisetcount | default("0"), 'text': apiset_text} %}
             {% set organization = {'url': 'organization', 'count': form.organizationcount | default("0"), 'text': organization_text} %}
             {% set showcase = {'url': 'showcase', 'count': form.applicationcount | default("0"), 'text': showcase_text} %}
 
-            {% set counts = [dataset, organization, showcase] %}
+            {% set counts = [dataset, apiset, organization, showcase] %}
 
             {% for count in counts %}
                 <div class="text-center">
@@ -89,7 +95,7 @@
                 <button id="type-dropdown" type="button" class="suomifi-button-secondary-black-text" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-3">
                         {% trans %}
-                            Datasets
+                            Search datasets
                         {% endtrans %}
                     </span>
                     <i class="fa fa-caret-down"></i>
@@ -98,21 +104,28 @@
                     <li>
                         <a href="#" data-value="1">
                             {% trans %}
-                            Datasets
+                            Search applications
                             {% endtrans %}
                         </a>
                     </li>
                     <li>
                         <a href="#" data-value="2">
                             {% trans %}
-                            Applications
+                            Search applications
                             {% endtrans %}
                         </a>
                     </li>
                     <li>
                         <a href="#" data-value="3">
                             {% trans %}
-                            Organizations
+                            Search organizations
+                            {% endtrans %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-value="4">
+                            {% trans %}
+                            Search apisets
                             {% endtrans %}
                         </a>
                     </li>
