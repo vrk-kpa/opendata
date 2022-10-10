@@ -510,23 +510,99 @@ End of dropdown CSS
 
 // Footer
 .footer {
-  margin: auto auto 0 auto;
-  padding-top: 35px;
-  padding-bottom: 36px;
-  border-top: 1px solid #e5e5e5;
-  border-top: 0;
-  background-color: @opendata-brand-dark;
-  color: @block-color-light;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
   width: 100%;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: @font-size-slightly-smaller-base;
+  font-weight: @font-weight-normal;
   line-height: 23px;
+  border-top: 4px solid @opendata-brand-blue;
 
-  .footer-logo {
-    width: 20%;
-    padding-bottom: 13px;
-    border-bottom: 6px solid @bottom-highlight-color;
-    margin-bottom: 27px;
+  .footer__top {
+    background-color: @suomi-whiteBase;
+    color: @color--black;
+    padding-top: @padding-y__section;
+    padding-bottom: 0;
+
+    .footer__brand-box {
+      margin-bottom: 10px;
+    }
+
+    .footer__logo {
+      align-self: center;
+
+      #footer-logo {
+        max-width: 150px;
+      }
+    }
+
+    .footer__logo-text {
+      font-size: @font-size-base;
+      display: flex;
+
+      span {
+        display: block;
+      }
+
+      &::before {
+        content: ' ';
+        border-right: 1px solid @color--grey;
+        margin: -5px @padding-x--common;
+      }
+    }
+  }
+
+  .footer__bottom {
+    background-color: @opendata-brand-blue;
+    color: @footer-text-color;
+    padding-top: @padding-y__section;
+    padding-bottom: @padding-y__section;
+
+    .footer-socicons {
+      font-size: @font-size-slightly-smaller-base;
+      margin: 0 @padding-x--common;
+      padding: 0;
+      font-weight: @font-weight-normal;
+      display: flex;
+      align-items: center;
+
+      &,
+      a,
+      a:hover,
+      a:focus,
+      a:visited {
+        color: @footer-text-color;
+        
+      }
+
+      .fab {
+        font-size: 26px;
+        margin-right: @padding-x--small;
+      }
+    }
+  }
+
+  .footer-row {
+    display: flex;
+    width: 100%;
+    max-width: @opendata-container-max-width;
+    margin: 0 auto;
+    justify-content: center;
+
+    .footer-col {
+      display: flex;
+
+      &--right {
+        margin-left: auto;
+        margin-right: 0;
+      }
+
+      &--left {
+        margin-left: 0;
+        margin-right: auto;
+      }
+    }
   }
 
   .footer-follow {
@@ -535,12 +611,6 @@ End of dropdown CSS
 
     .footer-follow-message {
       margin-bottom: 10px;
-    }
-
-    .footer-socicons {
-      font-size: 34px;
-      margin: 0;
-      padding: 0;
     }
   }
 
@@ -604,6 +674,27 @@ End of dropdown CSS
   }
 }
 
-.nav-link-selected {
-  border-left: @border-width__navigation solid @sidebar-block-color-header;
+.footer-nav {
+  padding: @padding-y--common 0;
+
+  .navbar {
+    min-height: auto;
+  }
+
+  .nav {
+    display: flex;
+    margin-left: -@padding-x__footer-nav-link;
+    margin-right: -@padding-x__footer-nav-link;
+
+    .nav__item {
+      .nav__item__link {
+        padding: @padding-y__footer-nav-link @padding-x__footer-nav-link;
+
+        &:hover {
+          background-color: transparent;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }
