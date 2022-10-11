@@ -5,7 +5,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 # 
 # Translators:
-# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2019
+# Meeri Hakala <meeri.hakala@dvv.fi>, 2022
 # Ville Teräväinen, 2022
 # 
 #, fuzzy
@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-09 09:59+0000\n"
+"POT-Creation-Date: 2022-10-11 07:58+0000\n"
 "PO-Revision-Date: 2019-07-16 07:12+0000\n"
 "Last-Translator: Ville Teräväinen, 2022\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
@@ -24,14 +24,18 @@ msgstr ""
 "Language: en_GB\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ckanext/advancedsearch/helpers.py:118
+#: ckanext/advancedsearch/helpers.py:120
 #: ckanext/advancedsearch/translations.py:29
 msgid "Datasets"
 msgstr ""
 
-#: ckanext/advancedsearch/helpers.py:118
+#: ckanext/advancedsearch/helpers.py:121
 #: ckanext/advancedsearch/translations.py:30
 msgid "Showcases"
+msgstr ""
+
+#: ckanext/advancedsearch/helpers.py:122
+msgid "Apisets"
 msgstr ""
 
 #: ckanext/advancedsearch/translations.py:8
@@ -46,10 +50,10 @@ msgstr ""
 msgid "Search target"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:17
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:36
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:70
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:24
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:42
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:76
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:83
 #: ckanext/advancedsearch/translations.py:11
 msgid "All"
 msgstr ""
@@ -68,7 +72,7 @@ msgstr ""
 
 #: ckanext/advancedsearch/translations.py:15
 msgid "Publisher"
-msgstr "Producer"
+msgstr "Publisher"
 
 #: ckanext/advancedsearch/translations.py:16
 msgid "License"
@@ -114,13 +118,13 @@ msgstr ""
 
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:33
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:38
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:45
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:40
 #: ckanext/advancedsearch/translations.py:26
 msgid "Show less options"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:41
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:47
 #: ckanext/advancedsearch/translations.py:27
 msgid "Not selected"
 msgstr ""
@@ -130,7 +134,7 @@ msgstr ""
 msgid "Are you sure you want to clear all filters?"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:24
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:23
 #: ckanext/advancedsearch/translations.py:31
 msgid "Release interval"
 msgstr "published between"
@@ -183,16 +187,12 @@ msgid "Date Created Descending"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:103
-msgid "Source"
-msgstr ""
-
-#: ckanext/advancedsearch/templates/advanced_search/index.html:104
 msgid "Popular"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:108
-msgid "Found {count} datasets"
-msgstr ""
+msgid "Found {count} results"
+msgstr "Found {count} results"
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:111
 msgid "Sorting"
@@ -202,20 +202,20 @@ msgstr ""
 msgid "Filter search"
 msgstr ""
 
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:34
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:32
 msgid "Update interval"
 msgstr "updated between"
 
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:6
-msgid "before"
-msgstr "before"
-
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:7
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:8
 msgid "after"
 msgstr "after"
 
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:18
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:33
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:9
+msgid "before"
+msgstr "before"
+
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:25
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:39
 msgid "selected"
 msgstr ""
 

@@ -117,7 +117,9 @@ def advanced_license_options(field=None):
 
 
 def advanced_dataset_types_options(field=None):
-    dataset_types = [{"value": "dataset", "label": _("Datasets")}, {"value": "showcase", "label": _("Showcases")}]
+    dataset_types = [{"value": "dataset", "label": _("Datasets")}, 
+    {"value": "showcase", "label": _("Showcases")},
+    {"value": "apiset", "label": _("Apisets")}]
 
     return make_options(dataset_types, value="value", label="label")
 

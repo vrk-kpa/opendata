@@ -85,6 +85,10 @@ def search():
         'mm': 0,
     }
 
+    # set default filters to datasets and apisets if none given
+    if not search_query_filters:
+        search_query_filters = ['dataset_type:dataset OR dataset_type:apiset']
+
     if search_query_filters:
         # Outputs: (filter:value) AND (another_filter:another_value)
         data_dict['fq'] = '(' + ') AND ('.join(search_query_filters) + ')'
