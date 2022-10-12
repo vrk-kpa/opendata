@@ -21,7 +21,7 @@ describe('Apiset tests', function(){
       '#field-title_translated-fi': apiset2_name,
       '#field-notes_translated-fi': 'test kuvaus',
       '#s2id_autogen1': {type: 'select2', values: ['keyword two']},
-      '#field-license_id':{type: 'select', value: 'cc-by'},
+      '#field-license_id':{type: 'select', value: 'cc-by-4.0'},
       '#field-api_provider': 'Api Provider',
       '#field-api_provider_email': 'test.provider@example.com',
     }
@@ -182,15 +182,15 @@ describe('Apiset tests', function(){
     });
 
     it('Filter by licence', function(){
-      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Attribution');
+      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Nimeä 4.0');
       cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Non-Commercial');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
 
-      //filter by Creative Commons Attribution
+      //filter by Creative Commons Nimeä 4.0
       cy.get(':nth-child(5) > nav > .list-unstyled > :nth-child(1) > a > span').click();
 
-      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Attribution');
+      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Nimeä 4.0');
       cy.get('.secondary > :nth-child(5)').should('not.contain.text', 'Creative Commons Non-Commercial');
       cy.get('.container-search-result').should('not.contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
@@ -198,7 +198,7 @@ describe('Apiset tests', function(){
       //release the filter
       cy.get('.remove > .fal').click();
 
-      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Attribution');
+      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Nimeä 4.0');
       cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Non-Commercial');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
@@ -206,7 +206,7 @@ describe('Apiset tests', function(){
       //filter by Creative Commons Non-Commercial
       cy.get(':nth-child(5) > nav > .list-unstyled > :nth-child(2) > a > span').click();
 
-      cy.get('.secondary > :nth-child(5)').should('not.contain.text', 'Creative Commons Attribution');
+      cy.get('.secondary > :nth-child(5)').should('not.contain.text', 'Creative Commons Nimeä 4.0');
       cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Non-Commercial');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('not.contain.text', apiset2_name);
@@ -214,7 +214,7 @@ describe('Apiset tests', function(){
       //release the filter
       cy.get('.remove > .fal').click();
 
-      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Attribution');
+      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Nimeä 4.0');
       cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Non-Commercial');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
