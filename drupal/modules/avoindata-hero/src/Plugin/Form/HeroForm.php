@@ -83,6 +83,9 @@ class HeroForm extends FormBase {
     elseif ($filter == '3') {
       $base_path = $base_path . '/organization';
     }
+    elseif ($filter == '4') {
+      $base_path = $base_path . '/apiset';
+    }
     else {
       $base_path = $base_path . '/dataset';
     }

@@ -366,7 +366,7 @@ describe('Apiset tests', function(){
       // Wait for page to load
       cy.url().should('include', `/apiset/${apiset_name}`); 
       // No datasets should be associated
-      cy.get('.empty').should('exist');
+      cy.get('.apiset-datasets-block').should('not.exist');
   
       cy.get('.admin-banner > a').click();
       cy.url().should('include', `/apiset/edit/${apiset_name}`); 

@@ -3,8 +3,15 @@
 {% set allow_select_all = field.display_options.allow_select_all %}
 {% set prev_selected = h.value_or_blank(prev_query, name) %}
 
+
 {% if prev_selected %}
     {% set stats_prev = h.selected_indexes_checkboxes(options, prev_selected) %}
+{% else %}
+    <!-- Set the default options for dataset type if no previous filters have been given -->
+    {% if field.field_name == 'dataset_type' %}
+        {% set prev_selected = ['dataset', 'apiset'] %}
+        {% set stats_prev = h.selected_indexes_checkboxes(options, prev_selected) %}
+    {% endif %}
 {% endif %}
 
 {% asset 'advancedsearch/ytp_multiselect_js' %}
@@ -24,8 +31,7 @@
         for="advanced-search-dropdown-toggle-{{name}}"
         class="ytp-multiselect-toggle ytp-input-element"
         type="button"
-        aria-expanded="false"
-    >
+        aria-expanded="false">
         {% if prev_selected %}
             {% if stats_prev %}
                 {% if not stats_prev.all_selected %}
@@ -68,8 +74,9 @@
                         id="{{name}}-checkbox-all"
                         data-option-value="all"
                         data-option-label="{{ _('All') }}"
-                        {% if checked %}checked{% endif %}
-                    >
+                        {% if checked %}
+                            checked
+                        {% endif %}>
                     <span class="custom-checkbox">
                     </span>
                     <span class="m-0 ml-2">

@@ -28,6 +28,13 @@ class HeroBlock extends BlockBase {
       '#create_placeholder' => TRUE,
     ];
 
+    $form['apisetcount'] = [
+      '#lazy_builder' => [\AvoindataHeroHandler::class .
+        ':avoindata_hero_apiset_count', [],
+      ],
+      '#create_placeholder' => TRUE,
+    ];
+
     $form['organizationcount'] = [
       '#lazy_builder' => [\AvoindataHeroHandler::class .
         ':avoindata_hero_organization_count', [],

@@ -1,9 +1,8 @@
 [main]
 host = https://www.transifex.com
 
-[ytp.drupal8]
-file_filter = ansible/roles/drupal/files/i18n/<lang>/drupal8.po
-source_file = ansible/roles/drupal/files/i18n/drupal8.po
+[o:avoindata:p:ytp:r:drupal8]
+file_filter = drupal/i18n/<lang>/drupal.po
+source_file = drupal/i18n/drupal.pot
 source_lang = en
 type = PO
-

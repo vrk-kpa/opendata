@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-09 09:59+0000\n"
+"POT-Creation-Date: 2022-10-11 07:58+0000\n"
 "PO-Revision-Date: 2019-07-16 07:12+0000\n"
 "Last-Translator: Ville Teräväinen, 2022\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -25,15 +25,19 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ckanext/advancedsearch/helpers.py:118
+#: ckanext/advancedsearch/helpers.py:120
 #: ckanext/advancedsearch/translations.py:29
 msgid "Datasets"
 msgstr "Datamängder"
 
-#: ckanext/advancedsearch/helpers.py:118
+#: ckanext/advancedsearch/helpers.py:121
 #: ckanext/advancedsearch/translations.py:30
 msgid "Showcases"
 msgstr "Applikationer"
+
+#: ckanext/advancedsearch/helpers.py:122
+msgid "Apisets"
+msgstr ""
 
 #: ckanext/advancedsearch/translations.py:8
 msgid "Search terms"
@@ -47,10 +51,10 @@ msgstr "Sök efter..."
 msgid "Search target"
 msgstr "Sökobjekt"
 
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:17
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:36
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:70
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:24
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:42
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:76
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:83
 #: ckanext/advancedsearch/translations.py:11
 msgid "All"
 msgstr "Alla"
@@ -115,13 +119,13 @@ msgstr "Visa fler sökvillkor"
 
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:33
 #: ckanext/advancedsearch/fanstatic/javascript/avoindata-utils.js:38
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:45
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:40
 #: ckanext/advancedsearch/translations.py:26
 msgid "Show less options"
 msgstr "Visa färre sökvillkor"
 
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker.html:8
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:41
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:47
 #: ckanext/advancedsearch/translations.py:27
 msgid "Not selected"
 msgstr "Inte markerat"
@@ -131,7 +135,7 @@ msgstr "Inte markerat"
 msgid "Are you sure you want to clear all filters?"
 msgstr "Vill du verkligen tömma alla filter?"
 
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:24
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:23
 #: ckanext/advancedsearch/translations.py:31
 msgid "Release interval"
 msgstr "publicerad mellan"
@@ -184,15 +188,11 @@ msgid "Date Created Descending"
 msgstr "Fallande enligt skapandedatum"
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:103
-msgid "Source"
-msgstr "Källa"
-
-#: ckanext/advancedsearch/templates/advanced_search/index.html:104
 msgid "Popular"
 msgstr "Populärt"
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:108
-msgid "Found {count} datasets"
+msgid "Found {count} results"
 msgstr ""
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:111
@@ -203,20 +203,20 @@ msgstr "Sortering"
 msgid "Filter search"
 msgstr "Filtrera sökning"
 
-#: ckanext/advancedsearch/templates/advanced_search/search_form.html:34
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:32
 msgid "Update interval"
 msgstr "uppdaterad mellan"
 
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:6
-msgid "before"
-msgstr "till"
-
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:7
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:8
 msgid "after"
 msgstr "från"
 
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:18
-#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:33
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:9
+msgid "before"
+msgstr "till"
+
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:25
+#: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:39
 msgid "selected"
 msgstr "valt"
 

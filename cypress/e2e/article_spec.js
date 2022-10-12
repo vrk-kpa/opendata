@@ -2,7 +2,8 @@ describe('Articles page', function() {
 
   it("Navigate to article page", function(){
     cy.visit("/");
-    cy.get('.nav > :nth-child(5) > a').click();
+    cy.get('.nav > :nth-child(7) > a.dropdown-toggle').click();
+    cy.get('.nav > :nth-child(7) > .dropdown-menu > :nth-child(1) > a').click();
     cy.location('pathname', {timeout: 60000}).should('contain', `/artikkelit`);
   });
 
