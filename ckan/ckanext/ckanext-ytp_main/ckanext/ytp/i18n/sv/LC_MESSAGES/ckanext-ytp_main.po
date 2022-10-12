@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-08-05 13:04+0000\n"
+"POT-Creation-Date: 2022-10-12 10:15+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Ville Teräväinen, 2022\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -67,8 +67,8 @@ msgstr "Användaren %s saknar behörighet att skapa organisationer"
 msgid "Cannot modify dataset because of organization policy"
 msgstr "Att redigera datamängden strider mot organisationens policy"
 
-#: ckanext/ytp/auth.py:144 ckanext/ytp/views_organization.py:275
-#: ckanext/ytp/views_organization.py:323
+#: ckanext/ytp/auth.py:144 ckanext/ytp/views_organization.py:274
+#: ckanext/ytp/views_organization.py:322
 msgid "Only system administrators are allowed to view user list."
 msgstr "Endast systemadministratören får granska användarlistan"
 
@@ -113,7 +113,7 @@ msgstr "Skapa ny datamängd"
 msgid "Unauthorized to read package %s"
 msgstr "Behörighet krävs för att läsa datamängden %s"
 
-#: ckanext/ytp/controller.py:116 ckanext/ytp/views.py:70
+#: ckanext/ytp/controller.py:116 ckanext/ytp/views.py:76
 msgid "Dataset not found"
 msgstr "Hittar inte datamängden"
 
@@ -176,11 +176,11 @@ msgid "Related item was successfully updated"
 msgstr "Det relaterade objektet har uppdaterats"
 
 #: ckanext/ytp/controller.py:419 ckanext/ytp/controller.py:691
-#: ckanext/ytp/views_organization.py:77
+#: ckanext/ytp/views_organization.py:76
 msgid "Integrity Error"
 msgstr "Integritetsfel"
 
-#: ckanext/ytp/controller.py:439 ckanext/ytp/templates/package/search.html:84
+#: ckanext/ytp/controller.py:439 ckanext/ytp/templates/package/search.html:83
 #: ckanext/ytp/templates/package/snippets/related_item.html:21
 msgid "API"
 msgstr "API"
@@ -254,7 +254,7 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr "Felaktigt datumformat"
 
-#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:339
+#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:358
 msgid "Unnamed resource"
 msgstr "Namnlös dataresurs"
 
@@ -325,7 +325,7 @@ msgstr "Radera användarkonto"
 msgid "Users"
 msgstr "Användare"
 
-#: ckanext/ytp/menu.py:155
+#: ckanext/ytp/menu.py:155 ckanext/ytp/templates/apiset/resource_read.html:31
 #: ckanext/ytp/templates/organization/admin_list.html:31
 #: ckanext/ytp/templates/organization/edit.html:4
 #: ckanext/ytp/templates/organization/index.html:14
@@ -357,13 +357,13 @@ msgstr "Publicera öppna data"
 msgid "Publish Data"
 msgstr "Publicera data"
 
-#: ckanext/ytp/plugin.py:274 ckanext/ytp/plugin.py:285
-#: ckanext/ytp/plugin.py:299
+#: ckanext/ytp/plugin.py:290 ckanext/ytp/plugin.py:300
+#: ckanext/ytp/plugin.py:314
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 msgid "Tags"
 msgstr "Nyckelord"
 
-#: ckanext/ytp/plugin.py:275 ckanext/ytp/plugin.py:286
+#: ckanext/ytp/plugin.py:291 ckanext/ytp/plugin.py:301
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
 #: ckanext/ytp/templates/snippets/organization.html:21
@@ -371,45 +371,41 @@ msgstr "Nyckelord"
 msgid "Organization"
 msgstr "Producent"
 
-#: ckanext/ytp/plugin.py:276 ckanext/ytp/plugin.py:287
-#: ckanext/ytp/plugin.py:301 ckanext/ytp/translations.py:35
+#: ckanext/ytp/plugin.py:292 ckanext/ytp/plugin.py:302
+#: ckanext/ytp/plugin.py:316 ckanext/ytp/translations.py:35
 msgid "Formats"
 msgstr "Filformat"
 
-#: ckanext/ytp/plugin.py:277 ckanext/ytp/translations.py:72
-msgid "Update frequency"
-msgstr "Uppdateringsfrekvens"
-
-#: ckanext/ytp/plugin.py:278 ckanext/ytp/plugin.py:288
+#: ckanext/ytp/plugin.py:293 ckanext/ytp/plugin.py:303
 msgid "Licenses"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:279 ckanext/ytp/plugin.py:289
+#: ckanext/ytp/plugin.py:294 ckanext/ytp/plugin.py:304
 msgid "Category"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:280 ckanext/ytp/plugin.py:290
+#: ckanext/ytp/plugin.py:295 ckanext/ytp/plugin.py:305
 #: ckanext/ytp/translations.py:87
 msgid "Producer type"
 msgstr "Regional täckning/Producenttyp"
 
-#: ckanext/ytp/plugin.py:282
+#: ckanext/ytp/plugin.py:297
 msgid "International Benchmarks"
 msgstr "Internationella jämförelser"
 
-#: ckanext/ytp/plugin.py:283 ckanext/ytp/translations.py:68
+#: ckanext/ytp/plugin.py:298 ckanext/ytp/translations.py:68
 msgid "Geographical coverage"
 msgstr "Geografisk täckning"
 
-#: ckanext/ytp/plugin.py:284 ckanext/ytp/plugin.py:298
+#: ckanext/ytp/plugin.py:299 ckanext/ytp/plugin.py:313
 msgid "Collection Types"
 msgstr "Typer av datamängder"
 
-#: ckanext/ytp/plugin.py:300
+#: ckanext/ytp/plugin.py:315
 msgid "Content Types"
 msgstr "Innehållstyper"
 
-#: ckanext/ytp/plugin.py:339
+#: ckanext/ytp/plugin.py:358
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
 #: ckanext/ytp/templates/scheming/organization/about.html:20
 msgid "Additional Info"
@@ -642,6 +638,10 @@ msgstr "Länkar till mer information"
 #: ckanext/ytp/translations.py:71
 msgid "Links to additional information concerning the dataset."
 msgstr "Länkar till mer information om datamängden"
+
+#: ckanext/ytp/translations.py:72
+msgid "Update frequency"
+msgstr "Uppdateringsfrekvens"
 
 #: ckanext/ytp/translations.py:73
 msgid "A short description of how frequently the dataset will get updated."
@@ -1611,22 +1611,22 @@ msgstr "Slutdatumet infaller före startdatumet"
 msgid "Only sysadmin can change feature: %s"
 msgstr "Endast systemadministratörer får ändra funktionen: %s"
 
-#: ckanext/ytp/views_organization.py:54
+#: ckanext/ytp/views_organization.py:53
 msgid "Unauthorized to create a group"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:75 ckanext/ytp/views_organization.py:104
-#: ckanext/ytp/views_organization.py:170 ckanext/ytp/views_organization.py:217
-#: ckanext/ytp/views_organization.py:398
+#: ckanext/ytp/views_organization.py:74 ckanext/ytp/views_organization.py:103
+#: ckanext/ytp/views_organization.py:169 ckanext/ytp/views_organization.py:216
+#: ckanext/ytp/views_organization.py:401
 msgid "Group not found"
 msgstr "Hittar inte gruppen"
 
-#: ckanext/ytp/views_organization.py:220
+#: ckanext/ytp/views_organization.py:219
 #, python-format
 msgid "User %r not authorized to edit members of %s"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:344
+#: ckanext/ytp/views_organization.py:343
 msgid "Not authorized to see this page"
 msgstr "Behörighet krävs för att visa sidan"
 
@@ -1680,6 +1680,7 @@ msgstr "Lägg till webbadress"
 
 #: ckanext/ytp/resources/opendata/scripts/translations.js:7
 #: ckanext/ytp/templates/scheming/macros/form.html:73
+#: ckanext/ytp/templates/scheming/macros/form.html:192
 msgid "This field is required"
 msgstr "Obligatoriskt fält"
 
@@ -1712,16 +1713,8 @@ msgstr ""
 "Drag och släpp resurslådan med musen till önskad plats på listan. Avsluta "
 "genom att klicka på ”Spara ordningen”."
 
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/bootstrap-table.js:10
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/auto-refresh/bootstrap-table-auto-refresh.js:10
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.js:10
-msgid "div"
-msgstr ""
-
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/bootstrap-table.js:10
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/auto-refresh/bootstrap-table-auto-refresh.js:10
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/export/bootstrap-table-export.js:10
-msgid "iframe"
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/filter-control/utils.js:10
+msgid "Can't call method on "
 msgstr ""
 
 #: ckanext/ytp/templates/disqus_comments.html:2
@@ -1729,25 +1722,54 @@ msgid "Give feedback"
 msgstr ""
 
 #: ckanext/ytp/templates/page.html:13
-#: ckanext/ytp/templates/snippets/search_form.html:106
+#: ckanext/ytp/templates/snippets/search_form.html:104
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:72
 msgid "Hide search filters"
 msgstr "Dölj filtren"
 
 #: ckanext/ytp/templates/apiset/read.html:28
-#: ckanext/ytp/templates/apiset/resource_read.html:75
+#: ckanext/ytp/templates/apiset/resource_read.html:70
 msgid "Interfaces"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:17
-msgid "Interface manual"
+#: ckanext/ytp/templates/apiset/resource_read.html:34
+#: ckanext/ytp/templates/group/snippets/info.html:36
+#: ckanext/ytp/templates/organization/member_new.html:65
+#: ckanext/ytp/templates/organization/members.html:54
+#: ckanext/ytp/templates/organization/read_base.html:22
+#: ckanext/ytp/templates/package/base.html:12
+#: ckanext/ytp/templates/package/base.html:20
+#: ckanext/ytp/templates/package/search.html:14
+#: ckanext/ytp/templates/package/search.html:20
+#: ckanext/ytp/templates/snippets/organization.html:52
+#: ckanext/ytp/templates/user/dashboard_datasets.html:6
+#: ckanext/ytp/templates/user/read.html:5
+msgid "Datasets"
+msgstr "Datamängder"
+
+#: ckanext/ytp/templates/apiset/resource_read.html:34
+#: ckanext/ytp/templates/package/base.html:12
+#: ckanext/ytp/templates/package/base.html:17
+#: ckanext/ytp/templates/package/search.html:14
+#: ckanext/ytp/templates/package/search.html:20
+msgid "Apisets"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:30
+#: ckanext/ytp/templates/apiset/resource_read.html:47
+#: ckanext/ytp/templates/package/resource_read.html:43
+#, python-format
+msgid "<a href=\"%(url)s\">"
+msgstr ""
+
+#: ckanext/ytp/templates/apiset/resource_read.html:47
+msgid "apiset"
+msgstr "Gränssnitt"
+
+#: ckanext/ytp/templates/apiset/resource_read.html:84
 msgid "Additional Information"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:105
+#: ckanext/ytp/templates/apiset/resource_read.html:126
 #: ckanext/ytp/templates/organization/read_base.html:37
 #: ckanext/ytp/templates/package/resource_read.html:66
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:9
@@ -1755,17 +1777,17 @@ msgstr ""
 msgid "Manage"
 msgstr "Redigera"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:111
+#: ckanext/ytp/templates/apiset/resource_read.html:132
 #: ckanext/ytp/templates/package/resource_read.html:72
 msgid "View"
 msgstr "Granska"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:113
+#: ckanext/ytp/templates/apiset/resource_read.html:134
 #: ckanext/ytp/templates/package/resource_read.html:74
 msgid "API Endpoint"
 msgstr "API-slutpunkt"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:115
+#: ckanext/ytp/templates/apiset/resource_read.html:136
 #: ckanext/ytp/templates/package/resource_read.html:76
 #: ckanext/ytp/templates/package/snippets/related_item.html:65
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:13
@@ -1773,19 +1795,19 @@ msgstr "API-slutpunkt"
 msgid "Open"
 msgstr "Öppna"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:117
+#: ckanext/ytp/templates/apiset/resource_read.html:138
 #: ckanext/ytp/templates/package/resource_read.html:78
 #: ckanext/ytp/templates/package/snippets/resource_item.html:51
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:15
 msgid "Download"
 msgstr "Ladda ned"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:139
+#: ckanext/ytp/templates/apiset/resource_read.html:160
 #: ckanext/ytp/templates/package/resource_read.html:108
 msgid "From the dataset abstract"
 msgstr "Av datasmängdens sammandrag"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:141
+#: ckanext/ytp/templates/apiset/resource_read.html:162
 #: ckanext/ytp/templates/package/resource_read.html:110
 #, python-format
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
@@ -1831,6 +1853,55 @@ msgstr "Spara"
 msgid "Add Member"
 msgstr "Lägg till medlem"
 
+#: ckanext/ytp/templates/group/read.html:13
+#: ckanext/ytp/templates/organization/read.html:15
+#: ckanext/ytp/templates/package/search.html:56
+msgid "Relevance"
+msgstr "Relevans"
+
+#: ckanext/ytp/templates/group/read.html:14
+#: ckanext/ytp/templates/organization/index.html:4
+#: ckanext/ytp/templates/organization/read.html:16
+#: ckanext/ytp/templates/package/search.html:57
+#: ckanext/ytp/templates/snippets/search_form.html:59
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
+#: ckanext/ytp/templates/snippets/search_form_without_input.html:30
+msgid "Name Ascending"
+msgstr "Stigande efter namn"
+
+#: ckanext/ytp/templates/group/read.html:15
+#: ckanext/ytp/templates/organization/index.html:4
+#: ckanext/ytp/templates/organization/read.html:17
+#: ckanext/ytp/templates/package/search.html:58
+#: ckanext/ytp/templates/snippets/search_form.html:59
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
+#: ckanext/ytp/templates/snippets/search_form_without_input.html:30
+msgid "Name Descending"
+msgstr "Namn i fallande ordning"
+
+#: ckanext/ytp/templates/group/read.html:16
+#: ckanext/ytp/templates/organization/read.html:18
+#: ckanext/ytp/templates/package/search.html:59
+#: ckanext/ytp/templates/package/snippets/resource_form.html:45
+msgid "Last Modified"
+msgstr "Senast redigerat"
+
+#: ckanext/ytp/templates/group/read.html:17
+#: ckanext/ytp/templates/organization/read.html:21
+#: ckanext/ytp/templates/package/search.html:62
+#: ckanext/ytp/templates/snippets/package_item.html:45
+#: ckanext/ytp/templates/snippets/popular.html:3
+msgid "Popular"
+msgstr "Populär"
+
+#: ckanext/ytp/templates/group/read.html:19
+#: ckanext/ytp/templates/organization/read.html:23
+#: ckanext/ytp/templates/snippets/search_form.html:3
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:3
+#: ckanext/ytp/templates/snippets/search_form_without_input.html:3
+msgid "Search datasets..."
+msgstr "Sök datamängder..."
+
 #: ckanext/ytp/templates/group/snippets/group_item.html:30
 #: ckanext/ytp/templates/group/snippets/group_item.html:32
 msgid "View {name}"
@@ -1860,20 +1931,6 @@ msgstr "Raderat"
 #: ckanext/ytp/templates/snippets/organization.html:48
 msgid "Followers"
 msgstr "Följare"
-
-#: ckanext/ytp/templates/group/snippets/info.html:36
-#: ckanext/ytp/templates/organization/member_new.html:65
-#: ckanext/ytp/templates/organization/members.html:54
-#: ckanext/ytp/templates/organization/read_base.html:22
-#: ckanext/ytp/templates/package/base.html:12
-#: ckanext/ytp/templates/package/base.html:20
-#: ckanext/ytp/templates/package/search.html:14
-#: ckanext/ytp/templates/package/search.html:20
-#: ckanext/ytp/templates/snippets/organization.html:52
-#: ckanext/ytp/templates/user/dashboard_datasets.html:6
-#: ckanext/ytp/templates/user/read.html:5
-msgid "Datasets"
-msgstr "Datamängder"
 
 #: ckanext/ytp/templates/organization/admin_list.html:5
 #: ckanext/ytp/templates/organization/user_list.html:5
@@ -1949,24 +2006,6 @@ msgstr "Denna organisation har ännu inga datamängder"
 msgid "Edit information"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:4
-#: ckanext/ytp/templates/organization/read.html:16
-#: ckanext/ytp/templates/package/search.html:58
-#: ckanext/ytp/templates/snippets/search_form.html:59
-#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
-#: ckanext/ytp/templates/snippets/search_form_without_input.html:30
-msgid "Name Ascending"
-msgstr "Stigande efter namn"
-
-#: ckanext/ytp/templates/organization/index.html:4
-#: ckanext/ytp/templates/organization/read.html:17
-#: ckanext/ytp/templates/package/search.html:59
-#: ckanext/ytp/templates/snippets/search_form.html:59
-#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
-#: ckanext/ytp/templates/snippets/search_form_without_input.html:30
-msgid "Name Descending"
-msgstr "Namn i fallande ordning"
-
 #: ckanext/ytp/templates/organization/index.html:24
 msgid "Search organizations..."
 msgstr "Sök producenter ..."
@@ -1982,32 +2021,32 @@ msgstr "Skicka in"
 msgid "Sorting"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:44
-#: ckanext/ytp/templates/snippets/search_form.html:93
+#: ckanext/ytp/templates/organization/index.html:43
+#: ckanext/ytp/templates/snippets/search_form.html:91
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:59
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:44
 msgid "Go"
 msgstr "Gå"
 
-#: ckanext/ytp/templates/organization/index.html:83
+#: ckanext/ytp/templates/organization/index.html:67
 #: ckanext/ytp/templates/snippets/search_result_text.html:38
 msgid "No organizations found"
 msgstr "Inga producenter hittades"
 
-#: ckanext/ytp/templates/organization/index.html:93
-#: ckanext/ytp/templates/package/search.html:104
+#: ckanext/ytp/templates/organization/index.html:77
+#: ckanext/ytp/templates/package/search.html:103
 msgid "Filter list"
 msgstr "Filtrera listan"
 
-#: ckanext/ytp/templates/organization/index.html:97
+#: ckanext/ytp/templates/organization/index.html:81
 msgid "Filter by data"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:102
+#: ckanext/ytp/templates/organization/index.html:86
 msgid "Show all organizations"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:105
+#: ckanext/ytp/templates/organization/index.html:89
 msgid "Show only organizations with datasets"
 msgstr "Visa endast producenter med data"
 
@@ -2050,40 +2089,15 @@ msgstr ""
 msgid "Organization does not exist"
 msgstr "Organisationen finns inte"
 
-#: ckanext/ytp/templates/organization/read.html:15
-#: ckanext/ytp/templates/package/search.html:57
-msgid "Relevance"
-msgstr "Relevans"
-
-#: ckanext/ytp/templates/organization/read.html:18
-#: ckanext/ytp/templates/package/search.html:60
-#: ckanext/ytp/templates/package/snippets/resource_form.html:45
-msgid "Last Modified"
-msgstr "Senast redigerat"
-
 #: ckanext/ytp/templates/organization/read.html:19
-#: ckanext/ytp/templates/package/search.html:61
+#: ckanext/ytp/templates/package/search.html:60
 msgid "Date Created Ascending"
 msgstr "Stigande efter datumet för skapande"
 
 #: ckanext/ytp/templates/organization/read.html:20
-#: ckanext/ytp/templates/package/search.html:62
+#: ckanext/ytp/templates/package/search.html:61
 msgid "Date Created Descending"
 msgstr "Fallande efter datumet för skapande"
-
-#: ckanext/ytp/templates/organization/read.html:21
-#: ckanext/ytp/templates/package/search.html:63
-#: ckanext/ytp/templates/snippets/package_item.html:45
-#: ckanext/ytp/templates/snippets/popular.html:3
-msgid "Popular"
-msgstr "Populär"
-
-#: ckanext/ytp/templates/organization/read.html:23
-#: ckanext/ytp/templates/snippets/search_form.html:3
-#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:3
-#: ckanext/ytp/templates/snippets/search_form_without_input.html:3
-msgid "Search datasets..."
-msgstr "Sök datamängder..."
 
 #: ckanext/ytp/templates/organization/user_list.html:19
 msgid "Show admins only"
@@ -2124,13 +2138,6 @@ msgstr "Mina medlemskap"
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:26
 msgid "Add Organization"
 msgstr "Lägg till producent"
-
-#: ckanext/ytp/templates/package/base.html:12
-#: ckanext/ytp/templates/package/base.html:17
-#: ckanext/ytp/templates/package/search.html:14
-#: ckanext/ytp/templates/package/search.html:20
-msgid "Apisets"
-msgstr ""
 
 #: ckanext/ytp/templates/package/base.html:18
 msgid "Create Apiset"
@@ -2208,6 +2215,10 @@ msgstr "Lägg till resurs"
 msgid "High value dataset"
 msgstr ""
 
+#: ckanext/ytp/templates/package/read.html:60
+msgid "Used datasets"
+msgstr ""
+
 #: ckanext/ytp/templates/package/resource_edit_base.html:3
 msgid "Edit resource"
 msgstr "Redigera dataresursen"
@@ -2219,11 +2230,6 @@ msgstr "DataStore"
 #: ckanext/ytp/templates/package/resource_edit_base.html:7
 msgid "Views"
 msgstr "Vyer"
-
-#: ckanext/ytp/templates/package/resource_read.html:43
-#, python-format
-msgid "<a href=\"%(url)s\">"
-msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:43
 msgid "dataset"
@@ -2355,22 +2361,22 @@ msgstr ""
 "avoindata.fi, be admin för tjänsten att först skapa organisationen. "
 "Alternativt kan du begära att få publicera datan som privatperson."
 
-#: ckanext/ytp/templates/package/search.html:85
+#: ckanext/ytp/templates/package/search.html:84
 msgid "API Docs"
 msgstr "API dokumentation"
 
-#: ckanext/ytp/templates/package/search.html:87
+#: ckanext/ytp/templates/package/search.html:86
 msgid "full {format} dump"
 msgstr "full {format} dump"
 
-#: ckanext/ytp/templates/package/search.html:88
+#: ckanext/ytp/templates/package/search.html:87
 #, python-format
 msgid ""
 "You can also access this registry using the %(api_link)s (see "
 "%(api_doc_link)s) or download a %(dump_link)s."
 msgstr ""
 
-#: ckanext/ytp/templates/package/search.html:92
+#: ckanext/ytp/templates/package/search.html:91
 #, python-format
 msgid ""
 "You can also access this registry using the %(api_link)s (see "
@@ -2406,16 +2412,18 @@ msgstr "Status"
 msgid "Last Updated"
 msgstr "Senast uppdaterat"
 
-#: ckanext/ytp/templates/package/snippets/categories.html:31
+#: ckanext/ytp/templates/package/snippets/categories.html:26
 msgid "Show more categories"
 msgstr "Visa flera Kategorier"
 
-#: ckanext/ytp/templates/package/snippets/categories.html:34
+#: ckanext/ytp/templates/package/snippets/categories.html:28
 #: ckanext/ytp/templates/snippets/facet_list.html:93
 msgid "Show more"
 msgstr "Visa flera"
 
+#: ckanext/ytp/templates/package/snippets/categories.html:37
 #: ckanext/ytp/templates/package/snippets/categories.html:41
+#: ckanext/ytp/templates/package/snippets/categories.html:45
 msgid "Edit categories"
 msgstr ""
 
@@ -2925,6 +2933,27 @@ msgstr "Visa ändringslogg"
 msgid "Created on"
 msgstr ""
 
+#: ckanext/ytp/templates/scheming/package/snippets/package_form.html:48
+msgid ""
+"Additional fields are meant for the information that does not fit in any "
+"other field on the form. The information in the fields is not shown on the "
+"showcase’s page."
+msgstr ""
+
+#: ckanext/ytp/templates/scheming/package/snippets/package_form.html:50
+msgid ""
+"Additional fields are meant for the information that does not fit in any "
+"other field on the form. The information in the fields is not shown on the "
+"API’s page."
+msgstr ""
+
+#: ckanext/ytp/templates/scheming/package/snippets/package_form.html:52
+msgid ""
+"Additional fields are meant for the information that does not fit in any "
+"other field on the form. The information in the fields is not shown on the "
+"dataset’s page."
+msgstr ""
+
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:6
 msgid "Showcases"
 msgstr "Applikationer"
@@ -3153,17 +3182,17 @@ msgstr ""
 msgid " Use advanced search "
 msgstr "Avancerad sökning"
 
-#: ckanext/ytp/templates/snippets/search_form.html:100
+#: ckanext/ytp/templates/snippets/search_form.html:98
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:66
 msgid "Filter search"
 msgstr "Filtrera sökning"
 
-#: ckanext/ytp/templates/snippets/search_form.html:114
+#: ckanext/ytp/templates/snippets/search_form.html:112
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:102
 msgid "Please try another search or change search facets."
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/search_form.html:122
+#: ckanext/ytp/templates/snippets/search_form.html:120
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:110
 msgid "<strong>There was an error while searching.</strong> Please try again."
 msgstr ""

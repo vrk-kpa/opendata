@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-30 06:26+0000\n"
+"POT-Creation-Date: 2022-10-12 10:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,8 +57,8 @@ msgstr ""
 msgid "Cannot modify dataset because of organization policy"
 msgstr ""
 
-#: ckanext/ytp/auth.py:144 ckanext/ytp/views_organization.py:275
-#: ckanext/ytp/views_organization.py:323
+#: ckanext/ytp/auth.py:144 ckanext/ytp/views_organization.py:274
+#: ckanext/ytp/views_organization.py:322
 msgid "Only system administrators are allowed to view user list."
 msgstr ""
 
@@ -164,7 +164,7 @@ msgid "Related item was successfully updated"
 msgstr ""
 
 #: ckanext/ytp/controller.py:419 ckanext/ytp/controller.py:691
-#: ckanext/ytp/views_organization.py:77
+#: ckanext/ytp/views_organization.py:76
 msgid "Integrity Error"
 msgstr ""
 
@@ -240,7 +240,7 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:354
+#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:358
 msgid "Unnamed resource"
 msgstr ""
 
@@ -310,7 +310,8 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: ckanext/ytp/menu.py:155 ckanext/ytp/templates/organization/admin_list.html:31
+#: ckanext/ytp/menu.py:155 ckanext/ytp/templates/apiset/resource_read.html:31
+#: ckanext/ytp/templates/organization/admin_list.html:31
 #: ckanext/ytp/templates/organization/edit.html:4
 #: ckanext/ytp/templates/organization/index.html:14
 #: ckanext/ytp/templates/organization/organization_not_found.html:6
@@ -387,7 +388,7 @@ msgstr ""
 msgid "Content Types"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:354
+#: ckanext/ytp/plugin.py:358
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
 #: ckanext/ytp/templates/scheming/organization/about.html:20
 msgid "Additional Info"
@@ -1532,22 +1533,22 @@ msgstr ""
 msgid "Only sysadmin can change feature: %s"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:54
+#: ckanext/ytp/views_organization.py:53
 msgid "Unauthorized to create a group"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:75 ckanext/ytp/views_organization.py:104
-#: ckanext/ytp/views_organization.py:170 ckanext/ytp/views_organization.py:217
-#: ckanext/ytp/views_organization.py:402
+#: ckanext/ytp/views_organization.py:74 ckanext/ytp/views_organization.py:103
+#: ckanext/ytp/views_organization.py:169 ckanext/ytp/views_organization.py:216
+#: ckanext/ytp/views_organization.py:401
 msgid "Group not found"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:220
+#: ckanext/ytp/views_organization.py:219
 #, python-format
 msgid "User %r not authorized to edit members of %s"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:344
+#: ckanext/ytp/views_organization.py:343
 msgid "Not authorized to see this page"
 msgstr ""
 
@@ -1647,19 +1648,48 @@ msgid "Hide search filters"
 msgstr ""
 
 #: ckanext/ytp/templates/apiset/read.html:28
-#: ckanext/ytp/templates/apiset/resource_read.html:75
+#: ckanext/ytp/templates/apiset/resource_read.html:70
 msgid "Interfaces"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:17
-msgid "Interface manual"
+#: ckanext/ytp/templates/apiset/resource_read.html:34
+#: ckanext/ytp/templates/group/snippets/info.html:36
+#: ckanext/ytp/templates/organization/member_new.html:65
+#: ckanext/ytp/templates/organization/members.html:54
+#: ckanext/ytp/templates/organization/read_base.html:22
+#: ckanext/ytp/templates/package/base.html:12
+#: ckanext/ytp/templates/package/base.html:20
+#: ckanext/ytp/templates/package/search.html:14
+#: ckanext/ytp/templates/package/search.html:20
+#: ckanext/ytp/templates/snippets/organization.html:52
+#: ckanext/ytp/templates/user/dashboard_datasets.html:6
+#: ckanext/ytp/templates/user/read.html:5
+msgid "Datasets"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:30
+#: ckanext/ytp/templates/apiset/resource_read.html:34
+#: ckanext/ytp/templates/package/base.html:12
+#: ckanext/ytp/templates/package/base.html:17
+#: ckanext/ytp/templates/package/search.html:14
+#: ckanext/ytp/templates/package/search.html:20
+msgid "Apisets"
+msgstr ""
+
+#: ckanext/ytp/templates/apiset/resource_read.html:47
+#: ckanext/ytp/templates/package/resource_read.html:43
+#, python-format
+msgid "<a href=\"%(url)s\">"
+msgstr ""
+
+#: ckanext/ytp/templates/apiset/resource_read.html:47
+msgid "apiset"
+msgstr ""
+
+#: ckanext/ytp/templates/apiset/resource_read.html:84
 msgid "Additional Information"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:105
+#: ckanext/ytp/templates/apiset/resource_read.html:126
 #: ckanext/ytp/templates/organization/read_base.html:37
 #: ckanext/ytp/templates/package/resource_read.html:66
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:9
@@ -1667,17 +1697,17 @@ msgstr ""
 msgid "Manage"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:111
+#: ckanext/ytp/templates/apiset/resource_read.html:132
 #: ckanext/ytp/templates/package/resource_read.html:72
 msgid "View"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:113
+#: ckanext/ytp/templates/apiset/resource_read.html:134
 #: ckanext/ytp/templates/package/resource_read.html:74
 msgid "API Endpoint"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:115
+#: ckanext/ytp/templates/apiset/resource_read.html:136
 #: ckanext/ytp/templates/package/resource_read.html:76
 #: ckanext/ytp/templates/package/snippets/related_item.html:65
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:13
@@ -1685,19 +1715,19 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:117
+#: ckanext/ytp/templates/apiset/resource_read.html:138
 #: ckanext/ytp/templates/package/resource_read.html:78
 #: ckanext/ytp/templates/package/snippets/resource_item.html:51
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:15
 msgid "Download"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:139
+#: ckanext/ytp/templates/apiset/resource_read.html:160
 #: ckanext/ytp/templates/package/resource_read.html:108
 msgid "From the dataset abstract"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:141
+#: ckanext/ytp/templates/apiset/resource_read.html:162
 #: ckanext/ytp/templates/package/resource_read.html:110
 #, python-format
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
@@ -1820,20 +1850,6 @@ msgstr ""
 msgid "Followers"
 msgstr ""
 
-#: ckanext/ytp/templates/group/snippets/info.html:36
-#: ckanext/ytp/templates/organization/member_new.html:65
-#: ckanext/ytp/templates/organization/members.html:54
-#: ckanext/ytp/templates/organization/read_base.html:22
-#: ckanext/ytp/templates/package/base.html:12
-#: ckanext/ytp/templates/package/base.html:20
-#: ckanext/ytp/templates/package/search.html:14
-#: ckanext/ytp/templates/package/search.html:20
-#: ckanext/ytp/templates/snippets/organization.html:52
-#: ckanext/ytp/templates/user/dashboard_datasets.html:6
-#: ckanext/ytp/templates/user/read.html:5
-msgid "Datasets"
-msgstr ""
-
 #: ckanext/ytp/templates/organization/admin_list.html:5
 #: ckanext/ytp/templates/organization/user_list.html:5
 msgid "All Users"
@@ -1930,25 +1946,25 @@ msgstr ""
 msgid "Go"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:82
+#: ckanext/ytp/templates/organization/index.html:67
 #: ckanext/ytp/templates/snippets/search_result_text.html:38
 msgid "No organizations found"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:92
+#: ckanext/ytp/templates/organization/index.html:77
 #: ckanext/ytp/templates/package/search.html:103
 msgid "Filter list"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:96
+#: ckanext/ytp/templates/organization/index.html:81
 msgid "Filter by data"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:101
+#: ckanext/ytp/templates/organization/index.html:86
 msgid "Show all organizations"
 msgstr ""
 
-#: ckanext/ytp/templates/organization/index.html:104
+#: ckanext/ytp/templates/organization/index.html:89
 msgid "Show only organizations with datasets"
 msgstr ""
 
@@ -2040,13 +2056,6 @@ msgstr ""
 msgid "Add Organization"
 msgstr ""
 
-#: ckanext/ytp/templates/package/base.html:12
-#: ckanext/ytp/templates/package/base.html:17
-#: ckanext/ytp/templates/package/search.html:14
-#: ckanext/ytp/templates/package/search.html:20
-msgid "Apisets"
-msgstr ""
-
 #: ckanext/ytp/templates/package/base.html:18
 msgid "Create Apiset"
 msgstr ""
@@ -2121,12 +2130,8 @@ msgstr ""
 msgid "High value dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/package/read.html:58
+#: ckanext/ytp/templates/package/read.html:60
 msgid "Used datasets"
-msgstr ""
-
-#: ckanext/ytp/templates/package/read.html:63
-msgid "There are no Datasets in this Apiset"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_edit_base.html:3
@@ -2139,11 +2144,6 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/resource_edit_base.html:7
 msgid "Views"
-msgstr ""
-
-#: ckanext/ytp/templates/package/resource_read.html:43
-#, python-format
-msgid "<a href=\"%(url)s\">"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:43

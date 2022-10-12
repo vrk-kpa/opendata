@@ -11,51 +11,46 @@
 ] -%}
 {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
 
-{% block resource_additional_information %}
-    <div class="module module-resource">
-        <div class="module-content">
-            <h2>{{ _('Interface manual') }}</h2>
-            <div class="prose notes" property="rdfs:label">
-            {% set documentation = h.extra_translation(res, 'documentation', markdown=True) %}
-            {% if documentation %}
-                {{ documentation }}
-            {% endif %}
-            </div>
-        </div>
-    </div>    
-
-
-    <div class="module module-resource">
-        <div class="module-content">
-            <h2>{{ _('Additional Information') }}</h2>
-            <table class="table table-striped" data-module="table-toggle-more">
-            <tbody>
-                {%- block resource_fields -%}
-                    {%- for field in schema.resource_fields -%}
-                        {%- if field.field_name not in exclude_fields
-                            and field.display_snippet is not none -%}
-                        <tr>
-                            <th scope="row">
-                            {{- h.scheming_language_text(field.label) -}}:
-                            </th>
-                            <td>
-                            {%- snippet 'scheming/snippets/display_field.html',
-                                field=field, data=res, entity_type='dataset',
-                                object_type=dataset_type -%}
-                            </td>
-                        </tr>
-                        {%- endif -%}
-                    {%- endfor -%}
-                {%- endblock -%}
-            </tbody>
-            </table>
-        </div>
-    </div>
-{% endblock %}
 
 {% block main_content %}
     {% block flash %}{{ super() }}{% endblock %}
-    {% block toolbar %}{{ super() }}{% endblock %}
+    {% block toolbar %}
+    {#{{ super() }}#}
+        <div class="toolbar">
+            {% block breadcrumb %}
+              {% if self.breadcrumb_content() | trim %}
+                <ol class="breadcrumb">
+                  {% snippet 'snippets/home_breadcrumb_item.html' %}
+                  {% block breadcrumb_content %}
+                  {#{{ super() }}#}
+
+                {% if pkg %}
+                  {% set dataset = pkg.title or pkg.name %}
+                  {% if pkg.organization %}
+                    {% set organization = h.extra_translation(pkg.organization, 'title') or pkg.organization.name %}
+                    <li>{% link_for _('Organizations'), named_route='organization.index' %}</li>
+                    <li>{% link_for organization|truncate(30), named_route='organization.read', id=pkg.organization.name %}</li>
+                  {% else %}
+                    <li>{% link_for _('Datasets') if pkg.type!='apiset' else _('Apisets'), named_route=pkg.type ~'.search' %}</li>
+                  {% endif %}
+                  <li>{{ h.link_to(h.extra_translation(pkg, 'title') or pkg.name|truncate(30), h.url_for(pkg.type + '_read', id=pkg.name)) }}</li>
+                  <li {{ self.breadcrumb_content_selected() }}><a href="">{{ h.resource_display_name(res)| truncate(30) }}</a></li> 
+                {% endif %}
+
+                  {% endblock %}
+                </ol>
+              {% endif %}
+            {% endblock %}
+            <div class="toolbar-secondary-wrapper">
+              <div class="row toolbar-resource-secondary">
+                <i class="fas fa-long-arrow-left"></i>
+                {% trans  url=h.url_for(pkg.type ~ '.read', id=c.package['name']) %}<a href="{{ url }}">{% endtrans %}{{_('apiset')}}</a>
+              </div>
+             
+            </div>
+              
+          </div>
+    {% endblock %}
 
     <div class="row wrapper{% block wrapper_class %}{% endblock %}{% if self.secondary()|trim == '' or c.action=='resource_read' %} no-nav{% endif %}">
         
@@ -83,6 +78,34 @@
                     <div class="primary primary--resource col-sm-9 col-xs-12" role="main">
                         {% block primary_content %}
                             {{ super() }}
+                            {% block resource_additional_information %}
+                            <div class="module module-resource">
+                                <div class="module-content">
+                                    <h2>{{ _('Additional Information') }}</h2>
+                                    <table class="table table-striped" data-module="table-toggle-more">
+                                    <tbody>
+                                        {%- block resource_fields -%}
+                                            {%- for field in schema.resource_fields -%}
+                                                {%- if field.field_name not in exclude_fields
+                                                    and field.display_snippet is not none -%}
+                                                <tr>
+                                                    <th scope="row">
+                                                    {{- h.scheming_language_text(field.label) -}}:
+                                                    </th>
+                                                    <td>
+                                                    {%- snippet 'scheming/snippets/display_field.html',
+                                                        field=field, data=res, entity_type='dataset',
+                                                        object_type=dataset_type -%}
+                                                    </td>
+                                                </tr>
+                                                {%- endif -%}
+                                            {%- endfor -%}
+                                        {%- endblock -%}
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {% endblock %}
                         {% endblock %}
                     </div>
                 {% endblock %}
@@ -90,8 +113,6 @@
         </div>
     </div>
 {% endblock %}
-
-
 
 {% block resource %}
     <section class="module module-resource">
