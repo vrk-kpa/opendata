@@ -7,6 +7,7 @@ import ckan.authz as authz
 import ckan.lib.plugins as lib_plugins
 import ckan.lib.search as search
 import ckan.model as model
+from ckan.plugins import toolkit
 
 import logging
 import sqlalchemy
@@ -201,3 +202,20 @@ def store_municipality_bbox_data(context, data_dict):
         )
 
     MunicipalityBoundingBox.bulk_save(objects)
+
+
+@toolkit.chained_action
+@toolkit.side_effect_free
+def dcat_catalog_show(original_action, context, data_dict):
+    toolkit.check_access('dcat_catalog_show', context, data_dict)
+
+    fq = data_dict.get('fq', None)
+
+    if fq:
+        fq += ' AND (dataset_type:dataset OR dataset_type:apiset)'
+    else:
+        fq = '(dataset_type:dataset OR dataset_type:apiset)'
+    
+    data_dict['fq'] = fq
+    
+    return original_action(context, data_dict)

@@ -100,7 +100,6 @@ class AvoindataDCATAPProfile(RDFProfile):
                   dct:conformsTo
     '''
 
-    #
     def parse_dataset(self, dataset_dict, dataset_ref):
         return dataset_dict
 
@@ -109,7 +108,13 @@ class AvoindataDCATAPProfile(RDFProfile):
 
         for prefix, namespace in namespaces.items():
             g.bind(prefix, namespace)
-        g.add((dataset_ref, RDF.type, DCAT.Dataset))
+
+        dcat_type = DCAT.Dataset
+
+        if dataset_dict.get('type', None) == 'apiset':
+            dcat_type = DCAT.DataService
+
+        g.add((dataset_ref, RDF.type, dcat_type))
 
         # Flatten extras
         for extra in dataset_dict.get('extras', []):
