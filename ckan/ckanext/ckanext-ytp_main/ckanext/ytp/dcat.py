@@ -4,7 +4,8 @@ import threading
 from rdflib import URIRef, BNode, Literal, Namespace
 from rdflib.namespace import RDF, XSD
 from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX, LOCN, GSP
-from ckanext.dcat.utils import resource_uri, url_quote
+from ckanext.dcat.processors import RDFSerializer
+from ckanext.dcat.utils import resource_uri, url_quote, url_to_rdflib_format
 from ckan.plugins import toolkit as p
 
 import logging
@@ -489,3 +490,50 @@ class AvoindataDCATAPProfile(RDFProfile):
         modified = self._last_catalog_modification()
         if modified:
             self._add_date_triple(catalog_ref, DCT.modified, modified)
+
+
+class AvoindataSerializer(RDFSerializer):
+    '''
+    A CKAN to RDF serializer based on rdflib
+    Supports different profiles which are the ones that will generate
+    the RDF graph.
+    '''
+
+    def serialize_catalog(self, catalog_dict=None, dataset_dicts=None,
+                          _format='xml', pagination_info=None):
+        '''
+        Returns an RDF serialization of the whole catalog
+        `catalog_dict` can contain literal values for the dcat:Catalog class
+        like `title`, `homepage`, etc. If not provided these would get default
+        values from the CKAN config (eg from `ckan.site_title`).
+        If passed a list of CKAN dataset dicts, these will be also serializsed
+        as part of the catalog.
+        **Note:** There is no hard limit on the number of datasets at this
+        level, this should be handled upstream.
+        The serialization format can be defined using the `_format` parameter.
+        It must be one of the ones supported by RDFLib, defaults to `xml`.
+        `pagination_info` may be a dict containing keys describing the results
+        pagination. See the `_add_pagination_triples()` method for details.
+        Returns a string with the serialized catalog
+        '''
+
+        catalog_ref = self.graph_from_catalog(catalog_dict)
+        if dataset_dicts:
+            for dataset_dict in dataset_dicts:
+                dataset_ref = self.graph_from_dataset(dataset_dict)
+
+                cat_ref = self._add_source_catalog(catalog_ref, dataset_dict, dataset_ref)
+                if not cat_ref and dataset_dict.get('type', None) == 'apiset':
+                    self.g.add((catalog_ref, DCAT.dataservice, dataset_ref))
+                elif not cat_ref:
+                    self.g.add((catalog_ref, DCAT.dataset, dataset_ref))
+
+        if pagination_info:
+            self._add_pagination_triples(pagination_info)
+
+        if not _format:
+            _format = 'xml'
+        _format = url_to_rdflib_format(_format)
+        output = self.g.serialize(format=_format)
+
+        return output

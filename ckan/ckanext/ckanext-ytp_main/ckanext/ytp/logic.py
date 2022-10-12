@@ -8,6 +8,8 @@ import ckan.lib.plugins as lib_plugins
 import ckan.lib.search as search
 import ckan.model as model
 from ckan.plugins import toolkit
+from ckanext.dcat.logic import _search_ckan_datasets, _pagination_info
+from ckanext.ytp.dcat import AvoindataSerializer
 
 import logging
 import sqlalchemy
@@ -204,6 +206,7 @@ def store_municipality_bbox_data(context, data_dict):
     MunicipalityBoundingBox.bulk_save(objects)
 
 
+# Copied from https://github.com/ckan/ckanext-dcat/blob/v1.3.0/ckanext/dcat/logic.py#L35 with minor modifications
 @toolkit.chained_action
 @toolkit.side_effect_free
 def dcat_catalog_show(original_action, context, data_dict):
@@ -218,4 +221,14 @@ def dcat_catalog_show(original_action, context, data_dict):
     
     data_dict['fq'] = fq
     
-    return original_action(context, data_dict)
+    query = _search_ckan_datasets(context, data_dict)
+    dataset_dicts = query['results']
+    pagination_info = _pagination_info(query, data_dict)
+
+    serializer = AvoindataSerializer(profiles=data_dict.get('profiles'))
+
+    output = serializer.serialize_catalog({}, dataset_dicts,
+                                          _format=data_dict.get('format'),
+                                          pagination_info=pagination_info)
+
+    return output
