@@ -149,7 +149,7 @@ describe('Advanced search tests', () => {
             cy.get('[data-module-name="dataset_type"]').find('label[for="advanced-search-dropdown-toggle-dataset_type"]').contains('Search target');
             cy.get('[data-module-name="dataset_type"]').find('button[for="advanced-search-dropdown-toggle-dataset_type"]');
     
-            cy.get('[data-module-name="publisher"]').find('label[for="advanced-search-dropdown-toggle-publisher"]').contains('Producer');
+            cy.get('[data-module-name="publisher"]').find('label[for="advanced-search-dropdown-toggle-publisher"]').contains('Publisher');
             cy.get('[data-module-name="publisher"]').find('button[for="advanced-search-dropdown-toggle-publisher"]');
     
             cy.get('[data-module-name="category"]').find('label[for="advanced-search-dropdown-toggle-category"]').contains('Category');
