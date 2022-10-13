@@ -12,18 +12,18 @@
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2021
 # Daniel Vainio, 2021
-# Ville Teräväinen, 2022
 # Pasi Laakso <pasi.laakso@gofore.com>, 2022
 # Meeri Hakala <meeri.hakala@dvv.fi>, 2022
+# Ville Teräväinen, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-09-30 06:26+0000\n"
+"POT-Creation-Date: 2022-10-12 10:15+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Meeri Hakala <meeri.hakala@dvv.fi>, 2022\n"
+"Last-Translator: Ville Teräväinen, 2022\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -71,8 +71,8 @@ msgstr "Käyttäjällä %s ei ole oikeuksia luoda organisaatioita"
 msgid "Cannot modify dataset because of organization policy"
 msgstr "Tietoaineiston muokkaaminen on vastoin organisaation käytäntöjä"
 
-#: ckanext/ytp/auth.py:144 ckanext/ytp/views_organization.py:275
-#: ckanext/ytp/views_organization.py:323
+#: ckanext/ytp/auth.py:144 ckanext/ytp/views_organization.py:274
+#: ckanext/ytp/views_organization.py:322
 msgid "Only system administrators are allowed to view user list."
 msgstr "Vain järjestelmän ylläpitäjä saa katsella käyttäjälistaa."
 
@@ -178,7 +178,7 @@ msgid "Related item was successfully updated"
 msgstr "Tähän liittyvä kohde päivitettiin onnistuneesti"
 
 #: ckanext/ytp/controller.py:419 ckanext/ytp/controller.py:691
-#: ckanext/ytp/views_organization.py:77
+#: ckanext/ytp/views_organization.py:76
 msgid "Integrity Error"
 msgstr "Eheysvirhe"
 
@@ -256,7 +256,7 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr "Päivämäärän muoto väärä"
 
-#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:354
+#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:358
 msgid "Unnamed resource"
 msgstr "Nimetön data-aineisto"
 
@@ -327,7 +327,7 @@ msgstr "Poista käyttäjätili"
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: ckanext/ytp/menu.py:155
+#: ckanext/ytp/menu.py:155 ckanext/ytp/templates/apiset/resource_read.html:31
 #: ckanext/ytp/templates/organization/admin_list.html:31
 #: ckanext/ytp/templates/organization/edit.html:4
 #: ckanext/ytp/templates/organization/index.html:14
@@ -406,7 +406,7 @@ msgstr "Tietoaineisto"
 msgid "Content Types"
 msgstr "Sisältötyyppi"
 
-#: ckanext/ytp/plugin.py:354
+#: ckanext/ytp/plugin.py:358
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
 #: ckanext/ytp/templates/scheming/organization/about.html:20
 msgid "Additional Info"
@@ -1130,7 +1130,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:201
 msgid "Select at least one category."
-msgstr "Valitse yksi tai useampi tietoaineistoa kuvaava kategoria."
+msgstr "Valitse yksi tai useampi dataasi kuvaava kategoria."
 
 #: ckanext/ytp/translations.py:202
 msgid "Dataset additional information"
@@ -1637,22 +1637,22 @@ msgstr "Loppupäivä on ennen alkupäivää"
 msgid "Only sysadmin can change feature: %s"
 msgstr "Vain järjestelmän ylläpitäjät voivat muuttaa ominaisuutta: %s"
 
-#: ckanext/ytp/views_organization.py:54
+#: ckanext/ytp/views_organization.py:53
 msgid "Unauthorized to create a group"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:75 ckanext/ytp/views_organization.py:104
-#: ckanext/ytp/views_organization.py:170 ckanext/ytp/views_organization.py:217
-#: ckanext/ytp/views_organization.py:402
+#: ckanext/ytp/views_organization.py:74 ckanext/ytp/views_organization.py:103
+#: ckanext/ytp/views_organization.py:169 ckanext/ytp/views_organization.py:216
+#: ckanext/ytp/views_organization.py:401
 msgid "Group not found"
 msgstr "Kategoriaa ei löydy"
 
-#: ckanext/ytp/views_organization.py:220
+#: ckanext/ytp/views_organization.py:219
 #, python-format
 msgid "User %r not authorized to edit members of %s"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:344
+#: ckanext/ytp/views_organization.py:343
 msgid "Not authorized to see this page"
 msgstr "Ei oikeuksia nähdä tätä sivua"
 
@@ -1754,19 +1754,48 @@ msgid "Hide search filters"
 msgstr "Piilota suodattimet"
 
 #: ckanext/ytp/templates/apiset/read.html:28
-#: ckanext/ytp/templates/apiset/resource_read.html:75
+#: ckanext/ytp/templates/apiset/resource_read.html:70
 msgid "Interfaces"
+msgstr "Rajapinnan resurssit"
+
+#: ckanext/ytp/templates/apiset/resource_read.html:34
+#: ckanext/ytp/templates/group/snippets/info.html:36
+#: ckanext/ytp/templates/organization/member_new.html:65
+#: ckanext/ytp/templates/organization/members.html:54
+#: ckanext/ytp/templates/organization/read_base.html:22
+#: ckanext/ytp/templates/package/base.html:12
+#: ckanext/ytp/templates/package/base.html:20
+#: ckanext/ytp/templates/package/search.html:14
+#: ckanext/ytp/templates/package/search.html:20
+#: ckanext/ytp/templates/snippets/organization.html:52
+#: ckanext/ytp/templates/user/dashboard_datasets.html:6
+#: ckanext/ytp/templates/user/read.html:5
+msgid "Datasets"
+msgstr "Tietoaineistot"
+
+#: ckanext/ytp/templates/apiset/resource_read.html:34
+#: ckanext/ytp/templates/package/base.html:12
+#: ckanext/ytp/templates/package/base.html:17
+#: ckanext/ytp/templates/package/search.html:14
+#: ckanext/ytp/templates/package/search.html:20
+msgid "Apisets"
+msgstr "Rajapinnat"
+
+#: ckanext/ytp/templates/apiset/resource_read.html:47
+#: ckanext/ytp/templates/package/resource_read.html:43
+#, python-format
+msgid "<a href=\"%(url)s\">"
 msgstr ""
 
-#: ckanext/ytp/templates/apiset/resource_read.html:17
-msgid "Interface manual"
-msgstr ""
+#: ckanext/ytp/templates/apiset/resource_read.html:47
+msgid "apiset"
+msgstr "Rajapinta"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:30
+#: ckanext/ytp/templates/apiset/resource_read.html:84
 msgid "Additional Information"
 msgstr "Lisätiedot"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:105
+#: ckanext/ytp/templates/apiset/resource_read.html:126
 #: ckanext/ytp/templates/organization/read_base.html:37
 #: ckanext/ytp/templates/package/resource_read.html:66
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:9
@@ -1774,17 +1803,17 @@ msgstr "Lisätiedot"
 msgid "Manage"
 msgstr "Muokkaa"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:111
+#: ckanext/ytp/templates/apiset/resource_read.html:132
 #: ckanext/ytp/templates/package/resource_read.html:72
 msgid "View"
 msgstr "Katsele"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:113
+#: ckanext/ytp/templates/apiset/resource_read.html:134
 #: ckanext/ytp/templates/package/resource_read.html:74
 msgid "API Endpoint"
 msgstr "API-päätepiste"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:115
+#: ckanext/ytp/templates/apiset/resource_read.html:136
 #: ckanext/ytp/templates/package/resource_read.html:76
 #: ckanext/ytp/templates/package/snippets/related_item.html:65
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:13
@@ -1792,19 +1821,19 @@ msgstr "API-päätepiste"
 msgid "Open"
 msgstr "Avaa"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:117
+#: ckanext/ytp/templates/apiset/resource_read.html:138
 #: ckanext/ytp/templates/package/resource_read.html:78
 #: ckanext/ytp/templates/package/snippets/resource_item.html:51
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:15
 msgid "Download"
 msgstr "Lataa"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:139
+#: ckanext/ytp/templates/apiset/resource_read.html:160
 #: ckanext/ytp/templates/package/resource_read.html:108
 msgid "From the dataset abstract"
 msgstr "Tietoaineiston yhteenvedosta"
 
-#: ckanext/ytp/templates/apiset/resource_read.html:141
+#: ckanext/ytp/templates/apiset/resource_read.html:162
 #: ckanext/ytp/templates/package/resource_read.html:110
 #, python-format
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
@@ -1928,20 +1957,6 @@ msgstr "Poistettu"
 msgid "Followers"
 msgstr "Seuraajat"
 
-#: ckanext/ytp/templates/group/snippets/info.html:36
-#: ckanext/ytp/templates/organization/member_new.html:65
-#: ckanext/ytp/templates/organization/members.html:54
-#: ckanext/ytp/templates/organization/read_base.html:22
-#: ckanext/ytp/templates/package/base.html:12
-#: ckanext/ytp/templates/package/base.html:20
-#: ckanext/ytp/templates/package/search.html:14
-#: ckanext/ytp/templates/package/search.html:20
-#: ckanext/ytp/templates/snippets/organization.html:52
-#: ckanext/ytp/templates/user/dashboard_datasets.html:6
-#: ckanext/ytp/templates/user/read.html:5
-msgid "Datasets"
-msgstr "Tietoaineistot"
-
 #: ckanext/ytp/templates/organization/admin_list.html:5
 #: ckanext/ytp/templates/organization/user_list.html:5
 msgid "All Users"
@@ -2038,25 +2053,25 @@ msgstr "Lajittelu"
 msgid "Go"
 msgstr "Siirry"
 
-#: ckanext/ytp/templates/organization/index.html:82
+#: ckanext/ytp/templates/organization/index.html:67
 #: ckanext/ytp/templates/snippets/search_result_text.html:38
 msgid "No organizations found"
 msgstr "Tuottajia ei löytynyt"
 
-#: ckanext/ytp/templates/organization/index.html:92
+#: ckanext/ytp/templates/organization/index.html:77
 #: ckanext/ytp/templates/package/search.html:103
 msgid "Filter list"
 msgstr "Rajaa listaa"
 
-#: ckanext/ytp/templates/organization/index.html:96
+#: ckanext/ytp/templates/organization/index.html:81
 msgid "Filter by data"
 msgstr "Suodata tuottajia"
 
-#: ckanext/ytp/templates/organization/index.html:101
+#: ckanext/ytp/templates/organization/index.html:86
 msgid "Show all organizations"
 msgstr "Näytä kaikki tuottajat"
 
-#: ckanext/ytp/templates/organization/index.html:104
+#: ckanext/ytp/templates/organization/index.html:89
 msgid "Show only organizations with datasets"
 msgstr "Näytä vain dataa julkaisseet tuottajat"
 
@@ -2155,13 +2170,6 @@ msgstr "Omat jäsenyyteni"
 msgid "Add Organization"
 msgstr "Lisää tuottaja"
 
-#: ckanext/ytp/templates/package/base.html:12
-#: ckanext/ytp/templates/package/base.html:17
-#: ckanext/ytp/templates/package/search.html:14
-#: ckanext/ytp/templates/package/search.html:20
-msgid "Apisets"
-msgstr "Rajapinnat"
-
 #: ckanext/ytp/templates/package/base.html:18
 msgid "Create Apiset"
 msgstr "Lisää rajapinta"
@@ -2238,13 +2246,9 @@ msgstr "Lisää data-aineisto"
 msgid "High value dataset"
 msgstr "Korkean lisäarvon tietoaineisto"
 
-#: ckanext/ytp/templates/package/read.html:58
+#: ckanext/ytp/templates/package/read.html:60
 msgid "Used datasets"
 msgstr "Käytetyt tietoaineistot"
-
-#: ckanext/ytp/templates/package/read.html:63
-msgid "There are no Datasets in this Apiset"
-msgstr "Rajapintaan ei ole liitetty tietoaineistoja"
 
 #: ckanext/ytp/templates/package/resource_edit_base.html:3
 msgid "Edit resource"
@@ -2257,11 +2261,6 @@ msgstr "DataStore"
 #: ckanext/ytp/templates/package/resource_edit_base.html:7
 msgid "Views"
 msgstr "Esikatselunäkymät"
-
-#: ckanext/ytp/templates/package/resource_read.html:43
-#, python-format
-msgid "<a href=\"%(url)s\">"
-msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:43
 msgid "dataset"
@@ -2780,7 +2779,7 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/stages.html:25
 #: ckanext/ytp/templates/package/snippets/stages.html:32
 msgid "Create apiset"
-msgstr "Lisää rajapinta"
+msgstr "Kuvaile rajapinta"
 
 #: ckanext/ytp/templates/package/snippets/stages.html:27
 #: ckanext/ytp/templates/package/snippets/stages.html:34
