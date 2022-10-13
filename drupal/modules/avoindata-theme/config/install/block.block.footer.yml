@@ -9,7 +9,7 @@ dependencies:
     - avoindata
 id: footer
 theme: avoindata
-region: footer_content
+region: null
 weight: 0
 provider: null
 plugin: 'system_menu_block:footer'
