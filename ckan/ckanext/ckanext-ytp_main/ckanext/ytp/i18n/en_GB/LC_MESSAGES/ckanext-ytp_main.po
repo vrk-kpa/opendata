@@ -10,17 +10,17 @@
 # Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2020
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
 # Daniel Vainio, 2021
-# Meeri Hakala <meeri.hakala@dvv.fi>, 2022
 # Ville Teräväinen, 2022
+# Meeri Hakala <meeri.hakala@dvv.fi>, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-10-12 10:15+0000\n"
+"POT-Creation-Date: 2022-10-13 09:28+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Ville Teräväinen, 2022\n"
+"Last-Translator: Meeri Hakala <meeri.hakala@dvv.fi>, 2022\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -822,7 +822,7 @@ msgstr ""
 msgid "Add to group"
 msgstr "Add to category"
 
-#: ckanext/ytp/templates/package/group_list.html:15
+#: ckanext/ytp/templates/package/group_list.html:22
 #: ckanext/ytp/translations.py:126
 msgid "There are no groups associated with this dataset"
 msgstr "There are no categories associated with this dataset"
@@ -831,7 +831,7 @@ msgstr "There are no categories associated with this dataset"
 msgid "Remove dataset from this group"
 msgstr "Remove dataset from this category"
 
-#: ckanext/ytp/templates/package/group_list.html:36
+#: ckanext/ytp/templates/package/group_list.html:52
 #: ckanext/ytp/translations.py:128
 msgid "Associate this group with this dataset"
 msgstr "Associate this category with this dataset"
@@ -850,8 +850,8 @@ msgstr "Search categories..."
 
 #: ckanext/ytp/templates/group/index.html:4
 #: ckanext/ytp/templates/group/read_base.html:4
-#: ckanext/ytp/templates/package/group_list.html:5
-#: ckanext/ytp/templates/package/group_list.html:10
+#: ckanext/ytp/templates/package/group_list.html:9
+#: ckanext/ytp/templates/package/group_list.html:14
 #: ckanext/ytp/translations.py:132
 msgid "Groups"
 msgstr "Categories"
@@ -1821,7 +1821,7 @@ msgid "Are you sure you want to delete this member?"
 msgstr ""
 
 #: ckanext/ytp/templates/group/member_new.html:46
-#: ckanext/ytp/templates/package/group_list.html:36
+#: ckanext/ytp/templates/package/group_list.html:54
 #: ckanext/ytp/templates/scheming/organization/group_form.html:57
 msgid "Save"
 msgstr ""
@@ -2036,7 +2036,7 @@ msgstr ""
 #: ckanext/ytp/templates/organization/member_new.html:67
 #: ckanext/ytp/templates/organization/members.html:56
 #: ckanext/ytp/templates/organization/read_base.html:24
-#: ckanext/ytp/templates/package/group_list.html:6
+#: ckanext/ytp/templates/package/group_list.html:10
 msgid "Activity Stream"
 msgstr ""
 
@@ -2131,20 +2131,38 @@ msgstr "Create API"
 msgid "Close without saving"
 msgstr ""
 
-#: ckanext/ytp/templates/package/group_list.html:4
+#: ckanext/ytp/templates/package/group_list.html:5
+msgid "Apiset"
+msgstr "API"
+
+#: ckanext/ytp/templates/package/group_list.html:7
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:5
 msgid "Dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/package/group_list.html:21
+#: ckanext/ytp/templates/package/group_list.html:20
+msgid "There are no groups associated with this apiset"
+msgstr "This API does not belong to any category"
+
+#: ckanext/ytp/templates/package/group_list.html:29
 msgid "Dataset categories"
 msgstr ""
 
-#: ckanext/ytp/templates/package/group_list.html:33
+#: ckanext/ytp/templates/package/group_list.html:42
+msgid ""
+"Categories to which the apiset is mainly related to. Choose one category or "
+"multiple accurate categories."
+msgstr ""
+
+#: ckanext/ytp/templates/package/group_list.html:44
 msgid ""
 "Categories to which the dataset is mainly related to. Choose one category or"
 " multiple accurate categories."
 msgstr ""
+
+#: ckanext/ytp/templates/package/group_list.html:50
+msgid "Associate this group with this apiset"
+msgstr "Add API to this category"
 
 #: ckanext/ytp/templates/package/new.html:9
 msgid "Create new dataset"
