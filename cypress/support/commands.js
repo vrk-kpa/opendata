@@ -512,7 +512,7 @@ Cypress.Commands.add('create_new_apiset', (apiset_name, apiset_form_data, api_fo
   cy.contains('a', 'Linkki').click()
   cy.fill_form_fields(api_form_data);
   cy.get('button[name=save].suomifi-button-primary').click();
-  cy.url().should('include', `/data/fi/dataset/${apiset_name}`);
+  cy.url().should('include', `/data/fi/apiset/${apiset_name}`);
 });
 
 // Edits an existing apiset

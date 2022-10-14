@@ -2,7 +2,11 @@
 
 {% set data = data or {} %}
 {% set errors = errors or {} %}
-{% set action = form_action or h.url_for('dataset_resource.new', id=pkg_name) %}
+{% if dataset_type=='apiset' %}
+  {% set action = form_action or h.url_for('apiset_resource.new', id=pkg_name) %}
+{% else %}
+  {% set action = form_action or h.url_for('dataset_resource.new', id=pkg_name) %}
+{% endif %}
 
 <form id="resource-edit" class="dataset-form dataset-resource-form flex-form" method="post" action="{{ action }}" data-module="basic-form resource-form" enctype="multipart/form-data">
   <div class="page-container">
@@ -81,7 +85,7 @@
         {% endblock %}
       {% else %}
         {% block add_button %}
-        <button class="btn btn-primary" name="save" value="go-dataset-complete" type="submit">{{ _('Add') }}</button>
+            <button class="btn btn-primary" name="save" value="go-dataset-complete" type="submit">{{ _('Add') }}</button>
         {% endblock %}
       {% endif %}
     </div>
