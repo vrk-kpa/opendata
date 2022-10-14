@@ -1,7 +1,11 @@
 {% ckan_extends %}
 
 {% block content_primary_nav %}
-  {{ h.build_nav_icon(dataset_type ~ '.read', _('Dataset'), id=pkg.id if is_activity_archive else pkg.name, icon='sitemap') }}
+  {% if dataset_type == 'apiset' %}
+    {{ h.build_nav_icon(dataset_type ~ '.read', _('Apiset'), id=pkg.id if is_activity_archive else pkg.name, icon='sitemap') }}
+  {% else %}
+    {{ h.build_nav_icon(dataset_type ~ '.read', _('Dataset'), id=pkg.id if is_activity_archive else pkg.name, icon='sitemap') }}
+  {% endif %}
   {{ h.build_nav_icon(dataset_type ~ '.groups', _('Groups'), id=pkg.id if is_activity_archive else pkg.name, controller='ytp_main_dataset', icon='users') }}
   {{ h.build_nav_icon(dataset_type ~ '.activity', _('Activity Stream'), id=pkg.id if is_activity_archive else pkg.name, icon='clock-o') }}
 {% endblock %}
@@ -12,7 +16,11 @@
   {% if c.pkg_dict.groups %}
     {% snippet 'group/snippets/group_list.html', groups=c.pkg_dict.groups %}
   {% else %}
-    <p class="empty">{{ _('There are no groups associated with this dataset') }}</p>
+    {% if dataset_type == 'apiset' %}
+      <p class="empty">{{ _('There are no groups associated with this apiset') }}</p>
+    {% else %}
+      <p class="empty">{{ _('There are no groups associated with this dataset') }}</p>
+    {% endif %}
   {% endif %}
 
   {% if h.check_access('package_update', {'id': c.pkg_dict.id}) %}
@@ -30,10 +38,20 @@
       </fieldset>
 
       <p class="italic">
-        {{ _('Categories to which the dataset is mainly related to. Choose one category or multiple accurate categories.') }}
+        {% if dataset_type == 'apiset' %}
+          {{ _('Categories to which the apiset is mainly related to. Choose one category or multiple accurate categories.') }}
+        {% else %}
+          {{ _('Categories to which the dataset is mainly related to. Choose one category or multiple accurate categories.') }}
+        {% endif %}
       </p>
       <hr>
-      <button type="submit" class="btn btn-primary px-3 pull-right" title="{{ _('Associate this group with this dataset') }}">{{ _('Save') }}</button>
+
+      {% if dataset_type == 'apiset' %}
+        {% set submit_button_title = _('Associate this group with this apiset') %}
+      {% else %}
+        {% set submit_button_title = _('Associate this group with this dataset') %}
+      {% endif %}
+      <button type="submit" class="btn btn-primary px-3 pull-right" title="{{ submit_button_title }}">{{ _('Save') }}</button>
     </form>
   {% endif %}
 {% endblock %}
