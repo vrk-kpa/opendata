@@ -58,6 +58,7 @@ describe('Apiset tests', function(){
       cy.get('#field-image-upload').selectFile("cypress/sample_text_file.txt")
       cy.get('button[name=save].suomifi-button-primary').click();
       //wait for file to upload properly and the page to render before continuing
+      cy.location('pathname', {timeout: 60000}).should('not.contain', `/apiset/${apiset1_name}/resource/new`)
       cy.location('pathname', {timeout: 60000}).should('contain', `/apiset/${apiset1_name}`)
 
       //apiset two
@@ -70,6 +71,7 @@ describe('Apiset tests', function(){
       cy.get('#field-image-upload').selectFile("cypress/FL_insurance_sample.csv")
       cy.get('button[name=save].suomifi-button-primary').click();
       //wait for file to upload properly and the page to render before continuing
+      cy.location('pathname', {timeout: 60000}).should('not.contain', `/apiset/${apiset2_name}/resource/new`)
       cy.location('pathname', {timeout: 60000}).should('contain', `/apiset/${apiset2_name}`)
     })
 
