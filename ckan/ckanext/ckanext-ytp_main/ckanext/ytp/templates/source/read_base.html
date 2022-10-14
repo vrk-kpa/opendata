@@ -29,12 +29,10 @@
         </dl>
 
         {% set apiset_count =  h.package_count_for_source_customized(harvest_source.id, 'apiset') %}
-        {% if apiset_count > 0 %}
-            <dl class="col-6">
-                <dt>{{ _('Apisets') }}</dt>
-                <dd>{{apiset_count }}</dd>
-            </dl>
-        {% endif %}
+        <dl class="col-6">
+            <dt>{{ _('Apisets') }}</dt>
+            <dd>{{apiset_count }}</dd>
+        </dl>
       </div>
     </section>
   </div>
