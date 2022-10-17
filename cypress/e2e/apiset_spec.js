@@ -268,10 +268,8 @@ describe('Apiset tests', function(){
   
       cy.get('button[name=save].suomifi-button-primary').click();
   
-      // if cloudstorage is enabled, we wait for window.location to change
-      if (Cypress.env('cloudStorageEnabled')){
-        cy.location('pathname').should('not.include', '/resource/new');
-      }
+      // wait for the location to change
+      cy.location('pathname', {timeout: 60000}).should('not.include', '/resource/new');
   
       cy.get('a').contains(api).click();
   
