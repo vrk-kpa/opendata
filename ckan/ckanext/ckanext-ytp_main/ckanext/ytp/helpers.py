@@ -637,3 +637,15 @@ def get_organization_filters_count():
     all_count = len(organizations)
 
     return {'with_dataset_count': with_dataset_count, 'all_count': all_count}
+
+
+def package_count_for_source_customized(source_id, dataset_type='dataset'):
+    '''
+    Returns the current package count for datasets associated with the given
+    source id
+    '''
+    fq = 'dataset_type:{0} AND harvest_source_id:"{1}"'.format(dataset_type, source_id)
+    search_dict = {'fq': fq}
+    context = {'model': model, 'session': model.Session}
+    result = get_action('package_search')(context, search_dict)
+    return result.get('count', 0)

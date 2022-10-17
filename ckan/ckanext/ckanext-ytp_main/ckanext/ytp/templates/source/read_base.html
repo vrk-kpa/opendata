@@ -7,3 +7,33 @@
         {% endif %}
     </div>
 {% endblock %}
+
+{# TODO: once #354 is merged in CKAN core .profile-info doesn't exist #}
+{% block secondary_content %}
+  <div class="module context-info profile-info">
+    <section class="module-content">
+      <h1 class="heading">{{ harvest_source.title }}</h1>
+      {% if harvest_source.notes %}
+        <p>
+          {{ h.markdown_extract(harvest_source.notes, 180) }}
+          {{ h.nav_link(_('read more'), named_route='{0}_about'.format(c.dataset_type), id=harvest_source.name) }}
+        </p>
+      {% else %}
+        <p class="empty">{{ _('There is no description for this harvest source') }}</p>
+      {% endif %}
+      <div class="nums">
+        {% set dataset_count = h.package_count_for_source_customized(harvest_source.id) %}
+        <dl class="col-6">
+            <dt>{{ _('Datasets') }}</dt>
+            <dd>{{ dataset_count }}</dd>
+        </dl>
+
+        {% set apiset_count =  h.package_count_for_source_customized(harvest_source.id, 'apiset') %}
+        <dl class="col-6">
+            <dt>{{ _('Apisets') }}</dt>
+            <dd>{{apiset_count }}</dd>
+        </dl>
+      </div>
+    </section>
+  </div>
+{% endblock %}
