@@ -32,7 +32,6 @@ RUN apt-get update -yq && \
       jinja2-cli \
       supervisor \
       cryptography \
-      pyOpenSSL \
       ndg-httpsclient \
       pyasn1 \
       polib \
@@ -202,8 +201,7 @@ RUN pip install \
     flask==0.12 \
     flask-login==0.3.0 \
     simplejson==3.16.0 \
-    six==1.13.0 \
-    pyOpenSSL>21.0.0
+    six==1.13.0
 
 # fix permissions
 RUN chown -R ckan:ckan ${APP_DIR}
