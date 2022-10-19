@@ -390,6 +390,7 @@ jobs:
         cd ../ckanext-fluent
         pip install -e .
         cd ../ckanext-dcat
+        pip install -r requirements.txt
         pip install -e .
     - name: Setup extension
       run: |
