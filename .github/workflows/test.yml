@@ -389,6 +389,8 @@ jobs:
         pip install -e .
         cd ../ckanext-fluent
         pip install -e .
+        cd ../ckanext-dcat
+        pip install -e .
     - name: Setup extension
       run: |
         ckan -c ckan/ckanext/ckanext-ytp_main/test.ini db init
