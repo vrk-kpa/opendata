@@ -570,7 +570,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         list_map = {'access_constraints': 'copyright_notice'}
 
-
         for source, target in list_map.items():
             for extra in package_dict['extras']:
                 if extra['key'] == source:
@@ -763,6 +762,16 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
             # remove maintainer and maintainer_email or they will cause validation error for apisets
             package_dict.pop('maintainer', None)
             package_dict.pop('maintainer_email', None)
+
+
+            # get all resources from the apiset
+            apiset_resources = package_dict.get('resources', [])
+            for apiset_resource in apiset_resources:
+                # get the format and map it into formats field
+                apiset_resource['formats'] = apiset_resource.get('format', None)
+
+            # update the resources for the apiset
+            package_dict['resources'] = apiset_resources
 
         return package_dict
 
