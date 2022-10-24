@@ -429,7 +429,7 @@ jobs:
         pip install -e .
     - name: Setup extension
       run: |
-        ckan -c ckan/ckanext/ckanext-ytp_main/test.ini db init
+        ckan -c ckanext/ckanext-ytp_main/test.ini db init
     - name: Run tests
       run: |
-        pytest --ckan-ini=ckan/ckanext/ckanext-ytp_main/test.ini --cov=ckanext.ytp_main --disable-warnings ckan/ckanext/ckanext-ytp_main/ckanext/ytp/tests
+        pytest --ckan-ini=ckanext/ckanext-ytp_main/test.ini --cov=ckanext.ytp_main --disable-warnings ckanext/ckanext-ytp_main/ckanext/ytp/tests
