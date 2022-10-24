@@ -359,7 +359,7 @@ jobs:
       solr:
         image: ckan/ckan-solr-dev:2.9
       postgres:
-        image: ckan/ckan-postgres-dev:2.9
+        image: postgis/postgis:10-3.1
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -378,6 +378,17 @@ jobs:
     - uses: actions/checkout@v3
       with:
         submodules: true
+    - name: Create Database
+      run: |
+        psql --host=postgres --username=postgres --command="CREATE USER ckan_default WITH PASSWORD 'pass' NOSUPERUSER NOCREATEDB NOCREATEROLE;"
+        createdb --encoding=utf-8 --host=postgres --username=postgres --owner=ckan_default ckan_test
+        psql --host=postgres --username=postgres --command="CREATE USER datastore_write WITH PASSWORD 'pass' NOSUPERUSER NOCREATEDB NOCREATEROLE;"
+        psql --host=postgres --username=postgres --command="CREATE USER datastore_read WITH PASSWORD 'pass' NOSUPERUSER NOCREATEDB NOCREATEROLE;"
+        createdb --encoding=utf-8 --host=postgres --username=postgres --owner=datastore_write datastore_test
+    - name: setup postgis
+      run: |
+        psql --host=postgres --username=postgres -d ckan_test --command="ALTER ROLE ckan_default WITH superuser;"
+        psql --host=postgres --username=postgres -d ckan_test --command="CREATE EXTENSION postgis;"
     - name: Install requirements
       run: |
         apk add proj proj-dev proj-util geos
