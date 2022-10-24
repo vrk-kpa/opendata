@@ -406,6 +406,9 @@ jobs:
         cd ../ckanext-harvest
         pip install -r requirements.txt
         pip install -e .
+        cd ../ckanext-showcase
+        pip install -r requirements.txt
+        pip install -e .
         cd ../ckanext-sixodp_showcase
         pip install -r requirements.txt
         pip install -e .
