@@ -394,6 +394,7 @@ jobs:
       run: |
         apk add proj proj-dev proj-util geos
         cd ckan/ckanext/ckanext-ytp_main
+        pip install -r dev-requirements.txt
         pip install -r requirements.txt
         pip install -e .
         # Replace default path to CKAN core config file with the one on the container
@@ -429,7 +430,7 @@ jobs:
         pip install -e .
     - name: Setup extension
       run: |
-        ckan -c ckanext/ckanext-ytp_main/test.ini db init
+        ckan -c ckan/ckanext/ckanext-ytp_main/test.ini db init
     - name: Run tests
       run: |
-        pytest --ckan-ini=ckanext/ckanext-ytp_main/test.ini --cov=ckanext.ytp_main --disable-warnings ckanext/ckanext-ytp_main/ckanext/ytp/tests
+        pytest --ckan-ini=ckan/ckanext/ckanext-ytp_main/test.ini --cov=ckanext.ytp_main --disable-warnings ckan/ckanext/ckanext-ytp_main/ckanext/ytp/tests
