@@ -77,7 +77,8 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
     patch --strip=1 --input=patches/add_drafts_to_search.patch && \
     patch --strip=1 --input=patches/ignore_write_errors.patch && \
-    patch --strip=1 --input=patches/add_prefix_to_werkzeug.patch
+    patch --strip=1 --input=patches/add_prefix_to_werkzeug.patch && \
+    patch --strip=1 --input=patches/fix_organization_delete_form.patch
 
 # install crontab
 RUN chmod +x ${CRON_DIR}/scripts/*.sh && \
