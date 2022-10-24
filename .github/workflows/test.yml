@@ -400,6 +400,18 @@ jobs:
         cd ../ckanext-spatial
         pip install -r requirements.txt
         pip install -e .
+        cd ../ckanext-organizationapproval
+        pip install -r requirements.txt
+        pip install -e .
+        cd ../ckanext-harvest
+        pip install -r requirements.txt
+        pip install -e .
+        cd ../ckanext-sixodp_showcase
+        pip install -r requirements.txt
+        pip install -e .
+        cd ../ckanext-sixodp_showcasesubmit
+        pip install -r requirements.txt
+        pip install -e .
     - name: Setup extension
       run: |
         ckan -c ckan/ckanext/ckanext-ytp_main/test.ini db init
