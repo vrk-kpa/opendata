@@ -380,6 +380,7 @@ jobs:
         submodules: true
     - name: Install requirements
       run: |
+        apk add proj proj-dev proj-util geos
         cd ckan/ckanext/ckanext-ytp_main
         pip install -r requirements.txt
         pip install -e .
