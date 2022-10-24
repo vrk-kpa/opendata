@@ -3,8 +3,9 @@ import pytest
 from ckan import model, plugins
 from ckan.plugins import toolkit
 
-
-@pytest.mark.usefixtures('clean_db')
+# TODO: Custom db-clean and init must be implemented as ckans default doesn't work with postgis
+# For a reference ckanext-spatial has some kind of implementation for postgis
+# @pytest.mark.usefixtures('clean_db')
 class TestYtpDatasetPlugin():
     """ Test YtpDatsetPlugin class """
 
