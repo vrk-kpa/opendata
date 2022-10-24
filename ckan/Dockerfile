@@ -5,7 +5,7 @@ ARG DYNATRACE_ENABLED=0
 #
 # CKAN build
 #
-FROM ghcr.io/keitaroinc/ckan:2.9.5-focal AS ckan_build
+FROM ghcr.io/keitaroinc/ckan:2.9.6-focal AS ckan_build
 
 # switch from ckan to root user
 USER root
@@ -77,8 +77,8 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
     patch --strip=1 --input=patches/add_drafts_to_search.patch && \
     patch --strip=1 --input=patches/ignore_write_errors.patch && \
-    patch --strip=1 --input=patches/fix_user_in_caching_logic.patch && \
-    patch --strip=1 --input=patches/add_prefix_to_werkzeug.patch
+    patch --strip=1 --input=patches/add_prefix_to_werkzeug.patch && \
+    patch --strip=1 --input=patches/fix_organization_delete_form.patch
 
 # install crontab
 RUN chmod +x ${CRON_DIR}/scripts/*.sh && \
