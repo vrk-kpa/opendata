@@ -71,7 +71,8 @@ PUBLIC_SERVICES = 'Public Services'
 ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
 
 _category_mapping = {
-    'alueet-ja-kaupungit': ['imagery base maps earth cover', 'planning cadastre', 'structure'],
+    'alueet-ja-kaupungit': ['imagery base maps earth cover', 'planning cadastre', 'structure', 'imageryBaseMapsearthcover',
+                            'planningCadastre'],
     'energia': [],
     'hallinto-ja-julkinen-sektori': [],
     'kansainvaliset-asiat': [],
@@ -80,15 +81,17 @@ _category_mapping = {
     'liikenne': ['transportation'],
     'maatalous-kalastus-metsatalous-ja-elintarvikkeet': ['farming'],
     'matkailu-ja-turismi': [],
-    'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligence military'],
+    'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligence military', 'intelligenceMilitary'],
     'rakennettu-ymparisto-ja-infrastruktuuri': ['boundaries', 'elevation', 'imagery base maps earth cover', 'location',
-                                                'planning cadastre', 'structure', 'utilities communication'],
+                                                'planning cadastre', 'structure', 'utilities communication',
+                                                'imageryBaseMapsEarthCover', 'planningCadastre', 'utilitieCommunication'],
     'talous-ja-rahoitus': ['economy'],
     'terveys': ['health'],
-    'tiede-ja-teknologia': ['geoscientific information'],
+    'tiede-ja-teknologia': ['geoscientific information', 'geoscientificInformation'],
     'vaesto-ja-yhteiskunta': ['society'],
     'ymparisto-ja-luonto': ['biota', 'elevation', 'environment', 'geoscientific information', 'imagery base maps earth cover',
-                            'inland waters', 'oceans']
+                            'inland waters', 'oceans', 'climatology, meteorology, atmosphere', 'geoscientificInformation',
+                            'imageryBaseMapsEarthCover', 'inlandWaters', 'climatologyMeteorologyAtmosphere']
 }
 
 
