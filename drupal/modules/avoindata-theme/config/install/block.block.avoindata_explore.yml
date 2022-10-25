@@ -5,16 +5,16 @@ dependencies:
     - system
   theme:
     - avoindata
-id: avoindata_appfeed
+id: avoindata_explore
 theme: avoindata
 region: content
-weight: 5
+weight: 3
 provider: null
-plugin: avoindata_appfeed
+plugin: avoindata_explore
 settings:
-  id: avoindata_appfeed
-  label: 'Avoindata App Feed'
-  provider: avoindata_appfeed
+  id: avoindata_explore
+  label: 'Avoindata Explore'
+  provider: avoindata_explore
   label_display: '0'
 visibility:
   request_path:
