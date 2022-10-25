@@ -71,7 +71,7 @@ PUBLIC_SERVICES = 'Public Services'
 ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
 
 _category_mapping = {
-    'alueet-ja-kaupungit': ['imagery base maps earth cover', 'planning cadastre', 'structure', 'imageryBaseMapsearthcover',
+    'alueet-ja-kaupungit': ['imagery base maps earth cover', 'planning cadastre', 'structure', 'imageryBaseMapsEarthCover',
                             'planningCadastre'],
     'energia': [],
     'hallinto-ja-julkinen-sektori': [],
@@ -84,7 +84,7 @@ _category_mapping = {
     'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligence military', 'intelligenceMilitary'],
     'rakennettu-ymparisto-ja-infrastruktuuri': ['boundaries', 'elevation', 'imagery base maps earth cover', 'location',
                                                 'planning cadastre', 'structure', 'utilities communication',
-                                                'imageryBaseMapsEarthCover', 'planningCadastre', 'utilitieCommunication'],
+                                                'imageryBaseMapsEarthCover', 'planningCadastre', 'utilitiesCommunication'],
     'talous-ja-rahoitus': ['economy'],
     'terveys': ['health'],
     'tiede-ja-teknologia': ['geoscientific information', 'geoscientificInformation'],
