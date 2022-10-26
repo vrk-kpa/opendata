@@ -8,8 +8,88 @@
 #}
 <div class="avoindata-explore">
   <div class="avoindata-explore-container">
-    
-    <h1>TESTING</h1>
+    <div class="row avoindata-explore-header-row"> 
+      <h2>
+        {% trans %}
+          Explore open data and its use cases
+        {% endtrans %}
+      </h2>
+    </div>
+    <div class="row avoindata-explore-items d-flex flex-wrap justify-content-center pt-2 pb-2">
+
+      <div class="row avoindata-explore-card" container-fluid d-flex>
+        <div class="col-md-4 align-items-center d-flex avoindata-explore-card-icon dataset">
+          <img src="/themes/avoindata/images/database.svg"/>
+        </div>
+
+        <div class="col-md-8 avoindata-explore-card-content pl-3">
+          <div class="row container-fluid">
+            <h3>
+              {% trans %}
+                Datasets
+              {% endtrans %}
+            </h3>
+          </div>
+          <div class="row container-fluid d-flex align-items-center">
+            <i class="far fa-chevron-right"></i> 
+            <a href="/data/{{ language }}/dataset">
+              {% trans %}
+               Browse datasets
+              {% endtrans %}
+               </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row avoindata-explore-card" container-fluid d-flex>
+        <div class="col-md-4 align-items-center d-flex avoindata-explore-card-icon apiset">
+          <img src="/themes/avoindata/images/exchange.svg"/>
+        </div>
+
+        <div class="col-md-8 avoindata-explore-card-content pl-3">
+          <div class="row container-fluid">
+            <h3>
+              {% trans %}
+                APIs
+              {% endtrans %}
+            </h3>
+          </div>
+          <div class="row container-fluid d-flex align-items-center">
+            <i class="far fa-chevron-right"></i> 
+            <a href="/data/{{ language }}/apiset">
+              {% trans %}
+                Browse apis
+              {% endtrans %}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row avoindata-explore-card" container-fluid d-flex>
+        <div class="col-md-4 align-items-center d-flex avoindata-explore-card-icon showcase">
+          <img src="/themes/avoindata/images/meter.svg"/>
+        </div>
+
+        <div class="col-md-8 avoindata-explore-card-content pl-3">
+          <div class="row container-fluid">
+            <h3>
+              {% trans %}
+                Apps
+              {% endtrans %}
+            </h3>
+          </div>
+          <div class="row container-fluid d-flex align-items-center">
+            <i class="far fa-chevron-right"></i> <a href="/data/{{ language }}/showcase">
+              {% trans %}
+                Browse apps
+              {% endtrans %}
+
+               </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
 
   </div>
 </div>

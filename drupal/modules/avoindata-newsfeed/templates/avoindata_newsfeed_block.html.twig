@@ -10,18 +10,19 @@
   <div class="avoindata-newsfeed-container">
     <div class="row avoindata-newsfeed-header-row">
       <div class="col-md-12 col-sm-12 col-xs-12">
-        <h1>
+        <h2>
           {% trans %}
             News
           {% endtrans %}
-        </h1>
-      </div>
+        </h2>
+      <div>
     </div>
+  </div>
 
-    <div class="avoindata-newsfeed-block row">
-      <div class="col-md-6 col-sm-12 col-xm-12">
-        <div class="row">
-          <div class="avoindata-newsfeed-column col-md-10 col-sm-10 col-xm-10">
+  <div class="avoindata-newsfeed-block row">
+    <div class="col-md-12 col-sm-12 col-xm-12">
+      <div class="row">
+        <div class="avoindata-newsfeed-column col-md-10 col-sm-10 col-xm-10">
           <h4>
             <i class="fas fa-newspaper avoindata-newsfeed-icon"></i>
             {% trans %}
@@ -45,53 +46,8 @@
               </a>
           </div>
         </div>
-          <div class="avoindata-newsfeed-column col-md-10 col-sm-10 col-xm-10">
-          <h4>
-            <i class="far fa-calendar-check avoindata-newsfeed-icon"></i>
-            {% trans %}
-            Events
-            {% endtrans %}
-          </h4>
-          {% for event in eventfeed %}
-            <div class="avoindata-feeditem avoindata-feeditem-event">
-              <a class="feeditem-heading" href={{ path('entity.node.canonical', {'node': event.id}) }}>
-                {{ event.label }}
-              </a>
-              <br/>
-              <a class="feeditem-date" href={{ path('entity.node.canonical', {'node': event.id}) }}>
-                {% if event.field_end_date.value|length == 0 %}
-                  {{ event.field_start_date.value | date('U') | format_date('avoindata_long_date') }}
-                {% else %}
-                  {{ event.field_start_date.value| date('U') | format_date('avoindata_long_date') }} - {{ event.field_end_date.value | date('U') | format_date('avoindata_long_date') }}
-                {% endif %}
-              </a>
-              <br/>
-              <a href={{ event.field_location.0.url }}><i class="fas fa-map-marker"></i> {{ event.field_location.0.title }}</a>
-            </div>
-          {% endfor %}
-          <div>
-            <a href="/{{language}}/events" class="avoindata-newsfeed-link">
-              {% trans %}All Events{% endtrans %}<i class="far fa-long-arrow-right"></i>
-            </a>
-          </div>
-        </div>
-        </div>
-      </div>
-      <div class="avoindata-newsfeed-twittercontainer col-md-6 col-sm-12">
-        <a href="#twitter_end" class="sr-only sr-only-focusable">{% trans %}Skip twitter feed{% endtrans %}</a>
-        <div class="row">
-          <div class="col-sm-offset-3 col-sm-9">
-            {% if language == 'fi' %}
-              <a class="twitter-timeline" data-lang="fi" data-height="605" data-dnt="true" csp=on href="https://twitter.com/avoindatafi">Tweetit käyttäjältä avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-              {% elseif language == 'sv' %}
-              <a class="twitter-timeline" data-lang="sv" data-height="605" data-dnt="true" csp=on  href="https://twitter.com/avoindatafi">Tweets av avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-              {% elseif language == 'en' %}
-              <a class="twitter-timeline" data-lang="en" data-height="605" data-dnt="true" csp=on href="https://twitter.com/avoindatafi">Tweets by avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            {% endif %}
-          </div>
-        </div>
-        <span id="twitter_end" class="sr-only"></span>
       </div>
     </div>
   </div>
+  
 </div>

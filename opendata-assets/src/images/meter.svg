@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Illustration / Mittari</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons-/-Illustration-/-Mittari">
+            <g id="Group-2" transform="translate(8.000000, 11.000000)">
+                <path d="M32,30 C30.897,30 30,30.897 30,32 C30,33.103 30.897,34 32,34 C33.103,34 34,33.103 34,32 C34,30.897 33.103,30 32,30 Z M32,36 C29.794,36 28,34.206 28,32 C28,29.794 29.794,28 32,28 C34.206,28 36,29.794 36,32 C36,34.206 34.206,36 32,36 L32,36 Z" id="Fill-232" fill="#EA7125"></path>
+                <path d="M10.421,53 L53.579,53 C58.937,47.447 62,39.818 62,32 C62,15.458 48.542,2 32,2 C15.458,2 2,15.458 2,32 C2,39.82 5.063,47.449 10.421,53 Z M54.416,55 L9.584,55 L9.29,54.705 C3.386,48.759 0,40.483 0,32 C0,14.355 14.355,0 32,0 C49.645,0 64,14.355 64,32 C64,40.481 60.614,48.757 54.71,54.704 L54.416,55 L54.416,55 Z" id="Fill-233" fill="#A5ACB0"></path>
+                <path d="M11.2,47.604 C7.798,43.075 6,37.68 6,32 C6,17.663 17.663,6 32,6 C46.337,6 58,17.663 58,32 C58,37.678 56.202,43.073 52.802,47.601 L51.202,46.399 C54.341,42.221 56,37.241 56,32 C56,18.767 45.233,8 32,8 C18.767,8 8,18.767 8,32 C8,37.243 9.659,42.224 12.8,46.402 L11.2,47.604" id="Fill-234" fill="#A5ACB0"></path>
+                <polygon id="Fill-235" fill="#A5ACB0" points="31 49 33 49 33 47 31 47"></polygon>
+                <polygon id="Fill-236" fill="#A5ACB0" points="27 49 29 49 29 47 27 47"></polygon>
+                <polygon id="Fill-237" fill="#A5ACB0" points="35 49 37 49 37 47 35 47"></polygon>
+                <polygon id="Fill-238" fill="#A5ACB0" points="39 49 41 49 41 47 39 47"></polygon>
+                <polygon id="Fill-239" fill="#A5ACB0" points="23 49 25 49 25 47 23 47"></polygon>
+                <polygon id="Fill-240" fill="#A5ACB0" points="7 33 10 33 10 31 7 31"></polygon>
+                <polygon id="Fill-241" fill="#A5ACB0" points="31 10 33 10 33 7 31 7"></polygon>
+                <polygon id="Fill-242" fill="#A5ACB0" points="54 33 57 33 57 31 54 31"></polygon>
+                <polyline id="Fill-243" fill="#A5ACB0" points="16.293 17.707 13.293 14.707 14.707 13.293 17.707 16.293 16.293 17.707"></polyline>
+                <polyline id="Fill-244" fill="#A5ACB0" points="47.707 17.707 46.293 16.293 49.293 13.293 50.707 14.707 47.707 17.707"></polyline>
+                <path d="M23.2,38.603 C21.761,36.687 21,34.403 21,32 C21,25.935 25.935,21 32,21 C38.065,21 43,25.935 43,32 C43,34.401 42.239,36.684 40.801,38.601 L39.201,37.399 C40.378,35.832 41,33.965 41,32 C41,27.037 36.963,23 32,23 C27.037,23 23,27.037 23,32 C23,33.967 23.622,35.834 24.8,37.401 L23.2,38.603" id="Fill-246" fill="#EA7125"></path>
+                <polyline id="Fill-245" fill="#EA7125" points="34.707 30.707 33.293 29.293 43.293 19.293 44.707 20.707 34.707 30.707"></polyline>
+                <polygon id="Fill-247" fill="#A5ACB0" points="12 59 52 59 52 57 12 57"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
