@@ -96,10 +96,8 @@ drush theme:enable -y bootstrap
 [[ "$MODULE_INFO" != *"avoindata_hero"* ]]              && drush pm:enable -y avoindata_hero
 [[ "$MODULE_INFO" != *"avoindata_categories"* ]]        && drush pm:enable -y avoindata_categories
 [[ "$MODULE_INFO" != *"avoindata_infobox"* ]]           && drush pm:enable -y avoindata_infobox
-# [[ "$MODULE_INFO" != *"avoindata_datasetlist"* ]]       && drush pm:enable -y avoindata_datasetlist
 [[ "$MODULE_INFO" != *"avoindata_explore"* ]]           && drush pm:enable -y avoindata_explore
 [[ "$MODULE_INFO" != *"avoindata_newsfeed"* ]]          && drush pm:enable -y avoindata_newsfeed
-# [[ "$MODULE_INFO" != *"avoindata_appfeed"* ]]           && drush pm:enable -y avoindata_appfeed
 [[ "$MODULE_INFO" != *"avoindata_footer"* ]]            && drush pm:enable -y avoindata_footer
 [[ "$MODULE_INFO" != *"avoindata_articles"* ]]          && drush pm:enable -y avoindata_articles
 [[ "$MODULE_INFO" != *"avoindata_events"* ]]            && drush pm:enable -y avoindata_events
@@ -134,10 +132,8 @@ drush config:import -y --partial --source ${MOD_DIR}/avoindata-servicemessage/co
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-hero/config/install             || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-categories/config/install       || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-infobox/config/install          || true
-# drush config:import -y --partial --source ${MOD_DIR}/avoindata-datasetlist/config/install      || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-explore/config/install          || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-newsfeed/config/install         || true
-# drush config:import -y --partial --source ${MOD_DIR}/avoindata-appfeed/config/install          || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-footer/config/install           || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-articles/config/install         || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-events/config/install           || true

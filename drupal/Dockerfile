@@ -87,11 +87,8 @@ COPY modules/avoindata-servicemessage       ${MOD_DIR}/avoindata-servicemessage/
 COPY modules/avoindata-hero                 ${MOD_DIR}/avoindata-hero/
 COPY modules/avoindata-categories           ${MOD_DIR}/avoindata-categories/
 COPY modules/avoindata-infobox              ${MOD_DIR}/avoindata-infobox/
-# COPY modules/avoindata-datasetlist          ${MOD_DIR}/avoindata-datasetlist/
-# NEW
 COPY modules/avoindata-explore              ${MOD_DIR}/avoindata-explore/
 COPY modules/avoindata-newsfeed             ${MOD_DIR}/avoindata-newsfeed/
-COPY modules/avoindata-appfeed              ${MOD_DIR}/avoindata-appfeed/
 COPY modules/avoindata-footer               ${MOD_DIR}/avoindata-footer/
 COPY modules/avoindata-articles             ${MOD_DIR}/avoindata-articles/
 COPY modules/avoindata-events               ${MOD_DIR}/avoindata-events/
