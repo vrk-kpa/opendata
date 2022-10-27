@@ -1,12 +1,15 @@
 import six
 import json
 import threading
+import uuid
+import urllib
 from rdflib import URIRef, BNode, Literal, Namespace
 from rdflib.namespace import RDF, XSD
-from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX, LOCN, GSP
+from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX, LOCN, GSP, SCHEMA
 from ckanext.dcat.processors import RDFSerializer
-from ckanext.dcat.utils import resource_uri, url_quote, url_to_rdflib_format
+from ckanext.dcat.utils import resource_uri, url_quote, url_to_rdflib_format, catalog_uri
 from ckan.plugins import toolkit as p
+import ckan.lib.helpers as h
 
 import logging
 log = logging.getLogger(__name__)
@@ -101,8 +104,37 @@ class AvoindataDCATAPProfile(RDFProfile):
                   dct:conformsTo
     '''
 
+    def _basic_fields_graph(self, dataset_ref, dataset_dict):
+        items = [
+            ('identifier', SCHEMA.identifier, None, Literal),
+            ('title', SCHEMA.name, None, Literal),
+            ('notes', SCHEMA.description, None, Literal),
+            ('version', SCHEMA.version, ['dcat_version'], Literal),
+            ('issued', SCHEMA.datePublished, ['metadata_created'], Literal),
+            ('modified', SCHEMA.dateModified, ['metadata_modified'], Literal),
+            ('license', SCHEMA.license, ['license_url', 'license_title'], Literal),
+        ]
+        self._add_triples_from_dict(dataset_dict, dataset_ref, items)
+
+        items = [
+            ('issued', SCHEMA.datePublished, ['metadata_created'], Literal),
+            ('modified', SCHEMA.dateModified, ['metadata_modified'], Literal),
+        ]
+
+        self._add_date_triples_from_dict(dataset_dict, dataset_ref, items)
+
+        # Dataset URL
+        dataset_url =  h.url_for('{}.read'.format(dataset_dict.get('type', 'dataset')),
+                                 id=dataset_dict['name'])
+        # dataset_url = url_for('{}.read'.format(dataset_dict.get('type', 'dataset')),
+        #                       id=dataset_dict['name'],
+        #                       _external=True)
+        self.g.add((dataset_ref, SCHEMA.url, Literal(dataset_url)))
+
+
     def parse_dataset(self, dataset_dict, dataset_ref):
         return dataset_dict
+
 
     def graph_from_dataset(self, dataset_dict, dataset_ref):
         g = self.g
@@ -110,10 +142,14 @@ class AvoindataDCATAPProfile(RDFProfile):
         for prefix, namespace in namespaces.items():
             g.bind(prefix, namespace)
 
+        self._basic_fields_graph(dataset_ref, dataset_dict)
+
         dcat_type = DCAT.Dataset
 
         if dataset_dict.get('type', None) == 'apiset':
             dcat_type = DCAT.DataService
+        elif dataset_dict.get('type', None) == 'showcase':
+            dcat_type = ADFI.Application
 
         g.add((dataset_ref, RDF.type, dcat_type))
 
@@ -286,21 +322,36 @@ class AvoindataDCATAPProfile(RDFProfile):
         for keyword in keywords:
             g.add((dataset_ref, DCAT.keyword, Literal(keyword)))
 
-        # dct:publisher
-        organization = get_organization(dataset_dict['owner_org'])
-
-        # If organization is not approved, it won't be available in organization list
-        if organization:
-            publisher = URIRef(p.url_for(controller='organization', action='read', id=organization['id'], qualified=True))
-            g.add((publisher, RDF.type, FOAF.Agent))
+        if dataset_dict.get('type') == 'showcase':
+            organization = {
+                            'title': dataset_dict.get('author'),
+                            'homepage': dataset_dict.get('author_website'),
+                           }
+            publisher = URIRef(organization.get('homepage', ''))
+            # g.add((publisher, RDF.type, FOAF.Agent))
             g.add((dataset_ref, DCT.publisher, publisher))
 
-            organization_titles = (t for t in list(get_dict(organization, 'title_translated').values()) if t)
-
-            for title in organization_titles:
-                g.add((publisher, FOAF.name, Literal(title)))
+            
+            g.add((publisher, FOAF.name, Literal(organization.get('title', ''))))
 
             self._add_triple_from_dict(organization, publisher, FOAF.homepage, 'homepage')
+            
+        else:
+            # dct:publisher
+            organization = get_organization(dataset_dict['owner_org'])
+
+            # If organization is not approved, it won't be available in organization list
+            if organization:
+                publisher = URIRef(p.url_for(controller='organization', action='read', id=organization['id'], qualified=True))
+                g.add((publisher, RDF.type, FOAF.Agent))
+                g.add((dataset_ref, DCT.publisher, publisher))
+
+                organization_titles = (t for t in list(get_dict(organization, 'title_translated').values()) if t)
+
+                for title in organization_titles:
+                    g.add((publisher, FOAF.name, Literal(title)))
+
+                self._add_triple_from_dict(organization, publisher, FOAF.homepage, 'homepage')
 
         # dcat:theme
         groups = dataset_dict.get('groups', [])
@@ -433,7 +484,7 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((period, DCAT.endDate, Literal(valid_till)))
 
         # dct:issued
-        date_released = dataset_dict.get('dataset-reference-date') or dataset_dict.get('metadata_created')
+        date_released = dataset_dict.get('date_released') or dataset_dict.get('metadata_created')
 
         if date_released:
             issued_date = Literal(date_released)
@@ -492,12 +543,62 @@ class AvoindataDCATAPProfile(RDFProfile):
             self._add_date_triple(catalog_ref, DCT.modified, modified)
 
 
+def dataset_uri(dataset_dict):
+    '''
+    Returns an URI for the dataset
+    This will be used to uniquely reference the dataset on the RDF
+    serializations.
+    The value will be the first found of:
+        1. The value of the `uri` field
+        2. The value of an extra with key `uri`
+        3. `catalog_uri()` + '/dataset/' + `id` field
+    Check the documentation for `catalog_uri()` for the recommended ways of
+    setting it.
+    Returns a string with the dataset URI.
+    '''
+
+    uri = dataset_dict.get('uri')
+    if not uri:
+        for extra in dataset_dict.get('extras', []):
+            if extra['key'] == 'uri' and extra['value'] != 'None':
+                uri = extra['value']
+                break
+    if not uri and dataset_dict.get('id'):
+        uri = '{0}/{1}/{2}'.format(catalog_uri().rstrip('/'),
+                                       dataset_dict.get('type', 'dataset'),
+                                       urllib.parse.quote(dataset_dict['id']))
+    if not uri:
+        uri = '{0}/{1}/{2}'.format(catalog_uri().rstrip('/'),
+                                       dataset_dict.get('type', 'dataset'),
+                                       str(uuid.uuid4()))
+        log.warning('Using a random id for dataset URI')
+
+    return uri
+
+
 class AvoindataSerializer(RDFSerializer):
     '''
     A CKAN to RDF serializer based on rdflib
     Supports different profiles which are the ones that will generate
     the RDF graph.
     '''
+
+
+    def graph_from_dataset(self, dataset_dict):
+        '''
+        Given a CKAN dataset dict, creates a graph using the loaded profiles
+        The class RDFLib graph (accessible via `serializer.g`) will be updated
+        by the loaded profiles.
+        Returns the reference to the dataset, which will be an rdflib URIRef.
+        '''
+
+        dataset_ref = URIRef(dataset_uri(dataset_dict))
+
+        for profile_class in self._profiles:
+            profile = profile_class(self.g, self.compatibility_mode)
+            profile.graph_from_dataset(dataset_dict, dataset_ref)
+
+        return dataset_ref
 
     def serialize_catalog(self, catalog_dict=None, dataset_dicts=None,
                           _format='xml', pagination_info=None):
@@ -525,6 +626,8 @@ class AvoindataSerializer(RDFSerializer):
                 cat_ref = self._add_source_catalog(catalog_ref, dataset_dict, dataset_ref)
                 if not cat_ref and dataset_dict.get('type', None) == 'apiset':
                     self.g.add((catalog_ref, DCAT.dataservice, dataset_ref))
+                elif not cat_ref and dataset_dict.get('type', None) == 'showcase':
+                    self.g.add((catalog_ref, ADFI.application, dataset_ref))
                 elif not cat_ref:
                     self.g.add((catalog_ref, DCAT.dataset, dataset_ref))
 

@@ -7,7 +7,7 @@
 
 {% block links -%}
   {{ super() }}
-  <link rel="alternate" type="application/rdf+xml" href="{{ h.url_for('sixodp_showcase.read', id=pkg.id, format='rdf', qualified=True) }}"/>
+  <link rel="alternate" type="application/rdf+xml" href="{{ h.url_for('sixodp_showcase.read_showcase_dcat', _id=pkg.id, _format='rdf', qualified=True) }}"/>
 {% endblock -%}
 
 {% block head_extras -%}
