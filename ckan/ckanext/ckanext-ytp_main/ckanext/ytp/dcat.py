@@ -126,9 +126,6 @@ class AvoindataDCATAPProfile(RDFProfile):
         # Dataset URL
         dataset_url =  h.url_for('{}.read'.format(dataset_dict.get('type', 'dataset')),
                                  id=dataset_dict['name'])
-        # dataset_url = url_for('{}.read'.format(dataset_dict.get('type', 'dataset')),
-        #                       id=dataset_dict['name'],
-        #                       _external=True)
         self.g.add((dataset_ref, SCHEMA.url, Literal(dataset_url)))
 
 
