@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Adds Explore component.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Security\TrustedCallbackInterface;
+
+/**
+ * Implements hook_help().
+ */
+function avoindata_explore_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.avoindata_explore_help':
+      return t('
+        Creates explore module.
+      ');
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function avoindata_explore_theme($existing, $type, $theme, $path) {
+  return [
+    'avoindata_explore' => [
+      'variables' => ['language' => NULL,],
+      'template' => 'avoindata_explore_block',
+    ],
+  ];
+}
+
+
+
+class AvoindataExploreHandler implements TrustedCallbackInterface
+{
+
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function trustedCallbacks() {
+    
+    // append function names to the list if any
+    return [];
+  }
+
+}

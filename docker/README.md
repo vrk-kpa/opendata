@@ -149,9 +149,8 @@ services:
       - ../drupal/modules/avoindata-hero/:/opt/drupal/web/modules/avoindata-hero
       - ../drupal/modules/avoindata-categories/:/opt/drupal/web/modules/avoindata-categories
       - ../drupal/modules/avoindata-infobox/:/opt/drupal/web/modules/avoindata-infobox
-      - ../drupal/modules/avoindata-datasetlist/:/opt/drupal/web/modules/avoindata-datasetlist
       - ../drupal/modules/avoindata-newsfeed/:/opt/drupal/web/modules/avoindata-newsfeed
-      - ../drupal/modules/avoindata-appfeed/:/opt/drupal/web/modules/avoindata-appfeed
+      - ../drupal/modules/avoindata-explore/:/opt/drupal/web/modules/avoindata-explore
       - ../drupal/modules/avoindata-footer/:/opt/drupal/web/modules/avoindata-footer
       - ../drupal/modules/avoindata-articles/:/opt/drupal/web/modules/avoindata-articles
       - ../drupal/modules/avoindata-events/:/opt/drupal/web/modules/avoindata-events
