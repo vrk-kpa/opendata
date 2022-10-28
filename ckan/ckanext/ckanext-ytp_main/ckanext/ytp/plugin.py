@@ -56,6 +56,8 @@ except ImportError:
     from sqlalchemy.util import OrderedDict
 
 from ckan.plugins.toolkit import ValidationError
+import xml.etree.ElementTree as ET
+from lxml import etree
 
 # This plugin is designed to work only these versions of CKAN
 plugins.toolkit.check_ckan_version(min_version='2.0')
@@ -673,6 +675,42 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
             if package_dict.get('license_id', None) is None:
                 package_dict['license_id'] = license_id
+
+
+        # Get the license from the xml by mapping the xlink:href field to licese urls
+        license_links = []
+
+        # get the xml etree root from datadict('xml_tree)
+        xml_root= data_dict.get('xml_tree', None)
+        if xml_root:
+            # iterate the whole xml tree and look for otherConstraints field with an anchor child
+            for xml_element in xml_root.iter():
+                if "otherConstraints" in xml_element.tag:
+                    for child in xml_element:
+                        if "Anchor" in child.tag:
+                            if child.attrib:
+                                # append the anchor values (usually href to the licence links)
+                                for t in iter(child.attrib.values()):
+                                    license_links.append(t)
+
+        # if any licence links were found, map them to one of the existing licences
+        # licences that don't fall under cc-by-4.0 or cc0 will not be harvested, so do a simple mapping
+        if license_links:
+
+            # Mappings for the license urls
+            valid_licenses = {
+                "https://creativecommons.org/licenses/by/4.0/": "cc-by-4.0",
+                "https://creativecommons.org/publicdomain/zero/1.0/deed.fi": "cc-zero-1.0"
+            }
+
+            for license_link in license_links:
+                if license_link in valid_licenses.keys():
+                    # if the licence was found, assign the value to the licence_id field
+                    package_dict['license_id'] = valid_licenses[license_link]
+                    package_dict['license_url'] = license_link
+
+        # Note! This would be a good point to check what harvested data gets excluded 
+        # if the license is not open enough (AV-1847)
 
         if extras.get('temporal-extent-begin', None) is not None:
             try:
