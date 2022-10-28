@@ -263,6 +263,9 @@ dct:license | dct:LicenseDocument | 0..1 | This property contains  the licence u
 
 A conceptual entity that represents the information about showcase.
 
+
+  ### Sub-class of
+  dcat:Resource
 #### Properties
 
 

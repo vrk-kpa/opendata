@@ -41,6 +41,11 @@
 
     <p>{{ class.description }}</p>
 
+    {% if class.subclass %}
+      <h3>Sub-class of</h3>
+      <p>{{ class.subclass }}</p>
+    {% endif -%}
+
     <h4>Properties</h4>
 
     {% for level in ['mandatory', 'recommended', 'optional'] %}

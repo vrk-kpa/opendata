@@ -28,6 +28,11 @@ Prefix | URI
 
 {{ class.description }}
 
+{% if class.subclass %}
+  ### Sub-class of
+  {{ class.subclass }}
+{% endif -%}
+
 #### Properties
 
 {% for level in ['mandatory', 'recommended', 'optional'] %}

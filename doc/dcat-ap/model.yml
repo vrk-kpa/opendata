@@ -653,6 +653,7 @@ classes:
   - title: Showcase
     description: A conceptual entity that represents the information about showcase.
     term: Showcase
+    subclass: dcat:Resource
     properties:
       mandatory:
         - name: Description 

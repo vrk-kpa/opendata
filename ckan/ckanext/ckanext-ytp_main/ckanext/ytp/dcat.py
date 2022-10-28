@@ -149,7 +149,7 @@ class AvoindataDCATAPProfile(RDFProfile):
         if dataset_dict.get('type', None) == 'apiset':
             dcat_type = DCAT.DataService
         elif dataset_dict.get('type', None) == 'showcase':
-            dcat_type = ADFI.Application
+            dcat_type = ADFI.Showcase
 
         g.add((dataset_ref, RDF.type, dcat_type))
 
@@ -627,7 +627,7 @@ class AvoindataSerializer(RDFSerializer):
                 if not cat_ref and dataset_dict.get('type', None) == 'apiset':
                     self.g.add((catalog_ref, DCAT.dataservice, dataset_ref))
                 elif not cat_ref and dataset_dict.get('type', None) == 'showcase':
-                    self.g.add((catalog_ref, ADFI.application, dataset_ref))
+                    self.g.add((catalog_ref, ADFI.showcase, dataset_ref))
                 elif not cat_ref:
                     self.g.add((catalog_ref, DCAT.dataset, dataset_ref))
 
