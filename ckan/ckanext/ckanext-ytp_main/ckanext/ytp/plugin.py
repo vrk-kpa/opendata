@@ -56,8 +56,6 @@ except ImportError:
     from sqlalchemy.util import OrderedDict
 
 from ckan.plugins.toolkit import ValidationError
-import xml.etree.ElementTree as ET
-from lxml import etree
 
 # This plugin is designed to work only these versions of CKAN
 plugins.toolkit.check_ckan_version(min_version='2.0')
@@ -694,7 +692,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                                     license_links.append(t)
 
         # if any licence links were found, map them to one of the existing licences
-        # licences that don't fall under cc-by-4.0 or cc0 will not be harvested, so do a simple mapping
+        # licences that don't fall under cc-by-4.0 or cc-zero-1.0 will not be harvested 
         if license_links:
 
             # Mappings for the license urls
