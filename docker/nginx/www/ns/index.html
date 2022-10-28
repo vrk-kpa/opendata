@@ -814,6 +814,70 @@
       </tbody>
     </table>
      
+    
+    <h3 id="Showcase">Showcase</h3>
+
+    <h4>Showcase</h4>
+
+    <p>A conceptual entity that represents the information about showcase.</p>
+
+    <h4>Properties</h4>
+
+    
+    <table class="table table-striped">
+      <caption>Mandatory properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dcat:description </td>
+          <td>rdfs:Resource</td>
+          <td>1..n</td>
+          <td>This property contains a free-text account of the Showcase. This property can be repeated for parallel language versions of the description.</td>
+        </tr>
+      <tr>
+          <td>dct:title </td>
+          <td>rdfs:Literal</td>
+          <td>1..n</td>
+          <td>This property contains a name given to the Showcase. This property can be repeated for parallel language versions of the name.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    <table class="table table-striped">
+      <caption>Recommended properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+      <tr>
+          <td>dcat:theme, subproperty of dct:subject </td>
+          <td>skos:Concept</td>
+          <td>0..n</td>
+          <td>This property refers to a category of the Showcase. A Showcase may be associated with multiple themes.</td>
+        </tr>
+      <tr>
+          <td>dct:publisher </td>
+          <td>foaf:Agent</td>
+          <td>0..1</td>
+          <td>This property refers to an website of organization responsible for making the Showcase available.</td>
+        </tr>
+       
+      </tbody>
+    </table>
+    
+    <table class="table table-striped">
+      <caption>Optional properties</caption>
+      <thead>
+        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+      </thead>
+      <tbody>
+       
+      </tbody>
+    </table>
+     
      
 
 </body>

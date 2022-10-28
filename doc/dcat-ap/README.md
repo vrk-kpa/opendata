@@ -256,4 +256,33 @@ dct:description | rdfs:Literal | 0..n | This property contains a free-text accou
 dct:license | dct:LicenseDocument | 0..1 | This property contains  the licence under which the Data service is made available.
  
  
+
+### Showcase
+
+#### Showcase
+
+A conceptual entity that represents the information about showcase.
+
+#### Properties
+
+
+##### Mandatory
+Term | Range | Cardinality | Comment
+-----|-------|-------------|--------
+dcat:description | rdfs:Resource | 1..n | This property contains a free-text account of the Showcase. This property can be repeated for parallel language versions of the description.
+dct:title | rdfs:Literal | 1..n | This property contains a name given to the Showcase. This property can be repeated for parallel language versions of the name.
+ 
+
+##### Recommended
+Term | Range | Cardinality | Comment
+-----|-------|-------------|--------
+dcat:theme, subproperty of dct:subject | skos:Concept | 0..n | This property refers to a category of the Showcase. A Showcase may be associated with multiple themes.
+dct:publisher | foaf:Agent | 0..1 | This property refers to an website of organization responsible for making the Showcase available.
+ 
+
+##### Optional
+Term | Range | Cardinality | Comment
+-----|-------|-------------|--------
+ 
+ 
  

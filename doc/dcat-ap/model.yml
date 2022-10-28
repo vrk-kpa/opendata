@@ -649,6 +649,39 @@ classes:
           min: 0
           max: 1
 
+
+  - title: Showcase
+    description: A conceptual entity that represents the information about showcase.
+    term: Showcase
+    properties:
+      mandatory:
+        - name: Description 
+          term: dcat:description
+          range: rdfs:Resource
+          description: This property contains a free-text account of the Showcase. This property can be repeated for parallel language versions of the description.
+          min: 1
+          max: n
+        - name: title
+          term: dct:title
+          range: rdfs:Literal
+          description: This property contains a name given to the Showcase. This property can be repeated for parallel language versions of the name.
+          min: 1
+          max: n
+      recommended:
+        - name: theme/ category
+          term: dcat:theme, subproperty of dct:subject
+          range: skos:Concept
+          description: This property refers to a category of the Showcase. A Showcase may be associated with multiple themes.
+          min: 0
+          max: n
+        - name: publisher
+          term: dct:publisher
+          range: foaf:Agent
+          description: This property refers to an website of organization responsible for making the Showcase available.
+          min: 0
+          max: 1
+      # optional:
+
 # - title: placeholder
 #   description: placeholder
 #   term: placeholder
