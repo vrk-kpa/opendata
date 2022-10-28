@@ -153,7 +153,6 @@ class AvoindataDCATAPProfile(RDFProfile):
         
         if dataset_dict.get('store_urls', None):
             distributor = BNode()
-            log.debug(dataset_dict.get('store_urls'))
             g.add((dataset_ref, ADFI.distributor, distributor))
             for store_url in dataset_dict.get('store_urls'):
                 g.add((distributor, ADFI.distributor, uriref(store_url)))
@@ -465,10 +464,6 @@ class AvoindataDCATAPProfile(RDFProfile):
         if spatial_field:
             log.debug('spatial field is present: %s', spatial_field)
             locations.append((LOCN.geometry, Literal(spatial_field, datatype=GSP.geoJSONLiteral)))
-
-        if dataset_dict.get('name') == 'keski-suomen-maakuntakaavayhdistelma7':
-            from pprint import pformat
-            log.debug(pformat(dataset_dict))
 
         if locations:
             location = BNode()
