@@ -128,6 +128,56 @@ class AvoindataDCATAPProfile(RDFProfile):
                                  id=dataset_dict['name'])
         self.g.add((dataset_ref, SCHEMA.url, Literal(dataset_url)))
 
+    def _parse_showcase(self, dataset_dict, dataset_ref):
+        g = self.g
+        showcase_url = h.url_for('{}.read'.format(dataset_dict.get('type', 'dataset')),
+                                 id=dataset_dict.get('name'))
+        g.add((dataset_ref, ADFI.DataUserInterface, uriref(showcase_url)))
+
+        if dataset_dict.get('platform', None):
+            platform = BNode()
+            g.add((dataset_ref, ADFI.platform, platform))
+
+            for showcase_platform in dataset_dict.get('platform'):
+                g.add((platform, ADFI.platform, Literal(showcase_platform)))
+
+        creator = BNode()
+        g.add((dataset_ref, DCT.creator, creator))
+        g.add((creator, FOAF.name, Literal(dataset_dict.get('author'))))
+
+        if dataset_dict.get('author_website', None):
+            g.add((creator, FOAF.homepage, uriref(dataset_dict.get('author_website'))))
+
+        if dataset_dict.get('application_website', None):
+            g.add((dataset_ref, DCAT.landingPage, uriref(dataset_dict.get('application_website'))))
+        
+        if dataset_dict.get('store_urls', None):
+            distributor = BNode()
+            log.debug(dataset_dict.get('store_urls'))
+            g.add((dataset_ref, ADFI.distributor, distributor))
+            for store_url in dataset_dict.get('store_urls'):
+                g.add((distributor, ADFI.distributor, uriref(store_url)))
+
+        if dataset_dict.get('image_url', None):
+            g.add((dataset_ref, ADFI.applicationIcon, uriref(dataset_dict.get('image_url'))))
+
+        preview_medias = []
+
+        for x in range(1, 4):
+            if dataset_dict.get('image_{}_display_url'.format(x), None):
+                preview_medias.append(dataset_dict.get('image_{}_display_url'.format(x)))
+        
+        if len(preview_medias) > 0:
+            previewMedia = BNode()
+            g.add((dataset_ref, ADFI.previewMedia, previewMedia))
+
+            for preview_media in preview_medias:
+                g.add((previewMedia, ADFI.previewMedia, uriref(preview_media)))
+
+
+        if dataset_dict.get('archived', None):
+            g.add((dataset_ref, ADFI.archived, uriref(dataset_dict.get('archived'))))
+
 
     def parse_dataset(self, dataset_dict, dataset_ref):
         return dataset_dict
@@ -152,6 +202,7 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((dataset_ref, DCAT.endpointURL, endpoint_urls))
         elif dataset_dict.get('type', None) == 'showcase':
             dcat_type = ADFI.Showcase
+            self._parse_showcase(dataset_dict, dataset_ref)
 
         g.add((dataset_ref, RDF.type, dcat_type))
 

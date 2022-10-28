@@ -36,15 +36,15 @@
 
     {% for class in classes %}
     <h3 id="{{ class.term }}">{{ class.term }}</h3>
+    
+    {% if class.subclassOf %}
+      <p>Sub-class of {{ class.subclassOf }}</p>
+    {% endif -%}
 
     <h4>{{ class.title }}</h4>
 
     <p>{{ class.description }}</p>
 
-    {% if class.subclass %}
-      <h3>Sub-class of</h3>
-      <p>{{ class.subclass }}</p>
-    {% endif -%}
 
     <h4>Properties</h4>
 

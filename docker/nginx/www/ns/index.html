@@ -52,10 +52,11 @@
 
     
     <h3 id="Catalog">Catalog</h3>
-
+    
     <h4>Catalogue</h4>
 
     <p>A catalogue or repository that hosts the Datasets being described.</p>
+
 
     <h4>Properties</h4>
 
@@ -200,10 +201,11 @@
      
     
     <h3 id="Dataset">Dataset</h3>
-
+    
     <h4>Dataset</h4>
 
     <p>A conceptual entity that represents the information published.</p>
+
 
     <h4>Properties</h4>
 
@@ -456,10 +458,11 @@
      
     
     <h3 id="Distribution">Distribution</h3>
-
+    
     <h4>Distribution</h4>
 
     <p>A physical embodiment of the Dataset in a particular format.</p>
+
 
     <h4>Properties</h4>
 
@@ -640,10 +643,11 @@
      
     
     <h3 id="CatalogueRecord">CatalogueRecord</h3>
-
+    
     <h4>Catalogue Record</h4>
 
     <p>A description of a Dataset’s entry in the Catalogue.</p>
+
 
     <h4>Properties</h4>
 
@@ -734,10 +738,11 @@
      
     
     <h3 id="DataService">DataService</h3>
-
+    
     <h4>Data Service</h4>
 
     <p>A collection of operations that provides access to one or more datasets or data processing functions.</p>
+
 
     <h4>Properties</h4>
 
@@ -816,14 +821,14 @@
      
     
     <h3 id="Showcase">Showcase</h3>
-
+    
+    
+      <p>Sub-class of dcat:Resource</p>
     <h4>Showcase</h4>
 
     <p>A conceptual entity that represents the information about showcase.</p>
 
-    
-      <h3>Sub-class of</h3>
-      <p>dcat:Resource</p>
+
     <h4>Properties</h4>
 
     
@@ -845,6 +850,12 @@
           <td>1..n</td>
           <td>This property contains a name given to the Showcase. This property can be repeated for parallel language versions of the name.</td>
         </tr>
+      <tr>
+          <td>adfi:DataUserInterface </td>
+          <td>rdfs:Literal</td>
+          <td>1..1</td>
+          <td>The showcase’s URL on opendata.fi. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.</td>
+        </tr>
        
       </tbody>
     </table>
@@ -862,10 +873,64 @@
           <td>This property refers to a category of the Showcase. A Showcase may be associated with multiple themes.</td>
         </tr>
       <tr>
-          <td>dct:publisher </td>
-          <td>foaf:Agent</td>
+          <td>adfi:platform </td>
+          <td>rdfs:Literal</td>
+          <td>0..n</td>
+          <td>If you have created a mobile or desktop showcase, select which platforms it supports.</td>
+        </tr>
+      <tr>
+          <td>dcat:keyword </td>
+          <td>rdfs:Literal</td>
+          <td>0..n</td>
+          <td>Keywords help users to find your showcase. Select at least one keyword in Finnish.</td>
+        </tr>
+      <tr>
+          <td>dct:creator </td>
+          <td>foaf:name</td>
+          <td>1..1</td>
+          <td>Developer of showcase</td>
+        </tr>
+      <tr>
+          <td>adfi:creatorWebsiteUri </td>
+          <td>rdfs:Literal</td>
           <td>0..1</td>
-          <td>This property refers to an website of organization responsible for making the Showcase available.</td>
+          <td>Website of developer</td>
+        </tr>
+      <tr>
+          <td>dcat:landingPage </td>
+          <td>rdfs:Literal</td>
+          <td>0..1</td>
+          <td>Website of showcase</td>
+        </tr>
+      <tr>
+          <td>adfi:distributor </td>
+          <td>rdfs:Literal</td>
+          <td>0..n</td>
+          <td>Distributor urls</td>
+        </tr>
+      <tr>
+          <td>dct:description </td>
+          <td>rdfs:Literal</td>
+          <td>1..n</td>
+          <td>A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.</td>
+        </tr>
+      <tr>
+          <td>adfi:applicationIcon </td>
+          <td>rdfs:Literal</td>
+          <td>0..1</td>
+          <td>A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.</td>
+        </tr>
+      <tr>
+          <td>adfi:previewMedia </td>
+          <td>rdfs:Literal</td>
+          <td>0..3</td>
+          <td>Add max. 3 images of your showcase. Good images are for example those that show the user interface and features of the showcase.</td>
+        </tr>
+      <tr>
+          <td>adfi:archived </td>
+          <td>rdfs:Literal</td>
+          <td>0..1</td>
+          <td>Tells if showcase is archived</td>
         </tr>
        
       </tbody>

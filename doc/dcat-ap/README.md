@@ -259,13 +259,12 @@ dct:license | dct:LicenseDocument | 0..1 | This property contains  the licence u
 
 ### Showcase
 
+
+  Sub-class of dcat:Resource
 #### Showcase
 
 A conceptual entity that represents the information about showcase.
 
-
-  ### Sub-class of
-  dcat:Resource
 #### Properties
 
 
@@ -274,13 +273,23 @@ Term | Range | Cardinality | Comment
 -----|-------|-------------|--------
 dcat:description | rdfs:Resource | 1..n | This property contains a free-text account of the Showcase. This property can be repeated for parallel language versions of the description.
 dct:title | rdfs:Literal | 1..n | This property contains a name given to the Showcase. This property can be repeated for parallel language versions of the name.
+adfi:DataUserInterface | rdfs:Literal | 1..1 | The showcase’s URL on opendata.fi. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.
  
 
 ##### Recommended
 Term | Range | Cardinality | Comment
 -----|-------|-------------|--------
 dcat:theme, subproperty of dct:subject | skos:Concept | 0..n | This property refers to a category of the Showcase. A Showcase may be associated with multiple themes.
-dct:publisher | foaf:Agent | 0..1 | This property refers to an website of organization responsible for making the Showcase available.
+adfi:platform | rdfs:Literal | 0..n | If you have created a mobile or desktop showcase, select which platforms it supports.
+dcat:keyword | rdfs:Literal | 0..n | Keywords help users to find your showcase. Select at least one keyword in Finnish.
+dct:creator | foaf:name | 1..1 | Developer of showcase
+adfi:creatorWebsiteUri | rdfs:Literal | 0..1 | Website of developer
+dcat:landingPage | rdfs:Literal | 0..1 | Website of showcase
+adfi:distributor | rdfs:Literal | 0..n | Distributor urls
+dct:description | rdfs:Literal | 1..n | A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.
+adfi:applicationIcon | rdfs:Literal | 0..1 | A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.
+adfi:previewMedia | rdfs:Literal | 0..3 | Add max. 3 images of your showcase. Good images are for example those that show the user interface and features of the showcase.
+adfi:archived | rdfs:Literal | 0..1 | Tells if showcase is archived
  
 
 ##### Optional
