@@ -148,6 +148,11 @@ class AvoindataDCATAPProfile(RDFProfile):
 
         if dataset_dict.get('type', None) == 'apiset':
             dcat_type = DCAT.DataService
+            endpoint_urls = BNode()
+            for resource_dict in dataset_dict.get('resources', []):
+                g.add((endpoint_urls, DCAT.endpointURL, uriref(resource_dict.get('url'))))
+
+            g.add((dataset_ref, DCAT.endpointURL, endpoint_urls))
         elif dataset_dict.get('type', None) == 'showcase':
             dcat_type = ADFI.Showcase
 
@@ -301,9 +306,9 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((distribution, DCT.temporal, period))
                 g.add((period, RDF.type, DCT.PeriodOfTime))
                 if temporal_coverage_from:
-                    g.add((period, DCAT.startDate, Literal(temporal_coverage_from)))
+                    g.add((period, DCAT.startDate, Literal(temporal_coverage_from, datatype=XSD.date)))
                 if temporal_coverage_to:
-                    g.add((period, DCAT.endDate, Literal(temporal_coverage_to)))
+                    g.add((period, DCAT.endDate, Literal(temporal_coverage_to, datatype=XSD.date)))
 
             # dcat:temporalResolution
             temporal_granularities = set(t for lang in list(get_dict(resource_dict, 'temporal_granularity').values())
@@ -479,15 +484,15 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((dataset_ref, DCT.temporal, period))
             g.add((period, RDF.type, DCT.PeriodOfTime))
             if valid_from:
-                g.add((period, DCAT.startDate, Literal(valid_from)))
+                g.add((period, DCAT.startDate, Literal(valid_from, datatype=XSD.date)))
             if valid_till:
-                g.add((period, DCAT.endDate, Literal(valid_till)))
+                g.add((period, DCAT.endDate, Literal(valid_till, datatype=XSD.date)))
 
         # dct:issued
         date_released = dataset_dict.get('date_released') or dataset_dict.get('metadata_created')
 
         if date_released:
-            issued_date = Literal(date_released)
+            issued_date = Literal(date_released, datatype=XSD.date)
             g.add((dataset_ref, DCT.issued, issued_date))
 
     def graph_from_catalog(self, catalog_dict, catalog_ref):
@@ -517,10 +522,13 @@ class AvoindataDCATAPProfile(RDFProfile):
         g.add((catalog_ref, DCT.description, Literal(description)))
 
         spatial = 'koko Suomi, hela Finland, entire Finland'
-        g.add((catalog_ref, DCT.spatial, Literal(spatial)))
+        location = BNode()
+        g.add((catalog_ref, DCT.spatial, location))
+        g.add((location, RDF.type, DCT.Location))
+        g.add((location, DCT.spatial, Literal(spatial)))
 
         issued = '2014-09-15'
-        g.add((catalog_ref, DCT.issued, Literal(issued)))
+        g.add((catalog_ref, DCT.issued, Literal(issued, datatype=XSD.date)))
 
         homepage = URIRef(p.config.get('ckan.site_url', ''))
         g.add((catalog_ref, FOAF.homepage, homepage))
