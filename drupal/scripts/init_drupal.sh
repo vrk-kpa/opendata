@@ -59,6 +59,8 @@ drush theme:enable -y bootstrap
 [[ "$MODULE_INFO" == *"contextual"* ]]  && drush pm:uninstall -y contextual
 [[ "$MODULE_INFO" == *"page_cache"* ]]  && drush pm:uninstall -y page_cache
 [[ "$MODULE_INFO" == *"protected_submissions"* ]]  && drush pm:uninstall -y protected_submissions
+[[ "$MODULE_INFO" == *"avoindata_datasetlist"* ]]  && drush pm:uninstall -y avoindata_datasetlist
+[[ "$MODULE_INFO" == *"avoindata_appfeed"* ]]  && drush pm:uninstall -y avoindata_appfeed
 
 # enable modules
 [[ "$MODULE_INFO" != *"twig_tweak"* ]]                    && drush pm:enable -y twig_tweak
