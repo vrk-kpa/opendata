@@ -32,7 +32,7 @@ describe('Advanced search tests', () => {
                     '#field-valid_till': '2020-02-04',
                     '#field-license_id': {
                         type: 'select',
-                        value: 'cc-by'
+                        value: 'cc-by-4.0'
                     }
                 },
                 resource_data: {
