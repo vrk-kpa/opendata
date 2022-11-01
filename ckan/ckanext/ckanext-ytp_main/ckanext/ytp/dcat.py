@@ -137,12 +137,10 @@ class AvoindataDCATAPProfile(RDFProfile):
         access_rights = dataset_dict.get('access_rights_translated', None)
         if access_rights:
             rights_statement = BNode()
+            access_rights_value = access_rights.values()
+            g.add((rights_statement, RDF.type, DCT.RightsStatement))
+            g.add((rights_statement, DCT.description, Literal('\n\n'.join(access_rights_value))))
             g.add((dataset_ref, DCT.rights, rights_statement))
-
-            for access_right in access_rights.values():
-                g.add((rights_statement, RDF.type, DCT.RightsStatement))
-                g.add((rights_statement, DCT.description, Literal(access_right)))
-
 
     def _parse_showcase(self, dataset_dict, dataset_ref):
         g = self.g
@@ -292,8 +290,6 @@ class AvoindataDCATAPProfile(RDFProfile):
         if contact_email:
             g.add((dataset_ref, DCAT.contactPoint, uriref(contact_email)))
 
-        dataset_content_types = []
-
         # dcat:distribution
         for resource_dict in dataset_dict.get('resources', []):
             resource_dict = as_dict(resource_dict)
@@ -362,8 +358,6 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((media_type, RDF.value, Literal(file_format)))
                 g.add((distribution, DCT['format'], media_type))
 
-                dataset_content_types.append(file_format)
-
             # dct:conformsTo
             position_info = resource_dict.get('position_info')
             if position_info:
@@ -415,13 +409,6 @@ class AvoindataDCATAPProfile(RDFProfile):
             if temporal_granularities:
                 g.add((distribution, DCAT.temporalResolution,
                        Literal(', '.join(temporal_granularities), datatype=XSD.duration)))
-
-        if dataset_type == 'dataset':
-            content_types_bnode = BNode()
-            g.add((dataset_ref, DCT.type, content_types_bnode))
-            
-            for dataset_content_type in dataset_content_types:
-                g.add((content_types_bnode, DCT.title, Literal(dataset_content_type)))
 
         # dcat:keyword
         keywords = set(
