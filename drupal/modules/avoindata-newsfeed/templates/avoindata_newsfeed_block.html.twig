@@ -19,37 +19,33 @@
         </h2>
     </div>
 
-    {# <div class="avoindata-newsfeed-items row d-flex flex-row justify-content-center">     #}
-    <div class="avoindata-newsfeed-items container">    
-      <div class="row">
+    <div class="avoindata-newsfeed-items mt-2">    
 
         {% for news in articles %}
+          <div class="avoindata-newsfeed-line h-100 mr-4">
+          </div> 
 
-          <div class="avoindata-newsfeed-item col-md-3">
-            <div class="row">
-
-              <div class="avoindata-newsfeed-line h-100 mr-2">
-              </div> 
-
-              <div class="row">
+          <div class="avoindata-newsfeed-item mt-2">
+            <div class="avoindata-newsfeed-item-date">
                 <p>Julkaistu {{ news.createdtime | date('d.m.Y')}}</p>
+            </div>
+            <div class="avoindata-newsfeed-item-title mt-2">
                 <a href={{ path('entity.node.canonical', {'node': news.id}) }} class="mt-2">
                 {{ news.label }}
                 </a>
-
-                <div class="row mt-3">
-                  {% for tag in news.tags %}
-                    <div class="avoindata-newsfeed-tag mr-2 mt-2">
-                        {{tag.name}}
-                    </div>
-                  {% endfor%}
-                </div>
-              </div>
             </div>
+            <div class="avoindata-newsfeed-item-tags mt-3">
+                {% for tag in news.tags %}
+                  <div class="avoindata-newsfeed-tag mr-2 mt-2">
+                      {{tag.name}}
+                  </div>
+                {% endfor%}
+            </div>
+
           </div>
             
         {% endfor %}
-      </div>
+
     </div>
 
     <div class="avoindata-feed-button-wrapper container-fluid d-flex justify-content-center pt-3 pb-5">
