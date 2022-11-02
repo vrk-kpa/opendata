@@ -43,6 +43,7 @@
     "last 2 versions"
   ],
   "scripts": {
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "stylelint": "stylelint src/less"
   }
 }
