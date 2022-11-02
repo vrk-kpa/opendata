@@ -52,15 +52,15 @@ class NewsFeedBlock extends BlockBase {
     foreach ($articleNodes as $key => $node) {
       $fieldTags = $node->get('field_tags')->getValue();
       $articleTags = [];
-      if ($fieldTags){
-        foreach ($fieldTags as &$tag){
-          array_push($articleTags, (object)[
+      if ($fieldTags) {
+        foreach ($fieldTags as &$tag) {
+          array_push($articleTags, (object) [
             'tid' => $tag['target_id'],
             'name' => Term::load($tag['target_id'])->getName(),
           ]);
         }
       }
-      array_push($articles, (object)[
+      array_push($articles, (object) [
         'id' => $node->id(),
         'label' => $node->label(),
         'createdtime' => $node->getCreatedTime(),
