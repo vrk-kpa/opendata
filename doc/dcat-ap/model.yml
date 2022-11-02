@@ -533,6 +533,12 @@ classes:
           description: This property contains the most recent date on which the Distribution was changed or modified.
           min: 0
           max: 1
+        - name: Geographical accuracy
+          term: dcat:spatialResolutionInMeters
+          range: rdfs:Literal typed as xsd:decimal
+          description: This property tells the accuracy of geospatial data in meters
+          min: 0
+          max: 1
 
   - title: Catalogue Record
     description: A description of a Dataset’s entry in the Catalogue. 

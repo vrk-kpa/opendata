@@ -188,6 +188,7 @@ dcat:temporalResolution | xsd:duration | 0..n | This property refers to the mini
 **dct:temporal** | dct:PeriodOfTime | 0..n | This property refers to a temporal period that the Distribution covers.
 dct:title | rdfs:Literal | 0..n | This property contains a name given to the Distribution. This property can be repeated for parallel language versions of the description.
 dct:modified | rdfs:Literal typed as xsd:date or xsd:dateTime | 0..1 | This property contains the most recent date on which the Distribution was changed or modified.
+dcat:spatialResolutionInMeters | rdfs:Literal typed as xsd:decimal | 0..1 | This property tells the accuracy of geospatial data in meters
  
  
 
