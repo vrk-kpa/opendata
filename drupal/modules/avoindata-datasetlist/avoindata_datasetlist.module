@@ -1,0 +1,166 @@
+<?php
+
+/**
+ * @file
+ * Adds dataset list component.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Component\Utility\Xss;
+use Drupal\Component\Serialization\Json;
+use League\CommonMark\CommonMarkConverter;
+use Drupal\Core\Security\TrustedCallbackInterface;
+
+/**
+ * Implements hook_help().
+ */
+function avoindata_datasetlists_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.avoindata_datasetlist':
+      return t('
+        Creates dataset list module.
+      ');
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function avoindata_datasetlist_theme($existing, $type, $theme, $path) {
+  return [
+    'avoindata_datasetlist' => [
+      'variables' => [
+        'recentdatasets' => NULL,
+        'newdatasets' => NULL,
+        'populardatasets' => NULL,
+        'language' => NULL,
+      ],
+      'template' => 'avoindata_datasetlist_block',
+    ],
+  ];
+}
+
+/**
+ * Returns a number of HTML table rows based on the list of datasets given.
+ */
+function create_dataset_table_rows($dataset_list, $date_type) {
+  $currentLang = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+  $resultHTML = '';
+  $field_for_date = ($date_type ? $date_type : 'metadata_modified');
+
+  if (count($dataset_list) > 0) {
+    foreach ($dataset_list as $dataset) {
+      $created_date = date('d.m.Y', strtotime($dataset[$field_for_date]));
+      $translated_title = (
+        $dataset['title_translated'][$currentLang]
+          ? $dataset['title_translated'][$currentLang]
+          : $dataset['title_translated']['fi']
+      );
+
+      $translated_description = (
+        $dataset['notes_translated'][$currentLang]
+        ? $dataset['notes_translated'][$currentLang]
+        : $dataset['notes_translated']['fi']
+      );
+
+      $converter = new CommonMarkConverter();
+      $translated_description = $converter->convertToHtml($translated_description);
+      $translated_description = Xss::filter($translated_description, array('p'));
+
+      $translated_label = strtoupper(t('Modified'));
+
+      $resultHTML .= <<<EOT
+      <div class="avoindata-datasetlist-single-dataset">
+        <h3><a href="/data/fi/dataset/{$dataset['name']}">{$translated_title}</a></h3>
+        <div class="avoindata-datasetlist-creation-date">{$translated_label} {$created_date}</div>
+        <div class="avoindata-datasetlist-dataset-description">{$translated_description}</div>
+        <div class="avoindata-datasetlist-bottom-wrapper"></div>
+      </div>
+EOT;
+    }
+  }
+  return $resultHTML;
+}
+
+class AvoindataDatasetHandler implements TrustedCallbackInterface
+{
+
+
+  /**
+   * Gets recent datasets from Ckan and specifies that they won't be cached.
+   */
+  function avoindata_recent_datasets()
+  {
+    $client = \Drupal::httpClient();
+    try {
+      $recentDatasetsResponse = $client->request('POST',
+        'http://' . getenv('NGINX_HOST') . '/data/api/action/package_search',
+        ['json' => ['sort' => 'metadata_modified desc', 'facet.limit' => 1, 'rows' =>3]]
+      );
+      $recentDatasetsResult = Json::decode($recentDatasetsResponse->getBody());
+      $recentDatasets = $recentDatasetsResult['result']['results'];
+    } catch (\Exception $e) {
+      $recentDatasets = NULL;
+    }
+
+    return [
+      '#markup' => create_dataset_table_rows($recentDatasets, 'metadata_modified'),
+      '#cache' => ['max-age' => 0],
+    ];
+  }
+
+  /**
+   * Gets new datasets from Ckan and specifies that they won't be cached.
+   */
+  function avoindata_new_datasets()
+  {
+    $client = \Drupal::httpClient();
+    try {
+      $newDatasetsResponse = $client->request('POST',
+        'http://' . getenv('NGINX_HOST') . '/data/api/action/package_search',
+        ['json' => ['sort' => 'metadata_created desc', 'facet.limit' => 1, 'rows' =>3]]
+      );
+      $newDatasetsResult = Json::decode($newDatasetsResponse->getBody());
+      $newDatasets = $newDatasetsResult['result']['results'];
+    } catch (\Exception $e) {
+      $newDatasets = NULL;
+    }
+
+    return [
+      '#markup' => create_dataset_table_rows($newDatasets, NULL),
+      '#cache' => ['max-age' => 0],
+    ];
+  }
+
+  /**
+   * Gets popular datasets from Ckan and specifies that they won't be cached.
+   */
+  function avoindata_popular_datasets()
+  {
+    $client = \Drupal::httpClient();
+    try {
+      $popularDatasetsResponse = $client->request('POST',
+        'http://' . getenv('NGINX_HOST') . '/data/api/action/package_search',
+        ['json' => ['sort' => 'views_recent desc', 'facet.limit' => 1, 'rows' =>3]]
+      );
+      $popularDatasetsResult = Json::decode($popularDatasetsResponse->getBody());
+      $popularDatasets = $popularDatasetsResult['result']['results'];
+    } catch (\Exception $e) {
+      $popularDatasets = NULL;
+    }
+
+    return [
+      '#markup' => create_dataset_table_rows($popularDatasets, NULL),
+      '#cache' => ['max-age' => 0],
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function trustedCallbacks() {
+    return ['avoindata_recent_datasets', 'avoindata_new_datasets', 'avoindata_popular_datasets'];
+  }
+
+}

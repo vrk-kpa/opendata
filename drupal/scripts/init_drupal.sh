@@ -20,6 +20,7 @@ jinja2 ${TEMPLATE_DIR}/settings.php.j2 -o ${SITE_DIR}/default/settings.php
 jinja2 ${TEMPLATE_DIR}/services.yml.j2 -o ${SITE_DIR}/default/services.yml
 
 # run database upgrades & rebuild cache
+echo "upgrade database.."
 drush updatedb -y --no-cache-clear
 drush cache:rebuild
 
@@ -37,6 +38,7 @@ fi
 MODULE_INFO=$(drush pm:list --status enabled --field=name)
 
 # enable language modules
+echo "enable language modules.."
 [[ "$MODULE_INFO" != *"config_translation"* ]]  && drush pm:enable -y config_translation
 [[ "$MODULE_INFO" != *"content_translation"* ]] && drush pm:enable -y content_translation
 [[ "$MODULE_INFO" != *"language"* ]]            && drush pm:enable -y language
@@ -55,12 +57,16 @@ drush language:default -y "fi"
 drush theme:enable -y bootstrap
 
 # uninstall modules
+echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"search"* ]]      && drush pm:uninstall -y search
 [[ "$MODULE_INFO" == *"contextual"* ]]  && drush pm:uninstall -y contextual
 [[ "$MODULE_INFO" == *"page_cache"* ]]  && drush pm:uninstall -y page_cache
 [[ "$MODULE_INFO" == *"protected_submissions"* ]]  && drush pm:uninstall -y protected_submissions
+[[ "$MODULE_INFO" == *"avoindata_datasetlist"* ]]  && drush pm:uninstall -y avoindata_datasetlist
+[[ "$MODULE_INFO" == *"avoindata_appfeed"* ]]  && drush pm:uninstall -y avoindata_appfeed
 
 # enable modules
+echo "enable modules.."
 [[ "$MODULE_INFO" != *"twig_tweak"* ]]                    && drush pm:enable -y twig_tweak
 [[ "$MODULE_INFO" != *"fontawesome_menu_icons"* ]]        && drush pm:enable -y fontawesome_menu_icons
 [[ "$MODULE_INFO" != *"smtp"* ]]                          && drush pm:enable -y smtp
@@ -91,6 +97,7 @@ drush theme:enable -y bootstrap
 [[ "$MODULE_INFO" != *"password_policy_length"* ]]        && drush pm:enable -y password_policy_length
 
 # enable custom modules
+echo "enable custom modules.."
 [[ "$MODULE_INFO" != *"avoindata_header"* ]]            && drush pm:enable -y avoindata_header
 [[ "$MODULE_INFO" != *"avoindata_servicemessage"* ]]    && drush pm:enable -y avoindata_servicemessage
 [[ "$MODULE_INFO" != *"avoindata_hero"* ]]              && drush pm:enable -y avoindata_hero
@@ -108,6 +115,7 @@ drush theme:enable -y bootstrap
 # remove some configurations
 # NOTE: ansible role skips errors with this condition:
 #       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
+echo "delete configurations.."
 drush config:delete easy_breadcrumb.settings                            || true
 drush config:delete node.type.page                                      || true
 drush config:delete core.entity_form_display.node.page.default          || true
@@ -120,6 +128,7 @@ drush config:delete block.block.avoindata_collapsiblesearch             || true
 drush config:delete block.block.avoindata_infobox                       || true
 
 # enable custom theme + reload themes
+echo "enable theme and install theme configurations.."
 drush theme:enable -y avoindata
 drush config:set -y system.theme default avoindata
 drush config:import -y --partial --source ${THEME_DIR}/avoindata/config/install
@@ -127,6 +136,7 @@ drush config:import -y --partial --source ${THEME_DIR}/avoindata/config/install
 # reload custom modules
 # NOTE: ansible role skips errors with this condition:
 #       result.rc == 1 and 'The source directory does not exist. The source is not a directory.' not in result.stderr and 'already exists' not in result.stderr
+echo "import module configurations.."
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-header/config/install           || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-servicemessage/config/install   || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-hero/config/install             || true
@@ -157,6 +167,7 @@ if [ "${CAPTCHA_ENABLED}" != "true" ]; then
 fi
 
 # import settings
+echo "import site config.."
 drush config:import -y --partial --source ${APP_DIR}/site_config
 
 # rebuild cache
