@@ -96,6 +96,8 @@ COPY modules/avoindata-guide                ${MOD_DIR}/avoindata-guide/
 COPY modules/avoindata-user                 ${MOD_DIR}/avoindata-user/
 COPY modules/avoindata-ckeditor-plugins     ${MOD_DIR}/avoindata-ckeditor-plugins/
 COPY modules/avoindata-theme                ${MOD_DIR}/avoindata-theme/
+COPY modules/avoindata-appfeed              ${MOD_DIR}/avoindata-appfeed/
+COPY modules/avoindata-datasetlist          ${MOD_DIR}/avoindata-datasetlist/
 
 #
 # Production stage, dynatrace enabled
