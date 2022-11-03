@@ -128,6 +128,20 @@ class AvoindataDCATAPProfile(RDFProfile):
                                  id=dataset_dict['name'])
         self.g.add((dataset_ref, SCHEMA.url, Literal(dataset_url)))
 
+    def _parse_apiset(self, dataset_dict, dataset_ref):
+        g = self.g
+        endpoint_urls = BNode()
+        for resource_dict in dataset_dict.get('resources', []):
+            g.add((endpoint_urls, DCAT.endpointURL, uriref(resource_dict.get('url'))))
+        g.add((dataset_ref, DCAT.endpointURL, endpoint_urls))
+        access_rights = dataset_dict.get('access_rights_translated', None)
+        if access_rights:
+            rights_statement = BNode()
+            access_rights_value = access_rights.values()
+            g.add((rights_statement, RDF.type, DCT.RightsStatement))
+            g.add((rights_statement, DCT.description, Literal('\n\n'.join(access_rights_value))))
+            g.add((dataset_ref, DCT.rights, rights_statement))
+
     def _parse_showcase(self, dataset_dict, dataset_ref):
         g = self.g
         showcase_url = h.url_for('{}.read'.format(dataset_dict.get('type', 'dataset')),
@@ -145,6 +159,16 @@ class AvoindataDCATAPProfile(RDFProfile):
         g.add((dataset_ref, DCT.creator, creator))
         g.add((creator, FOAF.name, Literal(dataset_dict.get('author'))))
 
+        organization = {
+                        'title': dataset_dict.get('author'),
+                        'homepage': dataset_dict.get('author_website'),
+                       }
+        publisher = URIRef(organization.get('homepage', ''))
+        g.add((dataset_ref, DCT.publisher, publisher))
+        g.add((publisher, FOAF.name, Literal(organization.get('title', ''))))
+
+        self._add_triple_from_dict(organization, publisher, FOAF.homepage, 'homepage')
+
         if dataset_dict.get('author_website', None):
             g.add((creator, FOAF.homepage, uriref(dataset_dict.get('author_website'))))
 
@@ -155,7 +179,7 @@ class AvoindataDCATAPProfile(RDFProfile):
             distributor = BNode()
             g.add((dataset_ref, ADFI.distributor, distributor))
             for store_url in dataset_dict.get('store_urls'):
-                g.add((distributor, ADFI.distributor, uriref(store_url)))
+                g.add((distributor, DCAT.accessURL, uriref(store_url)))
 
         if dataset_dict.get('image_url', None):
             g.add((dataset_ref, ADFI.applicationIcon, uriref(dataset_dict.get('image_url'))))
@@ -190,26 +214,47 @@ class AvoindataDCATAPProfile(RDFProfile):
 
         self._basic_fields_graph(dataset_ref, dataset_dict)
 
-        dcat_type = DCAT.Dataset
-
-        if dataset_dict.get('type', None) == 'apiset':
-            dcat_type = DCAT.DataService
-            endpoint_urls = BNode()
-            for resource_dict in dataset_dict.get('resources', []):
-                g.add((endpoint_urls, DCAT.endpointURL, uriref(resource_dict.get('url'))))
-
-            g.add((dataset_ref, DCAT.endpointURL, endpoint_urls))
-        elif dataset_dict.get('type', None) == 'showcase':
-            dcat_type = ADFI.Showcase
-            self._parse_showcase(dataset_dict, dataset_ref)
-
-        g.add((dataset_ref, RDF.type, dcat_type))
-
         # Flatten extras
         for extra in dataset_dict.get('extras', []):
             key = extra['key']
             if key not in dataset_dict:
                 dataset_dict[key] = extra['value']
+
+        dataset_type = dataset_dict.get('type', None)
+
+        dcat_type = DCAT.Dataset
+
+        if  dataset_type == 'apiset':
+            dcat_type = DCAT.DataService
+            self._parse_apiset(dataset_dict, dataset_ref)
+        elif dataset_type == 'showcase':
+            dcat_type = ADFI.Showcase
+            self._parse_showcase(dataset_dict, dataset_ref)
+        else:
+            # dct:publisher
+            organization = get_organization(dataset_dict['owner_org'])
+
+            # If organization is not approved, it won't be available in organization list
+            if organization:
+                publisher = URIRef(p.url_for(controller='organization', action='read', id=organization['id'], qualified=True))
+                g.add((publisher, RDF.type, FOAF.Agent))
+                g.add((dataset_ref, DCT.publisher, publisher))
+
+                organization_titles = (t for t in list(get_dict(organization, 'title_translated').values()) if t)
+
+                for title in organization_titles:
+                    g.add((publisher, FOAF.name, Literal(title)))
+
+                self._add_triple_from_dict(organization, publisher, FOAF.homepage, 'homepage')
+            
+            international_benchmarks = dataset_dict.get('international_benchmarks', [])
+            if len(international_benchmarks) > 0:
+                benchmarks_bnode = BNode()
+                g.add((dataset_ref, DCT.theme, benchmarks_bnode))
+                for international_benchmark in international_benchmarks:
+                    g.add((benchmarks_bnode, DCT.title, Literal(international_benchmark)))
+
+        g.add((dataset_ref, RDF.type, dcat_type))
 
         # dct:title
         titles = set(t for t in list(get_dict(dataset_dict, 'title_translated').values()) if t)
@@ -373,37 +418,6 @@ class AvoindataDCATAPProfile(RDFProfile):
 
         for keyword in keywords:
             g.add((dataset_ref, DCAT.keyword, Literal(keyword)))
-
-        if dataset_dict.get('type') == 'showcase':
-            organization = {
-                            'title': dataset_dict.get('author'),
-                            'homepage': dataset_dict.get('author_website'),
-                           }
-            publisher = URIRef(organization.get('homepage', ''))
-            # g.add((publisher, RDF.type, FOAF.Agent))
-            g.add((dataset_ref, DCT.publisher, publisher))
-
-            
-            g.add((publisher, FOAF.name, Literal(organization.get('title', ''))))
-
-            self._add_triple_from_dict(organization, publisher, FOAF.homepage, 'homepage')
-            
-        else:
-            # dct:publisher
-            organization = get_organization(dataset_dict['owner_org'])
-
-            # If organization is not approved, it won't be available in organization list
-            if organization:
-                publisher = URIRef(p.url_for(controller='organization', action='read', id=organization['id'], qualified=True))
-                g.add((publisher, RDF.type, FOAF.Agent))
-                g.add((dataset_ref, DCT.publisher, publisher))
-
-                organization_titles = (t for t in list(get_dict(organization, 'title_translated').values()) if t)
-
-                for title in organization_titles:
-                    g.add((publisher, FOAF.name, Literal(title)))
-
-                self._add_triple_from_dict(organization, publisher, FOAF.homepage, 'homepage')
 
         # dcat:theme
         groups = dataset_dict.get('groups', [])

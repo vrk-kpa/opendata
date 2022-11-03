@@ -222,6 +222,7 @@ dct:description | rdfs:Literal | 0..n | This property contains a free-text accou
 dct:language | dct:LinguisticSystem | 0..n | This property refers to a language used in the textual metadata describing titles, descriptions, etc. of the Dataset. This property can be repeated if the metadata is provided in multiple languages.
 dct:source | dcat:CatalogRecord | 0..1 | This property refers to the original metadata that was used in creating metadata for the Dataset
 dct:title | rdfs:Literal | 0..n | This property contains a name given to the Catalogue Record. This property can be repeated for parallel language versions of the name.
+dct:theme | rdfs:Literal | 0..n | This property contains list of titles about international benchmarks which this dataset is part of.
  
  
 

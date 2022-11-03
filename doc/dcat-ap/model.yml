@@ -597,6 +597,12 @@ classes:
           description: This property contains a name given to the Catalogue Record. This property can be repeated for parallel language versions of the name.
           min: 0
           max: n
+        - name: international_benchmarks
+          term: dct:theme
+          range: rdfs:Literal
+          description: This property contains list of titles about international benchmarks which this dataset is part of.
+          min: 0
+          max: n
 
 
   - title: Data Service
