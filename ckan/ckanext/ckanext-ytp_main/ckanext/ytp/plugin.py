@@ -677,21 +677,9 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                 package_dict['license_id'] = license_id
 
 
-        # Get the license from the xml by mapping the xlink:href field to licese urls
-        license_links = []
-
-        # get the xml etree root from datadict('xml_tree)
-        xml_root= data_dict.get('xml_tree', None)
-        if xml_root:
-            # iterate the whole xml tree and look for otherConstraints field with an anchor child
-            for xml_element in xml_root.iter():
-                if "otherConstraints" in xml_element.tag:
-                    for child in xml_element:
-                        if "Anchor" in child.tag:
-                            if child.attrib:
-                                # append the anchor values (usually href to the licence links)
-                                for t in iter(child.attrib.values()):
-                                    license_links.append(t)
+        # Get the license url links
+        iso_values = data_dict.get('iso_values')
+        license_links = iso_values.get('other-constraints', None)
 
         # if any licence links were found, map them to one of the existing licences
         # licences that don't fall under cc-by-4.0 or cc-zero-1.0 will not be harvested 
