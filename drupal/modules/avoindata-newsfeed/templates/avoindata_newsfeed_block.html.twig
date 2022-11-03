@@ -27,7 +27,11 @@
 
           <div class="avoindata-newsfeed-item mt-2">
             <div class="avoindata-newsfeed-item-date">
-                <p>Julkaistu {{ news.createdtime | date('d.m.Y')}}</p>
+                <p>
+                {% trans %}
+                  Julkaistu 
+                {% endtrans %}
+                {{ news.createdtime | date('d.m.Y')}}</p>
             </div>
             <div class="avoindata-newsfeed-item-title mt-2">
                 <a href={{ path('entity.node.canonical', {'node': news.id}) }} class="mt-2">
