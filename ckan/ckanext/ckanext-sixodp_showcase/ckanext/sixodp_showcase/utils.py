@@ -13,6 +13,7 @@ import ckan.lib.helpers as h
 from ckan.lib.search import SearchError, SearchQueryError
 from ckanext.showcase import utils as showcase_utils
 from ckanext.sixodp_showcase.model import ShowcaseApisetAssociation
+from ckanext.dcat.utils import check_access_header, _get_package_type, RDFProfileException, CONTENT_TYPES
 
 
 NotFound = logic.NotFound
@@ -448,6 +449,39 @@ def read(id):
     package_type = showcase_utils.DATASET_TYPE_NAME
     return toolkit.render('sixodp_showcase/read.html',
                           extra_vars={'dataset_type': package_type})
+
+
+def read_showcase_page_dcat(_id, _format):
+    if not _format:
+        _format = check_access_header()
+
+    if not _format:
+        if toolkit.check_ckan_version(max_version='2.8.99'):
+            return read_endpoint(_id)
+        else:
+            return read_endpoint(_get_package_type(_id), _id)
+
+    _profiles = toolkit.request.params.get('profiles')
+    if _profiles:
+        _profiles = _profiles.split(',')
+
+    try:
+        response = toolkit.get_action('dcat_dataset_show')({}, {'id': _id,
+                                                                'format': _format, 'profiles': _profiles})
+    except toolkit.ObjectNotFound:
+        toolkit.abort(404)
+    except (toolkit.ValidationError, RDFProfileException) as e:
+        toolkit.abort(409, str(e))
+
+    if toolkit.check_ckan_version(max_version='2.8.99'):
+        toolkit.response.headers.update({'Content-type': CONTENT_TYPES[_format]})
+    else:
+        from flask import make_response
+        response = make_response(response)
+        response.headers['Content-type'] = CONTENT_TYPES[_format]
+
+    return response
+
 
 
 def manage_apisets_view(id):

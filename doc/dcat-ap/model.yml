@@ -649,6 +649,100 @@ classes:
           min: 0
           max: 1
 
+
+  - title: Showcase
+    description: A conceptual entity that represents the information about showcase.
+    term: Showcase
+    subclassOf: dcat:Resource
+    properties:
+      mandatory:
+        - name: Description 
+          term: dcat:description
+          range: rdfs:Resource
+          description: This property contains a free-text account of the Showcase. This property can be repeated for parallel language versions of the description.
+          min: 1
+          max: n
+        - name: title
+          term: dct:title
+          range: rdfs:Literal
+          description: This property contains a name given to the Showcase. This property can be repeated for parallel language versions of the name.
+          min: 1
+          max: n
+        - name: DataUserInterface
+          term: adfi:DataUserInterface
+          range: rdfs:Literal
+          description: The showcase’s URL on opendata.fi. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.
+          min: 1
+          max: 1
+      recommended:
+        - name: theme/ category
+          term: dcat:theme, subproperty of dct:subject
+          range: skos:Concept
+          description: This property refers to a category of the Showcase. A Showcase may be associated with multiple themes.
+          min: 0
+          max: n
+        - name: platform
+          term: adfi:platform
+          range: rdfs:Literal
+          description: If you have created a mobile or desktop showcase, select which platforms it supports.
+          min: 0
+          max: n
+        - name: keywords
+          term: dcat:keyword
+          range: rdfs:Literal
+          description: Keywords help users to find your showcase. Select at least one keyword in Finnish.
+          min: 0
+          max: n
+        - name: author
+          term: dct:creator
+          range: foaf:name
+          description: Developer of showcase
+          min: 1
+          max: 1
+        - name: author website
+          term: adfi:creatorWebsiteUri
+          range: rdfs:Literal
+          description: Website of developer
+          min: 0
+          max: 1
+        - name: application website
+          term: dcat:landingPage
+          range: rdfs:Literal
+          description: Website of showcase
+          min: 0
+          max: 1
+        - name: store urls
+          term: adfi:distributor
+          range: rdfs:Literal
+          description: Distributor urls
+          min: 0
+          max: n
+        - name: notes
+          term: dct:description
+          range: rdfs:Literal
+          description: A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.
+          min: 1
+          max: n
+        - name: image url
+          term: adfi:applicationIcon
+          range: rdfs:Literal
+          description: A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.
+          min: 0
+          max: 1
+        - name: preview media
+          term: adfi:previewMedia
+          range: rdfs:Literal
+          description: Add max. 3 images of your showcase. Good images are for example those that show the user interface and features of the showcase.
+          min: 0
+          max: 3
+        - name: archived
+          term: adfi:archived
+          range: rdfs:Literal
+          description: Tells if showcase is archived
+          min: 0
+          max: 1
+      # optional:
+
 # - title: placeholder
 #   description: placeholder
 #   term: placeholder

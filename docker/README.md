@@ -274,3 +274,7 @@ When your environment is up and ready, it might give you a different name for ck
 ```
 
 Note that you can override also other env-variables in that file.
+
+### DCAT-AP
+
+There is custom profile for DCAT-AP. You can generate `doc/dcat-ap/readme.md` and `nginx/www/ns/index.html` from jinja templates under `doc/dcat-ap` with [j2cli](https://pypi.org/project/j2cli/) by running a command `j2 --undefined template.*.j2 model.yml > destination/file.example` inside `doc/dcat-ap/`

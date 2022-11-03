@@ -10,6 +10,8 @@ from ckan.common import _, g, request
 from ckan.views.home import CACHE_PARAMETERS
 import ckan.lib.navl.dictization_functions as dict_fns
 from ckanext.showcase import views, utils as showcase_utils
+import ckan.plugins.toolkit as toolkit
+
 
 from . import utils
 
@@ -27,6 +29,13 @@ NotAuthorized = logic.NotAuthorized
 
 def read(id):
     return utils.read(id)
+
+
+def read_showcase_dcat(_id, _format=None):
+    if not _format:
+        return utils.read(_id)
+    else:
+        return utils.read_showcase_page_dcat(_id, _format)
 
 
 def search():
@@ -300,6 +309,7 @@ showcase.add_url_rule('/ckan-admin/showcase_admin_remove',
 showcase.add_url_rule('/showcase_upload',
                       view_func=upload,
                       methods=[u'POST'])
+showcase.add_url_rule('/showcase/<_id>.<_format>', view_func=read_showcase_dcat)
 showcase.add_url_rule('/showcase/<id>', view_func=read)
 
 
