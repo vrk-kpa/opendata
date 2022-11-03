@@ -71,7 +71,8 @@ PUBLIC_SERVICES = 'Public Services'
 ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
 
 _category_mapping = {
-    'alueet-ja-kaupungit': ['imagery base maps earth cover', 'planning cadastre', 'structure'],
+    'alueet-ja-kaupungit': ['imagery base maps earth cover', 'planning cadastre', 'structure', 'imageryBaseMapsEarthCover',
+                            'planningCadastre'],
     'energia': [],
     'hallinto-ja-julkinen-sektori': [],
     'kansainvaliset-asiat': [],
@@ -80,15 +81,17 @@ _category_mapping = {
     'liikenne': ['transportation'],
     'maatalous-kalastus-metsatalous-ja-elintarvikkeet': ['farming'],
     'matkailu-ja-turismi': [],
-    'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligence military'],
+    'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligence military', 'intelligenceMilitary'],
     'rakennettu-ymparisto-ja-infrastruktuuri': ['boundaries', 'elevation', 'imagery base maps earth cover', 'location',
-                                                'planning cadastre', 'structure', 'utilities communication'],
+                                                'planning cadastre', 'structure', 'utilities communication',
+                                                'imageryBaseMapsEarthCover', 'planningCadastre', 'utilitiesCommunication'],
     'talous-ja-rahoitus': ['economy'],
     'terveys': ['health'],
-    'tiede-ja-teknologia': ['geoscientific information'],
+    'tiede-ja-teknologia': ['geoscientific information', 'geoscientificInformation'],
     'vaesto-ja-yhteiskunta': ['society'],
     'ymparisto-ja-luonto': ['biota', 'elevation', 'environment', 'geoscientific information', 'imagery base maps earth cover',
-                            'inland waters', 'oceans']
+                            'inland waters', 'oceans', 'climatology, meteorology, atmosphere', 'geoscientificInformation',
+                            'imageryBaseMapsEarthCover', 'inlandWaters', 'climatologyMeteorologyAtmosphere']
 }
 
 
@@ -570,7 +573,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         list_map = {'access_constraints': 'copyright_notice'}
 
-
         for source, target in list_map.items():
             for extra in package_dict['extras']:
                 if extra['key'] == source:
@@ -799,6 +801,16 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
             # remove maintainer and maintainer_email or they will cause validation error for apisets
             package_dict.pop('maintainer', None)
             package_dict.pop('maintainer_email', None)
+
+
+            # get all resources from the apiset
+            apiset_resources = package_dict.get('resources', [])
+            for apiset_resource in apiset_resources:
+                # get the format and map it into formats field
+                apiset_resource['formats'] = apiset_resource.get('format', None)
+
+            # update the resources for the apiset
+            package_dict['resources'] = apiset_resources
 
         return package_dict
 
