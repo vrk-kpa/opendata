@@ -179,7 +179,10 @@ class AvoindataDCATAPProfile(RDFProfile):
             distributor = BNode()
             g.add((dataset_ref, ADFI.distributor, distributor))
             for store_url in dataset_dict.get('store_urls'):
-                g.add((distributor, DCAT.accessURL, uriref(store_url)))
+                store_url.strip()
+                document = URIRef(url_quote(store_url.encode('utf-8')))
+                g.add((document, RDF.type, FOAF.Document))
+                g.add((distributor, DCAT.accessURL, document))
 
         if dataset_dict.get('image_url', None):
             g.add((dataset_ref, ADFI.applicationIcon, uriref(dataset_dict.get('image_url'))))
