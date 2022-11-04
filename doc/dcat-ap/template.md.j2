@@ -24,6 +24,10 @@ Prefix | URI
 {% for class in classes %}
 ### {{ class.term }}
 
+{% if class.subclassOf %}
+  Sub-class of {{ class.subclassOf }}
+{% endif -%}
+
 #### {{ class.title }}
 
 {{ class.description }}

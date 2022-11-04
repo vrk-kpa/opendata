@@ -223,6 +223,7 @@ dct:description | rdfs:Literal | 0..n | This property contains a free-text accou
 dct:language | dct:LinguisticSystem | 0..n | This property refers to a language used in the textual metadata describing titles, descriptions, etc. of the Dataset. This property can be repeated if the metadata is provided in multiple languages.
 dct:source | dcat:CatalogRecord | 0..1 | This property refers to the original metadata that was used in creating metadata for the Dataset
 dct:title | rdfs:Literal | 0..n | This property contains a name given to the Catalogue Record. This property can be repeated for parallel language versions of the name.
+dct:theme | rdfs:Literal | 0..n | This property contains list of titles about international benchmarks which this dataset is part of.
  
  
 
@@ -255,6 +256,47 @@ Term | Range | Cardinality | Comment
 dct:accessRights | dct:RightsStatement | 0..1 | This property MAY include information regarding access or restrictions based on privacy, security, or other policies.
 dct:description | rdfs:Literal | 0..n | This property contains a free-text account of the Data Service. This property can be repeated for parallel language versions of the description.
 dct:license | dct:LicenseDocument | 0..1 | This property contains  the licence under which the Data service is made available.
+ 
+ 
+
+### Showcase
+
+
+  Sub-class of dcat:Resource
+#### Showcase
+
+A conceptual entity that represents the information about showcase.
+
+#### Properties
+
+
+##### Mandatory
+Term | Range | Cardinality | Comment
+-----|-------|-------------|--------
+dcat:description | rdfs:Resource | 1..n | This property contains a free-text account of the Showcase. This property can be repeated for parallel language versions of the description.
+dct:title | rdfs:Literal | 1..n | This property contains a name given to the Showcase. This property can be repeated for parallel language versions of the name.
+adfi:DataUserInterface | rdfs:Literal | 1..1 | The showcase’s URL on opendata.fi. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.
+ 
+
+##### Recommended
+Term | Range | Cardinality | Comment
+-----|-------|-------------|--------
+dcat:theme, subproperty of dct:subject | skos:Concept | 0..n | This property refers to a category of the Showcase. A Showcase may be associated with multiple themes.
+adfi:platform | rdfs:Literal | 0..n | If you have created a mobile or desktop showcase, select which platforms it supports.
+dcat:keyword | rdfs:Literal | 0..n | Keywords help users to find your showcase. Select at least one keyword in Finnish.
+dct:creator | foaf:name | 1..1 | Developer of showcase
+adfi:creatorWebsiteUri | rdfs:Literal | 0..1 | Website of developer
+dcat:landingPage | rdfs:Literal | 0..1 | Website of showcase
+adfi:distributor | rdfs:Literal | 0..n | Distributor urls
+dct:description | rdfs:Literal | 1..n | A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.
+adfi:applicationIcon | rdfs:Literal | 0..1 | A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.
+adfi:previewMedia | rdfs:Literal | 0..3 | Add max. 3 images of your showcase. Good images are for example those that show the user interface and features of the showcase.
+adfi:archived | rdfs:Literal | 0..1 | Tells if showcase is archived
+ 
+
+##### Optional
+Term | Range | Cardinality | Comment
+-----|-------|-------------|--------
  
  
  

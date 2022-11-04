@@ -27,6 +27,7 @@ function avoindata_newsfeed_theme($existing, $type, $theme, $path) {
         'newsfeed' => NULL,
         'eventfeed' => NULL,
         'language' => NULL,
+        'articles' => NULL,
       ],
       'template' => 'avoindata_newsfeed_block',
     ],
