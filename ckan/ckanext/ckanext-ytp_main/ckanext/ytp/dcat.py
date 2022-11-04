@@ -3,6 +3,7 @@ import json
 import threading
 import uuid
 import urllib
+import string
 from rdflib import URIRef, BNode, Literal, Namespace
 from rdflib.namespace import RDF, XSD
 from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX, LOCN, GSP, SCHEMA
@@ -178,11 +179,19 @@ class AvoindataDCATAPProfile(RDFProfile):
         if dataset_dict.get('store_urls', None):
             distributor = BNode()
             g.add((dataset_ref, ADFI.distributor, distributor))
+
             for store_url in dataset_dict.get('store_urls'):
                 store_url.strip()
-                document = URIRef(url_quote(store_url.encode('utf-8')))
-                g.add((document, RDF.type, FOAF.Document))
-                g.add((distributor, DCAT.accessURL, document))
+                try:
+                    pieces = urllib.parse.urlparse(store_url)
+                    if all([pieces.scheme, pieces.netloc]) and \
+                        set(pieces.netloc) <= set(string.ascii_letters + string.digits + '-.') and \
+                        pieces.scheme in ['http', 'https']:
+                            document = URIRef(url_quote(store_url.encode('utf-8')))
+                            g.add((document, RDF.type, FOAF.Document))
+                            g.add((distributor, DCAT.accessURL, document))
+                except ValueError:
+                    log.debug('Invalid store url (%s) in showcase %s', store_url, dataset_dict.get('id'))
 
         if dataset_dict.get('image_url', None):
             g.add((dataset_ref, ADFI.applicationIcon, uriref(dataset_dict.get('image_url'))))
