@@ -383,6 +383,13 @@
       "description": "If your data includes geographic information, specify the coordinate system it uses."
     },
     {
+      "field_name": "geographical_accuracy",
+      "label": "Geographical accuracy",
+      "preset": "number",
+      "form_placeholder": "5",
+      "description": "If your data includes geographic information, specify the accuracy in meters"
+    },
+    {
       "field_name": "temporal_granularity",
       "label": "Temporal granularity",
       "form_placeholder": "e.g. a month",

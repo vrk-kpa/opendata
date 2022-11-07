@@ -234,6 +234,17 @@
           "class": "form-control"
         }
       }
+    },
+    {
+      "preset_name": "number",
+      "values": {
+        "form_snippet": "number.html",
+        "display_snippet": "text.html",
+        "validators": "ignore_missing int_validator",
+        "form_attrs": {
+          "class": "form-control"
+        }
+      }
     }
   ]
 }

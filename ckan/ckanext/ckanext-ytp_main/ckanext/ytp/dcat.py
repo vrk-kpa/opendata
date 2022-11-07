@@ -373,6 +373,10 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((standard, DCT.identifier, Literal(spatial_reference_system)))
                 g.add((distribution, DCT.conformsTo, standard))
 
+            geographical_accuracy = resource_dict.get('geographical_accuracy', None)
+            if geographical_accuracy:
+                g.add((distribution, DCAT.spatialResolutionInMeters, Literal(geographical_accuracy, datatype=XSD.decimal)))
+
             # dcat:byteSize
             file_size = resource_dict.get('size')
 

@@ -243,6 +243,8 @@ def _translations():
     _("Time Frame")
     _("Start date")
     _("End date")
+    _("Geographical accuracy")
+    _("If your data includes geographic information, specify the accuracy in meters")
 
     # Organization
     _('Producer name')
