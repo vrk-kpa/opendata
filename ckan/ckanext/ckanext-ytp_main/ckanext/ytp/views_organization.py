@@ -170,7 +170,7 @@ def read(group_type, is_organization, id=None, limit=20):
     except NotAuthorized:
         group = model.Session.query(model.Group).filter(model.Group.name == id).first()
         if group is None or group.state != 'active':
-            return base.render('group/organization_not_found.html', group_type=group_type)
+            return base.render(_replace_group_org('group/organization_not_found.html'), group_type=group_type)
 
     # if the user specified a group id, redirect to the group name
     if data_dict['id'] == group_dict['id'] and \
