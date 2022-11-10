@@ -13,17 +13,17 @@
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2021
 # Daniel Vainio, 2021
 # Pasi Laakso <pasi.laakso@gofore.com>, 2022
-# Ville Teräväinen, 2022
 # Meeri Hakala <meeri.hakala@dvv.fi>, 2022
+# Ville Teräväinen, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-01 13:07+0000\n"
+"POT-Creation-Date: 2022-11-09 12:02+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Meeri Hakala <meeri.hakala@dvv.fi>, 2022\n"
+"Last-Translator: Ville Teräväinen, 2022\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -231,7 +231,7 @@ msgid "Unauthorized to edit user %s"
 msgstr "Käyttäjän muokkaus ei sallittu %s"
 
 #: ckanext/ytp/controller.py:621 ckanext/ytp/controller.py:689
-#: ckanext/ytp/logic.py:46
+#: ckanext/ytp/logic.py:47
 msgid "User not found"
 msgstr "Käyttäjää ei löytynyt"
 
@@ -264,28 +264,28 @@ msgstr "Nimetön data-aineisto"
 msgid "-"
 msgstr ""
 
-#: ckanext/ytp/logic.py:49
+#: ckanext/ytp/logic.py:50
 msgid "Cannot change username"
 msgstr "Käyttäjätunnusta ei voi muuttaa"
 
-#: ckanext/ytp/logic.py:51
+#: ckanext/ytp/logic.py:52
 msgid "Cannot change email"
 msgstr "Sähköpostiosoitetta ei voi muuttaa"
 
-#: ckanext/ytp/logic.py:62
+#: ckanext/ytp/logic.py:63
 msgid "Have to be logged in to edit user"
 msgstr "Pitää olla kirjautunut sisään muokatakseen käyttäjää"
 
-#: ckanext/ytp/logic.py:70
+#: ckanext/ytp/logic.py:71
 #, python-format
 msgid "User %s not authorized to edit user %s"
 msgstr "Käyttäjällä %s ei ole oikeuksia muokata käyttäjää %s"
 
-#: ckanext/ytp/logic.py:76
+#: ckanext/ytp/logic.py:77
 msgid "Have to be logged in to list users"
 msgstr "Pitää olla kirjautunut sisään nähdäkseen listan käyttäjistä"
 
-#: ckanext/ytp/logic.py:82
+#: ckanext/ytp/logic.py:83
 msgid "Have to be logged in to list admins"
 msgstr "PItää olla sisäänkirjautunut listataksesi ylläpitäjät"
 
@@ -2372,27 +2372,27 @@ msgid "sha256"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:271
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:111
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:125
 msgid "Stats"
 msgstr "Tilastot"
 
 #: ckanext/ytp/templates/package/resource_read.html:272
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:112
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:126
 msgid "Last 30 days, updated daily"
 msgstr "Viimeiset 30 päivää, päivitetään päivittäin"
 
 #: ckanext/ytp/templates/package/resource_read.html:275
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:119
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:133
 msgid "All time downloads:"
 msgstr "Latauksia kaikkiaan:"
 
 #: ckanext/ytp/templates/package/resource_read.html:285
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:127
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:141
 msgid "Year"
 msgstr "Vuosi"
 
 #: ckanext/ytp/templates/package/resource_read.html:285
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:127
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:141
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
 msgstr "Latauksia"
@@ -2494,32 +2494,40 @@ msgstr "Näytä lisää"
 msgid "Edit categories"
 msgstr "Muokkaa kategorioita"
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:26
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:27
+msgid "License offered by the api"
+msgstr "Rajapinnan tarjoaman tiedon lisenssi"
+
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:29
 #: ckanext/ytp/templates/snippets/license.html:21
 msgid "License"
 msgstr "Lisenssi"
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:61
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:67
 msgid "License Not Specified"
 msgstr "Lisenssiä ei ole määritelty"
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:70
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:76
 msgid "Openness score"
 msgstr "Avoimuusaste"
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:91
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:98
+msgid "Recommend apiset"
+msgstr "Tykkää rajapinnasta"
+
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:104
 msgid "Recommend dataset"
 msgstr "Tykkää tietoaineistosta"
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:117
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:131
 msgid "Downloads during last 12 months"
 msgstr "Latauksia viimeisen 12kk aikana."
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:118
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:132
 msgid "All time visits:"
 msgstr "Sivunäyttöjä kaikkiaan:"
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:127
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:141
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
 msgid "Visits"
 msgstr "Sivunäytöt"
@@ -2532,7 +2540,7 @@ msgstr "Käyttösovellukset"
 msgid "Social"
 msgstr "Jaa sosiaalisessa mediassa"
 
-#: ckanext/ytp/templates/package/snippets/license_rdf.html:17
+#: ckanext/ytp/templates/package/snippets/license_rdf.html:18
 #, python-format
 msgid ""
 "To the extent possible under law <a rel=\"dct:publisher\" "
@@ -2542,7 +2550,29 @@ msgid ""
 "property=\"dct:title\">%(content_title)s</span></a>."
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/license_rdf.html:31
+#: ckanext/ytp/templates/package/snippets/license_rdf.html:34
+#, python-format
+msgid ""
+"<span xmlns:dct=\"https://purl.org/dc/terms/\" "
+"href=\"https://purl.org/dc/dcmitype/Dataset\" property=\"dct:title\" "
+"rel=\"dct:type\"> <a xmlns:cc=\"https://creativecommons.org/ns#\" "
+"href=\"%(attribution_url)s\" property=\"cc:attributionName\" "
+"rel=\"cc:attributionURL\">%(content_title)s</a></span> by <a  "
+"href=\"%(creator_url)s\" >%(creator)s</a> apiset is licensed under a <a "
+"rel=\"license\" href=\"https://creativecommons.org/licenses/by/4.0/\"> "
+"Creative Commons Attribution 4.0 International License</a>."
+msgstr ""
+"<a  href=\"%(creator_url)s\" >%(creator)s</a> on julkaissut rajapinnan <span"
+" xmlns:dct=\"https://purl.org/dc/terms/\" "
+"href=\"https://purl.org/dc/dcmitype/Dataset\" property=\"dct:title\" "
+"rel=\"dct:type\"><a xmlns:cc=\"https://creativecommons.org/ns#\" "
+"href=\"%(attribution_url)s\" property=\"cc:attributionName\" "
+"rel=\"cc:attributionURL\">%(content_title)s</a></span> lisenssillä <a "
+"rel=\"license\" "
+"href=\"https://creativecommons.org/licenses/by/4.0/\">Creative Commons "
+"Attribution 4.0 International License."
+
+#: ckanext/ytp/templates/package/snippets/license_rdf.html:45
 #, python-format
 msgid ""
 "<span xmlns:dct=\"https://purl.org/dc/terms/\" "
@@ -2564,7 +2594,21 @@ msgstr ""
 "href=\"https://creativecommons.org/licenses/by/4.0/\">Creative Commons "
 "Attribution 4.0 International License</a>."
 
-#: ckanext/ytp/templates/package/snippets/license_rdf.html:43
+#: ckanext/ytp/templates/package/snippets/license_rdf.html:57
+#, python-format
+msgid ""
+"<span xmlns:dct=\"https://purl.org/dc/terms/\" "
+"href=\"https://purl.org/dc/dcmitype/Dataset\" property=\"dct:title\" "
+"rel=\"dct:type\"> <a xmlns:cc=\"https://creativecommons.org/ns#\" "
+"href=\"%(attribution_url)s\" property=\"cc:attributionName\" "
+"rel=\"cc:attributionURL\">%(content_title)s</a></span> by <a  "
+"href=\"%(creator_url)s\" >%(creator)s</a> %(resource_type)s is licensed "
+"under a <a rel=\"license\" "
+"href=\"https://creativecommons.org/licenses/by/4.0/\"> Creative Commons "
+"Attribution 4.0 International License</a>."
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/license_rdf.html:70
 msgid "https://creativecommons.org/licenses/by/4.0/"
 msgstr ""
 
