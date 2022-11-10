@@ -55,14 +55,10 @@
                 <div class="text-center">
                     <h2>{{ count.count }}</h2>
                     <h4>
-                        <strong>{{ count.text }}</strong>
+                        <a href="/data/{{ form.language }}/{{ count.url }}">
+                            <strong>{{ count.text }}</strong>
+                        </a>
                     </h4>
-                    <a href="/data/{{ form.language }}/{{ count.url }}">
-                        {% trans %}
-                        Show all
-                        {% endtrans %}
-                        →
-                    </a>
                 </div>
             {% endfor %}
         </div>
