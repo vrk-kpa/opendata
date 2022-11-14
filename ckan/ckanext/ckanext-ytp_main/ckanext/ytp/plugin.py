@@ -697,8 +697,12 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                     package_dict['license_id'] = valid_licenses[license_link]
                     package_dict['license_url'] = license_link
 
-        # Note! This would be a good point to check what harvested data gets excluded 
-        # if the license is not open enough (AV-1847)
+        # if the license is not open enough, do not harvest the resource
+        harvested_licences = ['cc-by-4.0', 'cc-zero-1.0']
+        if package_dict.get('license_id', "") not in harvested_licences:
+            logging.info(f"Skipping harvesting {package_dict.get('title', '')} as its license [{package_dict.get('license_id', '')}] was not in the list of accepted licenses")
+            return
+
 
         if extras.get('temporal-extent-begin', None) is not None:
             try:
