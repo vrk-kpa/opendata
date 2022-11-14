@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-01 13:07+0000\n"
+"POT-Creation-Date: 2022-11-14 06:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -217,7 +217,7 @@ msgid "Unauthorized to edit user %s"
 msgstr ""
 
 #: ckanext/ytp/controller.py:621 ckanext/ytp/controller.py:689
-#: ckanext/ytp/logic.py:46
+#: ckanext/ytp/logic.py:47
 msgid "User not found"
 msgstr ""
 
@@ -248,28 +248,28 @@ msgstr ""
 msgid "-"
 msgstr ""
 
-#: ckanext/ytp/logic.py:49
+#: ckanext/ytp/logic.py:50
 msgid "Cannot change username"
 msgstr ""
 
-#: ckanext/ytp/logic.py:51
+#: ckanext/ytp/logic.py:52
 msgid "Cannot change email"
 msgstr ""
 
-#: ckanext/ytp/logic.py:62
+#: ckanext/ytp/logic.py:63
 msgid "Have to be logged in to edit user"
 msgstr ""
 
-#: ckanext/ytp/logic.py:70
+#: ckanext/ytp/logic.py:71
 #, python-format
 msgid "User %s not authorized to edit user %s"
 msgstr ""
 
-#: ckanext/ytp/logic.py:76
+#: ckanext/ytp/logic.py:77
 msgid "Have to be logged in to list users"
 msgstr ""
 
-#: ckanext/ytp/logic.py:82
+#: ckanext/ytp/logic.py:83
 msgid "Have to be logged in to list admins"
 msgstr ""
 
@@ -2256,7 +2256,6 @@ msgid "Stats"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:272
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:112
 msgid "Last 30 days, updated daily"
 msgstr ""
 
@@ -2383,6 +2382,10 @@ msgstr ""
 msgid "Recommend dataset"
 msgstr ""
 
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:112
+msgid "Weekly visits for last 12 months"
+msgstr ""
+
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:117
 msgid "Downloads during last 12 months"
 msgstr ""
@@ -2394,6 +2397,10 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:127
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
 msgid "Visits"
+msgstr ""
+
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:129
+msgid "Week"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/dataset_showcase_list_embed.html:4

@@ -109,7 +109,7 @@
     {% block stats %}
         {% if 'get_visits_for_dataset' in h %}
         {{ layout.moduleBoxHead(_('Stats')) }}
-            <span>{{ _('Last 30 days, updated daily') }}</span>
+            <span>{{ _('Weekly visits for last 12 months') }}</span>
             <div id="chart_div"></div>
             {% set visits = h.get_visits_for_dataset(pkg.id) %}
             {% set download_count_last_12_month = h.get_download_count_for_dataset_during_last_12_months(pkg.id) %}
@@ -126,14 +126,13 @@
                     var data = google.visualization.arrayToDataTable([
                     ["{{ _('Year') }}", "{{ _('Visits') }}", "{{ _('Downloads') }}"],
                     {% for v in visits.visits %}
-                        [new Date({{ v.year }}, {{ v.month - 1 }}, {{ v.day }}), {{ v.visits }}, {{ v.downloads }}],
+                        ["{{ _('Week') }}" + ' ' + {{ v.week }} + ', ' + {{ v.year }}, {{ v.visits }}, {{ v.downloads }}],
                     {% endfor %}
                     ]);
 
                     var options = {
                     hAxis: {
                         textPosition: 'none',
-                        format: 'dd.MM.yyyy',
                         gridlines: {
                             count : 0
                         }
@@ -152,7 +151,8 @@
                         1: {
                             lineDashStyle: [5, 3]
                         },
-                    }
+                    },
+                    focusTarget: 'category'
                     };
 
                     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
