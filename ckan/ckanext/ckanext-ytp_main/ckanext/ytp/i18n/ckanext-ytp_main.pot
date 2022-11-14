@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-14 06:57+0000\n"
+"POT-Creation-Date: 2022-11-14 11:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2256,7 +2256,8 @@ msgid "Stats"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:272
-msgid "Last 30 days, updated daily"
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:112
+msgid "Weekly visits for last 12 months"
 msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:275
@@ -2273,6 +2274,11 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:127
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
+msgstr ""
+
+#: ckanext/ytp/templates/package/resource_read.html:287
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:129
+msgid "Week"
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:25
@@ -2382,10 +2388,6 @@ msgstr ""
 msgid "Recommend dataset"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:112
-msgid "Weekly visits for last 12 months"
-msgstr ""
-
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:117
 msgid "Downloads during last 12 months"
 msgstr ""
@@ -2397,10 +2399,6 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:127
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
 msgid "Visits"
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:129
-msgid "Week"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/dataset_showcase_list_embed.html:4

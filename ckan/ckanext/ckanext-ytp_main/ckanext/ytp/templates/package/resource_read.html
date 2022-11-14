@@ -269,7 +269,7 @@
 
   {% if visits %}
   <h3>{{ _('Stats') }}</h3>
-  <span>{{ _('Last 30 days, updated daily') }}</span>
+  <span>{{ _('Weekly visits for last 12 months') }}</span>
   <div id="chart_div"></div>
 
   <span>{{ _('All time downloads:' ) }} {{ visits.count }}</span>
@@ -284,14 +284,13 @@
           var data = google.visualization.arrayToDataTable([
             ["{{ _('Year') }}", "{{ _('Downloads') }}"],
             {% for v in visits.downloads %}
-              [new Date({{ v.year }}, {{ v.month - 1 }}, {{ v.day }}), {{ v.visits }}],
+              ["{{ _('Week') }}" + ' ' + {{ v.week }} + ', ' + {{ v.year }}, {{ v.downloads }}],
             {% endfor %}
           ]);
 
           var options = {
             hAxis: {
               textPosition: 'none',
-              format: 'dd.MM.yyyy',
               gridlines: {
                 count : 4
               }
@@ -299,7 +298,8 @@
             vAxis: {
               minValue: 4
             },
-            legend: { position: 'bottom' }
+            legend: { position: 'bottom' },
+            focusTarget: 'category'
           };
 
           var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
