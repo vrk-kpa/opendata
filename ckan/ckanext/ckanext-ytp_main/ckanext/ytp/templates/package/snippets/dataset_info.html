@@ -112,11 +112,21 @@
             <span>{{ _('Weekly visits for last 12 months') }}</span>
             <div id="chart_div"></div>
             {% set visits = h.get_visits_for_dataset(pkg.id) %}
+            {% set visit_count_last_12_month = h.get_visit_count_for_dataset_during_last_12_months(pkg.id) %}
+            {% set visit_count_last_30_days = h.get_visit_count_for_dataset_during_last_30_days(pkg.id) %}
             {% set download_count_last_12_month = h.get_download_count_for_dataset_during_last_12_months(pkg.id) %}
+            {% set download_count_last_30_days = h.get_download_count_for_dataset_during_last_30_days(pkg.id) %}
             {% set last_year = h.get_current_date().year - 1 %}
-            <span>{{ _('Downloads during last 12 months') }}: {{ download_count_last_12_month }}</span><br/>
-            <span>{{ _('All time visits:') }} {{ visits.count }}</span><br/>
-            <span>{{ _('All time downloads:') }} {{ visits.download_count }}</span>
+            <dl class="list-unstyled">
+                <dt>{{ _('Download counts') }}:</dt>
+                <dd>{{ _('During last 30 days') }}: {{ download_count_last_30_days }}</dd>
+                <dd>{{ _('During last 12 months') }}: {{ download_count_last_12_month }}</dd>
+                <dd>{{ _('All time:') }} {{ visits.download_count }}</dd>
+                <dt>{{ _('Visits') }}:</dt>
+                <dd>{{ _('During last 30 days') }}: {{ visit_count_last_30_days }}</dd>
+                <dd>{{ _('During last 12 months') }}: {{ visit_count_last_12_month }}</dd>
+                <dd>{{ _('All time:') }} {{ visits.count }}</dd>
+            </dl>
             <script src="https://www.gstatic.com/charts/loader.js"></script>
             <script type="text/javascript">
               google.charts.load('current', {packages: ['corechart']});
