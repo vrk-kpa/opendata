@@ -18,8 +18,7 @@ fieldset.checkboxes label input {
     description=field.description) -%}
     {%- set choices = [] -%}
     {%- for c in h.scheming_field_choices(field) -%}
-        {%- do choices.append(
-        (c.value, h.scheming_language_text(c.label))) -%}
+        {%- do choices.append((c.value, h.get_translation(c.label))) -%}
     {%- endfor -%}
     <fieldset class="checkboxes">
         {%- for val, label in choices -%}
