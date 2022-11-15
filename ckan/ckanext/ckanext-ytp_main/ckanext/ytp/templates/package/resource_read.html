@@ -272,7 +272,20 @@
   <span>{{ _('Weekly visits for last 12 months') }}</span>
   <div id="chart_div"></div>
 
-  <span>{{ _('All time downloads:' ) }} {{ visits.count }}</span>
+  {% set visit_count_last_12_month = h.get_visit_count_for_resource_during_last_12_months(res.id) %}
+  {% set visit_count_last_30_days = h.get_visit_count_for_resource_during_last_30_days(res.id) %}
+  {% set download_count_last_12_month = h.get_download_count_for_resource_during_last_12_months(res.id) %}
+  {% set download_count_last_30_days = h.get_download_count_for_resource_during_last_30_days(res.id) %}
+  <dl class="list-unstyled">
+      <dt>{{ _('Download counts') }}:</dt>
+      <dd>{{ _('During last 30 days') }}: {{ download_count_last_30_days }}</dd>
+      <dd>{{ _('During last 12 months') }}: {{ download_count_last_12_month }}</dd>
+      <dd>{{ _('All time:') }} {{ visits.download_count }}</dd>
+      <dt>{{ _('Visits') }}:</dt>
+      <dd>{{ _('During last 30 days') }}: {{ visit_count_last_30_days }}</dd>
+      <dd>{{ _('During last 12 months') }}: {{ visit_count_last_12_month }}</dd>
+      <dd>{{ _('All time:') }} {{ visits.count }}</dd>
+  </dl>
 
   <script src="https://www.gstatic.com/charts/loader.js"></script>
 
