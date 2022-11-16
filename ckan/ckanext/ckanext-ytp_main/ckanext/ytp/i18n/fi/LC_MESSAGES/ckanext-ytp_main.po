@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-11 10:19+0000\n"
+"POT-Creation-Date: 2022-11-16 13:30+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Ville Teräväinen, 2022\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -1668,27 +1668,27 @@ msgstr ""
 msgid "Not authorized to see this page"
 msgstr "Ei oikeuksia nähdä tätä sivua"
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:54
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:52
 #: ckanext/ytp/resources/opendata/scripts/translations.js:20
 msgid "Reorder apiset"
-msgstr "Järjestä rajapinnat"
+msgstr "Järjestä resurssit"
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:55
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:53
 #: ckanext/ytp/resources/opendata/scripts/translations.js:21
 msgid ""
 "You can rearrange the apiset resources by dragging them using the arrow "
 "icon. Drag the resource to the right and place it to the desired location on"
 " the list. When you are done, click the \"Save order\" -button."
 msgstr ""
-"Ota hiirellä kiinni rajapinnan laatikosta ja raahaa se haluamallesi "
-"paikalle. Valitse lopuksi \"Tallenna järjestys\"."
+"Ota hiirellä kiinni resurssin laatikosta ja raahaa se haluamallesi paikalle."
+" Valitse lopuksi \"Tallenna järjestys\"."
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:59
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:57
 #: ckanext/ytp/resources/opendata/scripts/translations.js:16
 msgid "Reorder resources"
 msgstr "Järjestä data-aineistot"
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:60
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:58
 #: ckanext/ytp/resources/opendata/scripts/translations.js:17
 msgid ""
 "You can rearrange the resources by dragging them using the arrow icon. Drag "
@@ -1698,17 +1698,17 @@ msgstr ""
 "Ota hiirellä kiinni data-aineiston laatikosta ja raahaa se haluamallesi "
 "paikalle. Valitse lopuksi \"Tallenna järjestys\"."
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:83
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:81
 msgid "Save order"
 msgstr ""
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:86
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:84
 #: ckanext/ytp/resources/opendata/scripts/bulk-confirm-action.js:76
 #: ckanext/ytp/resources/opendata/scripts/translations.js:9
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:96
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:94
 msgid "Saving..."
 msgstr ""
 
@@ -2416,12 +2416,12 @@ msgstr "Tilastot"
 #: ckanext/ytp/templates/package/resource_read.html:272
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:126
 msgid "Last 30 days, updated daily"
-msgstr "Viimeiset 30 päivää, päivitetään päivittäin"
+msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:275
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:133
 msgid "All time downloads:"
-msgstr "Latauksia kaikkiaan:"
+msgstr ""
 
 #: ckanext/ytp/templates/package/resource_read.html:285
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:141
@@ -2558,11 +2558,11 @@ msgstr "Tykkää tietoaineistosta"
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:131
 msgid "Downloads during last 12 months"
-msgstr "Latauksia viimeisen 12kk aikana."
+msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:132
 msgid "All time visits:"
-msgstr "Sivunäyttöjä kaikkiaan:"
+msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:141
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
@@ -2607,7 +2607,7 @@ msgstr ""
 "rel=\"cc:attributionURL\">%(content_title)s</a></span> lisenssillä <a "
 "rel=\"license\" "
 "href=\"https://creativecommons.org/licenses/by/4.0/\">Creative Commons "
-"Attribution 4.0 International License."
+"Attribution 4.0 International License</a>."
 
 #: ckanext/ytp/templates/package/snippets/license_rdf.html:45
 #, python-format
@@ -3483,14 +3483,23 @@ msgstr "{actor} päivitti rajapintaa {dataset}"
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:10
 msgid "{actor} updated the dataset {dataset}"
-msgstr "{actor} päivitti tietoaineistoa {dataset}"
+msgstr ""
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:18
+#: ckanext/ytp/templates/snippets/activities/new_package.html:16
 msgid "View this version"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:22
 msgid "Changes"
+msgstr ""
+
+#: ckanext/ytp/templates/snippets/activities/new_package.html:6
+msgid "{actor} created the api {dataset}"
+msgstr "{actor} loi rajapinnan {dataset}"
+
+#: ckanext/ytp/templates/snippets/activities/new_package.html:8
+msgid "{actor} created the dataset {dataset}"
 msgstr ""
 
 #: ckanext/ytp/templates/source/read_base.html:19

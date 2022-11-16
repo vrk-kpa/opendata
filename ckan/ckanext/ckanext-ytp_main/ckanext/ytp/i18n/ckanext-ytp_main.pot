@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-11 10:19+0000\n"
+"POT-Creation-Date: 2022-11-16 13:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1561,12 +1561,12 @@ msgstr ""
 msgid "Not authorized to see this page"
 msgstr ""
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:54
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:52
 #: ckanext/ytp/resources/opendata/scripts/translations.js:20
 msgid "Reorder apiset"
 msgstr ""
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:55
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:53
 #: ckanext/ytp/resources/opendata/scripts/translations.js:21
 msgid ""
 "You can rearrange the apiset resources by dragging them using the arrow icon."
@@ -1574,12 +1574,12 @@ msgid ""
 "list. When you are done, click the \"Save order\" -button."
 msgstr ""
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:59
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:57
 #: ckanext/ytp/resources/opendata/scripts/translations.js:16
 msgid "Reorder resources"
 msgstr ""
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:60
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:58
 #: ckanext/ytp/resources/opendata/scripts/translations.js:17
 msgid ""
 "You can rearrange the resources by dragging them using the arrow icon. Drag "
@@ -1587,17 +1587,17 @@ msgid ""
 "When you are done, click the \"Save order\" -button."
 msgstr ""
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:83
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:81
 msgid "Save order"
 msgstr ""
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:86
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:84
 #: ckanext/ytp/resources/opendata/scripts/bulk-confirm-action.js:76
 #: ckanext/ytp/resources/opendata/scripts/translations.js:9
 msgid "Cancel"
 msgstr ""
 
-#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:96
+#: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:94
 msgid "Saving..."
 msgstr ""
 
@@ -3280,11 +3280,20 @@ msgid "{actor} updated the dataset {dataset}"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:18
+#: ckanext/ytp/templates/snippets/activities/new_package.html:16
 msgid "View this version"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:22
 msgid "Changes"
+msgstr ""
+
+#: ckanext/ytp/templates/snippets/activities/new_package.html:6
+msgid "{actor} created the api {dataset}"
+msgstr ""
+
+#: ckanext/ytp/templates/snippets/activities/new_package.html:8
+msgid "{actor} created the dataset {dataset}"
 msgstr ""
 
 #: ckanext/ytp/templates/source/read_base.html:19
