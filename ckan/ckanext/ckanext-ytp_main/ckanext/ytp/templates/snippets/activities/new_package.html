@@ -1,9 +1,10 @@
-{% set dataset_type = activity.data.package.type or 'dataset' %}
+{% set dataset_type = package_type or 'dataset' %}
+
 <li class="item {{ activity.activity_type|replace(' ', '-')|lower }}">
   <i class="fa icon fa-sitemap"></i>
   <p>
     {% if package_type == 'apiset' %}
-        {{ _('{actor} created the api {dataset}').format(actor=ah.actor(activity),dataset=ah.dataset(activity))|safe }}
+        {{ _('{actor} created the api {dataset}').format(actor=ah.actor(activity),dataset=ah.apiset(activity))|safe }}
     {% else %}
     {{ _('{actor} created the dataset {dataset}').format(actor=ah.actor(activity),dataset=ah.dataset(activity))|safe }}
     {% endif %}
