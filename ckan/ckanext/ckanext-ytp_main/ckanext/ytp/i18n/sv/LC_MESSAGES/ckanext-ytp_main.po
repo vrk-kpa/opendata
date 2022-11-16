@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-14 11:21+0000\n"
+"POT-Creation-Date: 2022-11-16 07:01+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Ville Teräväinen, 2022\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -2346,24 +2346,52 @@ msgstr "Rapporter"
 msgid "Weekly visits for last 12 months"
 msgstr ""
 
-#: ckanext/ytp/templates/package/resource_read.html:275
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:119
-msgid "All time downloads:"
-msgstr "Nedladdningar totalt:"
+#: ckanext/ytp/templates/package/resource_read.html:280
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:121
+msgid "Download counts"
+msgstr ""
 
+#: ckanext/ytp/templates/package/resource_read.html:281
 #: ckanext/ytp/templates/package/resource_read.html:285
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:122
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:126
+msgid "During last 30 days"
+msgstr ""
+
+#: ckanext/ytp/templates/package/resource_read.html:282
+#: ckanext/ytp/templates/package/resource_read.html:286
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:123
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:127
+msgid "During last 12 months"
+msgstr ""
+
+#: ckanext/ytp/templates/package/resource_read.html:283
+#: ckanext/ytp/templates/package/resource_read.html:287
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:124
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:128
+msgid "All time:"
+msgstr ""
+
+#: ckanext/ytp/templates/package/resource_read.html:284
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:125
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:137
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
+msgid "Visits"
+msgstr "Sidvisningar"
+
+#: ckanext/ytp/templates/package/resource_read.html:298
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:137
 msgid "Year"
 msgstr "År"
 
-#: ckanext/ytp/templates/package/resource_read.html:285
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:127
+#: ckanext/ytp/templates/package/resource_read.html:298
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:137
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
 msgstr "Nedladdningar"
 
-#: ckanext/ytp/templates/package/resource_read.html:287
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:129
+#: ckanext/ytp/templates/package/resource_read.html:300
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:139
 msgid "Week"
 msgstr ""
 
@@ -2478,19 +2506,6 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:91
 msgid "Recommend dataset"
 msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:117
-msgid "Downloads during last 12 months"
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:118
-msgid "All time visits:"
-msgstr "Sidvisningar totalt:"
-
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:127
-#: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
-msgid "Visits"
-msgstr "Sidvisningar"
 
 #: ckanext/ytp/templates/package/snippets/dataset_showcase_list_embed.html:4
 msgid "Applications"

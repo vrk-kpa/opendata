@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-14 11:21+0000\n"
+"POT-Creation-Date: 2022-11-16 07:01+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Meeri Hakala <meeri.hakala@dvv.fi>, 2022\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -2381,24 +2381,52 @@ msgstr "Tilastot"
 msgid "Weekly visits for last 12 months"
 msgstr "Viikoittain viimeisten 12kk ajalta"
 
-#: ckanext/ytp/templates/package/resource_read.html:275
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:119
-msgid "All time downloads:"
-msgstr "Latauksia kaikkiaan:"
+#: ckanext/ytp/templates/package/resource_read.html:280
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:121
+msgid "Download counts"
+msgstr "Latausmäärät"
 
+#: ckanext/ytp/templates/package/resource_read.html:281
 #: ckanext/ytp/templates/package/resource_read.html:285
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:122
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:126
+msgid "During last 30 days"
+msgstr "Viimeisten 30 päivän aikana"
+
+#: ckanext/ytp/templates/package/resource_read.html:282
+#: ckanext/ytp/templates/package/resource_read.html:286
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:123
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:127
+msgid "During last 12 months"
+msgstr "Viimeisten 12kk aikana"
+
+#: ckanext/ytp/templates/package/resource_read.html:283
+#: ckanext/ytp/templates/package/resource_read.html:287
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:124
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:128
+msgid "All time:"
+msgstr "Kaikkiaan:"
+
+#: ckanext/ytp/templates/package/resource_read.html:284
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:125
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:137
+#: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
+msgid "Visits"
+msgstr "Sivunäytöt"
+
+#: ckanext/ytp/templates/package/resource_read.html:298
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:137
 msgid "Year"
 msgstr "Vuosi"
 
-#: ckanext/ytp/templates/package/resource_read.html:285
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:127
+#: ckanext/ytp/templates/package/resource_read.html:298
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:137
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:11
 msgid "Downloads"
 msgstr "Latauksia"
 
-#: ckanext/ytp/templates/package/resource_read.html:287
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:129
+#: ckanext/ytp/templates/package/resource_read.html:300
+#: ckanext/ytp/templates/package/snippets/dataset_info.html:139
 msgid "Week"
 msgstr "Viikko"
 
@@ -2515,19 +2543,6 @@ msgstr "Avoimuusaste"
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:91
 msgid "Recommend dataset"
 msgstr "Tykkää tietoaineistosta"
-
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:117
-msgid "Downloads during last 12 months"
-msgstr "Latauksia viimeisen 12kk aikana."
-
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:118
-msgid "All time visits:"
-msgstr "Sivunäyttöjä kaikkiaan:"
-
-#: ckanext/ytp/templates/package/snippets/dataset_info.html:127
-#: ckanext/ytp/templates/report/deprecated_dataset_report.html:10
-msgid "Visits"
-msgstr "Sivunäytöt"
 
 #: ckanext/ytp/templates/package/snippets/dataset_showcase_list_embed.html:4
 msgid "Applications"
