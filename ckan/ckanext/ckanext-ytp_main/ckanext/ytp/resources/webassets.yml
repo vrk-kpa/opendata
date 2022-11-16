@@ -6,6 +6,8 @@ main_css:
     - vendor/jstree/dist/themes/default/style.css
     - vendor/select2-bootstrap-css/select2-bootstrap.css
     - styles/ckan.css
+    - scripts/ab-datepicker/css/datepicker.css
+
 
 main_js:
   output: ytp_resources/%(version)s_main.js
@@ -21,11 +23,14 @@ main_js:
     - vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.js
     - vendor/jstree/dist/jstree.js
     - opendata/scripts/drag-n-drop-uploader.js
+    - scripts/ab-datepicker/js/datepicker.js
+    - scripts/ab-datepicker_after_load.js
 
 openapi_view_css:
   output: ytp_resources/%(version)s_openapi_view.css
   contents:
     - styles/openapi_view.css
+
 
 bootstrap_table_css:
   output: ytp_resources/%(version)s_bootstrap_table.css
@@ -40,7 +45,6 @@ bootstrap_table_js:
       - ytp_resources/main_js
   contents:
     - vendor/bootstrap-table/dist/bootstrap-table.js
-
 
 ytp_select2_js:
   output: ytp_resources/%(version)s_bootstrap-table.js

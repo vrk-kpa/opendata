@@ -1,11 +1,9 @@
-{% asset 'advancedsearch/ytp_datepicker_js' %}
 
 <div class="ytp-datepicker col-md-6" data-module="ytp-datepicker">
     <label class="ytp-input-label-light">
         {{_(label)}}
     </label>
     <div class="ytp-input-with-icon">
-        <input name="{{name}}" class="ytp-input-element" type="text" data-datepicker data-date-format="YYYY-MM-DD" placeholder="{{_('Not selected')}}" value="{{value}}">
-        <i class="far fa-calendar-alt color-highlight-base"></i>
+        <input id="date-picker" input name="{{name}}" class="date form-control ytp-input-element" id="date1" type="text" placeholder="{{_('Not selected')}}" title="format: YYYY-MM-DD" value="{{value}}"/>
     </div>
 </div>
