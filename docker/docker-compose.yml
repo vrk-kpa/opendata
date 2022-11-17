@@ -137,7 +137,7 @@ services:
     volumes:
       - ckan_data:/srv/app/data
     healthcheck:
-      test: ["CMD-SHELL", "curl --fail http://localhost:5000/api/3/action/status_show || exit 1"]
+      test: ["CMD-SHELL", "curl --fail http://localhost:5000/api/3/action/status_show --user-agent 'docker-healthcheck' || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 5
