@@ -60,7 +60,7 @@
     <th scope="row" class="dataset-label">{{ _("Last modified") }}</th>
     <td class="dataset-details">
       {{ h.render_datetime(pkg_dict.get('metadata_modified'), "%d.%m.%Y") }}<br />
-      <a href="/data/{{ h.lang() }}/dataset/activity/{{pkg_dict.get('name')}}">{{_('Show change log')}}</a>
+      <a href="/data/{{ h.lang() }}/{{pkg_dict.get('type')}}/activity/{{pkg_dict.get('name')}}">{{_('Show change log')}}</a>
     </td>
   </tr>
   <tr>
