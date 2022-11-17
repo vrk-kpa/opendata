@@ -17,3 +17,6 @@ _('Reorder resources');
 _('You can rearrange the resources by dragging them using the arrow icon. Drag the resource ' +
   'to the right and place it to the desired location on the list. ' +
   'When you are done, click the "Save order" -button.');
+_('Reorder apiset');
+_('You can rearrange the apiset resources by dragging them using the arrow icon. Drag the resource ' +
+  'to the right and place it to the desired location on the list. When you are done, click the "Save order" -button.');
