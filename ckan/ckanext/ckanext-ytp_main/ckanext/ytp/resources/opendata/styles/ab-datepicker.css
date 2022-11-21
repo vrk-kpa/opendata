@@ -1,5 +1,10 @@
 @charset "utf-8";
 
+/* Prevents flashing the calendar when loading the page */
+div.datepicker-calendar { 
+    display:none; 
+}
+
 /* 
  * sizes and positions
  */

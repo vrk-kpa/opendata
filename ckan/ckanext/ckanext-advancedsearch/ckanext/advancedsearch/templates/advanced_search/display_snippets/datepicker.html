@@ -1,9 +1,13 @@
+{% asset 'ytp_resources/ab_datepicker_js' %}
 
-<div class="ytp-datepicker col-md-6" data-module="ytp-datepicker">
-    <label class="ytp-input-label-light">
-        {{_(label)}}
-    </label>
-    <div class="ytp-input-with-icon">
-        <input id="date-picker" input name="{{name}}" class="date form-control ytp-input-element" id="date1" type="text" placeholder="{{_('Not selected')}}" title="format: YYYY-MM-DD" value="{{value}}"/>
+<div class=" col-md-6" data-module="ytp-datepicker">
+
+    <!-- There's a bug in ab-datepicker where the top alignment breaks if not wrapped in a group -->
+    <div class="form-group">
+        <label for="date-picker" class="control-label">{{_(label)}}</label>
+        <div>
+            <input id="date-picker" input name="{{name}}" class="date form-control ytp-input-element" id="date1" type="text" placeholder="{{_('Not selected')}}" title="format: YYYY-MM-DD" value="{{value}}"/>
+        </div>
     </div>
+
 </div>
