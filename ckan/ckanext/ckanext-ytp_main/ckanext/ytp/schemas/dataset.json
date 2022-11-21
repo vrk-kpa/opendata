@@ -405,14 +405,14 @@
     {
       "field_name": "temporal_coverage_from",
       "label": "Start date",
-      "preset": "date_opendata_with_icon",
+      "preset": "date_ab-datepicker",
       "group_description": "Time Frame",
       "group_description_class": "ytp-combi-label"
     },
     {
       "field_name": "temporal_coverage_to",
       "label": "End date",
-      "preset": "date_opendata_with_icon"
+      "preset": "date_ab-datepicker"
     },
     {
       "field_name": "status_updated",

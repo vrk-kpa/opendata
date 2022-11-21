@@ -3,5 +3,6 @@ $(document).ready(function() {
         outputFormat: 'yyyy-MM-dd',
         inputFormat: 'yyyy-MM-dd',
         theme: 'blue',
+        gainFocusOnConstruction: false
     });
 });
