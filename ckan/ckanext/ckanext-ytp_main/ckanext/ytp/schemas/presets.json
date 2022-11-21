@@ -257,6 +257,18 @@
           "class": "form-control"
         }
       }
+    },
+    {
+      "preset_name": "date_sysadmin_ab-datepicker",
+      "values": {
+        "form_snippet": "date_sysadmin_ab-datepicker.html",
+        "display_snippet": "date.html",
+        "validators": "scheming_required isodate from_date_is_before_until_date convert_to_json_if_date",
+        "form_attrs": {
+          "data-datepicker": "",
+          "class": "form-control"
+        }
+      }
     }
   ]
 }
