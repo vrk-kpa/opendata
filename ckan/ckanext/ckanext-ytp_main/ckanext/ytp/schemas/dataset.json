@@ -171,13 +171,13 @@
     {
       "field_name": "valid_from",
       "label": "Valid from",
-      "preset": "date_opendata_with_icon",
+      "preset": "date_ab-datepicker",
       "max_date_field": "valid_till"
     },
     {
       "field_name": "valid_till",
       "label": "Valid till",
-      "preset": "date_opendata_with_icon",
+      "preset": "date_ab-datepicker",
       "min_date_field": "valid_from"
     },
     {
