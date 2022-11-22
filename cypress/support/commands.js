@@ -161,6 +161,7 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
                 case 'datepicker':
                     field.clear();
                     field.type(field_value.value);
+                    break;
                 default:
                     field.type(field_value.value, options)
             }

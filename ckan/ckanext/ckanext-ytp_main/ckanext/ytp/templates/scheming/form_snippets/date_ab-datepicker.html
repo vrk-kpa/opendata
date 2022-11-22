@@ -4,7 +4,7 @@
 
     <label for="{{'field-' + field.field_name}}">{{h.scheming_language_text(field.label)}}</label>
     <div class="controls form-group">
-        <input class="date form-control ytp-input-element datepicker-inline" id="{{'field-' + field.field_name}}" type="{{ 'text' }}" name="{{ field.field_name }}" value="{{ data.get(field.field_name, '').split()[0] }}" placeholder="{{ h.scheming_language_text(field.form_placeholder) }}"  />
+        <input class="date form-control ytp-input-element datepicker-inline" id="{{'field-' + field.field_name}}" type="{{ 'date' }}" name="{{ field.field_name }}" value="{{ data.get(field.field_name, '').split()[0] }}" placeholder="{{ h.scheming_language_text(field.form_placeholder) }}"  />
     </div>
 
     {% if field.description and field.description.strip() %}
