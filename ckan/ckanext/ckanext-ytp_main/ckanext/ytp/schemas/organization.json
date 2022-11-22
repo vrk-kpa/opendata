@@ -29,7 +29,7 @@
       "form_languages": [ "fi", "sv", "en" ],
       "label": "Description",
       "group_title": "Producer description",
-      "group_description": "Common, compact and plain description about producer",
+      "description": "Common, compact and plain description about producer",
       "form_attrs": {
         "class": "form-control"
       },
