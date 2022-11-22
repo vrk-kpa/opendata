@@ -167,7 +167,7 @@
     },
     {
       "field_name": "valid_from",
-      "preset": "date_sysadmin_ab-datepicker",
+      "preset": "date_ab-datepicker",
       "form_snippet": "date_sysadmin_ab-datepicker.html",
       "label": "Valid from",
       "max_date_field": "valid_till",
@@ -175,7 +175,7 @@
     },
     {
       "field_name": "valid_till",
-      "preset": "date_sysadmin_ab-datepicker",
+      "preset": "date_ab-datepicker",
       "form_snippet": "date_sysadmin_ab-datepicker.html",
       "label": "Valid till",
       "min_date_field": "valid_from",
