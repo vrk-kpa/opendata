@@ -190,3 +190,12 @@ slug_preview_ex:
       - ytp_resources/main_js
   contents:
     - opendata/scripts/slug-preview-ex.js
+
+post_pagination_js:
+  output: ytp_resources/%(version)s_post-pagination.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - opendata/scripts/post_pagination.js

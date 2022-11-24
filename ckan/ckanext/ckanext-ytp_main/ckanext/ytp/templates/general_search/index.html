@@ -1,0 +1,86 @@
+{% extends "page.html" %}
+{% import 'macros/form.html' as form %}
+
+
+
+{% block meta %}
+  {{ super() }}
+  <meta name="robots" content="noindex, follow"/>
+{% endblock %}
+
+{% block subtitle %}
+  {{ _("General search") }}
+{% endblock %}
+
+{%- block content %}
+
+
+{% block maintag %}
+  <div role="main">
+
+    <div id="content" class="container advanced-search-container">
+      {% block main_content%}
+      <div class="row wrapper{% block wrapper_class %} advanced-search-wrapper {% endblock %}{% if self.secondary()|trim == '' or c.action=='resource_read' %} no-nav{% endif %}">
+        {% block pre_primary %}
+        <h1 id="advanced-search-title">
+          {% block page_heading %}
+            {{ _('Hakusana lorem ipsum') }}
+          {% endblock %}
+        </h1>
+        {% endblock %}
+    
+        {% block secondary %}
+          {% block secondary_content %}
+            {% snippet 'general_search/search_form.html' %}
+    
+          {% endblock %}
+        {% endblock %}
+    
+        {% block primary %}
+          {% block primary_content %}
+          <div class="primary col-sm-8">
+            <section class="module">
+              <div class="module-content">
+                <div id="search-results">
+                  <div id="search-results-content">
+                    {% snippet 'general_search/snippets/package_list.html', packages=g.general_search.total_results['results'] %}
+                  </div>
+                </div>
+                {% if g.general_search.item_count > 0%}
+                
+                <div>
+                  {% block page_pagination %}
+                    {% snippet 'general_search/snippets/post_pagination.html',
+                    page=g.general_search.last_query.page,
+                    total_pages=g.general_search.total_pages,
+                    prev_query=g.general_search.last_query %}
+                  {% endblock %}
+
+                </div>
+
+                {% endif %}
+              </div>
+            </section>
+    
+          </div>
+    
+          {% endblock %}
+        {% endblock %}
+    
+    
+      </div>
+
+      {% endblock %}
+
+    </div>
+  </div>
+{% endblock %}
+
+{% endblock %}
+
+
+
+
+
+
+

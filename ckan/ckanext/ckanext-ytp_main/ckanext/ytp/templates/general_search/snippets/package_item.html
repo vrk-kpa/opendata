@@ -1,0 +1,95 @@
+{#
+    Displays a single of dataset.
+    
+    package        - A package to display.
+    item_class     - The class name to use on the list item.
+    hide_resources - If true hides the resources (default: false).
+    banner         - If true displays a popular banner (default: false).
+    truncate       - The length to trucate the description to (default: 400)
+    truncate_title - The length to truncate the title to (default: 80).
+    
+    Example:
+    
+      {% snippet 'snippets/package_item.html', package=c.datasets[0] %}
+    
+    #}
+    {% set truncate = truncate or 220 %}
+    {% set truncate_title = truncate_title or 120 %}
+    {% set title = h.extra_translation(package, 'title', fallback=package.name) %}
+    {% set notes = h.markdown_extract(h.extra_translation(package, 'notes', markdown=False), extract_length=truncate) %}
+    
+
+    <!-- TODO Move style to css file after testing -->
+    <style>
+        .dataset-heading.dataset-type{
+            color: rgb(41, 41, 41);
+            font-family: "Source Sans Pro Regular";
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        #dataset-info small{
+            font-family: "Source Sans Pro Regular";
+            font-size: 16px;
+            font-weight: normal;
+        }
+
+        .general-search-item-notes{
+            font-family: "Source Sans Pro Regular","Helvetica Neue",Arial,sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            color: #292929;
+            margin-bottom: 10px;
+        }
+
+        .general-search-item{
+            position: relative;
+            border: 1px solid #c9cdcf;
+            border-bottom: none;
+            margin-bottom: 0;
+            padding: 20px 20px 15px 20px;
+        }
+
+    </style>
+
+    <div class="{{ item_class or 'general-search-item' }}">
+        {% block package_item_content %}
+            <div class="dataset-content">
+
+              <div class="d-flex align-items-center justify-content-between">
+                <h3 class="dataset-heading dataset-title">
+                    {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type + '_read', id=package.name)) }}
+                    {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
+                </h3>
+
+                <p class="dataset-heading dataset-type"> {{_(package.type) | capitalize}} </p>
+              </div>
+
+
+                {% if notes %}
+                    <p class="general-search-item-notes">
+                        {{ notes | urlize }}
+                    </p>
+                {% endif %}
+    
+    
+                <div class="d-flex justify-content-between flex-wrap mt-2">
+
+
+                    <div id="dataset-info">
+                        <!-- After producers get added, add an if check here for different content for them -->
+                        {% if package.type == 'showcase' %}
+                        <!-- showcases do not have an organization so skip, maybe add the publisher?-->
+                        {% else %}
+                            {% if package.organization %}
+                            <small>{{ h.get_translated(package.organization, 'title') or package.organization.name}}</small>
+                            {% endif %}
+                        {% endif %}
+                    </div>    
+                    
+
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+    

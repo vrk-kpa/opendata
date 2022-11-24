@@ -4,11 +4,17 @@ import ckan.model as model
 from ckan.common import config
 from ckan.views.api import _finish_ok
 from ckan.views.dataset import GroupView as CkanDatasetGroupView
+import ckan.lib.base as base
 
 from .model import MunicipalityBoundingBox
 from ckan.plugins.toolkit import h, g, abort, request, get_action, NotAuthorized, ObjectNotFound, _
 from ckan.views.feed import (_package_search, _parse_url_params, _navigation_urls, _feed_url, _alternate_url,
                             _create_atom_id, output_feed)
+
+
+import math
+import logging
+import json
 
 
 SITE_TITLE = config.get(u'ckan.site_title', u'CKAN')
@@ -118,6 +124,147 @@ def recent_datasets_feed():
         navigation_urls=navigation_urls)
 
 
+
+
+
+
+def _tag_string_to_list(tag_string):
+    """This is used to change tags from a sting to a list of dicts.
+    """
+    out = []
+    for tag in tag_string.split(u','):
+        tag = tag.strip()
+        if tag:
+            out.append({u'name': tag, u'state': u'active'})
+    return out
+
+
+
+
+# Based on search() from ckan 2.9
+def general_search():
+
+    extra_vars = {}
+
+    context = {
+        u'model': model,
+        u'user': g.user,
+        u'auth_user_obj': g.userobj
+    }
+
+
+    # unicode format (decoded from utf8)
+    extra_vars[u'q'] = q = request.args.get(u'q', u'')
+
+    extra_vars['query_error'] = False
+    page = h.get_page_number(request.args)
+
+    limit = int(config.get(u'ckan.datasets_per_page', 10))
+    logging.warning(f"Limit: {limit}")
+
+    # most search operations should reset the page counter:
+    params_nopage = [(k, v) for k, v in request.args.items(multi=True)
+                     if k != u'page']
+
+    sort_by = request.args.get(u'sort', None)
+    params_nosort = [(k, v) for k, v in params_nopage if k != u'sort']
+
+    allowed_sorting = [
+        'score desc, metadata_created desc',
+        'title_string asc',
+        'title_string desc',
+        'metadata_modified desc'
+        'metadata_created asc'
+        'metadata_created desc',
+        'views_recent desc'
+    ]
+
+
+    sort_string = sort_by if sort_by in allowed_sorting else "score desc, metadata_created desc"
+
+    # http://localhost/data/fi/search?sort=title_string
+    logging.warning(f"Given sorting: {sort_by}")
+    logging.warning(f"used sorting: {sort_string}")
+
+    # Add organizations here when they are implemented
+    all_types = 'dataset_type:dataset OR dataset_type:apiset OR dataset_type:showcase'
+    allowed_types = ['dataset', 'apiset', 'showcase']
+    dataset_type = request.args.get(u'dataset_type', None)
+    fq = f'dataset_type:{dataset_type}' if dataset_type in allowed_types else all_types
+    logging.warning(f"fq is: {fq}")
+
+    data_dict = {
+        'q': q,
+        'rows': limit,
+        'start': (page - 1) * limit,
+        'extras': {},
+        'sort': sort_string,
+        'defType': 'edismax',
+        'mm': 0,
+        'fq': fq
+    }
+
+    # Get the results that will be passed to the template
+    total_results = get_action('package_search')(context, data_dict)
+    #logging.warning(json.dumps(total_results))
+    logging.warning(f"count: {total_results.get('count', 0)}")
+
+
+    # Get the specific amount of datasets, apisets and showcases (+ organizations)
+    # TODO maybe don't calculate the total here and just do it in the template?
+    result_count = {
+        'dataset': 0,
+        'apiset': 0,
+        'showcase': 0,
+        'all': 0
+    }
+
+    
+    # get the amount of results for each type
+    for key, value in result_count.items():
+        simple_dict = {
+        'q': q,
+        'fq': ""
+        }
+        if key != 'all':
+            simple_dict['fq'] = f"dataset_type:{key}"
+            sets = get_action('package_search')(context, simple_dict)
+            count = sets.get('count', 0)
+            result_count[key] = count
+            result_count['all'] += count
+    
+
+    logging.warning(json.dumps(result_count))
+    # logging.warning(json.dumps(total_results))
+
+
+    # last_query
+
+    g.general_search = {
+            u'total_results': total_results,
+            u'result_count': result_count,
+            u'item_count': result_count['all'],
+            "last_query": params_to_dict(request.form),
+            # u'pkg_dict': total_results,
+            u'page': page,
+            u'sort_string': sort_string,
+            u'total_pages': int(math.ceil(float(result_count.get('all', 0)) / float(limit))),
+    }
+
+    return base.render(
+        u'general_search/index.html')
+
+
+def params_to_dict(params):
+    new_dict = {}
+    for i in params:
+        key = i
+        if not hasattr(new_dict, key):
+            value = params.getlist(i)
+            new_dict.setdefault(key, value)
+    return new_dict
+
+
 ytp_main = Blueprint('ytp_main', __name__)
 ytp_main_dataset = Blueprint('ytp_main_dataset', __name__,
                              url_prefix='/dataset',
@@ -129,6 +276,7 @@ ytp_main.add_url_rule('/api/util/tag/autocomplete', view_func=tag_autocomplete)
 ytp_main.add_url_rule('/api/2/util/tag/autocomplete', view_func=tag_autocomplete)
 ytp_main.add_url_rule('/api/util/dataset/locations', view_func=get_all_locations)
 ytp_main.add_url_rule('/feeds/recent-datasets.atom', methods=[u'GET'], view_func=recent_datasets_feed)
+ytp_main.add_url_rule('/search', view_func=general_search)
 
 
 def get_blueprint():
