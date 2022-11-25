@@ -49,6 +49,7 @@ ckan -c ${APP_DIR}/production.ini opendata-model populate-municipality-bounding-
 # refresh solr search indexes
 echo "rebuild solr search indexes ..."
 ckan -c ${APP_DIR}/production.ini search-index rebuild
+ckan -c ${APP_DIR}/production.ini sitesearch rebuild organizations
 
 # set init flag to done
 echo "$CKAN_IMAGE_TAG" > ${DATA_DIR}/.init-done
