@@ -201,6 +201,7 @@ export class CkanStack extends Stack {
       'opendata_cli',
       'ytp_recommendation',
       'dcat_sparql',
+      'sitesearch',
     ];
 
     const ckanContainerEnv: { [key: string]: string; } = {
@@ -373,7 +374,7 @@ export class CkanStack extends Stack {
         streamPrefix: 'ckan-service',
       }),
       healthCheck: {
-        command: ['CMD-SHELL', 'curl --fail http://localhost:5000/api/3/action/status_show || exit 1'],
+        command: ['CMD-SHELL', 'curl --fail http://localhost:5000/api/3/action/status_show --user-agent "docker-healthcheck" || exit 1'],
         interval: Duration.seconds(15),
         timeout: Duration.seconds(5),
         retries: 5,

@@ -1,6 +1,12 @@
 {% import 'macros/form.html' as form %}
 
-{% set placeholder = placeholder if placeholder else _('Search datasets...') %}
+<!-- TODO -->
+{% if type == 'apiset' %}
+    {% set placeholder = placeholder if placeholder else _('Search apis...') %}
+{% else %}
+    {% set placeholder = placeholder if placeholder else _('Search datasets...') %}
+{% endif%}
+
 {% set search_class = search_class if search_class else 'search-giant' %}
 {% set no_bottom_border = no_bottom_border if no_bottom_border else false %}
 
@@ -29,7 +35,7 @@
         {% endif %}
     {% endblock %}
 
-    {% block search_input %}
+    {% block search_input %}        
         <div class="search-input control-group {{ search_class }} m-0">
             <input type="text" class="search search-dataset form-control" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
             {% for param in query_params %}

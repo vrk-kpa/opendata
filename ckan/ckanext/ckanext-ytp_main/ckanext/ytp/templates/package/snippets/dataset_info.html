@@ -23,7 +23,11 @@
     {% endblock %}
 
     {% block license_info %}
-        {{ layout.moduleBoxHead(_('License')) }}
+        {% if pkg.get('type') == 'apiset' %}
+            {{ layout.moduleBoxHead(_('License offered by the api')) }}
+        {% else %}
+            {{ layout.moduleBoxHead(_('License')) }}
+        {% endif %}
             {% if  pkg.license_id == 'cc-zero-1.0' or pkg.license_id == 'cc-by-4.0' or pkg.license_id == 'cc-by-4-fi' %}
                 {% set creator_user=h.get_user(pkg.get('creator_user_id')) %}
                 {% if pkg.organization and pkg.organization.get('name') == "yksityishenkilo"  and creator_user.display_name %}
@@ -32,14 +36,16 @@
                     content_title=pkg.title,
                     creator=creator_user.display_name,
                     creator_url=creator_user.url,
-                    attribution_url='/data/' + h.lang() + '/dataset/'+pkg.get('name') %}
+                    attribution_url='/data/' + h.lang() + '/' + pkg.get('type') + '/' + pkg.get('name') ,
+                    resource_type = pkg.get('type') %}
                 {% elif pkg.organization %}
                     {% snippet 'package/snippets/license_rdf.html',
                     license_id=pkg.license_id,
                     content_title=pkg.title,
                     creator=h.extra_translation(pkg.organization, 'title'),
                     creator_url='/data/' +  h.lang() + '/organization/' + pkg.organization.get('name'),
-                    attribution_url='/data/' +  h.lang() + '/dataset/' + pkg.get('name') %}
+                    attribution_url='/data/' +  h.lang() + '/' + pkg.get('type') + '/' + pkg.get('name'),
+                    resource_type = pkg.get('type') %}
                 {% endif %}
             {% else %}
                 {% if 'license_url' in pkg %}
@@ -88,11 +94,19 @@
     #}
 
     {% block recommendations %}
-        {{ layout.moduleBoxHead(_('Recommend dataset')) }}
-            <div class="recommendations-dataset">
-                {% snippet 'recommendations/snippets/recommendations.html', package=pkg %}
-            </div>
-        {{ layout.moduleBoxFoot() }}
+        {% if pkg.get('type') == 'apiset' %}
+            {{ layout.moduleBoxHead(_('Recommend apiset')) }}
+                <div class="recommendations-dataset">
+                    {% snippet 'recommendations/snippets/recommendations.html', package=pkg %}
+                </div>
+            {{ layout.moduleBoxFoot() }}
+        {% else %}
+            {{ layout.moduleBoxHead(_('Recommend dataset')) }}
+                <div class="recommendations-dataset">
+                    {% snippet 'recommendations/snippets/recommendations.html', package=pkg %}
+                </div>
+            {{ layout.moduleBoxFoot() }}
+        {% endif %}
     {% endblock %}
 
     {% block follow %}
