@@ -155,26 +155,45 @@ def general_search():
 
     # unicode format (decoded from utf8)
     extra_vars[u'q'] = q = request.args.get(u'q', u'')
-
     extra_vars['query_error'] = False
-    page = h.get_page_number(request.args)
+
+    # Get the page number from parameters if it's provided (maybe this can be removed?)
+    page = int(request.params.get('page', 1))
+    logging.warning(f"Page: {page}")
 
     limit = int(config.get(u'ckan.datasets_per_page', 10))
     logging.warning(f"Limit: {limit}")
+
+    sort_by = request.args.get(u'sort', None)
+
+    chosen_filter = "all"
+    # Usually not passed in this way, instead submitted in the form
+    dataset_type = request.args.get(u'dataset_type', None)
+
+
+    # Post request contains filters and page numbers that the user has selected
+    if request.method == 'POST':
+        # Get the page number from the request
+        page = int(request.form.get('page', 1))
+        # sort_by = request.form.get('sort', "score desc, metadata_created desc")
+        chosen_filter = request.form.get('filter', 'all')
+        dataset_type = request.form.get('filter', 'all')
+        # logging.warning(sort_by)
+        # logging.warning(chosen_filter)
+        
 
     # most search operations should reset the page counter:
     params_nopage = [(k, v) for k, v in request.args.items(multi=True)
                      if k != u'page']
 
-    sort_by = request.args.get(u'sort', None)
     params_nosort = [(k, v) for k, v in params_nopage if k != u'sort']
 
     allowed_sorting = [
         'score desc, metadata_created desc',
         'title_string asc',
         'title_string desc',
-        'metadata_modified desc'
-        'metadata_created asc'
+        'metadata_modified desc',
+        'metadata_created asc',
         'metadata_created desc',
         'views_recent desc'
     ]
@@ -189,9 +208,9 @@ def general_search():
     # Add organizations here when they are implemented
     all_types = 'dataset_type:dataset OR dataset_type:apiset OR dataset_type:showcase'
     allowed_types = ['dataset', 'apiset', 'showcase']
-    dataset_type = request.args.get(u'dataset_type', None)
     fq = f'dataset_type:{dataset_type}' if dataset_type in allowed_types else all_types
     logging.warning(f"fq is: {fq}")
+
 
     data_dict = {
         'q': q,
@@ -206,12 +225,10 @@ def general_search():
 
     # Get the results that will be passed to the template
     total_results = get_action('package_search')(context, data_dict)
-    #logging.warning(json.dumps(total_results))
-    logging.warning(f"count: {total_results.get('count', 0)}")
+    logging.warning(json.dumps(total_results))
 
 
-    # Get the specific amount of datasets, apisets and showcases (+ organizations)
-    # TODO maybe don't calculate the total here and just do it in the template?
+    # Get the specific amount of datasets, apisets and showcases (+ organizations when implemented)
     result_count = {
         'dataset': 0,
         'apiset': 0,
@@ -219,7 +236,6 @@ def general_search():
         'all': 0
     }
 
-    
     # get the amount of results for each type
     for key, value in result_count.items():
         simple_dict = {
@@ -234,22 +250,18 @@ def general_search():
             result_count['all'] += count
     
 
-    logging.warning(json.dumps(result_count))
-    # logging.warning(json.dumps(total_results))
-
-
-    # last_query
-
     g.general_search = {
+            u'q': q,
             u'total_results': total_results,
             u'result_count': result_count,
-            u'item_count': result_count['all'],
-            "last_query": params_to_dict(request.form),
-            # u'pkg_dict': total_results,
+            u'item_count': total_results.get('count', 0),
+            u"last_query": params_to_dict(request.form),
+            u'filter': chosen_filter,
             u'page': page,
             u'sort_string': sort_string,
-            u'total_pages': int(math.ceil(float(result_count.get('all', 0)) / float(limit))),
+            u'total_pages': int(math.ceil(float(result_count.get(dataset_type, 0)) / float(limit))),
     }
+    g.general_search['last_query']['page'] = page
 
     return base.render(
         u'general_search/index.html')
@@ -276,7 +288,7 @@ ytp_main.add_url_rule('/api/util/tag/autocomplete', view_func=tag_autocomplete)
 ytp_main.add_url_rule('/api/2/util/tag/autocomplete', view_func=tag_autocomplete)
 ytp_main.add_url_rule('/api/util/dataset/locations', view_func=get_all_locations)
 ytp_main.add_url_rule('/feeds/recent-datasets.atom', methods=[u'GET'], view_func=recent_datasets_feed)
-ytp_main.add_url_rule('/search', view_func=general_search)
+ytp_main.add_url_rule('/search',  methods=[u'GET', 'POST'], view_func=general_search)
 
 
 def get_blueprint():

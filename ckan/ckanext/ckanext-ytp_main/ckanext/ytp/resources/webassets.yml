@@ -199,3 +199,12 @@ post_pagination_js:
       - base/main
   contents:
     - opendata/scripts/post_pagination.js
+
+avoindata_utils_js:
+  output: ytp_resources/%(version)s_avoindata-utils.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - opendata/scripts/avoindata-utils.js
