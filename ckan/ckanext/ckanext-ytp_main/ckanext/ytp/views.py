@@ -162,8 +162,6 @@ def general_search():
     logging.warning(f"Page: {page}")
 
     limit = int(config.get(u'ckan.datasets_per_page', 10))
-    logging.warning(f"Limit: {limit}")
-
     sort_by = request.args.get(u'sort', None)
 
     chosen_filter = "all"
@@ -175,7 +173,7 @@ def general_search():
     if request.method == 'POST':
         # Get the page number from the request
         page = int(request.form.get('page', 1))
-        # sort_by = request.form.get('sort', "score desc, metadata_created desc")
+        sort_by = request.form.get('sort', "score desc, metadata_created desc")
         chosen_filter = request.form.get('filter', 'all')
         dataset_type = request.form.get('filter', 'all')
         # logging.warning(sort_by)
@@ -209,8 +207,6 @@ def general_search():
     all_types = 'dataset_type:dataset OR dataset_type:apiset OR dataset_type:showcase'
     allowed_types = ['dataset', 'apiset', 'showcase']
     fq = f'dataset_type:{dataset_type}' if dataset_type in allowed_types else all_types
-    logging.warning(f"fq is: {fq}")
-
 
     data_dict = {
         'q': q,
