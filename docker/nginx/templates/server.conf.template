@@ -5,9 +5,9 @@ gzip_static on;
 # error pages (served from drupal)
 error_page 404 @not_found;
 location @not_found {
-  set $not_found /resources/static/404.fi.html;
+  set $not_found /themes/avoindata/static/404.fi.html;
   if ( $request_uri ~* "/(fi|en|sv)/" ){
-      set $not_found /resources/static/404.$1.html;
+      set $not_found /themes/avoindata/static/404.$1.html;
   }
 
   rewrite ^(.*)$ $not_found;
@@ -15,9 +15,9 @@ location @not_found {
 
 error_page 500 @internal_error;
 location @internal_error {
-  set $internal_error /resources/static/500.fi.html;
+  set $internal_error /themes/avoindata/static/500.fi.html;
   if ( $request_uri ~* "/(fi|en|sv)/" ){
-      set $internal_error /resources/static/500.$1.html;
+      set $internal_error /themes/avoindata/static/500.$1.html;
   }
 
   rewrite ^(.*)$ $internal_error;
