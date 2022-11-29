@@ -1,6 +1,44 @@
 
+{#
+/**
+ * @file
+ * Avoindata Search Form
+ *
+ * @ingroup themeable
+ */
+#}
+{{ attach_library('avoindata_header/avoindata_header') }}
 
+<div class="search-container ml-3">
+    {{ form.form_build_id }}
+    {{ form.form_token }}
+    {{ form.form_id }}
+    <div class="ytp-input-with-icon-frontpage">
+        {% set placeholder %}
+            {%- trans -%}
+            Hae...
+            {%- endtrans -%}
+        {% endset %}
+        <input
+        id="edit-search"
+        name="search"
+        type="text"
+        class="ytp-input-element-frontpage color-depth-dark27"
+        placeholder="{{ placeholder }}">
 
-<div>
-    <h1>Template testi</h1>
+        <button type="submit">
+            <span>
+                {% trans %}
+                Submit
+            {% endtrans %}
+            </span>
+            <i class="fa fa-2x fa-search color-depth-base"></i>
+        </button>
+    </div>
+    {{ form.searchfilter }}
 </div>
+
+
+
+
+

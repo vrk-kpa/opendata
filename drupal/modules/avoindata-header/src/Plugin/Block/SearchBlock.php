@@ -8,7 +8,7 @@ use Drupal\Core\Block\BlockBase;
  * Provides a 'Avoindata Search Block.
  *
  * @Block(
- *   id = "avoindata_serach",
+ *   id = "avoindata_search",
  *   admin_label = @Translation("Avoindata Search"),
  *   category = @Translation("Avoindata Search"),
  * )
@@ -20,9 +20,14 @@ class SearchBlock extends BlockBase {
    */
   public function build() {
 
-    return [
-      '#theme' => 'avoindata_search',
-    ];
+    $form = \Drupal::formBuilder()->getForm('Drupal\avoindata_header\Plugin\Form\SearchForm');
+
+    return $form;
+
+    // return [
+    //   '#theme' => 'avoindata_search',
+    //   'myform' => $form,
+    // ];
   }
 
 }
