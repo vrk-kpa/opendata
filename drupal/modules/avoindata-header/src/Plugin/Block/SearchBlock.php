@@ -24,9 +24,11 @@ class SearchBlock extends BlockBase {
 
     return $form;
 
+
+
     // return [
     //   '#theme' => 'avoindata_search',
-    //   'myform' => $form,
+    //   'form' => $form,
     // ];
   }
 

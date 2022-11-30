@@ -16,4 +16,9 @@ settings:
   label: 'Avoindata search'
   provider: avoindata_search
   label_display: '0'
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

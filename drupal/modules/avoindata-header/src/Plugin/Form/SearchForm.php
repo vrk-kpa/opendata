@@ -35,6 +35,7 @@ class SearchForm extends FormBase {
       '#attributes' => ['class' => ['input-header-search-filter', 'hidden']],
     ];
 
+    // $form['#theme'] = ['avoindata_search'];
     $form['#theme'] = ['avoindata_search'];
 
     $form['#language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
