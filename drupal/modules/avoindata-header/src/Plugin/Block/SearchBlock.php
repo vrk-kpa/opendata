@@ -23,13 +23,6 @@ class SearchBlock extends BlockBase {
     $form = \Drupal::formBuilder()->getForm('Drupal\avoindata_header\Plugin\Form\SearchForm');
 
     return $form;
-
-
-
-    // return [
-    //   '#theme' => 'avoindata_search',
-    //   'form' => $form,
-    // ];
   }
 
 }

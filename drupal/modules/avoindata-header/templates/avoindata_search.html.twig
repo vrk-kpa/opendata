@@ -8,33 +8,27 @@
  */
 #}
 
-<div class="search-container ml-3">
+
+<div class="ml-3 search-bar-wrapper">
     {{ form.form_build_id }}
     {{ form.form_token }}
     {{ form.form_id }}
-    <div class="ytp-input-with-icon-frontpage">
-        {% set placeholder %}
-            {%- trans -%}
-            Hae...
-            {%- endtrans -%}
-        {% endset %}
-        <input
-        id="edit-search"
-        name="search"
-        type="text"
-        class="ytp-input-element-frontpage color-depth-dark27"
-        placeholder="{{ placeholder }}">
 
-        <button type="submit">
-            <span>
-                {% trans %}
-                Submit
-            {% endtrans %}
-            </span>
-            <i class="fa fa-2x fa-search color-depth-base"></i>
+    {% set placeholder %}
+        {%- trans -%}
+        Search avoindata.fi...
+        {%- endtrans -%}
+    {% endset %}
+
+    <div class="search-group">
+        <input class="search-input" type="search" class="form-control" placeholder="{{ placeholder }}">
+        <button class="search-button" type="submit">
+            <span class="glyphicon glyphicon-search" aria-hidden="true">
         </button>
+        
     </div>
-    {{ form.searchfilter }}
+
+
 </div>
 
 

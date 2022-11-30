@@ -41,9 +41,6 @@ function avoindata_header_theme($existing, $type, $theme, $path) {
     'avoindata_search' => [
       'render element' => 'form',
       'template' => 'avoindata_search',
-      'variables' => [
-        'language' => NULL,
-      ],
     ],
     'avoindata_login' => [
       'template' => 'avoindata_login',
