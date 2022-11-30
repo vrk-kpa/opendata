@@ -159,7 +159,7 @@ def general_search():
 
     # Get the page number from parameters if it's provided (maybe this can be removed?)
     page = int(request.params.get('page', 1))
-    limit = int(config.get(u'ckan.datasets_per_page', 2))
+    limit = int(config.get(u'ckan.datasets_per_page', 20))
     sort_by = request.args.get(u'sort', "score desc, metadata_created desc")
 
     chosen_filter = "all"

@@ -10,7 +10,7 @@
         <!-- TODO Style the select -->
         <div class="form-select  m-0">
           <div id="field-order-by-container" class="field-order-by-container">
-              <label class="general-search-label" for="field-order-by">{{ _('Järjestys') }}</label>
+              <label class="general-search-label" for="field-order-by">{{ _('Order') }}</label>
               <select id="field-order-by" class="form-control" name="sort">
                   {% for label, value in sorting %}
                       {% if label and value %}
@@ -24,23 +24,23 @@
     
         <hr class="avoindata-divider">
 
-        <label class="general-search-label" for="general-search-radio-group" >Mitä etsit</label>
+        <label class="general-search-label" for="general-search-radio-group">{{ _('What you are searching') }}</label>
         <div class="general-search-radio-group" id="general-search-radio-group">
           <label class="radio general-search-radio">
             <input class="general-search-input" type="radio" name="filter" value="all" {%if filter == 'all' %} checked="true" {% endif %} >
-           Kaikki ({{number_of_results['all']}} kpl) 
+            {{ _('All') }} ({{number_of_results['all']}} {{('kpl')}}) 
           </label>
           <label class="radio general-search-radio">
             <input class="general-search-input" type="radio" name="filter" value="dataset" {%if filter == 'dataset' %} checked="true" {% endif %} >
-            Tietoaineistot ({{number_of_results['dataset']}} kpl) 
+            {{ _('Datasets') }} ({{number_of_results['dataset']}} {{('kpl')}}) 
           </label>
           <label class="radio general-search-radio">
             <input class="general-search-input" type="radio" name="filter" value="apiset" {%if filter == 'apiset' %} checked="true" {% endif %}>
-            Rajapinnat ({{number_of_results['apiset']}} kpl) 
+            {{ _('Apisets') }} ({{number_of_results['apiset']}} {{('kpl')}}) 
           </label>
           <label class="radio general-search-radio">
             <input class="general-search-input" type="radio" name="filter" value="showcase" {%if filter == 'showcase' %} checked="true" {% endif %}>
-            Käyttösovellukset ({{number_of_results['showcase']}} kpl) 
+            {{ _('Showcases') }} ({{number_of_results['showcase']}} {{('kpl')}}) 
           </label>
 
         </div>
