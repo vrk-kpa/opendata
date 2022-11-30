@@ -9,7 +9,7 @@
 #}
 
 
-<div class="ml-3 search-bar-wrapper">
+<div class="ml-3 header-search-bar-wrapper">
     {{ form.form_build_id }}
     {{ form.form_token }}
     {{ form.form_id }}
@@ -20,9 +20,9 @@
         {%- endtrans -%}
     {% endset %}
 
-    <div class="search-group">
-        <input class="search-input" type="search" class="form-control" placeholder="{{ placeholder }}">
-        <button class="search-button" type="submit">
+    <div class="header-search-group">
+        <input class="header-search-input" type="search" class="form-control" name="search" placeholder="{{ placeholder }}">
+        <button class="header-search-button" type="submit">
             <span class="glyphicon glyphicon-search" aria-hidden="true">
         </button>
         

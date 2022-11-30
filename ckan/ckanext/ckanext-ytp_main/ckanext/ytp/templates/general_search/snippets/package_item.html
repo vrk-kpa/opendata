@@ -18,6 +18,10 @@
     {% set title = h.extra_translation(package, 'title', fallback=package.name) %}
     {% set notes = h.markdown_extract(h.extra_translation(package, 'notes', markdown=False), extract_length=truncate) %}
     
+    {# The term showcase is not used in this module, but we need it's translation because 
+    of the package type that gets used in the template
+    #}
+    {% set showcase_translation_placeholder = _('showcase')%}
 
     <div class="{{ item_class or 'general-search-item' }}">
         {% block package_item_content %}

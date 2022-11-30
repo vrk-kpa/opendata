@@ -28,19 +28,19 @@
         <div class="general-search-radio-group" id="general-search-radio-group">
           <label class="radio general-search-radio">
             <input class="general-search-input" type="radio" name="filter" value="all" {%if filter == 'all' %} checked="true" {% endif %} >
-            {{ _('All') }} ({{number_of_results['all']}} {{('kpl')}}) 
+            {{ _('All') }} ({{number_of_results['all']}} {{_('results found')}}) 
           </label>
           <label class="radio general-search-radio">
             <input class="general-search-input" type="radio" name="filter" value="dataset" {%if filter == 'dataset' %} checked="true" {% endif %} >
-            {{ _('Datasets') }} ({{number_of_results['dataset']}} {{('kpl')}}) 
+            {{ _('Datasets') }} ({{number_of_results['dataset']}} {{_('results found')}}) 
           </label>
           <label class="radio general-search-radio">
             <input class="general-search-input" type="radio" name="filter" value="apiset" {%if filter == 'apiset' %} checked="true" {% endif %}>
-            {{ _('Apisets') }} ({{number_of_results['apiset']}} {{('kpl')}}) 
+            {{ _('Apisets') }} ({{number_of_results['apiset']}} {{_('results found')}}) 
           </label>
           <label class="radio general-search-radio">
             <input class="general-search-input" type="radio" name="filter" value="showcase" {%if filter == 'showcase' %} checked="true" {% endif %}>
-            {{ _('Showcases') }} ({{number_of_results['showcase']}} {{('kpl')}}) 
+            {{ _('Showcases') }} ({{number_of_results['showcase']}} {{_('results found')}}) 
           </label>
 
         </div>
