@@ -19,39 +19,6 @@
     {% set notes = h.markdown_extract(h.extra_translation(package, 'notes', markdown=False), extract_length=truncate) %}
     
 
-    <!-- TODO Move style to css file after testing -->
-    <style>
-        .dataset-heading.dataset-type{
-            color: rgb(41, 41, 41);
-            font-family: "Source Sans Pro Regular";
-            font-size: 18px;
-            font-weight: normal;
-        }
-
-        #dataset-info small{
-            font-family: "Source Sans Pro Regular";
-            font-size: 16px;
-            font-weight: normal;
-        }
-
-        .general-search-item-notes{
-            font-family: "Source Sans Pro Regular","Helvetica Neue",Arial,sans-serif;
-            font-size: 18px;
-            font-weight: 400;
-            color: #292929;
-            margin-bottom: 10px;
-        }
-
-        .general-search-item{
-            position: relative;
-            border: 1px solid #c9cdcf;
-            border-bottom: none;
-            margin-bottom: 0;
-            padding: 20px 20px 15px 20px;
-        }
-
-    </style>
-
     <div class="{{ item_class or 'general-search-item' }}">
         {% block package_item_content %}
             <div class="dataset-content">
@@ -65,17 +32,12 @@
                 <p class="dataset-heading dataset-type"> {{_(package.type) | capitalize}} </p>
               </div>
 
-
                 {% if notes %}
                     <p class="general-search-item-notes">
                         {{ notes | urlize }}
                     </p>
                 {% endif %}
-    
-    
                 <div class="d-flex justify-content-between flex-wrap mt-2">
-
-
                     <div id="dataset-info">
                         <!-- After producers get added, add an if check here for different content for them -->
                         {% if package.type == 'showcase' %}

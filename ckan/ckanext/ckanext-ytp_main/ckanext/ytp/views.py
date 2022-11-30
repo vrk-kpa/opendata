@@ -159,14 +159,12 @@ def general_search():
 
     # Get the page number from parameters if it's provided (maybe this can be removed?)
     page = int(request.params.get('page', 1))
-    logging.warning(f"Page: {page}")
-
-    limit = int(config.get(u'ckan.datasets_per_page', 10))
-    sort_by = request.args.get(u'sort', None)
+    limit = int(config.get(u'ckan.datasets_per_page', 2))
+    sort_by = request.args.get(u'sort', "score desc, metadata_created desc")
 
     chosen_filter = "all"
     # Usually not passed in this way, instead submitted in the form
-    dataset_type = request.args.get(u'dataset_type', None)
+    dataset_type = request.args.get(u'dataset_type', 'all')
 
 
     # Post request contains filters and page numbers that the user has selected
@@ -176,15 +174,6 @@ def general_search():
         sort_by = request.form.get('sort', "score desc, metadata_created desc")
         chosen_filter = request.form.get('filter', 'all')
         dataset_type = request.form.get('filter', 'all')
-        # logging.warning(sort_by)
-        # logging.warning(chosen_filter)
-        
-
-    # most search operations should reset the page counter:
-    params_nopage = [(k, v) for k, v in request.args.items(multi=True)
-                     if k != u'page']
-
-    params_nosort = [(k, v) for k, v in params_nopage if k != u'sort']
 
     allowed_sorting = [
         'score desc, metadata_created desc',
@@ -196,12 +185,7 @@ def general_search():
         'views_recent desc'
     ]
 
-
     sort_string = sort_by if sort_by in allowed_sorting else "score desc, metadata_created desc"
-
-    # http://localhost/data/fi/search?sort=title_string
-    logging.warning(f"Given sorting: {sort_by}")
-    logging.warning(f"used sorting: {sort_string}")
 
     # Add organizations here when they are implemented
     all_types = 'dataset_type:dataset OR dataset_type:apiset OR dataset_type:showcase'
@@ -221,8 +205,6 @@ def general_search():
 
     # Get the results that will be passed to the template
     total_results = get_action('package_search')(context, data_dict)
-    logging.warning(json.dumps(total_results))
-
 
     # Get the specific amount of datasets, apisets and showcases (+ organizations when implemented)
     result_count = {
@@ -244,7 +226,6 @@ def general_search():
             count = sets.get('count', 0)
             result_count[key] = count
             result_count['all'] += count
-    
 
     g.general_search = {
             u'q': q,

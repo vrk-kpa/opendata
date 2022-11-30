@@ -68,7 +68,7 @@
                     {% snippet 'general_search/snippets/package_list.html', packages=g.general_search.total_results['results'] %}
                   </div>
                 </div>
-                {% if g.general_search.item_count > 0%}
+                {% if g.general_search.item_count > 0 %}
                 <div>
                   {% block page_pagination %}
                     {% snippet 'general_search/snippets/post_pagination.html',
@@ -77,7 +77,6 @@
                     prev_query=g.general_search.last_query %}
                   {% endblock %}
                 </div>
-
                 {% endif %}
               </div>
             </section>
@@ -96,6 +95,7 @@
   </div>
 {% endblock %}
 
+</div>
 {% endblock %}
 
 
