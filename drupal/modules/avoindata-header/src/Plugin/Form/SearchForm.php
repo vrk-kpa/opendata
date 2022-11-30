@@ -57,12 +57,8 @@ class SearchForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    // Commented out for now as this breaks using the searchbar on the /search page if user submits
-    // less than 3 characters
-
-    // if (strlen($form_state->getValue('search')) <= 2) {
-    //   $form_state->setErrorByName('search', $this->t('Query must be at least three characters long'));
-    // }
+    // Commented out for now as this breaks using the searchbar on the /search page if user 
+    // submits less than 3 characters.
   }
 
   /**
