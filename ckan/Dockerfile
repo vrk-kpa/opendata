@@ -158,6 +158,7 @@ COPY ckanext/ckanext-prh_tools              ${EXT_DIR}/ckanext-prh_tools/
 COPY ckanext/ckanext-openapiviewer          ${EXT_DIR}/ckanext-openapiviewer/
 COPY ckanext/ckanext-statistics             ${EXT_DIR}/ckanext-statistics/
 COPY ckanext/ckanext-sentry                 ${EXT_DIR}/ckanext-sentry/
+COPY ckanext/ckanext-sitesearch             ${EXT_DIR}/ckanext-sitesearch/
 COPY ckanext/ckanext-ytp_recommendation     ${EXT_DIR}/ckanext-ytp_recommendation/
 
 #

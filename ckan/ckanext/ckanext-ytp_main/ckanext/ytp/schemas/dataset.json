@@ -36,9 +36,8 @@
       "label": "Description",
       "display_snippet": null,
       "only_default_lang_required": true,
-      "description": "",
       "group_title": "Dataset description",
-      "group_description": "Describe the dataset’s contents, collection process, quality and  possible limits, flaws and applications in a comprehensible way. Use as confining terms as possible to make it easier to find and understand the data."
+      "description": "Describe the dataset’s contents, collection process, quality and  possible limits, flaws and applications in a comprehensible way. Use as confining terms as possible to make it easier to find and understand the data."
     },
     {
       "field_name": "keywords",
@@ -52,10 +51,9 @@
         "data-module-tags": "",
         "data-module-source": "/api/2/util/tag/autocomplete?incomplete=?&vocabulary_id=keywords"
       },
-      "description": "",
       "only_default_lang_required": true,
       "group_title": "Keywords and categories",
-      "group_description": "Keywords help users to find your data. Select at least one keyword in Finnish."
+      "description": "Keywords help users to find your data. Select at least one keyword in Finnish."
     },
     {
       "field_name": "categories",
@@ -348,9 +346,8 @@
       "form_attrs": {
         "class": "form-control"
       },
-      "description": "",
       "group_title": "Data resource description",
-      "group_description": "Describe the data clearly and concisely. Use as confining terms as possible to make it easier to find and understand the data."
+      "description": "Describe the data clearly and concisely. Use as confining terms as possible to make it easier to find and understand the data."
     },
     {
       "field_name": "maturity",

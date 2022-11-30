@@ -82,10 +82,10 @@
             {% if pkg.featured_image_display_url or pkg.image_1_display_url or pkg.image_2_display_url or pkg.image_3_display_url %}
               <div class="image-slider-wrapper">
                 <ol class="image-slider">
-                  {% if pkg.featured_image_display_url %}<li><a href="{{ pkg.featured_image_display_url }}"><img class="image-modal-open" alt="{{ pkg.featured_image }}" src="{{ pkg.featured_image_display_url }}"></a></li>{% endif %}
-                  {% if pkg.image_1_display_url %}<li><a href="{{ pkg.image_1_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_1 }}" src="{{ pkg.image_1_display_url }}"></a></li>{% endif %}
-                  {% if pkg.image_2_display_url %}<li><a href="{{ pkg.image_2_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_2 }}" src="{{ pkg.image_2_display_url }}"></a></li>{% endif %}
-                  {% if pkg.image_3_display_url %}<li><a href="{{ pkg.image_3_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_3 }}" src="{{ pkg.image_3_display_url }}"></a></li>{% endif %}
+                  {% if pkg.featured_image_display_url %}<li><a class="image-modal-open" href="{{ pkg.featured_image_display_url }}"><img alt="{{ pkg.featured_image }}" src="{{ pkg.featured_image_display_url }}"></a></li>{% endif %}
+                  {% if pkg.image_1_display_url %}<li><a class="image-modal-open" href="{{ pkg.image_1_display_url }}"><img alt="{{ pkg.image_1 }}" src="{{ pkg.image_1_display_url }}"></a></li>{% endif %}
+                  {% if pkg.image_2_display_url %}<li><a class="image-modal-open" href="{{ pkg.image_2_display_url }}"><img alt="{{ pkg.image_2 }}" src="{{ pkg.image_2_display_url }}"></a></li>{% endif %}
+                  {% if pkg.image_3_display_url %}<li><a class="image-modal-open" href="{{ pkg.image_3_display_url }}"><img alt="{{ pkg.image_3 }}" src="{{ pkg.image_3_display_url }}"></a></li>{% endif %}
                 </ol>
               </div>
             {% endif %}

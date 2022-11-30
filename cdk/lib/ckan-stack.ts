@@ -201,6 +201,7 @@ export class CkanStack extends Stack {
       'opendata_cli',
       'ytp_recommendation',
       'dcat_sparql',
+      'sitesearch',
     ];
 
     const ckanContainerEnv: { [key: string]: string; } = {
