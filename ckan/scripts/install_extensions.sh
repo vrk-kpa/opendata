@@ -47,6 +47,7 @@ pip_install "${EXT_DIR}/ckanext-prh_tools/requirements.txt"
 pip_install "${EXT_DIR}/ckanext-openapiviewer/requirements.txt"
 pip_install "${EXT_DIR}/ckanext-statistics/requirements.txt"
 pip_install "${EXT_DIR}/ckanext-sentry/requirements.txt"
+pip_install "${EXT_DIR}/ckanext-sitesearch/requirements.txt"
 pip_install "${EXT_DIR}/ckanext-ytp_recommendation/requirements.txt"
 
 # install extension pip requirements
@@ -82,6 +83,7 @@ pip_install "${EXT_DIR}/ckanext-prh_tools/pip-requirements.txt"
 pip_install "${EXT_DIR}/ckanext-openapiviewer/pip-requirements.txt"
 pip_install "${EXT_DIR}/ckanext-statistics/pip-requirements.txt"
 pip_install "${EXT_DIR}/ckanext-sentry/pip-requirements.txt"
+pip_install "${EXT_DIR}/ckanext-sitesearch/pip-requirements.txt"
 pip_install "${EXT_DIR}/ckanext-ytp_recommendation/pip-requirements.txt"
 
 # install extensions
@@ -115,6 +117,7 @@ pip install -e ${EXT_DIR}/ckanext-drupal8 \
     -e ${EXT_DIR}/ckanext-openapiviewer \
     -e ${EXT_DIR}/ckanext-statistics \
     -e ${EXT_DIR}/ckanext-sentry \
+    -e ${EXT_DIR}/ckanext-sitesearch \
     -e ${EXT_DIR}/ckanext-archiver \
     -e ${EXT_DIR}/ckanext-qa \
     -e ${EXT_DIR}/ckanext-ytp_recommendation

@@ -25,7 +25,7 @@ def administrative_branch_summary_report():
         'ymparistoministerio',
     ]
 
-    context = {}
+    context = {'ignore_auth': True}
 
     # Optimization opportunity: Could fetch all orgs here and manually create the hierarchy
     orgs = get_action('organization_list')(context, {'organizations': org_names, 'all_fields': True})
