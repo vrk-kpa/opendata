@@ -57,8 +57,8 @@ class SearchForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    // Commented out for now as this breaks using the searchbar on the /search page if user 
-    // submits less than 3 characters.
+    // Commented out for now as this breaks using the searchbar on the /search
+    // Page if user submits less than 3 characters.
   }
 
   /**
