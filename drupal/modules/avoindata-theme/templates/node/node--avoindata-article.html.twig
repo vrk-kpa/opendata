@@ -129,7 +129,7 @@
                             <div class="opendata-card-content">
                                 {% for tag in content.field_tags | field_value %}
                                     {% set tag_id = (tag['#cache'].tags.0 | split(':')).1 %}
-                                    <a class="avoindata-card-list-item" href="/articles?category=[]{{ tag_id }}&search=">
+                                    <a class="avoindata-card-list-item" href="/articles?category[]={{ tag_id }}&search=">
                                         <span>{{ tag['#title'] }} </span>
                                         <i class="far fa-plus-circle"></i>
                                         <i class="fas fa-times-circle"></i>
