@@ -75,7 +75,7 @@ describe('Showcase tests', function() {
       cy.get('#s2id_autogen1_search').type('test-publisher', {force: true}).wait(1000).type('{enter}');
       cy.get('#s2id_role').click();
       cy.get('#s2id_autogen2_search').type('admin', {force: true}).wait(1000).type('{enter}');
-      cy.get('button[type=submit]').click();
+      cy.get('.form-actions > .btn').click();
       cy.logout_request();
   
   

@@ -538,7 +538,7 @@ Cypress.Commands.add('delete_apiset', (apiset_name) => {
   // As there isn't currently link for apisets in nav, we must use exact urls on navigation
   cy.visit(`/data/fi/apiset/edit/${apiset_name}`);
   cy.get('.form-actions').contains('Poista').click();
-  cy.contains('Haluatko varmasti poistaa tietoaineiston');
+  cy.contains('Haluatko varmasti poistaa rajapinnan?');
   cy.get('body').find('.btn').contains('Vahvista').click();
   cy.get('.search-input .search').type(apiset_name + '{enter}');
   cy.get(`a[href="/data/fi/apiset/${apiset_name}"]`).should('not.exist');
