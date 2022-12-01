@@ -159,11 +159,13 @@ def general_search():
 
     # Get the page number from parameters if it's provided (maybe this can be removed?)
     page = int(request.params.get('page', 1))
-    limit = int(config.get(u'ckan.datasets_per_page', 20))
+    dataset_limit = int(config.get(u'ckan.datasets_per_page', 20))
+    organization_limit = int(config.get(u'ckan.organizations_per_page', 5))
     sort_by = request.args.get(u'sort', "score desc, metadata_created desc")
 
     chosen_filter = "all"
-    # Usually not passed in this way, instead submitted in the form
+    # Usually not passed in this way, instead submitted in the form 
+    # (we also treat organizations as a dataset type in this scenario)
     dataset_type = request.args.get(u'dataset_type', 'all')
 
 
@@ -187,15 +189,23 @@ def general_search():
 
     sort_string = sort_by if sort_by in allowed_sorting else "score desc, metadata_created desc"
 
-    # Add organizations here when they are implemented
-    all_types = 'dataset_type:dataset OR dataset_type:apiset OR dataset_type:showcase'
-    allowed_types = ['dataset', 'apiset', 'showcase']
-    fq = f'dataset_type:{dataset_type}' if dataset_type in allowed_types else all_types
+    # Organizations require a bit different search term and treatment if they are the only thing searched
+    if dataset_type == 'organization':
+        # if user is searching only for organizations, we want to display more organizations than 5
+        organization_limit = 20
+        dataset_limit = 0
+        fq = f'entity_type:organization'
+    else:
+        all_types = 'dataset_type:dataset OR dataset_type:apiset OR dataset_type:showcase OR entity_type:organization'
+        allowed_types = ['dataset', 'apiset', 'showcase']
+        fq = f'dataset_type:{dataset_type}' if dataset_type in allowed_types else all_types
 
     data_dict = {
         'q': q,
-        'rows': limit,
-        'start': (page - 1) * limit,
+        'datasets.rows': dataset_limit,
+        'organizations.rows': organization_limit,
+        'datasets.start': (page - 1) * dataset_limit,
+        'organizations.start': (page - 1) * organization_limit,
         'extras': {},
         'sort': sort_string,
         'defType': 'edismax',
@@ -204,39 +214,60 @@ def general_search():
     }
 
     # Get the results that will be passed to the template
-    total_results = get_action('package_search')(context, data_dict)
+    #total_results = get_action('package_search')(context, data_dict)
+    total_results = get_action('site_search')(context, data_dict)
 
-    # Get the specific amount of datasets, apisets and showcases (+ organizations when implemented)
+    # logging.warning(json.dumps(total_results))
+
+    # Get the specific amount of datasets, apisets and showcases + organizations 
     result_count = {
         'dataset': 0,
         'apiset': 0,
         'showcase': 0,
+        'organization': 0,
         'all': 0
     }
 
-    # get the amount of results for each type
-    for key, value in result_count.items():
-        simple_dict = {
-        'q': q,
-        'fq': ""
-        }
-        if key != 'all':
-            simple_dict['fq'] = f"dataset_type:{key}"
-            sets = get_action('package_search')(context, simple_dict)
-            count = sets.get('count', 0)
-            result_count[key] = count
-            result_count['all'] += count
+    # Organizations and datasets (datasets, apis, showcases) are packaged separately in the results
+    datasets = total_results.get('datasets', {})
+    organizations = total_results.get('organizations', {})
+    item_count = datasets.get('count', 0) + organizations.get('count', 0)
+
+
+    # get the amount of results for each type of resource and resources in separate queries
+    only_datasets = get_action('package_search')(context, {'q': q, 'fq': 'dataset_type:dataset'})
+    dataset_count = only_datasets.get('count', 0)
+    only_apisets = get_action('package_search')(context, {'q': q, 'fq': 'dataset_type:apiset'})
+    apiset_count = only_apisets.get('count', 0)
+    only_showcases = get_action('package_search')(context, {'q': q, 'fq': 'dataset_type:showcase'})
+    showcase_count = only_showcases.get('count', 0)
+    only_organizations = get_action('organization_search')(context, {'q': q})
+    organization_count = only_organizations.get('count', 0)
+
+    # combine the results
+    result_count['dataset'] = dataset_count
+    result_count['apiset'] = apiset_count
+    result_count['showcase'] = showcase_count
+    result_count['organization'] = organization_count
+    result_count['all'] = dataset_count + apiset_count + showcase_count + organization_count
+
+    dataset_sets = datasets.get('results', [])
+    organization_sets = organizations.get('results', [])
+    combined_results = organization_sets + dataset_sets
+    logging.warning(json.dumps(combined_results))
 
     g.general_search = {
             u'q': q,
-            u'total_results': total_results,
+            # u'total_results': total_results,
+            u'total_results': combined_results,
             u'result_count': result_count,
-            u'item_count': total_results.get('count', 0),
+            # u'item_count': total_results.get('count', 0),
+            u'item_count': item_count,
             u"last_query": params_to_dict(request.form),
             u'filter': chosen_filter,
             u'page': page,
             u'sort_string': sort_string,
-            u'total_pages': int(math.ceil(float(result_count.get(dataset_type, 0)) / float(limit))),
+            u'total_pages': int(math.ceil(float(result_count.get(dataset_type, 0)) / float(dataset_limit + organization_limit))),
     }
     g.general_search['last_query']['page'] = page
 

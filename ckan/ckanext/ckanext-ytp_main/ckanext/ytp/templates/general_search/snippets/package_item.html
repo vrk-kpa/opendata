@@ -17,6 +17,7 @@
     {% set truncate_title = truncate_title or 120 %}
     {% set title = h.extra_translation(package, 'title', fallback=package.name) %}
     {% set notes = h.markdown_extract(h.extra_translation(package, 'notes', markdown=False), extract_length=truncate) %}
+    {% set organization_notes = h.markdown_extract(h.extra_translation(package, 'description_translated', markdown=False), extract_length=truncate)  %}
     
     {# The term showcase is not used in this module, but we need it's translation because 
     of the package type that gets used in the template
@@ -29,17 +30,30 @@
 
               <div class="d-flex align-items-center justify-content-between">
                 <h3 class="dataset-heading dataset-title">
-                    {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type + '_read', id=package.name)) }}
-                    {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
+                    {% if package.type == 'organization' %}
+                    <a class="organization-title" href="{{ h.url_for('organization.read', id=package.id) }}">
+                        {{ package.title }}
+                      </a>
+                    {% else %}
+                        {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type + '_read', id=package.name)) }}
+                        {{ h.popular('recent views', package.tracking_summary.recent, min=10) if package.tracking_summary }}
+                    {% endif %}
                 </h3>
 
                 <p class="dataset-heading dataset-type"> {{_(package.type) | capitalize}} </p>
               </div>
 
-                {% if notes %}
+                {% if package.type == 'organization' %}
                     <p class="general-search-item-notes">
-                        {{ notes | urlize }}
+                       
+                        {{ organization_notes}}
                     </p>
+                {% else %}
+                    {% if notes %}
+                        <p class="general-search-item-notes">
+                            {{ notes | urlize }}
+                        </p>
+                    {% endif %}
                 {% endif %}
                 <div class="d-flex justify-content-between flex-wrap mt-2">
                     <div id="dataset-info">

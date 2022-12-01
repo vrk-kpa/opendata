@@ -42,6 +42,10 @@
             <input class="general-search-input" type="radio" name="filter" value="showcase" {%if filter == 'showcase' %} checked="true" {% endif %}>
             {{ _('Showcases') }} ({{number_of_results['showcase']}} {{_('results found')}}) 
           </label>
+          <label class="radio general-search-radio">
+            <input class="general-search-input" type="radio" name="filter" value="organization" {%if filter == 'organization' %} checked="true" {% endif %}>
+            {{ _('Organizations') }} ({{number_of_results['organization']}} {{_('results found')}}) 
+          </label>
 
         </div>
 
