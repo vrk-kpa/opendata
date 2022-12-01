@@ -59,7 +59,9 @@ gulp.task("clean", done => {
     paths.ckanPublic + '/vendor',
     paths.drupalTheme + '/css',
     paths.drupalTheme + '/fonts',
-    paths.drupalTheme + '/vendor'], {
+    paths.drupalTheme + '/vendor',
+    paths.drupalTheme + '/static'
+  ], {
     force: true
   });
   done();
@@ -213,7 +215,7 @@ gulp.task("static_css",
     gulp.src(paths.src.static_pages + "/css/main.css"),
     base64('../../resources/images'),
     concat("error.css"),
-    gulp.dest(paths.dist + "/styles")
+    gulp.dest(paths.drupalTheme + "/css")
   ], done)
 }));
 
@@ -222,7 +224,7 @@ gulp.task(
   gulp.series("static_css", (done) => {
     pump([
       gulp.src(paths.src.static_pages + "/*.html"),
-      gulp.dest(paths.dist + "/static")
+      gulp.dest(paths.drupalTheme + "/static")
     ], done)
   })
 );
