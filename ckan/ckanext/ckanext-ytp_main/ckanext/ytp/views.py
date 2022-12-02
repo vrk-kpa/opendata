@@ -152,7 +152,6 @@ def general_search():
         u'auth_user_obj': g.userobj
     }
 
-
     # unicode format (decoded from utf8)
     extra_vars[u'q'] = q = request.args.get(u'q', u'')
     extra_vars['query_error'] = False
@@ -167,7 +166,6 @@ def general_search():
     # Usually not passed in this way, instead submitted in the form 
     # (we also treat organizations as a dataset type in this scenario)
     dataset_type = request.args.get(u'dataset_type', 'all')
-
 
     # Post request contains filters and page numbers that the user has selected
     if request.method == 'POST':
@@ -214,10 +212,7 @@ def general_search():
     }
 
     # Get the results that will be passed to the template
-    #total_results = get_action('package_search')(context, data_dict)
     total_results = get_action('site_search')(context, data_dict)
-
-    # logging.warning(json.dumps(total_results))
 
     # Get the specific amount of datasets, apisets and showcases + organizations 
     result_count = {
@@ -232,7 +227,6 @@ def general_search():
     datasets = total_results.get('datasets', {})
     organizations = total_results.get('organizations', {})
     item_count = datasets.get('count', 0) + organizations.get('count', 0)
-
 
     # get the amount of results for each type of resource and resources in separate queries
     only_datasets = get_action('package_search')(context, {'q': q, 'fq': 'dataset_type:dataset'})
@@ -253,21 +247,44 @@ def general_search():
 
     dataset_sets = datasets.get('results', [])
     organization_sets = organizations.get('results', [])
+
+    # get additional info for the organizations
+    for organization in organization_sets:
+        # Parse the organization description from the extras 
+        org_extras = organization.get('extras', [])
+        t = next(filter(lambda t: t.get('key') == 'description_translated', org_extras), None)
+        if t:
+            translations = t.get('value')
+            new_description_translated = json.loads(translations)
+            # add the translated description field
+            organization['description_translated'] = new_description_translated
+
+    # combine organizations and other resources
     combined_results = organization_sets + dataset_sets
-    logging.warning(json.dumps(combined_results))
+
+    # determine the page amount
+    if dataset_type == 'all':
+        # count all but organizations
+        datasets = int(result_count.get('all', 0)) - int(result_count.get('organization', 0))
+    else:
+        datasets = int(result_count.get(dataset_type, 0))
+
+    # Use the higher count for the number of total pages
+    dataset_pages = int(math.ceil(datasets / dataset_limit))
+    organization_pages = int(math.ceil(float(result_count.get('organization', 0)) / organization_limit))
+    total_pages = dataset_pages if dataset_pages > organization_pages else organization_pages
 
     g.general_search = {
             u'q': q,
-            # u'total_results': total_results,
             u'total_results': combined_results,
             u'result_count': result_count,
-            # u'item_count': total_results.get('count', 0),
             u'item_count': item_count,
             u"last_query": params_to_dict(request.form),
             u'filter': chosen_filter,
             u'page': page,
             u'sort_string': sort_string,
-            u'total_pages': int(math.ceil(float(result_count.get(dataset_type, 0)) / float(dataset_limit + organization_limit))),
+            # u'total_pages': int(math.ceil(float(result_count.get(dataset_type, 0)) / float(dataset_limit + organization_limit))),
+            u'total_pages': total_pages,
     }
     g.general_search['last_query']['page'] = page
 

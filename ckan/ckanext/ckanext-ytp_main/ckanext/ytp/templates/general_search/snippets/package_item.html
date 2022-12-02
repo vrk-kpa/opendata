@@ -17,8 +17,8 @@
     {% set truncate_title = truncate_title or 120 %}
     {% set title = h.extra_translation(package, 'title', fallback=package.name) %}
     {% set notes = h.markdown_extract(h.extra_translation(package, 'notes', markdown=False), extract_length=truncate) %}
-    {% set organization_notes = h.markdown_extract(h.extra_translation(package, 'description_translated', markdown=False), extract_length=truncate)  %}
-    
+    {% set organization_notes = h.markdown_extract(h.extra_translation(package, 'description', markdown=False), extract_length=truncate) %}
+
     {# The term showcase is not used in this module, but we need it's translation because 
     of the package type that gets used in the template
     #}
@@ -45,8 +45,8 @@
 
                 {% if package.type == 'organization' %}
                     <p class="general-search-item-notes">
-                       
-                        {{ organization_notes}}
+                        {{ organization_notes }}
+
                     </p>
                 {% else %}
                     {% if notes %}
@@ -57,9 +57,12 @@
                 {% endif %}
                 <div class="d-flex justify-content-between flex-wrap mt-2">
                     <div id="dataset-info">
-                        <!-- After producers get added, add an if check here for different content for them -->
                         {% if package.type == 'showcase' %}
-                        <!-- showcases do not have an organization so skip, maybe add the publisher?-->
+                            <!-- Skip showcases -->
+                        {% elif package.type == 'organization' %}
+                            <!-- Currently sitsearch provides only the number of datasets while not showing apis and showcases 
+                                So skip displaying the amount of datasets, apis and showcases for now
+                            -->
                         {% else %}
                             {% if package.organization %}
                             <small>{{ h.get_translated(package.organization, 'title') or package.organization.name}}</small>
