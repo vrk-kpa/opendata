@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-16 13:30+0000\n"
+"POT-Creation-Date: 2022-12-05 09:47+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Ville Teräväinen, 2022\n"
 "Language-Team: English (United Kingdom) (https://www.transifex.com/avoindata/teams/7979/en_GB/)\n"
@@ -104,6 +104,7 @@ msgid "Delete"
 msgstr ""
 
 #: ckanext/ytp/controller.py:91 ckanext/ytp/templates/package/base.html:21
+#: ckanext/ytp/templates/package/new.html:3
 msgid "Create Dataset"
 msgstr ""
 
@@ -2212,16 +2213,17 @@ msgstr ""
 msgid "Associate this group with this apiset"
 msgstr "Add API to this category"
 
-#: ckanext/ytp/templates/package/new.html:9
-msgid "Create new dataset"
-msgstr ""
-
-#: ckanext/ytp/templates/package/new.html:9
+#: ckanext/ytp/templates/package/new.html:3
+#: ckanext/ytp/templates/package/new.html:11
 msgid "Create new apiset"
 msgstr "Create new API"
 
-#: ckanext/ytp/templates/package/new.html:19
-#: ckanext/ytp/templates/package/new_resource.html:23
+#: ckanext/ytp/templates/package/new.html:11
+msgid "Create new dataset"
+msgstr ""
+
+#: ckanext/ytp/templates/package/new.html:21
+#: ckanext/ytp/templates/package/new_resource.html:25
 msgid "Stages"
 msgstr ""
 
@@ -2245,12 +2247,20 @@ msgstr ""
 msgid "Abort"
 msgstr ""
 
-#: ckanext/ytp/templates/package/new_resource.html:10
+#: ckanext/ytp/templates/package/new_resource.html:5
+msgid "Add data to the dataset"
+msgstr ""
+
+#: ckanext/ytp/templates/package/new_resource.html:5
+msgid "Add data to the apiset"
+msgstr "Add data to the api"
+
+#: ckanext/ytp/templates/package/new_resource.html:12
 #: ckanext/ytp/templates/package/new_resource_not_draft.html:9
 msgid "Add new api"
 msgstr ""
 
-#: ckanext/ytp/templates/package/new_resource.html:12
+#: ckanext/ytp/templates/package/new_resource.html:14
 #: ckanext/ytp/templates/package/new_resource_not_draft.html:11
 #: ckanext/ytp/templates/package/snippets/stages.html:44
 #: ckanext/ytp/templates/package/snippets/stages.html:53
@@ -2964,6 +2974,14 @@ msgid ""
 " odt, ods, txt."
 msgstr ""
 
+#: ckanext/ytp/templates/scheming/macros/form.html:231
+#, python-format
+msgid ""
+"You can use <a href=\"#markdown\" title=\"Markdown quick reference\" data-"
+"target=\"popover\" data-content=\"%(markdown_tooltip)s\" data-"
+"html=\"true\">Markdown formatting</a> here"
+msgstr ""
+
 #: ckanext/ytp/templates/scheming/organization/about.html:38
 msgid "Logo of organization {org}"
 msgstr ""
@@ -3360,7 +3378,7 @@ msgid "{actor} updated the dataset {dataset}"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:18
-#: ckanext/ytp/templates/snippets/activities/new_package.html:16
+#: ckanext/ytp/templates/snippets/activities/new_package.html:17
 msgid "View this version"
 msgstr ""
 
@@ -3368,11 +3386,11 @@ msgstr ""
 msgid "Changes"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/activities/new_package.html:6
+#: ckanext/ytp/templates/snippets/activities/new_package.html:7
 msgid "{actor} created the api {dataset}"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/activities/new_package.html:8
+#: ckanext/ytp/templates/snippets/activities/new_package.html:9
 msgid "{actor} created the dataset {dataset}"
 msgstr ""
 
