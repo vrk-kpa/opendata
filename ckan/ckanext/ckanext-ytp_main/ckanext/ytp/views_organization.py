@@ -104,12 +104,13 @@ class EditOrganizationView(EditGroupView):
         data = data or group_dict
         assert data is not None
 
-        if data.get('features', False):
-            # Convert old features field to match with new radiobuttons
-            data = {**data, **{
-                'public_administration_organization': 'public_administration_organization' in data.get('features', []),
-                'edit_only_owned_datasets': 'personal_datasets' in data.get('features', []),
-            }}
+        for extra in data.get('extras', []):
+            if extra.get('key') == 'features':
+                # Convert old features field to match with new radiobuttons
+                data = {**data, **{
+                    'public_administration_organization': 'public_administration_organization' in extra.get('value'),
+                    'edit_only_owned_datasets': 'personal_datasets' in extra.get('value'),
+                }}
 
         errors = errors or {}
         extra_vars: dict[str, Any] = {
@@ -354,7 +355,7 @@ def index(group_type, is_organization):
         context['user_id'] = g.userobj.id
         context['user_is_admin'] = g.userobj.sysadmin
 
-    # Check if to display all organizations or only those that have datasets 
+    # Check if to display all organizations or only those that have datasets
     only_with_datasets_param = request.params.get('only_with_datasets', "True").lower() in ['true', True, 1, ]
     extra_vars['only_with_datasets'] = only_with_datasets_param
     with_datasets = only_with_datasets_param
