@@ -33,6 +33,7 @@ class ArticlesController extends ControllerBase {
       ->condition('type', 'avoindata_article')
       ->condition('langcode', $lang);
 
+
     if (!empty($searchterm)) {
       $articleNodeIdsTitleQuery = $articleNodeIdsTitleQuery
         ->condition('title', $searchterm, 'CONTAINS');
@@ -52,6 +53,7 @@ class ArticlesController extends ControllerBase {
       $articleNodeIdsQuery = \Drupal::entityQuery('node')
         ->condition('type', 'avoindata_article')
         ->condition('langcode', $lang)
+        ->condition('status', 1)
         ->condition('nid', $articleNodeIdsCombined, 'IN')
         ->sort('created', 'DESC');
 
