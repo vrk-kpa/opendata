@@ -56,14 +56,6 @@ class SearchForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    // Commented out for now as this breaks using the searchbar on the /search
-    // Page if user submits less than 3 characters.
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $filter = $form_state->getValue('searchfilter');
     $language = \Drupal::languageManager()->getCurrentLanguage()->getId();

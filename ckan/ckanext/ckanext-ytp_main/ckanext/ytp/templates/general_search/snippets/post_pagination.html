@@ -2,7 +2,8 @@
 
 
 {%- set current_page = 1 if not page else page -%}
-{%- set plus_minus = 2 -%}
+<!-- Used to check how to display pagination buttons -->
+{%- set page_boundary = 2 -%}
 
 <div id="general-search-pagination" class="pagination-wrapper">
   <ul
@@ -22,7 +23,7 @@
       </li>
     {%- endif -%}
     <!-- First page button -->
-    {%- if current_page - plus_minus > 1 -%}
+    {%- if current_page - page_boundary > 1 -%}
       <li>
         <button value="1">
           <span class="sr-only">{{_('Page number:')}}</span>1
@@ -30,8 +31,8 @@
       </li>
     {%- endif -%}
     <!-- Rest button or if only one in between render the button -->
-    {%- if current_page - (plus_minus + 1) > 1 -%}
-      {%- if current_page - (plus_minus + 1) == 2 -%}
+    {%- if current_page - (page_boundary + 1) > 1 -%}
+      {%- if current_page - (page_boundary + 1) == 2 -%}
         <li>
           <button value="2">
             <span class="sr-only">{{_('Page number:')}}</span>2
@@ -44,7 +45,7 @@
       {%- endif -%}
     {%- endif -%}
     <!-- Show middle section -->
-    {%- for page in range(current_page - plus_minus, current_page + plus_minus + 1) -%}
+    {%- for page in range(current_page - page_boundary, current_page + page_boundary + 1) -%}
       {%- if page > 0 and page < total_pages + 1 -%}
         {%- if page == current_page -%}
           <li class="active">
@@ -64,8 +65,8 @@
       {%- endif -%}
     {%- endfor -%}
     <!-- Rest button or if only one in between render the button -->
-    {%- if current_page + plus_minus + 1 < total_pages -%}
-      {%- if current_page + plus_minus + 1 == total_pages - 1 -%}
+    {%- if current_page + page_boundary + 1 < total_pages -%}
+      {%- if current_page + page_boundary + 1 == total_pages - 1 -%}
         <li>
           <button value="{{total_pages - 1}}">
             <span class="sr-only">{{_('Page number:')}}</span>
@@ -79,7 +80,7 @@
       {%- endif -%}
     {%- endif -%}
     <!-- Last page button -->
-    {%- if current_page + plus_minus < total_pages -%}
+    {%- if current_page + page_boundary < total_pages -%}
       <li>
         <button aria-label="{{_('Last page')}}" value="{{total_pages}}">
           <span class="sr-only">{{_('Page number:')}}</span>
