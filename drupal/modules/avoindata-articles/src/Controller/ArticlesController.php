@@ -33,7 +33,6 @@ class ArticlesController extends ControllerBase {
       ->condition('type', 'avoindata_article')
       ->condition('langcode', $lang);
 
-
     if (!empty($searchterm)) {
       $articleNodeIdsTitleQuery = $articleNodeIdsTitleQuery
         ->condition('title', $searchterm, 'CONTAINS');
