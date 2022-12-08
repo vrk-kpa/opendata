@@ -71,10 +71,12 @@
                       <!-- Labels for producer type are fetched differently -->
                       {% if name == 'producer_type'%}
                         {% set label = _(h.get_label_for_producer(item.name)) %}
+                      {% elif name == 'groups' %}
+                        {% set label = h.get_translation(item.title_translated) if h.get_translation(item.title_translated) else item.display_name %}
                       {%else %}
-                      {% set label = label_function(item) if label_function else item.display_name %}
+                        {% set label = label_function(item) if label_function else item.display_name %}
                       {%endif%}
-                      
+
                       {% set label_truncated = h.truncate(label, 50) if not label_function else label %}
                       {% set count = count_label(item['count']) if count_label else ('(%d)' % item['count']) %}
   
