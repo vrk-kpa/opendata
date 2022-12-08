@@ -82,4 +82,4 @@
 	url = https://github.com/vrk-kpa/ckanext-sentry.git
 [submodule "ckan/ckanext/ckanext-sitesearch"]
 	path = ckan/ckanext/ckanext-sitesearch
-	url = https://github.com/okfn/ckanext-sitesearch.git
+	url = https://github.com/vrk-kpa/ckanext-sitesearch.git
