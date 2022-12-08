@@ -11,7 +11,6 @@ import ckan.logic.validators as validators
 import ckan.lib.navl.dictization_functions as df
 from ckan.logic import get_action
 from ckanext.showcase.model import ShowcaseAdmin
-from ckanext.hierarchy import helpers as hierarchyHelpers
 
 import json
 from . import plugin
