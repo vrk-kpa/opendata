@@ -30,6 +30,7 @@ class NewsFeedBlock extends BlockBase {
     $articleNodeIds = \Drupal::entityQuery('node')
       ->condition('type', 'avoindata_article')
       ->condition('langcode', $lang)
+      ->condition('status', 1)
       ->sort('created', 'DESC')
       ->range(0, 4)
       ->execute();
@@ -60,6 +61,7 @@ class NewsFeedBlock extends BlockBase {
           ]);
         }
       }
+
       array_push($articles, (object) [
         'id' => $node->id(),
         'label' => $node->label(),
