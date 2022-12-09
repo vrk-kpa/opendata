@@ -106,6 +106,7 @@ class ArticlesController extends ControllerBase {
       '#language' => $lang,
       '#theme' => 'avoindata_articles',
       '#cache' => [
+        'max-age' => 0,
         'tags' => ['node_list'],
       ],
     ];
