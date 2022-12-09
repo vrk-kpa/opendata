@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Security\TrustedCallbackInterface;
 
 /**
@@ -36,6 +37,10 @@ function avoindata_header_theme($existing, $type, $theme, $path) {
       'variables' => [
         'language' => NULL,
       ],
+    ],
+    'avoindata_search' => [
+      'render element' => 'form',
+      'template' => 'avoindata_search',
     ],
     'avoindata_login' => [
       'template' => 'avoindata_login',
