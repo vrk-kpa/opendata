@@ -52,6 +52,7 @@ class ArticlesController extends ControllerBase {
       $articleNodeIdsQuery = \Drupal::entityQuery('node')
         ->condition('type', 'avoindata_article')
         ->condition('langcode', $lang)
+        ->condition('status', 1)
         ->condition('nid', $articleNodeIdsCombined, 'IN')
         ->sort('created', 'DESC');
 
@@ -106,6 +107,7 @@ class ArticlesController extends ControllerBase {
       '#language' => $lang,
       '#theme' => 'avoindata_articles',
       '#cache' => [
+        'max-age' => 0,
         'tags' => ['node_list'],
       ],
     ];

@@ -76,7 +76,7 @@ describe('Advanced search tests', () => {
         // Add first dataset to group 'siisti kategoria'
         cy.visit(`/data/fi/dataset/groups/${datasets[0].name.replace(' ', '-')}`)
         cy.get('#field-siisti-kategoria').check({force: true})
-        cy.get('button[type=submit]').click()
+        cy.get('form > .btn').click();
 
         // Navigate to advanced search
         cy.visit('/data/fi/advanced_search')
@@ -89,8 +89,8 @@ describe('Advanced search tests', () => {
     })
 
     const fill_and_submit = (data) => {
-        cy.fill_form_fields(data)
-        cy.get('button[type=submit]').click();
+        cy.fill_form_fields(data);
+        cy.get('.ytp-input-with-icon > button').click();
     }
 
     describe('Navigation', () =>{
@@ -379,4 +379,3 @@ describe('Advanced search tests', () => {
     });
 
 });
-

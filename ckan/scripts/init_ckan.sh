@@ -37,7 +37,7 @@ ckan -c ${APP_DIR}/production.ini spatial initdb
 [[ "${CKAN_PLUGINS}" == *" archiver "* ]]     && ckan -c ${APP_DIR}/production.ini archiver init
 [[ "${CKAN_PLUGINS}" == *" qa "* ]]           && ckan -c ${APP_DIR}/production.ini qa init
 ckan -c ${APP_DIR}/production.ini report initdb
-[[ "${MATOMO_ENABLED}" == "true" ]]           && ckan -c ${APP_DIR}/production.ini matomo init_db
+[[ "${MATOMO_ENABLED}" == "true" ]]           && ckan -c ${APP_DIR}/production.ini matomo init_db && ckan -c ${APP_DIR}/production.ini db upgrade -p matomo
 [[ "${CKAN_CLOUDSTORAGE_ENABLED}" == "true" ]]           && ckan -c ${APP_DIR}/production.ini cloudstorage initdb
 [[ "${CKAN_PLUGINS}" == *" rating "* ]]       && ckan -c ${APP_DIR}/production.ini rating init
 ckan -c ${APP_DIR}/production.ini reminder initdb
