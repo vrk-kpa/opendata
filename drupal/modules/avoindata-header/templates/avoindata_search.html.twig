@@ -1,0 +1,37 @@
+
+{#
+/**
+ * @file
+ * Avoindata Search Form
+ *
+ * @ingroup themeable
+ */
+#}
+
+
+<div class="ml-3 header-search-bar-wrapper">
+    {{ form.form_build_id }}
+    {{ form.form_token }}
+    {{ form.form_id }}
+
+    {% set placeholder %}
+        {%- trans -%}
+        Search avoindata.fi...
+        {%- endtrans -%}
+    {% endset %}
+
+    <div class="header-search-group">
+        <input class="header-search-input" type="search" class="form-control" name="search" placeholder="{{ placeholder }}">
+        <button class="header-search-button" type="submit">
+            <span class="glyphicon glyphicon-search" aria-hidden="true">
+        </button>
+        
+    </div>
+
+
+</div>
+
+
+
+
+
