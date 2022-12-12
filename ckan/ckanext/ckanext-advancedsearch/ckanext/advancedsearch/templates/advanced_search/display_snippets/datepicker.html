@@ -4,9 +4,9 @@
 
     <!-- There's a bug in ab-datepicker where the top alignment breaks if not wrapped in a group -->
     <div class="form-group">
-        <label for="date-picker" class="control-label">{{_(label)}}</label>
+        <label for="{{'date-picker-' +  name}}" class="control-label">{{_(label)}}</label>
         <div>
-            <input id="date-picker" input name="{{name}}" class="date form-control ytp-input-element" id="date1" type="text" placeholder="{{_('Not selected')}}" title="format: YYYY-MM-DD" value="{{value}}"/>
+            <input id="{{'date-picker-' +  name}}" input name="{{name}}" class="date form-control ytp-input-element" id="date1" type="text" placeholder="{{_('Not selected')}}" title="format: YYYY-MM-DD" value="{{value}}"/>
         </div>
     </div>
 
