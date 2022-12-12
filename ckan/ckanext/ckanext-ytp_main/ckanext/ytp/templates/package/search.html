@@ -102,6 +102,7 @@
   <div class="secondary__header">
     <h3 class="secondary__title">{{ _('Filter list') }}</h3>
   </div>
+
   {% if dataset_type != 'apiset'%}
     {% snippet "spatial/snippets/spatial_query.html", default_extent="[[59.85, 20.65], [70.16, 31.52]]" %}
   {% endif %}
@@ -116,9 +117,9 @@
     {% elif facet == 'vocab_international_benchmarks' %}
       {% if h.check_access('sysadmin') %}
         {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}
-      {% endif %}
+      {% endif %}   
     {% else %}
-      {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}
+      {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}    
     {% endif %}
   {% endfor %}
 {% endblock %}
