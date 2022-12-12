@@ -127,14 +127,14 @@ describe('Advanced search tests', () => {
 
             // Wait for the javascript to load the ab-datepicker
             cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > #date-picker')
-            cy.get(':nth-child(4) > .clearfix > :nth-child(2) > .form-group > :nth-child(2) > .input-group > #date-picker')
+            cy.get('#date-picker-released-after');
+            cy.get('#date-picker-released-before');
     
             cy.get('label#update-interval-label').contains('Päivitetty välillä');
             cy.get('.updated-picker-div').find('label').eq(0).contains('alkaen');
             cy.get('.updated-picker-div').find('label').eq(1).contains('päättyen');
-            cy.get(':nth-child(5) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > #date-picker')
-            cy.get(':nth-child(5) > .clearfix > :nth-child(2) > .form-group > :nth-child(2) > .input-group > #date-picker')
+            cy.get('#date-picker-updated-after');
+            cy.get('#date-picker-updated-before');
     
             cy.get('[data-target="#search-options-extras"]').find('span').contains('Näytä vähemmän hakuehtoja');
     
@@ -164,14 +164,14 @@ describe('Advanced search tests', () => {
 
             // Wait for the javascript to load the ab-datepicker
             cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > #date-picker')
-            cy.get(':nth-child(4) > .clearfix > :nth-child(2) > .form-group > :nth-child(2) > .input-group > #date-picker')
+            cy.get('#date-picker-released-after');
+            cy.get('#date-picker-released-before');
     
             cy.get('label#update-interval-label').contains('Updated between');
             cy.get('.updated-picker-div').find('label').eq(0).contains('after');
             cy.get('.updated-picker-div').find('label').eq(1).contains('before');
-            cy.get(':nth-child(5) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > #date-picker')
-            cy.get(':nth-child(5) > .clearfix > :nth-child(2) > .form-group > :nth-child(2) > .input-group > #date-picker')
+            cy.get('#date-picker-updated-after');
+            cy.get('#date-picker-updated-before');
     
             cy.get('[data-target="#search-options-extras"]').find('span').contains('Show less options');
     
@@ -200,14 +200,14 @@ describe('Advanced search tests', () => {
             cy.get('.released-picker-div').find('label').eq(1).contains('till');
             // Wait for the javascript to load the ab-datepicker
             cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > #date-picker')
-            cy.get(':nth-child(4) > .clearfix > :nth-child(2) > .form-group > :nth-child(2) > .input-group > #date-picker')
+            cy.get('#date-picker-released-after');
+            cy.get('#date-picker-released-before');
     
             cy.get('label#update-interval-label').contains('Uppdaterad mellan');
             cy.get('.updated-picker-div').find('label').eq(0).contains('från');
             cy.get('.updated-picker-div').find('label').eq(1).contains('till');
-            cy.get(':nth-child(5) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > #date-picker')
-            cy.get(':nth-child(5) > .clearfix > :nth-child(2) > .form-group > :nth-child(2) > .input-group > #date-picker')
+            cy.get('#date-picker-updated-after');
+            cy.get('#date-picker-updated-before');
     
             cy.get('[data-target="#search-options-extras"]').find('span').contains('Visa färre sökvillkor');
     
@@ -305,8 +305,8 @@ describe('Advanced search tests', () => {
             cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
 
             // Filter a daterange that should contain all datasets
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > #date-picker').type('2000-01-01');
-            cy.get(':nth-child(4) > .clearfix > :nth-child(2) > .form-group > :nth-child(2) > .input-group > #date-picker').type('2200-01-01').type('{enter}');
+            cy.get('#date-picker-released-after').type('2000-01-01');
+            cy.get('#date-picker-released-before').type('2200-01-01').type('{enter}');
             cy.get('.dataset-list').children().should('have.length', 2)
             cy.get('.dataset-heading').contains('first dataset');
             cy.get('.dataset-heading').contains('second dataset');
@@ -315,13 +315,13 @@ describe('Advanced search tests', () => {
             cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
 
             // Clear the inputs
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > #date-picker').clear()
-            cy.get(':nth-child(4) > .clearfix > :nth-child(2) > .form-group > :nth-child(2) > .input-group > #date-picker').clear()
-
+            cy.get('#date-picker-released-after').type('2000-01-01').clear();
+            cy.get('#date-picker-released-before').type('2000-01-01').clear();
 
             // Filter a daterange that should not contain any datasets
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > #date-picker').type('2200-01-01');
-            cy.get(':nth-child(4) > .clearfix > :nth-child(2) > .form-group > :nth-child(2) > .input-group > #date-picker').type('2000-01-01').type('{enter}');
+            cy.get('#date-picker-released-after').type('2200-01-01');
+            cy.get('#date-picker-released-before').type('2000-01-01').type('{enter}');
+            
             cy.get('.dataset-list').should('not.exist');
         })
 
@@ -332,8 +332,8 @@ describe('Advanced search tests', () => {
             cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
 
             // Filter a daterange that should contain all datasets
-            cy.get(':nth-child(5) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > #date-picker').type('2000-01-01');
-            cy.get(':nth-child(5) > .clearfix > :nth-child(2) > .form-group > :nth-child(2) > .input-group > #date-picker').type('2200-01-01').type('{enter}');
+            cy.get('#date-picker-updated-after').type('2000-01-01');
+            cy.get('#date-picker-updated-before').type('2200-01-01').type('{enter}');
             cy.get('.dataset-list').children().should('have.length', 2)
             cy.get('.dataset-heading').contains('first dataset');
             cy.get('.dataset-heading').contains('second dataset');
@@ -342,13 +342,13 @@ describe('Advanced search tests', () => {
             cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
 
             // Clear the inputs
-            cy.get(':nth-child(5) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > #date-picker').clear()
-            cy.get(':nth-child(5) > .clearfix > :nth-child(2) > .form-group > :nth-child(2) > .input-group > #date-picker').clear()
+            cy.get('#date-picker-updated-after').type('2000-01-01').clear();
+            cy.get('#date-picker-updated-before').type('2000-01-01').clear();
 
 
             // Filter a daterange that should not contain any datasets
-            cy.get(':nth-child(5) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > #date-picker').type('2200-01-01');
-            cy.get(':nth-child(5) > .clearfix > :nth-child(2) > .form-group > :nth-child(2) > .input-group > #date-picker').type('200-01-01').type('{enter}');
+            cy.get('#date-picker-updated-after').type('2200-01-01');
+            cy.get('#date-picker-updated-before').type('2000-01-01').type('{enter}');
             cy.get('.dataset-list').should('not.exist');
         })
 
