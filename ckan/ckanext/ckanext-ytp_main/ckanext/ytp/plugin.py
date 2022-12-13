@@ -1003,6 +1003,8 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
     def get_validators(self):
         return {
             "is_admin_in_parent_if_changed": validators.is_admin_in_parent_if_changed,
+            'keep_old_organization_value_if_missing': validators.keep_old_organization_value_if_missing,
+            'get_removed_checkbox_extra': validators.get_removed_checkbox_extra,
             "extra_validators_multiple_choice": validators.extra_validators_multiple_choice,
             'admin_only_feature': validators.admin_only_feature
         }

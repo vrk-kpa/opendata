@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-25 12:45+0000\n"
+"POT-Creation-Date: 2022-11-30 16:27+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Pasi Laakso <pasi.laakso@gofore.com>, 2022\n"
 "Language-Team: Finnish (https://www.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -115,7 +115,7 @@ msgstr "Luo uusi tietoaineisto"
 msgid "Unauthorized to read package %s"
 msgstr "Ei oikeuksia lukea tietoaineistoa %s"
 
-#: ckanext/ytp/controller.py:116 ckanext/ytp/views.py:76
+#: ckanext/ytp/controller.py:116 ckanext/ytp/views.py:82
 msgid "Dataset not found"
 msgstr "Tietoaineistoa ei löydy"
 
@@ -1712,6 +1712,20 @@ msgstr "Peruuta"
 msgid "Saving..."
 msgstr ""
 
+#: ckanext/ytp/resources/opendata/scripts/avoindata-utils.js:18
+#: ckanext/ytp/resources/opendata/scripts/avoindata-utils.js:23
+msgid "Show more options"
+msgstr ""
+
+#: ckanext/ytp/resources/opendata/scripts/avoindata-utils.js:28
+#: ckanext/ytp/resources/opendata/scripts/avoindata-utils.js:33
+msgid "Show less options"
+msgstr ""
+
+#: ckanext/ytp/resources/opendata/scripts/avoindata-utils.js:41
+msgid "Are you sure you want to clear all filters?"
+msgstr ""
+
 #: ckanext/ytp/resources/opendata/scripts/bulk-confirm-action.js:69
 msgid "Please Confirm Action"
 msgstr "Vahvista toimenpide"
@@ -1797,6 +1811,7 @@ msgid "Interfaces"
 msgstr "Rajapinnan resurssit"
 
 #: ckanext/ytp/templates/apiset/resource_read.html:34
+#: ckanext/ytp/templates/general_search/search_form.html:35
 #: ckanext/ytp/templates/group/snippets/info.html:36
 #: ckanext/ytp/templates/organization/member_new.html:65
 #: ckanext/ytp/templates/organization/members.html:54
@@ -1813,6 +1828,7 @@ msgid "Datasets"
 msgstr "Tietoaineistot"
 
 #: ckanext/ytp/templates/apiset/resource_read.html:34
+#: ckanext/ytp/templates/general_search/search_form.html:39
 #: ckanext/ytp/templates/package/base.html:12
 #: ckanext/ytp/templates/package/base.html:17
 #: ckanext/ytp/templates/package/search.html:14
@@ -1881,6 +1897,136 @@ msgstr "Tietoaineiston yhteenvedosta"
 msgid "Source: <a href=\"%(url)s\">%(dataset)s</a>"
 msgstr "Lähde: <a href=\"%(url)s\">%(dataset)s</a>"
 
+#: ckanext/ytp/templates/general_search/index.html:5
+#: ckanext/ytp/templates/group/read.html:13
+#: ckanext/ytp/templates/organization/read.html:15
+#: ckanext/ytp/templates/package/search.html:56
+msgid "Relevance"
+msgstr "Osuvin ensin"
+
+#: ckanext/ytp/templates/general_search/index.html:6
+#: ckanext/ytp/templates/group/read.html:14
+#: ckanext/ytp/templates/organization/index.html:4
+#: ckanext/ytp/templates/organization/read.html:16
+#: ckanext/ytp/templates/package/search.html:57
+#: ckanext/ytp/templates/snippets/search_form.html:65
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
+#: ckanext/ytp/templates/snippets/search_form_without_input.html:30
+msgid "Name Ascending"
+msgstr "Nimen mukaan nousevasti"
+
+#: ckanext/ytp/templates/general_search/index.html:7
+#: ckanext/ytp/templates/group/read.html:15
+#: ckanext/ytp/templates/organization/index.html:4
+#: ckanext/ytp/templates/organization/read.html:17
+#: ckanext/ytp/templates/package/search.html:58
+#: ckanext/ytp/templates/snippets/search_form.html:65
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
+#: ckanext/ytp/templates/snippets/search_form_without_input.html:30
+msgid "Name Descending"
+msgstr "Nimen mukaan laskevasti"
+
+#: ckanext/ytp/templates/general_search/index.html:8
+#: ckanext/ytp/templates/group/read.html:16
+#: ckanext/ytp/templates/organization/read.html:18
+#: ckanext/ytp/templates/package/search.html:59
+#: ckanext/ytp/templates/package/snippets/resource_form.html:49
+msgid "Last Modified"
+msgstr "Viimeksi muokattu"
+
+#: ckanext/ytp/templates/general_search/index.html:9
+#: ckanext/ytp/templates/group/read.html:17
+#: ckanext/ytp/templates/organization/read.html:21
+#: ckanext/ytp/templates/package/search.html:62
+#: ckanext/ytp/templates/snippets/package_item.html:45
+#: ckanext/ytp/templates/snippets/popular.html:3
+msgid "Popular"
+msgstr "Suosittu"
+
+#: ckanext/ytp/templates/general_search/index.html:18
+msgid "General search"
+msgstr ""
+
+#: ckanext/ytp/templates/general_search/index.html:34
+msgid "Search term"
+msgstr "Hakusana"
+
+#: ckanext/ytp/templates/general_search/index.html:38
+msgid "No search term provided"
+msgstr "Hakusanaa ei annettu"
+
+#: ckanext/ytp/templates/general_search/index.html:42
+msgid "Search results"
+msgstr "Hakutulosta"
+
+#: ckanext/ytp/templates/general_search/search_form.html:6
+#: ckanext/ytp/templates/snippets/search_form.html:104
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:66
+msgid "Filter search"
+msgstr "Rajaa hakua"
+
+#: ckanext/ytp/templates/general_search/search_form.html:13
+msgid "Order"
+msgstr "Järjestys"
+
+#: ckanext/ytp/templates/general_search/search_form.html:22
+#: ckanext/ytp/templates/organization/index.html:43
+#: ckanext/ytp/templates/snippets/search_form.html:97
+#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:59
+#: ckanext/ytp/templates/snippets/search_form_without_input.html:44
+msgid "Go"
+msgstr "Siirry"
+
+#: ckanext/ytp/templates/general_search/search_form.html:27
+msgid "What you are searching"
+msgstr "Mitä etsit"
+
+#: ckanext/ytp/templates/general_search/search_form.html:31
+msgid "All"
+msgstr ""
+
+#: ckanext/ytp/templates/general_search/search_form.html:31
+#: ckanext/ytp/templates/general_search/search_form.html:35
+#: ckanext/ytp/templates/general_search/search_form.html:39
+#: ckanext/ytp/templates/general_search/search_form.html:43
+msgid "results found"
+msgstr "kpl"
+
+#: ckanext/ytp/templates/general_search/search_form.html:43
+#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:6
+msgid "Showcases"
+msgstr "Sovellukset"
+
+#: ckanext/ytp/templates/general_search/snippets/package_item.html:21
+msgid "showcase"
+msgstr "Käyttösovellus"
+
+#: ckanext/ytp/templates/general_search/snippets/post_pagination.html:13
+#: ckanext/ytp/templates/general_search/snippets/post_pagination.html:19
+msgid "Previous page"
+msgstr ""
+
+#: ckanext/ytp/templates/general_search/snippets/post_pagination.html:28
+#: ckanext/ytp/templates/general_search/snippets/post_pagination.html:37
+#: ckanext/ytp/templates/general_search/snippets/post_pagination.html:59
+#: ckanext/ytp/templates/general_search/snippets/post_pagination.html:71
+#: ckanext/ytp/templates/general_search/snippets/post_pagination.html:85
+msgid "Page number:"
+msgstr ""
+
+#: ckanext/ytp/templates/general_search/snippets/post_pagination.html:52
+msgid "Current page number:"
+msgstr ""
+
+#: ckanext/ytp/templates/general_search/snippets/post_pagination.html:84
+msgid "Last page"
+msgstr ""
+
+#: ckanext/ytp/templates/general_search/snippets/post_pagination.html:93
+#: ckanext/ytp/templates/general_search/snippets/post_pagination.html:99
+msgid "Next page"
+msgstr ""
+
 #: ckanext/ytp/templates/group/member_new.html:13
 #: ckanext/ytp/templates/organization/member_new.html:13
 msgid "Existing User"
@@ -1919,47 +2065,6 @@ msgstr "Tallenna"
 #: ckanext/ytp/templates/organization/members.html:70
 msgid "Add Member"
 msgstr "Lisää jäsen"
-
-#: ckanext/ytp/templates/group/read.html:13
-#: ckanext/ytp/templates/organization/read.html:15
-#: ckanext/ytp/templates/package/search.html:56
-msgid "Relevance"
-msgstr "Osuvin ensin"
-
-#: ckanext/ytp/templates/group/read.html:14
-#: ckanext/ytp/templates/organization/index.html:4
-#: ckanext/ytp/templates/organization/read.html:16
-#: ckanext/ytp/templates/package/search.html:57
-#: ckanext/ytp/templates/snippets/search_form.html:65
-#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
-#: ckanext/ytp/templates/snippets/search_form_without_input.html:30
-msgid "Name Ascending"
-msgstr "Nimen mukaan nousevasti"
-
-#: ckanext/ytp/templates/group/read.html:15
-#: ckanext/ytp/templates/organization/index.html:4
-#: ckanext/ytp/templates/organization/read.html:17
-#: ckanext/ytp/templates/package/search.html:58
-#: ckanext/ytp/templates/snippets/search_form.html:65
-#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:34
-#: ckanext/ytp/templates/snippets/search_form_without_input.html:30
-msgid "Name Descending"
-msgstr "Nimen mukaan laskevasti"
-
-#: ckanext/ytp/templates/group/read.html:16
-#: ckanext/ytp/templates/organization/read.html:18
-#: ckanext/ytp/templates/package/search.html:59
-#: ckanext/ytp/templates/package/snippets/resource_form.html:49
-msgid "Last Modified"
-msgstr "Viimeksi muokattu"
-
-#: ckanext/ytp/templates/group/read.html:17
-#: ckanext/ytp/templates/organization/read.html:21
-#: ckanext/ytp/templates/package/search.html:62
-#: ckanext/ytp/templates/snippets/package_item.html:45
-#: ckanext/ytp/templates/snippets/popular.html:3
-msgid "Popular"
-msgstr "Suosittu"
 
 #: ckanext/ytp/templates/group/read.html:19
 #: ckanext/ytp/templates/organization/read.html:23
@@ -2087,13 +2192,6 @@ msgstr "Lähetä"
 #: ckanext/ytp/templates/snippets/search_form.html:88
 msgid "Sorting"
 msgstr "Lajittelu"
-
-#: ckanext/ytp/templates/organization/index.html:43
-#: ckanext/ytp/templates/snippets/search_form.html:97
-#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:59
-#: ckanext/ytp/templates/snippets/search_form_without_input.html:44
-msgid "Go"
-msgstr "Siirry"
 
 #: ckanext/ytp/templates/organization/index.html:67
 #: ckanext/ytp/templates/snippets/search_result_text.html:38
@@ -3150,10 +3248,6 @@ msgstr ""
 " lomakkeen kentistä. Näihin kenttiin kirjoitettua tietoa ei näytetä "
 "tietoaineiston sivulla."
 
-#: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:6
-msgid "Showcases"
-msgstr "Sovellukset"
-
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:7
 msgid "Showcase submit"
 msgstr "Ilmoita sovellus"
@@ -3390,11 +3484,6 @@ msgstr "Rajaukset"
 #: ckanext/ytp/templates/snippets/search_form.html:71
 msgid " Use advanced search "
 msgstr "Käytä laajennettua hakua"
-
-#: ckanext/ytp/templates/snippets/search_form.html:104
-#: ckanext/ytp/templates/snippets/search_form_with_table_header.html:66
-msgid "Filter search"
-msgstr "Rajaa hakua"
 
 #: ckanext/ytp/templates/snippets/search_form.html:118
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:102
