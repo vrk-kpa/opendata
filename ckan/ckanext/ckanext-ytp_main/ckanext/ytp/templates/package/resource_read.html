@@ -269,10 +269,23 @@
 
   {% if visits %}
   <h3>{{ _('Stats') }}</h3>
-  <span>{{ _('Last 30 days, updated daily') }}</span>
+  <span>{{ _('Weekly visits for last 12 months') }}</span>
   <div id="chart_div"></div>
 
-  <span>{{ _('All time downloads:' ) }} {{ visits.count }}</span>
+  {% set visit_count_last_12_month = h.get_visit_count_for_resource_during_last_12_months(res.id) %}
+  {% set visit_count_last_30_days = h.get_visit_count_for_resource_during_last_30_days(res.id) %}
+  {% set download_count_last_12_month = h.get_download_count_for_resource_during_last_12_months(res.id) %}
+  {% set download_count_last_30_days = h.get_download_count_for_resource_during_last_30_days(res.id) %}
+  <dl class="list-unstyled">
+      <dt>{{ _('Download counts') }}:</dt>
+      <dd>{{ _('During last 30 days') }}: {{ download_count_last_30_days }}</dd>
+      <dd>{{ _('During last 12 months') }}: {{ download_count_last_12_month }}</dd>
+      <dd>{{ _('All time:') }} {{ visits.downloads_count }}</dd>
+      <dt>{{ _('Visits') }}:</dt>
+      <dd>{{ _('During last 30 days') }}: {{ visit_count_last_30_days }}</dd>
+      <dd>{{ _('During last 12 months') }}: {{ visit_count_last_12_month }}</dd>
+      <dd>{{ _('All time:') }} {{ visits.visits_count }}</dd>
+  </dl>
 
   <script src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -284,14 +297,13 @@
           var data = google.visualization.arrayToDataTable([
             ["{{ _('Year') }}", "{{ _('Downloads') }}"],
             {% for v in visits.downloads %}
-              [new Date({{ v.year }}, {{ v.month - 1 }}, {{ v.day }}), {{ v.visits }}],
+              ["{{ _('Week') }}" + ' ' + {{ v.week }} + ', ' + {{ v.year }}, {{ v.downloads }}],
             {% endfor %}
           ]);
 
           var options = {
             hAxis: {
               textPosition: 'none',
-              format: 'dd.MM.yyyy',
               gridlines: {
                 count : 4
               }
@@ -299,7 +311,8 @@
             vAxis: {
               minValue: 4
             },
-            legend: { position: 'bottom' }
+            legend: { position: 'bottom' },
+            focusTarget: 'category'
           };
 
           var chart = new google.visualization.LineChart(document.getElementById('chart_div'));

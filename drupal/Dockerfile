@@ -33,6 +33,10 @@ ENV THEME_DIR=${WEB_DIR}/themes
 ENV CORE_DIR=${WEB_DIR}/core
 ENV DATA_DIR=${SITE_DIR}/default/files
 ENV WWW_DIR=/var/www
+ENV LOCAL_PHP_DIR=/usr/local/etc/php/
+
+# copy the php.ini file for php configuration options
+COPY configurations/uploads.ini ${LOCAL_PHP_DIR}/conf.d/
 
 # copy app files
 COPY i18n ${I18N_DIR}

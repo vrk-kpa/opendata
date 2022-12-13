@@ -427,6 +427,46 @@ def from_date_is_before_until_date(field, schema):
 
 
 @scheming_validator
+def keep_old_organization_value_if_missing(field, schema):
+    from ckan.lib.navl.dictization_functions import missing, flatten_dict
+    from ckan.logic import get_action
+
+    def validator(key, data, errors, context):
+
+        if 'group' not in context:
+            return True
+
+        data_dict = flatten_dict(get_action('organization_show')(context, {'id': context['group'].id}))
+
+        if key not in data or data[key] is missing:
+            if key in data_dict:
+                data[key] = data_dict[key]
+
+    return validator
+
+
+def get_removed_checkbox_extra(key_and_checkbox_value):
+    [checkbox_key, checkbox_value] = key_and_checkbox_value.split('.')
+
+    @scheming_validator
+    def implementation(field, schema):
+
+        def validator(key, data, errors, context):
+            if 'group' not in context:
+                return True
+
+            data_dict = get_action('organization_show')(context, {'id': context['group'].id})
+
+            for extra in data_dict.get('extras', []):
+                if extra.get('key') == checkbox_key and checkbox_value in extra.get('value'):
+                    data[key] = 'true'
+
+        return validator
+
+    return implementation
+
+
+@scheming_validator
 def is_admin_in_parent_if_changed(field, schema):
 
     def validator(key, data, errors, context):

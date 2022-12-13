@@ -107,7 +107,7 @@ End of dropdown CSS
 }
 
 #block-avoindata-login {
-  flex: auto;
+  // flex: auto;
   display: flex;
   justify-content: flex-end;
   margin-right: 15px;
@@ -251,6 +251,70 @@ End of dropdown CSS
 // First (upper) navbar
 .first-navbar {
   margin-bottom: 0;
+}
+
+.search-bar-wrapper {
+  width: 400px;
+}
+
+.search-button-submit {
+  background: @suomi-highlightBase;
+  border: none;
+  width: 40;
+  height: 40;
+}
+
+.avoindata-search-id {
+  width: 400px;
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-search-input {
+  width: 360px;
+  border: solid 1px #c8cdd0;
+  padding: 8px 10px;
+  -webkit-box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
+  box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
+  height: 40px;
+  border-radius: 1px;
+  margin-right: 0;
+}
+
+.header-search-bar-wrapper {
+  width: 400px;
+  display: inline-block;
+}
+
+.header-search-group {
+  height: 40px;
+}
+
+.header-search-group input,
+.header-search-group button {
+  float: left;
+  -webtkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 40px;
+}
+
+.header-search-button {
+  background-color: @suomi-highlightBase;
+  border-color: @suomi-highlightBase;
+  color: #fff;
+  margin-left: 0;
+  border-radius: 2px;
+  width: 40px;
+  background-image: none;
+  border: 1px solid transparent;
+}
+
+#avoindata-search-id {
+  display: flex;
+  align-items: center;
 }
 
 #header-search-container {
