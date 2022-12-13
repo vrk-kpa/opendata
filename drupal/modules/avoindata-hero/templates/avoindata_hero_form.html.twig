@@ -44,11 +44,11 @@
                 {% endtrans %}
             {% endset %}
 
+
             {% set dataset = {'url': 'dataset', 'count': form.datasetcount | default("0"), 'text': dataset_text} %}
             {% set apiset = {'url': 'apiset', 'count': form.apisetcount | default("0"), 'text': apiset_text} %}
             {% set organization = {'url': 'organization', 'count': form.organizationcount | default("0"), 'text': organization_text} %}
             {% set showcase = {'url': 'showcase', 'count': form.applicationcount | default("0"), 'text': showcase_text} %}
-
             {% set counts = [dataset, apiset, organization, showcase] %}
 
             {% for count in counts %}
@@ -88,44 +88,12 @@
                 </div>
             </div>
             <div class="position-relative">
-                <button id="type-dropdown" type="button" class="suomifi-button-secondary-black-text" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-3">
-                        {% trans %}
-                            Search datasets
-                        {% endtrans %}
-                    </span>
-                    <i class="fa fa-caret-down"></i>
+                <button type="submit" class="hero-button-submit">
+                    {% trans %}
+                        Search
+                    {% endtrans %}
                 </button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="#" data-value="1">
-                            {% trans %}
-                            Search datasets
-                            {% endtrans %}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" data-value="2">
-                            {% trans %}
-                            Search applications
-                            {% endtrans %}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" data-value="3">
-                            {% trans %}
-                            Search organizations
-                            {% endtrans %}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" data-value="4">
-                            {% trans %}
-                            Search apisets
-                            {% endtrans %}
-                        </a>
-                    </li>
-                </ul>
+                
             </div>
         </div>
         {{ form.searchfilter }}

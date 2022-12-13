@@ -8,7 +8,7 @@ dependencies:
 id: avoindata_login
 theme: avoindata
 region: top_bar
-weight: 2
+weight: 3
 provider: null
 plugin: avoindata_login
 settings:

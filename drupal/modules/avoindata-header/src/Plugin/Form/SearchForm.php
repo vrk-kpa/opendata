@@ -1,26 +1,26 @@
 <?php
 
-namespace Drupal\avoindata_hero\Plugin\Form;
+namespace Drupal\avoindata_header\Plugin\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
 /**
- * Adds search form to hero element.
+ * Adds search form to header element.
  *
- * Class HeroForm
+ * Class SearchForm
  *   Adds form.
  *
- * @package Drupal\avoindata_hero\Plugin\Form
+ * @package Drupal\avoindata_header\Plugin\Form
  */
-class HeroForm extends FormBase {
+class SearchForm extends FormBase {
 
   /**
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'avoindata_hero_id';
+    return 'avoindata_search_id';
   }
 
   /**
@@ -32,10 +32,10 @@ class HeroForm extends FormBase {
     $form['searchfilter'] = [
       '#type' => 'textfield',
       '#default_value' => '1',
-      '#attributes' => ['class' => ['input-hero-search-filter', 'hidden']],
+      '#attributes' => ['class' => ['input-header-search-filter', 'hidden']],
     ];
 
-    $form['#theme'] = ['avoindata_hero'];
+    $form['#theme'] = ['avoindata_search'];
 
     $form['#language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
@@ -51,15 +51,6 @@ class HeroForm extends FormBase {
     ];
 
     return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    if (strlen($form_state->getValue('search')) <= 2) {
-      $form_state->setErrorByName('search', $this->t('Query must be at least three characters long'));
-    }
   }
 
   /**
