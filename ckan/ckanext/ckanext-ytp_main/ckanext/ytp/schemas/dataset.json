@@ -169,13 +169,13 @@
     {
       "field_name": "valid_from",
       "label": "Valid from",
-      "preset": "date_opendata_with_icon",
+      "preset": "date_ab-datepicker",
       "max_date_field": "valid_till"
     },
     {
       "field_name": "valid_till",
       "label": "Valid till",
-      "preset": "date_opendata_with_icon",
+      "preset": "date_ab-datepicker",
       "min_date_field": "valid_from"
     },
     {
@@ -402,14 +402,14 @@
     {
       "field_name": "temporal_coverage_from",
       "label": "Start date",
-      "preset": "date_opendata_with_icon",
+      "preset": "date_ab-datepicker",
       "group_description": "Time Frame",
       "group_description_class": "ytp-combi-label"
     },
     {
       "field_name": "temporal_coverage_to",
       "label": "End date",
-      "preset": "date_opendata_with_icon"
+      "preset": "date_ab-datepicker"
     },
     {
       "field_name": "status_updated",

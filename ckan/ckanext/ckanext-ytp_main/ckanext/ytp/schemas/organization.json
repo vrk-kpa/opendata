@@ -113,7 +113,7 @@
         }
       ],
       "default_value": "false",
-      "validators": "ignore_not_sysadmin keep_old_value_if_missing boolean_validator"
+      "validators": "ignore_not_sysadmin keep_old_organization_value_if_missing boolean_validator get_removed_checkbox_extra(features.public_administration_organization)"
     },
     {
       "field_name": "edit_only_owned_datasets",
@@ -131,29 +131,7 @@
         }
       ],
       "default_value": "false",
-      "validators": "ignore_not_sysadmin keep_old_value_if_missing boolean_validator"
-    },
-    {
-      "field_name": "features",
-      "preset": "multiple_checkbox",
-      "validators": "scheming_multiple_choice extra_validators_multiple_choice",
-      "form_snippet": null,
-      "display_snippet": null,
-      "choices": [
-        {
-          "value": "public_administration_organization",
-          "label": "Public administration organization",
-          "extra_validator": "admin_only_feature"
-        },
-        {
-          "value": "personal_datasets",
-          "label": "Members can only edit their own datasets"
-        }
-      ],
-      "label": "Features",
-      "form_attrs": {
-        "class": "form-control"
-      }
+      "validators": "ignore_not_sysadmin keep_old_organization_value_if_missing boolean_validator get_removed_checkbox_extra(features.personal_datasets)"
     },
     {
       "field_name": "image_url",
@@ -167,16 +145,16 @@
     },
     {
       "field_name": "valid_from",
-      "preset": "date_opendata",
-      "form_snippet": "date_sysadmin.html",
+      "preset": "date_ab-datepicker",
+      "form_snippet": "date_sysadmin_ab-datepicker.html",
       "label": "Valid from",
       "max_date_field": "valid_till",
       "validators": "scheming_required isodate from_date_is_before_until_date convert_to_json_if_date ignore_not_sysadmin keep_old_value_if_missing"
     },
     {
       "field_name": "valid_till",
-      "preset": "date_opendata",
-      "form_snippet": "date_sysadmin.html",
+      "preset": "date_ab-datepicker",
+      "form_snippet": "date_sysadmin_ab-datepicker.html",
       "label": "Valid till",
       "min_date_field": "valid_from",
       "validators": "scheming_required isodate from_date_is_before_until_date convert_to_json_if_date ignore_not_sysadmin keep_old_value_if_missing"
