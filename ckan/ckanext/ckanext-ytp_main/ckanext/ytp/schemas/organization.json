@@ -145,16 +145,16 @@
     },
     {
       "field_name": "valid_from",
-      "preset": "date_opendata",
-      "form_snippet": "date_sysadmin.html",
+      "preset": "date_ab-datepicker",
+      "form_snippet": "date_sysadmin_ab-datepicker.html",
       "label": "Valid from",
       "max_date_field": "valid_till",
       "validators": "scheming_required isodate from_date_is_before_until_date convert_to_json_if_date ignore_not_sysadmin keep_old_value_if_missing"
     },
     {
       "field_name": "valid_till",
-      "preset": "date_opendata",
-      "form_snippet": "date_sysadmin.html",
+      "preset": "date_ab-datepicker",
+      "form_snippet": "date_sysadmin_ab-datepicker.html",
       "label": "Valid till",
       "min_date_field": "valid_from",
       "validators": "scheming_required isodate from_date_is_before_until_date convert_to_json_if_date ignore_not_sysadmin keep_old_value_if_missing"
