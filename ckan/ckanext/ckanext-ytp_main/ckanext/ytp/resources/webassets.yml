@@ -6,6 +6,7 @@ main_css:
     - vendor/jstree/dist/themes/default/style.css
     - vendor/select2-bootstrap-css/select2-bootstrap.css
     - styles/ckan.css
+    - opendata/styles/ab-datepicker.css
 
 main_js:
   output: ytp_resources/%(version)s_main.js
@@ -27,6 +28,16 @@ openapi_view_css:
   contents:
     - styles/openapi_view.css
 
+ab_datepicker_js:
+  output: ytp_resources/%(version)s_ab_datepicker.js
+  filters: rjsmin
+  extra:
+    preload:
+      - ytp_resources/main_js
+  contents: 
+    - vendor/ab-datepicker/js/datepicker.js
+    - opendata/scripts/ab-datepicker_after_load.js
+
 bootstrap_table_css:
   output: ytp_resources/%(version)s_bootstrap_table.css
   contents:
@@ -40,7 +51,6 @@ bootstrap_table_js:
       - ytp_resources/main_js
   contents:
     - vendor/bootstrap-table/dist/bootstrap-table.js
-
 
 ytp_select2_js:
   output: ytp_resources/%(version)s_bootstrap-table.js

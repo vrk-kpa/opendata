@@ -1,0 +1,16 @@
+{% asset 'ytp_resources/ab_datepicker_js' %}
+
+<div class="col-md-12 pl-0 form-group" data-module="ytp-datepicker">
+
+    <!-- There's a bug in ab-datepicker where the top alignment breaks if not wrapped in a group -->
+    <div class="form-group col-md-3 pl-0" >
+        <label for="{{'field-' + field.field_name}}" class="control-label">{{h.scheming_language_text(field.label)}}</label>
+        <div>
+            <input id="{{'field-' + field.field_name}}" input name="{{ field.field_name }}" 
+            class="date form-control ytp-input-element"  type="text" 
+            placeholder="{{ h.scheming_language_text(field.form_placeholder) }}" 
+            title="format: YYYY-MM-DD" value="{{ data.get(field.field_name, '').split()[0] }}"/>
+        </div>
+    </div>
+
+</div>
