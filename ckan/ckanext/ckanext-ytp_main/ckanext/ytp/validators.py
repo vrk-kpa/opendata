@@ -517,6 +517,27 @@ def is_admin_in_parent_if_changed(field, schema):
 
 
 @scheming_validator
+def is_allowed_parent(field, schema):
+    def validator(key, data, errors, context):
+        # Uses CKAN core function to specify parent, in html groups__0__name
+        actual_key = ("groups", 0, "name")
+
+        # Check that parent is selected and user is editing organization
+        if data.get(actual_key) and data.get(('id',), None) is not None:
+            parent_organization_name = data[actual_key]
+            current_organization = model.Group.get(data.get(('id',)))
+            allowed_parents = [allowed_parent.__dict__.get('name') for allowed_parent in
+                               current_organization.groups_allowed_to_be_its_parent(type='organization')]
+
+            if parent_organization_name not in allowed_parents:
+                errors[key].append(_('Can not save organization parent as it would create loop in hierarchy'))
+
+        return len(errors[key]) == 0
+
+    return validator
+
+
+@scheming_validator
 def extra_validators_multiple_choice(field, schema):
     static_extra_validators = None
     if 'choices' in field:
