@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-advancedsearch 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-10-11 07:58+0000\n"
+"POT-Creation-Date: 2022-12-13 13:27+0000\n"
 "PO-Revision-Date: 2019-07-16 07:12+0000\n"
 "Last-Translator: Ville Teräväinen, 2022\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -206,6 +206,10 @@ msgstr "Filtrera sökning"
 #: ckanext/advancedsearch/templates/advanced_search/search_form.html:32
 msgid "Update interval"
 msgstr "uppdaterad mellan"
+
+#: ckanext/advancedsearch/templates/advanced_search/search_form.html:54
+msgid "Do search"
+msgstr "Sök"
 
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/datepicker-range.html:8
 msgid "after"
