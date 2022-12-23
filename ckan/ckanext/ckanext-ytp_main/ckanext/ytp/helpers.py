@@ -591,9 +591,19 @@ def get_apiset_package_list(package_id):
     context = {'model': model, 'session': model.Session, 'user': c.user}
     return get_action('apiset_package_list')(context, {'apiset_id': package_id})
 
-def get_groups_where_user_is_admin():
+
+def get_groups_where_user_is_admin(current_id=None):
     context = {'model': model, 'session': model.Session, 'user': c.user}
-    return get_action('organization_list_for_user')(context, {'permission': 'admin'})
+    organizations = get_action('organization_list_for_user')(context, {'permission': 'admin'})
+
+    # If list is fetched for existing company, return only allowed parents
+    if current_id is not None:
+        current_organization = model.Group.get(current_id)
+        allowed_parent_ids = [allowed_parent.__dict__.get('id') for allowed_parent in
+                              current_organization.groups_allowed_to_be_its_parent(type='organization')]
+        return filter(lambda organization: organization.get('id') in allowed_parent_ids, organizations)
+
+    return organizations
 
 
 def get_value_from_extras_by_key(object_with_extras, key):

@@ -12,17 +12,6 @@ ckan.module("ytp-datepicker", function($) {
             format: "YYYY-MM-DD",
             showClear: true
           })
-          .on("dp.hide", function(e) {
-            if (!e.oldDate && e.date.isSame(moment(), "day")) {
-              $(".advanced-search-form").submit();
-            }
-
-          })
-          .on("dp.change", function(e) {
-            if (!e.date && e.oldDate || e.oldDate && !e.date.isSame(e.oldDate, "day")) {
-              $(".advanced-search-form").submit();
-            }
-          });
       });
     }
   };
