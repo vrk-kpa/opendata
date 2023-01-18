@@ -572,7 +572,7 @@ export class CkanStack extends Stack {
         DATAPUSHER_CHUNK_INSERT_ROWS: '250',
         DATAPUSHER_DOWNLOAD_TIMEOUT: '30',
         DATAPUSHER_SSL_VERIFY: 'False',
-        DATAPUSHER_REWRITE_RESOURCES: 'True',
+        DATAPUSHER_REWRITE_RESOURCES: 'False',
         // .env
         DATAPUSHER_REWRITE_URL: `http://ckan.${props.namespace.namespaceName}:5000/data`,
       },
