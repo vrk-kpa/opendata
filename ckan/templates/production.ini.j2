@@ -200,6 +200,8 @@ ckanext.cloudstorage.container_name = {{ environ('CKAN_CLOUDSTORAGE_CONTAINER_NA
 ckanext.cloudstorage.use_secure_urls = {{ environ('CKAN_CLOUDSTORAGE_USE_SECURE_URLS') }}
 ckanext.cloudstorage.aws_use_boto3_sessions = {{ environ('CKAN_CLOUDSTORAGE_AWS_USE_BOTO3_SESSIONS') }}
 ckanext.cloudstorage.driver_options = {{ environ('CKAN_CLOUDSTORAGE_DRIVER_OPTIONS') }}
+ckanext.cloudstorage.datapusher.formats = csv
+ckan.datapusher.formats = nonexistingformat
 {% endif %}
 
 sentry.dsn = {{ environ('SENTRY_DSN') }}
