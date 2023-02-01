@@ -658,8 +658,8 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
   analyticsEnabled: true,
   dynatraceEnabled: true,
   ckanTaskDef: {
-    taskCpu: 1024,
-    taskMem: 2048,
+    taskCpu: 2048,
+    taskMem: 4096,
     taskMinCapacity: 2,
     taskMaxCapacity: 4,
   },
