@@ -190,6 +190,9 @@ FROM ckan_build AS production-dynatrace-0
 #
 FROM production-dynatrace-${DYNATRACE_ENABLED} AS production
 
+# Install uwsgitop for stats analyzing
+RUN pip install uwsgitop
+
 # copy extensions
 COPY --from=modules_build ${EXT_DIR} ${EXT_DIR}
 
