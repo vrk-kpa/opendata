@@ -22,6 +22,33 @@ Please refer to the [documentation directory](doc) and [API documentation](https
 
 Please file [issues at Github](https://github.com/vrk-kpa/opendata/issues).
 
+## List of CKAN extensions
+
+| :sunglasses: | Name | Description |
+|---|---|---|
+| :bookmark_tabs: | [ckanext-orgdashboards](https://github.com/ViderumGlobal/ckanext-orgdashboards) | CKAN extension for creating organization dashboards.
+| :open_mouth: | [ckanext-disqus](https://github.com/ckan/ckanext-disqus) | Extension that adds the Disqus commenting system to CKAN.
+| :chart_with_upwards_trend: | [ckanext-googleanalytics](https://github.com/ckan/ckanext-googleanalytics) | CKAN extension to integrate Google Analytics data into CKAN. Gives download stats on package pages, list of most popular packages, etc.
+| :tractor: | [ckanext-harvest](https://github.com/ckan/ckanext-harvest) | This extension provides a common harvesting framework for ckan extensions and adds a CLI and a WUI to CKAN to manage harvesting sources and jobs.
+| :milky_way: | [ckanext-spatial](https://github.com/ckan/ckanext-spatial) | This extension contains plugins that add geospatial capabilities to CKAN.
+| :watch: | [ckanext-realtime](https://github.com/alexandrainst/ckanext-realtime) | CKAN plugin which makes your CKAN site into a Realtime Data Portal.
+| :earth_americas: | [ckanext-dataspatial](https://github.com/NaturalHistoryMuseum/ckanext-dataspatial) | Dataspatial is a Ckan extension to provide geospatial awareness of datastore data.
+| :mailbox_with_mail: | [ckanext-requestdata](https://github.com/ViderumGlobal/ckanext-requestdata) | This extension introduces a new type of dataset in which access to data is by request.
+| :bookmark_tabs: | [ckanext-orgportals](https://github.com/ViderumGlobal/ckanext-orgportals) | CKAN extension for creating organization portals.
+| :mag_right: | [Data Solr](https://github.com/NaturalHistoryMuseum/ckanext-datasolr) | Datasolr is a Ckan extension to use Solr for datastore queries.
+| :closed_lock_with_key: | [ckanext-cas](https://github.com/keitaroinc/ckanext-cas) | CAS (Central Authentication Service) client extension for CKAN.
+| :dvd: | [ckanext-s3filestore](https://github.com/keitaroinc/ckanext-s3filestore) | Use Amazon S3 as a filestore for CKAN.
+| :bar_chart: | [ckanext-c3charts](https://github.com/ViderumGlobal/ckanext-c3charts) | c3js based charts for CKAN.
+| :truck: | [ckanext-cloudstorage](https://github.com/TkTech/ckanext-cloudstorage) | Implements support for resource storage against multiple popular providers via apache-libcloud (S3, Azure Storage, etc...).
+| :station: | [ckanext-dcat](https://github.com/ckan/ckanext-dcat) | This extension provides plugins that allow CKAN to expose and consume metadata from other catalogs using RDF documents serialized using DCAT.
+| :speak_no_evil: | [ckanext-fluent](https://github.com/ckan/ckanext-fluent) | This extension provides a way to store and return multilingul fields in CKAN datasets, resources, organizations and groups.
+| :japan: | [ckanext-mapviews](https://github.com/ckan/ckanext-mapviews) | CKAN Resource View to build maps and choropleth maps.
+| :open_file_folder: | [ckanext-odata](https://github.com/jqnatividad/ckanext-odata) | CKAN OData support to connect to tools like Tableau.
+| :notebook: | [ckanext-pages](https://github.com/ckan/ckanext-pages) | This extension gives you an easy way to add simple pages to CKAN.
+| :earth_africa: | [ckanext-spatial](https://github.com/ckan/ckanext-spatial) | This extension contains plugins that add geospatial capabilities to CKAN.
+| :fast_forward: | [ckanext-xloader](https://github.com/ckan/ckanext-xloader) | Designed as a replacement for DataPusher because it offers ten times the speed and more robustness.
+
+
 ### Copying and License
 
 This material is copyright (c) 2013-2022 Digital and Population Data Services Agency, Finland.
