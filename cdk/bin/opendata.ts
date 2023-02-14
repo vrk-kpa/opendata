@@ -656,7 +656,7 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
   cacheCluster: cacheStackProd.cacheCluster,
   captchaEnabled: true,
   analyticsEnabled: true,
-  dynatraceEnabled: true,
+  dynatraceEnabled: false,
   ckanTaskDef: {
     taskCpu: 2048,
     taskMem: 4096,
