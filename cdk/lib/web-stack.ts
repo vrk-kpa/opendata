@@ -49,6 +49,7 @@ export class WebStack extends Stack {
       'https://www.google.com',
       'cdn.matomo.cloud',
       'suomi.matomo.cloud',
+      "browser.sentry-cdn.com"
     ];
     const nginxCspStyleSrc: string[] = [
       'https://fonts.googleapis.com',
