@@ -23,6 +23,9 @@ x-env-ckan: &env-ckan
   DB_DRUPAL: ${DB_DRUPAL}
   DB_DRUPAL_USER: ${DB_DRUPAL_USER}
   DB_DRUPAL_PASS: ${DB_DRUPAL_PASS}
+  DB_DATAPUSHER_JOBS: ${DB_DATAPUSHER_JOBS}
+  DB_DATAPUSHER_JOBS_USER: ${DB_DATAPUSHER_JOBS_USER}
+  DB_DATAPUSHER_JOBS_PASS: ${DB_DATAPUSHER_JOBS_PASS}
   DOMAIN_NAME: ${DOMAIN_NAME}
   SECONDARY_DOMAIN_NAME: ${SECONDARY_DOMAIN_NAME}
   SITE_PROTOCOL: ${SITE_PROTOCOL}
@@ -79,6 +82,9 @@ services:
       - DB_DRUPAL=${DB_DRUPAL}
       - DB_DRUPAL_USER=${DB_DRUPAL_USER}
       - DB_DRUPAL_PASS=${DB_DRUPAL_PASS}
+      - DB_DATAPUSHER_JOBS=${DB_DATAPUSHER_JOBS}
+      - DB_DATAPUSHER_JOBS_USER=${DB_DATAPUSHER_JOBS_USER}
+      - DB_DATAPUSHER_JOBS_PASS=${DB_DATAPUSHER_JOBS_PASS}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -166,23 +172,28 @@ services:
       start_period: 60s
 
   datapusher:
-    image: keitaro/ckan-datapusher:${DATAPUSHER_IMAGE_TAG}
+    build:
+      context: ./datapusher-plus
     restart: always
     networks:
       - frontend
       - backend
-    expose:
-      - 8000
-    env_file:
-      - ./.env.datapusher.local
-    environment:
-      - DATAPUSHER_REWRITE_URL=http://${CKAN_HOST}:${CKAN_PORT}/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ckan:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl --fail http://localhost:8000/status || exit 1"]
+      test: ["CMD-SHELL", "curl --fail http://localhost:${DATAPUSHER_PORT}/status || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 5
       start_period: 15s
+    environment:
+      - SQLALCHEMY_DATABASE_URI=postgresql://${DB_DATAPUSHER_JOBS_USER}:${DB_DATAPUSHER_JOBS_PASS}@${DB_HOST}/${DB_DATAPUSHER_JOBS}
+      - WRITE_ENGINE_URL=postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}
+      - DOWNLOAD_PROXY=http://${CKAN_HOST}:${CKAN_PORT}
+      - ADD_SUMMARY_STATS_RESOURCE=False
 
   drupal:
     image: ${REGISTRY}/${REPOSITORY}/drupal:${DRUPAL_IMAGE_TAG}
@@ -191,7 +202,8 @@ services:
       - frontend
       - backend
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     expose:
       - 80
     env_file:
