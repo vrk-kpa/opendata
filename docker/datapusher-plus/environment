@@ -14,7 +14,7 @@ WRITE_ENGINE_URL="${WRITE_ENGINE_URL}"
 
 # =============== DOWNLOAD SETTINGS ==============
 # 25mb, this is ignored if either PREVIEW_ROWS > 0 or DOWNLOAD_PREVIEW_ONLY is True
-MAX_CONTENT_LENGTH = 25600000
+MAX_CONTENT_LENGTH=${MAX_CONTENT_LENGTH}
 
 # A Datapusher+ job is triggered automatically everytime a resource is modified (even just its metadata)
 # if its mimetype is one of the supported datapusher.formats. 
