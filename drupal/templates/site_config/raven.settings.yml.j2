@@ -1,0 +1,43 @@
+langcode: fi
+client_key: {{ environ('SENTRY_DSN') }}
+environment: {{ environ('SENTRY_ENV') }}
+release: ''
+log_levels:
+  1: 1
+  2: 2
+  3: 3
+  4: 4
+  5: 0
+  6: 0
+  7: 0
+  8: 0
+stack: true
+timeout: !!float 2
+message_limit: 2048
+trace: false
+fatal_error_handler: false
+fatal_error_handler_memory: 2560
+javascript_error_handler: false
+drush_error_handler: false
+public_dsn: ''
+ssl: verify_ssl
+ca_cert: ''
+ignored_channels: {  }
+send_user_data: false
+rate_limit: 0
+send_request_body: false
+request_tracing: false
+traces_sample_rate: null
+browser_traces_sample_rate: null
+database_tracing: false
+twig_tracing: false
+auto_session_tracking: false
+send_client_reports: false
+drush_tracing: false
+seckit_set_report_uri: false
+send_monitoring_sensor_status_changes: false
+404_tracing: false
+show_report_dialog: false
+error_embed_url: null
+tunnel: false
+modules: false
