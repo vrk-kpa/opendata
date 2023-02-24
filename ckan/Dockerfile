@@ -199,13 +199,6 @@ COPY --from=modules_build ${EXT_DIR} ${EXT_DIR}
 # install extensions
 RUN ${SCRIPT_DIR}/install_extensions.sh
 
-# lock certain python package versions for compatibility
-RUN pip install \
-    flask==0.12 \
-    flask-login==0.3.0 \
-    simplejson==3.16.0 \
-    six==1.13.0
-
 # fix permissions
 RUN chown -R ckan:ckan ${APP_DIR}
 
