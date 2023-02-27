@@ -31,7 +31,6 @@ const envProps: EnvProps = {
   SOLR_IMAGE_TAG: parseEnv('SOLR_IMAGE_TAG'),
   NGINX_IMAGE_TAG: parseEnv('NGINX_IMAGE_TAG'),
   // 3rd party images
-  DATAPUSHER_IMAGE_TAG: parseEnv('DATAPUSHER_IMAGE_TAG'),
   FUSEKI_IMAGE_TAG: parseEnv('FUSEKI_IMAGE_TAG'),
 };
 

@@ -15,6 +15,5 @@ export const mockEnvProps: EnvProps = {
   SOLR_IMAGE_TAG: 'v0.0.0',
   NGINX_IMAGE_TAG: 'v0.0.0',
   // 3rd party images
-  DATAPUSHER_IMAGE_TAG: 'v0.0.0',
   FUSEKI_IMAGE_TAG: 'v0.0.0',
 };
