@@ -1,10 +1,8 @@
-import * as path from 'path';
 import { Duration, Stack, StackProps } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
-import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
 import * as sd from 'aws-cdk-lib/aws-servicediscovery';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as sm from 'aws-cdk-lib/aws-secretsmanager';
@@ -569,9 +567,6 @@ export class CkanStack extends Stack {
     }
 
     // datapusher service
-    const datapusherImageAsset = new DockerImageAsset(this, 'datapusher', {
-      directory: path.join('..', 'docker', 'datapusher-plus'),
-    });
     const datapusherTaskDef = new ecs.FargateTaskDefinition(this, 'datapusherTaskDef', {
       cpu: props.datapusherTaskDef.taskCpu,
       memoryLimitMiB: props.datapusherTaskDef.taskMem,
@@ -582,7 +577,7 @@ export class CkanStack extends Stack {
     });
 
     const datapusherContainer = datapusherTaskDef.addContainer('datapusher', {
-      image: ecs.ContainerImage.fromDockerImageAsset(datapusherImageAsset),
+      image: ecs.ContainerImage.fromEcrRepository(datapusherRepo, props.envProps.DATAPUSHER_IMAGE_TAG),
       environment: {
         DOWNLOAD_PROXY: `http://ckan.${props.namespace.namespaceName}:5000`,
         ADD_SUMMARY_STATS_RESOURCE: 'False',

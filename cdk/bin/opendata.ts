@@ -29,6 +29,7 @@ const envProps: EnvProps = {
   CKAN_IMAGE_TAG: parseEnv('CKAN_IMAGE_TAG'),
   DRUPAL_IMAGE_TAG: parseEnv('DRUPAL_IMAGE_TAG'),
   SOLR_IMAGE_TAG: parseEnv('SOLR_IMAGE_TAG'),
+  DATAPUSHER_IMAGE_TAG: parseEnv('DATAPUSHER_IMAGE_TAG'),
   NGINX_IMAGE_TAG: parseEnv('NGINX_IMAGE_TAG'),
   // 3rd party images
   FUSEKI_IMAGE_TAG: parseEnv('FUSEKI_IMAGE_TAG'),
