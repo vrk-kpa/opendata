@@ -35,6 +35,12 @@ jobs:
             build-frontend: false
             name: solr
             build-container: ${{ needs.detect-changes.outputs.solr == 'true' }}
+          - dockerfile: ./docker/datapusher-plus/Dockerfile
+            context: ./docker/datapusher-plus
+            submodules: ""
+            build-frontend: false
+            name: datapusher
+            build-container: ${{ needs.detect-changes.outputs.datapusher == 'true' }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
@@ -239,6 +245,10 @@ jobs:
         run: |
           docker load --input /tmp/drupal/drupal.tar
 
+      - name: load built datapusher image
+        if: ${{ needs.detect-changes.outputs.datapusher == 'true' }}
+        run: |
+          docker load --input /tmp/datapusher/datapusher.tar
 
       - name: load built solr image
         if: ${{ needs.detect-changes.outputs.solr == 'true' }}
@@ -270,6 +280,7 @@ jobs:
           docker logs opendata_ckan_1
           docker logs opendata_drupal_1
           docker logs opendata_solr_1
+          docker logs opendata_datapusher_1
           docker logs opendata_nginx_1
           docker logs opendata_fuseki_1
 
@@ -284,6 +295,7 @@ jobs:
           docker logs opendata_ckan_1 > /tmp/opendata_ckan_1.log 2>&1
           docker logs opendata_drupal_1 > /tmp/opendata_drupal_1.log 2>&1
           docker logs opendata_solr_1 > /tmp/opendata_solr_1.log 2>&1
+          docker logs opendata_datapusher_1 > /tmp/opendata_datapusher_1.log 2>&1
           docker logs opendata_nginx_1 > /tmp/opendata_nginx_1.log 2>&1
           docker logs opendata_fuseki_1 > /tmp/opendata_fuseki_1.log 2>&1
 
