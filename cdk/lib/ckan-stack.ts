@@ -55,6 +55,12 @@ export class CkanStack extends Stack {
     const pDbDrupalUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDrupalUser', {
       parameterName: `/${props.environment}/opendata/common/db_drupal_user`,
     });
+    const pDbDatapusherJobs = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDatapusherJobs', {
+      parameterName: `/${props.environment}/opendata/common/db_datapusher_jobs`,
+    });
+    const pDbDatapusherJobsUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDatapusherJobsUser', {
+      parameterName: `/${props.environment}/opendata/common/db_datapusher_jobs_user`,
+    });
     const pSiteProtocol = ssm.StringParameter.fromStringParameterAttributes(this, 'pSiteProtocol', {
       parameterName: `/${props.environment}/opendata/common/site_protocol`,
     });
@@ -101,6 +107,7 @@ export class CkanStack extends Stack {
 
     // get repositories
     const ckanRepo = ecr.Repository.fromRepositoryArn(this, 'ckanRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/ckan`);
+    const datapusherRepo = ecr.Repository.fromRepositoryArn(this, 'datapusherRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/datapusher`);
     const solrRepo = ecr.Repository.fromRepositoryArn(this, 'solrRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/solr`);
 
     // ckan service
@@ -242,8 +249,12 @@ export class CkanStack extends Stack {
       DB_CKAN_USER: pDbCkanUser.stringValue,
       DB_DATASTORE_READONLY: pDbDatastoreReadonly.stringValue,
       DB_DATASTORE_READONLY_USER: pDbDatastoreReadonlyUser.stringValue,
+      DB_DATASTORE: pDbDatastoreReadonly.stringValue,
+      DB_DATASTORE_USER: pDbCkanUser.stringValue,
       DB_DRUPAL: pDbDrupal.stringValue,
       DB_DRUPAL_USER: pDbDrupalUser.stringValue,
+      DB_DATAPUSHER_JOBS: pDbDatapusherJobs.stringValue,
+      DB_DATAPUSHER_JOBS_USER: pDbDatapusherJobsUser.stringValue,
       DOMAIN_NAME: props.domainName,
       SECONDARY_DOMAIN_NAME: props.secondaryDomainName,
       SITE_PROTOCOL: pSiteProtocol.stringValue,
@@ -276,6 +287,7 @@ export class CkanStack extends Stack {
       CKAN_APP_INSTANCE_UUID: ecs.Secret.fromSecretsManager(sCkanSecrets, 'ckan_app_instance_uuid'),
       // .env
       DB_CKAN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
+      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
       DB_DATASTORE_READONLY_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_datastore_readonly_pass'),
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
@@ -283,6 +295,7 @@ export class CkanStack extends Stack {
       CKAN_SYSADMIN_PASSWORD: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
       FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
+      DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(sCkanSecrets, 'datapusher_jobs_pass'),
     };
 
     if (props.analyticsEnabled) {
@@ -564,18 +577,14 @@ export class CkanStack extends Stack {
     });
 
     const datapusherContainer = datapusherTaskDef.addContainer('datapusher', {
-      image: ecs.ContainerImage.fromRegistry(`keitaro/ckan-datapusher:${props.envProps.DATAPUSHER_IMAGE_TAG}`),
+      image: ecs.ContainerImage.fromEcrRepository(datapusherRepo, props.envProps.DATAPUSHER_IMAGE_TAG),
       environment: {
-        // .env.datapusher
-        DATAPUSHER_MAX_CONTENT_LENGTH: '524288000',
-        DATAPUSHER_CHUNK_SIZE: '16384',
-        DATAPUSHER_CHUNK_INSERT_ROWS: '250',
-        DATAPUSHER_DOWNLOAD_TIMEOUT: '30',
-        DATAPUSHER_SSL_VERIFY: 'False',
-        DATAPUSHER_REWRITE_RESOURCES: 'False',
-        // .env
-        DATAPUSHER_REWRITE_URL: `http://ckan.${props.namespace.namespaceName}:5000/data`,
+        DOWNLOAD_PROXY: `http://ckan.${props.namespace.namespaceName}:5000`,
+        ADD_SUMMARY_STATS_RESOURCE: 'False',
+        PORT: '8800',
+        MAX_CONTENT_LENGTH: '524288000',
       },
+      secrets: ckanContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
         logGroup: datapusherLogGroup,
         streamPrefix: 'datapusher-service',
@@ -590,7 +599,7 @@ export class CkanStack extends Stack {
     });
 
     datapusherContainer.addPortMappings({
-      containerPort: 8000,
+      containerPort: 8800,
       protocol: ecs.Protocol.TCP,
     });
 
@@ -607,11 +616,11 @@ export class CkanStack extends Stack {
         dnsTtl: Duration.minutes(1),
         name: 'datapusher',
         container: datapusherContainer,
-        containerPort: 8000
+        containerPort: 8800
       },
     });
 
-    datapusherService.connections.allowFrom(this.ckanService, ec2.Port.tcp(8000), 'ckan - datapusher connection');
+    datapusherService.connections.allowFrom(this.ckanService, ec2.Port.tcp(8800), 'ckan - datapusher connection');
     datapusherService.connections.allowTo(this.ckanService, ec2.Port.tcp(5000), 'datapusher - ckan connection');
 
     const datapusherServiceAsg = datapusherService.autoScaleTaskCount({

@@ -15,6 +15,9 @@ on:
       solr:
         description: "Change in solr container"
         value: ${{ jobs.changes_in_containers.outputs.solr }}
+      datapusher:
+        description: "Change in datapusher container"
+        value: ${{ jobs.changes_in_containers.outputs.datapusher }}
       assets:
         description: "Change in assets"
         value: ${{ jobs.changes_in_containers.outputs.assets }}
@@ -27,6 +30,7 @@ jobs:
       drupal: ${{ steps.filter.outputs.drupal }}
       nginx: ${{ steps.filter.outputs.nginx }}
       solr: ${{ steps.filter.outputs.solr }}
+      datapusher: ${{ steps.filter.outputs.datapusher }}
       assets: ${{ steps.filter.outputs.assets }}
     steps:
       - uses: actions/checkout@v2
@@ -47,5 +51,6 @@ jobs:
             ckan: ckan/**
             drupal: drupal/**
             solr: docker/solr/**
+            datapusher: docker/datapusher-plus/**
             nginx: docker/nginx/**
             assets: opendata-assets/**

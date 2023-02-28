@@ -37,6 +37,13 @@ jobs:
             name: solr
             dynatrace: false
             build-container: ${{ needs.detect-changes.outputs.solr == 'true' }}
+          - dockerfile: ./docker/datapusher-plus/Dockerfile
+            context: ./docker/datapusher-plus
+            submodules: ""
+            build-frontend: false
+            name: datapusher
+            dynatrace: false
+            build-container: ${{ needs.detect-changes.outputs.datapusher == 'true' }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
@@ -177,6 +184,11 @@ jobs:
         if: ${{ (needs.detect-changes.outputs.solr == 'true') }}
         run: |
           sed -i.bak -E 's/^(SOLR_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
+      - name: Update .env.template to reference new datapusher image
+        if: ${{ (needs.detect-changes.outputs.datapusher == 'true') }}
+        run: |
+          sed -i.bak -E 's/^(DATAPUSHER_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
 
       - name: Update .env.template to reference new nginx image
         if: ${{ (needs.detect-changes.outputs.nginx == 'true') }}
