@@ -26,6 +26,7 @@ jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/matomo.settings.yml.j2    -o ${
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/recaptcha.settings.yml.j2 -o ${APP_DIR}/site_config/recaptcha.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/smtp.settings.yml.j2      -o ${APP_DIR}/site_config/smtp.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/update.settings.yml.j2    -o ${APP_DIR}/site_config/update.settings.yml
+jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/raven.settings.yml.j2    -o ${APP_DIR}/site_config/raven.settings.yml
 
 # disable captcha conditionally
 if [ "${CAPTCHA_ENABLED}" != "true" ]; then
