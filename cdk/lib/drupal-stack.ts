@@ -153,6 +153,7 @@ export class DrupalStack extends Stack {
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
       DISQUS_DOMAIN: pDisqusDomain.stringValue,
+      SENTRY_ENV: props.environment,
       // dynatrace oneagent
       DT_CUSTOM_PROP: `Environment=${props.environment}`,
     };
