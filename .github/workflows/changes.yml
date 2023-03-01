@@ -44,8 +44,7 @@ jobs:
         id: last_successful_commit
         with:
           main-branch-name: 'master'
-          workflow_id: 'master.yml'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workflow-id: 'master.yml'
       - uses: dorny/paths-filter@v2
         id: filter
         with:
