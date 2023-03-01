@@ -21,7 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build-and-test-containers
-      - detect-changes
     permissions:
       id-token: write
       contents: read
@@ -37,35 +36,35 @@ jobs:
             build-frontend: false
             name: solr
             dynatrace: false
-            build-container: ${{ needs.detect-changes.outputs.solr == 'true' }}
+            build-container: ${{ needs.build-and-test-containers.outputs.solr == 'true' }}
           - dockerfile: ./docker/datapusher-plus/Dockerfile
             context: ./docker/datapusher-plus
             submodules: ""
             build-frontend: false
             name: datapusher
             dynatrace: false
-            build-container: ${{ needs.detect-changes.outputs.datapusher == 'true' }}
+            build-container: ${{ needs.build-and-test-containers.outputs.datapusher == 'true' }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
             build-frontend: false
             name: nginx
             dynatrace: true
-            build-container: ${{ needs.detect-changes.outputs.nginx == 'true' }}
+            build-container: ${{ needs.build-and-test-containers.outputs.nginx == 'true' }}
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
             submodules: ""
             build-frontend: true
             name: drupal
             dynatrace: true
-            build-container: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
+            build-container: ${{ (needs.build-and-test-containers.outputs.drupal == 'true') || (needs.build-and-test-containers.outputs.assets == 'true') }}
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
             build-frontend: true
             name: ckan
             dynatrace: true
-            build-container: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
+            build-container: ${{ (needs.build-and-test-containers.outputs.ckan == 'true') || (needs.build-and-test-containers.outputs.assets == 'true') }}
 
     steps:
       - name: checkout
@@ -158,7 +157,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build-and-push
-      - detect-changes
     permissions:
       id-token: write
       contents: write
@@ -172,33 +170,37 @@ jobs:
           token: ${{ secrets.BOT_TOKEN }}
 
       - name: Update .env.template to reference new ckan image
-        if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true')}}
+        if: ${{ (needs.build-and-test-containers.outputs.ckan == 'true') || (needs.build-and-test-containers.outputs.assets == 'true')}}
         run: |
           sed -i.bak -E 's/^(CKAN_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
 
       - name: Update .env.template to reference new drupal image
-        if: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true')}}
+        if: ${{ (needs.build-and-test-containers.outputs.drupal == 'true') || (needs.build-and-test-containers.outputs.assets == 'true')}}
         run: |
           sed -i.bak -E 's/^(DRUPAL_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
 
       - name: Update .env.template to reference new solr image
-        if: ${{ (needs.detect-changes.outputs.solr == 'true') }}
+        if: ${{ (needs.build-and-test-containers.outputs.solr == 'true') }}
         run: |
           sed -i.bak -E 's/^(SOLR_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
 
       - name: Update .env.template to reference new datapusher image
-        if: ${{ (needs.detect-changes.outputs.datapusher == 'true') }}
+        if: ${{ (needs.build-and-test-containers.outputs.datapusher == 'true') }}
         run: |
           sed -i.bak -E 's/^(DATAPUSHER_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
 
       - name: Update .env.template to reference new nginx image
-        if: ${{ (needs.detect-changes.outputs.nginx == 'true') }}
+        if: ${{ (needs.build-and-test-containers.outputs.nginx == 'true') }}
         run: |
           sed -i.bak -E 's/^(NGINX_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
 
       - name: Commit updated .env.template
         id: envtemplate
-        if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true') || (needs.detect-changes.outputs.drupal == 'true' ) || (needs.detect-changes.outputs.solr == 'true') || (needs.detect-changes.outputs.nginx == 'true') }}
+        if: ${{ (needs.build-and-test-containers.outputs.ckan == 'true') || 
+                (needs.build-and-test-containers.outputs.assets == 'true') || 
+                (needs.build-and-test-containers.outputs.drupal == 'true' ) || 
+                (needs.build-and-test-containers.outputs.solr == 'true') || 
+                (needs.build-and-test-containers.outputs.nginx == 'true') }}
         run: |
           git config user.name "YTP Bot"
           git config user.email "yhteentoimivuus.kehittajat@gofore.com"
