@@ -374,6 +374,9 @@ jobs:
   test:
     name: Test opendata extensions
     runs-on: ubuntu-latest
+    needs:
+      - detect-changes
+    if: ${{ needs.detect-changes.outputs.ckan == 'true' }}
     container:
       image: openknowledge/ckan-dev:2.9
     services:
