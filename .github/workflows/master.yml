@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - only_run_e2e_tests_when_needed
   workflow_dispatch:
 
 jobs:
@@ -209,6 +210,7 @@ jobs:
 
   deploy-beta:
     name: deploy-beta
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     needs:
