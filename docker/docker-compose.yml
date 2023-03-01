@@ -198,9 +198,9 @@ services:
       - DB_DATASTORE_USER=${DB_CKAN_USER}
       - DB_DATASTORE_PASS=${DB_CKAN_PASS}
       - DOWNLOAD_PROXY=http://${CKAN_HOST}:${CKAN_PORT}
-      - ADD_SUMMARY_STATS_RESOURCE=False
       - PORT=${DATAPUSHER_PORT}
-      - MAX_CONTENT_LENGTH=524288000
+    env_file:
+      - ./.env.datapusher.local
 
   drupal:
     image: ${REGISTRY}/${REPOSITORY}/drupal:${DRUPAL_IMAGE_TAG}
