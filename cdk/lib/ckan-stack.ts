@@ -287,7 +287,6 @@ export class CkanStack extends Stack {
       CKAN_APP_INSTANCE_UUID: ecs.Secret.fromSecretsManager(sCkanSecrets, 'ckan_app_instance_uuid'),
       // .env
       DB_CKAN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
-      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
       DB_DATASTORE_READONLY_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_datastore_readonly_pass'),
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
@@ -295,7 +294,6 @@ export class CkanStack extends Stack {
       CKAN_SYSADMIN_PASSWORD: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
       FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
-      DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(sCkanSecrets, 'datapusher_jobs_pass'),
     };
 
     if (props.analyticsEnabled) {
@@ -576,6 +574,11 @@ export class CkanStack extends Stack {
       logGroupName: `/${props.environment}/opendata/datapusher`,
     });
 
+    const datapusherContainerSecrets: { [key: string]: ecs.Secret; } = {
+      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
+      DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(sCkanSecrets, 'datapusher_jobs_pass'),
+    };
+
     const datapusherContainer = datapusherTaskDef.addContainer('datapusher', {
       image: ecs.ContainerImage.fromEcrRepository(datapusherRepo, props.envProps.DATAPUSHER_IMAGE_TAG),
       environment: {
@@ -584,7 +587,7 @@ export class CkanStack extends Stack {
         PORT: '8800',
         MAX_CONTENT_LENGTH: '524288000',
       },
-      secrets: ckanContainerSecrets,
+      secrets: datapusherContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
         logGroup: datapusherLogGroup,
         streamPrefix: 'datapusher-service',
