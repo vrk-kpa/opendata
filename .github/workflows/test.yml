@@ -4,6 +4,29 @@ on:
   pull_request:
   workflow_dispatch:
   workflow_call:
+    outputs:
+      ckan:
+        description: "Change in ckan container"
+        value: ${{ jobs.detect-changes.outputs.ckan }}
+      drupal:
+        description: "Change in drupal container"
+        value: ${{ jobs.detect-changes.outputs.drupal }}
+      nginx:
+        description: "Change in nginx container"
+        value: ${{ jobs.detect-changes.outputs.nginx }}
+      solr:
+        description: "Change in solr container"
+        value: ${{ jobs.detect-changes.outputs.solr }}
+      datapusher:
+        description: "Change in datapusher container"
+        value: ${{ jobs.detect-changes.outputs.datapusher }}
+      assets:
+        description: "Change in assets"
+        value: ${{ jobs.detect-changes.outputs.assets }}
+      environment:
+        description: "Changes in docker environment"
+        value: ${{ jobs.detect-changes.outputs.environment }}
+
 
 env:
   DOCKER_BUILDKIT: 1
