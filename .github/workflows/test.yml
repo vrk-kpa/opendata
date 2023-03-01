@@ -126,6 +126,14 @@ jobs:
     needs:
       - detect-changes
       - build-containers
+    if: ${{ (needs.detect-changes.outputs.nginx == 'true') ||
+            (needs.detect-changes.outputs.ckan == 'true') ||
+            (needs.detect-changes.outputs.drupal == 'true') ||
+            (needs.detect-changes.outputs.solr == 'true') ||
+            (needs.detect-changes.outputs.datapusher == 'true') ||
+            (needs.detect-changes.outputs.assets == 'true') ||
+            (needs.detect-changes.outputs.environment == 'true')
+      }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     permissions:
