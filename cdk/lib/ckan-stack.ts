@@ -578,13 +578,13 @@ export class CkanStack extends Stack {
       PORT: '8800',
       MAX_CONTENT_LENGTH: '524288000',
       DB_HOST: pDbHost.stringValue,
-      DB_DATAPUSHER_JOBS: pDbDatapusherJobs,
+      DB_DATAPUSHER_JOBS: pDbDatapusherJobs.stringValue,
       DB_DATAPUSHER_JOBS_USER: pDbDatapusherJobsUser.stringValue,
       DB_DATASTORE: pDbDatastoreReadonly.stringValue,
-      DB_DATASTORE_USER: pDbCkanUser,
+      DB_DATASTORE_USER: pDbCkanUser.stringValue,
     }
 
-    const datapusherContainerSecrets: { [key: string]: string } = {
+    const datapusherContainerSecrets: { [key: string]: ecs.Secret } = {
       DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(sCkanSecrets, 'datapusher_jobs_pass'),
       DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
     }
