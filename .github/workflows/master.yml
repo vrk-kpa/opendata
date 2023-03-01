@@ -13,9 +13,6 @@ jobs:
     uses: ./.github/workflows/test.yml
     secrets: inherit
 
-  detect-changes:
-    uses: ./.github/workflows/changes.yml
-
   build-and-push:
     name: Build and push containers
     runs-on: ubuntu-latest
@@ -207,7 +204,7 @@ jobs:
           git add docker/.env.template
           git commit -m "[skip ci] .env.template updated by new image tags"
           git push
-          echo "::set-output name=commit_sha::$(git rev-parse HEAD)"
+          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
 
   deploy-beta:
