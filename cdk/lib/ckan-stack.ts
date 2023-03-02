@@ -582,10 +582,6 @@ export class CkanStack extends Stack {
       DB_DATASTORE_USER: pDbCkanUser.stringValue,
     }
 
-    const datapusherContainerSecrets: { [key: string]: ecs.Secret } = {
-      DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(sCkanSecrets, 'datapusher_jobs_pass'),
-      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
-    }
     const datapusherLogGroup = new logs.LogGroup(this, 'datapusherLogGroup', {
       logGroupName: `/${props.environment}/opendata/datapusher`,
     });
