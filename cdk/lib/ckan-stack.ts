@@ -571,7 +571,6 @@ export class CkanStack extends Stack {
     });
 
     const datapusherContainerEnv: { [key: string]: string; } = {
-      DOWNLOAD_PROXY: `http://ckan.${props.namespace.namespaceName}:5000`,
       ADD_SUMMARY_STATS_RESOURCE: 'False',
       PORT: '8800',
       MAX_CONTENT_LENGTH: '524288000',
