@@ -236,7 +236,7 @@ export class CkanStack extends Stack {
       CKAN_HOST: `ckan.${props.namespace.namespaceName}`,
       CKAN_PORT: '5000',
       DATAPUSHER_HOST: `datapusher.${props.namespace.namespaceName}`,
-      DATAPUSHER_PORT: '8000',
+      DATAPUSHER_PORT: '8800',
       REDIS_HOST: props.cacheCluster.getAtt('RedisEndpoint.Address').toString(),
       REDIS_PORT: props.cachePort.toString(),
       REDIS_DB: '0',
@@ -600,7 +600,7 @@ export class CkanStack extends Stack {
         streamPrefix: 'datapusher-service',
       }),
       healthCheck: {
-        command: ['CMD-SHELL', 'curl --fail http://localhost:8000/status || exit 1'],
+        command: ['CMD-SHELL', 'curl --fail http://localhost:8800/status || exit 1'],
         interval: Duration.seconds(15),
         timeout: Duration.seconds(5),
         retries: 5,
