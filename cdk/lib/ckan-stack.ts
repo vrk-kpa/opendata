@@ -570,6 +570,22 @@ export class CkanStack extends Stack {
       memoryLimitMiB: props.datapusherTaskDef.taskMem,
     });
 
+    const datapusherContainerEnv: { [key: string]: string; } = {
+      DOWNLOAD_PROXY: `http://ckan.${props.namespace.namespaceName}:5000`,
+      ADD_SUMMARY_STATS_RESOURCE: 'False',
+      PORT: '8800',
+      MAX_CONTENT_LENGTH: '524288000',
+      DB_HOST: pDbHost.stringValue,
+      DB_DATAPUSHER_JOBS: pDbDatapusherJobs.stringValue,
+      DB_DATAPUSHER_JOBS_USER: pDbDatapusherJobsUser.stringValue,
+      DB_DATASTORE: pDbDatastoreReadonly.stringValue,
+      DB_DATASTORE_USER: pDbCkanUser.stringValue,
+    }
+
+    const datapusherContainerSecrets: { [key: string]: ecs.Secret } = {
+      DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(sCkanSecrets, 'datapusher_jobs_pass'),
+      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
+    }
     const datapusherLogGroup = new logs.LogGroup(this, 'datapusherLogGroup', {
       logGroupName: `/${props.environment}/opendata/datapusher`,
     });
@@ -581,12 +597,7 @@ export class CkanStack extends Stack {
 
     const datapusherContainer = datapusherTaskDef.addContainer('datapusher', {
       image: ecs.ContainerImage.fromEcrRepository(datapusherRepo, props.envProps.DATAPUSHER_IMAGE_TAG),
-      environment: {
-        DOWNLOAD_PROXY: `http://ckan.${props.namespace.namespaceName}:5000`,
-        ADD_SUMMARY_STATS_RESOURCE: 'False',
-        PORT: '8800',
-        MAX_CONTENT_LENGTH: '524288000',
-      },
+      environment: datapusherContainerEnv,
       secrets: datapusherContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
         logGroup: datapusherLogGroup,

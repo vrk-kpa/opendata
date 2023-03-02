@@ -41,6 +41,7 @@
         "drupal/pathauto": "^1.2",
         "drupal/protected_forms": "^2.0",
         "drupal/protected_submissions": "^1.9",
+        "drupal/raven": "^4.0",
         "drupal/recaptcha": "^3.0",
         "drupal/redirect": "^1.2",
         "drupal/search_api": "^1.10",
