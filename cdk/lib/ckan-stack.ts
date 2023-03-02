@@ -590,6 +590,7 @@ export class CkanStack extends Stack {
       DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(sCkanSecrets, 'datapusher_jobs_pass'),
     };
 
+
     const datapusherContainer = datapusherTaskDef.addContainer('datapusher', {
       image: ecs.ContainerImage.fromEcrRepository(datapusherRepo, props.envProps.DATAPUSHER_IMAGE_TAG),
       environment: datapusherContainerEnv,
@@ -612,6 +613,9 @@ export class CkanStack extends Stack {
       protocol: ecs.Protocol.TCP,
     });
 
+
+    datapusherTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
+
     const datapusherService = new ecs.FargateService(this, 'datapusherService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
@@ -627,6 +631,7 @@ export class CkanStack extends Stack {
         container: datapusherContainer,
         containerPort: 8800
       },
+      enableExecuteCommand: true
     });
 
     datapusherService.connections.allowFrom(this.ckanService, ec2.Port.tcp(8800), 'ckan - datapusher connection');
