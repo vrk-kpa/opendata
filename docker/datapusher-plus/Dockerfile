@@ -16,7 +16,7 @@ ENV CFG_DIR=/etc/ckan/datapusher-plus
 
 WORKDIR ${SRC_DIR}
 
-RUN apk add build-base linux-headers git gettext
+RUN apk add build-base linux-headers git gettext curl py3-wheel
 
 #install qsv;
 RUN wget https://github.com/jqnatividad/qsv/releases/download/0.87.1/qsv-0.87.1-x86_64-unknown-linux-musl.zip -P /tmp
@@ -24,8 +24,6 @@ RUN unzip /tmp/qsv-0.87.1-x86_64-unknown-linux-musl.zip -d /tmp
 RUN rm /tmp/qsv-0.87.1-x86_64-unknown-linux-musl.zip
 RUN mv /tmp/qsv* /usr/local/bin
 
-#python env setup; link python3 to python cmd; make venv; install uwsgi;
-RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN python -m venv ${VENV}
 RUN ${VENV}/bin/pip install uwsgi
 
