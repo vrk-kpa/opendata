@@ -4,6 +4,29 @@ on:
   pull_request:
   workflow_dispatch:
   workflow_call:
+    outputs:
+      ckan:
+        description: "Change in ckan container"
+        value: ${{ jobs.detect-changes.outputs.ckan }}
+      drupal:
+        description: "Change in drupal container"
+        value: ${{ jobs.detect-changes.outputs.drupal }}
+      nginx:
+        description: "Change in nginx container"
+        value: ${{ jobs.detect-changes.outputs.nginx }}
+      solr:
+        description: "Change in solr container"
+        value: ${{ jobs.detect-changes.outputs.solr }}
+      datapusher:
+        description: "Change in datapusher container"
+        value: ${{ jobs.detect-changes.outputs.datapusher }}
+      assets:
+        description: "Change in assets"
+        value: ${{ jobs.detect-changes.outputs.assets }}
+      environment:
+        description: "Changes in docker environment"
+        value: ${{ jobs.detect-changes.outputs.environment }}
+
 
 env:
   DOCKER_BUILDKIT: 1
@@ -83,7 +106,7 @@ jobs:
 
       - name: install nodejs v16
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'npm'
@@ -126,6 +149,14 @@ jobs:
     needs:
       - detect-changes
       - build-containers
+    if: ${{ (needs.detect-changes.outputs.nginx == 'true') ||
+            (needs.detect-changes.outputs.ckan == 'true') ||
+            (needs.detect-changes.outputs.drupal == 'true') ||
+            (needs.detect-changes.outputs.solr == 'true') ||
+            (needs.detect-changes.outputs.datapusher == 'true') ||
+            (needs.detect-changes.outputs.assets == 'true') ||
+            (needs.detect-changes.outputs.environment == 'true')
+      }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     permissions:
@@ -136,13 +167,13 @@ jobs:
       TERM: xterm
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: setup docker buildx
         uses: docker/setup-buildx-action@v1
 
       - name: install nodejs v16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'npm'
@@ -332,15 +363,15 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: install nodejs v16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16
 
       - name: cache node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
@@ -366,6 +397,9 @@ jobs:
   test:
     name: Test opendata extensions
     runs-on: ubuntu-latest
+    needs:
+      - detect-changes
+    if: ${{ needs.detect-changes.outputs.ckan == 'true' }}
     container:
       image: openknowledge/ckan-dev:2.9
     services:
