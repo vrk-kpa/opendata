@@ -37,9 +37,9 @@ RUN cd ${SRC_DIR}/datapusher-plus && \
 # Prepare configuration template (instantiation in startup.sh because of environment variables)
 RUN adduser -S www-data
 RUN mkdir -p ${CFG_DIR}
-COPY ./environment ${CFG_DIR}/.env.template
-RUN touch ${CFG_DIR}/.env && chown www-data ${CFG_DIR}/.env
-ENV JOB_CONFIG=${CFG_DIR}/.env
+COPY ./environment ${SRC_DIR}/datapusher-plus/datapusher/.env.template
+RUN touch ${SRC_DIR}/datapusher-plus/datapusher/.env && chown www-data ${SRC_DIR}/datapusher-plus/datapusher/.env
+ENV JOB_CONFIG=${SRC_DIR}/datapusher-plus/datapusher/.env
 
 RUN cp ${SRC_DIR}/datapusher-plus/deployment/datapusher-uwsgi.ini ${CFG_DIR}/uwsgi.ini
 COPY ./startup.sh /startup.sh
