@@ -165,8 +165,10 @@ jobs:
     env:
       CI: 1
       TERM: xterm
-    matrix:
-      containers: [1, 2, 3]
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2, 3]
     steps:
       - name: checkout
         uses: actions/checkout@v3
