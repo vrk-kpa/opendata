@@ -64,15 +64,15 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: ${{ matrix.submodules }}
 
       - name: setup docker buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           role-to-assume: ${{ secrets.AWS_BUILD_ROLE }}
           role-session-name: github-actions
@@ -103,7 +103,7 @@ jobs:
 
       - name: install nodejs v16
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: 'npm'
@@ -120,7 +120,7 @@ jobs:
         working-directory: ./opendata-assets
 
       - name: build images
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         if: ${{ matrix.build-container == true }}
         with:
           context: ${{ matrix.context }}
@@ -134,7 +134,7 @@ jobs:
 
       - name: build images with dynatrace
         if: ${{ matrix.dynatrace == true  && matrix.build-container == true }}
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
@@ -160,7 +160,7 @@ jobs:
       sha: ${{ steps.envtemplate.outputs.commit_sha || github.sha }}
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: ${{ matrix.submodules }}
           token: ${{ secrets.BOT_TOKEN }}
@@ -221,17 +221,17 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ needs.commit-new-images.outputs.sha }}
 
       - name: install nodejs v16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16
 
       - name: cache node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
@@ -256,7 +256,7 @@ jobs:
           REPOSITORY: ${{ secrets.REPOSITORY }}
 
       - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           role-to-assume: ${{ secrets.AWS_BETA_DEPLOY_ROLE }}
           role-session-name: github-actions
