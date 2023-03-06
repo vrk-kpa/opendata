@@ -152,6 +152,7 @@ jobs:
     name: Commit new image tags
     runs-on: ubuntu-latest
     needs:
+      - build-and-test-containers
       - build-and-push
     permissions:
       id-token: write
