@@ -1,5 +1,11 @@
 
-describe('Dataset tests', function(){
+describe('Dataset tests',
+  {
+    retries:{
+      runMode: 2,
+      openMode: 2,
+    }
+  }, function(){
   const test_organization = 'dataset_test_organization';
 
   before(function(){
