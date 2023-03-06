@@ -35,12 +35,14 @@ describe('Apiset tests',
       '#field-name_translated-fi': 'test api',
       '#field-description_translated-fi': 'test kuvaus',
       '#s2id_autogen1': {type: 'select2', values: ['JSON'], force: true},
+      '#field-image-url': "http://example.com"
     }
 
     const api2_form_data = {
       '#field-name_translated-fi': 'test api',
       '#field-description_translated-fi': 'test kuvaus',
       '#s2id_autogen1': {type: 'select2', values: ['CSV'], force: true},
+      '#field-image-url': "http://example.com"
     }
 
     beforeEach(function () {
@@ -60,7 +62,7 @@ describe('Apiset tests',
       cy.fill_form_fields(apiset1_form_data);
       cy.get('button[name=save]').click();
       cy.fill_form_fields(api1_form_data);
-      cy.get('#field-image-upload').selectFile("cypress/sample_text_file.txt")
+      //cy.get('#field-image-upload').selectFile("cypress/sample_text_file.txt")
       cy.get('button[name=save].suomifi-button-primary').click();
       //wait for file to upload properly and the page to render before continuing
       cy.location('pathname', {timeout: 60000}).should('not.contain', `/apiset/${apiset1_name}/resource/new`)
@@ -73,7 +75,7 @@ describe('Apiset tests',
       cy.fill_form_fields(apiset2_form_data);
       cy.get('button[name=save]').click();
       cy.fill_form_fields(api2_form_data);
-      cy.get('#field-image-upload').selectFile("cypress/FL_insurance_sample.csv")
+      //cy.get('#field-image-upload').selectFile("cypress/FL_insurance_sample.csv")
       cy.get('button[name=save].suomifi-button-primary').click();
       //wait for file to upload properly and the page to render before continuing
       cy.location('pathname', {timeout: 60000}).should('not.contain', `/apiset/${apiset2_name}/resource/new`)

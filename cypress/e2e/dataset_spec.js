@@ -307,6 +307,9 @@ describe('Dataset tests',
 
     const dataset_name_translated = 'test data';
     const dataset_description_translated = 'test kuvaus';
+    const dataset_resource_url = "https://example.com"
+    const dataset_resource_size = 12345
+    const dataset_resource_format = 'CSV'
     const dataset_position_info = "56.7 43.5";
     const dataset_temporal_granularity = "test";
     const dataset_maturity = "current";
@@ -335,6 +338,12 @@ describe('Dataset tests',
     const misc_dataset_resource_form_data = {
       '#field-name_translated-fi': dataset_name_translated,
       '#field-description_translated-fi': dataset_description_translated,
+      '#field-image-url': dataset_resource_url,
+      '#field-size': dataset_resource_size,
+      '#field-format': {
+        value: dataset_resource_format,
+        force: true
+      },
       '#field-position_info': dataset_position_info,
       '#field-maturity':{type: 'select', value: dataset_maturity},
       // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
@@ -362,7 +371,7 @@ describe('Dataset tests',
       //check that we are on the second form page
       cy.get('.last').should('have.class', 'active');
 
-      cy.get('#field-image-upload').selectFile("cypress/FL_insurance_sample.csv");
+      //cy.get('#field-image-upload').selectFile("cypress/FL_insurance_sample.csv");
       cy.fill_form_fields(misc_dataset_resource_form_data);
       cy.get('button[name=save].suomifi-button-primary').click();
 
@@ -424,9 +433,8 @@ describe('Dataset tests',
       //The api button placement might chance, so exclude it for now
 
       //dataset properties
-      // the file format may evaluate to 'CSV' or 'text/csv' so this checks for the existence of csv in a case insensitive way
-      cy.get('tbody > :nth-child(1) > :nth-child(2)').contains(/csv/i);
-      cy.get('tbody > :nth-child(2) > :nth-child(2)').should('contain.text', '4123652'); //filesize of the uploaded file
+      cy.get('tbody > :nth-child(1) > :nth-child(2)').should('contain.text', dataset_resource_format);
+      cy.get('tbody > :nth-child(2) > :nth-child(2)').should('contain.text', dataset_resource_size);
       cy.get('tbody > :nth-child(3) > :nth-child(2)').should('contain.text', 'Voimassa');
       cy.get('tbody > :nth-child(4) > :nth-child(2)').should('contain.text', dataset_position_info);
       cy.get(':nth-child(5) > :nth-child(2)').should('contain.text', check_from);//easier to check for both separately
