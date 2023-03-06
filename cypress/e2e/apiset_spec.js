@@ -5,9 +5,12 @@ describe('Apiset tests',
       openMode: 2,
     }
   }, function() {
+
+  const test_organization = 'apiset_test_organization';
+
   before(function () {
     cy.reset_db();
-    cy.create_organization_for_user('apiset_test_organization', 'test-user', true);
+    cy.create_organization_for_user(test_organization, 'test-user', true);
   });
 
   describe('Apiset filtering', function () {
