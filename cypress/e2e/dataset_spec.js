@@ -373,6 +373,7 @@ describe('Dataset tests',
       //check that we are on the second form page
       cy.get('.last').should('have.class', 'active');
 
+      cy.contains('a', 'Linkki').click();
       //cy.get('#field-image-upload').selectFile("cypress/FL_insurance_sample.csv");
       cy.fill_form_fields(misc_dataset_resource_form_data);
       cy.get('button[name=save].suomifi-button-primary').click();

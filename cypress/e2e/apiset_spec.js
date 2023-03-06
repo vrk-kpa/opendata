@@ -64,6 +64,8 @@ describe('Apiset tests',
       cy.get('#field-name').type(apiset1_name);
       cy.fill_form_fields(apiset1_form_data);
       cy.get('button[name=save]').click();
+
+      cy.contains('a', 'Linkki').click();
       cy.fill_form_fields(api1_form_data);
       //cy.get('#field-image-upload').selectFile("cypress/sample_text_file.txt")
       cy.get('button[name=save].suomifi-button-primary').click();
@@ -77,6 +79,8 @@ describe('Apiset tests',
       cy.get('#field-name').type(apiset2_name);
       cy.fill_form_fields(apiset2_form_data);
       cy.get('button[name=save]').click();
+
+      cy.contains('a', 'Linkki').click();
       cy.fill_form_fields(api2_form_data);
       //cy.get('#field-image-upload').selectFile("cypress/FL_insurance_sample.csv")
       cy.get('button[name=save].suomifi-button-primary').click();
