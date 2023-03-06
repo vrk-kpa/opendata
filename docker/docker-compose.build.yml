@@ -10,3 +10,5 @@ services:
     image: ${REGISTRY}/${REPOSITORY}/nginx:latest
   solr:
     image: ${REGISTRY}/${REPOSITORY}/solr:latest
+  datapusher:
+    image: ${REGISTRY}/${REPOSITORY}/datapusher:latest

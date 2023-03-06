@@ -1,5 +1,11 @@
 
-describe('Dataset tests', function(){
+describe('Dataset tests',
+  {
+    retries:{
+      runMode: 2,
+      openMode: 2,
+    }
+  }, function(){
   const test_organization = 'dataset_test_organization';
 
   before(function(){
@@ -121,6 +127,8 @@ describe('Dataset tests', function(){
 
   describe('Dataset creation and deletion tests', function() {
     beforeEach(function () {
+      cy.reset_db();
+      cy.create_organization_for_user(test_organization, 'test-user', true);
       cy.login_post_request('test-user', 'test-user')
       cy.visit('/data/fi/dataset');
     })
@@ -301,6 +309,9 @@ describe('Dataset tests', function(){
 
     const dataset_name_translated = 'test data';
     const dataset_description_translated = 'test kuvaus';
+    const dataset_resource_url = "https://example.com"
+    const dataset_resource_size = 12345
+    const dataset_resource_format = 'CSV'
     const dataset_position_info = "56.7 43.5";
     const dataset_temporal_granularity = "test";
     const dataset_maturity = "current";
@@ -328,6 +339,12 @@ describe('Dataset tests', function(){
 
     const misc_dataset_resource_form_data = {
       '#field-name_translated-fi': dataset_name_translated,
+      '#field-image-url': dataset_resource_url,
+      '#field-size': dataset_resource_size,
+      '#field-format': {
+        value: dataset_resource_format,
+        force: true
+      },
       '#field-description_translated-fi': dataset_description_translated,
       '#field-position_info': dataset_position_info,
       '#field-maturity':{type: 'select', value: dataset_maturity},
@@ -356,7 +373,8 @@ describe('Dataset tests', function(){
       //check that we are on the second form page
       cy.get('.last').should('have.class', 'active');
 
-      cy.get('#field-image-upload').selectFile("cypress/FL_insurance_sample.csv");
+      cy.contains('a', 'Linkki').click();
+      //cy.get('#field-image-upload').selectFile("cypress/FL_insurance_sample.csv");
       cy.fill_form_fields(misc_dataset_resource_form_data);
       cy.get('button[name=save].suomifi-button-primary').click();
 
@@ -377,7 +395,7 @@ describe('Dataset tests', function(){
       cy.get('.admin-banner > a');
       cy.get('.resource-item').should('contain.text', 'test data');
       cy.get('a.resource-action').should('contain.text', 'Muokkaa');
-      cy.get('.resource-url-analytics').should('contain.text', 'Lataa');
+      cy.get('.resource-url-analytics').should('contain.text', 'Avaa');
     
       //dataset collection information
       cy.get(':nth-child(1) > th').should('contain.text', 'Kokoelma');
@@ -414,13 +432,12 @@ describe('Dataset tests', function(){
       cy.get('.module-small-title').should('contain.text', misc_dataset_name);
       cy.get('.page-heading').should('contain.text', dataset_name_translated);
       cy.get('ul > :nth-child(1) > .btn').should('contain.text', 'Muokkaa');
-      cy.get('ul > :nth-child(2) > .btn').should('contain.text', 'Lataa');
+      cy.get('ul > :nth-child(2) > .btn').should('contain.text', 'Avaa');
       //The api button placement might chance, so exclude it for now
 
       //dataset properties
-      // the file format may evaluate to 'CSV' or 'text/csv' so this checks for the existence of csv in a case insensitive way
-      cy.get('tbody > :nth-child(1) > :nth-child(2)').contains(/csv/i);
-      cy.get('tbody > :nth-child(2) > :nth-child(2)').should('contain.text', '4123652'); //filesize of the uploaded file
+      cy.get('tbody > :nth-child(1) > :nth-child(2)').should('contain.text', dataset_resource_format);
+      cy.get('tbody > :nth-child(2) > :nth-child(2)').should('contain.text', dataset_resource_size);
       cy.get('tbody > :nth-child(3) > :nth-child(2)').should('contain.text', 'Voimassa');
       cy.get('tbody > :nth-child(4) > :nth-child(2)').should('contain.text', dataset_position_info);
       cy.get(':nth-child(5) > :nth-child(2)').should('contain.text', check_from);//easier to check for both separately

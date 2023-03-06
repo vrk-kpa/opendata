@@ -1,4 +1,4 @@
-#############################
+############################# 
 ### Build DataPusher Plus ###
 #############################
 FROM public.ecr.aws/docker/library/python:3.10.9-alpine3.17
