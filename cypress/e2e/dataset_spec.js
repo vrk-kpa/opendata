@@ -395,7 +395,7 @@ describe('Dataset tests',
       cy.get('.admin-banner > a');
       cy.get('.resource-item').should('contain.text', 'test data');
       cy.get('a.resource-action').should('contain.text', 'Muokkaa');
-      cy.get('.resource-url-analytics').should('contain.text', 'Lataa');
+      cy.get('.resource-url-analytics').should('contain.text', 'Avaa');
     
       //dataset collection information
       cy.get(':nth-child(1) > th').should('contain.text', 'Kokoelma');
@@ -432,7 +432,7 @@ describe('Dataset tests',
       cy.get('.module-small-title').should('contain.text', misc_dataset_name);
       cy.get('.page-heading').should('contain.text', dataset_name_translated);
       cy.get('ul > :nth-child(1) > .btn').should('contain.text', 'Muokkaa');
-      cy.get('ul > :nth-child(2) > .btn').should('contain.text', 'Lataa');
+      cy.get('ul > :nth-child(2) > .btn').should('contain.text', 'Avaa');
       //The api button placement might chance, so exclude it for now
 
       //dataset properties
