@@ -439,8 +439,6 @@ describe('Apiset tests',
         })
 
       });
-
-    }
   });
 
 
