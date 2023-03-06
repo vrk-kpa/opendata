@@ -339,13 +339,13 @@ describe('Dataset tests',
 
     const misc_dataset_resource_form_data = {
       '#field-name_translated-fi': dataset_name_translated,
-      '#field-description_translated-fi': dataset_description_translated,
       '#field-image-url': dataset_resource_url,
       '#field-size': dataset_resource_size,
       '#field-format': {
         value: dataset_resource_format,
         force: true
       },
+      '#field-description_translated-fi': dataset_description_translated,
       '#field-position_info': dataset_position_info,
       '#field-maturity':{type: 'select', value: dataset_maturity},
       // FIXME: These should just be 'value{enter}' for each, see fill_form_fields in support/commands.js
