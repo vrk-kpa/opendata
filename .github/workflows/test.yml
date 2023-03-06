@@ -355,6 +355,19 @@ jobs:
           name: videos
           path: cypress/videos
 
+  test-e2e-results:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: Final E2E Results
+    needs: [test-e2e]
+    steps:
+      - run: exit 1
+        if: >-
+          ${{
+              contains(needs.*.result, 'failure')
+              || contains(needs.*.result, 'cancelled')
+          }}
+
   test-cdk:
     name: test-cdk
     runs-on: ubuntu-latest
