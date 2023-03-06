@@ -127,6 +127,8 @@ describe('Dataset tests',
 
   describe('Dataset creation and deletion tests', function() {
     beforeEach(function () {
+      cy.reset_db();
+      cy.create_organization_for_user(test_organization, 'test-user', true);
       cy.login_post_request('test-user', 'test-user')
       cy.visit('/data/fi/dataset');
     })

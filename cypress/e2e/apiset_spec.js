@@ -33,16 +33,16 @@ describe('Apiset tests',
 
     const api1_form_data = {
       '#field-name_translated-fi': 'test api',
+      '#field-image-url': "http://example.com",
       '#field-description_translated-fi': 'test kuvaus',
       '#s2id_autogen1': {type: 'select2', values: ['JSON'], force: true},
-      '#field-image-url': "http://example.com"
     }
 
     const api2_form_data = {
       '#field-name_translated-fi': 'test api',
+      '#field-image-url': "http://example.com",
       '#field-description_translated-fi': 'test kuvaus',
       '#s2id_autogen1': {type: 'select2', values: ['CSV'], force: true},
-      '#field-image-url': "http://example.com"
     }
 
     beforeEach(function () {
@@ -232,6 +232,8 @@ describe('Apiset tests',
 
   describe('Apiset creation', function () {
     beforeEach(function () {
+      cy.reset_db();
+      cy.create_organization_for_user(test_organization, 'test-user', true);
       cy.login_post_request('test-user', 'test-user')
       cy.visit('/');
     });
