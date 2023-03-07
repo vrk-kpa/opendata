@@ -7,7 +7,7 @@ import re
 import urllib
 import sqlalchemy
 import ckan.lib.base as base
-from . import logic as plugin_logic
+from . import logic as plugin_logic, hierarchy as plugin_hierarchy
 import ckan.plugins as p
 from ckan import authz as authz
 
@@ -992,7 +992,10 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
 
     def get_actions(self):
         return {'user_create': action_user_create,
-                'organization_tree_list': action_organization_tree_list}
+                'organization_tree_list': action_organization_tree_list,
+                'group_tree': plugin_hierarchy.group_tree,
+                'group_tree_section': plugin_hierarchy.group_tree_section,
+                }
 
     def get_blueprint(self):
         '''Return a Flask Blueprint object to be registered by the app.'''

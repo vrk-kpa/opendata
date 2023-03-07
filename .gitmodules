@@ -83,3 +83,5 @@
 [submodule "ckan/ckanext/ckanext-sitesearch"]
 	path = ckan/ckanext/ckanext-sitesearch
 	url = https://github.com/vrk-kpa/ckanext-sitesearch.git
+[submodule "ckanext-hierarchy"]
+	url = https://github.com/ckan/ckanext-hierarchy.git
