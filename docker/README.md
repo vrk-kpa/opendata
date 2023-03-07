@@ -173,6 +173,11 @@ services:
     ports:
       - "8983:8983"
     restart: unless-stopped
+  datapusher:
+    image: opendata/datapusher:latest
+    build:
+      context: ./datapusher-plus
+    restart: unless-stopped
   postgres:
     restart: unless-stopped
 
