@@ -9,7 +9,7 @@
 	url = https://github.com/vrk-kpa/ckanext-dcat.git
 [submodule "modules/ckanext-hierarchy"]
 	path = ckan/ckanext/ckanext-hierarchy
-	url = https://github.com/yhteentoimivuuspalvelut/ckanext-hierarchy.git
+	url = https://github.com/ckan/ckanext-hierarchy.git
 [submodule "modules/ckanext-spatial"]
 	path = ckan/ckanext/ckanext-spatial
 	url = https://github.com/vrk-kpa/ckanext-spatial.git

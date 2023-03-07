@@ -480,6 +480,9 @@ jobs:
         cd ../ckanext-organizationapproval
         pip install -r requirements.txt
         pip install -e .
+        cd ../ckanext-hierarchy
+        pip install -r requirements.txt
+        pip install -e .
         cd ../ckanext-harvest
         pip install -r requirements.txt
         pip install -e .
