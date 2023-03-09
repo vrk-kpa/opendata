@@ -573,7 +573,7 @@ export class CkanStack extends Stack {
     const datapusherContainerEnv: { [key: string]: string; } = {
       ADD_SUMMARY_STATS_RESOURCE: 'False',
       PORT: '8800',
-      MAX_CONTENT_LENGTH: '524288000',
+      MAX_CONTENT_LENGTH: '5242880000',
       DB_HOST: pDbHost.stringValue,
       DB_DATAPUSHER_JOBS: pDbDatapusherJobs.stringValue,
       DB_DATAPUSHER_JOBS_USER: pDbDatapusherJobsUser.stringValue,
