@@ -592,7 +592,7 @@ def get_apiset_package_list(package_id):
     return get_action('apiset_package_list')(context, {'apiset_id': package_id})
 
 
-def get_groups_where_user_is_admin(current_id=None):
+def get_groups_where_user_is_admin(current_id=None, only_approved=False):
     context = {'model': model, 'session': model.Session, 'user': c.user}
     organizations = get_action('organization_list_for_user')(context, {'permission': 'admin'})
 
@@ -603,7 +603,10 @@ def get_groups_where_user_is_admin(current_id=None):
                               current_organization.groups_allowed_to_be_its_parent(type='organization')]
         return filter(lambda organization: organization.get('id') in allowed_parent_ids, organizations)
 
-    return organizations
+    if only_approved:
+        return [o for o in organizations if o.get('approval_status') == 'approved']
+    else:
+        return organizations
 
 
 def get_value_from_extras_by_key(object_with_extras, key):
