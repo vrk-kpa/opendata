@@ -40,7 +40,7 @@
       "form_snippet": "org_hierarchy.html",
       "label": "Parent organization",
       "group_title": "Other information",
-      "validators": "is_allowed_parent is_admin_in_parent_if_changed"
+      "validators": "keep_old_value_if_missing is_allowed_parent is_admin_in_parent_if_changed"
     },
     {
       "field_name": "producer_type",

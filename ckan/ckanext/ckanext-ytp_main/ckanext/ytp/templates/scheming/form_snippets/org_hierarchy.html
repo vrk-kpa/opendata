@@ -1,10 +1,15 @@
 <div class="control-group">
   <label class="control-label" for="field-parent">{{ h.scheming_language_text(field.label) }}</label>
   <div class="controls">
-    <select id="field-parent" name="groups__0__name" data-module="autocomplete">
-      {% set selected_parent = (data.get('groups') or [{'name': ''}])[0]['name'] %} {{ selected_parent }}
-      <option value="" {% if not selected_parent %} selected="selected" {% endif %}>{{ _('None - top level') }}</option>
-      {% set parent_groups = h.get_groups_where_user_is_admin(data.get('id'), only_approved=True) %}
+    {% set selected_parent = (data.get('groups') or [{'name': ''}])[0]['name'] %}
+    {% set parent_groups = h.get_groups_where_user_is_admin(data.get('id'), only_approved=True) | list%}
+    <select id="field-parent" name="groups__0__name" data-module="autocomplete" {% if not parent_groups %}disabled{% endif %}>
+      {{ selected_parent }}
+      {% if selected_parent and not parent_groups %}
+        <option value="{{ selected_parent }}" selected="selected">{{ _('Parent organization admin privileges are required to change parent organization') }}</option>
+      {% else %}
+        <option value="" {% if not selected_parent %} selected="selected" {% endif %}>{{ _('None - top level') }}</option>
+      {% endif %}
       {% for group in parent_groups %}
         <option value="{{ group.name }}" {% if group.name == selected_parent %}selected="selected"{% endif %}>{{ h.get_translated(group, 'title') or group.name }}</option>
       {% endfor %}
