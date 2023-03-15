@@ -32,8 +32,9 @@ def _accumulate_dataset_counts(groups, members):
     return dataset_count_map
 
 
-def _fetch_all_organizations(user=None, force_root_ids=None):
-    if is_sysadmin(user):
+def _fetch_all_organizations(user=None, force_root_ids=None, only_approved=False):
+    log.info(f'only_approved: {only_approved}')
+    if is_sysadmin(user) and not only_approved:
         non_approved = []
     else:
         # Find names of all non-approved organizations
@@ -44,7 +45,7 @@ def _fetch_all_organizations(user=None, force_root_ids=None):
         non_approved = set(result[0] for result in query.all())
 
         # If user is logged in, retain only names of organizations the user is not a member of
-        if user:
+        if user and not only_approved:
             query = (model.Session.query(model.Group.name)
                      .join(model.Member, model.Member.group_id == model.Group.id)
                      .join(model.User, model.User.id == model.Member.table_id)
@@ -140,7 +141,8 @@ def group_tree(original_action, context, data_dict):
 
     :returns: list of top-level GroupTreeNodes
     '''
-    top_level_groups, children = _fetch_all_organizations(user=context.get('user'))
+    top_level_groups, children = _fetch_all_organizations(user=context.get('user'),
+                                                          only_approved=p.toolkit.asbool(data_dict.get('only_approved', False)))
     sorted_top_level_groups = sorted(top_level_groups, key=lambda g: g.name)
     result = [_group_tree_branch(group, children=children.get(group.id, []))
               for group in sorted_top_level_groups]
