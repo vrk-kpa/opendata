@@ -19,11 +19,12 @@ def _accumulate_dataset_counts(groups, members):
     child_parents_map = {gid: members_by_group.get(gid, []) for gid in dataset_count_map.keys()}
 
     def add_to_ancestors(id, value, counts):
-        counts[id] += value
-        parents = child_parents_map.get(id, [])
-        if parents:
-            for parent in parents:
-                add_to_ancestors(parent, value, counts)
+        if id in counts:
+            counts[id] += value
+            parents = child_parents_map.get(id, [])
+            if parents:
+                for parent in parents:
+                    add_to_ancestors(parent, value, counts)
 
     for group in groups:
         if group.dataset_count:
