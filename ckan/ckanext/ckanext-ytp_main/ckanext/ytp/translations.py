@@ -173,6 +173,9 @@ def _translations():
     _('Harvester status')
     _('Harvester statuses')
     _('No jobs yet')
+    _('week')
+    _('month')
+    _('year')
 
     # Hierarchy
     _('The dataset amount of the organization is shown beside the organization name.')
