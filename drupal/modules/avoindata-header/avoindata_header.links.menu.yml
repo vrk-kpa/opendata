@@ -213,8 +213,8 @@ avoindata_header.events_en:
   weight: 5
 
 avoindata_header.events_sv:
-  title: 'Kalendarium'
-  description: 'Kalendarium'
+  title: 'Evenemang'
+  description: 'Evenemang'
   parent: avoindata_header.moreoptions_sv
   menu_name: main-sv
   url: 'internal:/sv/events/'
