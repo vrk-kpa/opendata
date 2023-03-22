@@ -31,6 +31,6 @@ describe('URL tests', function(){
       cy.request("/tapahtumat");
       cy.request("/fi/tapahtumat");
       cy.request("/en/events");
-      cy.request("/sv/evenemang");
+      cy.request("/sv/evenemanger");
     })
   })
