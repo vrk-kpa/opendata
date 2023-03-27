@@ -596,6 +596,9 @@ def get_groups_where_user_is_admin(current_id=None, only_approved=False):
     context = {'model': model, 'session': model.Session, 'user': c.user}
     organizations = get_action('organization_list_for_user')(context, {'permission': 'admin'})
 
+    if only_approved:
+        organizations = [o for o in organizations if o.get('approval_status') == 'approved']
+
     # If list is fetched for existing company, return only allowed parents
     if current_id is not None:
         current_organization = model.Group.get(current_id)
@@ -603,10 +606,7 @@ def get_groups_where_user_is_admin(current_id=None, only_approved=False):
                               current_organization.groups_allowed_to_be_its_parent(type='organization')]
         return filter(lambda organization: organization.get('id') in allowed_parent_ids, organizations)
 
-    if only_approved:
-        return [o for o in organizations if o.get('approval_status') == 'approved']
-    else:
-        return organizations
+    return organizations
 
 
 def get_value_from_extras_by_key(object_with_extras, key):

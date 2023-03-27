@@ -3,16 +3,17 @@
   <div class="controls">
     {% set selected_parent = (data.get('groups') or [{'name': ''}])[0]['name'] %}
     {% set parent_groups = h.get_groups_where_user_is_admin(data.get('id'), only_approved=True) | list%}
-    <select id="field-parent" name="groups__0__name" data-module="autocomplete" {% if not parent_groups %}disabled{% endif %}>
+    {% set not_parent_admin = selected_parent and parent_groups|selectattr("name", "eq", selected_parent)|list|length == 0 %}
+    <select id="field-parent" name="groups__0__name" data-module="autocomplete" {% if not_parent_admin %}disabled{% endif %}>
       {{ selected_parent }}
-      {% if selected_parent and not parent_groups %}
+      {% if not_parent_admin %}
         <option value="{{ selected_parent }}" selected="selected">{{ _('Parent organization admin privileges are required to change parent organization') }}</option>
       {% else %}
         <option value="" {% if not selected_parent %} selected="selected" {% endif %}>{{ _('None - top level') }}</option>
+        {% for group in parent_groups %}
+          <option value="{{ group.name }}" {% if group.name == selected_parent %}selected="selected"{% endif %}>{{ h.get_translated(group, 'title') or group.name }}</option>
+        {% endfor %}
       {% endif %}
-      {% for group in parent_groups %}
-        <option value="{{ group.name }}" {% if group.name == selected_parent %}selected="selected"{% endif %}>{{ h.get_translated(group, 'title') or group.name }}</option>
-      {% endfor %}
     </select>
   </div>
 </div>
