@@ -425,7 +425,7 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
   },
   datapusherTaskDef: {
     taskCpu: 512,
-    taskMem: 1024,
+    taskMem: 2048,
     taskMinCapacity: 1,
     taskMaxCapacity: 3,
   },
@@ -671,7 +671,7 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
   },
   datapusherTaskDef: {
     taskCpu: 512,
-    taskMem: 1024,
+    taskMem: 2048,
     taskMinCapacity: 1,
     taskMaxCapacity: 4,
   },
