@@ -85,7 +85,7 @@ jobs:
     name: Slack notification
     runs-on: ubuntu-latest
     needs:
-      - flake8
+      - ruff
       - code-sniffer
       - stylelint
     if: failure() && github.ref == 'refs/heads/master'
