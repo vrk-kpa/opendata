@@ -27,7 +27,7 @@ def create_root_organization(api, name):
 
 def create_organization(api, name, parent_name):
     print("Creating organization %s" % name)
-    org = api.call_action('organization_create', {
+    api.call_action('organization_create', {
         'name': name,
         'title_translated': {'fi': name},
         'groups': [{"capacity": "public", "name": parent_name}]
