@@ -42,9 +42,10 @@ from .helpers import extra_translation, render_date, service_database_enabled, g
     scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function, get_translation, get_translated, \
     dataset_display_name, resource_display_name, get_current_date, get_label_for_producer, scheming_category_list, \
     check_group_selected, group_title_by_id, group_list_with_selected, \
-    get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_apiset_package_list, get_groups_where_user_is_admin, \
-    get_value_from_extras_by_key, get_field_from_dataset_schema, get_field_from_resource_schema, is_boolean_selected, \
-    site_url_with_root_path, get_organization_filters_count, package_count_for_source_customized
+    get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_apiset_package_list, \
+    get_groups_where_user_is_admin, get_value_from_extras_by_key, get_field_from_dataset_schema, \
+    get_field_from_resource_schema, is_boolean_selected, site_url_with_root_path, \
+    get_organization_filters_count, package_count_for_source_customized
 
 from .tools import create_system_context
 
@@ -700,7 +701,8 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         # if the license is not open enough, do not harvest the resource
         harvested_licences = ['cc-by-4.0', 'cc-zero-1.0']
         if package_dict.get('license_id', "") not in harvested_licences:
-            logging.info(f"Skipping harvesting {package_dict.get('title', '')} as its license [{package_dict.get('license_id', '')}] was not in the list of accepted licenses")
+            logging.info(f"Skipping harvesting {package_dict.get('title', '')} as its license "
+                         f"[{package_dict.get('license_id', '')}] was not in the list of accepted licenses")
             return
 
 
@@ -876,7 +878,8 @@ def action_organization_tree_list(context, data_dict):
                       .order_by(model.Group.title))
 
     # Optionally handle getting only organizations with datasets
-    # Note! Check if state is deleted for the results or else it will return all dataset collections that have had a dataset at some point
+    # Note! Check if state is deleted for the results or else it will return all
+    # dataset collections that have had a dataset at some point
     if with_datasets:
         ids_and_titles = (
                 ids_and_titles

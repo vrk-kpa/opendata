@@ -1,0 +1,14 @@
+select = ["E", "F"]
+
+extend-exclude = [
+  "ckanext-spatial",
+  "ckanext-prh_tools",
+  "ckanext-dcat",
+  "ckanext-fluent",
+  "ckanext-sitesearch",
+  "ckanext-scheming",
+  "ckanext-ytp_comments"
+]
+
+line-length = 127
+

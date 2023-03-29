@@ -213,7 +213,7 @@ def get_sorted_facet_items_dict(facet, limit=50, exclude_active=False):
     for facet_item in c.search_facets.get(facet)['items']:
         if not len(facet_item['name'].strip()):
             continue
-        if not (facet, facet_item['name']) in list(request.params.items()):
+        if (facet, facet_item['name']) not in list(request.params.items()):
             facets.append(dict(active=False, **facet_item))
         elif not exclude_active:
             facets.append(dict(active=True, **facet_item))

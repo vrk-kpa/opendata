@@ -14,6 +14,7 @@ from ckan.lib.search import SearchError, SearchQueryError
 from ckanext.showcase import utils as showcase_utils
 from ckanext.sixodp_showcase.model import ShowcaseApisetAssociation
 from ckanext.dcat.utils import check_access_header, _get_package_type, RDFProfileException, CONTENT_TYPES
+from ckan.views.dataset import read as read_endpoint
 
 
 NotFound = logic.NotFound

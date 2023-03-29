@@ -143,7 +143,8 @@ def group_tree(original_action, context, data_dict):
     :returns: list of top-level GroupTreeNodes
     '''
     top_level_groups, children = _fetch_all_organizations(user=context.get('user'),
-                                                          only_approved=p.toolkit.asbool(data_dict.get('only_approved', False)))
+                                                          only_approved=p.toolkit.asbool(data_dict.get('only_approved',
+                                                                                                       False)))
     sorted_top_level_groups = sorted(top_level_groups, key=lambda g: g.name)
     result = [_group_tree_branch(group, children=children.get(group.id, []))
               for group in sorted_top_level_groups]

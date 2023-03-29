@@ -13,7 +13,6 @@ from ckan.views.feed import (_package_search, _parse_url_params, _navigation_url
 
 
 import math
-import logging
 import json
 
 
@@ -191,7 +190,7 @@ def general_search():
     if dataset_type == 'organization':
         # if user is searching only for organizations, we want to display more organizations than 5
         organization_limit = 20
-        fq = f'entity_type:organization'
+        fq = 'entity_type:organization'
     else:
         all_types = 'dataset_type:dataset OR dataset_type:apiset OR dataset_type:showcase OR entity_type:organization'
         allowed_types = ['dataset', 'apiset', 'showcase']
