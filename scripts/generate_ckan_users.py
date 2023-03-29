@@ -69,7 +69,8 @@ def main():
             name = next(names)
             create_user(api, name, organization)
     except ckanapi.errors.NotAuthorized:
-        logging.error('ERROR: Not authorized to create users. Check your API key, CKAN configuration and auth functions for user_create')
+        logging.error('ERROR: Not authorized to create users. Check your API key, CKAN configuration '
+                      'and auth functions for user_create')
 
 
 if __name__ == '__main__':

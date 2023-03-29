@@ -5,7 +5,6 @@
 This generates deterministically random datasets for random organizations as bulk process
 """
 
-import sys
 import ckanapi
 import datetime
 import argparse
