@@ -10,7 +10,6 @@ from ckan.common import _, g, request
 from ckan.views.home import CACHE_PARAMETERS
 import ckan.lib.navl.dictization_functions as dict_fns
 from ckanext.showcase import views, utils as showcase_utils
-import ckan.plugins.toolkit as toolkit
 
 
 from . import utils

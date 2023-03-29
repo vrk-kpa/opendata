@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import pytest
 from ckan import model, plugins
 from ckan.plugins import toolkit
 
@@ -25,7 +24,8 @@ class TestYtpDatasetPlugin():
     def test_create_dataset(self):
         context = self._create_context()
         data_dict = {'name': 'test_dataset_1', 'title': 'test_title', 'title_translated': {'fi': "otsikko"},
-                     'license_id': "licence_id", 'notes_translated': {'fi': "Test notes"}, 'keywords': {'fi': ["tag1", "tag2"]},
+                     'license_id': "licence_id", 'notes_translated': {'fi': "Test notes"},
+                     'keywords': {'fi': ["tag1", "tag2"]},
                      'collection_type': 'Open Data', 'copyright_notice_translated': {'fi': 'test_notice'},
                      'maintainer': 'test_maintainer', 'maintainer_email': 'test@maintainer.org'}
 
