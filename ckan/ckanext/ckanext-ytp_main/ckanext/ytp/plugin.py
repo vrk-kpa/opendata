@@ -24,6 +24,7 @@ from ckan.plugins import toolkit
 from ckan.plugins.toolkit import config, chained_action
 from ckanext.report.interfaces import IReport
 from ckanext.spatial.interfaces import ISpatialHarvester
+from ckanext.sitesearch.interfaces import ISiteSearch
 from ckanext.showcase.model import ShowcaseAdmin
 from sqlalchemy import and_, or_
 from sqlalchemy.sql.expression import false
@@ -57,6 +58,7 @@ except ImportError:
     from sqlalchemy.util import OrderedDict
 
 from ckan.plugins.toolkit import ValidationError
+
 
 # This plugin is designed to work only these versions of CKAN
 plugins.toolkit.check_ckan_version(min_version='2.0')
@@ -979,6 +981,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(ISiteSearch, inherit=True)
 
     # IConfigurer
     def update_config(self, config):
@@ -1021,6 +1024,14 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
         return {
             "get_last_harvested_date": get_last_harvested_date
         }
+
+    # ISiteSearch
+    def after_organization_search(self, results, data_dict):
+        without_unapproved = [r for r in results.get('results', [])
+                              if r.get('approval_status') == 'approved']
+        results['results'] = without_unapproved
+        results['count'] = len(without_unapproved)
+        return results
 
 
 class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
