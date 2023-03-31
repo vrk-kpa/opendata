@@ -496,7 +496,6 @@ jobs:
         pip install -r requirements.txt
         pip install -e .
         cd ../ckanext-sitesearch
-        pip install -r requirements.txt
         pip install -e .
     - name: Setup extension
       run: |
