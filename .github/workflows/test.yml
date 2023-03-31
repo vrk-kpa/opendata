@@ -495,6 +495,9 @@ jobs:
         cd ../ckanext-sixodp_showcasesubmit
         pip install -r requirements.txt
         pip install -e .
+        cd ../ckanext-sitesearch
+        pip install -r requirements.txt
+        pip install -e .
     - name: Setup extension
       run: |
         ckan -c ckan/ckanext/ckanext-ytp_main/test.ini db init
