@@ -1,90 +1,67 @@
 @import '../variables.less';
 
-// Organization
-.organization-tree .btn,
-.organization-row {
-  display: inline;
-}
+#organization-tree,
+#publisher-tree {
+  .hierarchy-tree-top {
+    padding: 0;
+    border-bottom: @suomi-depthLight13 solid 1px;
+  }
 
-.organization-row {
-  font-size: 15px;
-}
+  ul {
+    list-style-type: none;
 
-.organization-tree {
-  padding-inline-start: 0;
+    &.hierarchy-tree {
+      background: none;
+    }
+
+    li {
+      padding: 0 0 0 12px;
+      border-top: @suomi-depthLight13 solid 1px;
+      border-bottom: none;
+
+      &:last-child {
+        background: none;
+      }
+
+      a {
+        height: 40px;
+        line-height: 40px;
+        font-size: 18px;
+        font-family: @font-family-sans-serif;
+      }
+    }
+  }
 
   .js-collapsed,
   .js-collapse {
     display: none;
   }
-}
 
-.organization-hierarchy-empty-space {
-  display: inline-block;
-  min-width: 24px;
-}
-
-.organization-subtree {
-  padding-inline-start: 27px;
-}
-
-.organization-tree .hierarchy-btn {
-  padding: 0 0 0 7px;
-  background-color: @background-body-color;
-  border: none;
-
-  &:active {
-    box-shadow: none;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:active:focus {
+  .btn {
+    padding: 0;
     background-color: @background-body-color;
+    border: none;
+
+    &:active {
+      box-shadow: none;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active:focus {
+      background-color: @background-body-color;
+    }
+
+    .fa-plus,
+    .fa-minus {
+      border: @btn-dark-bg solid 1px;
+      color: @btn-dark-bg;
+      font-size: 10px;
+      padding: 1px;
+    }
   }
-
-  .fa-plus-circle,
-  .fa-minus-circle {
-    color: @btn-dark-bg;
-    font-size: 17px;
-  }
-
-  .fa-minus {
-    color: @btn-dark-bg;
-  }
-
-  .fa-circle {
-    color: @btn-dark-bg;
-  }
-}
-
-.organization-dataset-count {
-  color: @dataset-count-text-color;
-  font-weight: @font-weight-heavy;
-  padding: 10px;
-}
-
-.organization-count-header {
-  border-bottom: 1px solid @organization-count-header-color;
-}
-
-.organization-tree-short-description {
-  padding-bottom: 15px;
-}
-
-.organization-hierarchy-header {
-  font-weight: 700;
-}
-
-li.organization {
-  list-style: none;
-}
-
-.highlight {
-  color: darken(@opendata-brand-primary, 10%);
-  font-weight: @font-weight-heavy;
 }
 
 .organization-list {

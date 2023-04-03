@@ -6,7 +6,7 @@ import ckan.logic as logic
 import ckan.lib.helpers as h
 import ckan.model as model
 import ckan.lib.navl.dictization_functions as dict_fns
-from ckan.common import g, request, _, c, config
+from ckan.plugins import toolkit
 from ckan.views.group import BulkProcessView, CreateGroupView,\
                             EditGroupView, DeleteGroupView, MembersGroupView, \
                             about, activity, set_org, _action, _check_access, \
@@ -19,15 +19,21 @@ from flask import Blueprint
 
 log = logging.getLogger(__name__)
 
-NotFound = logic.NotFound
-NotAuthorized = logic.NotAuthorized
-ValidationError = logic.ValidationError
-check_access = logic.check_access
-get_action = logic.get_action
-abort = base.abort
+NotFound = toolkit.ObjectNotFound
+NotAuthorized = toolkit.NotAuthorized
+ValidationError = toolkit.ValidationError
+check_access = toolkit.check_access
+get_action = toolkit.get_action
+abort = toolkit.abort
+render = toolkit.render
+g = toolkit.g
+request = toolkit.request
+_ = toolkit._
+config = toolkit.config
 tuplize_dict = logic.tuplize_dict
 clean_dict = logic.clean_dict
 parse_params = logic.parse_params
+
 
 
 class CreateOrganizationView(CreateGroupView):
@@ -266,7 +272,7 @@ def user_list(**kwargs):
 
             users[user.name] = user_obj
 
-        c.users = users
+        g.users = users
         extra_vars['users'] = users
 
         return base.render('organization/user_list.html', extra_vars)
@@ -278,7 +284,7 @@ def user_list(**kwargs):
 # kwargs needed because of blueprint default parameters
 def admin_list(**kwargs):
     context = {'model': model, 'session': model.Session,
-               'user': c.user, 'userobj': c.userobj}
+               'user': g.user, 'userobj': g.userobj}
     extra_vars = {}
 
     try:
@@ -314,7 +320,7 @@ def admin_list(**kwargs):
 
             users[user.name] = user_obj
 
-        c.users = users
+        g.users = users
         extra_vars['users'] = users
 
         return base.render('organization/admin_list.html', extra_vars)
@@ -395,7 +401,7 @@ def embed(id, group_type, is_organization, limit=5):
         context = {
             'model': model,
             'session': model.Session,
-            'user': c.user or c.author
+            'user': toolkit.g.user or toolkit.g.author
         }
         check_access('group_show', context, {'id': id})
     except NotFound:
@@ -409,11 +415,11 @@ def embed(id, group_type, is_organization, limit=5):
 
     group_dict = {'id': id}
     group_dict['include_datasets'] = False
-    c.group_dict = _action('group_show')(context, group_dict)
-    c.group = context['group']
+    g.group_dict = _action('group_show')(context, group_dict)
+    g.group = context['group']
 
-    q = c.q = request.params.get('q', '')
-    q += ' owner_org:"%s"' % c.group_dict.get('id')
+    q = g.q = request.params.get('q', '')
+    q += ' owner_org:"%s"' % g.group_dict.get('id')
 
     data_dict = {
         'q': q,
@@ -424,7 +430,7 @@ def embed(id, group_type, is_organization, limit=5):
 
     query = get_action('package_search')(context, data_dict)
 
-    c.page = h.Page(
+    g.page = h.Page(
         collection=query['results'],
         page=page,
         url=make_pager_url,
@@ -432,9 +438,30 @@ def embed(id, group_type, is_organization, limit=5):
         items_per_page=limit
     )
 
-    c.page.items = query['results']
+    g.page.items = query['results']
 
     return base.render("organization/embed.html", extra_vars)
+
+def suborganizations(id, group_type, is_organization):
+    try:
+
+        context = {
+            u'model': model,
+            u'session': model.Session,
+            u'user': g.user,
+            u'for_view': True
+        }
+        
+        group_dict = get_action('organization_show')(context, {'id': id, 'include_datasets': False})
+
+        g.group_dict = group_dict
+        g.group_type = group_type
+
+        return render("organization/suborganizations.html", extra_vars={"group_dict": group_dict, 'group_type': group_type })
+    except (NotFound, NotAuthorized):
+        abort(_('Organization not found'))
+
+    
 
 
 organization = Blueprint('ytp_organization', __name__,
@@ -497,7 +524,7 @@ organization.add_url_rule(
     '/admin_list', methods=['GET'], view_func=admin_list)
 organization.add_url_rule(
     '/user_list', methods=['GET'], view_func=user_list)
-
+organization.add_url_rule('/organization/suborganizations/<id>', view_func=suborganizations)
 
 def get_blueprints():
     return [organization]

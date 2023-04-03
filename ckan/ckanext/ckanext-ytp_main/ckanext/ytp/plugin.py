@@ -46,7 +46,7 @@ from .helpers import extra_translation, render_date, service_database_enabled, g
     get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_apiset_package_list, \
     get_groups_where_user_is_admin, get_value_from_extras_by_key, get_field_from_dataset_schema, \
     get_field_from_resource_schema, is_boolean_selected, site_url_with_root_path, \
-    get_organization_filters_count, package_count_for_source_customized
+    get_organization_filters_count, package_count_for_source_customized, group_tree_section
 
 from .tools import create_system_context
 
@@ -1022,7 +1022,8 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
     # ITemplateHelpers
     def get_helpers(self):
         return {
-            "get_last_harvested_date": get_last_harvested_date
+            "get_last_harvested_date": get_last_harvested_date,
+            "group_tree_section": group_tree_section
         }
 
     # ISiteSearch

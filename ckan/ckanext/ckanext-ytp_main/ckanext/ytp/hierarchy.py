@@ -178,7 +178,8 @@ def group_tree_section(original_action, context, data_dict):
     children = {}
     if group.state == u'active':
         # An optimal solution would be a recursive SQL query just for this, but this is fast enough for <10k organizations
-        roots, children = _fetch_all_organizations(user=context.get('user'), force_root_ids=[group.id])
+        roots, children = _fetch_all_organizations(user=context.get('user'), force_root_ids=[group.id],
+                                                   only_approved=p.toolkit.asbool(data_dict.get('only_approved', False)))
 
     if len(roots) > 0:
         return _group_tree_branch(roots[0], highlight_group_name=group.name, children=children.get(group.id, []))

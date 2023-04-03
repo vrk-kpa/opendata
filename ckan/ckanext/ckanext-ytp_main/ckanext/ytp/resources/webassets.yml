@@ -218,3 +218,12 @@ avoindata_utils_js:
       - base/main
   contents:
     - opendata/scripts/avoindata-utils.js
+
+opendata_hierarchy_js:
+  output: ytp_resources/%(version)s_opendata-hierarchy.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - opendata/scripts/opendata-hierarchy.js

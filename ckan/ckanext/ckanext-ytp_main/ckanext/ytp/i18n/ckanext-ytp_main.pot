@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-21 14:35+0000\n"
+"POT-Creation-Date: 2023-04-03 11:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,8 +57,8 @@ msgstr ""
 msgid "Cannot modify dataset because of organization policy"
 msgstr ""
 
-#: ckanext/ytp/auth.py:144 ckanext/ytp/views_organization.py:275
-#: ckanext/ytp/views_organization.py:323
+#: ckanext/ytp/auth.py:144 ckanext/ytp/views_organization.py:281
+#: ckanext/ytp/views_organization.py:329
 msgid "Only system administrators are allowed to view user list."
 msgstr ""
 
@@ -102,7 +102,7 @@ msgstr ""
 msgid "Unauthorized to read package %s"
 msgstr ""
 
-#: ckanext/ytp/controller.py:116 ckanext/ytp/views.py:82
+#: ckanext/ytp/controller.py:116 ckanext/ytp/views.py:81
 msgid "Dataset not found"
 msgstr ""
 
@@ -165,7 +165,7 @@ msgid "Related item was successfully updated"
 msgstr ""
 
 #: ckanext/ytp/controller.py:419 ckanext/ytp/controller.py:691
-#: ckanext/ytp/views_organization.py:76
+#: ckanext/ytp/views_organization.py:82
 msgid "Integrity Error"
 msgstr ""
 
@@ -241,7 +241,7 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:361
+#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:364
 msgid "Unnamed resource"
 msgstr ""
 
@@ -343,12 +343,12 @@ msgstr ""
 msgid "Publish Data"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:293 ckanext/ytp/plugin.py:303 ckanext/ytp/plugin.py:317
+#: ckanext/ytp/plugin.py:296 ckanext/ytp/plugin.py:306 ckanext/ytp/plugin.py:320
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 msgid "Tags"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:294 ckanext/ytp/plugin.py:304
+#: ckanext/ytp/plugin.py:297 ckanext/ytp/plugin.py:307
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
 #: ckanext/ytp/templates/snippets/organization.html:21
@@ -356,41 +356,41 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:295 ckanext/ytp/plugin.py:305 ckanext/ytp/plugin.py:319
+#: ckanext/ytp/plugin.py:298 ckanext/ytp/plugin.py:308 ckanext/ytp/plugin.py:322
 #: ckanext/ytp/translations.py:35
 msgid "Formats"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:296 ckanext/ytp/plugin.py:306
+#: ckanext/ytp/plugin.py:299 ckanext/ytp/plugin.py:309
 msgid "Licenses"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:297 ckanext/ytp/plugin.py:307
+#: ckanext/ytp/plugin.py:300 ckanext/ytp/plugin.py:310
 msgid "Category"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:298 ckanext/ytp/plugin.py:308
+#: ckanext/ytp/plugin.py:301 ckanext/ytp/plugin.py:311
 #: ckanext/ytp/translations.py:87
 msgid "Producer type"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:300
+#: ckanext/ytp/plugin.py:303
 msgid "International Benchmarks"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:301 ckanext/ytp/translations.py:68
+#: ckanext/ytp/plugin.py:304 ckanext/ytp/translations.py:68
 msgid "Geographical coverage"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:302 ckanext/ytp/plugin.py:316
+#: ckanext/ytp/plugin.py:305 ckanext/ytp/plugin.py:319
 msgid "Collection Types"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:318
+#: ckanext/ytp/plugin.py:321
 msgid "Content Types"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:361
+#: ckanext/ytp/plugin.py:364
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
 #: ckanext/ytp/templates/scheming/organization/about.html:20
 msgid "Additional Info"
@@ -1016,7 +1016,7 @@ msgid ""
 "search functionality"
 msgstr ""
 
-#: ckanext/ytp/templates/scheming/form_snippets/org_hierarchy.html:11
+#: ckanext/ytp/templates/scheming/form_snippets/org_hierarchy.html:12
 #: ckanext/ytp/translations.py:183
 msgid "None - top level"
 msgstr ""
@@ -1562,23 +1562,27 @@ msgstr ""
 msgid "Only sysadmin can change feature: %s"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:53
+#: ckanext/ytp/views_organization.py:59
 msgid "Unauthorized to create a group"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:74 ckanext/ytp/views_organization.py:103
-#: ckanext/ytp/views_organization.py:170 ckanext/ytp/views_organization.py:217
-#: ckanext/ytp/views_organization.py:402
+#: ckanext/ytp/views_organization.py:80 ckanext/ytp/views_organization.py:109
+#: ckanext/ytp/views_organization.py:176 ckanext/ytp/views_organization.py:223
+#: ckanext/ytp/views_organization.py:408
 msgid "Group not found"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:220
+#: ckanext/ytp/views_organization.py:226
 #, python-format
 msgid "User %r not authorized to edit members of %s"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:344
+#: ckanext/ytp/views_organization.py:350
 msgid "Not authorized to see this page"
+msgstr ""
+
+#: ckanext/ytp/views_organization.py:462
+msgid "Organization not found"
 msgstr ""
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:52
@@ -1761,7 +1765,7 @@ msgid "Additional Information"
 msgstr ""
 
 #: ckanext/ytp/templates/apiset/resource_read.html:126
-#: ckanext/ytp/templates/organization/read_base.html:37
+#: ckanext/ytp/templates/organization/read_base.html:38
 #: ckanext/ytp/templates/package/read_base.html:15
 #: ckanext/ytp/templates/package/resource_read.html:66
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:10
@@ -2149,7 +2153,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/member_new.html:71
 #: ckanext/ytp/templates/organization/members.html:60
-#: ckanext/ytp/templates/organization/read_base.html:28
+#: ckanext/ytp/templates/organization/read_base.html:29
 msgid "Members"
 msgstr ""
 
@@ -2176,6 +2180,12 @@ msgstr ""
 #: ckanext/ytp/templates/organization/read.html:20
 #: ckanext/ytp/templates/package/search.html:61
 msgid "Date Created Descending"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/read_base.html:27
+#: ckanext/ytp/templates/organization/suborganizations.html:3
+#: ckanext/ytp/templates/organization/suborganizations.html:6
+msgid "Suborganizations"
 msgstr ""
 
 #: ckanext/ytp/templates/organization/user_list.html:19
@@ -2215,6 +2225,14 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:26
 msgid "Add Organization"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/snippets/organization_tree.html:29
+msgid "Expand"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/snippets/organization_tree.html:30
+msgid "Collapse"
 msgstr ""
 
 #: ckanext/ytp/templates/package/base.html:18
@@ -2991,7 +3009,7 @@ msgid ""
 "target=\"_blank\">here</a>."
 msgstr ""
 
-#: ckanext/ytp/templates/scheming/form_snippets/org_hierarchy.html:9
+#: ckanext/ytp/templates/scheming/form_snippets/org_hierarchy.html:10
 msgid ""
 "Parent organization admin privileges are required to change parent "
 "organization"
