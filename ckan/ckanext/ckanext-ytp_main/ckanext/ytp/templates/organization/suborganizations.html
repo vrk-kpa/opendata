@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "organization/read_base.html" %}
+
+{% block subtitle %}{{ _('Suborganizations') }} {{ g.template_title_delimiter }} {{ super() }}{% endblock %}
+
+{% block primary_content_inner %}
+  <h2>{{ _('Suborganizations') }}</h2>
+
+  <div id="organization-tree">
+    {% snippet 'organization/snippets/organization_tree.html', top_nodes=[h.group_tree_section(id_=group_dict.id, type_=group_dict.type, only_approved=True)], use_longnames=True %}
+  </div>
+
+
+{% endblock %}

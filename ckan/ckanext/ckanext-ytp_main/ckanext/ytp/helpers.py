@@ -662,3 +662,10 @@ def package_count_for_source_customized(source_id, dataset_type='dataset'):
     context = {'model': model, 'session': model.Session}
     result = get_action('package_search')(context, search_dict)
     return result.get('count', 0)
+
+def group_tree_section(id_, type_='organization', include_parents=True,
+                       include_siblings=True, only_approved=False):
+    return toolkit.get_action('group_tree_section')(
+        {'include_parents': include_parents,
+         'include_siblings': include_siblings},
+        {'id': id_, 'type': type_, 'only_approved': only_approved})

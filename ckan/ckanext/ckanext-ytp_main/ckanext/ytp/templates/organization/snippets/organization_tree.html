@@ -14,10 +14,9 @@ Example:
 
 #}
 
-{% set type = 'asset' if h.ckan_version().split('.')[1] | int >= 9 else 'resource' %}
-{% include 'hierarchy/snippets/hierarchy_' ~ type ~ '.html' %}
+{% asset 'ytp_resources/opendata_hierarchy_js' %}
 
-<ul class="hierarchy-tree-top">
+<ul class="hierarchy-tree-top" data-organization-tree >
   {% for node in top_nodes recursive %}
       {% set display_text = node.title %}
       {% if node.highlighted %}
@@ -25,10 +24,14 @@ Example:
       {% else %}
           <li id="node_{{ node.name }}">
       {% endif %}
-      {% link_for display_text, controller='organization', action='read', id=node.name %}
+
       {% if node.children %}
-        <ul class="hierarchy-tree"> {{ loop(node.children) }} </ul>
+        <button class="js-expand btn btn-primary btn-xs" aria-label="{{ _('Expand') }}"><i class="fa fa-plus"></i></button>
+        <button class="js-collapse btn btn-gray btn-xs" aria-label="{{ _('Collapse') }}"><i class="fa fa-minus"></i></button>
       {% endif %}
+      {% link_for display_text, controller='organization', action='read', id=node.name %}
+        <ul class="hierarchy-tree js-collapsed"> {{ loop(node.children) }} </ul>
+
     </li>
   {% endfor %}
 </ul>

@@ -8,20 +8,20 @@
 # Pentti Laitinen, 2018
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2020
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
-# Zharktas <jari-pekka.voutilainen@gofore.com>, 2021
 # Daniel Vainio, 2021
 # Ville Teräväinen, 2022
 # Suvi Nuttunen, 2023
+# Zharktas <jari-pekka.voutilainen@gofore.com>, 2023
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-21 14:35+0000\n"
+"POT-Creation-Date: 2023-04-03 11:45+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Suvi Nuttunen, 2023\n"
-"Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
+"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2023\n"
+"Language-Team: Swedish (https://app.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -68,8 +68,8 @@ msgstr "Användaren %s saknar behörighet att skapa organisationer"
 msgid "Cannot modify dataset because of organization policy"
 msgstr "Att redigera datamängden strider mot organisationens policy"
 
-#: ckanext/ytp/auth.py:144 ckanext/ytp/views_organization.py:275
-#: ckanext/ytp/views_organization.py:323
+#: ckanext/ytp/auth.py:144 ckanext/ytp/views_organization.py:281
+#: ckanext/ytp/views_organization.py:329
 msgid "Only system administrators are allowed to view user list."
 msgstr "Endast systemadministratören får granska användarlistan"
 
@@ -115,7 +115,7 @@ msgstr "Skapa ny datamängd"
 msgid "Unauthorized to read package %s"
 msgstr "Behörighet krävs för att läsa datamängden %s"
 
-#: ckanext/ytp/controller.py:116 ckanext/ytp/views.py:82
+#: ckanext/ytp/controller.py:116 ckanext/ytp/views.py:81
 msgid "Dataset not found"
 msgstr "Hittar inte datamängden"
 
@@ -178,7 +178,7 @@ msgid "Related item was successfully updated"
 msgstr "Det relaterade objektet har uppdaterats"
 
 #: ckanext/ytp/controller.py:419 ckanext/ytp/controller.py:691
-#: ckanext/ytp/views_organization.py:76
+#: ckanext/ytp/views_organization.py:82
 msgid "Integrity Error"
 msgstr "Integritetsfel"
 
@@ -256,7 +256,7 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr "Felaktigt datumformat"
 
-#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:361
+#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:364
 msgid "Unnamed resource"
 msgstr "Namnlös dataresurs"
 
@@ -360,13 +360,13 @@ msgstr "Publicera öppna data"
 msgid "Publish Data"
 msgstr "Publicera data"
 
-#: ckanext/ytp/plugin.py:293 ckanext/ytp/plugin.py:303
-#: ckanext/ytp/plugin.py:317
+#: ckanext/ytp/plugin.py:296 ckanext/ytp/plugin.py:306
+#: ckanext/ytp/plugin.py:320
 #: ckanext/ytp/templates/package/snippets/dataset_info.html:14
 msgid "Tags"
 msgstr "Nyckelord"
 
-#: ckanext/ytp/plugin.py:294 ckanext/ytp/plugin.py:304
+#: ckanext/ytp/plugin.py:297 ckanext/ytp/plugin.py:307
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:44
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:6
 #: ckanext/ytp/templates/snippets/organization.html:21
@@ -374,41 +374,41 @@ msgstr "Nyckelord"
 msgid "Organization"
 msgstr "Producent"
 
-#: ckanext/ytp/plugin.py:295 ckanext/ytp/plugin.py:305
-#: ckanext/ytp/plugin.py:319 ckanext/ytp/translations.py:35
+#: ckanext/ytp/plugin.py:298 ckanext/ytp/plugin.py:308
+#: ckanext/ytp/plugin.py:322 ckanext/ytp/translations.py:35
 msgid "Formats"
 msgstr "Filformat"
 
-#: ckanext/ytp/plugin.py:296 ckanext/ytp/plugin.py:306
+#: ckanext/ytp/plugin.py:299 ckanext/ytp/plugin.py:309
 msgid "Licenses"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:297 ckanext/ytp/plugin.py:307
+#: ckanext/ytp/plugin.py:300 ckanext/ytp/plugin.py:310
 msgid "Category"
 msgstr ""
 
-#: ckanext/ytp/plugin.py:298 ckanext/ytp/plugin.py:308
+#: ckanext/ytp/plugin.py:301 ckanext/ytp/plugin.py:311
 #: ckanext/ytp/translations.py:87
 msgid "Producer type"
 msgstr "Regional täckning/Producenttyp"
 
-#: ckanext/ytp/plugin.py:300
+#: ckanext/ytp/plugin.py:303
 msgid "International Benchmarks"
 msgstr "Internationella jämförelser"
 
-#: ckanext/ytp/plugin.py:301 ckanext/ytp/translations.py:68
+#: ckanext/ytp/plugin.py:304 ckanext/ytp/translations.py:68
 msgid "Geographical coverage"
 msgstr "Geografisk täckning"
 
-#: ckanext/ytp/plugin.py:302 ckanext/ytp/plugin.py:316
+#: ckanext/ytp/plugin.py:305 ckanext/ytp/plugin.py:319
 msgid "Collection Types"
 msgstr "Typer av datamängder"
 
-#: ckanext/ytp/plugin.py:318
+#: ckanext/ytp/plugin.py:321
 msgid "Content Types"
 msgstr "Innehållstyper"
 
-#: ckanext/ytp/plugin.py:361
+#: ckanext/ytp/plugin.py:364
 #: ckanext/ytp/templates/package/snippets/additional_info.html:2
 #: ckanext/ytp/templates/scheming/organization/about.html:20
 msgid "Additional Info"
@@ -1057,7 +1057,7 @@ msgstr ""
 "Organisationer som saknar datamängder visas på listan endast när man "
 "använder sökfunktionen."
 
-#: ckanext/ytp/templates/scheming/form_snippets/org_hierarchy.html:11
+#: ckanext/ytp/templates/scheming/form_snippets/org_hierarchy.html:12
 #: ckanext/ytp/translations.py:183
 msgid "None - top level"
 msgstr "Inget"
@@ -1644,24 +1644,28 @@ msgstr ""
 msgid "Only sysadmin can change feature: %s"
 msgstr "Endast systemadministratörer får ändra funktionen: %s"
 
-#: ckanext/ytp/views_organization.py:53
+#: ckanext/ytp/views_organization.py:59
 msgid "Unauthorized to create a group"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:74 ckanext/ytp/views_organization.py:103
-#: ckanext/ytp/views_organization.py:170 ckanext/ytp/views_organization.py:217
-#: ckanext/ytp/views_organization.py:402
+#: ckanext/ytp/views_organization.py:80 ckanext/ytp/views_organization.py:109
+#: ckanext/ytp/views_organization.py:176 ckanext/ytp/views_organization.py:223
+#: ckanext/ytp/views_organization.py:408
 msgid "Group not found"
 msgstr "Hittar inte gruppen"
 
-#: ckanext/ytp/views_organization.py:220
+#: ckanext/ytp/views_organization.py:226
 #, python-format
 msgid "User %r not authorized to edit members of %s"
 msgstr ""
 
-#: ckanext/ytp/views_organization.py:344
+#: ckanext/ytp/views_organization.py:350
 msgid "Not authorized to see this page"
 msgstr "Behörighet krävs för att visa sidan"
+
+#: ckanext/ytp/views_organization.py:462
+msgid "Organization not found"
+msgstr ""
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:52
 #: ckanext/ytp/resources/opendata/scripts/translations.js:20
@@ -1845,7 +1849,7 @@ msgid "Additional Information"
 msgstr ""
 
 #: ckanext/ytp/templates/apiset/resource_read.html:126
-#: ckanext/ytp/templates/organization/read_base.html:37
+#: ckanext/ytp/templates/organization/read_base.html:38
 #: ckanext/ytp/templates/package/read_base.html:15
 #: ckanext/ytp/templates/package/resource_read.html:66
 #: ckanext/ytp/templates/package/snippets/resource_item2.html:10
@@ -2235,7 +2239,7 @@ msgstr "Om"
 
 #: ckanext/ytp/templates/organization/member_new.html:71
 #: ckanext/ytp/templates/organization/members.html:60
-#: ckanext/ytp/templates/organization/read_base.html:28
+#: ckanext/ytp/templates/organization/read_base.html:29
 msgid "Members"
 msgstr "Medlemmar"
 
@@ -2263,6 +2267,12 @@ msgstr "Stigande efter datumet för skapande"
 #: ckanext/ytp/templates/package/search.html:61
 msgid "Date Created Descending"
 msgstr "Fallande efter datumet för skapande"
+
+#: ckanext/ytp/templates/organization/read_base.html:27
+#: ckanext/ytp/templates/organization/suborganizations.html:3
+#: ckanext/ytp/templates/organization/suborganizations.html:6
+msgid "Suborganizations"
+msgstr "Underorganisation"
 
 #: ckanext/ytp/templates/organization/user_list.html:19
 msgid "Show admins only"
@@ -2303,6 +2313,14 @@ msgstr "Mina medlemskap"
 #: ckanext/ytp/templates/organization/snippets/organization_primary_actions.html:26
 msgid "Add Organization"
 msgstr "Lägg till producent"
+
+#: ckanext/ytp/templates/organization/snippets/organization_tree.html:29
+msgid "Expand"
+msgstr ""
+
+#: ckanext/ytp/templates/organization/snippets/organization_tree.html:30
+msgid "Collapse"
+msgstr ""
 
 #: ckanext/ytp/templates/package/base.html:18
 msgid "Create Apiset"
@@ -3093,7 +3111,7 @@ msgid ""
 "target=\"_blank\">here</a>."
 msgstr ""
 
-#: ckanext/ytp/templates/scheming/form_snippets/org_hierarchy.html:9
+#: ckanext/ytp/templates/scheming/form_snippets/org_hierarchy.html:10
 msgid ""
 "Parent organization admin privileges are required to change parent "
 "organization"
