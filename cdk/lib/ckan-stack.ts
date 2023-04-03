@@ -277,8 +277,6 @@ export class CkanStack extends Stack {
       FUSEKI_PORT: '3030',
       FUSEKI_ADMIN_USER: pFusekiAdminUser.stringValue,
       FUSEKI_OPENDATA_DATASET: 'opendata',
-      // dynatrace oneagent
-      DT_CUSTOM_PROP: `Environment=${props.environment}`,
     };
 
     const ckanContainerSecrets: { [key: string]: ecs.Secret; } = {
@@ -377,7 +375,7 @@ export class CkanStack extends Stack {
     });
 
     const ckanContainer = ckanTaskDef.addContainer('ckan', {
-      image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
+      image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG),
       environment: ckanContainerEnv,
       secrets: ckanContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
@@ -518,7 +516,7 @@ export class CkanStack extends Stack {
       });
 
       const ckanCronContainer = ckanCronTaskDef.addContainer('ckan_cron', {
-        image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
+        image: ecs.ContainerImage.fromEcrRepository(ckanRepo, props.envProps.CKAN_IMAGE_TAG),
         environment: ckanContainerEnv,
         secrets: ckanContainerSecrets,
         entryPoint: ['/srv/app/scripts/entrypoint_cron.sh'],
