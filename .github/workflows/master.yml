@@ -31,35 +31,30 @@ jobs:
             submodules: ""
             build-frontend: false
             name: solr
-            dynatrace: false
             build-container: ${{ needs.build-and-test-containers.outputs.solr == 'true' }}
           - dockerfile: ./docker/datapusher-plus/Dockerfile
             context: ./docker/datapusher-plus
             submodules: ""
             build-frontend: false
             name: datapusher
-            dynatrace: false
             build-container: ${{ needs.build-and-test-containers.outputs.datapusher == 'true' }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
             build-frontend: false
             name: nginx
-            dynatrace: true
             build-container: ${{ needs.build-and-test-containers.outputs.nginx == 'true' }}
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
             submodules: ""
             build-frontend: true
             name: drupal
-            dynatrace: true
             build-container: ${{ (needs.build-and-test-containers.outputs.drupal == 'true') || (needs.build-and-test-containers.outputs.assets == 'true') }}
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
             build-frontend: true
             name: ckan
-            dynatrace: true
             build-container: ${{ (needs.build-and-test-containers.outputs.ckan == 'true') || (needs.build-and-test-containers.outputs.assets == 'true') }}
 
     steps:
@@ -81,15 +76,6 @@ jobs:
       - name: login to AWS ECR
         id: login
         uses: aws-actions/amazon-ecr-login@v1
-
-      - name: login to DynaTrace Registry
-        id: login-dtr
-        if: ${{ matrix.dynatrace == true && matrix.build-container == true }}
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ secrets.DYNATRACE_USERNAME }}.live.dynatrace.com
-          username: ${{ secrets.DYNATRACE_USERNAME }}
-          password: ${{ secrets.DYNATRACE_TOKEN }}
 
       - name: configure NPM credentials
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
@@ -131,21 +117,6 @@ jobs:
           tags: |
             ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
             ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest
-
-      - name: build images with dynatrace
-        if: ${{ matrix.dynatrace == true  && matrix.build-container == true }}
-        uses: docker/build-push-action@v4
-        with:
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          build-args: |
-            DYNATRACE_ENABLED=1
-          push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          tags: |
-            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}-dynatrace
-            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest-dynatrace
 
 
   commit-new-images:

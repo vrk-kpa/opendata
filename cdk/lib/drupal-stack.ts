@@ -154,8 +154,6 @@ export class DrupalStack extends Stack {
       SMTP_PORT: pSmtpPort.stringValue,
       DISQUS_DOMAIN: pDisqusDomain.stringValue,
       SENTRY_ENV: props.environment,
-      // dynatrace oneagent
-      DT_CUSTOM_PROP: `Environment=${props.environment}`,
     };
 
     let drupalContainerSecrets: { [key: string]: ecs.Secret; } = {
@@ -220,7 +218,7 @@ export class DrupalStack extends Stack {
     });
 
     const drupalContainer = drupalTaskDef.addContainer('drupal', {
-      image: ecs.ContainerImage.fromEcrRepository(drupalRepo, props.envProps.DRUPAL_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
+      image: ecs.ContainerImage.fromEcrRepository(drupalRepo, props.envProps.DRUPAL_IMAGE_TAG),
       environment: drupalContainerEnv,
       secrets: drupalContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({

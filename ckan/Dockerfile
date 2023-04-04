@@ -1,6 +1,5 @@
 # build args
 ARG SECRET_NPMRC
-ARG DYNATRACE_ENABLED=0
 
 #
 # CKAN build
@@ -65,7 +64,6 @@ RUN chmod +x ${SCRIPT_DIR}/*.sh && \
     mkdir -p ${WWW_DIR}
 
 # apply patches
-# NOTE: autodynatrace patch added later in this file
 RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/enable_multiple_image_uploads.patch && \
     patch --strip=1 --input=patches/remove-ckan-fontawesome.patch && \
@@ -160,34 +158,11 @@ COPY ckanext/ckanext-sentry                 ${EXT_DIR}/ckanext-sentry/
 COPY ckanext/ckanext-sitesearch             ${EXT_DIR}/ckanext-sitesearch/
 COPY ckanext/ckanext-ytp_recommendation     ${EXT_DIR}/ckanext-ytp_recommendation/
 
-#
-# Production stage, dynatrace enabled
-#
-FROM ckan_build AS production-dynatrace-1
-
-# install dynatrace oneagent
-# https://www.dynatrace.com/support/help/setup-and-configuration/setup-on-cloud-platforms/amazon-web-services/deploy-oneagent-on-aws-fargate
-COPY --from=ayv41550.live.dynatrace.com/linux/oneagent-codemodules:sdk / /
-ENV LD_PRELOAD=/opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so
-
-# install autodynatrace
-RUN pip install autodynatrace
-
-# apply patches
-RUN cd ${SRC_DIR}/ckan && \
-    patch --strip=1 --input=patches/add_autodynatrace.patch
-
-#
-# Production stage, dynatrace disabled
-#
-FROM ckan_build AS production-dynatrace-0
-
-# do nothing :^)
 
 #
 # Production image
 #
-FROM production-dynatrace-${DYNATRACE_ENABLED} AS production
+FROM ckan_build AS production
 
 # Install uwsgitop for stats analyzing
 RUN pip install uwsgitop

@@ -73,7 +73,7 @@ export class WebStack extends Stack {
     });
 
     const nginxContainer = nginxTaskDef.addContainer('nginx', {
-      image: ecs.ContainerImage.fromEcrRepository(nginxRepo, props.envProps.NGINX_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
+      image: ecs.ContainerImage.fromEcrRepository(nginxRepo, props.envProps.NGINX_IMAGE_TAG),
       environment: {
         // .env.nginx
         NGINX_ROOT: '/var/www/html',
@@ -94,8 +94,6 @@ export class WebStack extends Stack {
         CKAN_PORT: '5000',
         DRUPAL_HOST: `drupal.${props.namespace.namespaceName}`,
         DRUPAL_PORT: '80',
-        // dynatrace oneagent
-        DT_CUSTOM_PROP: `Environment=${props.environment}`,
         NGINX_ROBOTS_ALLOW: props.allowRobots,
       },
       logging: ecs.LogDrivers.awsLogs({
