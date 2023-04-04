@@ -27,7 +27,6 @@ class SearchForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
     $form['searchfilter'] = [
       '#type' => 'textfield',
@@ -36,8 +35,6 @@ class SearchForm extends FormBase {
     ];
 
     $form['#theme'] = ['avoindata_search'];
-
-    $form['#language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
     $form['search'] = [
       '#type' => 'textfield',
