@@ -27,7 +27,7 @@
         "drupal/core-recommended": "^9.2",
         "drupal/ctools": "^3.11",
         "drupal/disqus": "^1.0@RC",
-        "drupal/domain_registration": "^1.6",
+        "drupal/domain_registration": "^1.8",
         "drupal/drush_language": "1.x-dev",
         "drupal/easy_breadcrumb": "^2.0",
         "drupal/easy_install": "^10.2",
