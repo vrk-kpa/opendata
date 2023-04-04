@@ -3752,32 +3752,32 @@
         },
         {
             "name": "drupal/raven",
-            "version": "4.0.12",
+            "version": "4.0.14",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/raven.git",
-                "reference": "4.0.12"
+                "reference": "4.0.14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/raven-4.0.12.zip",
-                "reference": "4.0.12",
-                "shasum": "158e2db946bd76d0a854d031a7a847e20ddba8c1"
+                "url": "https://ftp.drupal.org/files/projects/raven-4.0.14.zip",
+                "reference": "4.0.14",
+                "shasum": "d6c22e4be50221f274c6fedaed283272623e99ec"
             },
             "require": {
                 "drupal/core": "^8 || ^9 || ^10",
                 "sentry/sdk": "^3.3"
             },
             "require-dev": {
-                "drupal/csp": "*",
-                "drupal/seckit": "*",
+                "drupal/csp": "^1.17",
+                "drupal/seckit": "^2.0",
                 "drush/drush": "^10.6 || ^11.0"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "4.0.12",
-                    "datestamp": "1674604776",
+                    "version": "4.0.14",
+                    "datestamp": "1679018039",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
