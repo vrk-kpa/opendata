@@ -46,7 +46,7 @@
         "drupal/raven": "^4.0",
         "drupal/recaptcha": "^3.0",
         "drupal/redirect": "^1.2",
-        "drupal/search_api": "^1.10",
+        "drupal/search_api": "^1.29",
         "drupal/smtp": "^1.0",
         "drupal/token": "^1.5",
         "drupal/transliterate_filenames": "^2.0",
