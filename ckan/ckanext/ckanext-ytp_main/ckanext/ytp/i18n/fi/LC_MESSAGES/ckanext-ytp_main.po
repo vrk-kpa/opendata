@@ -7,7 +7,6 @@
 # Translators:
 # Pentti Laitinen, 2018
 # Aaron Hakala <aaron.hakala@gofore.com>, 2019
-# Teemu Erkkola <teemu.erkkola@iki.fi>, 2020
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
 # Daniel Vainio, 2021
 # Pasi Laakso <pasi.laakso@gofore.com>, 2022
@@ -16,15 +15,16 @@
 # Suvi Nuttunen, 2023
 # Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2023
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2023
+# Teemu Erkkola <teemu.erkkola@iki.fi>, 2023
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-03 11:45+0000\n"
+"POT-Creation-Date: 2023-04-05 10:55+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2023\n"
+"Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2023\n"
 "Language-Team: Finnish (https://app.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3686,6 +3686,38 @@ msgstr "lue lisää"
 #: ckanext/ytp/templates/source/read_base.html:22
 msgid "There is no description for this harvest source"
 msgstr "Harvestointilähteellä ei ole kuvausta"
+
+#: ckanext/ytp/templates/sparql/query.html:18
+msgid ""
+"You can use the SPARQL search to find datasets and their metadata by using "
+"SPARQL query language. Datasets on opendata.fi are published as RDF triples "
+"and they follow the DCAT-AP specification. You can find information on <a "
+"href=\"https://www.avoindata.fi/ns/\">opendata.fi’s DCAT AP extension "
+"here</a>."
+msgstr ""
+"SPARQL-haulla voit hakea avoindata.fi:n aineistoja ja aineistojen "
+"kuvailutietoja käyttämällä SPARQL-kyselykieltä. Kaikki avoindata.fi:n data "
+"on kuvailtu RDF-tietomallin ja DCAT-AP-määrittelyn mukaan. Tutustu <a "
+"href=\"https://www.avoindata.fi/ns/\">Avoindata.fi:n DCAT-AP-laajennoksen "
+"tietoihin</a>."
+
+#: ckanext/ytp/templates/sparql/query.html:22
+msgid ""
+"<a href=\"https://www.w3.org/TR/rdf-sparql-query/\">Read more about "
+"SPARQL.</a>"
+msgstr ""
+"<a href=\"https://www.w3.org/TR/rdf-sparql-query/\">Lue lisää SPARQL-"
+"kyselyistä.</a>"
+
+#: ckanext/ytp/templates/sparql/query.html:26
+msgid ""
+"Data.europa.eu provides <a "
+"href=\"https://data.europa.eu/en/about/sparql\">examples on how to use "
+"SPARQL queries</a>."
+msgstr ""
+"Data.europa.eu tarjoaa <a "
+"href=\"https://data.europa.eu/en/about/sparql\">esimerkkejä SPARQL-"
+"kyselyistä, joita voi soveltaa myös avoindata.fi:ssä</a>."
 
 #: ckanext/ytp/templates/spatial/snippets/dataset_map_sidebar.html:17
 msgid "Dataset extent"
