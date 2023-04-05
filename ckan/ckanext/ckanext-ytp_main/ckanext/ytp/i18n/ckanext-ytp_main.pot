@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-03 11:45+0000\n"
+"POT-Creation-Date: 2023-04-05 10:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3475,6 +3475,28 @@ msgstr ""
 
 #: ckanext/ytp/templates/source/read_base.html:22
 msgid "There is no description for this harvest source"
+msgstr ""
+
+#: ckanext/ytp/templates/sparql/query.html:18
+msgid ""
+"You can use the SPARQL search to find datasets and their metadata by using "
+"SPARQL query language. Datasets on opendata.fi are published as RDF triples "
+"and they follow the DCAT-AP specification. You can find information on <a "
+"href=\"https://www.avoindata.fi/ns/\">opendata.fi’s DCAT AP extension "
+"here</a>."
+msgstr ""
+
+#: ckanext/ytp/templates/sparql/query.html:22
+msgid ""
+"<a href=\"https://www.w3.org/TR/rdf-sparql-query/\">Read more about "
+"SPARQL.</a>"
+msgstr ""
+
+#: ckanext/ytp/templates/sparql/query.html:26
+msgid ""
+"Data.europa.eu provides <a "
+"href=\"https://data.europa.eu/en/about/sparql\">examples on how to use SPARQL"
+" queries</a>."
 msgstr ""
 
 #: ckanext/ytp/templates/spatial/snippets/dataset_map_sidebar.html:17
