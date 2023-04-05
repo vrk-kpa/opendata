@@ -75,6 +75,10 @@ Parameters:
     Description: "The size of the database (GiB)"
     Type: Number
     Default: '50'
+  MaxAllocatedStorage:
+    Description: "The max size of the database (GiB)"
+    Type: Number
+    Default: '200'
 
 Conditions:
   UseDBSnapshot: !Not [!Equals [!Ref SnapshotIdentifier,  ""]]
@@ -84,6 +88,7 @@ Resources:
     Type: AWS::RDS::DBInstance
     Properties:
       AllocatedStorage: !Ref DBAllocatedStorage
+      MaxAllocatedStorage: !Ref MaxAllocatedStorage
       Engine: postgres
       BackupRetentionPeriod: !Ref BackupRetention
       DBInstanceClass: !Ref DbInstance
