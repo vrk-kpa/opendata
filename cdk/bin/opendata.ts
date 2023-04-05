@@ -167,7 +167,6 @@ const ckanStackInfratest = new CkanStack(app, 'CkanStack-infratest', {
   cacheCluster: cacheStackInfratest.cacheCluster,
   captchaEnabled: false,
   analyticsEnabled: false,
-  dynatraceEnabled: false,
   ckanTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
@@ -228,7 +227,6 @@ const drupalStackInfratest = new DrupalStack(app, 'DrupalStack-infratest', {
   cacheCluster: cacheStackInfratest.cacheCluster,
   captchaEnabled: false,
   analyticsEnabled: false,
-  dynatraceEnabled: false,
   drupalTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
@@ -259,7 +257,6 @@ const webStackInfratest = new WebStack(app, 'WebStack-infratest', {
   cachePort: cacheStackInfratest.cachePort,
   cacheSecurityGroup: cacheStackInfratest.cacheSecurityGroup,
   cacheCluster: cacheStackInfratest.cacheCluster,
-  dynatraceEnabled: false,
   loadBalancerCert: loadBalancerStackInfratest.loadBalancerCert,
   loadBalancer: loadBalancerStackInfratest.loadBalancer,
   nginxTaskDef: {
@@ -410,7 +407,6 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
   cacheCluster: cacheStackBeta.cacheCluster,
   captchaEnabled: true,
   analyticsEnabled: true,
-  dynatraceEnabled: false,
   ckanTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
@@ -475,7 +471,6 @@ const drupalStackBeta = new DrupalStack(app, 'DrupalStack-beta', {
   cacheCluster: cacheStackBeta.cacheCluster,
   captchaEnabled: true,
   analyticsEnabled: true,
-  dynatraceEnabled: false,
   drupalTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
@@ -506,7 +501,6 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
   cachePort: cacheStackBeta.cachePort,
   cacheSecurityGroup: cacheStackBeta.cacheSecurityGroup,
   cacheCluster: cacheStackBeta.cacheCluster,
-  dynatraceEnabled: false,
   loadBalancerCert: loadBalancerStackBeta.loadBalancerCert,
   loadBalancer: loadBalancerStackBeta.loadBalancer,
   nginxTaskDef: {
@@ -656,7 +650,6 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
   cacheCluster: cacheStackProd.cacheCluster,
   captchaEnabled: true,
   analyticsEnabled: true,
-  dynatraceEnabled: false,
   ckanTaskDef: {
     taskCpu: 2048,
     taskMem: 4096,
@@ -721,7 +714,6 @@ const drupalStackProd = new DrupalStack(app, 'DrupalStack-prod', {
   cacheCluster: cacheStackProd.cacheCluster,
   captchaEnabled: true,
   analyticsEnabled: true,
-  dynatraceEnabled: true,
   drupalTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
@@ -752,7 +744,6 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
   cachePort: cacheStackProd.cachePort,
   cacheSecurityGroup: cacheStackProd.cacheSecurityGroup,
   cacheCluster: cacheStackProd.cacheCluster,
-  dynatraceEnabled: true,
   loadBalancerCert: loadBalancerStackProd.loadBalancerCert,
   loadBalancer: loadBalancerStackProd.loadBalancer,
   nginxTaskDef: {
