@@ -1,24 +1,25 @@
 # Translations template for ckanext-sixodp_showcase.
-# Copyright (C) 2022 ORGANIZATION
+# Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the ckanext-sixodp_showcase
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
 # 
 # Translators:
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2020
 # Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2020
 # Meeri Hakala <meeri.hakala@dvv.fi>, 2022
-# Ville Teräväinen, 2022
+# Suvi Nuttunen, 2023
+# Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2023
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-sixodp_showcase 0.0.1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-10-06 09:27+0000\n"
+"POT-Creation-Date: 2023-03-30 08:46+0000\n"
 "PO-Revision-Date: 2018-03-14 11:02+0000\n"
-"Last-Translator: Ville Teräväinen, 2022\n"
+"Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2023\n"
 "Language-Team: Swedish (https://www.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,15 +28,15 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ckanext/sixodp_showcase/plugin.py:86 ckanext/sixodp_showcase/utils.py:182
-#: ckanext/sixodp_showcase/utils.py:332
+#: ckanext/sixodp_showcase/plugin.py:86 ckanext/sixodp_showcase/utils.py:184
+#: ckanext/sixodp_showcase/utils.py:334
 msgid "Groups"
-msgstr "Grupper"
+msgstr "Kategorier"
 
 #: ckanext/sixodp_showcase/plugin.py:87
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new_package_form.html:33
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_info.html:5
-#: ckanext/sixodp_showcase/utils.py:183 ckanext/sixodp_showcase/utils.py:333
+#: ckanext/sixodp_showcase/utils.py:185 ckanext/sixodp_showcase/utils.py:335
 msgid "Tags"
 msgstr "Nyckelord"
 
@@ -337,63 +338,67 @@ msgstr ""
 msgid "Visualisation"
 msgstr ""
 
-#: ckanext/sixodp_showcase/utils.py:181 ckanext/sixodp_showcase/utils.py:331
+#: ckanext/sixodp_showcase/translations.py:68
+msgid "Archived"
+msgstr "Arkiverat"
+
+#: ckanext/sixodp_showcase/utils.py:183 ckanext/sixodp_showcase/utils.py:333
 msgid "Organizations"
 msgstr "Organisationer"
 
-#: ckanext/sixodp_showcase/utils.py:184 ckanext/sixodp_showcase/utils.py:334
+#: ckanext/sixodp_showcase/utils.py:186 ckanext/sixodp_showcase/utils.py:336
 msgid "Formats"
 msgstr ""
 
-#: ckanext/sixodp_showcase/utils.py:185 ckanext/sixodp_showcase/utils.py:335
+#: ckanext/sixodp_showcase/utils.py:187 ckanext/sixodp_showcase/utils.py:337
 msgid "Licenses"
 msgstr "Licenser"
 
-#: ckanext/sixodp_showcase/utils.py:245
+#: ckanext/sixodp_showcase/utils.py:247
 msgid "Parameter '{parameter_name}' is not an integer"
 msgstr ""
 
-#: ckanext/sixodp_showcase/utils.py:261
+#: ckanext/sixodp_showcase/utils.py:263
 msgid "Not authorized to see this page"
 msgstr "Behörighet krävs för att visa sidan"
 
-#: ckanext/sixodp_showcase/utils.py:385
+#: ckanext/sixodp_showcase/utils.py:387
 msgid "Invalid search query: {error_message}"
 msgstr ""
 
-#: ckanext/sixodp_showcase/utils.py:410
+#: ckanext/sixodp_showcase/utils.py:412
 msgid "Parameter u\"{parameter_name}\" is not an integer"
 msgstr ""
 
-#: ckanext/sixodp_showcase/utils.py:438 ckanext/sixodp_showcase/utils.py:474
+#: ckanext/sixodp_showcase/utils.py:440 ckanext/sixodp_showcase/utils.py:509
 msgid "Showcase not found"
 msgstr ""
 
-#: ckanext/sixodp_showcase/utils.py:440 ckanext/sixodp_showcase/utils.py:476
+#: ckanext/sixodp_showcase/utils.py:442 ckanext/sixodp_showcase/utils.py:511
 msgid "Unauthorized to read showcase"
 msgstr ""
 
-#: ckanext/sixodp_showcase/utils.py:467
+#: ckanext/sixodp_showcase/utils.py:502
 msgid "User not authorized to edit {showcase_id}"
 msgstr ""
 
-#: ckanext/sixodp_showcase/utils.py:502
+#: ckanext/sixodp_showcase/utils.py:537
 msgid "The apiset has been removed from the showcase."
 msgid_plural "The apisets have been removed from the showcase."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ckanext/sixodp_showcase/utils.py:534
+#: ckanext/sixodp_showcase/utils.py:569
 msgid "The apiset has been added to the showcase."
 msgid_plural "The apisets have been added to the showcase."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ckanext/sixodp_showcase/views.py:150
+#: ckanext/sixodp_showcase/views.py:158
 msgid "Dataset not found"
 msgstr ""
 
-#: ckanext/sixodp_showcase/views.py:171
+#: ckanext/sixodp_showcase/views.py:179
 #, python-format
 msgid "User %r not authorized to edit %s"
 msgstr ""
@@ -472,7 +477,7 @@ msgstr ""
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:17
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:21
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:6
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:28
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:30
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:9
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:12
 msgid "Showcases"
@@ -519,12 +524,12 @@ msgstr ""
 #: ckanext/sixodp_showcase/templates/showcase/edit_base.html:36
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:42
 msgid "Edit showcase"
-msgstr ""
+msgstr "Redigera applikation"
 
 #: ckanext/sixodp_showcase/templates/showcase/edit_base.html:37
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:43
 msgid "Manage datasets"
-msgstr ""
+msgstr "Hantera datamängder"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_apisets.html:4
 msgid "apisets in this showcase"
@@ -540,7 +545,7 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_apisets.html:16
 msgid "No apisets could be found"
-msgstr ""
+msgstr "Inga gränssnitt hittades"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:3
 msgid "Showcases - Manage datasets"
@@ -584,7 +589,7 @@ msgstr ""
 #: ckanext/sixodp_showcase/templates/showcase/search.html:15
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:19
 msgid "Last Modified"
-msgstr ""
+msgstr "Senast redigerat"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:77
 #: ckanext/sixodp_showcase/templates/showcase/search.html:16
@@ -606,7 +611,7 @@ msgid "Manage"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:13
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:59
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:61
 msgid "Private"
 msgstr ""
 
@@ -615,7 +620,7 @@ msgid "Draft"
 msgstr ""
 
 #: ckanext/sixodp_showcase/templates/showcase/read.html:38
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:68
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:70
 msgid "Launch website"
 msgstr ""
 
@@ -626,7 +631,7 @@ msgstr "Sök applikationer..."
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/edit_base.html:44
 msgid "Manage apisets"
-msgstr ""
+msgstr "Hantera gränssnitt"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:5
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/new.html:10
@@ -716,13 +721,13 @@ msgstr ""
 "href=\"http://opendatacommons.org/licenses/odbl/1-0/\">Open Database-"
 "licensen</a>."
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:95
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:97
 msgid "Used datasets"
 msgstr "Använda datamängder"
 
-#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:102
+#: ckanext/sixodp_showcase/templates/sixodp_showcase/read.html:103
 msgid "Used apisets"
-msgstr "Använda gränssnitts"
+msgstr "Använda gränssnitt"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:20
 msgid "Applications"
@@ -766,7 +771,7 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:14
 msgid "Have you created application that utilizes open data?"
-msgstr "Har du skapat en applikation som använder sig av öppna data?"
+msgstr "Har du skapat en applikation som använder öppna data?"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:17
 msgid ""
