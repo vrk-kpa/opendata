@@ -65,3 +65,4 @@ def _translations():
     _("Other application")
     _("Tools")
     _("Visualisation")
+    _("Archived")
