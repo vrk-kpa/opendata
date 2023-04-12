@@ -109,6 +109,7 @@ Resources:
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
       VPCSecurityGroups:
         - !GetAtt DatabaseSecurityGroup.GroupId
+      DeletionProtection: true
 
   Role:
     Type: 'AWS::IAM::Role'
