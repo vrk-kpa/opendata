@@ -503,3 +503,5 @@ jobs:
     - name: Run tests
       run: |
         pytest --ckan-ini=ckan/ckanext/ckanext-ytp_main/test.ini --cov=ckanext.ytp_main --disable-warnings ckan/ckanext/ckanext-ytp_main/ckanext/ytp/tests
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
