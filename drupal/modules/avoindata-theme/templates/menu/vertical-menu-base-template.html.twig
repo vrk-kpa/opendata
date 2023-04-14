@@ -12,6 +12,7 @@ Removed the navbar-nav class to make this a vertical menu
     </button>
   </div>
   <div class="opendata-menu-container collapse navbar-collapse">
+
     {% import _self as menus %}
     {#
       We call a macro which calls itself to render the full tree.
@@ -61,7 +62,7 @@ Removed the navbar-nav class to make this a vertical menu
             {% endif %}
           {% else %}
             <li class="nav__item" {{ item.attributes.addClass(item_classes) }}>
-              <a class="nav__item__link  {{ item.in_active_trail and not child_selected ? 'active' }}" href="{{ item.url }}" {{ item.attributes.addClass(item_classes) }}>
+              <a class="nav__item__link  {{ item.in_active_trail and not child_selected ? 'active' }}" href="{{ item.url }}" {{ item.attributes.addClass(item_classes) }} {{ item.link_attributes }} >
                 <span class="nav__item__link__content">{{ item.title }}</span>
               </a>
             </li>
