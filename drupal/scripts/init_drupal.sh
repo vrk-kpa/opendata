@@ -96,6 +96,7 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"password_policy_character_types"* ]] && drush pm:enable -y password_policy_character_types
 [[ "$MODULE_INFO" != *"password_policy_length"* ]]        && drush pm:enable -y password_policy_length
 [[ "$MODULE_INFO" != *"raven"* ]]                         && drush pm:enable -y raven
+[[ "$MODULE_INFO" != *"menu_link_attributes"* ]]          && drush pm:enable -y menu_link_attributes
 
 # enable custom modules
 echo "enable custom modules.."
