@@ -66,6 +66,7 @@ export class WebStack extends Stack {
       'https://disqus.com',
       '*.disqus.com',
       'https://www.google.com/recaptcha/',
+      'https://avoindata-' + props.environment + '-datasets.s3.eu-west-1.amazonaws.com/'
     ];
 
     const nginxLogGroup = new logs.LogGroup(this, 'nginxLogGroup', {
