@@ -144,7 +144,12 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub avoindata-${EnvironmentName}-datasets
-      AccessControl: PublicRead
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
       NotificationConfiguration:
         LambdaConfigurations:
           - Event: s3:ObjectCreated:*
@@ -164,11 +169,6 @@ Resources:
       Bucket: !Ref DatasetBucket
       PolicyDocument:
         Statement:
-          - Action:
-              - s3:GetObject
-            Effect: Allow
-            Resource: !Sub "arn:aws:s3:::${DatasetBucket}/*"
-            Principal: "*"
           - Effect: Allow
             Principal:
               AWS: !Ref ClamAvRoleArn
