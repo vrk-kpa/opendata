@@ -110,6 +110,7 @@ Resources:
       VPCSecurityGroups:
         - !GetAtt DatabaseSecurityGroup.GroupId
       DeletionProtection: true
+      CopyTagsToSnapshot: true
 
   Role:
     Type: 'AWS::IAM::Role'
