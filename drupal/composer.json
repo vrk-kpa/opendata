@@ -74,7 +74,8 @@
             "cweagans/composer-patches": true,
             "drupal/console-extend-plugin": true,
             "drupal/core-composer-scaffold": true,
-            "drupal/core-project-message": true
+            "drupal/core-project-message": true,
+            "php-http/discovery": true
         }
     },
     "extra": {
