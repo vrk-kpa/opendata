@@ -17,9 +17,6 @@ python prerun.py || { echo '[CKAN prerun] FAILED. Exiting...' ; exit 1; }
 echo "Upgrade CKAN database ..."
 ckan -c ${APP_DIR}/production.ini db upgrade
 
-# minify JS files
-ckan -c ${APP_DIR}/production.ini minify ${SRC_DIR}/ckan/public/base/javascript
-
 # execute SQL scripts
 cat ${SCRIPT_DIR}/datastore_permissions.sql | PGPASSWORD="${DB_CKAN_PASS}" psql -d ${DB_DATASTORE_READONLY} -h ${DB_HOST} -U ${DB_CKAN_USER} --set ON_ERROR_STOP=1
 
@@ -33,7 +30,6 @@ echo "init ckan extension databases ..."
 ckan -c ${APP_DIR}/production.ini opendata-model initdb
 ckan -c ${APP_DIR}/production.ini opendata-request init-db
 ckan -c ${APP_DIR}/production.ini harvester initdb
-ckan -c ${APP_DIR}/production.ini spatial initdb
 [[ "${CKAN_PLUGINS}" == *" archiver "* ]]     && ckan -c ${APP_DIR}/production.ini archiver init
 [[ "${CKAN_PLUGINS}" == *" qa "* ]]           && ckan -c ${APP_DIR}/production.ini qa init
 ckan -c ${APP_DIR}/production.ini report initdb

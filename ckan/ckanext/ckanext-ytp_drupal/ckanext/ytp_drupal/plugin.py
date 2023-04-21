@@ -2,13 +2,15 @@ from ckan import plugins
 from ckan.plugins import toolkit
 import sqlalchemy
 from ckan.common import c
+from ckan import model
 from ckan.logic import NotFound
 from ckan.lib import helpers
 from ckan.lib.plugins import DefaultTranslation
 
-from flask import request
+from flask import request, Blueprint
 import requests
 import urllib
+import uuid
 
 import logging
 log = logging.getLogger(__name__)
@@ -20,12 +22,31 @@ def user_delete_me(context, data_dict):
     return {'success': True}
 
 
+def delete_me(self):
+    try:
+        if not c.userobj:
+            raise toolkit.NotAuthorized
+
+        if request.params.get('delete', None) != 'true':
+            return toolkit. render('user/delete_me.html')
+
+        from ckan.lib.celery_app import celery
+        context = {'model': model, 'session': model.Session, 'user': c.user}
+        toolkit.check_access('user_delete_me', context, {})
+
+        celery.send_task("ckanext.ytp_drupal.delete_user", args=(c.userobj.id,), task_id=str(uuid.uuid4()))
+        toolkit.redirect(toolkit.get_plugin('ytp_drupal').cancel_url)
+    except toolkit.NotAuthorized:
+        msg = toolkit._('Unauthorized to delete user')
+        toolkit.abort(401, msg.format(user_id=id))
+
+
 class YtpDrupalPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IAuthFunctions, inherit=True)
-    plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.ITranslation)
 
     _config_template = "ckanext.ytp.drupal.%s"
@@ -34,11 +55,10 @@ class YtpDrupalPlugin(plugins.SingletonPlugin, DefaultTranslation):
     _language_fallback_order = ['fi', 'en', 'sv']
     cancel_url = None
 
-    def before_map(self, m):
-        """ Override delete page """
-        controller = 'ckanext.ytp_drupal.controller:YtpDrupalController'
-        m.connect('user_delete_me', '/user/delete-me', action='delete_me', controller=controller)
-        return m
+    def get_blueprint(self):
+        bp = Blueprint('ytp_drupal', __name__)
+        bp.add_url_rule('/user/delete-me', endpoint='user_delete_me', view_func=delete_me)
+        return bp
 
     def configure(self, config):
         connection_variable = self._config_template % "connection"

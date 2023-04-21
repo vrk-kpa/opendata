@@ -20,13 +20,14 @@ use = egg:ckan
 full_stack = true
 cache_dir = /tmp/%(ckan.site_id)s/
 
-beaker.session.key = ckan
-beaker.session.secret = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
+# beaker.session.key = ckan
+# beaker.session.secret = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
 # Secure session does not currently work in our environments as ssl is terminated on Load balancerreq
 #beaker.session.secure = True
 beaker.session.httponly = True
-beaker.session.type = ext:database
-beaker.session.url = postgres://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_CKAN') }}
+beaker.session.type = cookie
+beaker.session.validate_key = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
+beaker.session.url = postgresql://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_CKAN') }}
 
 app_instance_uuid = {{ environ('CKAN_APP_INSTANCE_UUID') }}
 
@@ -34,7 +35,7 @@ who.config_file = %(here)s/who.ini
 who.log_level = warning
 who.log_file = %(cache_dir)s/who_log.ini
 
-sqlalchemy.url = postgres://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_CKAN') }}
+sqlalchemy.url = postgresql://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_CKAN') }}
 ckan.site_url = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_NAME') }}
 ckan.site_url_internally = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_NAME') }}/data/
 
@@ -42,8 +43,8 @@ ckan.site_url_internally = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_N
 ckan.root_path = /data/{{LANG}}
 {% endraw %}
 
-ckan.datastore.write_url = postgres://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DATASTORE_READONLY') }}
-ckan.datastore.read_url = postgres://{{ environ('DB_DATASTORE_READONLY_USER') }}:{{ environ('DB_DATASTORE_READONLY_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DATASTORE_READONLY') }}
+ckan.datastore.write_url = postgresql://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DATASTORE_READONLY') }}
+ckan.datastore.read_url = postgresql://{{ environ('DB_DATASTORE_READONLY_USER') }}:{{ environ('DB_DATASTORE_READONLY_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DATASTORE_READONLY') }}
 ckan.datastore.sqlsearch.enabled = True
 
 ckan.redis.url = redis://{{ environ('REDIS_HOST') }}:{{ environ('REDIS_PORT') }}/{{ environ('REDIS_DB') }}
@@ -113,7 +114,7 @@ smtp.mail_from = {{ environ('SMTP_FROM') }}
 
 ckan.views.default_views = recline_grid_view geo_view
 
-ckanext.ytp.drupal.connection = postgres://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DRUPAL') }}
+ckanext.ytp.drupal.connection = postgresql://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DRUPAL') }}
 
 ckan.harvest.mq.type = redis
 ckan.harvest.mq.hostname = {{ environ('REDIS_HOST') }}
@@ -148,7 +149,7 @@ ckanext-datarequests.datarequest_notifications_admin_email = None
 ckanext.drupal8.site_url = {{ environ('CKAN_DRUPAL_SITE_URL') }}
 ckanext.drupal8.domain = {{ environ('DOMAIN_NAME') }},{{ environ('SECONDARY_DOMAIN_NAME') }}
 ckanext.drupal8.sysadmin_role = {{ environ('ROLES_CKAN_ADMIN') }}
-ckanext.drupal8.connection = postgres://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DRUPAL') }}
+ckanext.drupal8.connection = postgresql://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DRUPAL') }}
 ckanext.drupal8.allow_edit = true
 
 licenses_group_url = file://{{ environ('CKAN_STORAGE_PATH') }}/license.json
@@ -240,6 +241,7 @@ ckanext.ytp.theme.show_postit_demo = {{ environ('CKAN_SHOW_POSTIT_DEMO') }}
 
 ckan.datapusher.url = http://{{ environ('DATAPUSHER_HOST') }}:{{ environ('DATAPUSHER_PORT') }}/
 ckan.datapusher.callback_url_base = http://{{ environ('CKAN_HOST') }}:{{ environ('CKAN_PORT') }}/
+ckan.datapusher.api_token = ''
 
 {% if environ('CKAN_PROFILING_ENABLED') == 'true' %}
 filter-with = linesman

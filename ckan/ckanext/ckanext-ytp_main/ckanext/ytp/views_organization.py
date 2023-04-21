@@ -9,9 +9,9 @@ import ckan.lib.navl.dictization_functions as dict_fns
 from ckan.plugins import toolkit
 from ckan.views.group import BulkProcessView, CreateGroupView,\
                             EditGroupView, DeleteGroupView, MembersGroupView, \
-                            about, activity, set_org, _action, _check_access, \
+                            about, set_org, _action, _check_access, \
                             _db_to_form_schema, _read, _get_group_template, _setup_template_variables, \
-                            member_delete, history, followers, follow, unfollow, admins, _replace_group_org
+                            member_delete, followers, follow, unfollow, admins, _replace_group_org
 from ckanext.organizationapproval.logic import send_new_organization_email_to_admin
 from typing import Any
 
@@ -48,8 +48,8 @@ class CreateOrganizationView(CreateGroupView):
             'model': model,
             'session': model.Session,
             'user': g.user,
-            'save': 'save' in request.params,
-            'parent': request.params.get('parent', None),
+            'save': 'save' in request.args,
+            'parent': request.args.get('parent', None),
             'group_type': group_type
         }
 
@@ -158,7 +158,7 @@ def read(group_type, is_organization, id=None, limit=20):
     data_dict = {'id': id, 'type': group_type}
 
     # unicode format (decoded from utf8)
-    q = request.params.get('q', '')
+    q = request.args.get('q', '')
 
     extra_vars["q"] = q
 
@@ -332,7 +332,7 @@ def admin_list(**kwargs):
 def index(group_type, is_organization):
     extra_vars = {}
     set_org(is_organization)
-    page = h.get_page_number(request.params) or 1
+    page = h.get_page_number(request.args) or 1
     items_per_page = int(config.get('ckan.datasets_per_page', 20))
 
     context = {
@@ -349,8 +349,8 @@ def index(group_type, is_organization):
     except NotAuthorized:
         base.abort(403, _('Not authorized to see this page'))
 
-    q = request.params.get('q', '')
-    sort_by = request.params.get('sort')
+    q = request.args.get('q', '')
+    sort_by = request.args.get('sort')
 
     extra_vars["q"] = q
     extra_vars["sort_by_selected"] = sort_by
@@ -362,7 +362,7 @@ def index(group_type, is_organization):
         context['user_is_admin'] = g.userobj.sysadmin
 
     # Check if to display all organizations or only those that have datasets
-    only_with_datasets_param = request.params.get('only_with_datasets', "True").lower() in ['true', True, 1, ]
+    only_with_datasets_param = request.args.get('only_with_datasets', "True").lower() in ['true', True, 1, ]
     extra_vars['only_with_datasets'] = only_with_datasets_param
     with_datasets = only_with_datasets_param
 
@@ -411,14 +411,14 @@ def embed(id, group_type, is_organization, limit=5):
         if g is None or g.state != 'active':
             return base.render('group/organization_not_found.html')
 
-    page = h.get_page_number(request.params) or 1
+    page = h.get_page_number(request.args) or 1
 
     group_dict = {'id': id}
     group_dict['include_datasets'] = False
     g.group_dict = _action('group_show')(context, group_dict)
     g.group = context['group']
 
-    q = g.q = request.params.get('q', '')
+    q = g.q = request.args.get('q', '')
     q += ' owner_org:"%s"' % g.group_dict.get('id')
 
     data_dict = {
@@ -477,8 +477,6 @@ organization.add_url_rule('/organization/<id>', methods=['GET'], view_func=read)
 organization.add_url_rule('/organization/<id>/embed', methods=['GET'], view_func=embed)
 organization.add_url_rule(
     '/organization/edit/<id>', view_func=EditOrganizationView.as_view(str('edit')))
-organization.add_url_rule(
-    '/organization/activity/<id>/<int:offset>', methods=['GET'], view_func=activity)
 organization.add_url_rule('/organization/about/<id>', methods=['GET'], view_func=about)
 organization.add_url_rule(
     '/organization/members/<id>', methods=['GET', 'POST'], view_func=members)
@@ -497,10 +495,6 @@ organization.add_url_rule(
     methods=['GET', 'POST'],
     view_func=member_delete)
 organization.add_url_rule(
-    '/organization/history/<id>',
-    methods=['GET', 'POST'],
-    view_func=history)
-organization.add_url_rule(
     '/organization/followers/<id>',
     methods=['GET', 'POST'],
     view_func=followers)
@@ -516,10 +510,6 @@ organization.add_url_rule(
     '/organization/admins/<id>',
     methods=['GET', 'POST'],
     view_func=admins)
-organization.add_url_rule(
-    '/organization/activity/<id>',
-    methods=['GET', 'POST'],
-    view_func=activity)
 organization.add_url_rule(
     '/admin_list', methods=['GET'], view_func=admin_list)
 organization.add_url_rule(
