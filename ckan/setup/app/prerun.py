@@ -11,13 +11,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from multiprocessing import connection
 import os
 import sys
 import subprocess
 import psycopg2
 from sqlalchemy.engine.url import make_url
-import urllib.request, urllib.error, urllib.parse, base64
+import urllib.request
+import urllib.error
+import urllib.parse
+import base64
 import re
 import json
 
@@ -82,13 +84,12 @@ def check_solr_connection(retry=None):
             base64string = base64.b64encode(bytes('%s:%s' % (username, password),'ascii'))
             request.add_header("Authorization", "Basic %s" % base64string.decode('utf-8'))
             connection = urllib.request.urlopen(request)
-    except urllib.error.URLError as e:
+    except urllib.error.URLError:
         print('[prerun] Unable to connect to solr...try again in a while.')
         import time
         time.sleep(10)
         check_solr_connection(retry = retry - 1)
     else:
-        import re
         conn_info = connection.read()
         schema_name = json.loads(conn_info)
         if 'ckan' in schema_name['name']:
