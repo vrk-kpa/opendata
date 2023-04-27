@@ -21,13 +21,15 @@ full_stack = true
 cache_dir = /tmp/%(ckan.site_id)s/
 
 # beaker.session.key = ckan
-# beaker.session.secret = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
+beaker.session.secret = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
 # Secure session does not currently work in our environments as ssl is terminated on Load balancerreq
 #beaker.session.secure = True
 beaker.session.httponly = True
 beaker.session.type = cookie
 beaker.session.validate_key = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
 beaker.session.url = postgresql://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_CKAN') }}
+
+ckan.csrf_protection.ignore_extensions = true
 
 app_instance_uuid = {{ environ('CKAN_APP_INSTANCE_UUID') }}
 
@@ -99,7 +101,8 @@ ckan.activity_streams_email_notifications = True
 ckan.cache_enabled = True
 ckan.cache_expires = 90
 
-email_to = {{ environ('SMTP_TO') }}
+# Disable error emails because they cause a crash in ckan db init
+# email_to = {{ environ('SMTP_TO') }}
 error_email_from = {{ environ('SMTP_FROM_ERROR') }}
 
 smtp.server = {{ environ('SMTP_HOST') }}:{{ environ('SMTP_PORT') }}
