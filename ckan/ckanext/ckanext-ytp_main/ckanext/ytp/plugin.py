@@ -400,7 +400,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
         # IPackageController #
 
-    def after_show(self, context, pkg_dict):
+    def after_dataset_show(self, context, pkg_dict):
         if 'resources' in pkg_dict and pkg_dict['resources']:
             for resource in pkg_dict['resources']:
                 if 'url_type' in resource and isinstance(resource['url_type'], Missing):
@@ -414,7 +414,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             }
             pkg_dict['groups'] = get_action('group_list')(context, translation_dict)
 
-    def before_index(self, pkg_dict):
+    def before_dataset_index(self, pkg_dict):
+        pkg_dict = pkg_dict.copy()
+        log.info("ytp.before_dataset_index")
         if 'tags' in pkg_dict:
             tags = pkg_dict['tags']
             if tags:
