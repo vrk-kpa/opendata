@@ -271,7 +271,10 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/remove_gravatar.patch && \
     patch --strip=1 --input=patches/json_serializable_lazyjsonobject.patch && \
     patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
-    patch --strip=1 --input=patches/add_drafts_to_search.patch
+    patch --strip=1 --input=patches/add_drafts_to_search.patch && \
+    patch --strip=1 --input=patches/fix_license_dictization.patch && \
+    patch --strip=1 --input=patches/fix_truncate_helper_annotations.patch
+    
 
 # install crontab
 RUN chmod +x ${CRON_DIR}/scripts/*.sh && \
