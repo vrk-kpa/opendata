@@ -101,7 +101,7 @@ class EditOrganizationView(EditGroupView):
             error_summary=None) -> str:
         extra_vars = {}
         set_org(is_organization)
-        context = self._prepare(id, is_organization)
+        context = self._prepare(id)
         data_dict: dict[str, Any] = {u'id': id, u'include_datasets': False}
         try:
             group_dict = _action(u'group_show')(context, data_dict)
