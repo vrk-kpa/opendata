@@ -2,9 +2,7 @@ import json
 import logging
 import math
 
-from ckan.common import c, request
-from ckan.lib.base import render
-from ckan.logic import get_action
+from ckan.plugins import toolkit
 from flask import Blueprint
 
 from .helpers import advancedsearch_schema, field_options, query_helper
@@ -28,13 +26,13 @@ def search():
     context = {
         'model': model,
         'session': model.Session,
-        'user': c.user
+        'user': toolkit.g.user
     }
 
     # On initial page load there is no page parameter so display the first page
     # On possible page navigations use the page parameter to move to the next page
     # NOTE: this works also with a GET request but the POST filters will not be submitted so all datasets will be returned
-    page = int(request.params.get('page', 1))
+    page = int(toolkit.request.params.get('page', 1))
     # Limit amount of results returned
     limit = 20
     search_query_filters = []
@@ -51,11 +49,11 @@ def search():
         # Make a list of field options
         options[key] = field_options(val)
 
-    if request.method == 'POST':
+    if toolkit.request.method == 'POST':
         # Use the field labelled as the main_query to build the value for q
         # TODO: Handle no main_query_field provided
         main_query_helper = query_helper(schema['input_fields'].get(main_query_field))
-        q = main_query_helper(main_query_field, request.form, schema['input_fields'], context)
+        q = main_query_helper(main_query_field, toolkit.request.form, schema['input_fields'], context)
 
         # Iterate through all fields in schema except the main_query_field
         # and process every field with the provided query_helper
@@ -67,13 +65,13 @@ def search():
             query_helper_function = query_helper(val)
             # TODO: handle no query_helper
             if query_helper_function:
-                res = query_helper_function(key, request.form, schema['input_fields'], context)
+                res = query_helper_function(key, toolkit.request.form, schema['input_fields'], context)
                 if res:
                     search_query_filters.append(res)
 
-    sort_string = request.form.get('sort', 'metadata_created desc')
+    sort_string = toolkit.request.form.get('sort', 'metadata_created desc')
     # if an actual sort parameter is provided, use that for selection in the template
-    sorting_selection = request.form.get('sort')
+    sorting_selection = toolkit.request.form.get('sort')
 
     data_dict = {
         'q': q,
@@ -93,14 +91,16 @@ def search():
         # Outputs: (filter:value) AND (another_filter:another_value)
         data_dict['fq'] = '(' + ') AND ('.join(search_query_filters) + ')'
 
-    query = get_action('package_search')(context, data_dict)
+    log.info(f'q = {data_dict["q"]}, fq = {data_dict["fq"]}')
+    query = toolkit.get_action('package_search')(context, data_dict)
 
     json_query = json.dumps(
-        {k: v for k, v in list(params_to_dict(request.form).items()) if k != 'page' and type(v) is list and len(v[0]) > 0}
+        {k: v for k, v in list(params_to_dict(toolkit.request.form).items())
+              if k != 'page' and type(v) is list and len(v[0]) > 0}
     )
 
     filters = {
-        k: v for k, v in list(params_to_dict(request.form).items()) if k != 'search_target' and k != 'search_query'
+        k: v for k, v in list(params_to_dict(toolkit.request.form).items()) if k != 'search_target' and k != 'search_query'
         and k != 'page' and k != 'released-before' and k != 'released-after' and k != 'updated-before'
         and k != 'updated-after' and k != 'sort' and type(v) is list and len(v[0]) > 0
     }
@@ -117,23 +117,23 @@ def search():
                     options_list.append(x)
             filters[key] = options_list
 
-    c.advanced_search = {
+    toolkit.g.advanced_search = {
         "item_count": query['count'],
         # Round values up to get total amount of pages
         "total_pages": int(math.ceil(float(query['count']) / float(limit))),
         "collection": query['results'],
         # Return query parameters to the UI so that it can populate the fields with the previous query values
         # NOTE: Can this cause security issues? Returning POST request params back to the client
-        "last_query": params_to_dict(request.form),
+        "last_query": params_to_dict(toolkit.request.form),
         "json_query": json_query,
         "filters": filters,
         "sort_string": sort_string,
         "field_options": options,
         "sorting_selection": sorting_selection
         }
-    c.advanced_search['last_query']['page'] = page
+    toolkit.g.advanced_search['last_query']['page'] = page
 
-    return render('advanced_search/index.html')
+    return toolkit.render('advanced_search/index.html')
 
 
 def params_to_dict(params):
