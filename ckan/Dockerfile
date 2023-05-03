@@ -356,7 +356,7 @@ COPY ckanext/ckanext-ytp_recommendation     ${EXT_DIR}/ckanext-ytp_recommendatio
 
 
 #
-# Production image
+# Production image 
 #
 FROM ckan_build AS production
 

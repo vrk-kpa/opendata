@@ -2,7 +2,16 @@
 add_header X-XSS-Protection "1; mode=block";
 
 # Content security policies allowing content to be loaded from specified addresses
-add_header Content-Security-Policy "default-src 'self' ${NGINX_CSP_DEFAULT_SRC}; script-src 'self' 'unsafe-inline' 'unsafe-eval' ${NGINX_CSP_SCRIPT_SRC}; img-src 'self' https: gravatar.com data:; style-src 'self' 'unsafe-inline' ${NGINX_CSP_STYLE_SRC}; font-src 'self' https://themes.googleusercontent.com https://fonts.gstatic.com; frame-src 'self' *.${DOMAIN_NAME} *.${SECONDARY_DOMAIN_NAME} ${NGINX_CSP_FRAME_SRC}; object-src 'none'; connect-src 'self' https://links.services.disqus.com wss://realtime.services.disqus.com https://epsg.io *;";
+set $DEFAULT "default-src 'self' ${NGINX_CSP_DEFAULT_SRC}";
+set $SCRIPT "script-src 'self' 'unsafe-inline' 'unsafe-eval' ${NGINX_CSP_SCRIPT_SRC}";
+set $IMG "img-src 'self' https: gravatar.com data:";
+set $STYLE "style-src 'self' 'unsafe-inline' ${NGINX_CSP_STYLE_SRC}";
+set $FONT "font-src 'self' https://themes.googleusercontent.com https://fonts.gstatic.com";
+set $FRAME "frame-src 'self' *.${DOMAIN_NAME} *.${SECONDARY_DOMAIN_NAME} ${NGINX_CSP_FRAME_SRC}";
+set $OBJECT "object-src 'self'";
+set $CONNECT "connect-src 'self' https://links.services.disqus.com wss://realtime.services.disqus.com https://epsg.io *";
+
+add_header Content-Security-Policy "${DEFAULT}; ${SCRIPT};  ${IMG}; ${STYLE}; ${FONT}; ${FRAME}; ${OBJECT}; ${CONNECT};";
 
 # Strict Transport Security (use only https)
 add_header Strict-Transport-Security "max-age=31536000; preload";

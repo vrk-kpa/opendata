@@ -18,6 +18,9 @@ if [[ "${DEV_MODE}" == "true" ]]; then
 
   # enable devel module
   drush pm:enable -y devel
+
+  # enable dev mode
+  drupal site:mode dev
 fi
 
 # apply jinja2 templates
