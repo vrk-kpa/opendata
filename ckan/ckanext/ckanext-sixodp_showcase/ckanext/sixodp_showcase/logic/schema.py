@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import six
 from ckan.lib.navl.validators import (not_empty)
 
 from ckanext.sixodp_showcase.logic.validators import (convert_package_name_or_id_to_id_for_type_apiset)
