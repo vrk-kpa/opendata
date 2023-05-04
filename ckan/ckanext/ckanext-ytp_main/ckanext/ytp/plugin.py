@@ -620,6 +620,14 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                         except NotFound:
                             pass
 
+        # If maintainer was not mapped from responsible organization, lets use individual name instead
+        if not package_dict.get('maintainer') and data_dict.get('iso_values', {}).get('metadata-point-of-contact'):
+            point_of_contacts = data_dict['iso_values']['metadata-point-of-contact']
+            for contact in point_of_contacts:
+                if contact.get('individual-name'):
+                    package_dict['maintainer'] = contact.get('individual-name')
+                    break
+
         config_obj = json.loads(data_dict['harvest_object'].source.config)
         license_from_source = config_obj.get("license", None)
         if license_from_source is not None:
@@ -759,9 +767,6 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
 
         package_dict['keywords'] = {'fi': []}
 
-        if not package_dict.get('maintainer') and iso_values.get('metadata-point-of-contact'):
-            package_dict['extras']['metadata-point-of-contact'] = iso_values.get('metadata-point-of-contact')
-            package_dict['maintainer'] = iso_values.get('metadata-point-of-contact')
 
         # Map tags to keywords
         tags = package_dict.get('tags')
