@@ -3,6 +3,9 @@ set -e
 
 echo "install_extensions ..."
 
+# Removed from here until ckanext-qa is migrated
+#  ${EXT_DIR}/ckanext-qa/requirements.txt \
+#  ${EXT_DIR}/ckanext-qa/pip-requirements.txt \
 REQUIREMENTS_FILES="${EXT_DIR}/ckanext-drupal8/requirements.txt \
   ${EXT_DIR}/ckanext-ytp_drupal/requirements.txt \
   ${EXT_DIR}/ckanext-ytp_tasks/requirements.txt \
@@ -26,7 +29,6 @@ REQUIREMENTS_FILES="${EXT_DIR}/ckanext-drupal8/requirements.txt \
   ${EXT_DIR}/ckanext-disqus/requirements.txt \
   ${EXT_DIR}/ckanext-reminder/requirements.txt \
   ${EXT_DIR}/ckanext-archiver/requirements.txt \
-  ${EXT_DIR}/ckanext-qa/requirements.txt \
   ${EXT_DIR}/ckanext-organizationapproval/requirements.txt \
   ${EXT_DIR}/ckanext-advancedsearch/requirements.txt \
   ${EXT_DIR}/ckanext-forcetranslation/requirements.txt \
@@ -60,7 +62,6 @@ REQUIREMENTS_FILES="${EXT_DIR}/ckanext-drupal8/requirements.txt \
   ${EXT_DIR}/ckanext-disqus/pip-requirements.txt \
   ${EXT_DIR}/ckanext-reminder/pip-requirements.txt \
   ${EXT_DIR}/ckanext-archiver/pip-requirements.txt \
-  ${EXT_DIR}/ckanext-qa/pip-requirements.txt \
   ${EXT_DIR}/ckanext-organizationapproval/pip-requirements.txt \
   ${EXT_DIR}/ckanext-advancedsearch/pip-requirements.txt \
   ${EXT_DIR}/ckanext-forcetranslation/pip-requirements.txt \
@@ -78,6 +79,8 @@ echo "Installing: $EXISTING_REQUIREMENTS_FILES"
 pip install $(for item in $EXISTING_REQUIREMENTS_FILES; do echo "-r $item"; done)
 
 # install extensions
+# Removed from here until ckanext-qa is migrated
+#    -e ${EXT_DIR}/ckanext-qa \
 pip install -e ${EXT_DIR}/ckanext-drupal8 \
     -e ${EXT_DIR}/ckanext-ytp_drupal \
     -e ${EXT_DIR}/ckanext-ytp_tasks \
@@ -110,7 +113,6 @@ pip install -e ${EXT_DIR}/ckanext-drupal8 \
     -e ${EXT_DIR}/ckanext-sentry \
     -e ${EXT_DIR}/ckanext-sitesearch \
     -e ${EXT_DIR}/ckanext-archiver \
-    -e ${EXT_DIR}/ckanext-qa \
     -e ${EXT_DIR}/ckanext-ytp_recommendation
 
 
