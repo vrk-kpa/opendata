@@ -26,4 +26,4 @@ printenv | sed 's/=\(.*\)/="\1"/' > ${CRON_DIR}/.environment
 # run supervisord
 supervisord --configuration ${SUPERV_DIR}/supervisord.conf &
 # run crond
-cron -f
+crond -f
