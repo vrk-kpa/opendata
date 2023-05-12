@@ -25,7 +25,7 @@ Build assets with gulp:
 
 	`npm run gulp`
 
-Check out `resources` folder for results.
+Check out `resources` folder for results. 
 
 
 ## Structure
