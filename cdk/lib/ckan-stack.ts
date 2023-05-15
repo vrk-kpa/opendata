@@ -525,7 +525,7 @@ export class CkanStack extends Stack {
           streamPrefix: 'ckan_cron-service',
         }),
         healthCheck: {
-          command: ['CMD-SHELL', 'ps -aux | grep -o "[c]ron -f" && ps -aux | grep -o "[s]upervisord --configuration"'],
+          command: ['CMD-SHELL', 'ps aux | grep -o "[c]rond -f" && ps aux | grep -o "[s]upervisord --configuration"'],
           interval: Duration.seconds(15),
           timeout: Duration.seconds(5),
           retries: 5,
