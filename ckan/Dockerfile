@@ -219,6 +219,7 @@ RUN apk add --no-cache \
         rsync \
         proj-dev \
         proj-util && \
+        nfs-utils && \
     pip install \
       jinja2-cli \
       supervisor \
