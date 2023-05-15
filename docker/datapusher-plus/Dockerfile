@@ -19,9 +19,9 @@ WORKDIR ${SRC_DIR}
 RUN apk add build-base linux-headers git gettext curl py3-wheel
 
 #install qsv;
-RUN wget https://github.com/jqnatividad/qsv/releases/download/0.94.0/qsv-0.94.0-x86_64-unknown-linux-musl.zip -P /tmp
-RUN unzip /tmp/qsv-0.94.0-x86_64-unknown-linux-musl.zip -d /tmp
-RUN rm /tmp/qsv-0.94.0-x86_64-unknown-linux-musl.zip
+RUN wget https://github.com/jqnatividad/qsv/releases/download/0.103.0/qsv-0.103.0-x86_64-unknown-linux-musl.zip -P /tmp
+RUN unzip /tmp/qsv-0.103.0-x86_64-unknown-linux-musl.zip -d /tmp
+RUN rm /tmp/qsv-0.103.0-x86_64-unknown-linux-musl.zip
 RUN mv /tmp/qsv* /usr/local/bin
 
 RUN python -m venv ${VENV}
@@ -29,7 +29,7 @@ RUN ${VENV}/bin/pip install uwsgi
 
 
 # Install DataPusher+ from repository
-RUN git clone https://github.com/dathere/datapusher-plus.git --depth 1 --branch 0.10.1
+RUN git clone https://github.com/dathere/datapusher-plus.git --depth 1 --branch 0.11.0
 RUN cd ${SRC_DIR}/datapusher-plus && \
     ${VENV}/bin/pip install -r requirements-dev.txt && \
     ${VENV}/bin/pip install -e .
