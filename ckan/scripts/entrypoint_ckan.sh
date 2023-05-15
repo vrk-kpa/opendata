@@ -18,6 +18,9 @@ if [[ "${DEV_MODE}" == "true" ]]; then
     sudo -E ${SCRIPT_DIR}/install_extensions.sh
 fi
 
+echo "locking file for init.."
+echo "lock file: ${DATA_DIR}/.init-lock"
+
 # init ckan if not done or version updated, otherwise run re-init
 flock -x ${DATA_DIR}/.init-lock -c 'echo "waiting for .init-lock to be released ..."'
 if [[ "$(cat ${DATA_DIR}/.init-done)" != "$CKAN_IMAGE_TAG" ]]; then
