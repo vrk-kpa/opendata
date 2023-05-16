@@ -20,8 +20,6 @@ fi
 
 echo "locking file for init.."
 echo "lock file: ${DATA_DIR}/.init-lock"
-cat ${DATA_DIR}/.init-lock
-cat ${DATA_DIR}/.init-done
 
 # init ckan if not done or version updated, otherwise run re-init
 flock -x ${DATA_DIR}/.init-lock -c 'echo "waiting for .init-lock to be released ..."'
