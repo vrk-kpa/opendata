@@ -19,24 +19,13 @@ if [[ "${DEV_MODE}" == "true" ]]; then
 fi
 
 echo "locking file for init.."
-echo "lock file: ${DATA_DIR}/.init-lock"
-echo "mount: $(mount)"
-echo "data dir contents: $(ls -lah $DATA_DIR)"
 
 # init ckan if not done or version updated, otherwise run re-init
-if flock -x ${DATA_DIR}/.init-lock -c 'echo "waiting for .init-lock to be released ..."'; then
-  if [[ "$(cat ${DATA_DIR}/.init-done)" != "$CKAN_IMAGE_TAG" ]]; then
-    flock -x ${DATA_DIR}/.init-lock -c '${SCRIPT_DIR}/init_ckan.sh'
-  else
-    flock -x ${DATA_DIR}/.init-lock -c '${SCRIPT_DIR}/reinit_ckan.sh'
-  fi
+flock -x ${DATA_DIR}/.init-lock -c 'echo "waiting for .init-lock to be released ..."'
+if [[ "$(cat ${DATA_DIR}/.init-done)" != "$CKAN_IMAGE_TAG" ]]; then
+  flock -x ${DATA_DIR}/.init-lock -c '${SCRIPT_DIR}/init_ckan.sh'
 else
-  echo "entrypoint_ckan - locking failed, running lockless"
-  if [[ "$(cat ${DATA_DIR}/.init-done)" != "$CKAN_IMAGE_TAG" ]]; then
-    ${SCRIPT_DIR}/init_ckan.sh
-  else
-    ${SCRIPT_DIR}/reinit_ckan.sh
-  fi
+  flock -x ${DATA_DIR}/.init-lock -c '${SCRIPT_DIR}/reinit_ckan.sh'
 fi
 
 # run uwsgi or ckan run
