@@ -30,16 +30,20 @@ if flock -x ${DATA_DIR}/.init-lock -c 'echo "waiting for .init-lock to be releas
   else
     flock -x ${DATA_DIR}/.init-lock -c '${SCRIPT_DIR}/reinit_ckan.sh'
   fi
-
-  # run uwsgi or ckan run
-  if [[ "${DEV_MODE}" != "true" ]]; then
-    echo "entrypoint_ckan - running in PRODUCTION mode via uwsgi ..."
-    uwsgi -i /srv/app/ckan-uwsgi.ini
-  else
-    echo "entrypoint_ckan - running in DEVELOPMENT mode via ckan ..."
-    ckan -c /srv/app/production.ini run --host 0.0.0.0 --prefix /data
-  fi
 else
-  echo "entrypoint_ckan - lock file not found, entering troubleshooting mode"
-  bash
+  echo "entrypoint_ckan - locking failed, running lockless"
+  if [[ "$(cat ${DATA_DIR}/.init-done)" != "$CKAN_IMAGE_TAG" ]]; then
+    ${SCRIPT_DIR}/init_ckan.sh
+  else
+    ${SCRIPT_DIR}/reinit_ckan.sh
+  fi
+fi
+
+# run uwsgi or ckan run
+if [[ "${DEV_MODE}" != "true" ]]; then
+  echo "entrypoint_ckan - running in PRODUCTION mode via uwsgi ..."
+  uwsgi -i /srv/app/ckan-uwsgi.ini
+else
+  echo "entrypoint_ckan - running in DEVELOPMENT mode via ckan ..."
+  ckan -c /srv/app/production.ini run --host 0.0.0.0 --prefix /data
 fi
