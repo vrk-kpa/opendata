@@ -19,7 +19,6 @@ if [[ "${DEV_MODE}" == "true" ]]; then
     echo "entrypoint_ckan - extensions installed"
 fi
 
-echo "entrypoint_ckan - running flock"
 # init ckan if not done or version updated, otherwise run re-init
 flock -x ${DATA_DIR}/.init-lock -c 'echo "waiting for .init-lock to be released ..."'
 echo "entrypoint_ckan - initializing CKAN"

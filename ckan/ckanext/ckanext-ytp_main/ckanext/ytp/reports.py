@@ -126,7 +126,7 @@ def deprecated_datasets_report():
 
         # FIXME: Against CKAN best practices to access model directly, should be done through actions
         # https://docs.ckan.org/en/ckan-2.7.0/contributing/architecture.html#always-go-through-the-action-functions
-        package_stats = PackageStats.get_total_visits(limit=1, package_id=pkg['id'])
+        package_stats = PackageStats.get_total_visits(package_id=pkg['id'])
         if package_stats:
             resolved_dict['visits'] = package_stats[0].get("visits", 0)
             resolved_dict['downloads'] = package_stats[0].get("downloads", 0)

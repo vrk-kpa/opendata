@@ -1,6 +1,8 @@
 name: CI/CD
 
 on:
+  schedule:
+    - cron: "0 6 * * *"
   pull_request:
   workflow_dispatch:
   workflow_call:
