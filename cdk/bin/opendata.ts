@@ -12,7 +12,6 @@ import { DrupalStack } from '../lib/drupal-stack';
 import { CkanStack } from '../lib/ckan-stack';
 import { WebStack } from '../lib/web-stack';
 import { BackupStack } from "../lib/backup-stack"
-import {BypassCdnStack} from "../lib/bypass-cdn-stack";
 import {CertificateStack} from "../lib/certificate-stack";
 
 // load .env file, shared with docker setup

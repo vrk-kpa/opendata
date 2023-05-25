@@ -44,7 +44,7 @@ export class CertificateStack extends Stack {
     })
 
 
-    const cert = new acm.Certificate(this, 'Certificate', {
+    this.certificate = new acm.Certificate(this, 'Certificate', {
       domainName: this.zone.zoneName,
       subjectAlternativeNames: alternativeNames.concat(secondaryAlternativeNames),
       validation: acm.CertificateValidation.fromDnsMultiZone(validationZones)

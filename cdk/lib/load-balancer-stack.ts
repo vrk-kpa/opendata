@@ -14,7 +14,7 @@ export class LoadBalancerStack extends Stack {
     super(scope, id, props);
 
     // get params
-    const pLbCertArn = ssm.StringParameter.fromStringParameterAttributes(this, 'pLbCertArn', {
+    ssm.StringParameter.fromStringParameterAttributes(this, 'pLbCertArn', {
       parameterName: `/${props.environment}/opendata/cdk/lb_cert_arn`,
     });
     const pLbArn = ssm.StringParameter.fromStringParameterAttributes(this, 'pLbArn', {
