@@ -30,7 +30,7 @@ export class LoadBalancerStack extends Stack {
       parameterName: `/${props.environment}/opendata/cdk/lb_dns_name`,
     });
 
-    this.loadBalancerCert = acm.Certificate.fromCertificateArn(this, 'loadBalancerCert', pLbCertArn.stringValue);
+    this.loadBalancerCert = props.cert;
 
     this.loadBalancer = elb.ApplicationLoadBalancer.fromApplicationLoadBalancerAttributes(this, 'loadBalancer', {
       loadBalancerArn: pLbArn.stringValue,
