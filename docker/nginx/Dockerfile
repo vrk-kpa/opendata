@@ -1,6 +1,6 @@
 # build args
 
-FROM nginx:1.23.2-alpine AS nginx_build
+FROM nginx:1.25.0-alpine AS nginx_build
 
 # install pkgs
 RUN apk add --update-cache python3 py3-pip && \
