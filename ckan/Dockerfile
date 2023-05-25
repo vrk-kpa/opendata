@@ -10,9 +10,6 @@ ARG SECRET_NPMRC
 ##################
 FROM public.ecr.aws/docker/library/python:3.9.16-alpine3.17 as base_ckan_build
 
-# Used by Github Actions to tag the image with
-ENV IMAGE_TAG=2.9.9
-
 # Set CKAN version to build
 ENV GIT_URL=https://github.com/ckan/ckan.git
 ENV GIT_BRANCH=ckan-2.9.9
