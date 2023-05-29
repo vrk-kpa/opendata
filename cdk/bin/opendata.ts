@@ -124,6 +124,19 @@ const certificateStackInfratest = new CertificateStack(app, 'CertificateStack-in
   secondaryDomainName: infratestProps.secondaryDomainName
 })
 
+const certificateStackForCLoudfrontInfratest = new CertificateStack(app, 'CertificateStackForCloudfront-infra', {
+  envProps: envProps,
+  env: {
+    account: infratestProps.account,
+    region: 'us-east-1',
+  },
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  domainName: infratestProps.domainName,
+  secondaryDomainName: infratestProps.secondaryDomainName
+})
+
 const loadBalancerStackInfratest = new LoadBalancerStack(app, 'LoadBalancerStackInfratest-infratest', {
   envProps: envProps,
   env: {
@@ -637,6 +650,19 @@ const certificateStackProd = new CertificateStack(app, 'CertificateStack-prod', 
   env: {
     account: prodProps.account,
     region: prodProps.region
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName
+})
+
+const certificateStackForCloudfrontProd = new CertificateStack(app, 'CertificateStackForCloudfront-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: 'us-east-1'
   },
   environment: prodProps.environment,
   fqdn: prodProps.fqdn,
