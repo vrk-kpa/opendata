@@ -4,6 +4,7 @@ import { Template, Match } from 'aws-cdk-lib/assertions';
 import { ClusterStack } from '../lib/cluster-stack';
 import { LoadBalancerStack } from '../lib/load-balancer-stack';
 import { mockEnv, mockEnvProps } from './mock-constructs';
+import {CertificateStack} from "../lib/certificate-stack";
 
 test('verify load balancer stack resources', () => {
   const app = new cdk.App();
@@ -16,6 +17,16 @@ test('verify load balancer stack resources', () => {
     domainName: 'mock.localhost',
     secondaryDomainName: 'mock.localhost',
   });
+
+  const certificateStack = new CertificateStack(app, 'CertificateStack-test', {
+    envProps: mockEnvProps,
+    env: mockEnv,
+    environment: 'mock-env',
+    fqdn: 'localhost',
+    secondaryFqdn: 'localhost',
+    domainName: 'mock.localhost',
+    secondaryDomainName: 'mock.localhost'
+  })
   // WHEN
   const stack = new LoadBalancerStack(app, 'LoadBalancerStack-test', {
     envProps: mockEnvProps,
@@ -26,6 +37,7 @@ test('verify load balancer stack resources', () => {
     domainName: 'mock.localhost',
     secondaryDomainName: 'mock.localhost',
     vpc: clusterStack.vpc,
+    cert: certificateStack.certificate
   });
   // THEN
   // no actual resources to verify

@@ -12,6 +12,7 @@ import { DrupalStack } from '../lib/drupal-stack';
 import { CkanStack } from '../lib/ckan-stack';
 import { WebStack } from '../lib/web-stack';
 import { BackupStack } from "../lib/backup-stack"
+import {CertificateStack} from "../lib/certificate-stack";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -110,6 +111,19 @@ const databaseStackInfratest = new DatabaseStack(app, 'DatabaseStack-infratest',
   backupPlan: backupStackInfratest.backupPlan
 });
 
+const certificateStackInfratest = new CertificateStack(app, 'CertificateStack-infra', {
+  envProps: envProps,
+  env: {
+    account: infratestProps.account,
+    region: infratestProps.region,
+  },
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  domainName: infratestProps.domainName,
+  secondaryDomainName: infratestProps.secondaryDomainName
+})
+
 const loadBalancerStackInfratest = new LoadBalancerStack(app, 'LoadBalancerStackInfratest-infratest', {
   envProps: envProps,
   env: {
@@ -122,6 +136,7 @@ const loadBalancerStackInfratest = new LoadBalancerStack(app, 'LoadBalancerStack
   domainName: infratestProps.domainName,
   secondaryDomainName: infratestProps.secondaryDomainName,
   vpc: clusterStackInfratest.vpc,
+  cert: certificateStackInfratest.certificate
 });
 
 const cacheStackInfratest = new CacheStack(app, 'CacheStack-infratest', {
@@ -346,6 +361,19 @@ const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
   backupPlan: backupStackBeta.backupPlan
 });
 
+const certificateStackBeta = new CertificateStack(app, 'CertificateStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName
+})
+
 const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta', {
   envProps: envProps,
   env: {
@@ -358,6 +386,7 @@ const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta
   domainName: betaProps.domainName,
   secondaryDomainName: betaProps.secondaryDomainName,
   vpc: clusterStackBeta.vpc,
+  cert: certificateStackBeta.certificate
 });
 
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
@@ -589,6 +618,19 @@ const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
   backupPlan: backupStackProd.backupPlan
 });
 
+const certificateStackProd = new CertificateStack(app, 'CertificateStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName
+})
+
 const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod', {
   envProps: envProps,
   env: {
@@ -601,6 +643,7 @@ const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod
   domainName: prodProps.domainName,
   secondaryDomainName: prodProps.secondaryDomainName,
   vpc: clusterStackProd.vpc,
+  cert: certificateStackProd.certificate
 });
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {

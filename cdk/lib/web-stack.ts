@@ -118,63 +118,30 @@ export class WebStack extends Stack {
       privateZone: false,
     });
 
-    // either use imported cert/elb or create new ones
-    let nginxService: ecsp.ApplicationLoadBalancedFargateService | null = null;
-    if (props.loadBalancerCert != null && props.loadBalancer != null) {
-      nginxService = new ecsp.ApplicationLoadBalancedFargateService(this, 'nginxService', {
-        cluster: props.cluster,
-        cloudMapOptions: {
-          cloudMapNamespace: props.namespace,
-          dnsRecordType: sd.DnsRecordType.A,
-          dnsTtl: Duration.minutes(1),
-          name: 'nginx',
-          container: nginxContainer,
-          containerPort: 80,
-        },
-        publicLoadBalancer: true,
-        protocol: elb.ApplicationProtocol.HTTPS,
-        certificate: props.loadBalancerCert,
-        redirectHTTP: false,
-        platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
-        taskDefinition: nginxTaskDef,
-        minHealthyPercent: 50,
-        maxHealthyPercent: 200,
-        loadBalancer: props.loadBalancer,
-      });
-    } else {
-      const loadBalancerCert = new acm.Certificate(this, 'loadBalancerCert', {
-        domainName: props.domainName,
-        subjectAlternativeNames: [
-          props.secondaryDomainName,
-        ],
-        validation: acm.CertificateValidation.fromDnsMultiZone({
-          [props.domainName]: nginxServiceHostedZone,
-          [props.secondaryDomainName]: nginxServiceSecondaryHostedZone,
-        })
-      });
 
-      nginxService = new ecsp.ApplicationLoadBalancedFargateService(this, 'nginxService', {
-        cluster: props.cluster,
-        domainName: props.domainName,
-        domainZone: nginxServiceHostedZone,
-        cloudMapOptions: {
-          cloudMapNamespace: props.namespace,
-          dnsRecordType: sd.DnsRecordType.A,
-          dnsTtl: Duration.minutes(1),
-          name: 'nginx',
-          container: nginxContainer,
-          containerPort: 80,
-        },
-        publicLoadBalancer: true,
-        protocol: elb.ApplicationProtocol.HTTPS,
-        certificate: loadBalancerCert,
-        redirectHTTP: true,
-        platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
-        taskDefinition: nginxTaskDef,
-        minHealthyPercent: 50,
-        maxHealthyPercent: 200,
-      });
-    }
+    let nginxService: ecsp.ApplicationLoadBalancedFargateService | null = null;
+
+    nginxService = new ecsp.ApplicationLoadBalancedFargateService(this, 'nginxService', {
+      cluster: props.cluster,
+      cloudMapOptions: {
+        cloudMapNamespace: props.namespace,
+        dnsRecordType: sd.DnsRecordType.A,
+        dnsTtl: Duration.minutes(1),
+        name: 'nginx',
+        container: nginxContainer,
+        containerPort: 80,
+      },
+      publicLoadBalancer: true,
+      protocol: elb.ApplicationProtocol.HTTPS,
+      certificate: props.loadBalancerCert,
+      redirectHTTP: false,
+      platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
+      taskDefinition: nginxTaskDef,
+      minHealthyPercent: 50,
+      maxHealthyPercent: 200,
+      loadBalancer: props.loadBalancer,
+    });
+
 
     nginxService.targetGroup.configureHealthCheck({
       path: '/health',
