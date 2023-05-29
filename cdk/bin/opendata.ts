@@ -115,9 +115,21 @@ const certificateStackInfratest = new CertificateStack(app, 'CertificateStack-in
   envProps: envProps,
   env: {
     account: infratestProps.account,
+    region: infratestProps.region,
+  },
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  domainName: infratestProps.domainName,
+  secondaryDomainName: infratestProps.secondaryDomainName
+})
+
+const certificateStackForCLoudfrontInfratest = new CertificateStack(app, 'CertificateStackForCloudfront-infra', {
+  envProps: envProps,
+  env: {
+    account: infratestProps.account,
     region: 'us-east-1',
   },
-  crossRegionReferences: true,
   environment: infratestProps.environment,
   fqdn: infratestProps.fqdn,
   secondaryFqdn: infratestProps.secondaryFqdn,
@@ -131,7 +143,6 @@ const loadBalancerStackInfratest = new LoadBalancerStack(app, 'LoadBalancerStack
     account: infratestProps.account,
     region: infratestProps.region,
   },
-  crossRegionReferences: true,
   environment: infratestProps.environment,
   fqdn: infratestProps.fqdn,
   secondaryFqdn: infratestProps.secondaryFqdn,
@@ -367,9 +378,8 @@ const certificateStackBeta = new CertificateStack(app, 'CertificateStack-beta', 
   envProps: envProps,
   env: {
     account: betaProps.account,
-    region: 'us-east-1',
+    region: betaProps.region,
   },
-  crossRegionReferences: true,
   environment: betaProps.environment,
   fqdn: betaProps.fqdn,
   secondaryFqdn: betaProps.secondaryFqdn,
@@ -377,13 +387,26 @@ const certificateStackBeta = new CertificateStack(app, 'CertificateStack-beta', 
   secondaryDomainName: betaProps.secondaryDomainName
 })
 
+const certificateStackForCloudfrontBeta = new CertificateStack(app, 'CertificateStackForCloudfront-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: 'us-east-1',
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName
+})
+
+
 const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta', {
   envProps: envProps,
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
-  crossRegionReferences: true,
   environment: betaProps.environment,
   fqdn: betaProps.fqdn,
   secondaryFqdn: betaProps.secondaryFqdn,
@@ -626,9 +649,21 @@ const certificateStackProd = new CertificateStack(app, 'CertificateStack-prod', 
   envProps: envProps,
   env: {
     account: prodProps.account,
-    region: 'us-east-1',
+    region: prodProps.region
   },
-  crossRegionReferences: true,
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName
+})
+
+const certificateStackForCloudfrontProd = new CertificateStack(app, 'CertificateStackForCloudfront-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: 'us-east-1'
+  },
   environment: prodProps.environment,
   fqdn: prodProps.fqdn,
   secondaryFqdn: prodProps.secondaryFqdn,
@@ -642,7 +677,6 @@ const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod
     account: prodProps.account,
     region: prodProps.region,
   },
-  crossRegionReferences: true,
   environment: prodProps.environment,
   fqdn: prodProps.fqdn,
   secondaryFqdn: prodProps.secondaryFqdn,
