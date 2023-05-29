@@ -1,6 +1,5 @@
-import {aws_certificatemanager as acm, aws_route53 as route53, aws_route53_targets, Stack} from "aws-cdk-lib";
+import {aws_certificatemanager as acm, aws_route53 as route53, Stack} from "aws-cdk-lib";
 import {Construct} from "constructs";
-import {CertificateStackProps} from "./certificate-stack-props";
 import {CommonStackProps} from "./common-stack-props";
 
 export class CertificateStack extends Stack {
