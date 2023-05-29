@@ -1,0 +1,171 @@
+.toolbar-secondary-wrapper {
+  padding-bottom: $padding-y__resource_toolbar;
+}
+
+.toolbar-resource-secondary {
+  max-width: 1110px;
+  margin: 0 auto;
+  padding: 0 $padding-right__module--resource;
+
+  i {
+    border-radius: 0;
+    height: 16px;
+    width: 16px;
+    color: $suomi-highlightBase;
+  }
+
+  a {
+    color: $suomi-highlightBase;
+    font-family: $font-family-sans-serif;
+    font-size: $font-size-smaller-base;
+    font-weight: $font-weight-normal;
+    letter-spacing: 0.4px;
+    line-height: $line-height-larger-base;
+    text-transform: uppercase;
+  }
+}
+
+.module-resource {
+  border: none;
+  //margin-bottom: $margin__module;
+  //padding-bottom: $margin__module;
+
+  // Additional padding for desktop only
+  @media (min-width: $screen-sm-min) {
+    padding-left: $padding-left__module--resource;
+    padding-right: $padding-right__module--resource;
+  }
+
+  padding-left: $padding-left__module--resource;
+  padding-right: $padding-right__module--resource;
+
+  .actions {
+    top: 0;
+    right: 0;
+
+    ul {
+      float: right;
+    }
+  }
+
+  .module-small-title {
+    color: $suomi-depthDark27;
+    font-size: $font-size-slightly-smaller-base;
+    font-family: $font-family-sans-serif;
+    font-weight: $font-weight-normal;
+    line-height: $line-height-base;
+    padding-top: $padding-y__resource_toolbar;
+  }
+
+  .resource-module-table {
+    width: 100%;
+  }
+
+  .resource-module-table th {
+    text-align: left;
+    padding: $padding__resource_table;
+    font-size: $font-size-slightly-smaller-base;
+    font-weight: $font-weight-light;
+  }
+
+  .resource-module-table td,
+  .resource-module-table tr {
+    border: 1px solid $suomi-depthLight13;
+    padding: $padding__resource_table;
+    border-collapse: collapse;
+  }
+
+  .resource-module-table tr:nth-child(odd) {
+    background-color: $suomi-depthLight30;
+  }
+
+  .resource-module-table th:nth-child(odd) {
+    font-weight: $font-weight-heavier;
+  }
+}
+
+.resource-container {
+  background-color: $background-color__content;
+  border: 1px solid $border-color__content;
+  padding: $padding__content;
+
+  > .row {
+    margin-left: -$padding-x--common;
+    margin-right: -$padding-x--common;
+  }
+
+  .resource-primary-content,
+  .resource-sidebar {
+    padding: 0 $padding-x--common;
+
+    .embedded-content {
+      font-size: $font-size-base;
+    }
+
+    .embedded-content,
+    .resources,
+    .additional-info,
+    .disqus-comments {
+      margin-bottom: $margin__module--large;
+
+      h3 {
+        margin-bottom: $padding-y--common;
+      }
+    }
+  }
+}
+
+.container-module-resource {
+  border: 1px solid $color--extra-light-grey;
+
+  .resource-block {
+    padding-bottom: $padding-bottom__module--resource;
+  }
+
+  .module {
+    h1 {
+      margin-bottom: $padding-bottom__module--resource !important;
+      color: $navbarInverseBackgroundHighlight !important;
+      font-family: $font-family-sans-serif-light !important;
+      font-size: $font-size__module-large-h1;
+      font-weight: $font-weight-light;
+    }
+  }
+}
+
+.apiset-title {
+  color: $color--dark-black;
+  font-size: $font-size__module-large-h1;
+  font-weight: $font-weight-light;
+  height: 48px;
+  margin: 0 0 3px;
+}
+
+.nav--resource-list {
+  .nav-item a {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+.resource-list .resource-item {
+  padding: 0;
+
+  .format-label {
+    margin-top: 0;
+    margin-left: 0;
+  }
+}
+
+.dataset-resource-form {
+  .page-container {
+    flex-grow: 1;
+  }
+}
+
+.content-actions--resource {
+  // As bootstrap doesn't use our custom variable for grid-gutter-width, just hard code value here
+  // To match right border with form
+  padding-right: 15px;
+}

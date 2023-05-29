@@ -1,0 +1,15 @@
+@import "../variables.scss";
+
+.file-tag {
+  border: 1px solid $opendata-brand-border-gray;
+  border-radius: $border-radius__button;
+  padding: $padding__tag;
+  margin-left: $margin__tag;
+  background-color: transparent;
+  color: $suomi-depthDark27;
+  text-transform: uppercase;
+  font-family: $font-family-sans-serif-semibold;
+  font-weight: $font-weight-heavier;
+  line-height: $line-height-larger-base;
+  text-align: center;
+}

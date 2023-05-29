@@ -1,0 +1,149 @@
+@import "./ckan/upstream_ckan/_bootstrap";
+@import "./ckan/upstream_ckan/_bootstrap-variables";
+@import "./variables/fonts";
+@import "./variables/palette";
+@import "./variables/spacing";
+@import "./variables/transition";
+@import "./variables/components/form.scss";
+@import "./variables/components/menu.scss";
+@import "./variables/components/showcase.scss";
+
+// NOTE: these should be used with @media (max-width: $breakpoints.xs)
+// not min-width.
+$breakpoints: xs $screen-xs-max, sm $screen-sm-max, md $screen-md-max,
+  lg 10000px;
+
+$brand-primary: $opendata-brand-primary;
+$brand-info: $opendata-brand-decorative;
+
+$opendata-container-max-width: 1110px;
+$opendata-categories-container-max-width: 1500px;
+$background-hero-image: url("/themes/avoindata/images/logo/opendata.svg");
+
+// Bootstrap: Alerts
+$alert-padding: 8px;
+$alert-info-bg: $opendata-brand-decorative; //lighten($opendata-brand-primary, 30%);
+$alert-info-border: $opendata-brand-decorative;
+$alert-info-text: lighten(
+  $opendata-brand-decorative,
+  54%
+); //$opendata-brand-primary;
+$alert-link-font-weight: 500;
+
+//Color and background for FAVORITE datasets
+$popularTextColor: #fff;
+$popularBackgroundColor: #ffbb44;
+
+// Light border lines that separate UI areas
+$section-border-color: lighten($opendata-brand-gray, 60%);
+
+// Borders for content: input fields, comments etc. on areas with gray background
+$content-border: lighten($opendata-brand-gray, 25%);
+
+// Search box, carousel etc.
+$block-color-background: $opendata-brand-primary;
+$block-color: $button-inverse-text-color;
+$block-color-hilight: lighten($opendata-brand-primary, 0%);
+$block-color-light: #fff;
+
+$sidebar-block-color-header: $opendata-brand-primary--highlight;
+$sidebar-block-color-background: #eee;
+$sidebar-block-color-text: #000;
+
+// Tweak Bootstrap brand colors (label, button etc.)
+$label-default-bg: $opendata-brand-gray;
+$label-primary-bg: lighten($opendata-brand-primary, 0%);
+
+$link-color: $suomi-highlightBase;
+$link-color-focus: $suomi-accentBase;
+$link-hilight: $suomi-highlightDark9;
+
+// Name label for input fields and for showing the key/value-pairs
+$field-label-color: darken($opendata-brand-gray, 30%);
+
+// Help text inside input fields
+$input-color-placeholder: lighten($opendata-brand-gray, 35%);
+$input-color: #222;
+$input-readonly: #555;
+
+// Vertical side menu and horizontal main menu
+$menu-active-color: #fff;
+$menu-link-active-color: $opendata-brand-complementary;
+$menu-link-color: #eee;
+$menu-link-background: $opendata-brand-primary;
+$menu-link-hover-color: #fff;
+$menu-hover-color: $opendata-brand-decorative;
+
+$body-color-background: #fff;
+
+// Footer colors
+$footer-background: $opendata-brand-dark;
+$footer-text-color: #fff;
+
+// Drupal article tags
+// TODO where is this used
+$node-meta-submitted: #cccccc;
+
+$select-border-color: #cccccc;
+$select-background: #fff;
+
+// Rest of the variables
+$navbar-background: #fff;
+$navbar-default-bg: #fff;
+$navbar-border: 1px solid #c8cdd0;
+$navbar-color: #123f52;
+$navbar-inverse-link-color: $opendata-brand-decorative;
+$navbar-color-background: $opendata-brand-primary;
+$navbar-color-links: $color--black;
+$navbar-height: 67px;
+$navbar-responsive-toggle-background: #000;
+
+$infowell-color-dark: #175971;
+$infowell-color-medium: #258bb1;
+$infowell-color-light: #27b0dc;
+
+$main-hilight-color: #1f7994;
+
+// TODO remove if there is no footer
+$footer-color: $nonimportant-text-color;
+$footer-border: $section-border-color;
+
+// Responsive layout widths
+$secondary-width: 280px;
+$container-horizontal-padding: 40px;
+$grid-float-breakpoint: $screen-sm-min;
+
+$border-radius-large: 0;
+
+// Media grid
+$mediagrid-header-text-color: $opendata-brand-dark;
+$mediagrid-text-color: $opendata-brand-gray;
+$mediagrid-category-icon-color: rgb(24, 43, 117);
+
+$bottom-highlight-color: #00b8ff;
+
+// Header variables
+$header-width: $opendata-container-max-width;
+
+// Resource list
+$resource-list-background: #f7f7f7;
+$tag-color: #69b1fe;
+
+// Tabs
+$active-tab-color: #055bb9;
+$inactive-tab-color: #b3bacf;
+
+//Dropdown menu hover color that comes to the left border
+//used at least on Frontpage dropdown and guide page dropdown menu
+$menu-hover-border-color: $opendata-brand-primary;
+
+$dataset-count-text-color: #c6c6c6;
+$organization-count-header-color: #c6c6c6;
+
+$facet-link-text-color: #020202;
+
+// Search view
+$search-view-bg-hero-bg-color: #004f74;
+$search-view-link-color: #000;
+
+$nav-link-selected-color: #EEEEEE;

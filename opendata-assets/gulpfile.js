@@ -2,7 +2,7 @@ var fs = require('fs');
 var gulp = require("gulp");
 var concat = require("gulp-concat");
 var imagemin = require("gulp-imagemin");
-var less = require("gulp-less");
+var sass = require("gulp-sass")(require("sass"));
 var sourcemaps = require("gulp-sourcemaps");
 var prefixer = require("gulp-autoprefixer");
 var del = require("del");
@@ -19,19 +19,19 @@ var gulpStylelint = require('gulp-stylelint');
 var paths = {
   src: {
     images: "src/images/**/*",
-    less: "src/less",
-    ckan: "src/less/ckan",
-    drupal: "src/less/drupal/style.less",
+    scss: "src/scss",
+    ckan: "src/scss/ckan",
+    drupal: "src/scss/drupal/style.scss",
     drupal_avoindata_header: "../drupal/modules/avoindata-header/resources/avoindata_header.js",
-    drupal_ckeditor_plugins: "src/less/drupal/custom-elements.less",
+    drupal_ckeditor_plugins: "src/scss/drupal/custom-elements.scss",
     templates: "src/templates/**/*",
     static_pages: "src/static_pages",
     fonts: "src/fonts/**/*",
-    fontsCss: "src/less/fonts.less",
+    fontsCss: "src/scss/fonts.scss",
     scripts: "src/scripts/**/*",
-    bootstrap_styles: "./node_modules/bootstrap/less",
-    bootstrap_scripts: "./node_modules/bootstrap/js/*",
-    bootstrap_fonts: "./node_modules/bootstrap/dist/fonts/*",
+    bootstrap_styles: "./node_modules/bootstrap-sass/assets/stylesheets",
+    bootstrap_scripts: "./node_modules/bootstrap-sass/assets/javascripts/*",
+    bootstrap_fonts: "./node_modules/bootstrap-sass/assets/fonts/*",
     moment_path: "./node_modules/moment",
     root: "src",
     fontawesome: "./node_modules/@fortawesome/fontawesome-pro"
@@ -68,10 +68,10 @@ gulp.task("clean", done => {
 });
 
 
-gulp.task('copy:fontawesomeLess', (done) => {
+gulp.task('copy:fontawesomeScss', (done) => {
   pump([
-    gulp.src(paths.src.fontawesome + "/less/*.less"),
-    gulp.dest(paths.src.root + "/vendor/@fortawesome/fontawesome/less")
+    gulp.src(paths.src.fontawesome + "/scss/*.scss"),
+    gulp.dest(paths.src.root + "/vendor/@fortawesome/fontawesome/scss")
   ], done)
 });
 
@@ -93,7 +93,7 @@ gulp.task('copy:fontawesome', (done) => {
 
 gulp.task('lint', (done) => {
   pump([
-    gulp.src(paths.src.less + '/**/*.less'),
+    gulp.src(paths.src.scss + '/**/*.scss'),
     gulpStylelint({
       failAfterError: true,
       reporters:[
@@ -104,9 +104,9 @@ gulp.task('lint', (done) => {
 
 gulp.task("ckan",(done) => {
   pump([
-    gulp.src(paths.src.ckan + "/*.less"),
+    gulp.src(paths.src.ckan + "/*.scss"),
     sourcemaps.init(),
-    less({paths: [paths.src.ckan]}),
+    sass({paths: [paths.src.ckan], includePaths: [paths.src.bootstrap_styles]}),
     prefixer(),
     cleancss({ keepBreaks: false }),
     concat("ckan.css"),
@@ -118,9 +118,9 @@ gulp.task("ckan",(done) => {
 
 gulp.task("openapi_view",(done) => {
   pump([
-    gulp.src(paths.src.less + "/openapi_view.less"),
+    gulp.src(paths.src.scss + "/openapi_view.scss"),
     sourcemaps.init(),
-    less(),
+    sass({includePaths: [paths.src.bootstrap_styles]}),
     prefixer(),
     cleancss({ keepBreaks: false }),
     concat("openapi_view.css"),
@@ -131,13 +131,13 @@ gulp.task("openapi_view",(done) => {
 
 
 
-// // Compiles Less files in Drupal theme directory
+// // Compiles scss files in Drupal theme directory
 // // Output destination is also in Drupal theme directory
 gulp.task("drupal", (done) => {
   pump([
     gulp.src(paths.src.drupal),
     sourcemaps.init(),
-    less({paths: [paths.src.drupal]}),
+    sass({paths: [paths.src.drupal], includePaths: [paths.src.bootstrap_styles]}),
     prefixer(),
     template({ timestamp: timestamp }),
     cleancss({ keepBreaks: false }),
@@ -147,13 +147,13 @@ gulp.task("drupal", (done) => {
   ], done)
 });
 
-// // Compiles Less files in Drupal theme directory
+// // Compiles scss files in Drupal theme directory
 // // Output destination is also in Drupal theme directory
 gulp.task("drupal_copy_custom_element_styles_to_plugin", (done) => {
   pump([
     gulp.src(paths.src.drupal_ckeditor_plugins),
     sourcemaps.init(),
-    less({paths: [paths.src.drupal_ckeditor_plugins]}),
+    sass({paths: [paths.src.drupal_ckeditor_plugins], includePaths: [paths.src.bootstrap_styles]}),
     prefixer(),
     template({ timestamp: timestamp }),
     cleancss({ keepBreaks: false }),
@@ -168,7 +168,7 @@ gulp.task("fontsCss", (done) => {
   pump([
     gulp.src(paths.src.fontsCss),
     sourcemaps.init(),
-    less({paths: [paths.src.fontsCss]}),
+    sass({paths: [paths.src.fontsCss]}),
     prefixer(),
     template({ timestamp: timestamp }),
     cleancss({ keepBreaks: false }),
@@ -254,8 +254,8 @@ gulp.task("bootstrap_scripts", (done) => {
 
 gulp.task("bootstrap_styles", (done) => {
   pump([
-    gulp.src(paths.src.bootstrap_styles + "/bootstrap.less"),
-    less({paths: [paths.src.bootstrap_styles]}),
+    gulp.src(paths.src.bootstrap_styles + "/_bootstrap.scss"),
+    sass({paths: [paths.src.bootstrap_styles]}),
     concat("bootstrap.css"),
     gulp.dest(paths.dist + "/vendor"),
     cleancss({ keepBreaks: false }),
@@ -330,7 +330,7 @@ gulp.task(
   gulp.series(
     "clean",
     "config",
-    "copy:fontawesomeLess",
+    "copy:fontawesomeScss",
     "copy:fontawesomeFonts",
     "copy:fontawesome",
     gulp.parallel(
@@ -349,7 +349,7 @@ gulp.task(
 
 gulp.task("watch", () => {
   var watcher = gulp.watch(
-    ["./src/less/**/*.less", "./src/less/*.less", paths.src.templates],
+    ["./src/scss/**/*.scss", "./src/scss/*.scss", paths.src.templates],
     gulp.series("default")
   );
 
@@ -362,7 +362,7 @@ gulp.task("watch", () => {
 
 gulp.task("watch_styles", () => {
   var watcher = gulp.watch(
-    ["./src/less/**/*.less", "./src/less/*.less", paths.src.templates],
+    ["./src/scss/**/*.scss", "./src/scss/*.scss", paths.src.templates],
     gulp.parallel(
       "bootstrap_styles",
       "bootstrap_scripts",
@@ -385,7 +385,7 @@ gulp.task("watch_styles", () => {
 
 gulp.task("watch_drupal_styles", () => {
   var watcher = gulp.watch(
-    ["src/less/**/*.less", "src/less/*.less", "../avoindata-theme/less"],
+    ["src/scss/**/*.scss", "src/scss/*.scss", "../avoindata-theme/scss"],
     gulp.series(
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
