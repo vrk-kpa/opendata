@@ -702,6 +702,20 @@ const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod
   cert: certificateStackProd.certificate
 });
 
+const bypassCdnStackProd = new BypassCdnStack(app, 'BypassCdnStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  loadbalancer: loadBalancerStackProd.loadBalancer
+})
+
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {
   envProps: envProps,
   env: {
