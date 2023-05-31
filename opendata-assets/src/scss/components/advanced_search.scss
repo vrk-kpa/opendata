@@ -15,7 +15,7 @@
 #search-options-header {
   color: $color--white;
   background-color: $new-layout-secondary-text-color;
-  margin: 0 -$padding-x__navigation;
+  margin: 0 (-$padding-x__navigation);
   margin-bottom: $padding-y__navigation;
   padding: $padding-y--common $padding-x--common;
 

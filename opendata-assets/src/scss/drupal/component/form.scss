@@ -115,5 +115,5 @@
 
 .contact-form__prelude {
   max-width: $max-width__contact-form;
-  margin-bottom: ($grid-gutter-width / 2);
+  margin-bottom: calc($grid-gutter-width / 2);
 }

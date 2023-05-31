@@ -7,10 +7,10 @@ $grid-gutter-width--bootstrap: 30px;
 /**
   * Common spacings
   */
-$padding-y--common: $grid-gutter-width / 2;
-$padding-x--common: $grid-gutter-width / 2;
-$padding-y--small: $grid-gutter-width / 4;
-$padding-x--small: $grid-gutter-width / 4;
+$padding-y--common: calc($grid-gutter-width / 2);
+$padding-x--common: calc($grid-gutter-width / 2);
+$padding-y--small: calc($grid-gutter-width / 4);
+$padding-x--small: calc($grid-gutter-width / 4);
 $padding-y__text: 16px;
 $padding-y__input: 8px;
 $padding-x__input: 10px;
