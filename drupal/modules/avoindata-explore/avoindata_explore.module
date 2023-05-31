@@ -15,7 +15,7 @@ function avoindata_explore_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     case 'help.page.avoindata_explore_help':
       return t('
-        Creates explore module.
+        Creates explore module that includes blocks explore and support.
       ');
   }
 }
@@ -28,6 +28,10 @@ function avoindata_explore_theme($existing, $type, $theme, $path) {
     'avoindata_explore' => [
       'variables' => ['language' => NULL,],
       'template' => 'avoindata_explore_block',
+    ],
+    'avoindata_support' => [
+      'variables' => ['language' => NULL,],
+      'template' => 'avoindata_support_block',
     ],
   ];
 }
@@ -42,7 +46,7 @@ class AvoindataExploreHandler implements TrustedCallbackInterface
    * {@inheritdoc}
    */
   public static function trustedCallbacks() {
-    
+
     // append function names to the list if any
     return [];
   }

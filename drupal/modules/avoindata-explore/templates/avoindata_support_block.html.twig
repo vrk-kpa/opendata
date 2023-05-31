@@ -1,0 +1,77 @@
+{#
+/**
+ * @file
+ * Avoindata Support Block
+ *
+ * @ingroup themeable
+ */
+#}
+<div class="avoindata-support pb-4">
+  {% set operating_model_url = {'fi': 'toimintamalli', 'en': 'operating-model', 'sv': 'handlingsmodellen'} %}
+  {% set api_principles_url = {'fi': 'rajapintaperiaatteet', 'en': 'api-principles', 'sv': 'api-principer'} %}
+  <div class="avoindata-block-container justify-content-center">
+    <div class="row avoindata-block-header-row pt-3">
+      <h2>
+        {% trans %}
+          Support for sharing data
+        {% endtrans %}
+      </h2>
+    </div>
+
+    <div class="avoindata-block-items mt-3 mb-3">
+
+      <div class="avoindata-block-card mt-2">
+        <div class="avoindata-block-card-icon avoindata-support-sharing">
+          <img src="/themes/avoindata/images/book.svg"/>
+        </div>
+
+        <div class="avoindata-block-card-content">
+          <div class="avoindata-block-card-title">
+            <h3>
+              {% trans %}
+                Operating model for sharing data
+              {% endtrans %}
+            </h3>
+          </div>
+
+          <div class="avoindata-block-card-text">
+            <i class="far fa-chevron-right"></i>
+            <a href="/{{ language }}/{{operating_model_url[language]}}">
+              {% trans %}
+                Browse the operating model
+              {% endtrans %}
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="avoindata-block-card mt-2">
+        <div class="avoindata-block-card-icon avoindata-support-principles">
+          <img src="/themes/avoindata/images/web-development.svg"/>
+        </div>
+
+        <div class="avoindata-block-card-content">
+          <div class="avoindata-block-card-title">
+            <h3>
+              {% trans %}
+                API principles
+              {% endtrans %}
+            </h3>
+          </div>
+
+          <div class="avoindata-block-card-text">
+            <i class="far fa-chevron-right"></i>
+            <a href="/{{ language }}/{{api_principles_url[language]}}">
+              {% trans %}
+                Browse API principles
+              {% endtrans %}
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
