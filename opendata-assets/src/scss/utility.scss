@@ -48,9 +48,10 @@ $display-properties: none,
   }
 }
 
-@mixin make-display-class($property){
+@mixin make-display-class($property) {
   .d-#{$property} {
     display: $property;
+
     @include make-display-mq($property);
   }
 }
@@ -179,7 +180,7 @@ $display-properties: none,
 // --------------------
 // This function creates bootstrap 4 like padding and margin classes
 // https://getbootstrap.com/docs/4.3/utilities/spacing/
-@mixin make-margin-padding-css($index, $size-px){
+@mixin make-margin-padding-css($index, $size-px) {
   .p-#{$index} {
     padding: $size-px;
   }
@@ -253,7 +254,6 @@ $display-properties: none,
 // Creates with index 0, by adding this here it can be overriden with custom numbers
 // example: <div class="m-0 mb-2">  <---  resets other margins to zero but margin bottom is 2
 @include make-margin-padding-css(0, 0);
-
 @include make-margins-and-paddings();
 
 // ------

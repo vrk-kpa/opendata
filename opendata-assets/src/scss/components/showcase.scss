@@ -4,6 +4,7 @@
   background-color: #f2f2f2;
   overflow-x: auto;
   white-space: nowrap;
+
   @include flex-display(flex);
   @include align-items(center);
 

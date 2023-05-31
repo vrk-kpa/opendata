@@ -149,12 +149,14 @@ label.group-label {
     .search-input {
       margin-top: 10px;
       margin-right: 10px;
+
       @include flex-order(0);
       @include flex(1 0 auto);
     }
 
     .search-submit {
       margin-top: 10px;
+
       @include flex-order(1);
       @include flex(0 0 auto);
     }

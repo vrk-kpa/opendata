@@ -4,7 +4,7 @@
   display: none;
 }
 
-@mixin opblock-colors($background, $foreground, $shadow: undefined){
+@mixin opblock-colors($background, $foreground, $shadow: undefined) {
   border-color: $foreground;
   background: $background;
 
@@ -14,9 +14,7 @@
 
   .opblock-summary-method {
     background: $foreground;
-  }
 
-  .opblock-summary-method {
     @if $shadow {
       text-shadow: 0 2px darken($foreground, 5%);
     }
@@ -30,18 +28,18 @@
   }
 
   .opblock.opblock-get {
-    @include opblock-colors(rgba($suomi-highlightBase, 10%/100.0%), $suomi-highlightBase);
+    @include opblock-colors(rgba($suomi-highlightBase, 10%/100.%), $suomi-highlightBase);
   }
 
   .opblock.opblock-post {
-    @include opblock-colors(rgba($suomi-successBase, 10%/100.0%), $suomi-successBase, true);
+    @include opblock-colors(rgba($suomi-successBase, 10%/100.%), $suomi-successBase, true);
   }
 
   .opblock.opblock-put {
-    @include opblock-colors(rgba($suomi-warningBase, 10%/100.0%), $suomi-warningBase, true);
+    @include opblock-colors(rgba($suomi-warningBase, 10%/100.%), $suomi-warningBase, true);
   }
 
   .opblock.opblock-delete {
-    @include opblock-colors(rgba($suomi-alertBase, 10%/100.0%), $suomi-alertBase);
+    @include opblock-colors(rgba($suomi-alertBase, 10%/100.%), $suomi-alertBase);
   }
 }

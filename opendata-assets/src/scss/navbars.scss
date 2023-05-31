@@ -327,6 +327,7 @@ End of dropdown CSS
   .header-search-input-container {
     width: 100%;
     visibility: visible;
+
     @include align-self(flex-end);
     @include transition(width 0.5s ease);
 
@@ -337,6 +338,7 @@ End of dropdown CSS
   .header-search-input-container.is-hidden {
     width: 0;
     visibility: hidden;
+
     @include transition(width 0.3s ease);
 
     margin-right: auto;
@@ -356,6 +358,7 @@ End of dropdown CSS
 
   .form-control {
     border-radius: 0;
+
     @include placeholder($nonimportant-text-color);
   }
 }
