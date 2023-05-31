@@ -13,6 +13,7 @@ import { CkanStack } from '../lib/ckan-stack';
 import { WebStack } from '../lib/web-stack';
 import { BackupStack } from "../lib/backup-stack"
 import {CertificateStack} from "../lib/certificate-stack";
+import {BypassCdnStack} from "../lib/bypass-cdn-stack";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -415,6 +416,21 @@ const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta
   vpc: clusterStackBeta.vpc,
   cert: certificateStackBeta.certificate
 });
+
+
+const bybassCdnStackBeta = new BypassCdnStack(app, 'BypassCdnStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  loadbalancer: loadBalancerStackBeta.loadBalancer
+})
 
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
   envProps: envProps,
