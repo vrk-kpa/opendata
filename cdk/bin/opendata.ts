@@ -13,6 +13,7 @@ import { CkanStack } from '../lib/ckan-stack';
 import { WebStack } from '../lib/web-stack';
 import { BackupStack } from "../lib/backup-stack"
 import {CertificateStack} from "../lib/certificate-stack";
+import {BypassCdnStack} from "../lib/bypass-cdn-stack";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -416,6 +417,21 @@ const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta
   cert: certificateStackBeta.certificate
 });
 
+
+const bypassCdnStackBeta = new BypassCdnStack(app, 'BypassCdnStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  loadbalancer: loadBalancerStackBeta.loadBalancer
+})
+
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
   envProps: envProps,
   env: {
@@ -685,6 +701,20 @@ const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod
   vpc: clusterStackProd.vpc,
   cert: certificateStackProd.certificate
 });
+
+const bypassCdnStackProd = new BypassCdnStack(app, 'BypassCdnStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  loadbalancer: loadBalancerStackProd.loadBalancer
+})
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {
   envProps: envProps,

@@ -752,6 +752,9 @@ $settings['trusted_host_patterns'] = [
   '^{{ environ('SECONDARY_DOMAIN_NAME')|replace(".", "\.") }}$',
   {% endif -%}
   '^{{ environ('NGINX_HOST')|replace(".", "\.") }}$',
+  {% if environ('BYPASS_CDN_DOMAIN') is not none and environ('BYPASS_CDN_DOMAIN')|length -%}
+  '^{{ environ('BYPASS_CDN_DOMAIN')|replace(".", "\.") }}$',
+  {% endif -%}
 ];
 
 /**
