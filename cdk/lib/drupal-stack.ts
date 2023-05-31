@@ -154,7 +154,7 @@ export class DrupalStack extends Stack {
       SMTP_PORT: pSmtpPort.stringValue,
       DISQUS_DOMAIN: pDisqusDomain.stringValue,
       SENTRY_ENV: props.environment,
-      BYBASS_CDN_DOMAIN: `api.${props.fqdn}`
+      BYPASS_CDN_DOMAIN: `api.${props.fqdn}`
     };
 
     let drupalContainerSecrets: { [key: string]: ecs.Secret; } = {

@@ -418,7 +418,7 @@ const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta
 });
 
 
-const bybassCdnStackBeta = new BypassCdnStack(app, 'BypassCdnStack-beta', {
+const bypassCdnStackBeta = new BypassCdnStack(app, 'BypassCdnStack-beta', {
   envProps: envProps,
   env: {
     account: betaProps.account,
