@@ -78,7 +78,7 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: run stylelint
-        run: $(npm bin)/stylelint "src/less"
+        run: $(npm bin)/stylelint "src/scss"
         working-directory: ./opendata-assets
 
   slack:
