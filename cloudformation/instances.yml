@@ -559,27 +559,27 @@ Resources:
               - '718504428378' # ap-south-1
               - '507241528517' # sa-east-1
 
-  PrivateALBSolrListener:
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties:
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref PrivateALBTargetGroup
-      LoadBalancerArn: !Ref PrivateALB
-      Port: 8983
-      Protocol: HTTP
+  #PrivateALBSolrListener:
+  #  Type: AWS::ElasticLoadBalancingV2::Listener
+  #  Properties:
+  #    DefaultActions:
+  #      - Type: forward
+  #        TargetGroupArn: !Ref PrivateALBTargetGroup
+  #    LoadBalancerArn: !Ref PrivateALB
+  #    Port: 8983
+  #    Protocol: HTTP
 
-  PublicALBListenerSslCertificate:
-    Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties:
-      Certificates:
-        - CertificateArn: !Ref PublicALBCertificate
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref PublicALBTargetGroupHTTP
-      LoadBalancerArn: !Ref PublicALB
-      Port: 443
-      Protocol: HTTPS
+  #PublicALBListenerSslCertificate:
+  #  Type: AWS::ElasticLoadBalancingV2::Listener
+  #  Properties:
+  #    Certificates:
+  #      - CertificateArn: !Ref PublicALBCertificate
+  #    DefaultActions:
+  #      - Type: forward
+  #        TargetGroupArn: !Ref PublicALBTargetGroupHTTP
+  #    LoadBalancerArn: !Ref PublicALB
+  #    Port: 443
+  #    Protocol: HTTPS
 
   PublicALBTargetGroupHTTP:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
