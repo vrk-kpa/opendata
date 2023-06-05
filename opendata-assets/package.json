@@ -41,6 +41,9 @@
     "moment": "^2.29.4",
     "select2-bootstrap-css": "^1.4.6"
   },
+  "optionalDependencies": {
+    "fsevents": "2.1.2"
+  },
   "browserslist": [
     "last 2 versions"
   ],
