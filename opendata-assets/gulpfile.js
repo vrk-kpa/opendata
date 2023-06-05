@@ -254,13 +254,13 @@ gulp.task("bootstrap_scripts", (done) => {
 
 gulp.task("bootstrap_styles", (done) => {
   pump([
-    gulp.src(paths.src.bootstrap_styles + "/_bootstrap.scss"),
-    sass({paths: [paths.src.bootstrap_styles]}),
+    gulp.src(paths.src.scss + "/bootstrap_build.scss"),
+    sass({includePaths: [paths.src.bootstrap_styles]}),
     concat("bootstrap.css"),
-    gulp.dest(paths.dist + "/vendor"),
+    gulp.dest(paths.dist + "/vendor/bootstrap/dist/css"),
     cleancss({ keepBreaks: false }),
     concat("bootstrap.min.css"),
-    gulp.dest(paths.dist + "/vendor")
+    gulp.dest(paths.dist + "/vendor/bootstrap/dist/css")
   ], done)
 });
 
