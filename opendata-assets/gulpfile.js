@@ -258,9 +258,11 @@ gulp.task("bootstrap_styles", (done) => {
     sass({includePaths: [paths.src.bootstrap_styles]}),
     concat("bootstrap.css"),
     gulp.dest(paths.dist + "/vendor/bootstrap/dist/css"),
+    gulp.dest(paths.ckanResources + "/vendor/bootstrap/dist/css"),
     cleancss({ keepBreaks: false }),
     concat("bootstrap.min.css"),
-    gulp.dest(paths.dist + "/vendor/bootstrap/dist/css")
+    gulp.dest(paths.dist + "/vendor/bootstrap/dist/css"),
+    gulp.dest(paths.ckanResources + "/vendor/bootstrap/dist/css")
   ], done)
 });
 
