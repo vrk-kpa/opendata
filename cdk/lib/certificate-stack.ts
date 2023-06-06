@@ -18,7 +18,7 @@ export class CertificateStack extends Stack {
 
     const alternativeNamePrefixes: string[] = [
       "www",
-      "api"
+      "vip"
     ]
 
     const alternativeNames: string[] = alternativeNamePrefixes.map((name) => {

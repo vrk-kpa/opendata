@@ -17,7 +17,7 @@ export class BypassCdnStack extends Stack {
 
     let domain_record = new route53.ARecord(this, 'ARecord', {
       zone: zone,
-      recordName: 'api',
+      recordName: 'vip',
       target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(props.loadbalancer))
     })
 
