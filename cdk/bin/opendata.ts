@@ -776,8 +776,8 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     taskMaxCapacity: 1,
   },
   datapusherTaskDef: {
-    taskCpu: 512,
-    taskMem: 2048,
+    taskCpu: 1024,
+    taskMem: 8192,
     taskMinCapacity: 1,
     taskMaxCapacity: 4,
   },
