@@ -121,9 +121,9 @@ services:
     ports:
       - "5000:5000"
     environment:
-      AWS_ACCESS_KEY_ID: "temp-access-key-if-using-ckanext-cloudstorage"
-      AWS_SECRET_ACCESS_KEY: "temp-secret-key-if-using-ckanext-cloudstorage"
-      AWS_DEFAULT_REGION: "eu-west-1"
+      CKAN_CLOUDSTORAGE_ENABLED: false
+      CKAN_CLOUDSTORAGE_DRIVER_OPTIONS: "{'key': 'temp-access-key-if-using-ckanext-cloudstorage', 'secret': 'temp-secret-key-if-using-ckanext-cloudstorage', 'token': ''}"
+      CKAN_CLOUDSTORAGE_CONTAINER_NAME: "some-test-bucket-name"
     volumes:
       - ../ckan/ckanext:/srv/app/ckanext
       - /srv/app/opendata-assets/node_modules/
