@@ -1,5 +1,4 @@
 import { Duration, Stack, StackProps } from 'aws-cdk-lib';
-import * as cdk from 'aws-cdk-lib/core';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
@@ -8,7 +7,6 @@ import * as elb from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as ecsp from 'aws-cdk-lib/aws-ecs-patterns';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as r53 from 'aws-cdk-lib/aws-route53';
-import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
 
@@ -133,13 +131,14 @@ export class WebStack extends Stack {
       },
       publicLoadBalancer: true,
       protocol: elb.ApplicationProtocol.HTTPS,
-      certificate: props.loadBalancerCert,
+      certificate: props.certificate,
       redirectHTTP: false,
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       taskDefinition: nginxTaskDef,
       minHealthyPercent: 50,
       maxHealthyPercent: 200,
       loadBalancer: props.loadBalancer,
+      openListener: false
     });
 
 

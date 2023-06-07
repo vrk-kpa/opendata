@@ -4,5 +4,4 @@ import { CommonStackProps } from './common-stack-props';
 
 export interface ElbStackProps extends CommonStackProps {
   vpc: ec2.IVpc;
-  cert: acm.ICertificate;
 }
