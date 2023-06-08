@@ -9,7 +9,6 @@ component_management:
         - type: patch
           target: 100%
     - component_id: ckan
-      carryforward: true
       paths:
         - ckan/ckanext/**
       statuses:
