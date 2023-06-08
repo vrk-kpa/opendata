@@ -1,0 +1,20 @@
+flag_management:
+  default_rules:
+    carryforward: true
+    statuses:
+      - type: project
+        target: auto
+        threshold: 1%
+  individual_flags:
+    - name: cdk
+      paths:
+        - cdk/
+      statuses:
+        - type: project
+          target: 95%
+        - type: patch
+          target: 100%
+    - name: ckan
+      paths:
+        - ckan/ckanext
+      
