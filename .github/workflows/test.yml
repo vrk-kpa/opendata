@@ -415,6 +415,8 @@ jobs:
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
+        with:
+          flags: cdk
 
   test:
     name: Test opendata extensions
@@ -510,3 +512,5 @@ jobs:
         pytest --ckan-ini=ckan/ckanext/ckanext-ytp_main/test.ini --cov=ckanext.ytp --disable-warnings ckan/ckanext/ckanext-ytp_main/ckanext/ytp/tests
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
+      with:
+        flags: ckan
