@@ -149,8 +149,7 @@ const loadBalancerStackInfratest = new LoadBalancerStack(app, 'LoadBalancerStack
   secondaryFqdn: infratestProps.secondaryFqdn,
   domainName: infratestProps.domainName,
   secondaryDomainName: infratestProps.secondaryDomainName,
-  vpc: clusterStackInfratest.vpc,
-  cert: certificateStackInfratest.certificate
+  vpc: clusterStackInfratest.vpc
 });
 
 const cacheStackInfratest = new CacheStack(app, 'CacheStack-infratest', {
@@ -286,7 +285,7 @@ const webStackInfratest = new WebStack(app, 'WebStack-infratest', {
   cachePort: cacheStackInfratest.cachePort,
   cacheSecurityGroup: cacheStackInfratest.cacheSecurityGroup,
   cacheCluster: cacheStackInfratest.cacheCluster,
-  loadBalancerCert: loadBalancerStackInfratest.loadBalancerCert,
+  certificate: certificateStackInfratest.certificate,
   loadBalancer: loadBalancerStackInfratest.loadBalancer,
   nginxTaskDef: {
     taskCpu: 512,
@@ -413,8 +412,7 @@ const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta
   secondaryFqdn: betaProps.secondaryFqdn,
   domainName: betaProps.domainName,
   secondaryDomainName: betaProps.secondaryDomainName,
-  vpc: clusterStackBeta.vpc,
-  cert: certificateStackBeta.certificate
+  vpc: clusterStackBeta.vpc
 });
 
 
@@ -573,7 +571,7 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
   cachePort: cacheStackBeta.cachePort,
   cacheSecurityGroup: cacheStackBeta.cacheSecurityGroup,
   cacheCluster: cacheStackBeta.cacheCluster,
-  loadBalancerCert: loadBalancerStackBeta.loadBalancerCert,
+  certificate: certificateStackBeta.certificate,
   loadBalancer: loadBalancerStackBeta.loadBalancer,
   nginxTaskDef: {
     taskCpu: 512,
@@ -698,8 +696,7 @@ const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod
   secondaryFqdn: prodProps.secondaryFqdn,
   domainName: prodProps.domainName,
   secondaryDomainName: prodProps.secondaryDomainName,
-  vpc: clusterStackProd.vpc,
-  cert: certificateStackProd.certificate
+  vpc: clusterStackProd.vpc
 });
 
 const bypassCdnStackProd = new BypassCdnStack(app, 'BypassCdnStack-prod', {
@@ -776,8 +773,8 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     taskMaxCapacity: 1,
   },
   datapusherTaskDef: {
-    taskCpu: 512,
-    taskMem: 2048,
+    taskCpu: 1024,
+    taskMem: 8192,
     taskMinCapacity: 1,
     taskMaxCapacity: 4,
   },
@@ -857,7 +854,7 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
   cachePort: cacheStackProd.cachePort,
   cacheSecurityGroup: cacheStackProd.cacheSecurityGroup,
   cacheCluster: cacheStackProd.cacheCluster,
-  loadBalancerCert: loadBalancerStackProd.loadBalancerCert,
+  certificate: certificateStackProd.certificate,
   loadBalancer: loadBalancerStackProd.loadBalancer,
   nginxTaskDef: {
     taskCpu: 512,
