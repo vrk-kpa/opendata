@@ -1,0 +1,178 @@
+@import '../variables.scss';
+
+.tertiary .control-order-by label {
+  font-weight: 700;
+}
+
+.sidebar-container {
+  padding-left: 0;
+}
+
+.secondary-container {
+  padding-left: 0;
+
+  > .secondary {
+    border: 1px solid $border-color__content;
+  }
+}
+
+.secondary,
+[role=main] .secondary,
+aside.tertiary {
+  background-color: $background-color__content;
+  padding: $padding__content;
+  padding: 0 ($grid-gutter-width / 2);
+  padding-left: ($grid-gutter-width / 2);
+  padding-right: ($grid-gutter-width / 2);
+  margin-top: 0;
+
+  .secondary__header {
+    background-color: $opendata-brand-primary;
+    color: $color--white;
+    padding: $padding-y--common $padding-x--common;
+    // -1px prefix to make header overlap with container borders
+    margin: -1px  (-$grid-gutter-width / 2);
+    text-transform: uppercase;
+
+    .secondary__title {
+      margin: 0;
+      font-size: $font-size-base;
+      font-weight: $font-weight-heavier;
+      line-height: $line-height-h3-alt;
+    }
+  }
+
+  &.sidebar-offcanvas .module ~ .module {
+    // Section divider in list
+    &::before {
+      content: ' ';
+      display: block;
+      height: 1px;
+      position: absolute;
+      left: $grid-gutter-width / 2;
+      right: $grid-gutter-width / 2;
+      top: 0;
+      background-color: $table-border-color;
+    }
+  }
+
+  .module,
+  .opendata-card {
+    padding: 0;
+    color: $color--black;
+    margin: 0 (-$grid-gutter-width / 2);
+    // $NOTE: 1 pixel difference for top- & bottom-padding to make divider between modules middle-aligned
+    padding-top: $padding-y--common + 1;
+    padding-bottom: $padding-y--common;
+    overflow: hidden;
+    position: relative;
+
+    .module-content {
+      padding: $padding-y__navigation $padding-x__navigation;
+
+      .nav > li > a {
+        margin: 0 (-$padding-x__navigation);
+        padding: $padding-y--common $padding-x__navigation;
+        color: $sidebar-block-color-text;
+        border-left: $border-width__navigation solid transparent;
+
+        &:hover,
+        &.nav-link-selected {
+          border-left: $border-width__navigation solid $sidebar-block-color-header;
+        }
+      }
+    }
+
+    .module-heading,
+    .module-subheading {
+      @include flex-display(flex);
+      @include align-items(center);
+
+      margin: 0;
+      padding: $padding-y__navigation $padding-x__navigation;
+      background-color: transparent;
+      border: none;
+      font-size: $font-size__module-title;
+      line-height: $line-height__module-title;
+      font-weight: bold;
+    }
+
+    .module-footer {
+      padding: 0;
+      border: none;
+
+      &,
+      a {
+        display: block;
+        font-size: $font-size-slightly-smaller-base;
+        color: $opendata-brand-primary;
+      }
+
+      a {
+        padding: $padding-y__navigation $padding-x__navigation;
+        margin: 0;
+      }
+    }
+
+    nav > ul > li.nav-item.active {
+      font-weight: 700;
+    }
+  }
+
+  .secondary-heading-container {
+    padding: $padding-y__navigation $padding-x__navigation;
+  }
+
+  &.secondary--resource {
+    .module:first-child {
+      padding-top: 0;
+    }
+  }
+}
+
+.module.suomifi-filters {
+  border: none;
+
+  .module-content .module-subheading {
+    padding: $padding-y__navigation 0;
+  }
+}
+
+.module-narrow > .btn,
+.module-narrow > a {
+  background-color: transparent;
+
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+.module-narrow {
+  .list-unstyled {
+    padding-left: 0;
+  }
+}
+
+#content .search-dataset-wrapper {
+  aside {
+    border: 1px solid $table-border-color;
+    background: #fff;
+  }
+
+  aside .module {
+    margin-bottom: 0;
+  }
+}
+
+#content .sidebar-header-section {
+  background: $opendata-brand-primary;
+
+  p {
+    padding: 26px 20px 13px 20px;
+    font-family: $font-family-sans-serif;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 27px;
+  }
+}

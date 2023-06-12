@@ -1,0 +1,767 @@
+@import "bootstrap/variables";
+@import "variables.scss";
+@import "mixins/mixins.scss";
+
+/*
+Dropdown CSS Originally from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-bootstrap-menu-drupal-8
+Modified based on the CSS at http://avoin.webflow.io
+Differences in the smaller screen size are together with other @media definitions
+*/
+
+.region-service-message,
+.navbar {
+  font-family: $font-family-sans-serif;
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  padding: 0;
+}
+
+.dropdown-submenu:hover > .dropdown-menu {
+  display: block;
+}
+
+.dropdown-submenu > a::after {
+  content: "\e080";
+  display: inline-block;
+  font-family: 'Glyphicons Halflings'; // stylelint-disable-line font-family-no-missing-generic-family-keyword
+  font-style: normal;
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.dropdown-submenu:hover > a::after {
+  border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+  float: none;
+}
+
+.dropdown-submenu.pull-left > .dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  -webkit-border-radius: 6px 0 6px 6px;
+  -moz-border-radius: 6px 0 6px 6px;
+  border-radius: 6px 0 6px 6px;
+}
+
+.navbar-nav li:last-child > .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+.navbar-nav li:last-child > .dropdown-menu a {
+  text-align: left !important;
+}
+
+.navbar-nav li:last-child > .dropdown-menu .dropdown-submenu > a::after {
+  float: left;
+  content: "\e079";
+}
+
+.navbar-nav li:last-child > .dropdown-menu .dropdown-submenu > .dropdown-menu {
+  left: -100%;
+}
+
+/*
+End of dropdown CSS
+*/
+
+#logo-img {
+  width: 150px;
+}
+
+// Page header.
+.page-header {
+  margin-top: 0;
+}
+
+//Region header contains the logo, language links and the search link
+.region-top-bar {
+  display: flex;
+  align-items: center;
+  max-width: $header-width;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+  height: 67px;
+}
+
+@media only screen and (max-width: 500px) {
+  .region-top-bar {
+    flex-direction: column;
+  }
+}
+
+.region-top-bar > .logo {
+  margin-right: 0;
+  padding: 0;
+}
+
+#block-avoindata-login {
+  // flex: auto;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 15px;
+
+  .header-login-link {
+    background: #2a6ebb;
+    line-height: 20px;
+    padding: 9px 19px;
+
+    a {
+      color: #fff;
+    }
+  }
+
+  .header-register-link {
+    line-height: 20px;
+    padding: 9px 19px;
+  }
+
+  .header-profile-link {
+    line-height: 20px;
+    padding: 9px 19px;
+
+    a {
+      display: block;
+    }
+  }
+}
+
+#block-avoindata-language-switcher {
+  ul {
+    margin: 0;
+    //To make the space between search icon similar to space
+    //between language icons
+    margin-right: 15px;
+    display: flex;
+
+    .language-link {
+      border: 1px solid transparent;
+      margin-top: 9px;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #222;
+    }
+
+    //Hovering language selection draws a box around it
+    .language-link:hover {
+      border-style: solid;
+      border-color: rgba(0, 0, 0, 0.98);
+      border-radius: 2px;
+    }
+  }
+
+  .dropdown-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .dropdown-button {
+      background: none;
+      border: 1px solid #a5acb0;
+      color: #282828;
+      font-size: 14px;
+      text-transform: uppercase;
+      text-align: center;
+      position: relative;
+      line-height: 28px;
+      width: 44px;
+      padding: 0;
+
+      &.dropdown-open {
+        border-color: #ea7125;
+        color: #ea7125;
+
+        i {
+          transform: rotate(180deg);
+          color: #ea7125;
+        }
+      }
+    }
+
+    .dropdown-content {
+      display: none;
+      background: #fff;
+      border: 1px solid #a5acb0;
+      box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+      border-radius: 2px;
+      right: 0;
+      top: 58px;
+      position: absolute;
+      z-index: 1000;
+
+      .languages {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .language-link {
+        font-size: 16px;
+        line-height: 26px;
+        padding-left: 20px;
+        padding-right: 20px;
+        white-space: nowrap;
+        text-decoration: none;
+        display: block;
+        color: #333;
+
+        &.is-active,
+        &:focus,
+        &:hover {
+          border-left: 6px solid #2a6ebb;
+          padding-left: 14px;
+        }
+      }
+
+      &::before,
+      &::after {
+        bottom: 100%;
+        right: 20px;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+
+      &::before {
+        border-bottom-color: #a5acb0;
+        border-width: 8px;
+        margin-right: -8px;
+      }
+
+      &.dropdown-open {
+        display: block;
+      }
+    }
+  }
+}
+
+// First (upper) navbar
+.first-navbar {
+  margin-bottom: 0;
+}
+
+.search-bar-wrapper {
+  width: 400px;
+}
+
+.search-button-submit {
+  background: $suomi-highlightBase;
+  border: none;
+  width: 40;
+  height: 40;
+}
+
+.avoindata-search-id {
+  width: 400px;
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-search-input {
+  width: 360px;
+  border: solid 1px #c8cdd0;
+  padding: 8px 10px;
+  -webkit-box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
+  box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
+  height: 40px;
+  border-radius: 1px;
+  margin-right: 0;
+}
+
+.header-search-bar-wrapper {
+  width: 400px;
+  display: inline-block;
+}
+
+.header-search-group {
+  height: 40px;
+}
+
+.header-search-group input,
+.header-search-group button {
+  float: left;
+  -webtkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 40px;
+}
+
+.header-search-button {
+  background-color: $suomi-highlightBase;
+  border-color: $suomi-highlightBase;
+  color: #fff;
+  margin-left: 0;
+  border-radius: 2px;
+  width: 40px;
+  background-image: none;
+  border: 1px solid transparent;
+}
+
+#avoindata-search-id {
+  display: flex;
+  align-items: center;
+}
+
+#header-search-container {
+  @include flex-display(flex);
+  @include flex-direction(row);
+  @include align-items(center);
+  @include justify-content(flex-start);
+  @include transition(width 0.2s ease);
+
+  .header-search-input-container {
+    width: 100%;
+    visibility: visible;
+
+    @include align-self(flex-end);
+    @include transition(width 0.5s ease);
+
+    margin-right: 5px;
+    margin-left: auto;
+  }
+
+  .header-search-input-container.is-hidden {
+    width: 0;
+    visibility: hidden;
+
+    @include transition(width 0.3s ease);
+
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .header-search-submit-container {
+    @include flex-basis(auto);
+    @include align-items(center);
+
+    margin-left: 10px;
+  }
+
+  .header-icon {
+    color: $input-color;
+  }
+
+  .form-control {
+    border-radius: 0;
+
+    @include placeholder($nonimportant-text-color);
+  }
+}
+
+// Second navbar
+//
+#second-navbar {
+  background-color: $navbar-background;
+  min-height: auto;
+  border-top: $navbar-border;
+  border-bottom: $navbar-border;
+
+  .navbar {
+    min-height: auto;
+  }
+
+  .navbar-header {
+    float: left;
+  }
+
+  .navbar-nav > li > a {
+    color: $navbar-color-links;
+    font-size: 18px;
+  }
+
+  .navbar-collapse {
+    border: 0;
+  }
+
+  .navbar-nav:hover {
+    color: $navbar-color-links;
+  }
+
+  .navbar-toggle:hover {
+    background-color: transparent; //hovering the bootstrap toggle button
+  }
+
+  a:hover {
+    color: $navbar-color-links;
+    background-color: $navbar-background;
+    border-bottom: $border-width__navigation solid $border-bottom-color__main-nav--active;
+    text-decoration: none;
+
+    &.is-active {
+      background-color: #e7e7e7;
+    }
+  }
+
+  li.active {
+    background-color: $navbar-background;
+
+    a {
+      background-color: $navbar-background;
+      color: $navbar-color-links;
+    }
+  }
+
+  li {
+    a {
+      margin: 0;
+      padding-top: $padding-x__navigation;
+      // Because border-bottom adds "padding" to bottom, subtract border-width from bottom padding
+      padding-bottom: $padding-x__navigation - $border-width__navigation;
+      border-bottom: $border-width__navigation solid transparent;
+
+      &.is-active {
+        position: relative;
+        border-bottom: $border-width__navigation solid $border-bottom-color__main-nav--active;
+
+        &::after {
+          position: absolute;
+          border-bottom: $border-width__navigation solid $border-bottom-color__main-nav--active;
+        }
+      }
+
+      // Bit of a hack to not make the nav go crazy on resize.
+      @media (max-width: 1155px) {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+  }
+
+  .dropdown.open > .dropdown-toggle {
+    color: $navbar-color-links;
+    background-color: $navbar-background;
+
+    &:hover,
+    &:active {
+      color: $navbar-color-links;
+      background-color: $navbar-background;
+      text-decoration: none;
+    }
+  }
+
+  .dropdown {
+    .dropdown-menu {
+      li {
+        a {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+  // nav collapsed
+  @media (max-width: $grid-float-breakpoint) {
+    .navbar-header {
+      width: 100%;
+      float: right;
+    }
+
+    .opendata-menu-container {
+      float: left;
+    }
+
+    .dropdown.open > .dropdown-menu > li > a {
+      color: $navbar-color-links;
+      margin: 0;
+      border: none;
+      font-size: 18px;
+    }
+  }
+
+  // nav uncollapsed
+  @media (min-width: $grid-float-breakpoint) {
+    .second-navbar-container {
+      max-width: $header-width;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .opendata-menu-container {
+      padding: 0;
+    }
+
+    .dropdown.open > .dropdown-menu > li > a {
+      margin: 0;
+      border: none;
+      font-size: 18px;
+      padding: 15px 22px 15px 16px;
+      border-left: 10px solid transparent;
+      background-color: $btn-default-bg;
+      display: block;
+      color: $link-dark-color;
+
+      &:hover {
+        border-left: 10px solid $menu-hover-border-color;
+        border-bottom: none;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+@media (max-width: $screen-md-min) {
+  .navbar-header {
+    float: none;
+  }
+}
+
+// Navbar class covers both first and second navbar
+.navbar {
+  border: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+.navbar-brand {
+  img {
+    height: 20px;
+  }
+}
+
+//Links of the collapsible navbar
+#navbar-collapse {
+  padding-left: 0;
+  padding-right: 0;
+
+  ol,
+  ul {
+    padding-left: 1.5em;
+
+    .popover &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  a {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    text-decoration: none;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 18px;
+  }
+
+  a:hover {
+    color: $navbar-color-links;
+    background-color: #011734;
+    text-decoration: underline;
+  }
+}
+
+.navbar-inverse {
+  background-color: $navbar-color-background;
+  border-color: $navbar-color-background;
+  border-radius: 0;
+}
+
+.site-logo {
+  height: 20px;
+}
+
+// Footer
+.footer {
+  margin: 0;
+  margin-top: auto;
+  padding-top: 0;
+  padding-bottom: 0;
+  width: 100%;
+  font-size: $font-size-slightly-smaller-base;
+  font-weight: $font-weight-normal;
+  line-height: 23px;
+  border-top: 4px solid $opendata-brand-blue;
+
+  .footer__top {
+    background-color: $suomi-whiteBase;
+    color: $color--black;
+    padding-top: $padding-y__section;
+    padding-bottom: 0;
+
+    .footer__brand-box {
+      margin-bottom: 10px;
+    }
+
+    .footer__logo {
+      align-self: center;
+
+      #footer-logo {
+        max-width: 150px;
+      }
+    }
+
+    .footer__logo-text {
+      font-size: $font-size-base;
+      display: flex;
+
+      span {
+        display: block;
+      }
+
+      &::before {
+        content: ' ';
+        border-right: 1px solid $color--grey;
+        margin: -5px $padding-x--common;
+      }
+    }
+  }
+
+  .footer__bottom {
+    background-color: $opendata-brand-blue;
+    color: $footer-text-color;
+    padding-top: $padding-y__section;
+    padding-bottom: $padding-y__section;
+
+    .footer-socicons {
+      font-size: $font-size-slightly-smaller-base;
+      margin: 0 $padding-x--common;
+      padding: 0;
+      font-weight: $font-weight-normal;
+      display: flex;
+      align-items: center;
+
+      &,
+      a,
+      a:hover,
+      a:focus,
+      a:visited {
+        color: $footer-text-color;
+      }
+
+      .fab {
+        font-size: 26px;
+        margin-right: $padding-x--small;
+      }
+    }
+  }
+
+  .footer-row {
+    display: flex;
+    width: 100%;
+    max-width: $opendata-container-max-width;
+    margin: 0 auto;
+    justify-content: center;
+
+    .footer-col {
+      display: flex;
+
+      &--right {
+        margin-left: auto;
+        margin-right: 0;
+      }
+
+      &--left {
+        margin-left: 0;
+        margin-right: auto;
+      }
+    }
+  }
+
+  .footer-follow {
+    color: $bottom-highlight-color;
+    text-transform: uppercase;
+
+    .footer-follow-message {
+      margin-bottom: 10px;
+    }
+  }
+
+  .opendata-menu-container > ul > li > a {
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      text-decoration: underline;
+    }
+  }
+}
+
+.service-messages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  .alert-info {
+    @include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
+
+    a,
+    a:hover,
+    a:focus {
+      color: darken($alert-info-text, 10%);
+    }
+  }
+
+  // Treat all links inside alert as .alert-link
+  .alert a {
+    font-weight: $alert-link-font-weight;
+  }
+
+  .alert-success {
+    a,
+    a:hover,
+    a:focus {
+      color: darken($alert-success-text, 10%);
+    }
+  }
+
+  .alert-warning {
+    a,
+    a:hover,
+    a:focus {
+      color: darken($alert-warning-text, 10%);
+    }
+  }
+
+  .alert-danger {
+    a,
+    a:hover,
+    a:focus {
+      color: darken($alert-danger-text, 10%);
+    }
+  }
+
+  li {
+    margin: 0;
+    padding: 0.5em 2em 0.5em 1em;
+    border-radius: 0 !important;
+  }
+}
+
+.footer-nav {
+  padding: $padding-y--common 0;
+
+  .navbar {
+    min-height: auto;
+  }
+
+  .nav {
+    display: flex;
+    margin-left: -$padding-x__footer-nav-link;
+    margin-right: -$padding-x__footer-nav-link;
+
+    .nav__item {
+      .nav__item__link {
+        padding: $padding-y__footer-nav-link $padding-x__footer-nav-link;
+
+        &:hover {
+          background-color: transparent;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
