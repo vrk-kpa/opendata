@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - field.field.node.avoindata_article.body
-    - field.field.node.avoindata_article.field_article_comments
     - field.field.node.avoindata_article.field_image
     - field.field.node.avoindata_article.field_tags
     - node.type.avoindata_article

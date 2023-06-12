@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - field.field.node.page.body
-    - field.field.node.page.field_basic_page_comments
     - field.field.node.page.field_image
     - image.style.thumbnail
     - node.type.page
@@ -97,5 +96,3 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden:
-  field_basic_page_comments: true

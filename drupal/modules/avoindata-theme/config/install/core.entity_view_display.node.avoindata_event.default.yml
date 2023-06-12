@@ -4,7 +4,6 @@ dependencies:
   config:
     - field.field.node.avoindata_event.body
     - field.field.node.avoindata_event.field_end_date
-    - field.field.node.avoindata_event.field_event_comments
     - field.field.node.avoindata_event.field_image
     - field.field.node.avoindata_event.field_location
     - field.field.node.avoindata_event.field_start_date

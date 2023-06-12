@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - field.field.node.page.body
-    - field.field.node.page.field_basic_page_comments
     - field.field.node.page.field_image
     - node.type.page
   module:
@@ -16,25 +15,28 @@ bundle: page
 mode: default
 content:
   body:
-    label: hidden
     type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
     weight: 0
     region: content
-    settings: {  }
-    third_party_settings: {  }
   field_image:
     type: image
-    weight: 2
-    region: content
     label: above
     settings:
-      image_style: ''
       image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
-  links:
-    weight: 1
+    weight: 2
     region: content
+  links:
     settings: {  }
     third_party_settings: {  }
+    weight: 1
+    region: content
 hidden:
   langcode: true
+  search_api_excerpt: true
