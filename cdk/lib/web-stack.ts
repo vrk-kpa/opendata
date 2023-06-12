@@ -31,17 +31,11 @@ export class WebStack extends Stack {
     });
 
     // define nginx content security policies
-    const nginxCspDefaultSrc: string[] = [
-      '*.disquscdn.com',
-      'https://disqus.com',
-    ];
+    const nginxCspDefaultSrc: string[] = [];
     const nginxCspScriptSrc: string[] = [
       'platform.twitter.com',
       'syndication.twitter.com',
       'cdn.syndication.twimg.com',
-      '*.disqus.com',
-      'https://disqus.com',
-      '*.disquscdn.com',
       'https://www.google.com/recaptcha/',
       'https://www.gstatic.com/',
       'https://www.google.com',
@@ -53,7 +47,6 @@ export class WebStack extends Stack {
       'https://fonts.googleapis.com',
       'https://platform.twitter.com',
       'https://ton.twimg.com',
-      '*.disquscdn.com',
       'https://www.google.com',
       'https://ajax.googleapis.com',
       'https://www.gstatic.com',
@@ -61,8 +54,6 @@ export class WebStack extends Stack {
     const nginxCspFrameSrc: string[] = [
       'syndication.twitter.com',
       'https://platform.twitter.com',
-      'https://disqus.com',
-      '*.disqus.com',
       'https://www.google.com/recaptcha/',
       'https://avoindata-' + props.environment + '-datasets.s3.eu-west-1.amazonaws.com/'
     ];
