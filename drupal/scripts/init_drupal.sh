@@ -77,7 +77,6 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"pathauto"* ]]                      && drush pm:enable -y pathauto
 [[ "$MODULE_INFO" != *"easy_breadcrumb"* ]]               && drush pm:enable -y easy_breadcrumb
 [[ "$MODULE_INFO" != *"twig_field_value"* ]]              && drush pm:enable -y twig_field_value
-[[ "$MODULE_INFO" != *"disqus"* ]]                        && drush pm:enable -y disqus
 [[ "$MODULE_INFO" != *"redirect"* ]]                      && drush pm:enable -y redirect
 [[ "$MODULE_INFO" != *"search_api"* ]]                    && drush pm:enable -y search_api
 [[ "$MODULE_INFO" != *"search_api_db"* ]]                 && drush pm:enable -y search_api_db
@@ -158,7 +157,6 @@ drush config:import -y --partial --source ${MOD_DIR}/avoindata-user/config/insta
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-ckeditor-plugins/config/install || true
 
 # apply jinja2 templates
-jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/disqus.settings.yml.j2    -o ${APP_DIR}/site_config/disqus.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/matomo.settings.yml.j2    -o ${APP_DIR}/site_config/matomo.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/recaptcha.settings.yml.j2 -o ${APP_DIR}/site_config/recaptcha.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/smtp.settings.yml.j2      -o ${APP_DIR}/site_config/smtp.settings.yml

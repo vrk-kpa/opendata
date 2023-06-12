@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.page.field_image
     - node.type.page
   module:
-    - disqus
     - image
     - text
     - user
@@ -21,13 +20,6 @@ content:
     type: text_default
     weight: 0
     region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_basic_page_comments:
-    type: disqus_comment
-    weight: 3
-    region: content
-    label: above
     settings: {  }
     third_party_settings: {  }
   field_image:

@@ -7,7 +7,6 @@ dependencies:
     - image.style.thumbnail
     - node.type.avoindata_guide_page
   module:
-    - disqus
     - image
     - path
     - text

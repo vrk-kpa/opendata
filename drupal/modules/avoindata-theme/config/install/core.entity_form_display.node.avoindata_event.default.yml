@@ -12,7 +12,6 @@ dependencies:
     - node.type.avoindata_event
   module:
     - datetime
-    - disqus
     - image
     - link
     - path
@@ -43,12 +42,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: datetime_default
-    region: content
-  field_event_comments:
-    weight: 102
-    settings: {  }
-    third_party_settings: {  }
-    type: disqus_comment
     region: content
   field_image:
     weight: 101

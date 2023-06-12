@@ -16,4 +16,3 @@ permissions:
   - 'search content'
   - 'skip comment approval'
   - 'use text format filtered_html'
-  - 'view disqus comments'
