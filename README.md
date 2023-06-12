@@ -27,7 +27,6 @@ Please file [issues at Github](https://github.com/vrk-kpa/opendata/issues).
 | :sunglasses: | Name | Description |
 |---|---|---|
 | :bookmark_tabs: | [ckanext-orgdashboards](https://github.com/ViderumGlobal/ckanext-orgdashboards) | CKAN extension for creating organization dashboards.
-| :open_mouth: | [ckanext-disqus](https://github.com/ckan/ckanext-disqus) | Extension that adds the Disqus commenting system to CKAN.
 | :chart_with_upwards_trend: | [ckanext-matomo](https://github.com/vrk-kpa/ckanext-matomo) | CKAN extension to integrate Matomo data into CKAN. Gives download stats on package pages, list of most popular packages, etc.
 | :tractor: | [ckanext-harvest](https://github.com/ckan/ckanext-harvest) | This extension provides a common harvesting framework for ckan extensions and adds a CLI and a WUI to CKAN to manage harvesting sources and jobs.
 | :milky_way: | [ckanext-spatial](https://github.com/ckan/ckanext-spatial) | This extension contains plugins that add geospatial capabilities to CKAN.
