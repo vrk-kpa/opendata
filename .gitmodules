@@ -41,9 +41,6 @@
 [submodule "modules/ckanext-drupal8"]
 	path = ckan/ckanext/ckanext-drupal8
 	url = https://github.com/vrk-kpa/ckanext-drupal8.git
-[submodule "modules/ckanext-disqus"]
-	path = ckan/ckanext/ckanext-disqus
-	url = https://github.com/vrk-kpa/ckanext-disqus.git
 [submodule "modules/ckanext-reminder"]
 	path = ckan/ckanext/ckanext-reminder
 	url = https://github.com/vrk-kpa/ckanext-reminder.git
