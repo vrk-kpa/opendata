@@ -35,7 +35,6 @@ pip_install "${EXT_DIR}/ckanext-sixodp_showcase/requirements.txt"
 pip_install "${EXT_DIR}/ckanext-sixodp_showcasesubmit/requirements.txt"
 pip_install "${EXT_DIR}/ckanext-geoview/requirements.txt"
 pip_install "${EXT_DIR}/ckanext-pdfview/requirements.txt"
-pip_install "${EXT_DIR}/ckanext-disqus/requirements.txt"
 pip_install "${EXT_DIR}/ckanext-reminder/requirements.txt"
 pip_install "${EXT_DIR}/ckanext-archiver/requirements.txt"
 pip_install "${EXT_DIR}/ckanext-qa/requirements.txt"
@@ -71,7 +70,6 @@ pip_install "${EXT_DIR}/ckanext-sixodp_showcase/pip-requirements.txt"
 pip_install "${EXT_DIR}/ckanext-sixodp_showcasesubmit/pip-requirements.txt"
 pip_install "${EXT_DIR}/ckanext-geoview/pip-requirements.txt"
 pip_install "${EXT_DIR}/ckanext-pdfview/pip-requirements.txt"
-pip_install "${EXT_DIR}/ckanext-disqus/pip-requirements.txt"
 pip_install "${EXT_DIR}/ckanext-reminder/pip-requirements.txt"
 pip_install "${EXT_DIR}/ckanext-archiver/pip-requirements.txt"
 pip_install "${EXT_DIR}/ckanext-qa/pip-requirements.txt"
@@ -107,7 +105,6 @@ pip install -e ${EXT_DIR}/ckanext-drupal8 \
     -e ${EXT_DIR}/ckanext-sixodp_showcasesubmit \
     -e ${EXT_DIR}/ckanext-geoview \
     -e ${EXT_DIR}/ckanext-pdfview \
-    -e ${EXT_DIR}/ckanext-disqus \
     -e ${EXT_DIR}/ckanext-reminder \
     -e ${EXT_DIR}/ckanext-organizationapproval \
     -e ${EXT_DIR}/ckanext-advancedsearch \
