@@ -2,7 +2,6 @@ langcode: fi
 status: true
 dependencies:
   module:
-    - disqus
     - node
 id: node.field_basic_page_comments
 field_name: field_basic_page_comments
