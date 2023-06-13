@@ -14,6 +14,8 @@ import { WebStack } from '../lib/web-stack';
 import { BackupStack } from "../lib/backup-stack"
 import {CertificateStack} from "../lib/certificate-stack";
 import {BypassCdnStack} from "../lib/bypass-cdn-stack";
+import {LambdaStack} from "../lib/lambda-stack";
+import {aws_ec2} from "aws-cdk-lib";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -260,7 +262,7 @@ const drupalStackInfratest = new DrupalStack(app, 'DrupalStack-infratest', {
     taskMem: 1024,
     taskMinCapacity: 1,
     taskMaxCapacity: 2,
-  },
+  }
 });
 
 const webStackInfratest = new WebStack(app, 'WebStack-infratest', {
@@ -373,6 +375,16 @@ const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
   backups: true,
   backupPlan: backupStackBeta.backupPlan
 });
+
+const lambdaStackBeta = new LambdaStack(app, 'LambdaStack-beta', {
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  datastoreInstance: databaseStackBeta.datastoreInstance,
+  datastoreCredentials: databaseStackBeta.datastoreCredentials,
+  vpc: clusterStackBeta.vpc
+})
 
 const certificateStackBeta = new CertificateStack(app, 'CertificateStack-beta', {
   envProps: envProps,

@@ -1,5 +1,4 @@
-import {Duration, Stack, StackProps, Token} from 'aws-cdk-lib';
-import * as cdk from 'aws-cdk-lib/core';
+import {aws_lambda_nodejs, Fn, Stack} from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as rds from 'aws-cdk-lib/aws-rds';
@@ -7,10 +6,15 @@ import { Construct } from 'constructs';
 
 import { RdsStackProps } from './rds-stack-props';
 import * as bak from "aws-cdk-lib/aws-backup";
+import {Subnet} from "aws-cdk-lib/aws-ec2";
+import {Credentials} from "aws-cdk-lib/aws-rds";
 
 export class DatabaseStack extends Stack {
   readonly databaseSecurityGroup: ec2.ISecurityGroup;
+  readonly datastoreSecurityGroup: ec2.ISecurityGroup;
   readonly databaseInstance: rds.IDatabaseInstance;
+  readonly datastoreInstance: rds.IDatabaseInstance;
+  readonly datastoreCredentials: rds.Credentials;
 
   constructor(scope: Construct, id: string, props: RdsStackProps) {
     super(scope, id, props);
@@ -35,6 +39,34 @@ export class DatabaseStack extends Stack {
       securityGroups: [this.databaseSecurityGroup],
     });
 
+    this.datastoreSecurityGroup = new ec2.SecurityGroup(this, 'datastoreSecurityGroup', {
+      vpc: props.vpc
+    })
+
+    const privateSubnetA = Fn.importValue('vpc-SubnetPrivateA')
+    const privateSubnetB = Fn.importValue('vpc-SubnetPrivateB')
+
+    const databaseSecret = new rds.DatabaseSecret(this,'datastoreAdminSecret', {
+      username: "datastoreAdmin"
+    });
+
+    this.datastoreCredentials = Credentials.fromSecret(databaseSecret);
+
+    this.datastoreInstance = new rds.DatabaseInstance(this, 'datastoreInstance', {
+      engine: rds.DatabaseInstanceEngine.POSTGRES,
+      credentials: this.datastoreCredentials,
+      vpc: props.vpc,
+      port: 5432,
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.MEDIUM),
+      allocatedStorage: 100,
+      maxAllocatedStorage: 500,
+      vpcSubnets: {
+        subnets: [Subnet.fromSubnetId(this, 'subnetA', privateSubnetA), Subnet.fromSubnetId(this, 'subnetB', privateSubnetB)]
+      },
+      securityGroups: [
+        this.datastoreSecurityGroup
+      ]
+    })
 
     if (props.backups && props.backupPlan ) {
       props.backupPlan.addSelection('backupPlanDatabaseSelection', {
