@@ -138,7 +138,12 @@ drush config:delete field.field.node.avoindata_event.field_event_comments       
 drush config:delete field.storage.node.field_article_comments                      || true
 drush config:delete field.storage.node.field_basic_page_comments                   || true
 drush config:delete field.storage.node.field_event_comments                        || true
-
+drush config:delete field.storage.node.field_guide_comments                        || true
+drush config:delete core.entity_view_display.node.page.search_index                || true
+drush config:delete core.entity_view_display.node.page.search_result               || true
+drush config:delete core.entity_view_display.node.page.teaser                      || true
+drush config:delete field.field.node.page.field_basic_page_comments                || true
+drush config:delete field.storage.node.field_basic_page_comments                   || true
 
 # enable custom theme + reload themes
 echo "enable theme and install theme configurations.."
