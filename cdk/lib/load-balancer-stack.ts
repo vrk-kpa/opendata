@@ -54,7 +54,7 @@ export class LoadBalancerStack extends Stack {
       versioned: true,
       lifecycleRules: [
         {
-          enabled: false,
+          enabled: true,
           expiration: Duration.days(30)
         }
       ]

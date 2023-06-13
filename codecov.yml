@@ -1,0 +1,20 @@
+component_management:
+  individual_components:
+    - component_id: cdk
+      paths:
+        - cdk/**
+      statuses:
+        - type: project
+          target: 95%
+        - type: patch
+          target: 100%
+    - component_id: ckan
+      paths:
+        - ckan/ckanext/**
+      statuses:
+        - type: project
+          target: auto
+          threshold: 1%
+        - type: patch
+          target: 90%
+
