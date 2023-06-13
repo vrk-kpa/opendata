@@ -9,13 +9,14 @@
 # Meeri Hakala <meeri.hakala@dvv.fi>, 2022
 # Ville Teräväinen, 2022
 # Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2023
+# Suvi Nuttunen, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2023-05-31 12:22+0000\n"
 "PO-Revision-Date: 2018-10-17 06:12+0000\n"
-"Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2023\n"
+"Last-Translator: Suvi Nuttunen, 2023\n"
 "Language-Team: Finnish (https://app.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29750,7 +29751,7 @@ msgid "Buttons"
 msgstr "Painikkeet"
 
 msgid "Search avoindata.fi..."
-msgstr ""
+msgstr "Hae tältä sivustolta"
 
 msgid "Rajapinnat"
 msgstr ""
