@@ -8,7 +8,13 @@ import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as sm from 'aws-cdk-lib/aws-secretsmanager';
 import * as efs from 'aws-cdk-lib/aws-efs';
 import * as logs from 'aws-cdk-lib/aws-logs';
+import * as events from 'aws-cdk-lib/aws-events';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as lambdaNodejs from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as assertions from 'aws-cdk-lib/assertions';
+import * as eventsTargets from 'aws-cdk-lib/aws-events-targets';
 import { Construct } from 'constructs';
+import * as path from 'path';
 
 import { CkanStackProps } from './ckan-stack-props';
 import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
@@ -490,6 +496,33 @@ export class CkanStack extends Stack {
       this.ckanService.connections.allowFrom(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (ckan migrate)');
       this.ckanService.connections.allowTo(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (ckan migrate)');
     }
+
+    
+    const sendToDeveloperZulip = new lambdaNodejs.NodejsFunction(this, "sendToDeveloperZulipLambda", {
+      runtime: lambda.Runtime.NODEJS_14_X,
+      entry: path.join(__dirname, `/../functions/zulip.ts`),
+      handler: "sendToZulip",
+      environment: {
+        ZULIP_API_KEY_SECRET: `/${props.environment}/opendata/common/zulip_api_key`,
+        ZULIP_API_URL: 'https://turina.dvv.fi',
+        ZULIP_STREAM: 'avoindata.fi',
+        ZULIP_TOPIC: 'Container restarts'
+      }
+    });
+
+    ecs.Secret.fromSecretsManager(sCommonSecrets, 'zulip_api_key').grantRead(sendToDeveloperZulip);
+    
+    const sendToDeveloperZulipTarget = new eventsTargets.LambdaFunction(sendToDeveloperZulip, {});
+    const ckanTaskHealthCheckFailedRule = new events.Rule(this, 'ckanTaskHealthCheckFailedRule', {
+      description: 'Rule for forwarding CKAN container health check failures to zulip',
+      eventPattern: {
+        source: ['aws.ecs'],
+        detail: {
+          message: assertions.Match.stringLikeRegexp('service [^ ]+ task [0-9a-f]+ failed container health checks.')
+        }
+      },
+      targets: [sendToDeveloperZulipTarget],
+    })
 
     // ckan cron service
     if (props.ckanCronEnabled) {
