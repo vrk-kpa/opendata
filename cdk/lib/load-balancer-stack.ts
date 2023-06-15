@@ -24,6 +24,9 @@ export class LoadBalancerStack extends Stack {
     const allowedIp2 = StringParameter.fromStringParameterName(this, 'allowedIp2',
       `/${props.environment}/opendata/cdk/lb_allowed_ip_2`)
 
+    const allowedIp3 = StringParameter.fromStringParameterName(this, 'allowedIp3',
+      `/${props.environment}/opendata/cdk/lb_allowed_ip_3`)
+
     const secGroup = new aws_ec2.SecurityGroup(this, 'loadBalancerSecurityGroup', {
       vpc: props.vpc,
     })
@@ -33,6 +36,7 @@ export class LoadBalancerStack extends Stack {
 
     secGroup.addIngressRule(Peer.ipv4(allowedIp1.stringValue), Port.tcp(443))
     secGroup.addIngressRule(Peer.ipv4(allowedIp2.stringValue), Port.tcp(443))
+    secGroup.addIngressRule(Peer.ipv4(allowedIp3.stringValue), Port.tcp(443))
 
     const publicSubnetA = Fn.importValue('vpc-SubnetPublicA')
     const publicSubnetB = Fn.importValue('vpc-SubnetPublicB')
