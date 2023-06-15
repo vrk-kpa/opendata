@@ -1,8 +1,8 @@
 import {Handler, APIGatewayEvent} from 'aws-lambda';
 import {GetSecretValueCommand, SecretsManagerClient} from "@aws-sdk/client-secrets-manager";
-import https from 'https';
+import * as https from 'https';
 
-const { ZULIP_API_URL, ZULIP_API_KEY_SECRET, ZULIP_STREAM, ZULIP_TOPIC } = process.env;
+const { ZULIP_API_URL, ZULIP_API_USER, ZULIP_API_KEY_SECRET, ZULIP_STREAM, ZULIP_TOPIC } = process.env;
 
 export const sendToZulip: Handler = async (event: APIGatewayEvent) => {
   const secretsManagerClient = new SecretsManagerClient({region: "eu-west-1"});
@@ -12,8 +12,6 @@ export const sendToZulip: Handler = async (event: APIGatewayEvent) => {
   const response = await secretsManagerClient.send(command);
   const zulipApiKey = response.SecretString;
 
-  const { message } = JSON.parse(event.body || '');
-
   const options: https.RequestOptions = {
     hostname: ZULIP_API_URL,
     port: 443,
@@ -21,31 +19,23 @@ export const sendToZulip: Handler = async (event: APIGatewayEvent) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Basic ${Buffer.from(`api:${zulipApiKey}`).toString('base64')}`,
+      Authorization: `Basic ${Buffer.from(`${ZULIP_API_USER}:${zulipApiKey}`).toString('base64')}`,
     },
   };
 
-  const req = https.request(options, (res) => {
-    console.log('Zulip API response:', res.statusCode);
+  const { message } = JSON.parse(event.body || '');
+  const data = {
+    type: 'stream',
+    to: ZULIP_STREAM,
+    topic: ZULIP_TOPIC,
+    content: message,
+  };
 
-    res.on('data', (chunk) => {
-      console.log('Message sent to Zulip:', chunk.toString());
-    });
-  });
-
-  req.on('error', (error) => {
+  https.request(options, (res: any) => {
+    console.log('Response from Zulip API:', res.statusCode);
+  }).on('error', (error: any) => {
     console.error('Error sending message to Zulip:', error);
-  });
-
-  req.write(
-    JSON.stringify({
-      type: 'stream',
-      to: ZULIP_STREAM,
-      topic: ZULIP_TOPIC,
-      content: message,
-    })
-  );
-  req.end();
+  }).end(JSON.stringify(data));
 
   return {
     statusCode: 200,

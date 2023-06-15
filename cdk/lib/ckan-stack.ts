@@ -503,6 +503,7 @@ export class CkanStack extends Stack {
       entry: path.join(__dirname, `/../functions/zulip.ts`),
       handler: "sendToZulip",
       environment: {
+        ZULIP_API_USER: 'avoindata-bot@turina.dvv.fi',
         ZULIP_API_KEY_SECRET: `/${props.environment}/opendata/common/zulip_api_key`,
         ZULIP_API_URL: 'https://turina.dvv.fi',
         ZULIP_STREAM: 'avoindata.fi',
