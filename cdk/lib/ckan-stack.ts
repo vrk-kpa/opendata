@@ -499,7 +499,7 @@ export class CkanStack extends Stack {
 
     
     const sendToDeveloperZulip = new lambdaNodejs.NodejsFunction(this, "sendToDeveloperZulipLambda", {
-      runtime: lambda.Runtime.NODEJS_14_X,
+      runtime: lambda.Runtime.NODEJS_18_X,
       entry: path.join(__dirname, `/../functions/zulip.ts`),
       handler: "sendToZulip",
       environment: {
