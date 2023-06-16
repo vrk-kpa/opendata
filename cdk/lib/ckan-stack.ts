@@ -192,7 +192,6 @@ export class CkanStack extends Stack {
       'geo_view',
       'geojson_view',
       'sixodp_harvester',
-      'disqus',
       'reminder',
       'ytp_restrict_category_creation_and_updating',
       'archiver',
@@ -439,7 +438,7 @@ export class CkanStack extends Stack {
     this.ckanService.connections.allowTo(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan)');
     this.ckanService.connections.allowTo(props.databaseSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (ckan)');
     this.ckanService.connections.allowTo(props.cacheSecurityGroup, ec2.Port.tcp(props.cachePort), 'Redis connection (ckan)');
-    
+
     const ckanServiceAsg = this.ckanService.autoScaleTaskCount({
       minCapacity: props.ckanTaskDef.taskMinCapacity,
       maxCapacity: props.ckanTaskDef.taskMaxCapacity,
@@ -467,7 +466,7 @@ export class CkanStack extends Stack {
           uid: '0',
         },
       });
-      
+
       props.migrationFileSystemProps.fileSystem.grant(ckanTaskDef.taskRole, 'elasticfilesystem:ClientRootAccess');
 
       ckanTaskDef.addVolume({
@@ -540,7 +539,7 @@ export class CkanStack extends Stack {
       });
 
       ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
-      
+
       this.ckanCronService = new ecs.FargateService(this, 'ckanCronService', {
         platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
         cluster: props.cluster,
