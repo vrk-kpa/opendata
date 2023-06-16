@@ -1,7 +1,8 @@
 import { Handler } from "aws-lambda";
 
 import {GetSecretValueCommand, SecretsManagerClient} from "@aws-sdk/client-secrets-manager";
-import {Client} from "pg";
+
+import { knex } from 'knex';
 
 
 const { SECRET_NAME,
@@ -28,61 +29,38 @@ export const handler: Handler = async (event, context) => {
     const credObj = JSON.parse(credentials)
     const datastoreCredentialObj = JSON.parse(datastoreCredentials)
 
-    const pgClient = new Client({
-      user: credObj.username,
-      password: credObj.password,
-      host: credObj.host,
-      port: credObj.port,
-      database: "postgres"
+
+    const client = knex({
+      client: 'pg',
+      connection: {
+        user: credObj.username,
+        password: credObj.password,
+        host: credObj.host,
+        port: credObj.port,
+        database: "postgres"
+      }
     })
 
-    await pgClient.connect();
+    try {
+      await client.raw("CREATE ROLE ?? LOGIN PASSWORD ?;",
+        [datastoreCredentialObj.username, datastoreCredentialObj.password]);
+      await client.raw("CREATE DATABASE ?? OWNER ?? ENCODING 'utf-8';",
+        ['datastore_jobs', datastoreCredentialObj.username])
+      await client.raw("GRANT ALL PRIVILEGES ON DATABASE ?? TO ?",
+        ['datastore_jobs', datastoreCredentialObj.username])
 
-    const roleQuery = await pgClient.query(
-      `DO
-        $do$
-        BEGIN
-          IF EXISTS (
-            SELECT FROM pg_catalog.pg_roles
-            WHERE  rolname = $1) THEN
-
-            RAISE NOTICE 'Role "$1" already exists. Skipping.';
-          ELSE
-            BEGIN   -- nested block
-              CREATE ROLE $1 LOGIN PASSWORD $2;
-            EXCEPTION
-              WHEN duplicate_object THEN
-                RAISE NOTICE 'Role "$1" was just created by a concurrent transaction. Skipping.';
-            END;
-          END IF;
-        END
-        $do$;`,
-      [datastoreCredentialObj.username, datastoreCredentialObj.password]
-    );
-
-
-    const dbQuery = await pgClient.query(`SELECT FROM pg_database WHERE datname = $1`, [datastoreCredentialObj.username])
-    if (dbQuery.rows.length === 0){
       return {
         statusCode: 200,
-        body: "DB does not exist"
+        body: "Db and users created"
       }
-    }
-    else{
+    } catch (err) {
+      console.log(err)
       return {
-        statusCode: 200,
-        body: "DB exists"
+        statusCode: 400,
+        body: "something went wrog"
       }
     }
 
-
-  }
-
-
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify(response)
   }
 
 }
