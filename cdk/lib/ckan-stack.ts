@@ -497,34 +497,6 @@ export class CkanStack extends Stack {
       this.ckanService.connections.allowTo(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (ckan migrate)');
     }
 
-    
-    const sendToDeveloperZulip = new lambdaNodejs.NodejsFunction(this, "sendToDeveloperZulipLambda", {
-      runtime: lambda.Runtime.NODEJS_18_X,
-      entry: path.join(__dirname, `/../functions/zulip.ts`),
-      handler: "sendToZulip",
-      environment: {
-        ZULIP_API_USER: 'avoindata-bot@turina.dvv.fi',
-        ZULIP_API_KEY_SECRET: `/${props.environment}/opendata/common/zulip_api_key`,
-        ZULIP_API_URL: 'https://turina.dvv.fi',
-        ZULIP_STREAM: 'avoindata.fi',
-        ZULIP_TOPIC: 'Container restarts'
-      }
-    });
-
-    ecs.Secret.fromSecretsManager(sCommonSecrets, 'zulip_api_key').grantRead(sendToDeveloperZulip);
-    
-    const sendToDeveloperZulipTarget = new eventsTargets.LambdaFunction(sendToDeveloperZulip, {});
-    const ckanTaskHealthCheckFailedRule = new events.Rule(this, 'ckanTaskHealthCheckFailedRule', {
-      description: 'Rule for forwarding CKAN container health check failures to zulip',
-      eventPattern: {
-        source: ['aws.ecs'],
-        detail: {
-          message: assertions.Match.stringLikeRegexp('service [^ ]+ task [0-9a-f]+ failed container health checks.')
-        }
-      },
-      targets: [sendToDeveloperZulipTarget],
-    })
-
     // ckan cron service
     if (props.ckanCronEnabled) {
       const ckanCronTaskDef = new ecs.FargateTaskDefinition(this, 'ckanCronTaskDef', {

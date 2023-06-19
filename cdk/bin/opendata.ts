@@ -14,6 +14,8 @@ import { WebStack } from '../lib/web-stack';
 import { BackupStack } from "../lib/backup-stack"
 import {CertificateStack} from "../lib/certificate-stack";
 import {BypassCdnStack} from "../lib/bypass-cdn-stack";
+import {MonitoringStack} from "../lib/monitoring-stack";
+import { ASSET_RESOURCE_METADATA_DOCKER_BUILD_ARGS_KEY } from 'aws-cdk-lib/cx-api';
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -584,6 +586,19 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
   allowRobots: 'false',
 });
 
+const monitoringStackBeta = new MonitoringStack(app, 'MonitoringStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+});
+
 //
 // prod env
 //
@@ -865,4 +880,17 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
   drupalService: drupalStackProd.drupalService,
   ckanService: ckanStackProd.ckanService,
   allowRobots: 'true',
+});
+
+const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
 });
