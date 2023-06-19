@@ -8,13 +8,7 @@ import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as sm from 'aws-cdk-lib/aws-secretsmanager';
 import * as efs from 'aws-cdk-lib/aws-efs';
 import * as logs from 'aws-cdk-lib/aws-logs';
-import * as events from 'aws-cdk-lib/aws-events';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as lambdaNodejs from 'aws-cdk-lib/aws-lambda-nodejs';
-import * as assertions from 'aws-cdk-lib/assertions';
-import * as eventsTargets from 'aws-cdk-lib/aws-events-targets';
 import { Construct } from 'constructs';
-import * as path from 'path';
 
 import { CkanStackProps } from './ckan-stack-props';
 import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
