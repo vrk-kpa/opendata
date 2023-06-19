@@ -42,11 +42,34 @@ export const handler: Handler = async (event, context) => {
     })
 
     try {
-      await client.raw("CREATE ROLE ?? LOGIN PASSWORD ?;",
-        [datastoreCredentialObj.username, datastoreCredentialObj.password]);
+      await client.raw("CREATE ROLE :datastoreUser: LOGIN PASSWORD ':password:';",
+        {
+          datastoreUser: datastoreCredentialObj.username,
+          password: datastoreCredentialObj.password});
+    }
+    catch (e) {
+      console.log(e)
+    }
+
+    try{
+      await client.raw("GRANT :datastoreRole: TO :admin:",
+        {
+          datastoreRole: datastoreCredentialObj.username,
+          admin: credObj.username})
+    }
+    catch (e){
+      console.log(e)
+    }
+
+    try {
       await client.raw("CREATE DATABASE ?? OWNER ?? ENCODING 'utf-8';",
         ['datastore_jobs', datastoreCredentialObj.username])
-      await client.raw("GRANT ALL PRIVILEGES ON DATABASE ?? TO ?",
+    }
+    catch (e) {
+      console.log(e)
+    }
+    try {
+      await client.raw("GRANT ALL PRIVILEGES ON DATABASE ?? TO ??",
         ['datastore_jobs', datastoreCredentialObj.username])
 
       return {

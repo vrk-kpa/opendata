@@ -2,6 +2,7 @@ import {Construct} from "constructs";
 import {NodejsFunction} from "aws-cdk-lib/aws-lambda-nodejs";
 import {aws_ec2, aws_rds} from "aws-cdk-lib";
 import {CreateDatabasesAndUsersProps} from "./create-databases-and-users-props";
+import {Trigger, TriggerFunction} from "aws-cdk-lib/triggers";
 
 
 export class CreateDatabasesAndUsers extends Construct {
@@ -26,13 +27,28 @@ export class CreateDatabasesAndUsers extends Construct {
           ADMIN_SECRET: datastoreAdminSecret.secretName
         },
         vpc: props.vpc,
-        securityGroups: [secGroup]
+        securityGroups: [secGroup],
+        bundling: {
+          externalModules: [
+            "sqlite3",
+            "better-sqlite3",
+            "mysql",
+            "mysql2",
+            "oracledb",
+            "tedious",
+            "pg-query-stream"
+          ]
+        }
       })
 
       datastoreSecret.grantRead(createDatabasesAndUsersFunction)
       datastoreAdminSecret.grantRead(createDatabasesAndUsersFunction)
 
       createDatabasesAndUsersFunction.connections.allowTo(props.datastoreInstance, aws_ec2.Port.tcp(5432))
+
+      new Trigger(this, 'CreateDatabasesTrigger', {
+        handler: createDatabasesAndUsersFunction,
+      })
     }
   }
 }
