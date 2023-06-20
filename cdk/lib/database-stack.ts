@@ -51,7 +51,7 @@ export class DatabaseStack extends Stack {
     const privateSubnetB = Fn.importValue('vpc-SubnetPrivateB')
 
     const encryptionKey = Key.fromLookup(this, 'EncryptionKey', {
-      aliasName: `alias/parameter-key-${props.environment}`
+      aliasName: `alias/secrets-key-${props.environment}`
     })
 
     const databaseSecret = new rds.DatabaseSecret(this,'datastoreAdminSecret', {

@@ -377,10 +377,16 @@ const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
 });
 
 const lambdaStackBeta = new LambdaStack(app, 'LambdaStack-beta', {
+  envProps: envProps,
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
   datastoreInstance: databaseStackBeta.datastoreInstance,
   datastoreCredentials: databaseStackBeta.datastoreCredentials,
   vpc: clusterStackBeta.vpc

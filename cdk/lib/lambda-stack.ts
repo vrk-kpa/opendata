@@ -9,7 +9,14 @@ export class LambdaStack extends Stack {
     const lambda = new CreateDatabasesAndUsers(this, 'create-databases-and-users', {
       datastoreInstance: props.datastoreInstance,
       datastoreCredentials: props.datastoreCredentials,
-      vpc: props.vpc
+      vpc: props.vpc,
+      envProps: props.envProps,
+      env: props.env,
+      environment: props.environment,
+      fqdn: props.fqdn,
+      secondaryFqdn: props.secondaryFqdn,
+      domainName: props.domainName,
+      secondaryDomainName: props.secondaryDomainName,
     })
   }
 }

@@ -3,14 +3,20 @@ import {NodejsFunction} from "aws-cdk-lib/aws-lambda-nodejs";
 import {aws_ec2, aws_rds} from "aws-cdk-lib";
 import {CreateDatabasesAndUsersProps} from "./create-databases-and-users-props";
 import {Trigger, TriggerFunction} from "aws-cdk-lib/triggers";
+import {Key} from "aws-cdk-lib/aws-kms";
 
 
 export class CreateDatabasesAndUsers extends Construct {
   constructor(scope: Construct, id: string, props: CreateDatabasesAndUsersProps) {
     super(scope, id);
 
+    const encryptionKey = Key.fromLookup(this, 'EncryptionKey', {
+      aliasName: `alias/secrets-key-${props.environment}`
+    })
+
     const datastoreSecret = new aws_rds.DatabaseSecret(this, "datastoreJobsSecret", {
-      username: "datastore_jobs"
+      username: "datastore_jobs",
+      encryptionKey: encryptionKey
     })
 
     const datastoreAdminSecret = props.datastoreCredentials.secret
@@ -43,6 +49,8 @@ export class CreateDatabasesAndUsers extends Construct {
 
       datastoreSecret.grantRead(createDatabasesAndUsersFunction)
       datastoreAdminSecret.grantRead(createDatabasesAndUsersFunction)
+      
+      encryptionKey.grantDecrypt(createDatabasesAndUsersFunction)
 
       createDatabasesAndUsersFunction.connections.allowTo(props.datastoreInstance, aws_ec2.Port.tcp(5432))
 
