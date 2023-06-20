@@ -64,7 +64,9 @@ export const handler: Handler = async (event, context) => {
           datastoreUser: datastoreCredentialObj.username
         })
     } catch (err) {
-      console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
+      if (err && typeof err === 'object') {
+        console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
+      }
       return {
         statusCode: 400,
         body: "something went wrong"
