@@ -6,8 +6,9 @@ import { Construct } from 'constructs';
 
 import { RdsStackProps } from './rds-stack-props';
 import * as bak from "aws-cdk-lib/aws-backup";
-import {Subnet} from "aws-cdk-lib/aws-ec2";
+import {InstanceType, Subnet} from "aws-cdk-lib/aws-ec2";
 import {Credentials} from "aws-cdk-lib/aws-rds";
+import {Key} from "aws-cdk-lib/aws-kms";
 
 export class DatabaseStack extends Stack {
   readonly databaseSecurityGroup: ec2.ISecurityGroup;
@@ -26,6 +27,9 @@ export class DatabaseStack extends Stack {
     const pDbHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbHost', {
       parameterName: `/${props.environment}/opendata/common/db_host`,
     });
+
+    const pDatastoreInstanceType = ssm.StringParameter.fromStringParameterName(this, 'pDatastoreInstanceType',
+      `/${props.environment}/opendata/cdk/datastore_instance_type`)
 
     this.databaseSecurityGroup = ec2.SecurityGroup.fromSecurityGroupId(this, 'databaseSecurityGroup', pDbSgId.stringValue, {
       allowAllOutbound: true,
@@ -46,19 +50,26 @@ export class DatabaseStack extends Stack {
     const privateSubnetA = Fn.importValue('vpc-SubnetPrivateA')
     const privateSubnetB = Fn.importValue('vpc-SubnetPrivateB')
 
+    const encryptionKey = Key.fromLookup(this, 'EncryptionKey', {
+      aliasName: `alias/parameter-key-${props.environment}`
+    })
+
     const databaseSecret = new rds.DatabaseSecret(this,'datastoreAdminSecret', {
-      username: "datastoreAdmin"
+      username: "datastoreAdmin",
+      encryptionKey: encryptionKey
     });
 
     this.datastoreCredentials = Credentials.fromSecret(databaseSecret);
+
+
 
     this.datastoreInstance = new rds.DatabaseInstance(this, 'datastoreInstance', {
       engine: rds.DatabaseInstanceEngine.POSTGRES,
       credentials: this.datastoreCredentials,
       vpc: props.vpc,
       port: 5432,
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T4G, ec2.InstanceSize.MEDIUM),
-      allocatedStorage: 100,
+      instanceType: new InstanceType(pDatastoreInstanceType.stringValue),
+      allocatedStorage: 50,
       maxAllocatedStorage: 500,
       vpcSubnets: {
         subnets: [Subnet.fromSubnetId(this, 'subnetA', privateSubnetA), Subnet.fromSubnetId(this, 'subnetB', privateSubnetB)]
