@@ -677,6 +677,24 @@ const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
   backupPlan: backupStackProd.backupPlan
 });
 
+const lambdaStackProd = new LambdaStack(app, 'LambdaStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  datastoreInstance: databaseStackProd.datastoreInstance,
+  datastoreCredentials: databaseStackProd.datastoreCredentials,
+  vpc: clusterStackProd.vpc
+})
+
+
+
 const certificateStackProd = new CertificateStack(app, 'CertificateStack-prod', {
   envProps: envProps,
   env: {
