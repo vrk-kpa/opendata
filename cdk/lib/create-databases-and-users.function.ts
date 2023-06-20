@@ -45,15 +45,24 @@ export const handler: Handler = async (event, context) => {
       await client.raw(
         "SET LOCAL log_statement = 'none';" +
         "CREATE ROLE :datastoreUser: LOGIN PASSWORD ':password:'; " +
-        "GRANT :datastoreUser: TO :admin:; " +
-        "CREATE DATABASE :datastoreDb: OWNER :datastoreUser: ENCODING 'utf-8'; " +
-        "GRANT ALL PRIVILEGES ON DATABASE :datastoreDb: TO :datastoreUser:; ",
+        "GRANT :datastoreUser: TO :admin:; ",
         {
           datastoreUser: datastoreCredentialObj.username,
           password: datastoreCredentialObj.password,
-          datastoreDb: "datastore_jobs",
           admin: credObj.username
         });
+
+      await client.raw("CREATE DATABASE :datastoreDb: OWNER :datastoreUser: ENCODING 'utf-8'; ",
+        {
+          datastoreDb: "datastore_jobs",
+          datastoreUser: datastoreCredentialObj.username
+      });
+
+      await client.raw("GRANT ALL PRIVILEGES ON DATABASE :datastoreDb: TO :datastoreUser:; ",
+        {
+          datastoreDb: "datastore_jobs",
+          datastoreUser: datastoreCredentialObj.username
+        })
     } catch (err) {
       console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
       return {
