@@ -43,24 +43,17 @@ export const handler: Handler = async (event, context) => {
 
     try {
       await client.raw(
-        "BEGIN; " +
         "SET LOCAL log_statement = 'none';" +
         "CREATE ROLE :datastoreUser: LOGIN PASSWORD ':password:'; " +
         "GRANT :datastoreUser: TO :admin:; " +
         "CREATE DATABASE :datastoreDb: OWNER :datastoreUser: ENCODING 'utf-8'; " +
-        "GRANT ALL PRIVILEGES ON DATABASE :datastoreDb: TO :datastoreUser:; " +
-        "COMMIT;",
+        "GRANT ALL PRIVILEGES ON DATABASE :datastoreDb: TO :datastoreUser:; ",
         {
           datastoreUser: datastoreCredentialObj.username,
           password: datastoreCredentialObj.password,
           datastoreDb: "datastore_jobs",
           admin: credObj.username
         });
-      return {
-        statusCode: 200,
-        body: "Db and users created"
-      }
-
     } catch (err) {
       console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
       return {
@@ -68,7 +61,10 @@ export const handler: Handler = async (event, context) => {
         body: "something went wrong"
       }
     }
-
+  }
+  return {
+    statusCode: 200,
+    body: "Db and users created"
   }
 
 }
