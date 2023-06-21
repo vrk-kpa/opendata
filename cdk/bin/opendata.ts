@@ -603,6 +603,7 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
 });
 
 const monitoringStackBeta = new MonitoringStack(app, 'MonitoringStack-beta', {
+  sendToZulipLambda: lambdaStackBeta.sendToZulipLambda,
   envProps: envProps,
   env: {
     account: betaProps.account,
@@ -917,6 +918,7 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
 });
 
 const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
+  sendToZulipLambda: lambdaStackProd.sendToZulipLambda,
   envProps: envProps,
   env: {
     account: prodProps.account,

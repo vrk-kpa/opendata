@@ -4,7 +4,7 @@ import * as https from 'https';
 
 const { ZULIP_API_URL, ZULIP_API_USER, ZULIP_API_KEY_SECRET, ZULIP_STREAM, ZULIP_TOPIC } = process.env;
 
-export const sendToZulip: Handler = async (event: APIGatewayEvent) => {
+export const handler: Handler = async (event: APIGatewayEvent) => {
   const secretsManagerClient = new SecretsManagerClient({region: "eu-west-1"});
   const command = new GetSecretValueCommand({
     SecretId: ZULIP_API_KEY_SECRET
