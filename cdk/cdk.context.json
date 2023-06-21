@@ -100,5 +100,21 @@
   "hosted-zone:account=903124270034:domainName=opendata.fi:privateZone=false:region=eu-west-1": {
     "Id": "/hostedzone/Z3VG1N44J6RDQH",
     "Name": "opendata.fi."
+  },
+  "hosted-zone:account=156418131626:domainName=betaavoindata.fi:region=eu-west-1": {
+    "Id": "/hostedzone/Z3OJDCRUB0USZF",
+    "Name": "betaavoindata.fi."
+  },
+  "hosted-zone:account=156418131626:domainName=betaopendata.fi:region=eu-west-1": {
+    "Id": "/hostedzone/Z13YOD1EHMX76M",
+    "Name": "betaopendata.fi."
+  },
+  "hosted-zone:account=156418131626:domainName=betaavoindata.fi:region=us-east-1": {
+    "Id": "/hostedzone/Z3OJDCRUB0USZF",
+    "Name": "betaavoindata.fi."
+  },
+  "hosted-zone:account=156418131626:domainName=betaopendata.fi:region=us-east-1": {
+    "Id": "/hostedzone/Z13YOD1EHMX76M",
+    "Name": "betaopendata.fi."
   }
 }

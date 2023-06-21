@@ -15,7 +15,7 @@ import { BackupStack } from "../lib/backup-stack"
 import {CertificateStack} from "../lib/certificate-stack";
 import {BypassCdnStack} from "../lib/bypass-cdn-stack";
 import {MonitoringStack} from "../lib/monitoring-stack";
-import { ASSET_RESOURCE_METADATA_DOCKER_BUILD_ARGS_KEY } from 'aws-cdk-lib/cx-api';
+import {LambdaStack} from "../lib/lambda-stack";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -262,7 +262,7 @@ const drupalStackInfratest = new DrupalStack(app, 'DrupalStack-infratest', {
     taskMem: 1024,
     taskMinCapacity: 1,
     taskMaxCapacity: 2,
-  },
+  }
 });
 
 const webStackInfratest = new WebStack(app, 'WebStack-infratest', {
@@ -375,6 +375,22 @@ const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
   backups: true,
   backupPlan: backupStackBeta.backupPlan
 });
+
+const lambdaStackBeta = new LambdaStack(app, 'LambdaStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  datastoreInstance: databaseStackBeta.datastoreInstance,
+  datastoreCredentials: databaseStackBeta.datastoreCredentials,
+  vpc: clusterStackBeta.vpc
+})
 
 const certificateStackBeta = new CertificateStack(app, 'CertificateStack-beta', {
   envProps: envProps,
@@ -673,6 +689,24 @@ const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
   backups: true,
   backupPlan: backupStackProd.backupPlan
 });
+
+const lambdaStackProd = new LambdaStack(app, 'LambdaStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  datastoreInstance: databaseStackProd.datastoreInstance,
+  datastoreCredentials: databaseStackProd.datastoreCredentials,
+  vpc: clusterStackProd.vpc
+})
+
+
 
 const certificateStackProd = new CertificateStack(app, 'CertificateStack-prod', {
   envProps: envProps,
