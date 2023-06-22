@@ -9,7 +9,7 @@ set $STYLE "style-src 'self' 'unsafe-inline' ${NGINX_CSP_STYLE_SRC}";
 set $FONT "font-src 'self' https://themes.googleusercontent.com https://fonts.gstatic.com";
 set $FRAME "frame-src 'self' *.${DOMAIN_NAME} *.${SECONDARY_DOMAIN_NAME} ${NGINX_CSP_FRAME_SRC}";
 set $OBJECT "object-src 'self'";
-set $CONNECT "connect-src 'self' https://links.services.disqus.com wss://realtime.services.disqus.com https://epsg.io *";
+set $CONNECT "connect-src 'self' https://epsg.io *";
 
 add_header Content-Security-Policy "${DEFAULT}; ${SCRIPT};  ${IMG}; ${STYLE}; ${FONT}; ${FRAME}; ${OBJECT}; ${CONNECT};";
 

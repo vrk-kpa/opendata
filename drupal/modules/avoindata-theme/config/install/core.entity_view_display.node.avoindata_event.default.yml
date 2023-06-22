@@ -4,14 +4,12 @@ dependencies:
   config:
     - field.field.node.avoindata_event.body
     - field.field.node.avoindata_event.field_end_date
-    - field.field.node.avoindata_event.field_event_comments
     - field.field.node.avoindata_event.field_image
     - field.field.node.avoindata_event.field_location
     - field.field.node.avoindata_event.field_start_date
     - node.type.avoindata_event
   module:
     - datetime
-    - disqus
     - image
     - link
     - text
@@ -37,13 +35,6 @@ content:
       timezone_override: ''
       format_type: avoindata_long_date
     third_party_settings: {  }
-  field_event_comments:
-    weight: 4
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: disqus_comment
-    region: content
   field_image:
     weight: 3
     label: above

@@ -94,9 +94,6 @@ export class CkanStack extends Stack {
     const pSmtpPort = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpPort', {
       parameterName: `/${props.environment}/opendata/common/smtp_port`,
     });
-    const pDisqusDomain = ssm.StringParameter.fromStringParameterAttributes(this, 'pDisqusDomain', {
-      parameterName: `/${props.environment}/opendata/common/disqus_domain`,
-    });
     const pFusekiAdminUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pFusekiAdminUser', {
       parameterName: `/${props.environment}/opendata/common/fuseki_admin_user`,
     });
@@ -267,7 +264,6 @@ export class CkanStack extends Stack {
       SMTP_FROM_ERROR: pSmtpFromError.stringValue,
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
-      DISQUS_DOMAIN: pDisqusDomain.stringValue,
       SENTRY_ENV: props.environment,
       CKAN_SYSADMIN_NAME: pSysadminUser.stringValue,
       CKAN_SYSADMIN_EMAIL: pSysadminEmail.stringValue,

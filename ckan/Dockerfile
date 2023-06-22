@@ -84,7 +84,7 @@ RUN apk add --no-cache \
         python3 \
         python3-dev \
         git \
-        curl 
+        curl
 
 # Create the src directory
 RUN mkdir -p ${SRC_DIR}
@@ -331,7 +331,6 @@ COPY ckanext/ckanext-sixodp_showcase        ${EXT_DIR}/ckanext-sixodp_showcase/
 COPY ckanext/ckanext-sixodp_showcasesubmit  ${EXT_DIR}/ckanext-sixodp_showcasesubmit/
 COPY ckanext/ckanext-geoview                ${EXT_DIR}/ckanext-geoview/
 COPY ckanext/ckanext-pdfview                ${EXT_DIR}/ckanext-pdfview/
-COPY ckanext/ckanext-disqus                 ${EXT_DIR}/ckanext-disqus/
 COPY ckanext/ckanext-reminder               ${EXT_DIR}/ckanext-reminder/
 COPY ckanext/ckanext-archiver               ${EXT_DIR}/ckanext-archiver/
 COPY ckanext/ckanext-qa                     ${EXT_DIR}/ckanext-qa/
@@ -348,7 +347,7 @@ COPY ckanext/ckanext-ytp_recommendation     ${EXT_DIR}/ckanext-ytp_recommendatio
 
 
 #
-# Production image 
+# Production image
 #
 FROM ckan_build AS production
 

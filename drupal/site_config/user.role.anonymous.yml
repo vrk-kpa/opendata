@@ -12,4 +12,3 @@ permissions:
   - 'search content'
   - 'services menu retrieve menu'
   - 'use text format filtered_html'
-  - 'view disqus comments'

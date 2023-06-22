@@ -120,4 +120,3 @@ permissions:
   - 'view own unpublished content'
   - 'view revisions'
   - 'view the administration theme'
-  - 'view disqus comments'

@@ -69,10 +69,6 @@ export class DrupalStack extends Stack {
       parameterName: `/${props.environment}/opendata/common/smtp_port`,
     });
 
-    const pDisqusDomain = ssm.StringParameter.fromStringParameterAttributes(this, 'pDisqusDomain', {
-      parameterName: `/${props.environment}/opendata/common/disqus_domain`,
-    });
-
     let pUsers: DrupalUser[];
     switch (props.environment) {
       case 'prod': {
@@ -152,7 +148,6 @@ export class DrupalStack extends Stack {
       SMTP_FROM: pSmtpFrom.stringValue,
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
-      DISQUS_DOMAIN: pDisqusDomain.stringValue,
       SENTRY_ENV: props.environment,
       BYPASS_CDN_DOMAIN: `vip.${props.fqdn}`
     };
@@ -310,7 +305,7 @@ export class DrupalStack extends Stack {
           uid: '0',
         },
       });
-      
+
       props.migrationFileSystemProps.fileSystem.grant(drupalTaskDef.taskRole, 'elasticfilesystem:ClientRootAccess');
 
       drupalTaskDef.addVolume({
