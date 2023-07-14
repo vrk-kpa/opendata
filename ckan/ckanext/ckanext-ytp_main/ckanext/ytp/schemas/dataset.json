@@ -293,6 +293,17 @@
       "description": "The dataset publication date.",
       "validators": "keep_old_value_if_missing ignore_missing",
       "output_validators": "ignore_if_invalid_isodatetime override_field(metadata_created)"
+    },
+    {
+      "field_name": "maintainer_note_translated",
+      "label": "Maintainer note",
+      "preset": "fluent_core_translated_extended",
+      "form_languages": ["fi", "en", "sv"],
+      "form_placeholder": "e.g. Dataset updated 15.5.2023",
+      "form_attrs": {
+        "class": "form-control"
+      },
+      "description": "Inform users about dataset updates"
     }
   ],
   "resource_fields": [
