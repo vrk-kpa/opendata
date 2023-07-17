@@ -297,7 +297,10 @@
     {
       "field_name": "maintainer_note_translated",
       "label": "Maintainer note",
-      "preset": "fluent_core_translated_extended",
+      "form_snippet": "fluent_text_ex.html",
+      "display_snippet": "null",
+      "validators": "fluent_text",
+      "output_validators": "fluent_core_translated_output",
       "form_languages": ["fi", "en", "sv"],
       "form_placeholder": "e.g. Dataset updated 15.5.2023",
       "form_attrs": {
