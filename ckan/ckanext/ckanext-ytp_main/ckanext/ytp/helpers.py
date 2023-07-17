@@ -333,9 +333,19 @@ def get_license(license_id):
 
 
 def get_current_date():
-
     return datetime.datetime.now()
 
+
+def get_date(dateStr):
+    if dateStr:
+        year = int(dateStr.split('-')[0])
+        month = int(dateStr.split('-')[1])
+        date = int(dateStr.split('-')[2])
+        if (year and month and date):
+            return datetime.datetime(year, month, date)
+        else:
+            return None
+    return None
 
 lang_map = {
     "fi": "fin",

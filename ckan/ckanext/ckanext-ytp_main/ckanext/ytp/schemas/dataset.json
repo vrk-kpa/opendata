@@ -307,6 +307,11 @@
         "class": "form-control"
       },
       "description": "Inform users about dataset updates"
+    },
+    {
+      "field_name": "maintainer_note_visible_until",
+      "label": "Show maintainer note until",
+      "preset": "date_ab-datepicker"
     }
   ],
   "resource_fields": [
