@@ -475,9 +475,10 @@ jobs:
         cd ../ckanext-report
         pip install -r requirements.txt
         pip install -e .
-        cd ../ckanext-spatial
+        # Spatial is not currently used in tests
+        # cd ../ckanext-spatial
         # pip install -r requirements.txt
-        pip install -e .
+        # pip install -e .
         cd ../ckanext-organizationapproval
         pip install -r requirements.txt
         pip install -e .
