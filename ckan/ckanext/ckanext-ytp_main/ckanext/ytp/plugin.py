@@ -565,8 +565,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
 
 class YTPSpatialHarvester(plugins.SingletonPlugin):
-    from ckanext.spatial.interfaces import ISpatialHarvester
-    plugins.implements(ISpatialHarvester, inherit=True)
+    try:
+        from ckanext.spatial.interfaces import ISpatialHarvester
+        plugins.implements(ISpatialHarvester, inherit=True)
+    except ImportError:
+        pass
 
     # ISpatialHarvester
 
