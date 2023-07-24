@@ -23,7 +23,7 @@ from ckan.model import Session
 from ckan.plugins import toolkit
 from ckan.plugins.toolkit import config, chained_action
 from ckanext.report.interfaces import IReport
-from ckanext.spatial.interfaces import ISpatialHarvester
+
 from ckanext.sitesearch.interfaces import ISiteSearch
 from ckanext.showcase.model import ShowcaseAdmin
 from sqlalchemy import and_, or_
@@ -565,6 +565,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
 
 class YTPSpatialHarvester(plugins.SingletonPlugin):
+    from ckanext.spatial.interfaces import ISpatialHarvester
     plugins.implements(ISpatialHarvester, inherit=True)
 
     # ISpatialHarvester
