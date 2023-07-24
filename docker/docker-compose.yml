@@ -172,8 +172,7 @@ services:
       start_period: 60s
 
   datapusher:
-    build:
-      context: ./datapusher-plus
+    image: ${REGISTRY}/${REPOSITORY}/datapusher:${DATAPUSHER_IMAGE_TAG}
     restart: always
     networks:
       - frontend
