@@ -628,7 +628,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                     package_dict['maintainer'] = contact.get('individual-name')
                     break
 
-        config_obj = json.loads(data_dict['harvest_object'].source.config)
+        config_obj = json.loads(data_dict['harvest_object'].source.config or "{}")
         license_from_source = config_obj.get("license", None)
         if license_from_source is not None:
             package_dict['license_id'] = license_from_source
