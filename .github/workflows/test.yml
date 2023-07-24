@@ -476,7 +476,7 @@ jobs:
         pip install -r requirements.txt
         pip install -e .
         cd ../ckanext-spatial
-        pip install -r requirements.txt
+        # pip install -r requirements.txt
         pip install -e .
         cd ../ckanext-organizationapproval
         pip install -r requirements.txt
