@@ -423,7 +423,7 @@ jobs:
       - detect-changes
     if: ${{ needs.detect-changes.outputs.ckan == 'true' }}
     container:
-      image: openknowledge/ckan-dev:2.9
+      image: ckan/ckan-dev:2.9.9
     services:
       solr:
         image: ckan/ckan-solr-dev:2.9
