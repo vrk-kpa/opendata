@@ -146,9 +146,33 @@ jobs:
           name: ${{ matrix.name }}
           path: /tmp/${{ matrix.name }}.tar
 
+  install-cypress:
+    needs:
+      - detect-changes
+      - build-containers
+    if: ${{ (needs.detect-changes.outputs.nginx == 'true') ||
+      (needs.detect-changes.outputs.ckan == 'true') ||
+      (needs.detect-changes.outputs.drupal == 'true') ||
+      (needs.detect-changes.outputs.solr == 'true') ||
+      (needs.detect-changes.outputs.datapusher == 'true') ||
+      (needs.detect-changes.outputs.assets == 'true') ||
+      (needs.detect-changes.outputs.environment == 'true')
+      }}
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node-18.16.0-chrome-114.0.5735.133-1-ff-114.0.2-edge-114.0.1823.51-1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install cypress
+        uses: cypress-io/github-action@v5
+        with:
+          runTests: false
+
+
   test-e2e:
     name: test-e2e
     needs:
+      - install-cypress
       - detect-changes
       - build-containers
     if: ${{ (needs.detect-changes.outputs.nginx == 'true') ||
@@ -160,6 +184,7 @@ jobs:
             (needs.detect-changes.outputs.environment == 'true')
       }}
     runs-on: ubuntu-latest
+    container: cypress/browsers:node-18.16.0-chrome-114.0.5735.133-1-ff-114.0.2-edge-114.0.1823.51-1
     timeout-minutes: 60
     permissions:
       id-token: write
@@ -234,26 +259,6 @@ jobs:
           CKAN_CLOUDSTORAGE_CONTAINER_NAME: ${{ secrets.CKAN_CLOUDSTORAGE_CONTAINER_NAME }}
 
 
-      - name: install npm packages
-        run: |
-          npm ci
-        env:
-          CYPRESS_INSTALL_BINARY: 0
-
-      - name: verify cypress binaries not installed
-        run: |
-          npx cypress cache path
-          npx cypress cache list
-
-
-      - name: install cypress binaries and verify installation
-        run: |
-          npx cypress install
-          npx cypress cache list
-          npx cypress verify
-          npx cypress info
-          npx cypress version
-
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -322,8 +327,11 @@ jobs:
           docker logs opendata_fuseki_1
 
       - name: run cypress e2e tests
-        run: |
-          npx cypress run --browser chrome:stable --record --key ${{ secrets.CYPRESS_RECORD_KEY }} --parallel
+        uses: cypress-io/github-action@v5
+        with:
+          record: true
+          parallel: true
+          browser: chrome:stable
 
       - name: export e2e test logs 
         if: failure()
