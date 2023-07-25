@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8db4855303fc57db3882c9181208b6af",
+    "content-hash": "05a771c8531c322adb4ea608d3c34e39",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1376,51 +1376,6 @@
             "time": "2021-12-03T16:48:58+00:00"
         },
         {
-            "name": "disqus/disqus-php",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/RobLoach/disqus-php.git",
-                "reference": "68bf75139c0bc0c40dd5a2fbf28fe9e326a32001"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/RobLoach/disqus-php/zipball/68bf75139c0bc0c40dd5a2fbf28fe9e326a32001",
-                "reference": "68bf75139c0bc0c40dd5a2fbf28fe9e326a32001",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "replace": {
-                "drexarj/disqus-php": "*",
-                "jakubzapletal/disqus-php": "*",
-                "jasonrgd/disqus-php": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "disqusapi/"
-                ],
-                "exclude-from-classmap": [
-                    "/disqusapi/tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "include-path": [
-                "./"
-            ],
-            "license": [
-                "Apache-2.0"
-            ],
-            "description": "Disqus API bindings for PHP",
-            "homepage": "https://github.com/RobLoach/disqus-php",
-            "support": {
-                "source": "https://github.com/RobLoach/disqus-php/tree/1.0.2"
-            },
-            "time": "2019-07-24T04:13:30+00:00"
-        },
-        {
             "name": "doctrine/annotations",
             "version": "1.13.3",
             "source": {
@@ -2724,87 +2679,6 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/ctools",
                 "issues": "https://www.drupal.org/project/issues/ctools"
-            }
-        },
-        {
-            "name": "drupal/disqus",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/disqus.git",
-                "reference": "8.x-1.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/disqus-8.x-1.0.zip",
-                "reference": "8.x-1.0",
-                "shasum": "9fbbe8d473e9ac94fd53adb412c5231722fe1b67"
-            },
-            "require": {
-                "disqus/disqus-php": "^1.0",
-                "drupal/core": "^8 || ^9"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "8.x-1.0",
-                    "datestamp": "1619371733",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "amykhailova",
-                    "homepage": "https://www.drupal.org/user/2892725"
-                },
-                {
-                    "name": "bkosborne",
-                    "homepage": "https://www.drupal.org/user/788032"
-                },
-                {
-                    "name": "DamienMcKenna",
-                    "homepage": "https://www.drupal.org/user/108450"
-                },
-                {
-                    "name": "dawehner",
-                    "homepage": "https://www.drupal.org/user/99340"
-                },
-                {
-                    "name": "gaurav.kapoor",
-                    "homepage": "https://www.drupal.org/user/3495331"
-                },
-                {
-                    "name": "jason.blanda",
-                    "homepage": "https://www.drupal.org/user/1969424"
-                },
-                {
-                    "name": "JayeshSolanki",
-                    "homepage": "https://www.drupal.org/user/2832795"
-                },
-                {
-                    "name": "marcingy",
-                    "homepage": "https://www.drupal.org/user/77320"
-                },
-                {
-                    "name": "RobLoach",
-                    "homepage": "https://www.drupal.org/user/61114"
-                },
-                {
-                    "name": "slashrsm",
-                    "homepage": "https://www.drupal.org/user/744628"
-                }
-            ],
-            "description": "Disqus module for Drupal.",
-            "homepage": "http://drupal.org/project/disqus",
-            "support": {
-                "source": "https://git.drupalcode.org/project/disqus"
             }
         },
         {
@@ -15621,7 +15495,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/disqus": 5,
         "drupal/drush_language": 20,
         "drupal/libraries": 15
     },
