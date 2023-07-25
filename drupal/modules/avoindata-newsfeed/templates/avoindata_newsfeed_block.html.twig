@@ -33,9 +33,9 @@
                 {% endtrans %}
                 {{ news.createdtime | date('d.m.Y')}}</p>
             </div>
-            <div class="avoindata-newsfeed-item-title mt-2">
+            <div class="avoindata-newsfeed-item-title mt-2 line-clamp-3">
                 <a href={{ path('entity.node.canonical', {'node': news.id}) }} class="mt-2">
-                {{ news.label|length < 60 ? news.label : news.label|slice(0, 60)|trim() ~ '...'  }}
+                {{ news.label }}
                 </a>
             </div>
             <div class="avoindata-newsfeed-item-tags mt-3">
