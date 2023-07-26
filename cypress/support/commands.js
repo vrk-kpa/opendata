@@ -388,35 +388,21 @@ Cypress.Commands.add('add_showcase_user', () => {
 
 Cypress.Commands.add('reset_db', () => {
     if (Cypress.env('resetDB') === true){
-      if (Cypress.env('docker') !== true){
-        cy.exec('npm run reset:db', {
+        cy.exec('npm run reset', {
           env: {
-            DB_HOST: '10.10.10.10',
-            DB_CKAN: 'ckan_test',
-            DB_CKAN_USER: 'ckan_test',
-            DB_CKAN_PASS: 'pass'
-          }
-        });
-        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini search-index clear\'", {timeout: 120*1000});
-        // Init vocaularies
-        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini sixodp-showcase create_platform_vocabulary\'", {timeout: 120*1000});
-      } else {
-        cy.exec('npm run reset:db', {
-          env: {
-            DB_HOST: 'localhost',
+            DB_HOST: '127.0.0.1',
             DB_CKAN: 'ckan',
             DB_CKAN_USER: 'ckan',
             DB_CKAN_PASS: 'ckan_pass'
           }
         });
 
-        const containerName = Cypress.env('test_container_name') || 'opendata_ckan_1';
-        cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini api action sparql_clear"`);
-        cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini search-index clear"`);
+        //const containerName = Cypress.env('test_container_name') || 'opendata_ckan_1';
+        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini api action sparql_clear"`);
+        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini search-index clear"`);
         // Init vocaularies
-        cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini sixodp-showcase create_platform_vocabulary"`);
+        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini sixodp-showcase create_platform_vocabulary"`);
       }
-    }
 });
 
 Cypress.Commands.add('create_category', function (category_name) {
