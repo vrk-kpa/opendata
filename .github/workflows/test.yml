@@ -197,8 +197,7 @@ jobs:
             projectId: 'ssb2ut',
             env: {
               resetDB: true,
-              cloudStorageEnabled: true,
-              docker: true
+              cloudStorageEnabled: true
             },
               videoCompression: 20,
               videoUploadOnPasses: false,
