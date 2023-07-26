@@ -248,6 +248,8 @@ jobs:
         with:
           registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
 
+
+
       - name: download built images
         uses: actions/download-artifact@v3
         with:
@@ -303,8 +305,17 @@ jobs:
           docker logs opendata_fuseki_1
 
       - name: run cypress e2e tests
-        run: |
-          docker run --network host -v $PWD:/e2e -w /e2e --entrypoint cypress cypress/included:12.17.2 run --browser chrome:stable --record --key ${{ secrets.CYPRESS_RECORD_KEY }} --parallel --ci-build-id ${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt}}
+        run: >
+          docker run 
+          --network host 
+          -v $PWD:/e2e 
+          -w /e2e 
+          --entrypoint cypress 
+          cypress/included:12.15.0 run 
+          --browser chrome:stable 
+          --record --key ${{ secrets.CYPRESS_RECORD_KEY }} 
+          --parallel 
+          --ci-build-id ${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt}}
 
       - name: export e2e test logs 
         if: failure()
