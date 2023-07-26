@@ -185,6 +185,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
+      - run: npm ci
+
       - name: configure environment
         shell: bash
         run: |
