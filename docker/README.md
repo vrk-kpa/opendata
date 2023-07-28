@@ -252,7 +252,11 @@ To run cypress tests, execute following command in root directory
 ```bash
 docker run --network host -v $PWD:/e2e -w /e2e --entrypoint cypress cypress/included:12.17.2 run
 ```
+or if you want to use cypress UI, run the following, you might need to install additional [dependencies](https://docs.cypress.io/guides/getting-started/installing-cypress#Linux-Prerequisites) :
 
+```bash
+npx cypress open
+```
 #### Test environment
 
 When you want to separate tests from development environment, you can give docker-compose different project name:
