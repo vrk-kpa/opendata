@@ -1,20 +1,25 @@
-component_management:
-  individual_components:
-    - component_id: cdk
+flag_management:
+  default_rules:
+    carryforward: true
+    statuses:
+      - type: project
+        target: auto
+        threshold: 1%
+      - type: patch
+        target: 90%
+
+  individual_flags:
+    - name: cdk
       paths:
         - cdk/**
+      carryforward: false
       statuses:
         - type: project
           target: 95%
         - type: patch
           target: 100%
-    - component_id: ckan
+    - name: ckan
       paths:
         - ckan/ckanext/**
-      statuses:
-        - type: project
-          target: auto
-          threshold: 1%
-        - type: patch
-          target: 90%
+      carryforward: true
 
