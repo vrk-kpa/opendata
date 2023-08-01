@@ -134,3 +134,4 @@ pip install -e ${EXT_DIR}/ckanext-drupal8 \
 (cd ${EXT_DIR}/ckanext-matomo; python setup.py compile_catalog -f)
 (cd ${EXT_DIR}/ckanext-ytp_recommendation; python setup.py compile_catalog -f)
 (cd ${EXT_DIR}/ckanext-apis; python setup.py compile_catalog -f)
+(cd ${EXT_DIR}/ckanext-harvest; python setup.py compile_catalog -f)

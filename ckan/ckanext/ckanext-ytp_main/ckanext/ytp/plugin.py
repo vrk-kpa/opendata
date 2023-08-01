@@ -23,7 +23,7 @@ from ckan.model import Session
 from ckan.plugins import toolkit
 from ckan.plugins.toolkit import config, chained_action
 from ckanext.report.interfaces import IReport
-from ckanext.spatial.interfaces import ISpatialHarvester
+
 from ckanext.sitesearch.interfaces import ISiteSearch
 from ckanext.showcase.model import ShowcaseAdmin
 from sqlalchemy import and_, or_
@@ -565,7 +565,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
 
 class YTPSpatialHarvester(plugins.SingletonPlugin):
-    plugins.implements(ISpatialHarvester, inherit=True)
+    try:
+        from ckanext.spatial.interfaces import ISpatialHarvester
+        plugins.implements(ISpatialHarvester, inherit=True)
+    except ImportError:
+        pass
 
     # ISpatialHarvester
 
@@ -628,7 +632,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                     package_dict['maintainer'] = contact.get('individual-name')
                     break
 
-        config_obj = json.loads(data_dict['harvest_object'].source.config)
+        config_obj = json.loads(data_dict['harvest_object'].source.config or "{}")
         license_from_source = config_obj.get("license", None)
         if license_from_source is not None:
             package_dict['license_id'] = license_from_source
