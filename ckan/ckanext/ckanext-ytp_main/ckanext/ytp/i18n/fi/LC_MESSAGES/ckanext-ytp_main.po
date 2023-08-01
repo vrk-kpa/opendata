@@ -14,18 +14,18 @@
 # Meeri Hakala <meeri.hakala@dvv.fi>, 2022
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2023
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2023
-# Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2023
 # Roosa Lampinen, 2023
 # Suvi Nuttunen, 2023
+# Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2023
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-01 12:41+0000\n"
+"POT-Creation-Date: 2023-07-14 20:44+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Suvi Nuttunen, 2023\n"
+"Last-Translator: Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2023\n"
 "Language-Team: Finnish (https://app.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1286,11 +1286,23 @@ msgstr ""
 "Rajapinta on yksityinen. Se näkyy vain rajapinnan julkaisseen organisaation "
 "jäsenille. "
 
+#: ckanext/ytp/translations.py:226
+msgid "Maintainer note"
+msgstr "Ylläpitäjän ilmoitus"
+
+#: ckanext/ytp/translations.py:227
+msgid "e.g. Dataset updated 15.5.2023"
+msgstr "esim. Tietoaineisto päivitetty 15.5.2023"
+
 #: ckanext/ytp/translations.py:228
+msgid "Inform users about dataset updates"
+msgstr "Tiedota palvelun käyttäjille tietoaineiston päivittämisestä"
+
+#: ckanext/ytp/translations.py:231
 msgid "Data resource title"
 msgstr "Data-aineiston nimi"
 
-#: ckanext/ytp/translations.py:229
+#: ckanext/ytp/translations.py:232
 msgid ""
 "Write a short and descriptive name for the data resource. If the data covers"
 " a specific time frame, mention that in the name."
@@ -1298,15 +1310,15 @@ msgstr ""
 "Kirjoita lyhyt ja kuvaava nimi data-aineistolle. Jos data kattaa vain tietyn"
 " aikavälin, mainitse se nimessä."
 
-#: ckanext/ytp/translations.py:230
+#: ckanext/ytp/translations.py:233
 msgid "e.g. Most popular Finnish first names 2019"
 msgstr "esim. Suosituimmat suomalaiset etunimet 2019"
 
-#: ckanext/ytp/translations.py:231
+#: ckanext/ytp/translations.py:234
 msgid "Resource *"
 msgstr "Data-aineisto *"
 
-#: ckanext/ytp/translations.py:232
+#: ckanext/ytp/translations.py:235
 msgid ""
 "Add the data resource by uploading a file or adding a link to the "
 "data.<br>Select or drag the files here.<br>The maximum file size is 5 Gb. "
@@ -1318,15 +1330,15 @@ msgstr ""
 "ovat mm. pdf, jpg, jpeg, png, doc, docx, xls, xlsx, csv, ppt, pptx, odt, "
 "ods, txt."
 
-#: ckanext/ytp/translations.py:233
+#: ckanext/ytp/translations.py:236
 msgid "Data resource description"
 msgstr "Data-aineiston kuvaus"
 
-#: ckanext/ytp/translations.py:234
+#: ckanext/ytp/translations.py:237
 msgid "Write a description for the resource"
 msgstr "Kirjoita kuvaus data-aineistolle"
 
-#: ckanext/ytp/translations.py:235
+#: ckanext/ytp/translations.py:238
 msgid ""
 "Describe the data clearly and concisely. Use as confining terms as possible "
 "to make it easier to find and understand the data."
@@ -1334,15 +1346,15 @@ msgstr ""
 "Tiivis ja helppotajuinen kuvaus data-aineistosta. Käytä mahdollisimman "
 "rajaavia termejä helpottamaan datan ymmärtämistä."
 
-#: ckanext/ytp/translations.py:236
+#: ckanext/ytp/translations.py:239
 msgid "Additional information"
 msgstr "Lisätiedot"
 
-#: ckanext/ytp/translations.py:237
+#: ckanext/ytp/translations.py:240
 msgid "Data status"
 msgstr "Aineiston tila"
 
-#: ckanext/ytp/translations.py:238
+#: ckanext/ytp/translations.py:241
 msgid ""
 "Define a state for the data. This is recommended especially if your dataset "
 "has data resources from multiple years."
@@ -1350,11 +1362,11 @@ msgstr ""
 "Voit määritellä data-aineistolle tilan. Tämä on suositeltavaa erityisesti "
 "jos tietoaineistollasi on data-aineistoja useilta eri vuosilta."
 
-#: ckanext/ytp/translations.py:239
+#: ckanext/ytp/translations.py:242
 msgid "Coordinate system"
 msgstr "Sijaintikoordinaattien muoto"
 
-#: ckanext/ytp/translations.py:240
+#: ckanext/ytp/translations.py:243
 msgid ""
 "If your data includes geographic information, specify the coordinate system "
 "it uses."
@@ -1362,11 +1374,11 @@ msgstr ""
 "Kerro missä muodossa karttamuotoisen aineiston koordinaatit ovat. Esim. "
 "koordinaatisto, jossa sijaintidata tarjotaan."
 
-#: ckanext/ytp/translations.py:241
+#: ckanext/ytp/translations.py:244
 msgid "e.g. WGS84 (World Geodetic System 1984)"
 msgstr "esim. WGS84 (World Geodetic System 1984)"
 
-#: ckanext/ytp/translations.py:242
+#: ckanext/ytp/translations.py:245
 msgid ""
 "Select the time frame by which the data is separated. For example, does the "
 "resource include data from every week or month."
@@ -1374,240 +1386,240 @@ msgstr ""
 "Kerro, kuinka tarkasti data on eroteltu aineistossa. Esimerkiksi sisältääkö "
 "aineisto dataa joka viikolta tai kuukaudelta."
 
-#: ckanext/ytp/translations.py:243
+#: ckanext/ytp/translations.py:246
 msgid "e.g. a month"
 msgstr "esim. kuukausi"
 
-#: ckanext/ytp/translations.py:244
+#: ckanext/ytp/translations.py:247
 msgid "Time Frame"
 msgstr "Ajallinen kattavuus"
 
-#: ckanext/ytp/translations.py:245
+#: ckanext/ytp/translations.py:248
 msgid "Start date"
 msgstr "Alkuajankohta"
 
-#: ckanext/ytp/translations.py:246
+#: ckanext/ytp/translations.py:249
 msgid "End date"
 msgstr "Loppuajankohta"
 
-#: ckanext/ytp/translations.py:247
+#: ckanext/ytp/translations.py:250
 msgid "Geographical accuracy"
 msgstr "Maantieteellinen erottelutarkkuus"
 
-#: ckanext/ytp/translations.py:248
+#: ckanext/ytp/translations.py:251
 msgid ""
 "If your data includes geographic information, specify the accuracy in meters"
 msgstr ""
 "Kerro metreissä, kuinka tarkasti paikkatietoaineiston data on eroteltu. "
 "Esimerkiksi: 30 "
 
-#: ckanext/ytp/translations.py:251
+#: ckanext/ytp/translations.py:254
 msgid "Producer name"
 msgstr "Tuottajan nimi"
 
-#: ckanext/ytp/translations.py:252
+#: ckanext/ytp/translations.py:255
 msgid "Producer description"
 msgstr "Tuottajan kuvaus"
 
-#: ckanext/ytp/translations.py:253
+#: ckanext/ytp/translations.py:256
 msgid "Common, compact and plain description about producer"
 msgstr ""
 "Kerro, mitä organisaatiosi tekee ja millaisia palveluja sekä millaista dataa"
 " se tarjoaa. "
 
-#: ckanext/ytp/translations.py:254
+#: ckanext/ytp/translations.py:257
 msgid "Other information"
 msgstr "Muut tiedot"
 
-#: ckanext/ytp/translations.py:255
+#: ckanext/ytp/translations.py:258
 msgid "Upload logo"
 msgstr "Lataa logo"
 
-#: ckanext/ytp/translations.py:258
+#: ckanext/ytp/translations.py:261
 msgid "cc-by"
 msgstr "Creative Commons Attribution"
 
-#: ckanext/ytp/translations.py:259
+#: ckanext/ytp/translations.py:262
 msgid "cc-by-4-fi"
 msgstr " Creative Commons Nimeä 4.0"
 
-#: ckanext/ytp/translations.py:260
+#: ckanext/ytp/translations.py:263
 msgid "cc-by-4.0"
 msgstr " Creative Commons Nimeä 4.0"
 
-#: ckanext/ytp/translations.py:261
+#: ckanext/ytp/translations.py:264
 msgid "cc-by-sa"
 msgstr "Creative Commons Attribution Share-Alike"
 
-#: ckanext/ytp/translations.py:262
+#: ckanext/ytp/translations.py:265
 msgid "cc-by-sa-1-fi"
 msgstr "Creative Commons Nime\\xe4-Tarttuva 1.0 Suomi CC BY-SA 1.0"
 
-#: ckanext/ytp/translations.py:263
+#: ckanext/ytp/translations.py:266
 msgid "cc-nc"
 msgstr "Creative Commons Non-Commercial Any"
 
-#: ckanext/ytp/translations.py:264
+#: ckanext/ytp/translations.py:267
 msgid "cc-zero"
 msgstr "Creative Commons CCZero"
 
-#: ckanext/ytp/translations.py:265
+#: ckanext/ytp/translations.py:268
 msgid "cc-zero-1.0"
 msgstr "Creative Commons CCZero 1.0"
 
-#: ckanext/ytp/translations.py:266
+#: ckanext/ytp/translations.py:269
 msgid "gfdl"
 msgstr "GNU Free Documentation License"
 
-#: ckanext/ytp/translations.py:267
+#: ckanext/ytp/translations.py:270
 msgid "helsinkikanava-opendata-tos"
 msgstr " Helsinkikanava Open Data käyttöehdot"
 
-#: ckanext/ytp/translations.py:268
+#: ckanext/ytp/translations.py:271
 msgid "hri-tietoaineistot-lisenssi-nimea"
 msgstr " HRI - tietoaineistojen lisenssi - nimeä"
 
-#: ckanext/ytp/translations.py:269
+#: ckanext/ytp/translations.py:272
 msgid "ilmoitettumuualla"
 msgstr " Lisenssi ilmoitettu tietoaineiston ylläpitäjän palvelussa"
 
-#: ckanext/ytp/translations.py:270
+#: ckanext/ytp/translations.py:273
 msgid "kmo-aluejakorajat"
 msgstr " KMO aluejakorajojen vektoriaineistojen käyttöehdot"
 
-#: ckanext/ytp/translations.py:271
+#: ckanext/ytp/translations.py:274
 msgid "notspecified"
 msgstr " Lisenssiä ei ole määritelty"
 
-#: ckanext/ytp/translations.py:272
+#: ckanext/ytp/translations.py:275
 msgid "odc-by"
 msgstr "Open Data Commons Attribution License"
 
-#: ckanext/ytp/translations.py:273
+#: ckanext/ytp/translations.py:276
 msgid "odc-odbl"
 msgstr "Open Data Commons Open Database License ODbL"
 
-#: ckanext/ytp/translations.py:274
+#: ckanext/ytp/translations.py:277
 msgid "odc-pddl"
 msgstr "Open Data Commons Public Domain Dedication and Licence PDDL"
 
-#: ckanext/ytp/translations.py:275
+#: ckanext/ytp/translations.py:278
 msgid "other"
 msgstr " Muu"
 
-#: ckanext/ytp/translations.py:276
+#: ckanext/ytp/translations.py:279
 msgid "other-at"
 msgstr "Muu (Attribution)"
 
-#: ckanext/ytp/translations.py:277
+#: ckanext/ytp/translations.py:280
 msgid "other-closed"
 msgstr "Muu (Not Open)"
 
-#: ckanext/ytp/translations.py:278
+#: ckanext/ytp/translations.py:281
 msgid "other-nc"
 msgstr " Muu (Non-Commercial)"
 
-#: ckanext/ytp/translations.py:279
+#: ckanext/ytp/translations.py:282
 msgid "other-open"
 msgstr " Muu (avoin)"
 
-#: ckanext/ytp/translations.py:280
+#: ckanext/ytp/translations.py:283
 msgid "other-pd"
 msgstr " Muu (Public Domain)"
 
-#: ckanext/ytp/translations.py:281
+#: ckanext/ytp/translations.py:284
 msgid "uk-ogl"
 msgstr "UK Open Government Licence OGL"
 
-#: ckanext/ytp/translations.py:284
+#: ckanext/ytp/translations.py:287
 msgid "Platforms"
 msgstr "Käyttöympäristö (alusta)"
 
-#: ckanext/ytp/translations.py:287
+#: ckanext/ytp/translations.py:290
 msgid "Show more collection_type"
 msgstr "Näytä enemmän Tietoaineistoja"
 
-#: ckanext/ytp/translations.py:288
+#: ckanext/ytp/translations.py:291
 msgid "Show more vocab_international_benchmarks"
 msgstr "Näytä enemmän Kansainvälisiä Vertailuja"
 
-#: ckanext/ytp/translations.py:289
+#: ckanext/ytp/translations.py:292
 msgid "Show more vocab_keywords_en"
 msgstr ""
 
-#: ckanext/ytp/translations.py:290
+#: ckanext/ytp/translations.py:293
 msgid "Show more vocab_keywords_fi"
 msgstr "Näytä enemmän Avainsanoja"
 
-#: ckanext/ytp/translations.py:291
+#: ckanext/ytp/translations.py:294
 msgid "Show more vocab_keywords_sv"
 msgstr ""
 
-#: ckanext/ytp/translations.py:292
+#: ckanext/ytp/translations.py:295
 msgid "Show more organization"
 msgstr "Näytä enemmän Tuottajia"
 
-#: ckanext/ytp/translations.py:293
+#: ckanext/ytp/translations.py:296
 msgid "Show more res_format"
 msgstr "Näytä enemmän Tiedostomuotoja"
 
-#: ckanext/ytp/translations.py:294
+#: ckanext/ytp/translations.py:297
 msgid "Show more source"
 msgstr "Näytä enemmän Lähteitä"
 
-#: ckanext/ytp/translations.py:295
+#: ckanext/ytp/translations.py:298
 msgid "Show more license_id"
 msgstr "Näytä enemmän Lisenssejä"
 
-#: ckanext/ytp/translations.py:296
+#: ckanext/ytp/translations.py:299
 msgid "Show more groups"
 msgstr "Näytä enemmän Kategorioita"
 
-#: ckanext/ytp/translations.py:297
+#: ckanext/ytp/translations.py:300
 msgid "Show more vocab_platform"
 msgstr "Näytä enemmän Käyttöympäristöjä"
 
-#: ckanext/ytp/translations.py:300
+#: ckanext/ytp/translations.py:303
 msgid "Show less collection_type"
 msgstr "Näytä vähemmän Tietoaineistoja"
 
-#: ckanext/ytp/translations.py:301
+#: ckanext/ytp/translations.py:304
 msgid "Show less vocab_international_benchmarks"
 msgstr "Näytä vähemmän Kansainvälisiä Vertailuja"
 
-#: ckanext/ytp/translations.py:302
+#: ckanext/ytp/translations.py:305
 msgid "Show less vocab_keywords_en"
 msgstr ""
 
-#: ckanext/ytp/translations.py:303
+#: ckanext/ytp/translations.py:306
 msgid "Show less vocab_keywords_fi"
 msgstr "Näytä vähemmän Avainsanoja"
 
-#: ckanext/ytp/translations.py:304
+#: ckanext/ytp/translations.py:307
 msgid "Show less vocab_keywords_sv"
 msgstr ""
 
-#: ckanext/ytp/translations.py:305
+#: ckanext/ytp/translations.py:308
 msgid "Show less organization"
 msgstr "Näytä vähemmän Tuottajia"
 
-#: ckanext/ytp/translations.py:306
+#: ckanext/ytp/translations.py:309
 msgid "Show less res_format"
 msgstr "Näytä vähemmän Tiedostomuotoja"
 
-#: ckanext/ytp/translations.py:307
+#: ckanext/ytp/translations.py:310
 msgid "Show less source"
 msgstr "Näytä vähemmän Lähteitä"
 
-#: ckanext/ytp/translations.py:308
+#: ckanext/ytp/translations.py:311
 msgid "Show less license_id"
 msgstr "Näytä vähemmän Lisenssejä"
 
-#: ckanext/ytp/translations.py:309
+#: ckanext/ytp/translations.py:312
 msgid "Show less groups"
 msgstr "Näytä vähemmän Kategorioita"
 
-#: ckanext/ytp/translations.py:310
+#: ckanext/ytp/translations.py:313
 msgid "Show less vocab_platform"
 msgstr "Näytä vähemmän Käyttöympäristöjä"
 
@@ -1816,10 +1828,6 @@ msgstr "Lisää sähköposti"
 #: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/filter-control/utils.js:10
 msgid "Can't call method on "
 msgstr ""
-
-#: ckanext/ytp/templates/disqus_comments.html:2
-msgid "Give feedback"
-msgstr "Anna palautetta"
 
 #: ckanext/ytp/templates/page.html:13
 #: ckanext/ytp/templates/snippets/search_form.html:110
@@ -2748,6 +2756,10 @@ msgstr "Käyttösovellukset"
 #: ckanext/ytp/templates/package/snippets/dataset_social.html:4
 msgid "Social"
 msgstr "Jaa sosiaalisessa mediassa"
+
+#: ckanext/ytp/templates/package/snippets/dataset_state_banner.html:36
+msgid "Dataset maintainer informs:"
+msgstr "Tietoaineiston ylläpitäjä tiedottaa:"
 
 #: ckanext/ytp/templates/package/snippets/license_rdf.html:18
 #, python-format

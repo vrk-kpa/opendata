@@ -223,6 +223,9 @@ def _translations():
     _('Deleted. The apiset is only visible to logged in users of the producer organization.')
     _('In draft state. The apiset is only visible to logged in users of the producer organization.')
     _('Private mode. The apiset is only visible to logged in users of the producer organization.')
+    _('Maintainer note')
+    _('e.g. Dataset updated 15.5.2023')
+    _('Inform users about dataset updates')
 
     # Resource
     _("Data resource title")

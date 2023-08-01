@@ -67,7 +67,6 @@
 
 .admin-banner {
   display: flex;
-  justify-content: flex-end;
   margin-bottom: 20px;
 
   a {
@@ -118,6 +117,36 @@
 
 .deleted-dataset {
   background: @suomi-alertBase;
+}
+
+.maintainer-note {
+  background: @opendata-brand-gray;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+  }
+
+  span {
+    color: @color--black;
+    font-family: @font-family-sans-serif;
+    font-size: @font-size-slightly-smaller-base;
+    font-weight: @font-weight-normal;
+    line-height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  a {
+    color: @color--black;
+    border: 1px solid @color--black;
+  }
 }
 
 #content .container-apiset {

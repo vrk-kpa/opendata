@@ -49,4 +49,4 @@ Check out `resources` folder for results.
 
 ## Font Awesome
 
-* .npmrc is required for npm install to work, available in confluence
+* .npmrc is required for npm install to work, available in confluence 
