@@ -1,12 +1,14 @@
 import os
 import logging
 import json
+from typing import Optional
 import urllib.request
 import urllib.error
 import urllib.parse
 import datetime
 import itertools
 import flask
+import iso8601
 from ckan.common import _, c, request
 from ckan.lib import helpers, i18n
 from ckan.logic import get_action
@@ -332,18 +334,16 @@ def get_license(license_id):
     return None
 
 
-def get_current_date():
+def get_current_date() -> datetime.datetime:
     return datetime.datetime.now()
 
 
-def get_date(dateStr):
-    if dateStr:
-        year = int(dateStr.split('-')[0])
-        month = int(dateStr.split('-')[1])
-        date = int(dateStr.split('-')[2])
-        if (year and month and date):
-            return datetime.datetime(year, month, date)
-        else:
+def get_date(date_str) -> Optional[datetime.datetime]:
+    if date_str:
+        try:
+            return iso8601.parse_date(date_str, None)
+        except iso8601.ParseError:
+            log.debug('Given date string cannot be parsed into a datetime object. [%s]' % date_str)
             return None
     return None
 
