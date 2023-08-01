@@ -1,6 +1,6 @@
 {% set maintainer_note = h.get_translated(pkg, 'maintainer_note') %}
 {% set today = h.get_current_date() %}
-{% set visible_until = h.get_date(pkg.get('maintainer_note_visible_until')) %}
+{% set visible_until = h.parse_datetime(pkg.get('maintainer_note_visible_until')) %}
 {% if pkg.get('state', '').startswith('deleted') %}
   <div class="well admin-banner private-or-draft-dataset deleted-dataset">
     <div>

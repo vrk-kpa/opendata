@@ -338,7 +338,7 @@ def get_current_date() -> datetime.datetime:
     return datetime.datetime.now()
 
 
-def get_date(date_str) -> Optional[datetime.datetime]:
+def parse_datetime(date_str) -> Optional[datetime.datetime]:
     if date_str:
         try:
             return iso8601.parse_date(date_str, None)
