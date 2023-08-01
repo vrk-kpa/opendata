@@ -1,3 +1,4 @@
+{% set maintainer_note = h.get_translated(pkg, 'maintainer_note') %}
 {% if pkg.get('state', '').startswith('deleted') %}
   <div class="well admin-banner private-or-draft-dataset deleted-dataset">
     <div>
@@ -28,6 +29,16 @@
       {% link_for _('Edit ' + dataset_type), named_route=dataset_type + '.edit', id=pkg.name %}"
     {% endif %}
   </div>
+{% elif maintainer_note %}
+<div class="well admin-banner maintainer-note">
+  <div>
+    <img src="/themes/avoindata/images/avoindata-note-icon.svg">
+    <span>{{ _('Dataset maintainer informs:') }}&nbsp;{{ maintainer_note }}</span>
+  </div>
+  {% if h.check_access('package_update', {'id':pkg.id }) %}
+    {% link_for _('Edit ' + dataset_type), named_route=dataset_type + '.edit', id=pkg.name %}
+  {% endif %}
+</div>
 {% else %}
   {% if h.check_access('package_update', {'id':pkg.id }) %}
     <div class="admin-banner">
