@@ -19,35 +19,35 @@
         </h2>
     </div>
 
-    <div class="avoindata-newsfeed-items mt-2">    
+    <div class="avoindata-newsfeed-items mt-2">
 
         {% for news in articles %}
           <div class="avoindata-newsfeed-line h-100 mr-4">
-          </div> 
+          </div>
 
           <div class="avoindata-newsfeed-item mt-2">
             <div class="avoindata-newsfeed-item-date">
                 <p>
                 {% trans %}
-                  Julkaistu 
+                  Published
                 {% endtrans %}
                 {{ news.createdtime | date('d.m.Y')}}</p>
             </div>
-            <div class="avoindata-newsfeed-item-title mt-2">
+            <div class="avoindata-newsfeed-item-title mt-2 line-clamp-3">
                 <a href={{ path('entity.node.canonical', {'node': news.id}) }} class="mt-2">
                 {{ news.label }}
                 </a>
             </div>
             <div class="avoindata-newsfeed-item-tags mt-3">
-                {% for tag in news.tags %}
+                {% for tag in news.tags | slice(0, 2) %}
                   <div class="avoindata-newsfeed-tag mr-2 mt-2">
                       {{tag.name}}
                   </div>
-                {% endfor%}
+                {% endfor %}
             </div>
 
           </div>
-            
+
         {% endfor %}
 
     </div>
@@ -57,15 +57,15 @@
         <i class="far fa-chevron-right"></i>
         <a href="/{{language}}/articles" class="">
         {% trans %}
-          All news and notifications 
+          All news and notifications
         {% endtrans %}
         </a>
       </div>
-        
+
     </div>
 
 
   </div>
 
-  
+
 </div>
