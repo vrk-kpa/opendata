@@ -185,6 +185,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
+      - run: npm ci
+
       - name: configure environment
         shell: bash
         run: |
@@ -197,8 +199,7 @@ jobs:
             projectId: 'ssb2ut',
             env: {
               resetDB: true,
-              cloudStorageEnabled: true,
-              docker: true
+              cloudStorageEnabled: true
             },
               videoCompression: 20,
               videoUploadOnPasses: false,
@@ -234,26 +235,6 @@ jobs:
           CKAN_CLOUDSTORAGE_CONTAINER_NAME: ${{ secrets.CKAN_CLOUDSTORAGE_CONTAINER_NAME }}
 
 
-      - name: install npm packages
-        run: |
-          npm ci
-        env:
-          CYPRESS_INSTALL_BINARY: 0
-
-      - name: verify cypress binaries not installed
-        run: |
-          npx cypress cache path
-          npx cypress cache list
-
-
-      - name: install cypress binaries and verify installation
-        run: |
-          npx cypress install
-          npx cypress cache list
-          npx cypress verify
-          npx cypress info
-          npx cypress version
-
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -266,6 +247,8 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
         with:
           registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
+
+
 
       - name: download built images
         uses: actions/download-artifact@v3
@@ -321,9 +304,44 @@ jobs:
           docker logs opendata_nginx_1
           docker logs opendata_fuseki_1
 
-      - name: run cypress e2e tests
+      # Might not be needed once https://github.com/cypress-io/cypress-docker-images/issues/873 is fixed
+      - name: Get commit information
+        id: commit_info
         run: |
-          npx cypress run --browser chrome:stable --record --key ${{ secrets.CYPRESS_RECORD_KEY }} --parallel
+          echo "commit_info_message=$(git show -s --pretty=%B)" >> $GITHUB_OUTPUT
+          echo "commit_info_sha=$(git show -s --pretty=%H)" >> $GITHUB_OUTPUT
+          echo "commit_info_email=$(git show -s --pretty=%ae)" >> $GITHUB_OUTPUT
+          echo "commit_info_author=$(git show -s --pretty=%an)" >> $GITHUB_OUTPUT
+          echo "commit_info_remote=$(git config --get remote.origin.url)" >> $GITHUB_OUTPUT
+
+      - name: run cypress e2e tests
+        run: >
+          docker run 
+          --network host 
+          -v $PWD:/e2e 
+          -w /e2e 
+          -e COMMIT_INFO_MESSAGE
+          -e COMMIT_INFO_SHA
+          -e COMMIT_INFO_BRANCH
+          -e COMMIT_INFO_EMAIL
+          -e COMMIT_INFO_AUTHOR
+          -e COMMIT_INFO_REMOTE
+          -e CYPRESS_CI_BUILD_URL
+          --entrypoint cypress 
+          cypress/included:12.17.2 run 
+          --browser chrome:stable 
+          --record --key ${{ secrets.CYPRESS_RECORD_KEY }} 
+          --parallel 
+          --ci-build-id ${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt}}
+        env:
+          COMMIT_INFO_MESSAGE: ${{ steps.commit_info.outputs.commit_info_message }}
+          COMMIT_INFO_SHA: ${{ steps.commit_info.outputs.commit_info_sha }}
+          COMMIT_INFO_BRANCH: ${{ github.head_ref || github.ref_name }}
+          COMMIT_INFO_EMAIL: ${{ steps.commit_info.outputs.commit_info_email }}
+          COMMIT_INFO_AUTHOR: ${{ steps.commit_info.outputs.commit_info_author }}
+          COMMIT_INFO_REMOTE: ${{ steps.commit_info.outputs.commit_info_remote }}
+          CYPRESS_CI_BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
 
       - name: export e2e test logs 
         if: failure()

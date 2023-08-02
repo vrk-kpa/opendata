@@ -246,8 +246,17 @@ processors=2
 #### Running
 
 Install packages `npm install` in root of `opendata`
-Run `npm run cypress:open` and it will open a window where you can run specific tests.
 
+To run cypress tests, execute following command in root directory
+
+```bash
+docker run --network host -v $PWD:/e2e -w /e2e --entrypoint cypress cypress/included:12.17.2 run
+```
+or if you want to use cypress UI, run the following, you might need to install additional [dependencies](https://docs.cypress.io/guides/getting-started/installing-cypress#Linux-Prerequisites) :
+
+```bash
+npx cypress open
+```
 #### Test environment
 
 When you want to separate tests from development environment, you can give docker-compose different project name:
@@ -266,19 +275,6 @@ services:
       ...
       TEST: "true"
 ```
-
-When your environment is up and ready, it might give you a different name for ckan container. You can check this with `docker container ls` and find your ckan-containers name. Then you can create file `cypress.env.json` in root directory of `opendata` and replace the default name used in test preparation commands:
-
-```json
-{
-    "resetDB": true,
-    "cloudStorageEnabled": false,
-    "docker": true,
-    "test_container_name": "opendata-test_ckan_1"
-}
-```
-
-Note that you can override also other env-variables in that file.
 
 ### DCAT-AP
 

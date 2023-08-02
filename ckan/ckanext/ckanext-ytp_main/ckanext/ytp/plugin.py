@@ -1437,3 +1437,61 @@ class OpenDataGroupPlugin(plugins.SingletonPlugin):
 
         data_dict['users'] = data_dicts
         return original_action(context, data_dict)
+
+
+# NOTE: DO NOT ENABLE THIS PLUGIN IN NON-LOCAL ENVIRONMENTS
+class OpenDataResetPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.interfaces.IActions)
+
+    def get_actions(self):
+        return {
+            "reset": _reset
+        }
+@toolkit.side_effect_free
+def _reset(context, data_dict):
+
+    context = {'ignore_auth': True}
+
+    # clean database
+    from ckan import model
+    model.repo.delete_all()
+
+
+    # clear search index
+    from ckan.lib.search import clear_all
+    clear_all()
+
+    # sparql clear
+    get_action('sparql_clear')(context, {})
+
+    # Create platform vocabulary
+
+    vocab_id = 'platform'
+    tags = (u"Android", u"iOS Apple", u"Windows", u"Mac OS X", u"Website", u"Other")
+    tags_to_delete = []
+    tags_to_create = []
+    try:
+        data = {'id': vocab_id}
+        old_tags = toolkit.get_action('vocabulary_show')(context, data)
+        for old_tag in old_tags.get('tags'):
+            if old_tag['id'] in tags:
+                continue
+            else:
+                tags_to_delete.append({'name': old_tag['name']})
+                toolkit.get_action('tag_delete')(context, {'id': old_tag['id']})
+
+        for tag in tags:
+            try:
+                toolkit.get_action('tag_show')(context, {'id': tag, 'vocabulary_id': vocab_id})
+            except toolkit.ObjectNotFound:
+                tags_to_create.append({'name': tag})
+                toolkit.get_action('tag_create')(context, {'name': tag, 'vocabulary_id': old_tags.get('id')})
+    except NotFound:
+        data = {'name': vocab_id}
+        vocab = toolkit.get_action('vocabulary_create')(context, data)
+        for tag in tags:
+            data = {'name': tag, 'vocabulary_id': vocab['id']}
+            tags_to_create.append({'name': tag})
+            toolkit.get_action('tag_create')(context, data)
+
+    return "Cleared"

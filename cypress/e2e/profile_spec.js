@@ -26,6 +26,7 @@ describe('Profile page tests', function(){
           });
 
         it('Dataset can be opened from the profile page', function(){
+            cy.visit('/');
             cy.get('[href="/fi/profile"] > span').click();
             cy.get('.dataset-content > .align-items-center > .dataset-heading > a').should('contain.text', profile_dataset_name).click();
             cy.location('pathname').should('contain', `/dataset/${profile_dataset_name}`);
