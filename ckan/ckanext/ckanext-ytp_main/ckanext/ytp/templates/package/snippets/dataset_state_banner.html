@@ -1,4 +1,6 @@
 {% set maintainer_note = h.get_translated(pkg, 'maintainer_note') %}
+{% set today = h.get_current_date() %}
+{% set visible_until = h.parse_datetime(pkg.get('maintainer_note_visible_until')) %}
 {% if pkg.get('state', '').startswith('deleted') %}
   <div class="well admin-banner private-or-draft-dataset deleted-dataset">
     <div>
@@ -29,7 +31,7 @@
       {% link_for _('Edit ' + dataset_type), named_route=dataset_type + '.edit', id=pkg.name %}"
     {% endif %}
   </div>
-{% elif maintainer_note %}
+{% elif maintainer_note and not visible_until or maintainer_note and (visible_until > today)  %}
 <div class="well admin-banner maintainer-note">
   <div>
     <img src="/themes/avoindata/images/avoindata-note-icon.svg">
