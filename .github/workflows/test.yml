@@ -308,7 +308,7 @@ jobs:
       - name: Get commit information
         id: commit_info
         run: |
-          echo "commit_info_message=$(git show -s --pretty=%B)" >> $GITHUB_OUTPUT
+          echo "commit_info_message=$(git show -s --pretty=oneline)" >> $GITHUB_OUTPUT
           echo "commit_info_sha=$(git show -s --pretty=%H)" >> $GITHUB_OUTPUT
           echo "commit_info_email=$(git show -s --pretty=%ae)" >> $GITHUB_OUTPUT
           echo "commit_info_author=$(git show -s --pretty=%an)" >> $GITHUB_OUTPUT
