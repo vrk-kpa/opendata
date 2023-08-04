@@ -34,9 +34,9 @@ export class CkanStack extends Stack {
     const pCkanHarvesterInstructionUrl = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanHarvesterInstructionUrl', {
       parameterName: `/${props.environment}/opendata/ckan/harvester_instruction_url`,
     });
-    const pDbHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbHost', {
-      parameterName: `/${props.environment}/opendata/common/db_host`,
-    });
+
+    const host = props.databaseInstance.instanceEndpoint;
+
     const pDbCkan = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbCkan', {
       parameterName: `/${props.environment}/opendata/common/db_ckan`,
     });
@@ -240,13 +240,14 @@ export class CkanStack extends Stack {
       SOLR_PORT: '8983',
       SOLR_PATH: 'solr/ckan',
       NGINX_HOST: `nginx.${props.namespace.namespaceName}`,
-      DB_HOST: pDbHost.stringValue,
+      DB_CKAN_HOST: host.hostname,
       DB_CKAN: pDbCkan.stringValue,
       DB_CKAN_USER: pDbCkanUser.stringValue,
-      DB_DATASTORE_READONLY: pDbDatastoreReadonly.stringValue,
-      DB_DATASTORE_READONLY_USER: pDbDatastoreReadonlyUser.stringValue,
+      DB_DATASTORE_HOST: host.hostname,
       DB_DATASTORE: pDbDatastoreReadonly.stringValue,
+      DB_DATASTORE_READONLY_USER: pDbDatastoreReadonlyUser.stringValue,
       DB_DATASTORE_USER: pDbCkanUser.stringValue,
+      DB_DRUPAL_HOST: host.hostname,
       DB_DRUPAL: pDbDrupal.stringValue,
       DB_DRUPAL_USER: pDbDrupalUser.stringValue,
       DB_DATAPUSHER_JOBS: pDbDatapusherJobs.stringValue,
@@ -568,7 +569,7 @@ export class CkanStack extends Stack {
       ADD_SUMMARY_STATS_RESOURCE: 'False',
       PORT: '8800',
       MAX_CONTENT_LENGTH: '5242880000',
-      DB_HOST: pDbHost.stringValue,
+      DB_DATASTORE_HOST: host.hostname,
       DB_DATAPUSHER_JOBS: pDbDatapusherJobs.stringValue,
       DB_DATAPUSHER_JOBS_USER: pDbDatapusherJobsUser.stringValue,
       DB_DATASTORE: pDbDatastoreReadonly.stringValue,
