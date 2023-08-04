@@ -570,6 +570,7 @@ export class CkanStack extends Stack {
       PORT: '8800',
       MAX_CONTENT_LENGTH: '5242880000',
       DB_DATASTORE_HOST: host.hostname,
+      DB_DATAPUSHER_JOBS_HOST: host.hostname,
       DB_DATAPUSHER_JOBS: pDbDatapusherJobs.stringValue,
       DB_DATAPUSHER_JOBS_USER: pDbDatapusherJobsUser.stringValue,
       DB_DATASTORE: pDbDatastoreReadonly.stringValue,
