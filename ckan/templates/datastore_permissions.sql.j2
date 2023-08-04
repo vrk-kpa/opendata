@@ -23,7 +23,7 @@ over SSH:
 -- 'public' schema, and could be executed anywhere. But ALTER DEFAULT
 -- PERMISSIONS applies to the current database, and so we must be connected to
 -- the datastore DB:
-\connect "{{ environ('DB_DATASTORE_READONLY') }}"
+\connect "{{ environ('DB_DATASTORE') }}"
 
 -- revoke permissions for the read-only user
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
@@ -39,7 +39,7 @@ GRANT USAGE ON SCHEMA public TO "{{ environ('DB_CKAN_USER') }}";
 REVOKE CONNECT ON DATABASE "{{ environ('DB_CKAN') }}" FROM "{{ environ('DB_DATASTORE_READONLY_USER') }}";
 
 -- grant select permissions for read-only user
-GRANT CONNECT ON DATABASE "{{ environ('DB_DATASTORE_READONLY') }}" TO "{{ environ('DB_DATASTORE_READONLY_USER') }}";
+GRANT CONNECT ON DATABASE "{{ environ('DB_DATASTORE') }}" TO "{{ environ('DB_DATASTORE_READONLY_USER') }}";
 GRANT USAGE ON SCHEMA public TO "{{ environ('DB_DATASTORE_READONLY_USER') }}";
 
 -- grant access to current tables and views to read-only user
