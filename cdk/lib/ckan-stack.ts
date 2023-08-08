@@ -547,7 +547,7 @@ export class CkanStack extends Stack {
     });
 
     props.datastoreJobsSecret.grantRead(datapusherTaskDef.taskRole)
-    
+
     const datapusherContainerEnv: { [key: string]: string; } = {
       ADD_SUMMARY_STATS_RESOURCE: 'False',
       PORT: '8800',
@@ -616,7 +616,7 @@ export class CkanStack extends Stack {
 
     datapusherService.connections.allowFrom(this.ckanService, ec2.Port.tcp(8800), 'ckan - datapusher connection');
     datapusherService.connections.allowTo(this.ckanService, ec2.Port.tcp(5000), 'datapusher - ckan connection');
-    datapusherService.connections.allowTo(props.databaseSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (datapusher)');
+    datapusherService.connections.allowTo(props.datastoreSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (datapusher)');
 
     const datapusherServiceAsg = datapusherService.autoScaleTaskCount({
       minCapacity: props.datapusherTaskDef.taskMinCapacity,
