@@ -37,29 +37,13 @@ export class CkanStack extends Stack {
 
     const host = props.databaseInstance.instanceEndpoint;
 
-    const pDbCkan = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbCkan', {
-      parameterName: `/${props.environment}/opendata/common/db_ckan`,
-    });
-    const pDbCkanUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbCkanUser', {
-      parameterName: `/${props.environment}/opendata/common/db_ckan_user`,
-    });
-    const pDbDatastoreReadonly = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDatastoreReadonly', {
-      parameterName: `/${props.environment}/opendata/common/db_datastore_readonly`,
-    });
-    const pDbDatastoreReadonlyUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDatastoreReadonlyUser', {
-      parameterName: `/${props.environment}/opendata/common/db_datastore_readonly_user`,
-    });
+    const datastoreHost = props.datastoreInstance.instanceEndpoint;
+
     const pDbDrupal = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDrupal', {
       parameterName: `/${props.environment}/opendata/common/db_drupal`,
     });
     const pDbDrupalUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDrupalUser', {
       parameterName: `/${props.environment}/opendata/common/db_drupal_user`,
-    });
-    const pDbDatapusherJobs = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDatapusherJobs', {
-      parameterName: `/${props.environment}/opendata/common/db_datapusher_jobs`,
-    });
-    const pDbDatapusherJobsUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDatapusherJobsUser', {
-      parameterName: `/${props.environment}/opendata/common/db_datapusher_jobs_user`,
     });
     const pSiteProtocol = ssm.StringParameter.fromStringParameterAttributes(this, 'pSiteProtocol', {
       parameterName: `/${props.environment}/opendata/common/site_protocol`,
@@ -241,17 +225,14 @@ export class CkanStack extends Stack {
       SOLR_PATH: 'solr/ckan',
       NGINX_HOST: `nginx.${props.namespace.namespaceName}`,
       DB_CKAN_HOST: host.hostname,
-      DB_CKAN: pDbCkan.stringValue,
-      DB_CKAN_USER: pDbCkanUser.stringValue,
-      DB_DATASTORE_HOST: host.hostname,
-      DB_DATASTORE: pDbDatastoreReadonly.stringValue,
-      DB_DATASTORE_READONLY_USER: pDbDatastoreReadonlyUser.stringValue,
-      DB_DATASTORE_USER: pDbCkanUser.stringValue,
+      DB_CKAN: "ckan_default",
+      DB_CKAN_USER: "ckan_default",
+      DB_DATASTORE_HOST: datastoreHost.hostname,
+      DB_DATASTORE: "datastore",
+      DB_DATASTORE_READONLY_USER: "datastore",
       DB_DRUPAL_HOST: host.hostname,
       DB_DRUPAL: pDbDrupal.stringValue,
       DB_DRUPAL_USER: pDbDrupalUser.stringValue,
-      DB_DATAPUSHER_JOBS: pDbDatapusherJobs.stringValue,
-      DB_DATAPUSHER_JOBS_USER: pDbDatapusherJobsUser.stringValue,
       DOMAIN_NAME: props.domainName,
       SECONDARY_DOMAIN_NAME: props.secondaryDomainName,
       SITE_PROTOCOL: pSiteProtocol.stringValue,
@@ -569,12 +550,12 @@ export class CkanStack extends Stack {
       ADD_SUMMARY_STATS_RESOURCE: 'False',
       PORT: '8800',
       MAX_CONTENT_LENGTH: '5242880000',
-      DB_DATASTORE_HOST: host.hostname,
-      DB_DATAPUSHER_JOBS_HOST: host.hostname,
-      DB_DATAPUSHER_JOBS: pDbDatapusherJobs.stringValue,
-      DB_DATAPUSHER_JOBS_USER: pDbDatapusherJobsUser.stringValue,
-      DB_DATASTORE: pDbDatastoreReadonly.stringValue,
-      DB_DATASTORE_USER: pDbCkanUser.stringValue,
+      DB_DATASTORE_HOST: datastoreHost.hostname,
+      DB_DATASTORE: "datastore",
+      DB_DATASTORE_USER: "ckan_default",
+      DB_DATAPUSHER_JOBS_HOST: datastoreHost.hostname,
+      DB_DATAPUSHER_JOBS: "datapusher_jobs",
+      DB_DATAPUSHER_JOBS_USER: "datapusher_jobs",
     }
 
     const datapusherLogGroup = new logs.LogGroup(this, 'datapusherLogGroup', {
@@ -583,7 +564,7 @@ export class CkanStack extends Stack {
 
     const datapusherContainerSecrets: { [key: string]: ecs.Secret; } = {
       DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
-      DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(sCkanSecrets, 'datapusher_jobs_pass'),
+      DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(props.datastoreJobsSecret)
     };
 
 
