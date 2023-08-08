@@ -5,7 +5,7 @@ import {GetSecretValueCommand, SecretsManagerClient} from "@aws-sdk/client-secre
 import { knex } from 'knex';
 
 
-const { SECRET_NAME,
+const { JOBS_SECRET,
   ADMIN_SECRET } = process.env
 export const handler: Handler = async (event, context) => {
 
@@ -18,16 +18,16 @@ export const handler: Handler = async (event, context) => {
   const credentials = response.SecretString
 
   const datastoreCommand = new GetSecretValueCommand({
-    SecretId: SECRET_NAME
+    SecretId: JOBS_SECRET
   })
 
   const datastoreResponse = await secretsManagerClient.send(datastoreCommand);
-  const datastoreCredentials = datastoreResponse.SecretString
+  const datastoreJobsCredentials = datastoreResponse.SecretString
 
-  if (credentials !== undefined && datastoreCredentials !== undefined) {
+  if (credentials !== undefined && datastoreJobsCredentials !== undefined) {
 
     const credObj = JSON.parse(credentials)
-    const datastoreCredentialObj = JSON.parse(datastoreCredentials)
+    const datastoreJobsCredentialObj = JSON.parse(datastoreJobsCredentials)
 
 
     const client = knex({
@@ -47,22 +47,29 @@ export const handler: Handler = async (event, context) => {
         "CREATE ROLE :datastoreUser: LOGIN PASSWORD ':password:'; " +
         "GRANT :datastoreUser: TO :admin:; ",
         {
-          datastoreUser: datastoreCredentialObj.username,
-          password: datastoreCredentialObj.password,
+          datastoreUser: datastoreJobsCredentialObj.username,
+          password: datastoreJobsCredentialObj.password,
           admin: credObj.username
         });
 
-      await client.raw("CREATE DATABASE :datastoreDb: OWNER :datastoreUser: ENCODING 'utf-8'; ",
+      await client.raw("CREATE DATABASE :datastoreJobsDb: OWNER :datastoreUser: ENCODING 'utf-8'; ",
         {
-          datastoreDb: "datastore_jobs",
-          datastoreUser: datastoreCredentialObj.username
+          datastoreJobsDb: "datastore_jobs",
+          datastoreUser: datastoreJobsCredentialObj.username
       });
 
-      await client.raw("GRANT ALL PRIVILEGES ON DATABASE :datastoreDb: TO :datastoreUser:; ",
+      await client.raw("GRANT ALL PRIVILEGES ON DATABASE :datastoreJobsDb: TO :datastoreUser:; ",
         {
-          datastoreDb: "datastore_jobs",
-          datastoreUser: datastoreCredentialObj.username
+          datastoreJobsDb: "datastore_jobs",
+          datastoreUser: datastoreJobsCredentialObj.username
         })
+
+      await client.raw("CREATE DATABASE :datastoreDb: OWNER :datastoreAdmin: ENCODING 'utf-8'; ",
+        {
+          datastoreDb: 'datastore',
+          datastoreAdmin: credObj.username
+        })
+
     } catch (err) {
       if (err && typeof err === 'object') {
         console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))

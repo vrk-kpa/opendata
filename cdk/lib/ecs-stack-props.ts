@@ -15,8 +15,6 @@ export interface EcsStackProps extends CommonStackProps {
   migrationFileSystemProps?: MigrationFsProps;
   databaseSecurityGroup: ec2.ISecurityGroup,
   databaseInstance: rds.IDatabaseInstance,
-  datastoreSecurityGroup?: ec2.ISecurityGroup,
-  datastoreInstance?: rds.IDatabaseInstance,
   cachePort: number,
   cacheSecurityGroup: ec2.ISecurityGroup,
   cacheCluster: ec.CfnCacheCluster;
