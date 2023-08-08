@@ -546,6 +546,8 @@ export class CkanStack extends Stack {
       memoryLimitMiB: props.datapusherTaskDef.taskMem,
     });
 
+    props.datastoreJobsSecret.grantRead(datapusherTaskDef.taskRole)
+    
     const datapusherContainerEnv: { [key: string]: string; } = {
       ADD_SUMMARY_STATS_RESOURCE: 'False',
       PORT: '8800',
@@ -584,6 +586,7 @@ export class CkanStack extends Stack {
       //  startPeriod: Duration.seconds(15),
       //},
     });
+
 
     datapusherContainer.addPortMappings({
       containerPort: 8800,
