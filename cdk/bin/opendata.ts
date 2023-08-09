@@ -210,6 +210,7 @@ const ckanStackInfratest = new CkanStack(app, 'CkanStack-infratest', {
   databaseSecurityGroup: databaseStackInfratest.databaseSecurityGroup,
   databaseInstance: databaseStackInfratest.databaseInstance,
   datastoreInstance: databaseStackInfratest.datastoreInstance,
+  datastoreCredentials: databaseStackInfratest.datastoreCredentials,
   datastoreSecurityGroup: databaseStackInfratest.datastoreSecurityGroup,
   datastoreJobsSecret: lambdaStackInfratest.datastoreJobsSecret,
   cachePort: cacheStackInfratest.cachePort,
@@ -250,7 +251,7 @@ const ckanStackInfratest = new CkanStack(app, 'CkanStack-infratest', {
   ckanCronEnabled: false,
   archiverSendNotificationEmailsToMaintainers: false,
   archiverExemptDomainsFromBrokenLinkNotifications: [],
-  cloudstorageEnabled: true,
+  cloudstorageEnabled: true
 });
 
 const drupalStackInfratest = new DrupalStack(app, 'DrupalStack-infratest', {
@@ -511,6 +512,7 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
   databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
   databaseInstance: databaseStackBeta.databaseInstance,
   datastoreInstance: databaseStackBeta.datastoreInstance,
+  datastoreCredentials: databaseStackBeta.datastoreCredentials,
   datastoreSecurityGroup: databaseStackBeta.datastoreSecurityGroup,
   datastoreJobsSecret: lambdaStackBeta.datastoreJobsSecret,
   cachePort: cacheStackBeta.cachePort,
@@ -829,6 +831,7 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
   databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
   databaseInstance: databaseStackProd.databaseInstance,
   datastoreInstance: databaseStackProd.datastoreInstance,
+  datastoreCredentials: databaseStackProd.datastoreCredentials,
   datastoreSecurityGroup: databaseStackProd.datastoreSecurityGroup,
   datastoreJobsSecret: lambdaStackProd.datastoreJobsSecret,
   cachePort: cacheStackProd.cachePort,

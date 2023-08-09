@@ -12,6 +12,7 @@ import { Construct } from 'constructs';
 
 import { CkanStackProps } from './ckan-stack-props';
 import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
+import {ISecret} from "aws-cdk-lib/aws-secretsmanager";
 
 export class CkanStack extends Stack {
   readonly ckanFsDataAccessPoint: efs.IAccessPoint;
@@ -229,6 +230,7 @@ export class CkanStack extends Stack {
       DB_CKAN_USER: "ckan_default",
       DB_DATASTORE_HOST: datastoreHost.hostname,
       DB_DATASTORE: "datastore",
+      DB_DATASTORE_USER: props.datastoreCredentials.username,
       DB_DATASTORE_READONLY_USER: "datastore",
       DB_DRUPAL_HOST: host.hostname,
       DB_DRUPAL: pDbDrupal.stringValue,
@@ -262,6 +264,7 @@ export class CkanStack extends Stack {
       CKAN_APP_INSTANCE_UUID: ecs.Secret.fromSecretsManager(sCkanSecrets, 'ckan_app_instance_uuid'),
       // .env
       DB_CKAN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
+      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager( <ISecret>props.datastoreCredentials.secret),
       DB_DATASTORE_READONLY_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_datastore_readonly_pass'),
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
@@ -556,7 +559,7 @@ export class CkanStack extends Stack {
       MAX_CONTENT_LENGTH: '5242880000',
       DB_DATASTORE_HOST: datastoreHost.hostname,
       DB_DATASTORE: "datastore",
-      DB_DATASTORE_USER: "ckan_default",
+      DB_DATASTORE_USER: props.datastoreCredentials.username,
       DB_DATAPUSHER_JOBS_HOST: datastoreHost.hostname,
       DB_DATAPUSHER_JOBS: "datapusher_jobs",
       DB_DATAPUSHER_JOBS_USER: "datapusher_jobs",
@@ -567,7 +570,7 @@ export class CkanStack extends Stack {
     });
 
     const datapusherContainerSecrets: { [key: string]: ecs.Secret; } = {
-      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
+      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreCredentials.secret),
       DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(props.datastoreJobsSecret)
     };
 
