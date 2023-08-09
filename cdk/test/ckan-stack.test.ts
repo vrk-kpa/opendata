@@ -113,6 +113,7 @@ test('verify ckan stack resources', () => {
     databaseSecurityGroup: databaseStack.databaseSecurityGroup,
     databaseInstance: databaseStack.databaseInstance,
     datastoreInstance: databaseStack.datastoreInstance,
+    datastoreCredentials: databaseStack.datastoreCredentials,
     datastoreSecurityGroup: databaseStack.datastoreSecurityGroup,
     datastoreJobsSecret: lambdaStack.datastoreJobsSecret,
     cachePort: cacheStack.cachePort,
