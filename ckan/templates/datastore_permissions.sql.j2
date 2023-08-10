@@ -29,11 +29,11 @@ over SSH:
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 
-GRANT CREATE ON SCHEMA public TO "{{ environ('DB_CKAN_USER') }}";
-GRANT USAGE ON SCHEMA public TO "{{ environ('DB_CKAN_USER') }}";
+GRANT CREATE ON SCHEMA public TO "{{ environ('DB_DATASTORE_ADMIN') }}";
+GRANT USAGE ON SCHEMA public TO "{{ environ('DB_DATASTORE_ADMIN') }}";
 
-GRANT CREATE ON SCHEMA public TO "{{ environ('DB_CKAN_USER') }}";
-GRANT USAGE ON SCHEMA public TO "{{ environ('DB_CKAN_USER') }}";
+GRANT CREATE ON SCHEMA public TO "{{ environ('DB_DATASTORE_USER') }}";
+GRANT USAGE ON SCHEMA public TO "{{ environ('DB_DATASTORE_USER') }}";
 
 -- take connect permissions from main db
 REVOKE CONNECT ON DATABASE "{{ environ('DB_CKAN') }}" FROM "{{ environ('DB_DATASTORE_READONLY_USER') }}";
@@ -46,7 +46,7 @@ GRANT USAGE ON SCHEMA public TO "{{ environ('DB_DATASTORE_READONLY_USER') }}";
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO "{{ environ('DB_DATASTORE_READONLY_USER') }}";
 
 -- grant access to new tables and views by default
-ALTER DEFAULT PRIVILEGES FOR USER "{{ environ('DB_CKAN_USER') }}" IN SCHEMA public
+ALTER DEFAULT PRIVILEGES FOR USER "{{ environ('DB_DATASTORE_USER') }}" IN SCHEMA public
    GRANT SELECT ON TABLES TO "{{ environ('DB_DATASTORE_READONLY_USER') }}";
 
 -- a view for listing valid table (resource id) and view names
@@ -69,7 +69,7 @@ CREATE OR REPLACE VIEW "_table_metadata" AS
         AND dependee.relnamespace = (
             SELECT oid FROM pg_namespace WHERE nspname='public')
     ORDER BY dependee.oid DESC;
-ALTER VIEW "_table_metadata" OWNER TO "{{ environ('DB_CKAN_USER') }}";
+ALTER VIEW "_table_metadata" OWNER TO "{{ environ('DB_DATASTORE_USER') }}";
 GRANT SELECT ON "_table_metadata" TO "{{ environ('DB_DATASTORE_READONLY_USER') }}";
 
 -- _full_text fields are now updated by a trigger when set to NULL
@@ -86,7 +86,7 @@ AS $body$
         RETURN NEW;
     END;
 $body$ LANGUAGE plpgsql;
-ALTER FUNCTION populate_full_text_trigger() OWNER TO "{{ environ('DB_CKAN_USER') }}";
+ALTER FUNCTION populate_full_text_trigger() OWNER TO "{{ environ('DB_DATASTORE_USER') }}";
 
 -- migrate existing tables that don't have full text trigger applied
 DO $body$
