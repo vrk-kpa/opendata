@@ -224,6 +224,6 @@ if __name__ == '__main__':
         check_db_connection()
         check_solr_connection()
         init_db()
-        if os.environ.get('CKAN_DATASTORE_WRITE_URL'):
-            init_datastore()
+        #if os.environ.get('CKAN_DATASTORE_WRITE_URL'):
+            #init_datastore()
         create_sysadmin()
