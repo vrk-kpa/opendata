@@ -78,6 +78,20 @@ export const handler: Handler = async (event, context) => {
     }
 
     try {
+      await client.raw("GRANT :datastoreUser: TO :admin:; ", {
+        datastoreUser: datastoreJobsCredentialObj.username,
+        admin: credObj.username
+      })
+      console.log("Granted 'datastore_jobs' role to admin")
+    }
+    catch (err) {
+      if (err && typeof err === 'object') {
+        console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
+      }
+    }
+
+
+    try {
       await client.raw("CREATE DATABASE :datastoreJobsDb: OWNER :datastoreUser: ENCODING 'utf-8'; ",
         {
           datastoreJobsDb: "datastore_jobs",
@@ -109,6 +123,19 @@ export const handler: Handler = async (event, context) => {
         password: datastoreUserCredentialObj.password
       })
       console.log("Created datastore write user account")
+    }
+    catch (err) {
+      if (err && typeof err === 'object') {
+        console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
+      }
+    }
+
+    try {
+      await client.raw("GRANT :datastoreUser: TO :admin:; ", {
+        datastoreUser: datastoreUserCredentialObj.username,
+        admin: credObj.username
+      })
+      console.log("Granted 'datastore' role to admin")
     }
     catch (err) {
       if (err && typeof err === 'object') {
@@ -149,6 +176,19 @@ export const handler: Handler = async (event, context) => {
       })
       console.log("Created datastore read user account")
     } catch (err) {
+      if (err && typeof err === 'object') {
+        console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
+      }
+    }
+
+    try {
+      await client.raw("GRANT :datastoreReadUser: TO :admin:; ", {
+        datastoreReadUser: datastoreReadCredentialObj.username,
+        admin: credObj.username
+      })
+      console.log("Granted 'datastore_read' role to admin")
+    }
+    catch (err) {
       if (err && typeof err === 'object') {
         console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
       }

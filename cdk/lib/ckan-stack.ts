@@ -13,6 +13,7 @@ import { Construct } from 'constructs';
 import { CkanStackProps } from './ckan-stack-props';
 import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 import {ISecret} from "aws-cdk-lib/aws-secretsmanager";
+import {Key} from "aws-cdk-lib/aws-kms";
 
 export class CkanStack extends Stack {
   readonly ckanFsDataAccessPoint: efs.IAccessPoint;
@@ -82,6 +83,12 @@ export class CkanStack extends Stack {
     const pFusekiAdminUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pFusekiAdminUser', {
       parameterName: `/${props.environment}/opendata/common/fuseki_admin_user`,
     });
+
+    const encryptionKey = Key.fromLookup(this, 'EncryptionKey', {
+      aliasName: `alias/secrets-key-${props.environment}`
+    })
+
+
 
     // get secrets
     const sCkanSecrets = sm.Secret.fromSecretNameV2(this, 'sCkanSecrets', `/${props.environment}/opendata/ckan`);
@@ -275,10 +282,14 @@ export class CkanStack extends Stack {
       FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
     };
 
+    encryptionKey.grantDecrypt(ckanTaskDef.taskRole)
+
     if (props.datastoreCredentials.secret !== undefined && props.datastoreReadCredentials.secret !== undefined) {
       props.datastoreCredentials.secret.grantRead(ckanTaskDef.taskRole);
       props.datastoreReadCredentials.secret.grantRead(ckanTaskDef.taskRole);
     }
+
+
 
     if (props.analyticsEnabled) {
       // get params
@@ -581,6 +592,8 @@ export class CkanStack extends Stack {
       DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreCredentials.secret),
       DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreJobsCredentials.secret)
     };
+
+    encryptionKey.grantDecrypt(ckanTaskDef.taskRole)
 
     if (props.datastoreJobsCredentials.secret !== undefined && props.datastoreCredentials.secret) {
       props.datastoreJobsCredentials.secret.grantRead(datapusherTaskDef.taskRole)
