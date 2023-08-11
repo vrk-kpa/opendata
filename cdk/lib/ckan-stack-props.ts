@@ -16,5 +16,7 @@ export interface CkanStackProps extends EcsStackProps {
   datastoreSecurityGroup: ec2.ISecurityGroup,
   datastoreInstance: rds.IDatabaseInstance,
   datastoreCredentials: rds.Credentials,
-  datastoreJobsSecret: ISecret
+  datastoreJobsCredentials: rds.Credentials,
+  datastoreUserCredentials: rds.Credentials,
+  datastoreReadCredentials: rds.Credentials
 }

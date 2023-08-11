@@ -230,8 +230,9 @@ export class CkanStack extends Stack {
       DB_CKAN_USER: "ckan_default",
       DB_DATASTORE_HOST: datastoreHost.hostname,
       DB_DATASTORE: "datastore",
-      DB_DATASTORE_USER: props.datastoreCredentials.username,
-      DB_DATASTORE_READONLY_USER: "datastore",
+      DB_DATASTORE_ADMIN: props.datastoreCredentials.username,
+      DB_DATASTORE_USER: props.datastoreUserCredentials.username,
+      DB_DATASTORE_READONLY_USER: props.datastoreReadCredentials.username,
       DB_DRUPAL_HOST: host.hostname,
       DB_DRUPAL: pDbDrupal.stringValue,
       DB_DRUPAL_USER: pDbDrupalUser.stringValue,
@@ -264,8 +265,8 @@ export class CkanStack extends Stack {
       CKAN_APP_INSTANCE_UUID: ecs.Secret.fromSecretsManager(sCkanSecrets, 'ckan_app_instance_uuid'),
       // .env
       DB_CKAN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
-      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager( <ISecret>props.datastoreCredentials.secret),
-      DB_DATASTORE_READONLY_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_datastore_readonly_pass'),
+      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreCredentials.secret),
+      DB_DATASTORE_READONLY_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreReadCredentials.secret),
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
@@ -273,6 +274,11 @@ export class CkanStack extends Stack {
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
       FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
     };
+
+    if (props.datastoreCredentials.secret !== undefined && props.datastoreReadCredentials.secret !== undefined) {
+      props.datastoreCredentials.secret.grantRead(ckanTaskDef.taskRole);
+      props.datastoreReadCredentials.secret.grantRead(ckanTaskDef.taskRole);
+    }
 
     if (props.analyticsEnabled) {
       // get params
@@ -373,6 +379,9 @@ export class CkanStack extends Stack {
         initProcessEnabled: true,
       }),
     });
+
+
+
 
     ckanContainer.addPortMappings({
       containerPort: 5000,
@@ -551,7 +560,6 @@ export class CkanStack extends Stack {
       memoryLimitMiB: props.datapusherTaskDef.taskMem,
     });
 
-    props.datastoreJobsSecret.grantRead(datapusherTaskDef.taskRole)
 
     const datapusherContainerEnv: { [key: string]: string; } = {
       ADD_SUMMARY_STATS_RESOURCE: 'False',
@@ -562,7 +570,7 @@ export class CkanStack extends Stack {
       DB_DATASTORE_USER: props.datastoreCredentials.username,
       DB_DATAPUSHER_JOBS_HOST: datastoreHost.hostname,
       DB_DATAPUSHER_JOBS: "datapusher_jobs",
-      DB_DATAPUSHER_JOBS_USER: "datapusher_jobs",
+      DB_DATAPUSHER_JOBS_USER: props.datastoreJobsCredentials.username,
     }
 
     const datapusherLogGroup = new logs.LogGroup(this, 'datapusherLogGroup', {
@@ -571,9 +579,13 @@ export class CkanStack extends Stack {
 
     const datapusherContainerSecrets: { [key: string]: ecs.Secret; } = {
       DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreCredentials.secret),
-      DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(props.datastoreJobsSecret)
+      DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreJobsCredentials.secret)
     };
 
+    if (props.datastoreJobsCredentials.secret !== undefined && props.datastoreCredentials.secret) {
+      props.datastoreJobsCredentials.secret.grantRead(datapusherTaskDef.taskRole)
+      props.datastoreCredentials.secret.grantRead(datapusherTaskDef.taskRole)
+    }
 
     const datapusherContainer = datapusherTaskDef.addContainer('datapusher', {
       image: ecs.ContainerImage.fromEcrRepository(datapusherRepo, props.envProps.DATAPUSHER_IMAGE_TAG),
