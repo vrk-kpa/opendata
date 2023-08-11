@@ -5,7 +5,10 @@ import {GetSecretValueCommand, SecretsManagerClient} from "@aws-sdk/client-secre
 import { knex } from 'knex';
 
 
-const { JOBS_SECRET,
+const {
+  JOBS_SECRET,
+  USER_SECRET,
+  READ_SECRET,
   ADMIN_SECRET } = process.env
 export const handler: Handler = async (event, context) => {
 
@@ -24,11 +27,29 @@ export const handler: Handler = async (event, context) => {
   const datastoreResponse = await secretsManagerClient.send(datastoreCommand);
   const datastoreJobsCredentials = datastoreResponse.SecretString
 
-  if (credentials !== undefined && datastoreJobsCredentials !== undefined) {
+  const datastoreUserCommand = new GetSecretValueCommand({
+    SecretId: USER_SECRET
+  });
+
+  const datastoreUserResponse = await secretsManagerClient.send(datastoreUserCommand);
+  const datastoreUserCredentials = datastoreUserResponse.SecretString;
+
+  const datastoreReadCommand = new GetSecretValueCommand({
+    SecretId: READ_SECRET
+  });
+
+  const datastoreReadResponse = await secretsManagerClient.send(datastoreReadCommand);
+  const datastoreReadCredentials = datastoreReadResponse.SecretString;
+
+
+
+  if (credentials !== undefined && datastoreJobsCredentials !== undefined &&
+    datastoreUserCredentials !== undefined && datastoreReadCredentials !== undefined) {
 
     const credObj = JSON.parse(credentials)
     const datastoreJobsCredentialObj = JSON.parse(datastoreJobsCredentials)
-
+    const datastoreUserCredentialObj = JSON.parse(datastoreUserCredentials)
+    const datastoreReadCredentialObj = JSON.parse(datastoreReadCredentials)
 
     const client = knex({
       client: 'pg',
@@ -44,13 +65,12 @@ export const handler: Handler = async (event, context) => {
     try {
       await client.raw(
         "SET LOCAL log_statement = 'none';" +
-        "CREATE ROLE :datastoreUser: LOGIN PASSWORD ':password:'; " +
-        "GRANT :datastoreUser: TO :admin:; ",
+        "CREATE ROLE :datastoreUser: LOGIN PASSWORD ':password:'; ",
         {
           datastoreUser: datastoreJobsCredentialObj.username,
-          password: datastoreJobsCredentialObj.password,
-          admin: credObj.username
+          password: datastoreJobsCredentialObj.password
         });
+      console.log("Created datastore jobs user account")
     } catch (err) {
       if (err && typeof err === 'object') {
         console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
@@ -63,6 +83,7 @@ export const handler: Handler = async (event, context) => {
           datastoreJobsDb: "datastore_jobs",
           datastoreUser: datastoreJobsCredentialObj.username
         });
+      console.log("Created database datastore_jobs")
     } catch (err) {
       if (err && typeof err === 'object') {
         console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
@@ -75,6 +96,7 @@ export const handler: Handler = async (event, context) => {
           datastoreJobsDb: "datastore_jobs",
           datastoreUser: datastoreJobsCredentialObj.username
         })
+      console.log("Granted all priviledges to database 'datastore_jobs' to datastore jobs user")
     } catch (err) {
       if (err && typeof err === 'object') {
         console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
@@ -82,16 +104,56 @@ export const handler: Handler = async (event, context) => {
     }
 
     try {
-      await client.raw("CREATE DATABASE :datastoreDb: OWNER :datastoreAdmin: ENCODING 'utf-8'; ",
+      await client.raw( "CREATE ROLE :datastoreUser: LOGIN PASSWORD ':password:'; ", {
+        datastoreUser: datastoreUserCredentialObj.username,
+        password: datastoreUserCredentialObj.password
+      })
+      console.log("Created datastore write user account")
+    }
+    catch (err) {
+      if (err && typeof err === 'object') {
+        console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
+      }
+    }
+
+    try {
+      await client.raw("CREATE DATABASE :datastoreDb: OWNER :datastoreUser: ENCODING 'utf-8'; ",
         {
           datastoreDb: 'datastore',
-          datastoreAdmin: credObj.username
+          datastoreUser: datastoreUserCredentialObj.username
         })
+      console.log("Created database datastore")
     } catch (err) {
       if (err && typeof err === 'object') {
         console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
       }
     }
+
+    try {
+      await client.raw("GRANT ALL PRIVILEGES ON DATABASE :datastoreDb: TO :datastoreUser:; ",
+        {
+          datastoreDb: "datastore",
+          datastoreUser: datastoreUserCredentialObj.username
+        })
+      console.log("Granted all priviledges to database 'datastore' to datastore write user")
+    } catch (err) {
+      if (err && typeof err === 'object') {
+        console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
+      }
+    }
+
+    try {
+      await client.raw("CREATE ROLE :datastoreReadUser: LOGIN PASSWORD ':password:'; ", {
+        datastoreReadUser: datastoreReadCredentialObj.username,
+        password: datastoreUserCredentialObj.password
+      })
+      console.log("Created datastore read user account")
+    } catch (err) {
+      if (err && typeof err === 'object') {
+        console.log(err.toString().replace(/PASSWORD\s(.*;)/, "***"))
+      }
+    }
+
   }
 
   return {
