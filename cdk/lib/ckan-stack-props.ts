@@ -15,5 +15,8 @@ export interface CkanStackProps extends EcsStackProps {
   cloudstorageEnabled: boolean;
   datastoreSecurityGroup: ec2.ISecurityGroup,
   datastoreInstance: rds.IDatabaseInstance,
-  datastoreJobsSecret: ISecret
+  datastoreCredentials: rds.Credentials,
+  datastoreJobsCredentials: rds.Credentials,
+  datastoreUserCredentials: rds.Credentials,
+  datastoreReadCredentials: rds.Credentials
 }

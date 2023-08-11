@@ -9,6 +9,8 @@ import {ISecret} from "aws-cdk-lib/aws-secretsmanager";
 
 export class CreateDatabasesAndUsers extends Construct {
   readonly datastoreJobsSecret: ISecret;
+  readonly datastoreUserSecret: ISecret;
+  readonly datastoreReadSecret: ISecret;
   constructor(scope: Construct, id: string, props: CreateDatabasesAndUsersProps) {
     super(scope, id);
 
@@ -18,6 +20,16 @@ export class CreateDatabasesAndUsers extends Construct {
 
     this.datastoreJobsSecret = new aws_rds.DatabaseSecret(this, "datastoreJobsSecret", {
       username: "datastore_jobs",
+      encryptionKey: encryptionKey
+    })
+
+    this.datastoreUserSecret = new aws_rds.DatabaseSecret(this, 'datastoreUserSecret', {
+      username: "datastore",
+      encryptionKey: encryptionKey
+    })
+
+    this.datastoreReadSecret = new aws_rds.DatabaseSecret(this, 'datastoreReadSecret', {
+      username: "datastore_read",
       encryptionKey: encryptionKey
     })
 
@@ -32,6 +44,8 @@ export class CreateDatabasesAndUsers extends Construct {
       const createDatabasesAndUsersFunction = new NodejsFunction(this, 'function', {
         environment: {
           JOBS_SECRET: this.datastoreJobsSecret.secretName,
+          USER_SECRET: this.datastoreUserSecret.secretName,
+          READ_SECRET: this.datastoreReadSecret.secretName,
           ADMIN_SECRET: datastoreAdminSecret.secretName
         },
         vpc: props.vpc,
@@ -50,6 +64,8 @@ export class CreateDatabasesAndUsers extends Construct {
       })
 
       this.datastoreJobsSecret.grantRead(createDatabasesAndUsersFunction)
+      this.datastoreUserSecret.grantRead(createDatabasesAndUsersFunction)
+      this.datastoreReadSecret.grantRead(createDatabasesAndUsersFunction)
       datastoreAdminSecret.grantRead(createDatabasesAndUsersFunction)
       
       encryptionKey.grantDecrypt(createDatabasesAndUsersFunction)

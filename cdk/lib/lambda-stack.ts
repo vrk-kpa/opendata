@@ -4,11 +4,13 @@ import {Construct} from "constructs";
 import {LambdaStackProps} from "./lambda-stack-props";
 import { SendToZulip } from "./send-to-zulip";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
-import {ISecret} from "aws-cdk-lib/aws-secretsmanager";
+import {Credentials} from "aws-cdk-lib/aws-rds";
 
 export class LambdaStack extends Stack {
   readonly sendToZulipLambda: NodejsFunction;
-  readonly datastoreJobsSecret: ISecret;
+  readonly datastoreJobsCredentials: Credentials;
+  readonly datastoreReadCredentials: Credentials;
+  readonly datastoreUserCredentials: Credentials;
   constructor(scope: Construct, id: string, props: LambdaStackProps ) {
     super(scope, id, props);
     const createDatabases = new CreateDatabasesAndUsers(this, 'create-databases-and-users', {
@@ -24,7 +26,9 @@ export class LambdaStack extends Stack {
       secondaryDomainName: props.secondaryDomainName,
     })
 
-    this.datastoreJobsSecret = createDatabases.datastoreJobsSecret;
+    this.datastoreJobsCredentials = Credentials.fromSecret(createDatabases.datastoreJobsSecret);
+    this.datastoreReadCredentials = Credentials.fromSecret(createDatabases.datastoreReadSecret);
+    this.datastoreUserCredentials = Credentials.fromSecret(createDatabases.datastoreUserSecret);
 
     const sendToZulip = new SendToZulip(this, 'send-to-zulip', {
       zulipApiUser: 'avoindata-bot@turina.dvv.fi',

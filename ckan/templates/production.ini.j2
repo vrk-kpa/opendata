@@ -42,7 +42,7 @@ ckan.site_url_internally = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_N
 ckan.root_path = /data/{{LANG}}
 {% endraw %}
 
-ckan.datastore.write_url = postgresql://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_DATASTORE_HOST') }}/{{ environ('DB_DATASTORE') }}
+ckan.datastore.write_url = postgresql://{{ environ('DB_DATASTORE_USER') }}:{{ environ('DB_DATASTORE_PASS') }}@{{ environ('DB_DATASTORE_HOST') }}/{{ environ('DB_DATASTORE') }}
 ckan.datastore.read_url = postgresql://{{ environ('DB_DATASTORE_READONLY_USER') }}:{{ environ('DB_DATASTORE_READONLY_PASS') }}@{{ environ('DB_DATASTORE_HOST') }}/{{ environ('DB_DATASTORE') }}
 ckan.datastore.sqlsearch.enabled = True
 
