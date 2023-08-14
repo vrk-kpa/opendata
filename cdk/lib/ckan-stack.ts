@@ -554,6 +554,23 @@ export class CkanStack extends Stack {
 
       ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
 
+      ckanCronTaskDef.addToExecutionRolePolicy(new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: [
+          "kms:Decrypt"
+        ],
+        resources: [
+          encryptionKey.keyArn
+        ]
+      }));
+
+      if (ckanCronTaskDef.executionRole !== undefined) {
+        if (props.datastoreCredentials.secret !== undefined && props.datastoreReadCredentials.secret !== undefined) {
+          props.datastoreCredentials.secret.grantRead(ckanCronTaskDef.executionRole);
+          props.datastoreReadCredentials.secret.grantRead(ckanCronTaskDef.executionRole);
+        }
+      }
+
       this.ckanCronService = new ecs.FargateService(this, 'ckanCronService', {
         platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
         cluster: props.cluster,
