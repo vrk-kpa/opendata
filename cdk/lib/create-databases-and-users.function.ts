@@ -63,13 +63,11 @@ export const handler: Handler = async (event, context) => {
     })
 
     try {
+      let datastoreUser = datastoreJobsCredentialObj.username;
+      let password = datastoreJobsCredentialObj.password;
       await client.raw(
         "SET LOCAL log_statement = 'none';" +
-        "CREATE ROLE :datastoreUser: LOGIN PASSWORD ':password:'; ",
-        {
-          datastoreUser: datastoreJobsCredentialObj.username,
-          password: datastoreJobsCredentialObj.password
-        });
+        `CREATE ROLE ${datastoreUser} LOGIN PASSWORD '${password}'; `);
       console.log("Created datastore jobs user account")
     } catch (err) {
       if (err && typeof err === 'object') {
@@ -118,10 +116,9 @@ export const handler: Handler = async (event, context) => {
     }
 
     try {
-      await client.raw( "CREATE ROLE :datastoreUser: LOGIN PASSWORD ':password:'; ", {
-        datastoreUser: datastoreUserCredentialObj.username,
-        password: datastoreUserCredentialObj.password
-      })
+      let datastoreUser = datastoreUserCredentialObj.username;
+      let password = datastoreUserCredentialObj.password;
+      await client.raw( `CREATE ROLE ${datastoreUser} LOGIN PASSWORD '${password}'; `)
       console.log("Created datastore write user account")
     }
     catch (err) {
@@ -170,10 +167,9 @@ export const handler: Handler = async (event, context) => {
     }
 
     try {
-      await client.raw("CREATE ROLE :datastoreReadUser: LOGIN PASSWORD ':password:'; ", {
-        datastoreReadUser: datastoreReadCredentialObj.username,
-        password: datastoreUserCredentialObj.password
-      })
+      let datastoreReadUser = datastoreReadCredentialObj.username;
+      let password = datastoreReadCredentialObj.password;
+      await client.raw(`CREATE ROLE ${datastoreReadUser} LOGIN PASSWORD '${password}'; `)
       console.log("Created datastore read user account")
     } catch (err) {
       if (err && typeof err === 'object') {
