@@ -14,6 +14,7 @@ import { CkanStackProps } from './ckan-stack-props';
 import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 import {ISecret} from "aws-cdk-lib/aws-secretsmanager";
 import {Key} from "aws-cdk-lib/aws-kms";
+import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
 
 export class CkanStack extends Stack {
   readonly ckanFsDataAccessPoint: efs.IAccessPoint;
@@ -282,13 +283,23 @@ export class CkanStack extends Stack {
       FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
     };
 
-    encryptionKey.grantDecrypt(ckanTaskDef.taskRole)
+    ckanTaskDef.addToExecutionRolePolicy(new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [
+        "kms:Decrypt"
+      ],
+      resources: [
+        encryptionKey.keyArn
+      ]
+    }));
 
-    if (props.datastoreCredentials.secret !== undefined && props.datastoreReadCredentials.secret !== undefined) {
-      props.datastoreCredentials.secret.grantRead(ckanTaskDef.taskRole);
-      props.datastoreReadCredentials.secret.grantRead(ckanTaskDef.taskRole);
+
+    if (ckanTaskDef.executionRole !== undefined) {
+      if (props.datastoreCredentials.secret !== undefined && props.datastoreReadCredentials.secret !== undefined) {
+        props.datastoreCredentials.secret.grantRead(ckanTaskDef.executionRole);
+        props.datastoreReadCredentials.secret.grantRead(ckanTaskDef.executionRole);
+      }
     }
-
 
 
     if (props.analyticsEnabled) {
@@ -593,7 +604,15 @@ export class CkanStack extends Stack {
       DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreJobsCredentials.secret)
     };
 
-    encryptionKey.grantDecrypt(ckanTaskDef.taskRole)
+    datapusherTaskDef.addToExecutionRolePolicy(new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [
+        "kms:Decrypt"
+      ],
+      resources: [
+        encryptionKey.keyArn
+      ]
+    }));
 
     if (props.datastoreJobsCredentials.secret !== undefined && props.datastoreCredentials.secret) {
       props.datastoreJobsCredentials.secret.grantRead(datapusherTaskDef.taskRole)
