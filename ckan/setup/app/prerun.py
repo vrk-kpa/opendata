@@ -170,7 +170,7 @@ def init_datastore():
         if 'OperationalError' in str(e.output):
             print(e.output.decode('utf-8'))
             print('[prerun] Database not ready, waiting a bit before exit...')
-            time.sleep(5)
+            time.sleep(300)
             sys.exit(1)
         else:
             print(e.output.decode('utf-8'))
