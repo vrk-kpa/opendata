@@ -606,7 +606,7 @@ export class CkanStack extends Stack {
       MAX_CONTENT_LENGTH: '5242880000',
       DB_DATASTORE_HOST: datastoreHost.hostname,
       DB_DATASTORE: "datastore",
-      DB_DATASTORE_USER: props.datastoreCredentials.username,
+      DB_DATASTORE_USER: props.datastoreUserCredentials.username,
       DB_DATAPUSHER_JOBS_HOST: datastoreHost.hostname,
       DB_DATAPUSHER_JOBS: "datapusher_jobs",
       DB_DATAPUSHER_JOBS_USER: props.datastoreJobsCredentials.username,
