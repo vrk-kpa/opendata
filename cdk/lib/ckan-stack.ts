@@ -614,9 +614,10 @@ export class CkanStack extends Stack {
       ]
     }));
 
-    if (props.datastoreJobsCredentials.secret !== undefined && props.datastoreCredentials.secret) {
-      props.datastoreJobsCredentials.secret.grantRead(datapusherTaskDef.taskRole)
-      props.datastoreCredentials.secret.grantRead(datapusherTaskDef.taskRole)
+    if (props.datastoreJobsCredentials.secret !== undefined && props.datastoreCredentials.secret !== undefined
+      && datapusherTaskDef.executionRole !== undefined) {
+      props.datastoreJobsCredentials.secret.grantRead(datapusherTaskDef.executionRole)
+      props.datastoreCredentials.secret.grantRead(datapusherTaskDef.executionRole)
     }
 
     const datapusherContainer = datapusherTaskDef.addContainer('datapusher', {
