@@ -273,6 +273,7 @@ export class CkanStack extends Stack {
       CKAN_APP_INSTANCE_UUID: ecs.Secret.fromSecretsManager(sCkanSecrets, 'ckan_app_instance_uuid'),
       // .env
       DB_CKAN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
+      DB_DATASTORE_ADMIN_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreCredentials.secret, 'password'),
       DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreUserCredentials.secret, 'password'),
       DB_DATASTORE_READONLY_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreReadCredentials.secret, 'password'),
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
@@ -295,9 +296,11 @@ export class CkanStack extends Stack {
 
 
     if (ckanTaskDef.executionRole !== undefined) {
-      if (props.datastoreUserCredentials.secret !== undefined && props.datastoreReadCredentials.secret !== undefined) {
+      if (props.datastoreUserCredentials.secret !== undefined && props.datastoreReadCredentials.secret !== undefined &&
+        props.datastoreCredentials.secret !== undefined ) {
         props.datastoreUserCredentials.secret.grantRead(ckanTaskDef.executionRole);
         props.datastoreReadCredentials.secret.grantRead(ckanTaskDef.executionRole);
+        props.datastoreCredentials.secret.grantRead(ckanTaskDef.executionRole)
       }
     }
 
