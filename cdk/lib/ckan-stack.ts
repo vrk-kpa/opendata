@@ -273,7 +273,7 @@ export class CkanStack extends Stack {
       CKAN_APP_INSTANCE_UUID: ecs.Secret.fromSecretsManager(sCkanSecrets, 'ckan_app_instance_uuid'),
       // .env
       DB_CKAN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
-      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreCredentials.secret, 'password'),
+      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreUserCredentials.secret, 'password'),
       DB_DATASTORE_READONLY_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreReadCredentials.secret, 'password'),
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
@@ -295,8 +295,8 @@ export class CkanStack extends Stack {
 
 
     if (ckanTaskDef.executionRole !== undefined) {
-      if (props.datastoreCredentials.secret !== undefined && props.datastoreReadCredentials.secret !== undefined) {
-        props.datastoreCredentials.secret.grantRead(ckanTaskDef.executionRole);
+      if (props.datastoreUserCredentials.secret !== undefined && props.datastoreReadCredentials.secret !== undefined) {
+        props.datastoreUserCredentials.secret.grantRead(ckanTaskDef.executionRole);
         props.datastoreReadCredentials.secret.grantRead(ckanTaskDef.executionRole);
       }
     }
@@ -617,7 +617,7 @@ export class CkanStack extends Stack {
     });
 
     const datapusherContainerSecrets: { [key: string]: ecs.Secret; } = {
-      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreCredentials.secret, 'password'),
+      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreUserCredentials.secret, 'password'),
       DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreJobsCredentials.secret, 'password')
     };
 
@@ -631,10 +631,10 @@ export class CkanStack extends Stack {
       ]
     }));
 
-    if (props.datastoreJobsCredentials.secret !== undefined && props.datastoreCredentials.secret !== undefined
+    if (props.datastoreJobsCredentials.secret !== undefined && props.datastoreUserCredentials.secret !== undefined
       && datapusherTaskDef.executionRole !== undefined) {
       props.datastoreJobsCredentials.secret.grantRead(datapusherTaskDef.executionRole)
-      props.datastoreCredentials.secret.grantRead(datapusherTaskDef.executionRole)
+      props.datastoreUserCredentials.secret.grantRead(datapusherTaskDef.executionRole)
     }
 
     const datapusherContainer = datapusherTaskDef.addContainer('datapusher', {
