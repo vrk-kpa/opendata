@@ -36,7 +36,8 @@ GRANT CREATE ON SCHEMA public TO "{{ environ('DB_DATASTORE_USER') }}";
 GRANT USAGE ON SCHEMA public TO "{{ environ('DB_DATASTORE_USER') }}";
 
 -- take connect permissions from main db
-REVOKE CONNECT ON DATABASE "{{ environ('DB_CKAN') }}" FROM "{{ environ('DB_DATASTORE_READONLY_USER') }}";
+-- Removed as maindb does not exist on datastore instance
+-- REVOKE CONNECT ON DATABASE "{{ environ('DB_CKAN') }}" FROM "{{ environ('DB_DATASTORE_READONLY_USER') }}";
 
 -- grant select permissions for read-only user
 GRANT CONNECT ON DATABASE "{{ environ('DB_DATASTORE') }}" TO "{{ environ('DB_DATASTORE_READONLY_USER') }}";
