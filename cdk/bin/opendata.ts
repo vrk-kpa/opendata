@@ -862,6 +862,7 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     taskMem: 8192,
     taskMinCapacity: 1,
     taskMaxCapacity: 4,
+    taskStorage: 100
   },
   solrTaskDef: {
     taskCpu: 1024,

@@ -52,4 +52,8 @@ export interface EcsStackPropsTaskDef {
    * Maximum number of tasks at a time.
    */
   taskMaxCapacity: number;
+  /**
+   * The amount (in GiB) of ephemeral storage to be allocated to the task.
+   */
+  taskStorage?: number;
 }
