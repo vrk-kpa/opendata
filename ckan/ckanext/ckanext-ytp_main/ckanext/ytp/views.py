@@ -227,13 +227,21 @@ def general_search():
     item_count = datasets.get('count', 0) + organizations.get('count', 0)
 
     # get the amount of results for each type of resource and resources in separate queries
-    only_datasets = get_action('package_search')(context, {'q': q, 'fq': 'dataset_type:dataset'})
+    only_datasets = get_action('package_search')(context, {
+        'q': q, 'fq': 'dataset_type:dataset', 'defType': 'edismax'
+    })
     dataset_count = only_datasets.get('count', 0)
-    only_apisets = get_action('package_search')(context, {'q': q, 'fq': 'dataset_type:apiset'})
+    only_apisets = get_action('package_search')(context, {
+        'q': q, 'fq': 'dataset_type:apiset', 'defType': 'edismax'
+    })
     apiset_count = only_apisets.get('count', 0)
-    only_showcases = get_action('package_search')(context, {'q': q, 'fq': 'dataset_type:showcase'})
+    only_showcases = get_action('package_search')(context, {
+        'q': q, 'fq': 'dataset_type:showcase', 'defType': 'edismax'
+    })
     showcase_count = only_showcases.get('count', 0)
-    only_organizations = get_action('organization_search')(context, {'q': q})
+    only_organizations = get_action('organization_search')(context, {
+        'q': q, 'defType': 'edismax'
+    })
     organization_count = only_organizations.get('count', 0)
 
     # combine the results
