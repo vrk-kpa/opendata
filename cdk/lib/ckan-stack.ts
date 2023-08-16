@@ -12,6 +12,9 @@ import { Construct } from 'constructs';
 
 import { CkanStackProps } from './ckan-stack-props';
 import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
+import {ISecret} from "aws-cdk-lib/aws-secretsmanager";
+import {Key} from "aws-cdk-lib/aws-kms";
+import {Effect, PolicyStatement} from "aws-cdk-lib/aws-iam";
 
 export class CkanStack extends Stack {
   readonly ckanFsDataAccessPoint: efs.IAccessPoint;
@@ -34,32 +37,16 @@ export class CkanStack extends Stack {
     const pCkanHarvesterInstructionUrl = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanHarvesterInstructionUrl', {
       parameterName: `/${props.environment}/opendata/ckan/harvester_instruction_url`,
     });
-    const pDbHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbHost', {
-      parameterName: `/${props.environment}/opendata/common/db_host`,
-    });
-    const pDbCkan = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbCkan', {
-      parameterName: `/${props.environment}/opendata/common/db_ckan`,
-    });
-    const pDbCkanUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbCkanUser', {
-      parameterName: `/${props.environment}/opendata/common/db_ckan_user`,
-    });
-    const pDbDatastoreReadonly = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDatastoreReadonly', {
-      parameterName: `/${props.environment}/opendata/common/db_datastore_readonly`,
-    });
-    const pDbDatastoreReadonlyUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDatastoreReadonlyUser', {
-      parameterName: `/${props.environment}/opendata/common/db_datastore_readonly_user`,
-    });
+
+    const host = props.databaseInstance.instanceEndpoint;
+
+    const datastoreHost = props.datastoreInstance.instanceEndpoint;
+
     const pDbDrupal = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDrupal', {
       parameterName: `/${props.environment}/opendata/common/db_drupal`,
     });
     const pDbDrupalUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDrupalUser', {
       parameterName: `/${props.environment}/opendata/common/db_drupal_user`,
-    });
-    const pDbDatapusherJobs = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDatapusherJobs', {
-      parameterName: `/${props.environment}/opendata/common/db_datapusher_jobs`,
-    });
-    const pDbDatapusherJobsUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDatapusherJobsUser', {
-      parameterName: `/${props.environment}/opendata/common/db_datapusher_jobs_user`,
     });
     const pSiteProtocol = ssm.StringParameter.fromStringParameterAttributes(this, 'pSiteProtocol', {
       parameterName: `/${props.environment}/opendata/common/site_protocol`,
@@ -97,6 +84,12 @@ export class CkanStack extends Stack {
     const pFusekiAdminUser = ssm.StringParameter.fromStringParameterAttributes(this, 'pFusekiAdminUser', {
       parameterName: `/${props.environment}/opendata/common/fuseki_admin_user`,
     });
+
+    const encryptionKey = Key.fromLookup(this, 'EncryptionKey', {
+      aliasName: `alias/secrets-key-${props.environment}`
+    })
+
+
 
     // get secrets
     const sCkanSecrets = sm.Secret.fromSecretNameV2(this, 'sCkanSecrets', `/${props.environment}/opendata/ckan`);
@@ -240,17 +233,17 @@ export class CkanStack extends Stack {
       SOLR_PORT: '8983',
       SOLR_PATH: 'solr/ckan',
       NGINX_HOST: `nginx.${props.namespace.namespaceName}`,
-      DB_HOST: pDbHost.stringValue,
-      DB_CKAN: pDbCkan.stringValue,
-      DB_CKAN_USER: pDbCkanUser.stringValue,
-      DB_DATASTORE_READONLY: pDbDatastoreReadonly.stringValue,
-      DB_DATASTORE_READONLY_USER: pDbDatastoreReadonlyUser.stringValue,
-      DB_DATASTORE: pDbDatastoreReadonly.stringValue,
-      DB_DATASTORE_USER: pDbCkanUser.stringValue,
+      DB_CKAN_HOST: host.hostname,
+      DB_CKAN: "ckan_default",
+      DB_CKAN_USER: "ckan_default",
+      DB_DATASTORE_HOST: datastoreHost.hostname,
+      DB_DATASTORE: "datastore",
+      DB_DATASTORE_ADMIN: props.datastoreCredentials.username,
+      DB_DATASTORE_USER: props.datastoreUserCredentials.username,
+      DB_DATASTORE_READONLY_USER: props.datastoreReadCredentials.username,
+      DB_DRUPAL_HOST: host.hostname,
       DB_DRUPAL: pDbDrupal.stringValue,
       DB_DRUPAL_USER: pDbDrupalUser.stringValue,
-      DB_DATAPUSHER_JOBS: pDbDatapusherJobs.stringValue,
-      DB_DATAPUSHER_JOBS_USER: pDbDatapusherJobsUser.stringValue,
       DOMAIN_NAME: props.domainName,
       SECONDARY_DOMAIN_NAME: props.secondaryDomainName,
       SITE_PROTOCOL: pSiteProtocol.stringValue,
@@ -280,7 +273,9 @@ export class CkanStack extends Stack {
       CKAN_APP_INSTANCE_UUID: ecs.Secret.fromSecretsManager(sCkanSecrets, 'ckan_app_instance_uuid'),
       // .env
       DB_CKAN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
-      DB_DATASTORE_READONLY_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_datastore_readonly_pass'),
+      DB_DATASTORE_ADMIN_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreCredentials.secret, 'password'),
+      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreUserCredentials.secret, 'password'),
+      DB_DATASTORE_READONLY_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreReadCredentials.secret, 'password'),
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
@@ -288,6 +283,27 @@ export class CkanStack extends Stack {
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
       FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
     };
+
+    ckanTaskDef.addToExecutionRolePolicy(new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [
+        "kms:Decrypt"
+      ],
+      resources: [
+        encryptionKey.keyArn
+      ]
+    }));
+
+
+    if (ckanTaskDef.executionRole !== undefined) {
+      if (props.datastoreUserCredentials.secret !== undefined && props.datastoreReadCredentials.secret !== undefined &&
+        props.datastoreCredentials.secret !== undefined ) {
+        props.datastoreUserCredentials.secret.grantRead(ckanTaskDef.executionRole);
+        props.datastoreReadCredentials.secret.grantRead(ckanTaskDef.executionRole);
+        props.datastoreCredentials.secret.grantRead(ckanTaskDef.executionRole)
+      }
+    }
+
 
     if (props.analyticsEnabled) {
       // get params
@@ -389,6 +405,9 @@ export class CkanStack extends Stack {
       }),
     });
 
+
+
+
     ckanContainer.addPortMappings({
       containerPort: 5000,
       protocol: ecs.Protocol.TCP,
@@ -433,6 +452,7 @@ export class CkanStack extends Stack {
     this.ckanService.connections.allowFrom(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan)');
     this.ckanService.connections.allowTo(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan)');
     this.ckanService.connections.allowTo(props.databaseSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (ckan)');
+    this.ckanService.connections.allowTo(props.datastoreSecurityGroup, ec2.Port.tcp(5432), 'RDS datastore connection (ckan)')
     this.ckanService.connections.allowTo(props.cacheSecurityGroup, ec2.Port.tcp(props.cachePort), 'Redis connection (ckan)');
 
     const ckanServiceAsg = this.ckanService.autoScaleTaskCount({
@@ -537,6 +557,23 @@ export class CkanStack extends Stack {
 
       ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
 
+      ckanCronTaskDef.addToExecutionRolePolicy(new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: [
+          "kms:Decrypt"
+        ],
+        resources: [
+          encryptionKey.keyArn
+        ]
+      }));
+
+      if (ckanCronTaskDef.executionRole !== undefined) {
+        if (props.datastoreCredentials.secret !== undefined && props.datastoreReadCredentials.secret !== undefined) {
+          props.datastoreCredentials.secret.grantRead(ckanCronTaskDef.executionRole);
+          props.datastoreReadCredentials.secret.grantRead(ckanCronTaskDef.executionRole);
+        }
+      }
+
       this.ckanCronService = new ecs.FargateService(this, 'ckanCronService', {
         platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
         cluster: props.cluster,
@@ -550,6 +587,7 @@ export class CkanStack extends Stack {
       this.ckanCronService.connections.allowFrom(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
       this.ckanCronService.connections.allowTo(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
       this.ckanCronService.connections.allowTo(props.databaseSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (ckan cron)');
+      this.ckanService.connections.allowTo(props.datastoreSecurityGroup, ec2.Port.tcp(5432), 'RDS datastore connection (ckan cron)')
       this.ckanCronService.connections.allowTo(props.cacheSecurityGroup, ec2.Port.tcp(props.cachePort), 'Redis connection (ckan cron)');
 
       const ckanCronServiceAsg = this.ckanCronService.autoScaleTaskCount({
@@ -562,17 +600,20 @@ export class CkanStack extends Stack {
     const datapusherTaskDef = new ecs.FargateTaskDefinition(this, 'datapusherTaskDef', {
       cpu: props.datapusherTaskDef.taskCpu,
       memoryLimitMiB: props.datapusherTaskDef.taskMem,
+      ephemeralStorageGiB: props.datapusherTaskDef.taskStorage
     });
+
 
     const datapusherContainerEnv: { [key: string]: string; } = {
       ADD_SUMMARY_STATS_RESOURCE: 'False',
       PORT: '8800',
       MAX_CONTENT_LENGTH: '5242880000',
-      DB_HOST: pDbHost.stringValue,
-      DB_DATAPUSHER_JOBS: pDbDatapusherJobs.stringValue,
-      DB_DATAPUSHER_JOBS_USER: pDbDatapusherJobsUser.stringValue,
-      DB_DATASTORE: pDbDatastoreReadonly.stringValue,
-      DB_DATASTORE_USER: pDbCkanUser.stringValue,
+      DB_DATASTORE_HOST: datastoreHost.hostname,
+      DB_DATASTORE: "datastore",
+      DB_DATASTORE_USER: props.datastoreUserCredentials.username,
+      DB_DATAPUSHER_JOBS_HOST: datastoreHost.hostname,
+      DB_DATAPUSHER_JOBS: "datapusher_jobs",
+      DB_DATAPUSHER_JOBS_USER: props.datastoreJobsCredentials.username,
     }
 
     const datapusherLogGroup = new logs.LogGroup(this, 'datapusherLogGroup', {
@@ -580,10 +621,25 @@ export class CkanStack extends Stack {
     });
 
     const datapusherContainerSecrets: { [key: string]: ecs.Secret; } = {
-      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
-      DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(sCkanSecrets, 'datapusher_jobs_pass'),
+      DB_DATASTORE_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreUserCredentials.secret, 'password'),
+      DB_DATAPUSHER_JOBS_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreJobsCredentials.secret, 'password')
     };
 
+    datapusherTaskDef.addToExecutionRolePolicy(new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: [
+        "kms:Decrypt"
+      ],
+      resources: [
+        encryptionKey.keyArn
+      ]
+    }));
+
+    if (props.datastoreJobsCredentials.secret !== undefined && props.datastoreUserCredentials.secret !== undefined
+      && datapusherTaskDef.executionRole !== undefined) {
+      props.datastoreJobsCredentials.secret.grantRead(datapusherTaskDef.executionRole)
+      props.datastoreUserCredentials.secret.grantRead(datapusherTaskDef.executionRole)
+    }
 
     const datapusherContainer = datapusherTaskDef.addContainer('datapusher', {
       image: ecs.ContainerImage.fromEcrRepository(datapusherRepo, props.envProps.DATAPUSHER_IMAGE_TAG),
@@ -601,6 +657,7 @@ export class CkanStack extends Stack {
       //  startPeriod: Duration.seconds(15),
       //},
     });
+
 
     datapusherContainer.addPortMappings({
       containerPort: 8800,
@@ -630,7 +687,7 @@ export class CkanStack extends Stack {
 
     datapusherService.connections.allowFrom(this.ckanService, ec2.Port.tcp(8800), 'ckan - datapusher connection');
     datapusherService.connections.allowTo(this.ckanService, ec2.Port.tcp(5000), 'datapusher - ckan connection');
-    datapusherService.connections.allowTo(props.databaseSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (datapusher)');
+    datapusherService.connections.allowTo(props.datastoreSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (datapusher)');
 
     const datapusherServiceAsg = datapusherService.autoScaleTaskCount({
       minCapacity: props.datapusherTaskDef.taskMinCapacity,

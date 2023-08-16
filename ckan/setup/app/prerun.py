@@ -115,7 +115,7 @@ def init_db():
             print(e.output.decode('utf-8'))
             print('[prerun] Database not ready, waiting a bit before exit...')
             import time
-            time.sleep(5)
+            time.sleep(400)
             sys.exit(1)
         else:
             print(e.output.decode('utf-8'))
@@ -224,6 +224,4 @@ if __name__ == '__main__':
         check_db_connection()
         check_solr_connection()
         init_db()
-        if os.environ.get('CKAN_DATASTORE_WRITE_URL'):
-            init_datastore()
         create_sysadmin()

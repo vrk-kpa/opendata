@@ -114,6 +114,23 @@ const databaseStackInfratest = new DatabaseStack(app, 'DatabaseStack-infratest',
   backupPlan: backupStackInfratest.backupPlan
 });
 
+const lambdaStackInfratest = new LambdaStack(app, 'LambdaStack-infra', {
+  envProps: envProps,
+  env: {
+    account: infratestProps.account,
+    region: infratestProps.region,
+  },
+  environment: infratestProps.environment,
+  fqdn: infratestProps.fqdn,
+  secondaryFqdn: infratestProps.secondaryFqdn,
+  domainName: infratestProps.domainName,
+  secondaryDomainName: infratestProps.secondaryDomainName,
+  datastoreInstance: databaseStackInfratest.datastoreInstance,
+  datastoreCredentials: databaseStackInfratest.datastoreCredentials,
+  vpc: clusterStackInfratest.vpc
+})
+
+
 const certificateStackInfratest = new CertificateStack(app, 'CertificateStack-infra', {
   envProps: envProps,
   env: {
@@ -192,6 +209,12 @@ const ckanStackInfratest = new CkanStack(app, 'CkanStack-infratest', {
   },
   databaseSecurityGroup: databaseStackInfratest.databaseSecurityGroup,
   databaseInstance: databaseStackInfratest.databaseInstance,
+  datastoreInstance: databaseStackInfratest.datastoreInstance,
+  datastoreCredentials: databaseStackInfratest.datastoreCredentials,
+  datastoreJobsCredentials: lambdaStackInfratest.datastoreJobsCredentials,
+  datastoreReadCredentials: lambdaStackInfratest.datastoreReadCredentials,
+  datastoreUserCredentials: lambdaStackInfratest.datastoreUserCredentials,
+  datastoreSecurityGroup: databaseStackInfratest.datastoreSecurityGroup,
   cachePort: cacheStackInfratest.cachePort,
   cacheSecurityGroup: cacheStackInfratest.cacheSecurityGroup,
   cacheCluster: cacheStackInfratest.cacheCluster,
@@ -230,7 +253,7 @@ const ckanStackInfratest = new CkanStack(app, 'CkanStack-infratest', {
   ckanCronEnabled: false,
   archiverSendNotificationEmailsToMaintainers: false,
   archiverExemptDomainsFromBrokenLinkNotifications: [],
-  cloudstorageEnabled: true,
+  cloudstorageEnabled: true
 });
 
 const drupalStackInfratest = new DrupalStack(app, 'DrupalStack-infratest', {
@@ -490,6 +513,12 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
   },
   databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
   databaseInstance: databaseStackBeta.databaseInstance,
+  datastoreInstance: databaseStackBeta.datastoreInstance,
+  datastoreCredentials: databaseStackBeta.datastoreCredentials,
+  datastoreJobsCredentials: lambdaStackBeta.datastoreJobsCredentials,
+  datastoreReadCredentials: lambdaStackBeta.datastoreReadCredentials,
+  datastoreUserCredentials: lambdaStackBeta.datastoreUserCredentials,
+  datastoreSecurityGroup: databaseStackBeta.datastoreSecurityGroup,
   cachePort: cacheStackBeta.cachePort,
   cacheSecurityGroup: cacheStackBeta.cacheSecurityGroup,
   cacheCluster: cacheStackBeta.cacheCluster,
@@ -805,6 +834,12 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
   },
   databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
   databaseInstance: databaseStackProd.databaseInstance,
+  datastoreInstance: databaseStackProd.datastoreInstance,
+  datastoreCredentials: databaseStackProd.datastoreCredentials,
+  datastoreJobsCredentials: lambdaStackProd.datastoreJobsCredentials,
+  datastoreReadCredentials: lambdaStackProd.datastoreReadCredentials,
+  datastoreUserCredentials: lambdaStackProd.datastoreUserCredentials,
+  datastoreSecurityGroup: databaseStackProd.datastoreSecurityGroup,
   cachePort: cacheStackProd.cachePort,
   cacheSecurityGroup: cacheStackProd.cacheSecurityGroup,
   cacheCluster: cacheStackProd.cacheCluster,
@@ -827,6 +862,7 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     taskMem: 8192,
     taskMinCapacity: 1,
     taskMaxCapacity: 4,
+    taskStorage: 100
   },
   solrTaskDef: {
     taskCpu: 1024,
