@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-14 20:44+0000\n"
+"POT-Creation-Date: 2023-08-08 07:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -241,11 +241,11 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:364
+#: ckanext/ytp/helpers.py:105 ckanext/ytp/plugin.py:364
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:583
+#: ckanext/ytp/helpers.py:593
 msgid "-"
 msgstr ""
 
@@ -2625,7 +2625,7 @@ msgstr ""
 msgid "Social"
 msgstr ""
 
-#: ckanext/ytp/templates/package/snippets/dataset_state_banner.html:36
+#: ckanext/ytp/templates/package/snippets/dataset_state_banner.html:38
 msgid "Dataset maintainer informs:"
 msgstr ""
 
@@ -3489,6 +3489,10 @@ msgstr ""
 
 #: ckanext/ytp/templates/source/read_base.html:22
 msgid "There is no description for this harvest source"
+msgstr ""
+
+#: ckanext/ytp/templates/sparql/query.html:15
+msgid "SPARQL search"
 msgstr ""
 
 #: ckanext/ytp/templates/sparql/query.html:18
