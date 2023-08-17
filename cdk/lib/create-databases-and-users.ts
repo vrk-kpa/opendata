@@ -19,7 +19,7 @@ export class CreateDatabasesAndUsers extends Construct {
     })
 
     this.datastoreJobsSecret = new aws_rds.DatabaseSecret(this, "datastoreJobsSecret", {
-      username: "datastore_jobs",
+      username: "datapusher_jobs",
       encryptionKey: encryptionKey
     })
 

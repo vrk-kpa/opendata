@@ -92,7 +92,7 @@ export const handler: Handler = async (event, context) => {
     try {
       await client.raw("CREATE DATABASE :datastoreJobsDb: OWNER :datastoreUser: ENCODING 'utf-8'; ",
         {
-          datastoreJobsDb: "datastore_jobs",
+          datastoreJobsDb: "datapusher_jobs",
           datastoreUser: datastoreJobsCredentialObj.username
         });
       console.log("Created database datastore_jobs")
@@ -105,7 +105,7 @@ export const handler: Handler = async (event, context) => {
     try {
       await client.raw("GRANT ALL PRIVILEGES ON DATABASE :datastoreJobsDb: TO :datastoreUser:; ",
         {
-          datastoreJobsDb: "datastore_jobs",
+          datastoreJobsDb: "datapusher_jobs",
           datastoreUser: datastoreJobsCredentialObj.username
         })
       console.log("Granted all priviledges to database 'datastore_jobs' to datastore jobs user")
