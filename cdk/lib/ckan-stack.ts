@@ -587,7 +587,7 @@ export class CkanStack extends Stack {
       this.ckanCronService.connections.allowFrom(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
       this.ckanCronService.connections.allowTo(props.fileSystems['ckan'], ec2.Port.tcp(2049), 'EFS connection (ckan cron)');
       this.ckanCronService.connections.allowTo(props.databaseSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (ckan cron)');
-      this.ckanService.connections.allowTo(props.datastoreSecurityGroup, ec2.Port.tcp(5432), 'RDS datastore connection (ckan cron)')
+      this.ckanCronService.connections.allowTo(props.datastoreSecurityGroup, ec2.Port.tcp(5432), 'RDS datastore connection (ckan cron)')
       this.ckanCronService.connections.allowTo(props.cacheSecurityGroup, ec2.Port.tcp(props.cachePort), 'Redis connection (ckan cron)');
 
       const ckanCronServiceAsg = this.ckanCronService.autoScaleTaskCount({
