@@ -60,7 +60,8 @@ test('verify ckan stack resources', () => {
     secondaryDomainName: 'mock.localhost',
     vpc: clusterStack.vpc,
     backups: true,
-    backupPlan: backupStack.backupPlan
+    backupPlan: backupStack.backupPlan,
+    multiAz: true
   });
 
   const lambdaStack = new LambdaStack(app, 'LambdaStack-test', {

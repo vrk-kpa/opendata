@@ -69,6 +69,7 @@ export class DatabaseStack extends Stack {
       vpc: props.vpc,
       port: 5432,
       instanceType: new InstanceType(pDatastoreInstanceType.stringValue),
+      multiAz: props.multiAz,
       allocatedStorage: 50,
       maxAllocatedStorage: 500,
       vpcSubnets: {
