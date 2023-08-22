@@ -27,7 +27,7 @@ class SearchForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    // AV-2034: Set form action explicitly to drop query parameters reliably
+    // AV-2034: Set form action explicitly to drop query parameters reliably.
     $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
     $form['#action'] = sprintf('/%s/api/header', $language);
 
@@ -64,7 +64,7 @@ class SearchForm extends FormBase {
     }
     $path = sprintf('/data/%s/search', $language);
     $url = url::fromUserInput($path, [
-      'query' => ['q' => $form_state->getValue('search')]
+      'query' => ['q' => $form_state->getValue('search')],
     ]);
     $form_state->setRedirectUrl($url);
   }
