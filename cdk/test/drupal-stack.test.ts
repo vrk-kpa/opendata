@@ -57,7 +57,8 @@ test('verify drupal stack resources', () => {
     secondaryDomainName: 'mock.localhost',
     vpc: clusterStack.vpc,
     backups: true,
-    backupPlan: backupStack.backupPlan
+    backupPlan: backupStack.backupPlan,
+    multiAz: true
   });
   const cacheStack = new CacheStack(app, 'CacheStack-test', {
     envProps: mockEnvProps,
