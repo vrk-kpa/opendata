@@ -8,7 +8,7 @@ ARG SECRET_NPMRC
 ##################
 ### Build CKAN ###
 ##################
-FROM public.ecr.aws/docker/library/python:3.9.16-alpine3.17 as base_ckan_build
+FROM public.ecr.aws/docker/library/python:3.11.5-alpine3.17 as base_ckan_build
 
 # Set CKAN version to build
 ENV GIT_URL=https://github.com/ckan/ckan.git
@@ -67,7 +67,7 @@ RUN pip wheel --wheel-dir=/wheels uWSGI==2.0.20 gevent==21.12.0 greenlet==1.1.3
 ###########################
 ### Default-Extensions ####
 ###########################
-FROM public.ecr.aws/docker/library/python:3.9.16-alpine3.17 as base_extbuild
+FROM public.ecr.aws/docker/library/python:3.11.5-alpine3.17 as base_extbuild
 
 # Set src dirs
 ENV SRC_DIR=/srv/app/src
@@ -99,7 +99,7 @@ RUN pip wheel --wheel-dir=/wheels git+${ENVVARS_GIT_URL}@${ENVVARS_GIT_BRANCH}#e
 ############
 ### MAIN ###
 ############
-FROM public.ecr.aws/docker/library/python:3.9.16-alpine3.17 as base_ckan
+FROM public.ecr.aws/docker/library/python:3.11.5-alpine3.17 as base_ckan
 
 ENV APP_DIR=/srv/app
 ENV SRC_DIR=/srv/app/src
@@ -300,7 +300,7 @@ ENTRYPOINT ["/srv/app/scripts/entrypoint_ckan.sh"]
 #
 # Modules build (for production)
 #
-FROM public.ecr.aws/docker/library/python:3.9.16-alpine3.17 as modules_build
+FROM public.ecr.aws/docker/library/python:3.11.5-alpine3.17 as modules_build
 
 # install required packages
 RUN apk add curl nodejs libjpeg
