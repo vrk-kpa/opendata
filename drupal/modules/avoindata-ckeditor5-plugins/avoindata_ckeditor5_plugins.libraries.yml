@@ -1,0 +1,35 @@
+# This adds the plugin JavaScript to the page.
+
+externalLink:
+  js:
+    js/externalLink.js: { preprocess: false, minified: true }
+  dependencies:
+    - core/ckeditor5
+
+avoindataExpander:
+  css:
+    theme:
+      css/editor.css: {}
+  js:
+    js/avoindataExpander.js: { preprocess: false, minified: false }
+  dependencies:
+    - core/ckeditor5
+
+avoindataNote:
+  css:
+    theme:
+      - css/editor.css: {}
+      - css/style.css: {}
+  js:
+    js/avoindataNote.js: { preprocess: false, minified: false }
+  dependencies:
+    - core/ckeditor5
+
+# Loaded in the text format configuration form to provide styling for the icon
+# used in toolbar config.
+toolbarIcons:
+  css:
+    theme:
+      css/toolbar-icons.css: {}
+
+

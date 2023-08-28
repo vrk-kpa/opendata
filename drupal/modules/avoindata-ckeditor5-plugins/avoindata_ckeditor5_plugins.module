@@ -1,0 +1,29 @@
+<?php
+
+use Drupal\Core\Url;
+/**
+ * @file
+ * Contains avoindata_ckeditor5_plugins.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function avoindata_ckeditor5_plugins_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.avoindata_ckeditor5_plugins':
+      $output = '';
+      $output .= '<h3>' . t('Avoindata CKEDitor 5 plugins') . '</h3>';
+      $output .= '<p>' . t('The module adds a number of buttons for custom elements to CKEditor 5 to be added to the toolbar in the content editor).') . '</p>';
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Settings') . '</dt>';
+      $output .= '<dd>' . t('In the <a href=":text-formats">text formats</a> that use ckeditor 5, move the icon into the active toolbar.', [':text-formats' => Url::fromRoute('filter.admin_overview')->toString()]) . '</dd>';
+      $output .= '</dl>';
+      return $output;
+
+    default:
+  }
+}
