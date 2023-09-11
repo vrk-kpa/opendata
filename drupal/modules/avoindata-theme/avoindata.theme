@@ -80,6 +80,10 @@ function avoindata_preprocess_block(&$variables) {
       'class' => '',
       'menucounter' => true,
       ],
+    'faqmenufi' => [
+      'href' => '/fi/ukk',
+      'class' => '',
+      'menucounter' => true,
   ];
 
   if (array_key_exists($variables['elements']['#id'], $linkMap)) {
