@@ -855,7 +855,7 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     taskMaxCapacity: 4,
   },
   ckanCronTaskDef: {
-    taskCpu: 1024,
+    taskCpu: 2048,
     taskMem: 4096,
     taskMinCapacity: 0,
     taskMaxCapacity: 1,
