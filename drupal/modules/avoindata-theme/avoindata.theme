@@ -84,6 +84,7 @@ function avoindata_preprocess_block(&$variables) {
       'href' => '/fi/ukk',
       'class' => '',
       'menucounter' => true,
+      ]
   ];
 
   if (array_key_exists($variables['elements']['#id'], $linkMap)) {
