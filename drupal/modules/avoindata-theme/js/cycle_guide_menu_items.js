@@ -44,7 +44,7 @@ class MenuUtils {
             'block-operatingmodelmenuen',
             'block-operatingmodelmenufi',
             'block-operatingmodelmenusv',
-            'block-faqmenu-fi'
+            'block-faqmenufi'
         ]
 
         this.menu = this.getMenu();
