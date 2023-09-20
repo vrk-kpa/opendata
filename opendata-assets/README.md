@@ -1,4 +1,4 @@
-# ytp-assets-common
+# ytp-assets-common 
 
 Common assets (theme, fonts, JavaScript modules) for YTP Drupal and CKAN instances.
 
