@@ -96,10 +96,11 @@ jobs:
           cache-dependency-path: opendata-assets/package-lock.json
 
       - name: cache node_modules
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         uses: actions/cache@v3
         id: cache-node_modules
         with:
-          path: node_modules
+          path: ./opendata-assets/node_modules
           key: ${{ runner.os }}-build-node_v16-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-node_v16-
