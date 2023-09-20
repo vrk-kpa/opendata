@@ -106,7 +106,7 @@ jobs:
             ${{ runner.os }}-build-node_v16-
 
       - name: install npm packages
-        if: ${{ matrix.build-frontend == true && matrix.build-container == true }} && steps.cache-node_modules.outputs.cache-hit != 'true'}}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true && steps.cache-node_modules.outputs.cache-hit != 'true'}}
         run: npm ci
         working-directory: ./opendata-assets
 
