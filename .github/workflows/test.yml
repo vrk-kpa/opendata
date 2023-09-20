@@ -120,7 +120,7 @@ jobs:
         id: cache-node_modules
         with:
           path: ./opendata-assets/node_modules
-          key: ${{ runner.os }}-build-node_v16-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-node_v16-${{ hashFiles('opendata-assets/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-node_v16-
 
