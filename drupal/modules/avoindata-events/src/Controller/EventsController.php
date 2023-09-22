@@ -2,10 +2,10 @@
 
 namespace Drupal\avoindata_events\Controller;
 
-use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\Core\Controller\ControllerBase;
-use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Adds event contoller.
