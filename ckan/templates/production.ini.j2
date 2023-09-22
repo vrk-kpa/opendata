@@ -218,6 +218,7 @@ ckanext.matomo.domain = https://{{ environ('MATOMO_DOMAIN') }}/
 ckanext.matomo.script_domain = {{ environ('MATOMO_SCRIPT_DOMAIN') }}
 ckanext.matomo.token_auth = {{ environ('MATOMO_TOKEN') }}
 ckanext.matomo.ignored_user_agents = docker-healthcheck
+ckanext.matomo.track_api = true
 {% endif %}
 
 ckanext.spatial.harvest.continue_on_validation_errors = true
