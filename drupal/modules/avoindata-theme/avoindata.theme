@@ -83,7 +83,7 @@ function avoindata_preprocess_block(&$variables) {
     'faqmenufi' => [
       'href' => '/fi/ukk',
       'class' => '',
-      'menucounter' => true,
+      'menucounter' => false,
       ]
   ];
 
