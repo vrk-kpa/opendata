@@ -111,7 +111,8 @@ const databaseStackInfratest = new DatabaseStack(app, 'DatabaseStack-infratest',
   secondaryDomainName: infratestProps.secondaryDomainName,
   vpc: clusterStackInfratest.vpc,
   backups: false,
-  backupPlan: backupStackInfratest.backupPlan
+  backupPlan: backupStackInfratest.backupPlan,
+  multiAz: false
 });
 
 const lambdaStackInfratest = new LambdaStack(app, 'LambdaStack-infra', {
@@ -396,7 +397,8 @@ const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
   secondaryDomainName: betaProps.secondaryDomainName,
   vpc: clusterStackBeta.vpc,
   backups: true,
-  backupPlan: backupStackBeta.backupPlan
+  backupPlan: backupStackBeta.backupPlan,
+  multiAz: false
 });
 
 const lambdaStackBeta = new LambdaStack(app, 'LambdaStack-beta', {
@@ -717,7 +719,8 @@ const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
   secondaryDomainName: prodProps.secondaryDomainName,
   vpc: clusterStackProd.vpc,
   backups: true,
-  backupPlan: backupStackProd.backupPlan
+  backupPlan: backupStackProd.backupPlan,
+  multiAz: true
 });
 
 const lambdaStackProd = new LambdaStack(app, 'LambdaStack-prod', {
@@ -852,7 +855,7 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     taskMaxCapacity: 4,
   },
   ckanCronTaskDef: {
-    taskCpu: 1024,
+    taskCpu: 2048,
     taskMem: 4096,
     taskMinCapacity: 0,
     taskMaxCapacity: 1,
