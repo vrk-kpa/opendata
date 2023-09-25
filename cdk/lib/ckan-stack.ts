@@ -152,7 +152,6 @@ export class CkanStack extends Stack {
       'dcat_json_interface',
       'csw_harvester',
       'drupal8',
-      //'datarequests',
       'ytp_organizations',
       'ytp_request',
       'hierarchy_display',

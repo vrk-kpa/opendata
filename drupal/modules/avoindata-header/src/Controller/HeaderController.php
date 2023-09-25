@@ -3,6 +3,7 @@
 namespace Drupal\avoindata_header\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,7 +30,8 @@ class HeaderController extends ControllerBase {
     $queryParams = \Drupal::request()->query->all();
 
     if (isset($queryParams['activePath'])) {
-      \Drupal::service('path.current')->setPath($queryParams['activePath']);
+      $url = Url::fromUserInput($queryParams['activePath']);
+      \Drupal::service('path.current')->setPath($url->toString());
     }
 
     $response = new Response(\Drupal::service('renderer')->renderRoot($build));
