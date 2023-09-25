@@ -3,9 +3,9 @@
 namespace Drupal\avoindata_header\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Url;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Drupal\Core\Url;
 
 /**
  * Adds support for header controller.
