@@ -34,7 +34,7 @@ info:
     \ dialog by clicking _Authorize_ button.\n\n# Datamodels\n\nAll datamodels used\
     \ are defined in separate service. LINKS HERE!\n"
   version: "1.0.0"
-  title: "Avoindata.fi API"
+  title: "Suomi.fi Open Data API"
   contact:
     email: "you@your-company.com"
   license:

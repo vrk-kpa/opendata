@@ -5,7 +5,7 @@ id: front
 label: Frontpage
 tags:
   title: '[site:name]'
-  description: 'Avoindata.fi is Finland’s open data catalogue. The portal gathers all open data published in Finland in a single service. Come, use it, or publish via us!'
+  description: 'Suomi.fi Open Data is Finland’s open data catalogue. The portal gathers all open data published in Finland in a single service. Come, use it, or publish via us!'
   canonical_url: '[site:url]'
   shortlink: '[site:url]'
   og_title: '[current-page:title]'

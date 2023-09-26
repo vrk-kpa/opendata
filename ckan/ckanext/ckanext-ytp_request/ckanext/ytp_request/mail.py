@@ -20,7 +20,7 @@ User %(user)s (%(email)s) has requested membership to organization %(organizatio
 
 Best regards
 
-Avoindata.fi support
+Suomi.fi Open Data support
 avoindata@dvv.fi
 """)
 
@@ -36,7 +36,7 @@ Your membership request to organization %(organization)s with %(role)s access ha
 
 Best regards
 
-Avoindata.fi support
+Suomi.fi Open Data support
 avoindata@dvv.fi
 """)
 
@@ -52,7 +52,7 @@ Your membership request to organization %(organization)s with %(role)s access ha
 
 Best regards
 
-Avoindata.fi support
+Suomi.fi Open Data support
 avoindata@dvv.fi
 """)
 
