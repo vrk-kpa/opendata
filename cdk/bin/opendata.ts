@@ -16,6 +16,7 @@ import {CertificateStack} from "../lib/certificate-stack";
 import {BypassCdnStack} from "../lib/bypass-cdn-stack";
 import {MonitoringStack} from "../lib/monitoring-stack";
 import {LambdaStack} from "../lib/lambda-stack";
+import {DomainStack} from "../lib/domain-stack";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -659,6 +660,7 @@ const prodProps = {
   secondaryFqdn: 'opendata.fi',
   domainName: 'www.avoindata.fi',
   secondaryDomainName: 'www.opendata.fi',
+  newDomainName: "avoindata.suomi.fi"
 };
 
 const clusterStackProd = new ClusterStack(app, 'ClusterStack-prod', {
@@ -969,3 +971,8 @@ const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
   domainName: prodProps.domainName,
   secondaryDomainName: prodProps.secondaryDomainName,
 });
+
+const domainStackProd = new DomainStack(app, 'DomainStack-prod', {
+  zoneName: prodProps.newDomainName,
+  crossAccountId: betaProps.account
+})
