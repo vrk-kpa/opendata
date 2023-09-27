@@ -14,7 +14,7 @@ var pump = require("pump");
 var npmDist = require('gulp-npm-dist');
 var rename = require('gulp-rename');
 var imageminJpegoptim = require('imagemin-jpegoptim');
-var gulpStylelint = require('gulp-stylelint');
+var gulpStylelint = require("@ronilaukkarinen/gulp-stylelint");
 
 var paths = {
   src: {
@@ -97,7 +97,7 @@ gulp.task('lint', (done) => {
     gulpStylelint({
       failAfterError: true,
       reporters:[
-        {formatter: 'verbose', console: true}
+        {formatter: 'string', console: true}
       ]})
   ], done)
 });
