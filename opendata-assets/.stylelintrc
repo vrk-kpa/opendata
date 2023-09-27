@@ -1,6 +1,9 @@
 {
-  "extends": "stylelint-config-standard",
+  "extends": "stylelint-config-standard-less",
   "rules": {
-    "no-descending-specificity": null
+    "no-descending-specificity": null,
+    "selector-class-pattern": null,
+    "selector-id-pattern": null,
+    "less/no-duplicate-variables": null
   }
 }
