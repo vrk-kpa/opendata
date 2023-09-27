@@ -93,7 +93,7 @@ End of dropdown CSS
   height: 67px;
 }
 
-@media only screen and (width <= 500px) {
+@media only screen and (max-width: 500px) {
   .region-top-bar {
     flex-direction: column;
   }
@@ -258,8 +258,8 @@ End of dropdown CSS
 .search-button-submit {
   background: @suomi-highlightBase;
   border: none;
-  width: 40;
-  height: 40;
+  width: 40px;
+  height: 40px;
 }
 
 .avoindata-search-id {
@@ -427,7 +427,7 @@ End of dropdown CSS
       }
 
       // Bit of a hack to not make the nav go crazy on resize.
-      @media (width <= 1155px) {
+      @media (max-width: 1155px) {
         padding-left: 10px;
         padding-right: 10px;
       }

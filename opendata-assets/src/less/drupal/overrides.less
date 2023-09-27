@@ -309,7 +309,7 @@ p:last-child,
     display: block;
     margin: 0 auto;
 
-    @media (width >= 768px) {
+    @media (max-width: 768px) {
       .equal-height-row {
         .flex-display(flex);
         .flex-wrap(wrap);
@@ -317,7 +317,7 @@ p:last-child,
     }
 
     .avoindata-infobox-wrapper {
-      @media (width <= 768px) {
+      @media (max-width: 768px) {
         padding-top: 15px;
       }
 
@@ -354,7 +354,7 @@ p:last-child,
             font-size: 50px;
             margin-left: 20px;
 
-            @media (width >= 768px) and (width <= 940px) {
+            @media (min-width: 768px) and (max-width: 940px) {
               display: none;
             }
           }
@@ -609,7 +609,7 @@ p:last-child,
     .avoindata-datasetlist-wrapper {
       display: flex;
 
-      @media (width <= 786px) {
+      @media (max-width: 786px) {
         flex-direction: column;
       }
 
@@ -690,7 +690,7 @@ p:last-child,
   & + & {
     padding-left: 40px;
 
-    @media (width <= 768px) {
+    @media (max-width: 768px) {
       padding-left: 0;
     }
   }
@@ -854,7 +854,7 @@ p:last-child,
     .avoindata-appfeed-applist-wrapper {
       display: flex;
 
-      @media (width <= 768px) {
+      @media (max-width: 768px) {
         flex-direction: column;
       }
     }
@@ -936,7 +936,7 @@ p:last-child,
   & + & {
     margin-left: 32px;
 
-    @media (width <= 768px) {
+    @media (max-width: 768px) {
       margin-left: 0;
       margin-top: 10px;
     }
@@ -1496,7 +1496,7 @@ p:last-child,
 }
 
 //Overrides navbar-collapse padding
-@media (width >= 768px) {
+@media (min-width: 768px) {
   .opendata-menu-container {
     padding-left: 0;
     padding-right: 0;
