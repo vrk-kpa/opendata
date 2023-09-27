@@ -63,10 +63,7 @@
   .showcase-item {
     background-color: @color--white;
     // Because margin is added on both sides, make it only half of margin
-    margin-left: (@margin-x__showcase-item / 2);
-    margin-right: (@margin-x__showcase-item / 2);
-    margin-bottom: @margin-y__showcase-item;
-    margin-top: 0;
+    margin: 0 (@margin-x__showcase-item / 2) @margin-y__showcase-item (@margin-x__showcase-item / 2);
     float: none;
     border: none;
     width: auto;

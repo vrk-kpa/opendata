@@ -47,8 +47,6 @@ Differences in the smaller screen size are together with other @media definition
 .dropdown-submenu.pull-left > .dropdown-menu {
   left: -100%;
   margin-left: 10px;
-  -webkit-border-radius: 6px 0 6px 6px;
-  -moz-border-radius: 6px 0 6px 6px;
   border-radius: 6px 0 6px 6px;
 }
 
@@ -95,7 +93,7 @@ End of dropdown CSS
   height: 67px;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (width <= 500px) {
   .region-top-bar {
     flex-direction: column;
   }
@@ -156,7 +154,7 @@ End of dropdown CSS
     //Hovering language selection draws a box around it
     .language-link:hover {
       border-style: solid;
-      border-color: rgba(0, 0, 0, 0.98);
+      border-color: rgb(0 0 0 / 98%);
       border-radius: 2px;
     }
   }
@@ -193,7 +191,7 @@ End of dropdown CSS
       display: none;
       background: #fff;
       border: 1px solid #a5acb0;
-      box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 3px 0 rgb(0 0 0 / 20%);
       border-radius: 2px;
       right: 0;
       top: 58px;
@@ -276,7 +274,6 @@ End of dropdown CSS
   width: 360px;
   border: solid 1px #c8cdd0;
   padding: 8px 10px;
-  -webkit-box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
   box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
   height: 40px;
   border-radius: 1px;
@@ -295,8 +292,6 @@ End of dropdown CSS
 .header-search-group input,
 .header-search-group button {
   float: left;
-  -webtkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: 40px;
 }
@@ -432,7 +427,7 @@ End of dropdown CSS
       }
 
       // Bit of a hack to not make the nav go crazy on resize.
-      @media (max-width: 1155px) {
+      @media (width <= 1155px) {
         padding-left: 10px;
         padding-right: 10px;
       }

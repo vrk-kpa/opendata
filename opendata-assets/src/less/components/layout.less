@@ -66,7 +66,7 @@ body {
 }
 
 // Report grid
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .dataset > .row.equal {
     .flex-display(flex);
     .flex-wrap(wrap);
@@ -104,7 +104,7 @@ body {
 .page-container {
   background-color: #fff;
   border: 1px solid @suomi-depthLight1;
-  padding: 20px 20px 60px 20px;
+  padding: 20px 20px 60px;
   margin-top: 15px;
   margin-bottom: 15px;
 
@@ -152,13 +152,13 @@ body {
 .suomifi-button-primary {
   .suomifi-button-text();
 
-  box-shadow: 0 1px 1px 0 rgba(0, 52, 122, 0.5);
+  box-shadow: 0 1px 1px 0 rgb(0 52 122 / 50%);
   height: 40px;
   background:
     linear-gradient(
       0deg,
-      rgb(35, 90, 154) 0%,
-      rgb(42, 110, 187) 100%
+      rgb(35 90 154) 0%,
+      rgb(42 110 187) 100%
     );
   border: 1px solid @suomi-highlightBase;
   border-radius: 2px;
@@ -196,7 +196,7 @@ body {
   .suomifi-button-secondary;
 
   font-family: @font-family-sans-serif;
-  color: rgb(41, 41, 41);
+  color: rgb(41 41 41);
   border: solid 1px #c8cdd0;
   font-weight: 400;
   font-size: 18px;
