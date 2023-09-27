@@ -81,21 +81,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-node_v20-
 
+      - name: Authenticate npm registry
+        if: ${{ steps.cache-node_modules.outputs.cache-hit != 'true' }}
+        run: |
+          cat <<EOT >> .npmrc
+          @fortawesome:registry=https://npm.fontawesome.com/
+          //npm.fontawesome.com/:_authToken=$NPM_TOKEN
+          EOT
+        working-directory: ./opendata-assets
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: install npm packages
         if: ${{ steps.cache-node_modules.outputs.cache-hit != 'true' }}
         run: npm ci
         working-directory: ./opendata-assets
 
-      #- name: Install Dependencies
-      #  run: |
-      #    cat <<EOT >> .npmrc
-      #    @fortawesome:registry=https://npm.fontawesome.com/
-      #    //npm.fontawesome.com/:_authToken=$NPM_TOKEN
-      #    EOT
-      #    npm ci
-      #  working-directory: ./opendata-assets
-      #  env:
-      #    NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: run stylelint
         run: npx stylelint "src/less" -f github
         working-directory: ./opendata-assets
