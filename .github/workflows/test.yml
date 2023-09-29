@@ -197,6 +197,19 @@ jobs:
 
       - run: npm ci
 
+      - name: configure AWS credentials for running tests
+        uses: aws-actions/configure-aws-credentials@v4
+        id: aws-credentials
+        with:
+          role-to-assume: ${{ secrets.AWS_TEST_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+          output-credentials: true
+
+      - name: get caller identity
+        run: |
+          aws sts get-caller-identity
+
       - name: configure environment
         shell: bash
         run: |
@@ -232,13 +245,47 @@ jobs:
           sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
           sed -i.bak -E 's/^(MATOMO_ENABLED[[:blank:]]*=[[:blank:]]*).*/\1false/' docker/.env
           sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_ENABLED[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_ENABLED}"'\"/' docker/.env.ckan.local
-          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_CONTAINER_NAME[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_CONTAINER_NAME}"'\"/' docker/.env.ckan.local
+          cat docker/.env
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
           CKAN_CLOUDSTORAGE_ENABLED: true
           CKAN_CLOUDSTORAGE_CONTAINER_NAME: ${{ secrets.CKAN_CLOUDSTORAGE_CONTAINER_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ steps.aws-credentials.outputs.aws-access-key-id }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.aws-credentials.outputs.aws-secret-access-key }}
 
+      - name: configure cloudstorage driver options
+        shell: bash
+        run: |
+          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_DRIVER_OPTIONS[[:blank:]]*=[[:blank:]]*).*/\1\"'"{'key': '${AWS_ACCESS_KEY_ID}', 'secret': '${AWS_SECRET_ACCESS_KEY}', 'token': '${AWS_SESSION_TOKEN}'}"'\"/' docker/.env.ckan.local
+          cat docker/.env.ckan.local
+        env:
+          CKAN_CLOUDSTORAGE_CONTAINER_NAME: ${{ secrets.CKAN_CLOUDSTORAGE_CONTAINER_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ steps.aws-credentials.outputs.aws-access-key-id }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.aws-credentials.outputs.aws-secret-access-key }}
+          AWS_SESSION_TOKEN: ${{ steps.aws-credentials.outputs.aws-session-token }}
+
+      - name: configure cloudstorage container name
+        shell: bash
+        run: |
+          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_CONTAINER_NAME[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_CONTAINER_NAME}"'\"/' docker/.env.ckan.local
+          cat docker/.env.ckan.local
+        env:
+          CKAN_CLOUDSTORAGE_CONTAINER_NAME: ${{ secrets.CKAN_CLOUDSTORAGE_CONTAINER_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ steps.aws-credentials.outputs.aws-access-key-id }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.aws-credentials.outputs.aws-secret-access-key }}
+          AWS_SESSION_TOKEN: ${{ steps.aws-credentials.outputs.aws-session-token }}
+
+
+      - name: configure access keys
+        shell: bash
+        run: |
+          sed -i.bak -E 's/^(AWS_ACCESS_KEY_ID[[:blank:]]*=[[:blank:]]*).*/\1\"'"${AWS_ACCESS_KEY_ID}"'\"/' docker/.env.ckan.local
+          sed -i.bak -E 's/^(AWS_SECRET_ACCESS_KEY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${AWS_SECRET_ACCESS_KEY}"'\"/' docker/.env.ckan.local
+          cat docker/.env.ckan.local
+        env:
+          AWS_ACCESS_KEY_ID: ${{ steps.aws-credentials.outputs.aws-access-key-id }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.aws-credentials.outputs.aws-secret-access-key }}
 
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -284,18 +331,6 @@ jobs:
         if: ${{ needs.detect-changes.outputs.nginx == 'true' }}
         run: |
           docker load --input /tmp/nginx/nginx.tar
-
-      - name: Pull from registry
-        working-directory: docker
-        run: |
-          docker compose pull
-
-      - name: configure AWS credentials for running tests
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_TEST_ROLE }}
-          role-session-name: github-actions
-          aws-region: eu-west-1
 
       - name: bring services up
         working-directory: docker
