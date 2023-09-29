@@ -16,15 +16,16 @@ export class CiTestStack extends Stack {
       ]
     })
 
-
-
-    const oicdProvider = new aws_iam.OpenIdConnectProvider(this,  'oicdProvider', {
-      url: 'https://token.actions.githubusercontent.com',
-      clientIds: ['sts.amazonaws.com']
-    })
+    const oidcProviderArn = Stack.of(this).formatArn({
+        region: "",
+        partition: "aws",
+        resource: "oidc-provider",
+        service: "iam",
+        resourceName: "token.actions.githubusercontent.com"
+      })
 
     const testRole = new aws_iam.Role(this, 'TestRole', {
-      assumedBy: new aws_iam.FederatedPrincipal(oicdProvider.openIdConnectProviderArn, {
+      assumedBy: new aws_iam.WebIdentityPrincipal(oidcProviderArn, {
           StringLike: {
             "token.actions.githubusercontent.com:sub": `repo:${props.githubOrg}/${props.githubRepo}:*`
           }

@@ -980,5 +980,4 @@ const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
   githubOrg: "vrk-kpa",
   githubRepo: "opendata",
   testBucketName: "avoindata-ci-test-bucket"
-
 })
