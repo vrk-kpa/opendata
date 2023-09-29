@@ -11,7 +11,7 @@ export class CiTestStack extends Stack {
       blockPublicAccess: aws_s3.BlockPublicAccess.BLOCK_ALL,
       lifecycleRules: [
         {
-          expiration: Duration.hours(1)
+          expiration: Duration.days(1)
         }
       ]
     })
