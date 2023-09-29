@@ -232,16 +232,11 @@ jobs:
           sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
           sed -i.bak -E 's/^(MATOMO_ENABLED[[:blank:]]*=[[:blank:]]*).*/\1false/' docker/.env
           sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_ENABLED[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_ENABLED}"'\"/' docker/.env.ckan.local
-          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_DRIVER_OPTIONS[[:blank:]]*=[[:blank:]]*).*/\1\"'"{'key': '${AWS_ACCESS_KEY_ID}', 'secret': '${AWS_SECRET_ACCESS_KEY}', 'token': ''}"'\"/' docker/.env.ckan.local
           sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_CONTAINER_NAME[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_CONTAINER_NAME}"'\"/' docker/.env.ckan.local
-          sed -i.bak -E 's/^(AWS_ACCESS_KEY_ID[[:blank:]]*=[[:blank:]]*).*/\1\"'"${AWS_ACCESS_KEY_ID}"'\"/' docker/.env.ckan.local
-          sed -i.bak -E 's/^(AWS_SECRET_ACCESS_KEY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${AWS_SECRET_ACCESS_KEY}"'\"/' docker/.env.ckan.local
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          CKAN_CLOUDSTORAGE_ENABLED: ${{ secrets.CKAN_CLOUDSTORAGE_ENABLED }}
+          CKAN_CLOUDSTORAGE_ENABLED: true
           CKAN_CLOUDSTORAGE_CONTAINER_NAME: ${{ secrets.CKAN_CLOUDSTORAGE_CONTAINER_NAME }}
 
 
@@ -289,6 +284,18 @@ jobs:
         if: ${{ needs.detect-changes.outputs.nginx == 'true' }}
         run: |
           docker load --input /tmp/nginx/nginx.tar
+
+      - name: Pull from registry
+        working-directory: docker
+        run: |
+          docker compose pull
+
+      - name: configure AWS credentials for running tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_TEST_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
 
       - name: bring services up
         working-directory: docker
