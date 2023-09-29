@@ -972,7 +972,7 @@ const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
 });
 
 
-const ciTestStack = new CiTestStack(app, 'CiTestStack', {
+const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
   env: {
     account: betaProps.account,
     region: betaProps.region
