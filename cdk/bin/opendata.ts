@@ -16,6 +16,7 @@ import {CertificateStack} from "../lib/certificate-stack";
 import {BypassCdnStack} from "../lib/bypass-cdn-stack";
 import {MonitoringStack} from "../lib/monitoring-stack";
 import {LambdaStack} from "../lib/lambda-stack";
+import {CiTestStack} from "../lib/ci-test-stack";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -969,3 +970,15 @@ const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
   domainName: prodProps.domainName,
   secondaryDomainName: prodProps.secondaryDomainName,
 });
+
+
+const ciTestStack = new CiTestStack(app, 'CiTestStack', {
+  env: {
+    account: betaProps.account,
+    region: betaProps.region
+  },
+  githubOrg: "vrk-kpa",
+  githubRepo: "opendata",
+  testBucketName: "avoindata-ci-test-bucket"
+
+})
