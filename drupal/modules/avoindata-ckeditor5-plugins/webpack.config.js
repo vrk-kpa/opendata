@@ -71,6 +71,10 @@ getDirectories('./src').forEach((dir) => {
               test: /\.svg$/,
               type: "asset/inline",
             },
+            {
+              test: /\.css$/,
+              type: 'asset'
+            }
           ]
         }]
 

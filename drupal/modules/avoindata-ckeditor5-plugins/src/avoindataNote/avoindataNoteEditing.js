@@ -2,7 +2,7 @@ import { Plugin } from 'ckeditor5/src/core';
 import { toWidget, toWidgetEditable } from 'ckeditor5/src/widget';
 import { Widget } from 'ckeditor5/src/widget';
 import InsertAvoindataNoteCommand from './insertAvoindataNoteCommand';
-import icon from '../../icons/icon-info.svg';
+import icon from '../../icons/icon-note.svg';
 
 
 /**
@@ -22,7 +22,7 @@ import icon from '../../icons/icon-info.svg';
  * Which is converted for the browser/user as this markup
  * <div class="avoindata-note">
  *   <div class="avoindata-note-header">
- *     <img class="avoindata-note-icon" src="../icons/icon-info.svg"/>
+ *     <img class="avoindata-note-icon" src="../icons/icon-note.svg"/>
  *     <div class="avoindata-note-title">Title</div>
  *   </div>
  *   <div class="avoindata-note-content">Content</div>
@@ -204,7 +204,7 @@ export default class AvoindataNoteEditing extends Plugin {
     });
 
     // Instances of <avoindataNoteIcon> are saved as
-    // <img class="avoindata-note-icon" src="../icons/icon-info.svg" alt="Avoindata Note icon"></div>.
+    // <img class="avoindata-note-icon" src="../icons/icon-note.svg" alt="Avoindata Note icon"></div>.
     conversion.for('dataDowncast').elementToElement({
       model: 'avoindataNoteIcon',
       view: (modelElement, { writer }) => {

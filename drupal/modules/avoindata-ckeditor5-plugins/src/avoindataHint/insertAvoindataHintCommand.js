@@ -40,19 +40,16 @@ function createAvoindataHint(writer) {
   const avoindataHint = writer.createElement('avoindataHint');
   const avoindataHintHeader = writer.createElement('avoindataHintHeader');
   const avoindataHintIcon = writer.createElement('avoindataHintIcon');
-  const avoindataHintTitle = writer.createElement('avoindataHintTitle');
   const avoindataHintContent = writer.createElement('avoindataHintContent');
 
   // Append the title and content elements to the avoindataHint, which matches
   // the parent/child relationship as defined in their schemas.
   writer.append(avoindataHintHeader, avoindataHint);
   writer.append(avoindataHintIcon, avoindataHintHeader);
-  writer.append(avoindataHintTitle, avoindataHintHeader);
-  writer.append(avoindataHintContent, avoindataHint);
+  writer.append(avoindataHintContent, avoindataHintHeader);
 
   // The text content will automatically be wrapped in a
   // `<p>`.
-  writer.appendElement('paragraph', avoindataHintTitle);
   writer.appendElement('paragraph', avoindataHintContent);
 
   // Return the element to be added to the editor.

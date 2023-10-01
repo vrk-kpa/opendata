@@ -1,6 +1,6 @@
-name: Avoindata Drupal CKEditor 5 plugins
+name: Avoindata Drupal CKEditor5 plugins
 type: module
-description: Adds several buttons for custom elements to CKEditor 5.
+description: Adds Expander, Note, Hint, Example and Section custom elements to CKEditor5.
 core_version_requirement: ^9 || ^10
 package: Custom
 dependencies:

@@ -122,7 +122,8 @@
   margin: 20px 0;
 }
 
-.avoindata-hint-image {
+.avoindata-hint-image,
+.avoindata-hint-icon {
   display: inline-block;
   vertical-align: top;
   height: 24px;
@@ -204,10 +205,16 @@ a.external-link {
     margin-top: 0;
   }
 
-  .avoindata-section__title {
+  .avoindata-section__title,
+  .avoindata-section-title {
     margin-top: 0;
     margin-bottom: @margin-bottom__section__title;
     font-size: @font-size__section-title;
+
+    p {
+      line-height: 34px;
+      font-weight: 600;
+    }
   }
 }
 

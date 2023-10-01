@@ -115,3 +115,60 @@ avoindata_ckeditor5_plugins_avoindatanote:
       - <img class="avoindata-note-icon">
       - <div class="avoindata-note-title">
       - <div class="avoindata-note-content">
+
+avoindata_ckeditor5_plugins_avoindatahint:
+  ckeditor5:
+    plugins:
+      - avoindataHint.AvoindataHint
+  drupal:
+    label: Avoindata Hint
+    library: avoindata_ckeditor5_plugins/avoindataHint
+    admin_library: avoindata_ckeditor5_plugins/toolbarIcons
+    toolbar_items:
+      avoindataHint:
+        label: Avoindata Hint
+    elements:
+      - <div>
+      - <div class="avoindata-hint">
+      - <div class="avoindata-hint-header">
+      - <img>
+      - <img class="avoindata-hint-icon">
+      - <div class="avoindata-hint-content">
+
+avoindata_ckeditor5_plugins_avoindataexample:
+  ckeditor5:
+    plugins:
+      - avoindataExample.AvoindataExample
+  drupal:
+    label: Avoindata Example
+    library: avoindata_ckeditor5_plugins/avoindataExample
+    admin_library: avoindata_ckeditor5_plugins/toolbarIcons
+    toolbar_items:
+      avoindataExample:
+        label: Avoindata Example
+    elements:
+      - <div>
+      - <div class="avoindata-example">
+      - <div class="avoindata-example-header">
+      - <div class="avoindata-example-title">
+      - <div class="avoindata-example-content">
+
+avoindata_ckeditor5_plugins_avoindatasection:
+  ckeditor5:
+    plugins:
+      - avoindataSection.AvoindataSection
+  drupal:
+    label: Avoindata Example
+    library: avoindata_ckeditor5_plugins/avoindataSection
+    admin_library: avoindata_ckeditor5_plugins/toolbarIcons
+    toolbar_items:
+      avoindataSection:
+        label: Avoindata Section
+    elements:
+      - <div>
+      - <div id>
+      - <div class id>
+      - <div class="avoindata-section">
+      - <div class="avoindata-section-id">
+      - <div class="avoindata-section-title">
+      - <div class="avoindata-section-content">

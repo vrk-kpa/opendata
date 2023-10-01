@@ -25,6 +25,36 @@ avoindataNote:
   dependencies:
     - core/ckeditor5
 
+avoindataHint:
+  css:
+    theme:
+      - css/editor.css: {}
+      - css/style.css: {}
+  js:
+    js/avoindataHint.js: { preprocess: false, minified: false }
+  dependencies:
+    - core/ckeditor5
+
+avoindataExample:
+  css:
+    theme:
+      - css/editor.css: {}
+      - css/style.css: {}
+  js:
+    js/avoindataExample.js: { preprocess: false, minified: false }
+  dependencies:
+    - core/ckeditor5
+
+avoindataSection:
+  css:
+    theme:
+      - css/editor.css: {}
+      - css/style.css: {}
+  js:
+    js/avoindataSection.js: { preprocess: false, minified: false }
+  dependencies:
+    - core/ckeditor5
+
 # Loaded in the text format configuration form to provide styling for the icon
 # used in toolbar config.
 toolbarIcons:

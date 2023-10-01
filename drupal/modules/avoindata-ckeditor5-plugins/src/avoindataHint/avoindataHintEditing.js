@@ -20,7 +20,7 @@ import InsertAvoindataHintCommand from './insertAvoindataHintCommand';
  * Which is converted for the browser/user as this markup
  * <div class="avoindata-hint">
  *   <div class="avoindata-hint-header">
- *     <img class="avoindata-hint-icon" src="../icons/icon-info.svg"/>
+ *     <img class="avoindata-hint-icon" src="../icons/icon-hint.svg"/>
  *     <div class="avoindata-hint-title">Title</div>
  *   </div>
  *   <div class="avoindata-hint-content">Content</div>
@@ -48,9 +48,8 @@ export default class AvoindataHintEditing extends Plugin {
    * <avoindataHint>
    *   <avoindataHintHeader>
    *     <avoindataHintIcon/>
-   *     <avoindataHintTitle></avoindataHintTitle>
-   *   </avoindataHintHeader>
    *     <avoindataHintContent></avoindataHintContent>
+   *   </avoindataHintHeader>
    * </avoindataHint>
    *
    * The logic in _defineConverters() will determine how this is converted to
@@ -72,7 +71,7 @@ export default class AvoindataHintEditing extends Plugin {
       isObject: true,
       isSelectable: false,
       allowIn: 'avoindataHint',
-      allowChildren: ['avoindataHintIcon', 'avoindataHintTitle']
+      allowChildren: ['avoindataHintIcon', 'avoindataHintContent']
     });
 
     schema.register('avoindataHintIcon', {
@@ -87,28 +86,16 @@ export default class AvoindataHintEditing extends Plugin {
       allowAttributes: ['src', 'alt', 'class']
     });
 
-    schema.register('avoindataHintTitle', {
-      // This creates a boundary for external actions such as clicking and
-      // and keypress. For example, when the cursor is inside this box, the
-      // keyboard shortcut for "select all" will be limited to the contents of
-      // the box.
-      isLimit: true,
-      // This is only to be used within avoindataHint.
-      allowIn: 'avoindataHintHeader',
-      // Allow content that is allowed in blocks (e.g. text with attributes).
-      allowContentOf: '$root',
-    });
-
     schema.register('avoindataHintContent', {
       isLimit: true,
-      allowIn: 'avoindataHint',
+      allowIn: 'avoindataHintHeader',
       allowContentOf: '$root',
     });
 
     schema.addChildCheck((context, childDefinition) => {
       // Disallow avoindataHint inside avoindataHintContent.
       if (
-        (context.endsWith('avoindataHintContent') || context.endsWith('avoindataHintTitle')) &&
+        context.endsWith('avoindataHintContent') &&
         childDefinition.name === 'avoindataHint'
       ) {
         return false;
@@ -154,18 +141,6 @@ export default class AvoindataHintEditing extends Plugin {
       },
     });
 
-    // If <div class="avoindata-hint-title"> is present in the existing markup
-    // processed by CKEditor, then CKEditor recognizes and loads it as a
-    // <avoindataHintTitle> model, provided it is a child element of <avoindataHint>,
-    // as required by the schema.
-    conversion.for('upcast').elementToElement({
-      model: 'avoindataHintTitle',
-      view: {
-        name: 'div',
-        classes: 'avoindata-hint-title',
-      },
-    });
-
     // If <div class="avoindata-hint-content"> is present in the existing markup
     // processed by CKEditor, then CKEditor recognizes and loads it as a
     // <avoindataHintContent> model, provided it is a child element of
@@ -202,22 +177,12 @@ export default class AvoindataHintEditing extends Plugin {
     });
 
     // Instances of <avoindataHintIcon> are saved as
-    // <img class="avoindata-hint-icon" src="../icons/icon-info.svg" alt="Avoindata Hint icon"></div>.
+    // <img class="avoindata-hint-icon" src="../icons/icon-hint.svg" alt="Avoindata Hint icon"></div>.
     conversion.for('dataDowncast').elementToElement({
       model: 'avoindataHintIcon',
       view: (modelElement, { writer }) => {
         return writer.createUIElement('img', { class: "avoindata-hint-icon", src: '/themes/avoindata/images/avoindata-hint-icon.svg' })
       }
-    });
-
-    // Instances of <avoindataHintTitle> are saved as
-    // <div class="avoindata-hint-title">{{inner content}}</div>.
-    conversion.for('dataDowncast').elementToElement({
-      model: 'avoindataHintTitle',
-      view: {
-        name: 'div',
-        classes: 'avoindata-hint-title',
-      },
     });
 
     // Instances of <avoindataHintContent> are saved as
@@ -266,17 +231,6 @@ export default class AvoindataHintEditing extends Plugin {
           src: "/themes/avoindata/images/avoindata-hint-icon.svg",
           alt: "Avoindata Hint icon",
         });
-      },
-    });
-
-    // Convert the <avoindataHintTitle> model into an editable <div> widget.
-    conversion.for('editingDowncast').elementToElement({
-      model: 'avoindataHintTitle',
-      view: (modelElement, { writer: viewWriter }) => {
-        const div = viewWriter.createEditableElement('div', {
-          class: 'avoindata-hint-title',
-        });
-        return toWidgetEditable(div, viewWriter);
       },
     });
 

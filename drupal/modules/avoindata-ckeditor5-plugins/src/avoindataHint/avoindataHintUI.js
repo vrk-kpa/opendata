@@ -4,7 +4,7 @@
 
 import { Plugin } from 'ckeditor5/src/core';
 import { ButtonView } from 'ckeditor5/src/ui';
-import icon from '../../icons/icon-info.svg?source';
+import icon from '../../icons/icon-hint.svg?source';
 
 export default class AvoindataHintUI extends Plugin {
   init() {
