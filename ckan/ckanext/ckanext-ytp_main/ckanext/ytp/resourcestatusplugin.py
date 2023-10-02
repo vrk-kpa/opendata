@@ -78,7 +78,14 @@ class CloudResourceStatus(ResourceStatus):
         filename = os.path.basename(urlparse(resource.get('url')).path)
         object_key = 'resources/%s/%s' % (resource_id, filename)
 
-        s3 = boto3.client('s3')
+        driver_options = config.get('ckanext.cloudstorage.driver_options')
+        if driver_options:
+            s3 = boto3.client('s3',
+                aws_access_key_id=driver_options.get('key'),
+                aws_secret_access_key=driver_options.get('secret'),
+                aws_session_token=driver_options.get('token'))
+        else:
+            s3 = boto3.client('s3')
         tags_response = s3.get_object_tagging(Bucket=aws_bucket_name, Key=object_key)
         self.tags = {item['Key']: item['Value'] for item in tags_response['TagSet']}
 
