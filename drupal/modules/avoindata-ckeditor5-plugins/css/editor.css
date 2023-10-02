@@ -1,4 +1,25 @@
+/* This selector targets the editable element (excluding comments). */
+.ck-editor__editable_inline:not(.ck-comment__input *) {
+  min-height: 300px;
+  overflow-y: auto;
+}
+
 .ck-content {
+  .external-link {
+    display: inline-flex;
+    flex-direction: row;
+    align-content: center;
+
+    &::after {
+      content: '';
+      width: 24px;
+      height: 24px;
+      transform: scale(0.6);
+      margin-left: 2px;
+      background-image: url(../icons/icon-external-link.svg);
+    }
+  }
+
   .avoindata-expander {
       background:#f6f9fc;
       border-radius:2px;
@@ -155,7 +176,6 @@
     }
   }
 }
-
 
 .avoindata-section-id-form {
   padding: 8px;

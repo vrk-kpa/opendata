@@ -1,70 +1,52 @@
 import { Plugin } from 'ckeditor5/src/core';
 
 export default class ExternalLink extends Plugin {
-	init() {
-		console.log('ExternalLink loaded')
-		const editor = this.editor;
-		const { model } = editor;
+  init() {
+    /*
+    const editor = this.editor;
 
-		// `listenTo()` and `editor` are available thanks to `Plugin`.
-		// By using `listenTo()` you will ensure that the listener is removed when
-		// the plugin is destroyed.
-		this.listenTo(editor.data, 'ready', () => {
-			const linkCommand = editor.commands.get('link');
-			const decorator = linkCommand.manualDecorators.get('linkIsExternal')
-			const selection = editor.model.document.selection;
+    // `listenTo()` and `editor` are available thanks to `Plugin`.
+    // By using `listenTo()` you will ensure that the listener is removed when
+    // the plugin is destroyed.
+    this.listenTo(editor.data, 'ready', () => {
+      const linkCommand = editor.commands.get('link');
+      const { selection } = editor.model.document;
 
-			console.log(decorator)
+      let linkCommandExecuting = false;
 
-			// Override default link manual decorator conversion to add an icon after the link
-			editor.conversion.for( 'downcast' ).attributeToElement( {
-				model: 'linkIsExternal',
-				view: ( manualDecoratorValue, { writer, schema }, { item } ) => {
-					// Manual decorators for block links are handled e.g. in LinkImageEditing.
-					if ( !( item.is( 'selection' ) || schema.isInline( item ) ) ) {
-						return;
-					}
+      linkCommand.on('execute', (evt, args) => {
+        const linkIsExternal = args[1]['linkIsExternal']
 
-					if ( manualDecoratorValue ) {
-						const element = writer.createAttributeElement( 'a', decorator.attributes, { priority: 5 } );
+        if (linkIsExternal) {
+          if (linkCommandExecuting) {
+            linkCommandExecuting = false;
+            return;
+          }
 
-						if ( decorator.classes ) {
-							writer.addClass( decorator.classes, element );
-						}
+          // If the additional attribute was passed, we stop the default execution
+          // of the LinkCommand. We're going to create Model#change() block for undo
+          // and execute the LinkCommand together with setting the extra attribute.
+          evt.stop();
 
-						for ( const key in decorator.styles ) {
-							writer.setStyle( key, decorator.styles[ key ], element );
-						}
+          // Prevent infinite recursion by keeping records of when link command is
+          // being executed by this function.
+          linkCommandExecuting = true;
 
-						writer.setCustomProperty( 'link', true, element );
+          // Wrapping the original command execution in a model.change() block to make sure there's a single undo step
+          // when the extra attribute is added.
 
-						return element;
-					}
-				}
-			} );
+          editor.model.change(writer => {
+            editor.execute('link', ...args);
+            const link = selection.getLastPosition().nodeBefore;
+            // writer.insertElement('avoindataExternalLink', selection.getLastPosition())
+          });
+        }
+      })
+    });
+    */
+  }
 
-			this.listenTo(linkCommand, 'execute', (evt, params) => {
-				const linkIsExternal = params[1]['linkIsExternal']
-				console.log(evt)
-				console.log(params)
-				console.log('linkIsExternal', linkIsExternal)
-				console.log('source', evt.source)
-
-				if (linkIsExternal) {
-					console.log('external link')
-					console.log(editor.model.schema)
-					editor.model.change(writer => {
-						console.log('foo')
-						writer.appendText('test', selection)
-					});
-				} else {
-					console.log('not an external link')
-				}
-			})
-		});
-	}
-
-	static get pluginName() {
-		return 'ExternalLink';
-	}
+  static get pluginName() {
+    return 'ExternalLink';
+  }
 }

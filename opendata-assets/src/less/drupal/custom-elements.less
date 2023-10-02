@@ -1,5 +1,19 @@
 @import "../../../src/less/variables";
 
+.external-link {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+
+  &::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    transform: scale(0.6);
+    background-image: url(../images/icon-external-link.svg);
+  }
+}
+
 .avoindata-expander {
   background: @background-color__expander;
   border-radius: 2px;
@@ -178,21 +192,6 @@
   padding: 0 20px 20px 20px;
 }
 
-a.external-link {
-  &::after {
-    font-family: @font-family-icon;
-    content: "\f08e";
-  }
-
-  svg {
-    margin-bottom: -2px;
-    margin-left: 4px;
-    width: 16px;
-    height: 16px;
-    fill: @link-color;
-  }
-}
-
 .avoindata-section {
   background-color: @background-color__content;
   box-shadow: @box-shadow__section;
@@ -245,4 +244,3 @@ table {
     color: @color--black;
   }
 }
-
