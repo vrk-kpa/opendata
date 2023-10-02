@@ -82,6 +82,8 @@ class CloudResourceStatus(ResourceStatus):
 
         driver_options = config.get('ckanext.cloudstorage.driver_options')
         if driver_options:
+            # driver options might not be valid json, even though its a dict
+            driver_options = driver_options.replace("'", '"')
             driver_options = json.loads(driver_options)
             s3 = boto3.client('s3',
                 aws_access_key_id=driver_options.get('key'),
