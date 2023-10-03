@@ -197,7 +197,20 @@ jobs:
 
       - run: npm ci
 
-      - name: configure environment
+      - name: configure AWS credentials for running tests
+        uses: aws-actions/configure-aws-credentials@v4
+        id: aws-credentials
+        with:
+          role-to-assume: ${{ secrets.AWS_TEST_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+          output-credentials: true
+
+      - name: get caller identity
+        run: |
+          aws sts get-caller-identity
+
+      - name: configure Cypress
         shell: bash
         run: |
           # configure cypress
@@ -226,24 +239,37 @@ jobs:
             },
           })
           EOT
-          # configure docker
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: configure .env
+        shell: bash
+        run: |
           cp -f docker/.env.template docker/.env
-          sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
-          sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
-          sed -i.bak -E 's/^(MATOMO_ENABLED[[:blank:]]*=[[:blank:]]*).*/\1false/' docker/.env
-          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_ENABLED[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_ENABLED}"'\"/' docker/.env.ckan.local
-          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_DRIVER_OPTIONS[[:blank:]]*=[[:blank:]]*).*/\1\"'"{'key': '${AWS_ACCESS_KEY_ID}', 'secret': '${AWS_SECRET_ACCESS_KEY}', 'token': ''}"'\"/' docker/.env.ckan.local
-          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_CONTAINER_NAME[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_CONTAINER_NAME}"'\"/' docker/.env.ckan.local
-          sed -i.bak -E 's/^(AWS_ACCESS_KEY_ID[[:blank:]]*=[[:blank:]]*).*/\1\"'"${AWS_ACCESS_KEY_ID}"'\"/' docker/.env.ckan.local
-          sed -i.bak -E 's/^(AWS_SECRET_ACCESS_KEY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${AWS_SECRET_ACCESS_KEY}"'\"/' docker/.env.ckan.local
+          pip install "python-dotenv[cli]"
+          dotenv -f docker/.env set REGISTRY ${REGISTRY}
+          dotenv -f docker/.env set REPOSITORY ${REPOSITORY}
+          dotenv -f docker/.env set MATOMO_ENABLED false
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          CKAN_CLOUDSTORAGE_ENABLED: ${{ secrets.CKAN_CLOUDSTORAGE_ENABLED }}
-          CKAN_CLOUDSTORAGE_CONTAINER_NAME: ${{ secrets.CKAN_CLOUDSTORAGE_CONTAINER_NAME }}
 
+      - name: configure .env.ckan.local
+        shell: bash
+        run: |
+          dotenv -f docker/.env.ckan.local set CKAN_CLOUDSTORAGE_ENABLED ${CKAN_CLOUDSTORAGE_ENABLED}
+          dotenv -f docker/.env.ckan.local set CKAN_CLOUDSTORAGE_DRIVER_OPTIONS "{'key': '${AWS_ACCESS_KEY_ID}', 'secret': '${AWS_SECRET_ACCESS_KEY}', 'token': '${AWS_SESSION_TOKEN}' }"
+          dotenv -f docker/.env.ckan.local set CKAN_CLOUDSTORAGE_CONTAINER_NAME ${CKAN_CLOUDSTORAGE_CONTAINER_NAME}
+          dotenv -f docker/.env.ckan.local set AWS_ACCESS_KEY_ID ${AWS_ACCESS_KEY_ID}
+          dotenv -f docker/.env.ckan.local set AWS_SECRET_ACCESS_KEY ${AWS_SECRET_ACCESS_KEY}
+        env:
+          CKAN_CLOUDSTORAGE_ENABLED: true
+          CKAN_CLOUDSTORAGE_CONTAINER_NAME: ${{ secrets.CKAN_CLOUDSTORAGE_CONTAINER_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ steps.aws-credentials.outputs.aws-access-key-id }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.aws-credentials.outputs.aws-secret-access-key }}
+          AWS_SESSION_TOKEN: ${{ steps.aws-credentials.outputs.aws-session-token }}
 
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
