@@ -177,7 +177,6 @@ export class CkanStack extends Stack {
       'text_view',
       'image_view',
       'pdf_view',
-      'resource_proxy',
       'geo_view',
       'geojson_view',
       'sixodp_harvester',
