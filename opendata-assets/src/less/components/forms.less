@@ -6,7 +6,7 @@
 @import "@{common-less}/mixins/mixins.less";
 
 @input-border-radius: 2px;
-@input-border-color: @suomi-depthLight13;
+@input-border-color: @suomi-depthLight1;
 @input-border-width: 1px;
 
 // ------------------------
@@ -65,7 +65,7 @@
 .control-required-message {
   align-self: flex-start;
   font-size: @font-size-slightly-smaller-base;
-  color: @suomi-depthDark27;
+  color: @suomi-depthDark1;
 
   span.control-required,
   .control-required {
@@ -125,7 +125,7 @@ label.group-label {
       padding: 8px 12px;
       margin-top: 0;
       font-size: 14px;
-      line-height: 1.42857143;
+      line-height: 1.4286;
       color: #333;
       border-radius: 4px;
       vertical-align: middle;
@@ -205,7 +205,7 @@ label.group-label {
   border-bottom: 0;
 
   .search-header {
-    border: 1px solid @suomi-depthLight13;
+    border: 1px solid @suomi-depthLight1;
     border-bottom: 0;
     padding: @padding-y--common;
     display: flex;
@@ -222,7 +222,7 @@ label.group-label {
   input.search.form-control {
     border: 1px solid @suomi-depthBase;
     border-radius: 2px;
-    box-shadow: inset 0 1px 2px 0 rgba(41, 41, 41, 0.1);
+    box-shadow: inset 0 1px 2px 0 rgb(41 41 41 / 10%);
     font-size: 16px;
     height: 40px;
   }
@@ -324,7 +324,7 @@ fieldset.checkboxes {
     background: white;
 
     &:focus {
-      background: @suomi-highlightLight53;
+      background: @suomi-highlightLight4;
     }
   }
 
@@ -350,7 +350,7 @@ fieldset.checkboxes {
     padding: 8px 10px;
 
     &:hover {
-      background-color: @suomi-highlightLight53;
+      background-color: @suomi-highlightLight4;
     }
 
     &::after {
@@ -403,10 +403,10 @@ fieldset.checkboxes {
   border: solid @input-border-width @input-border-color;
   padding: 8px 10px;
   border-radius: @input-border-radius;
-  box-shadow: inset 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
 
   &::placeholder {
-    color: @suomi-depthDark27;
+    color: @suomi-depthDark1;
     font-style: italic;
     opacity: 1;
   }
@@ -420,7 +420,7 @@ fieldset.checkboxes {
 
 // Frontpage search bar container
 .ytp-bg-highlight-base {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgb(255 255 255 / 30%);
 }
 
 // Frontpage search bar input.
@@ -428,7 +428,7 @@ fieldset.checkboxes {
   .ytp-input-element;
 
   &::placeholder {
-    color: rgb(109, 120, 126);
+    color: rgb(109 120 126);
     font-style: italic;
     opacity: 1;
   }
@@ -566,7 +566,7 @@ fieldset.checkboxes {
   display: flex;
   width: 100%;
   height: 1px;
-  background: rgb(200, 205, 208);
+  background: rgb(200 205 208);
   border-radius: 0;
   margin-top: 40px;
   margin-bottom: 40px;
@@ -585,8 +585,8 @@ fieldset.checkboxes {
 
   .editor textarea {
     border-radius: 0;
-    border-color: @suomi-depthLight13;
-    border-bottom: 1px solid @suomi-depthLight13;
+    border-color: @suomi-depthLight1;
+    border-bottom: 1px solid @suomi-depthLight1;
     padding: 6px 10px;
     font-size: 16px;
     font-weight: normal;
@@ -701,7 +701,7 @@ label.control-label {
   margin-left: 45%;
   width: 55%;
   padding-top: 40px;
-  color: rgb(95, 104, 109);
+  color: rgb(95 104 109);
   font-size: 14px;
   font-family: @font-family-sans-serif;
   font-weight: normal;
@@ -866,7 +866,7 @@ td.selectable-row {
 
 .custom-table-header {
   padding: 25px 20px 10px;
-  border: 1px solid @suomi-depthLight13;
+  border: 1px solid @suomi-depthLight1;
   border-bottom: none;
 
   & ~ p.filter-list {
@@ -887,8 +887,8 @@ td.selectable-row {
 }
 
 .action-button-group {
-  border-left: 1px solid @suomi-depthLight13;
-  border-right: 1px solid @suomi-depthLight13;
+  border-left: 1px solid @suomi-depthLight1;
+  border-right: 1px solid @suomi-depthLight1;
 
   & button {
     margin-left: 20px;
@@ -943,12 +943,12 @@ td.selectable-row {
   margin-bottom: @grid-gutter-width--bootstrap / 2;
 
   .slug-preview-value {
-    background-color: @suomi-accentSecondaryLight40;
+    background-color: @suomi-accentSecondaryLight1;
   }
 }
 
 #general-search-options {
-  border: 1px solid @suomi-depthLight13;
+  border: 1px solid @suomi-depthLight1;
   padding-bottom: @padding-bottom__module--resource;
 }
 
@@ -976,7 +976,7 @@ td.selectable-row {
 
 //TODO Use recources
 .dataset-heading.dataset-type {
-  color: rgb(41, 41, 41);
+  color: rgb(41 41 41);
   font-family: @font-family-sans-serif;
   font-size: @font-size-base;
   font-weight: @font-weight-normal;
@@ -1001,7 +1001,7 @@ td.selectable-row {
   border: 1px solid #c9cdcf;
   border-bottom: none;
   margin-bottom: 0;
-  padding: 20px 20px 15px 20px;
+  padding: 20px 20px 15px;
 }
 
 .general-search-item:last-of-type {
@@ -1009,6 +1009,6 @@ td.selectable-row {
   padding-bottom: 20px;
 }
 
-input[type=search]::-webkit-search-cancel-button {
-  -webkit-appearance: searchfield-cancel-button;
+input[type="search"]::-webkit-search-cancel-button {
+  appearance: searchfield-cancel-button;
 }

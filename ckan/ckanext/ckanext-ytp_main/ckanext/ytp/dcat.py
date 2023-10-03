@@ -34,9 +34,9 @@ namespaces = {
 
 
 def as_dict(value):
-    if type(value) is dict:
+    if isinstance(value, dict):
         return value
-    elif type(value) in (str, six.text_type):
+    elif isinstance(value, str) or isinstance(value, six.text_type):
         return as_dict(json.loads(value))
     else:
         raise ValueError()
@@ -507,7 +507,7 @@ class AvoindataDCATAPProfile(RDFProfile):
         if responsible_party:
             try:
                 custodians_data = json.loads(responsible_party)
-                custodians_data = custodians_data if type(custodians_data) is list else [custodians_data]
+                custodians_data = custodians_data if isinstance(custodians_data, list) else [custodians_data]
                 for custodian_data in custodians_data:
                     custodian = BNode()
                     g.add((custodian, RDF.type, FOAF.Agent))
@@ -588,10 +588,10 @@ class AvoindataDCATAPProfile(RDFProfile):
         title = p.config.get('ckan.site_title', '')
         g.add((catalog_ref, DCT.title, Literal(title)))
 
-        description = ('Suomen kansallinen avoimen datan portaali. Avoindata.fi on kaikille tarkoitettu palvelu avoimen '
+        description = ('Suomen kansallinen avoimen datan portaali. Suomi.fi-avoindata on kaikille tarkoitettu palvelu avoimen '
                        'datan julkaisemiseen ja hyödyntämiseen. Den finska nationella dataportalen för öppna data. '
-                       'Avoindata.fi är en tjänst för att publicera och utnyttja öppna data. The Finnish national open data '
-                       'portal. Opendata.fi is a service for publishing and utilising open data for everyone.')
+                       'Suomi.fi-öppnadata är en tjänst för att publicera och utnyttja öppna data. The Finnish national open '
+                       'data portal. Suomi.fi Open Data is a service for publishing and utilising open data for everyone.')
         g.add((catalog_ref, DCT.description, Literal(description)))
 
         spatial = 'koko Suomi, hela Finland, entire Finland'

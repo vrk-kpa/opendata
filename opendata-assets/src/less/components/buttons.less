@@ -39,21 +39,21 @@
   }
 
   &.suomi-button-primary {
-    background: linear-gradient(@suomi-highlightBase, @suomi-highlightDark9);
+    background: linear-gradient(@suomi-highlightBase, @suomi-highlightDark1);
     border: none;
     color: @suomi-whiteBase;
-    text-shadow: 0 1px 1px rgba(@suomi-brandBase, 0.5);
+    text-shadow: 0 1px 1px rgb(@suomi-brandBase 0.5);
 
     &:hover {
-      background: linear-gradient(@suomi-highlightLight4, @suomi-highlightBase);
+      background: linear-gradient(@suomi-highlightLight1, @suomi-highlightBase);
     }
 
     &:active {
-      background: @suomi-highlightDark9;
+      background: @suomi-highlightDark1;
     }
 
     &:disabled {
-      background: linear-gradient(@suomi-depthLight13, @suomi-depthBase);
+      background: linear-gradient(@suomi-depthLight1, @suomi-depthBase);
     }
   }
 
@@ -63,16 +63,16 @@
     color: @suomi-highlightBase;
 
     &:hover {
-      background: linear-gradient(@suomi-depthLight26, @suomi-whiteBase);
+      background: linear-gradient(@suomi-depthLight2, @suomi-whiteBase);
     }
 
     &:active {
-      background: @suomi-depthLight26;
+      background: @suomi-depthLight2;
     }
 
     &:disabled {
-      background: @suomi-depthLight30;
-      border: 1px solid @suomi-depthLight13;
+      background: @suomi-depthLight3;
+      border: 1px solid @suomi-depthLight1;
       color: @suomi-depthBase;
     }
   }
@@ -86,11 +86,11 @@
     color: @suomi-whiteBase;
 
     &:hover {
-      background: @suomi-highlightLight4;
+      background: @suomi-highlightLight1;
     }
 
     &:active {
-      background: @suomi-highlightDark9;
+      background: @suomi-highlightDark1;
     }
 
     // NOTE: atm no disabled class, due to it never being disabled where it is used
@@ -136,7 +136,6 @@
   color: @opendata-ckan-list-item-header;
   background-image: none;
   outline: 0;
-  -webkit-box-shadow: none;
   box-shadow: none;
 }
 

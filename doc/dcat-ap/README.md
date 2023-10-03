@@ -1,4 +1,4 @@
-# Avoindata.fi DCAT-AP extension
+# Suomi.fi Open Data DCAT-AP extension
 
 ## Validation
 

@@ -21,6 +21,6 @@ Message:
 
 Best regards
 
-Avoindata.fi support
+Suomi.fi Open Data support
 avoindata@dvv.fi
 """)
