@@ -1,6 +1,5 @@
-import json
-
 import ckan.plugins as p
+import yaml
 from ckan.plugins.toolkit import config
 from ckan.lib.plugins import DefaultTranslation
 import ckan.logic as logic
@@ -82,9 +81,7 @@ class CloudResourceStatus(ResourceStatus):
 
         driver_options = config.get('ckanext.cloudstorage.driver_options')
         if driver_options:
-            # driver options might not be valid json, even though its a dict
-            driver_options = driver_options.replace("'", '"')
-            driver_options = json.loads(driver_options)
+            driver_options = yaml.safe_load(driver_options)
             s3 = boto3.client('s3',
                 aws_access_key_id=driver_options.get('key'),
                 aws_secret_access_key=driver_options.get('secret'),
