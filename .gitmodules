@@ -41,18 +41,12 @@
 [submodule "modules/ckanext-drupal8"]
 	path = ckan/ckanext/ckanext-drupal8
 	url = https://github.com/vrk-kpa/ckanext-drupal8.git
-[submodule "modules/ckanext-disqus"]
-	path = ckan/ckanext/ckanext-disqus
-	url = https://github.com/vrk-kpa/ckanext-disqus.git
 [submodule "modules/ckanext-reminder"]
 	path = ckan/ckanext/ckanext-reminder
 	url = https://github.com/vrk-kpa/ckanext-reminder.git
 [submodule "modules/ckanext-sixodp_showcasesubmit"]
 	path = ckan/ckanext/ckanext-sixodp_showcasesubmit
 	url = https://github.com/vrk-kpa/ckanext-sixodp_showcasesubmit.git
-[submodule "modules/ckanext-datarequests"]
-	path = ckan/ckanext/ckanext-datarequests
-	url = https://github.com/vrk-kpa/ckanext-datarequests.git
 [submodule "modules/ckanext-organizationapproval"]
 	path = ckan/ckanext/ckanext-organizationapproval
 	url = https://github.com/vrk-kpa/ckanext-organizationapproval.git

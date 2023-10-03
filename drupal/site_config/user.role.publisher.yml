@@ -103,7 +103,6 @@ permissions:
   - 'view avoindata_guide_page unpublished content'
   - 'view avoindata_servicemessage revisions'
   - 'view avoindata_servicemessage unpublished content'
-  - 'view disqus comments'
   - 'view own unpublished content'
   - 'view page revisions'
   - 'view page unpublished content'

@@ -1,4 +1,4 @@
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import {aws_ec2 as ec2, aws_certificatemanager as acm} from 'aws-cdk-lib';
 
 import { CommonStackProps } from './common-stack-props';
 

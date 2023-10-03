@@ -47,8 +47,6 @@ Differences in the smaller screen size are together with other @media definition
 .dropdown-submenu.pull-left > .dropdown-menu {
   left: -100%;
   margin-left: 10px;
-  -webkit-border-radius: 6px 0 6px 6px;
-  -moz-border-radius: 6px 0 6px 6px;
   border-radius: 6px 0 6px 6px;
 }
 
@@ -156,7 +154,7 @@ End of dropdown CSS
     //Hovering language selection draws a box around it
     .language-link:hover {
       border-style: solid;
-      border-color: rgba(0, 0, 0, 0.98);
+      border-color: rgb(0 0 0 / 98%);
       border-radius: 2px;
     }
   }
@@ -193,7 +191,7 @@ End of dropdown CSS
       display: none;
       background: #fff;
       border: 1px solid #a5acb0;
-      box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 3px 0 rgb(0 0 0 / 20%);
       border-radius: 2px;
       right: 0;
       top: 58px;
@@ -260,8 +258,8 @@ End of dropdown CSS
 .search-button-submit {
   background: $suomi-highlightBase;
   border: none;
-  width: 40;
-  height: 40;
+  width: 40px;
+  height: 40px;
 }
 
 .avoindata-search-id {
@@ -276,7 +274,6 @@ End of dropdown CSS
   width: 360px;
   border: solid 1px #c8cdd0;
   padding: 8px 10px;
-  -webkit-box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
   box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
   height: 40px;
   border-radius: 1px;
@@ -295,8 +292,6 @@ End of dropdown CSS
 .header-search-group input,
 .header-search-group button {
   float: left;
-  -webtkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: 40px;
 }
@@ -694,6 +689,7 @@ End of dropdown CSS
   list-style: none;
   margin: 0;
   padding: 0;
+  font-size: @font-size-base;
 
   .alert-info {
     @include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
@@ -738,6 +734,7 @@ End of dropdown CSS
     margin: 0;
     padding: 0.5em 2em 0.5em 1em;
     border-radius: 0 !important;
+    height: 46px;
   }
 }
 

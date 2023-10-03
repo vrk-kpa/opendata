@@ -4,9 +4,7 @@ set -e
 echo "entrypoint_ckan ..."
 
 # set env vars for base image prerun.py script
-export CKAN_SQLALCHEMY_URL="postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_CKAN}"
-export CKAN_DATASTORE_WRITE_URL="postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}"
-export CKAN_DATASTORE_READ_URL="postgresql://${DB_DATASTORE_READONLY_USER}:${DB_DATASTORE_READONLY_PASS}@${DB_HOST}/${DB_DATASTORE_READONLY}"
+export CKAN_SQLALCHEMY_URL="postgresql://${DB_CKAN_USER}:${DB_CKAN_PASS}@${DB_CKAN_HOST}/${DB_CKAN}"
 export CKAN_SOLR_URL="http://${SOLR_HOST}:${SOLR_PORT}/${SOLR_PATH}"
 export CKAN_SYSADMIN_NAME="${SYSADMIN_USER}"
 export CKAN_SYSADMIN_PASSWORD="${SYSADMIN_PASS}"

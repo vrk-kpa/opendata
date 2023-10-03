@@ -6,8 +6,7 @@ module.exports = defineConfig({
   projectId: 'ssb2ut',
   env: {
     resetDB: true,
-    cloudStorageEnabled: false,
-    docker: true
+    cloudStorageEnabled: false
   },
   videoCompression: 20,
   videoUploadOnPasses: false,

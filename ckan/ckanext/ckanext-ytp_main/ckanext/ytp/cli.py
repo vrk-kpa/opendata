@@ -197,13 +197,13 @@ def migrate(ctx, dryrun):
             resource['description_translated'] = {
                 original_language: resource.get('description', '') or ''
             }
-            if resource.get('temporal_granularity') and type(resource.get('temporal_granularity')) is not dict:
+            if resource.get('temporal_granularity') and not isinstance(resource.get('temporal_granularity'), dict):
                 resource['temporal_granularity'] = {
                     original_language: resource.get('temporal_granularity')
                 }
             else:
                 del resource['temporal_granularity']
-            if resource.get('update_frequency') and type(resource.get('update_frequency')) is not dict:
+            if resource.get('update_frequency') and not isinstance(resource.get('update_frequency'), dict):
                 resource['update_frequency'] = {
                     original_language: resource.get('update_frequency')
                 }

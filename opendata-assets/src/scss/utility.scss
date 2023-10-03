@@ -265,8 +265,8 @@ $display-properties: none,
     color: $suomi-blackBase;
   }
 
-  &-black-light25 {
-    color: $suomi-blackLight25;
+  &-black-light1 {
+    color: $suomi-blackLight1;
   }
 
   &-brand-base {
@@ -279,25 +279,25 @@ $display-properties: none,
     }
 
     &-light {
-      &53 {
-        color: $suomi-highlightLight53;
-      }
-
-      &50 {
-        color: $suomi-highlightLight50;
-      }
-
-      &45 {
-        color: $suomi-highlightLight45;
-      }
-
       &4 {
         color: $suomi-highlightLight4;
       }
+
+      &3 {
+        color: $suomi-highlightLight3;
+      }
+
+      &2 {
+        color: $suomi-highlightLight2;
+      }
+
+      &1 {
+        color: $suomi-highlightLight1;
+      }
     }
 
-    &-dark9 {
-      color: $suomi-highlightDark9;
+    &-dark1 {
+      color: $suomi-highlightDark1;
     }
   }
 
@@ -309,16 +309,16 @@ $display-properties: none,
     &-secondary {
       color: $suomi-accentSecondary;
 
-      &-light40 {
-        color: $suomi-accentSecondaryLight40;
+      &-light1 {
+        color: $suomi-accentSecondaryLight1;
       }
     }
 
     &-tertiery {
       color: $suomi-accentTertiary;
 
-      &-dark9 {
-        color: $suomi-accentTertiaryDark9;
+      &-dark1 {
+        color: $suomi-accentTertiaryDark1;
       }
     }
   }
@@ -329,28 +329,28 @@ $display-properties: none,
     }
 
     &-light {
-      &30 {
-        color: $suomi-depthLight30;
+      &3 {
+        color: $suomi-depthLight3;
       }
 
-      &26 {
-        color: $suomi-depthLight26;
+      &2 {
+        color: $suomi-depthLight2;
       }
 
-      &13 {
-        color: $suomi-depthLight13;
+      &1 {
+        color: $suomi-depthLight1;
       }
     }
 
-    &-dark27 {
-      color: $suomi-depthDark27;
+    &-dark1 {
+      color: $suomi-depthDark1;
     }
 
     &-secondary {
       color: $suomi-depthSecondary;
 
-      &-dark3 {
-        color: $suomi-depthSecondaryDark3;
+      &-dark1 {
+        color: $suomi-depthSecondaryDark1;
       }
     }
   }
@@ -389,8 +389,8 @@ $display-properties: none,
     background-color: $suomi-blackBase;
   }
 
-  &-black-light25 {
-    background-color: $suomi-blackLight25;
+  &-black-light1 {
+    background-color: $suomi-blackLight1;
   }
 
   &-brand-base {
@@ -403,25 +403,25 @@ $display-properties: none,
     }
 
     &-light {
-      &53 {
-        background-color: $suomi-highlightLight53;
-      }
-
-      &50 {
-        background-color: $suomi-highlightLight50;
-      }
-
-      &45 {
-        background-color: $suomi-highlightLight45;
-      }
-
       &4 {
         background-color: $suomi-highlightLight4;
       }
+
+      &3 {
+        background-color: $suomi-highlightLight3;
+      }
+
+      &2 {
+        background-color: $suomi-highlightLight2;
+      }
+
+      &1 {
+        background-color: $suomi-highlightLight1;
+      }
     }
 
-    &-dark9 {
-      background-color: $suomi-highlightDark9;
+    &-dark1 {
+      background-color: $suomi-highlightDark1;
     }
   }
 
@@ -433,16 +433,16 @@ $display-properties: none,
     &-secondary {
       background-color: $suomi-accentSecondary;
 
-      &-light40 {
-        background-color: $suomi-accentSecondaryLight40;
+      &-light1 {
+        background-color: $suomi-accentSecondaryLight1;
       }
     }
 
     &-tertiery {
       background-color: $suomi-accentTertiary;
 
-      &-dark9 {
-        background-color: $suomi-accentTertiaryDark9;
+      &-dark1 {
+        background-color: $suomi-accentTertiaryDark1;
       }
     }
   }
@@ -453,28 +453,28 @@ $display-properties: none,
     }
 
     &-light {
-      &30 {
-        background-color: $suomi-depthLight30;
+      &3 {
+        background-color: $suomi-depthLight3;
       }
 
-      &26 {
-        background-color: $suomi-depthLight26;
+      &2 {
+        background-color: $suomi-depthLight2;
       }
 
-      &13 {
-        background-color: $suomi-depthLight13;
+      &1 {
+        background-color: $suomi-depthLight1;
       }
     }
 
-    &-dark27 {
-      background-color: $suomi-depthDark27;
+    &-dark1 {
+      background-color: $suomi-depthDark1;
     }
 
     &-secondary {
       background-color: $suomi-depthSecondary;
 
-      &-dark3 {
-        background-color: $suomi-depthSecondaryDark3;
+      &-dark1 {
+        background-color: $suomi-depthSecondaryDark1;
       }
     }
   }

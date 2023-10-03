@@ -20,8 +20,7 @@
 
     .embedded-content,
     .resources,
-    .additional-info,
-    .disqus-comments {
+    .additional-info {
       margin-bottom: $margin__module--large;
 
       h3 {
@@ -68,7 +67,6 @@
 
 .admin-banner {
   display: flex;
-  justify-content: flex-end;
   margin-bottom: 20px;
 
   a {
@@ -121,6 +119,36 @@
   background: $suomi-alertBase;
 }
 
+.maintainer-note {
+  background: $opendata-brand-gray;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+  }
+
+  span {
+    color: $color--black;
+    font-family: $font-family-sans-serif;
+    font-size: $font-size-slightly-smaller-base;
+    font-weight: $font-weight-normal;
+    line-height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  a {
+    color: $color--black;
+    border: 1px solid $color--black;
+  }
+}
+
 #content .container-apiset {
   .filter-list .pill {
     font-size: 16px;
@@ -130,7 +158,7 @@
     color: rgb(255, 255, 255);
     background: $opendata-brand-primary;
     border-radius: 14px;
-    padding: 0 13px 0 13px;
+    padding: 0 13px;
 
     i {
       margin-left: 5px;
@@ -167,7 +195,7 @@
   }
 
   .row {
-    padding: 21px 20px 21px 20px;
+    padding: 21px 20px;
     border: 1px solid $table-border-color;
     background: #fff;
     margin-bottom: -1px;
@@ -220,7 +248,7 @@
   }
 
   .search-item-tag span {
-    color: $suomi-depthDark27;
+    color: $suomi-depthDark1;
     font-family: $font-family-sans-serif-semibold;
     font-size: 14px;
     font-weight: 600;

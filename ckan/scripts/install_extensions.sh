@@ -13,7 +13,6 @@ REQUIREMENTS_FILES="${EXT_DIR}/ckanext-drupal8/requirements.txt \
   ${EXT_DIR}/ckanext-ytp_main/requirements.txt \
   ${EXT_DIR}/ckanext-hierarchy/requirements.txt \
   ${EXT_DIR}/ckanext-matomo/requirements.txt \
-  ${EXT_DIR}/ckanext-datarequests/requirements.txt \
   ${EXT_DIR}/ckanext-harvest/requirements.txt \
   ${EXT_DIR}/ckanext-report/requirements.txt \
   ${EXT_DIR}/ckanext-spatial/requirements.txt \
@@ -26,7 +25,6 @@ REQUIREMENTS_FILES="${EXT_DIR}/ckanext-drupal8/requirements.txt \
   ${EXT_DIR}/ckanext-sixodp_showcasesubmit/requirements.txt \
   ${EXT_DIR}/ckanext-geoview/requirements.txt \
   ${EXT_DIR}/ckanext-pdfview/requirements.txt \
-  ${EXT_DIR}/ckanext-disqus/requirements.txt \
   ${EXT_DIR}/ckanext-reminder/requirements.txt \
   ${EXT_DIR}/ckanext-archiver/requirements.txt \
   ${EXT_DIR}/ckanext-organizationapproval/requirements.txt \
@@ -46,7 +44,6 @@ REQUIREMENTS_FILES="${EXT_DIR}/ckanext-drupal8/requirements.txt \
   ${EXT_DIR}/ckanext-ytp_main/pip-requirements.txt \
   ${EXT_DIR}/ckanext-hierarchy/pip-requirements.txt \
   ${EXT_DIR}/ckanext-matomo/pip-requirements.txt \
-  ${EXT_DIR}/ckanext-datarequests/pip-requirements.txt \
   ${EXT_DIR}/ckanext-harvest/pip-requirements.txt \
   ${EXT_DIR}/ckanext-report/pip-requirements.txt \
   ${EXT_DIR}/ckanext-spatial/pip-requirements.txt \
@@ -59,7 +56,6 @@ REQUIREMENTS_FILES="${EXT_DIR}/ckanext-drupal8/requirements.txt \
   ${EXT_DIR}/ckanext-sixodp_showcasesubmit/pip-requirements.txt \
   ${EXT_DIR}/ckanext-geoview/pip-requirements.txt \
   ${EXT_DIR}/ckanext-pdfview/pip-requirements.txt \
-  ${EXT_DIR}/ckanext-disqus/pip-requirements.txt \
   ${EXT_DIR}/ckanext-reminder/pip-requirements.txt \
   ${EXT_DIR}/ckanext-archiver/pip-requirements.txt \
   ${EXT_DIR}/ckanext-organizationapproval/pip-requirements.txt \
@@ -88,7 +84,6 @@ pip install -e ${EXT_DIR}/ckanext-drupal8 \
     -e ${EXT_DIR}/ckanext-ytp_main \
     -e ${EXT_DIR}/ckanext-hierarchy \
     -e ${EXT_DIR}/ckanext-matomo \
-    -e ${EXT_DIR}/ckanext-datarequests \
     -e ${EXT_DIR}/ckanext-harvest \
     -e ${EXT_DIR}/ckanext-report \
     -e ${EXT_DIR}/ckanext-spatial \
@@ -101,7 +96,6 @@ pip install -e ${EXT_DIR}/ckanext-drupal8 \
     -e ${EXT_DIR}/ckanext-sixodp_showcasesubmit \
     -e ${EXT_DIR}/ckanext-geoview \
     -e ${EXT_DIR}/ckanext-pdfview \
-    -e ${EXT_DIR}/ckanext-disqus \
     -e ${EXT_DIR}/ckanext-reminder \
     -e ${EXT_DIR}/ckanext-organizationapproval \
     -e ${EXT_DIR}/ckanext-advancedsearch \
@@ -126,7 +120,6 @@ pip install -e ${EXT_DIR}/ckanext-drupal8 \
 (cd ${EXT_DIR}/ckanext-advancedsearch; python setup.py compile_catalog -f) &
 (cd ${EXT_DIR}/ckanext-scheming; python setup.py compile_catalog -f) &
 (cd ${EXT_DIR}/ckanext-statistics; python setup.py compile_catalog -f) &
-(cd ${EXT_DIR}/ckanext-datarequests; python setup.py compile_catalog -f) &
 (cd ${EXT_DIR}/ckanext-matomo; python setup.py compile_catalog -f) &
 (cd ${EXT_DIR}/ckanext-ytp_recommendation; python setup.py compile_catalog -f) &
 (cd ${EXT_DIR}/ckanext-apis; python setup.py compile_catalog -f) &

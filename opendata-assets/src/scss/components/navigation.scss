@@ -25,10 +25,7 @@
     color: $opendata-brand-primary;
     text-decoration: none;
     margin: 0;
-    padding-top: $padding-y__navigation;
-    padding-bottom: $padding-y__navigation;
-    padding-left: $padding-x__navigation;
-    padding-right: $padding-x__navigation;
+    padding: $padding-y__navigation $padding-x__navigation $padding-y__navigation $padding-x__navigation;
 
     &:hover {
       text-decoration: none;

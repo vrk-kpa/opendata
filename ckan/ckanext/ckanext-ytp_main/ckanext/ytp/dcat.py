@@ -34,9 +34,9 @@ namespaces = {
 
 
 def as_dict(value):
-    if type(value) is dict:
+    if isinstance(value, dict):
         return value
-    elif type(value) in (str, six.text_type):
+    elif isinstance(value, str) or isinstance(value, six.text_type):
         return as_dict(json.loads(value))
     else:
         raise ValueError()
@@ -507,7 +507,7 @@ class AvoindataDCATAPProfile(RDFProfile):
         if responsible_party:
             try:
                 custodians_data = json.loads(responsible_party)
-                custodians_data = custodians_data if type(custodians_data) is list else [custodians_data]
+                custodians_data = custodians_data if isinstance(custodians_data, list) else [custodians_data]
                 for custodian_data in custodians_data:
                     custodian = BNode()
                     g.add((custodian, RDF.type, FOAF.Agent))

@@ -23,7 +23,7 @@ from ckan.model import Session
 from ckan.plugins import toolkit
 from ckan.plugins.toolkit import config, chained_action
 from ckanext.report.interfaces import IReport
-from ckanext.spatial.interfaces import ISpatialHarvester
+
 from ckanext.sitesearch.interfaces import ISiteSearch
 from ckanext.showcase.model import ShowcaseAdmin
 from sqlalchemy import and_, or_
@@ -41,8 +41,8 @@ from .helpers import extra_translation, render_date, service_database_enabled, g
     get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
     sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, \
     scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function, get_translation, get_translated, \
-    dataset_display_name, resource_display_name, get_current_date, get_label_for_producer, scheming_category_list, \
-    check_group_selected, group_title_by_id, group_list_with_selected, \
+    dataset_display_name, resource_display_name, get_current_date, parse_datetime, get_label_for_producer, \
+    scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
     get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_apiset_package_list, \
     get_groups_where_user_is_admin, get_value_from_extras_by_key, get_field_from_dataset_schema, \
     get_field_from_resource_schema, is_boolean_selected, site_url_with_root_path, \
@@ -362,6 +362,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'render_date': render_date,
                 'get_license': get_license,
                 'get_current_date': get_current_date,
+                'parse_datetime': parse_datetime,
                 'get_geonetwork_link': get_geonetwork_link,
                 'get_tooltip_content_types': get_tooltip_content_types,
                 'unquote_url': unquote_url,
@@ -460,7 +461,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             prop_value = json.loads(prop_json)
             # Add for each language
             for lang in languages:
-                if type(prop_value) is dict and prop_value.get(lang):
+                if isinstance(prop_value, dict) and prop_value.get(lang):
                     prop_value[lang] = [tag for tag in {tag.lower() for tag in prop_value[lang]} if tag not in ignored_tags]
                     pkg_dict['vocab_%s_%s' % (prop_key, lang)] = [tag for tag in prop_value[lang]]
             pkg_dict[prop_key] = json.dumps(prop_value)
@@ -532,12 +533,16 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
 
 class YTPSpatialHarvester(plugins.SingletonPlugin):
-    plugins.implements(ISpatialHarvester, inherit=True)
+    try:
+        from ckanext.spatial.interfaces import ISpatialHarvester
+        plugins.implements(ISpatialHarvester, inherit=True)
+    except ImportError:
+        pass
 
     # ISpatialHarvester
 
     def get_package_dict(self, context, data_dict):
-    
+
         context['defer'] = True
         package_dict = data_dict['package_dict']
 
@@ -595,7 +600,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                     package_dict['maintainer'] = contact.get('individual-name')
                     break
 
-        config_obj = json.loads(data_dict['harvest_object'].source.config)
+        config_obj = json.loads(data_dict['harvest_object'].source.config or "{}")
         license_from_source = config_obj.get("license", None)
         if license_from_source is not None:
             package_dict['license_id'] = license_from_source
@@ -660,7 +665,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         license_links = iso_values.get('other-constraints', None)
 
         # if any licence links were found, map them to one of the existing licences
-        # licences that don't fall under cc-by-4.0 or cc-zero-1.0 will not be harvested 
+        # licences that don't fall under cc-by-4.0 or cc-zero-1.0 will not be harvested
         if license_links:
 
             # Mappings for the license urls
@@ -709,7 +714,7 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                     elif value.get('type') == 'publication':
                         publication_date = iso8601.parse_date(value.get('value'))\
                                     .replace(tzinfo=None).isoformat()
-                        
+
                 if creation_date:
                     package_dict['date_released'] = creation_date
                 elif publication_date:
@@ -1375,3 +1380,61 @@ class OpenDataGroupPlugin(plugins.SingletonPlugin):
 
         data_dict['users'] = data_dicts
         return original_action(context, data_dict)
+
+
+# NOTE: DO NOT ENABLE THIS PLUGIN IN NON-LOCAL ENVIRONMENTS
+class OpenDataResetPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.interfaces.IActions)
+
+    def get_actions(self):
+        return {
+            "reset": _reset
+        }
+@toolkit.side_effect_free
+def _reset(context, data_dict):
+
+    context = {'ignore_auth': True}
+
+    # clean database
+    from ckan import model
+    model.repo.delete_all()
+
+
+    # clear search index
+    from ckan.lib.search import clear_all
+    clear_all()
+
+    # sparql clear
+    get_action('sparql_clear')(context, {})
+
+    # Create platform vocabulary
+
+    vocab_id = 'platform'
+    tags = (u"Android", u"iOS Apple", u"Windows", u"Mac OS X", u"Website", u"Other")
+    tags_to_delete = []
+    tags_to_create = []
+    try:
+        data = {'id': vocab_id}
+        old_tags = toolkit.get_action('vocabulary_show')(context, data)
+        for old_tag in old_tags.get('tags'):
+            if old_tag['id'] in tags:
+                continue
+            else:
+                tags_to_delete.append({'name': old_tag['name']})
+                toolkit.get_action('tag_delete')(context, {'id': old_tag['id']})
+
+        for tag in tags:
+            try:
+                toolkit.get_action('tag_show')(context, {'id': tag, 'vocabulary_id': vocab_id})
+            except toolkit.ObjectNotFound:
+                tags_to_create.append({'name': tag})
+                toolkit.get_action('tag_create')(context, {'name': tag, 'vocabulary_id': old_tags.get('id')})
+    except NotFound:
+        data = {'name': vocab_id}
+        vocab = toolkit.get_action('vocabulary_create')(context, data)
+        for tag in tags:
+            data = {'name': tag, 'vocabulary_id': vocab['id']}
+            tags_to_create.append({'name': tag})
+            toolkit.get_action('tag_create')(context, data)
+
+    return "Cleared"

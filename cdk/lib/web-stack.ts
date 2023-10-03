@@ -1,5 +1,4 @@
 import { Duration, Stack, StackProps } from 'aws-cdk-lib';
-import * as cdk from 'aws-cdk-lib/core';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
@@ -8,7 +7,6 @@ import * as elb from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as ecsp from 'aws-cdk-lib/aws-ecs-patterns';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as r53 from 'aws-cdk-lib/aws-route53';
-import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
 
@@ -33,17 +31,11 @@ export class WebStack extends Stack {
     });
 
     // define nginx content security policies
-    const nginxCspDefaultSrc: string[] = [
-      '*.disquscdn.com',
-      'https://disqus.com',
-    ];
+    const nginxCspDefaultSrc: string[] = [];
     const nginxCspScriptSrc: string[] = [
       'platform.twitter.com',
       'syndication.twitter.com',
       'cdn.syndication.twimg.com',
-      '*.disqus.com',
-      'https://disqus.com',
-      '*.disquscdn.com',
       'https://www.google.com/recaptcha/',
       'https://www.gstatic.com/',
       'https://www.google.com',
@@ -55,7 +47,6 @@ export class WebStack extends Stack {
       'https://fonts.googleapis.com',
       'https://platform.twitter.com',
       'https://ton.twimg.com',
-      '*.disquscdn.com',
       'https://www.google.com',
       'https://ajax.googleapis.com',
       'https://www.gstatic.com',
@@ -63,8 +54,6 @@ export class WebStack extends Stack {
     const nginxCspFrameSrc: string[] = [
       'syndication.twitter.com',
       'https://platform.twitter.com',
-      'https://disqus.com',
-      '*.disqus.com',
       'https://www.google.com/recaptcha/',
       'https://avoindata-' + props.environment + '-datasets.s3.eu-west-1.amazonaws.com/'
     ];
@@ -118,63 +107,31 @@ export class WebStack extends Stack {
       privateZone: false,
     });
 
-    // either use imported cert/elb or create new ones
-    let nginxService: ecsp.ApplicationLoadBalancedFargateService | null = null;
-    if (props.loadBalancerCert != null && props.loadBalancer != null) {
-      nginxService = new ecsp.ApplicationLoadBalancedFargateService(this, 'nginxService', {
-        cluster: props.cluster,
-        cloudMapOptions: {
-          cloudMapNamespace: props.namespace,
-          dnsRecordType: sd.DnsRecordType.A,
-          dnsTtl: Duration.minutes(1),
-          name: 'nginx',
-          container: nginxContainer,
-          containerPort: 80,
-        },
-        publicLoadBalancer: true,
-        protocol: elb.ApplicationProtocol.HTTPS,
-        certificate: props.loadBalancerCert,
-        redirectHTTP: false,
-        platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
-        taskDefinition: nginxTaskDef,
-        minHealthyPercent: 50,
-        maxHealthyPercent: 200,
-        loadBalancer: props.loadBalancer,
-      });
-    } else {
-      const loadBalancerCert = new acm.Certificate(this, 'loadBalancerCert', {
-        domainName: props.domainName,
-        subjectAlternativeNames: [
-          props.secondaryDomainName,
-        ],
-        validation: acm.CertificateValidation.fromDnsMultiZone({
-          [props.domainName]: nginxServiceHostedZone,
-          [props.secondaryDomainName]: nginxServiceSecondaryHostedZone,
-        })
-      });
 
-      nginxService = new ecsp.ApplicationLoadBalancedFargateService(this, 'nginxService', {
-        cluster: props.cluster,
-        domainName: props.domainName,
-        domainZone: nginxServiceHostedZone,
-        cloudMapOptions: {
-          cloudMapNamespace: props.namespace,
-          dnsRecordType: sd.DnsRecordType.A,
-          dnsTtl: Duration.minutes(1),
-          name: 'nginx',
-          container: nginxContainer,
-          containerPort: 80,
-        },
-        publicLoadBalancer: true,
-        protocol: elb.ApplicationProtocol.HTTPS,
-        certificate: loadBalancerCert,
-        redirectHTTP: true,
-        platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
-        taskDefinition: nginxTaskDef,
-        minHealthyPercent: 50,
-        maxHealthyPercent: 200,
-      });
-    }
+    let nginxService: ecsp.ApplicationLoadBalancedFargateService | null = null;
+
+    nginxService = new ecsp.ApplicationLoadBalancedFargateService(this, 'nginxService', {
+      cluster: props.cluster,
+      cloudMapOptions: {
+        cloudMapNamespace: props.namespace,
+        dnsRecordType: sd.DnsRecordType.A,
+        dnsTtl: Duration.minutes(1),
+        name: 'nginx',
+        container: nginxContainer,
+        containerPort: 80,
+      },
+      publicLoadBalancer: true,
+      protocol: elb.ApplicationProtocol.HTTPS,
+      certificate: props.certificate,
+      redirectHTTP: false,
+      platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
+      taskDefinition: nginxTaskDef,
+      minHealthyPercent: 50,
+      maxHealthyPercent: 200,
+      loadBalancer: props.loadBalancer,
+      openListener: false
+    });
+
 
     nginxService.targetGroup.configureHealthCheck({
       path: '/health',

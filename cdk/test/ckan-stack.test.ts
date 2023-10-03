@@ -8,6 +8,8 @@ import { CacheStack } from '../lib/cache-stack';
 import { CkanStack } from '../lib/ckan-stack';
 import { BackupStack} from "../lib/backup-stack";
 import { mockEnv, mockEnvProps } from './mock-constructs';
+import {data} from "aws-cdk/lib/logging";
+import {LambdaStack} from "../lib/lambda-stack";
 
 
 test('verify ckan stack resources', () => {
@@ -58,8 +60,23 @@ test('verify ckan stack resources', () => {
     secondaryDomainName: 'mock.localhost',
     vpc: clusterStack.vpc,
     backups: true,
-    backupPlan: backupStack.backupPlan
+    backupPlan: backupStack.backupPlan,
+    multiAz: true
   });
+
+  const lambdaStack = new LambdaStack(app, 'LambdaStack-test', {
+    envProps: mockEnvProps,
+    env: mockEnv,
+    environment: 'mock-env',
+    fqdn: 'localhost',
+    secondaryFqdn: 'localhost',
+    domainName: 'mock.localhost',
+    secondaryDomainName: 'mock.localhost',
+    datastoreInstance: databaseStack.datastoreInstance,
+    datastoreCredentials: databaseStack.datastoreCredentials,
+    vpc: clusterStack.vpc
+  })
+
   const cacheStack = new CacheStack(app, 'CacheStack-test', {
     envProps: mockEnvProps,
     env: mockEnv,
@@ -96,6 +113,12 @@ test('verify ckan stack resources', () => {
     },
     databaseSecurityGroup: databaseStack.databaseSecurityGroup,
     databaseInstance: databaseStack.databaseInstance,
+    datastoreInstance: databaseStack.datastoreInstance,
+    datastoreCredentials: databaseStack.datastoreCredentials,
+    datastoreJobsCredentials: lambdaStack.datastoreJobsCredentials,
+    datastoreReadCredentials: lambdaStack.datastoreReadCredentials,
+    datastoreUserCredentials: lambdaStack.datastoreUserCredentials,
+    datastoreSecurityGroup: databaseStack.datastoreSecurityGroup,
     cachePort: cacheStack.cachePort,
     cacheSecurityGroup: cacheStack.cacheSecurityGroup,
     cacheCluster: cacheStack.cacheCluster,

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icons/Illustrative icons/book</title>
+    <g id="Icons/Illustrative-icons/book" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Opiskelu-ja-koulutus" transform="translate(8.000000, 14.000000)">
+            <path d="M40,52 L1,52 C0.447,52 0,51.552 0,51 L0,5 C0,4.448 0.447,4 1,4 L5,4 L5,6 L2,6 L2,50 L40,50 L40,52" id="Fill-56" fill="#A5ADB1"></path>
+            <path d="M64,40 L62,40 L62,6 L59,6 L59,4 L63,4 C63.553,4 64,4.448 64,5 L64,40" id="Fill-57" fill="#A5ADB1"></path>
+            <path d="M32,52 C31.744,52 31.488,51.902 31.293,51.707 L27.586,48 L5,48 C4.447,48 4,47.552 4,47 L4,1 C4,0.448 4.447,0 5,0 L28,0 C28.266,0 28.52,0.105 28.707,0.293 L32,3.586 L35.293,0.293 C35.48,0.105 35.734,0 36,0 L59,0 C59.553,0 60,0.448 60,1 L60,40 L58,40 L58,2 L36.414,2 L32.707,5.707 C32.316,6.098 31.684,6.098 31.293,5.707 L27.586,2 L6,2 L6,46 L28,46 C28.266,46 28.52,46.105 28.707,46.293 L32,49.586 L35.293,46.293 C35.48,46.105 35.734,46 36,46 L40,46 L40,48 L36.414,48 L32.707,51.707 C32.512,51.902 32.256,52 32,52" id="Fill-58" fill="#A5ADB1"></path>
+            <path d="M64,52 L41,52 C40.447,52 40,51.552 40,51 L40,19 L42,19 L42,50 L64,50" id="Fill-58-Copy" fill="#A5ADB1" transform="translate(52.000000, 35.500000) scale(-1, 1) translate(-52.000000, -35.500000) "></path>
+            <path d="M59.586,48 L37,48 C36.447,48 36,47.552 36,47 L36,15 L38,15 L38,46 L57,46 L60,46" id="Fill-58-Copy" fill="#A5ADB1" transform="translate(48.000000, 31.500000) scale(-1, 1) translate(-48.000000, -31.500000) "></path>
+            <polygon id="Fill-59" fill="#A5ADB1" points="31 51 33 51 33 5 31 5"></polygon>
+            <polygon id="Fill-60" fill="#A5ADB1" points="8 26 29 26 29 24 8 24"></polygon>
+            <polygon id="Fill-61" fill="#A5ADB1" points="8 30 29 30 29 28 8 28"></polygon>
+            <polygon id="Fill-62" fill="#A5ADB1" points="8 34 29 34 29 32 8 32"></polygon>
+            <polygon id="Fill-63" fill="#A5ADB1" points="8 38 29 38 29 36 8 36"></polygon>
+            <polygon id="Fill-64" fill="#A5ADB1" points="8 42 29 42 29 40 8 40"></polygon>
+            <path d="M10,20 L27,20 L27,12 L10,12 L10,20 Z M28,22 L9,22 C8.447,22 8,21.552 8,21 L8,11 C8,10.448 8.447,10 9,10 L28,10 C28.553,10 29,10.448 29,11 L29,21 C29,21.552 28.553,22 28,22 L28,22 Z" id="Fill-65" fill="#E97025"></path>
+            <polygon id="Fill-66" fill="#A5ADB1" points="35 8 56 8 56 6 35 6"></polygon>
+            <polygon id="Fill-67" fill="#A5ADB1" points="35 12 56 12 56 10 35 10"></polygon>
+            <polygon id="Fill-68" fill="#A5ADB1" points="35 16 56 16 56 14 35 14"></polygon>
+            <polygon id="Fill-69" fill="#A5ADB1" points="35 32 56 32 56 30 35 30"></polygon>
+            <polygon id="Fill-70" fill="#A5ADB1" points="35 36 56 36 56 34 35 34"></polygon>
+            <polygon id="Fill-71" fill="#A5ADB1" points="35 40 56 40 56 38 35 38"></polygon>
+            <polygon id="Fill-72" fill="#E97025" points="37 24 39 24 39 22 37 22"></polygon>
+            <polygon id="Fill-73" fill="#E97025" points="41 24 50 24 50 22 41 22"></polygon>
+            <polygon id="Fill-74" fill="#E97025" points="52 24 54 24 54 22 52 22"></polygon>
+            <polygon id="Fill-77" fill="#A5ADB1" points="8 8 29 8 29 6 8 6"></polygon>
+        </g>
+        <rect id="bounding-box" x="0" y="0" width="80" height="80"></rect>
+    </g>
+</svg>

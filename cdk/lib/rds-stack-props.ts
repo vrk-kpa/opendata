@@ -7,4 +7,5 @@ export interface RdsStackProps extends CommonStackProps {
   backupPlan: aws_backup.BackupPlan;
   backups: boolean;
   vpc: ec2.IVpc;
+  multiAz: boolean;
 }

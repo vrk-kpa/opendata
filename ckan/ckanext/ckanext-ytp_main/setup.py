@@ -44,6 +44,7 @@ setup(
         ytp_harvesterstatus=ckanext.ytp.harvesterstatusplugin:HarvesterStatusPlugin
         opendata_group=ckanext.ytp.plugin:OpenDataGroupPlugin
         opendata_cli=ckanext.ytp.plugin:OpendataCliPlugin
+        opendata_reset=ckanext.ytp.plugin:OpenDataResetPlugin
         [ckan.rdf.profiles]
         avoindata_dcat_ap=ckanext.ytp.dcat:AvoindataDCATAPProfile
     ''',

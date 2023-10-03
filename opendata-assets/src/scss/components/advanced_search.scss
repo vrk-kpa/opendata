@@ -119,7 +119,7 @@
 }
 
 .filter-bar {
-  margin: 0 15px 8px 15px;
+  margin: 0 15px 8px;
   vertical-align: top;
   font-family: $font-family-sans-serif-semibold;
   font-size: 16px;
@@ -206,14 +206,14 @@
 
 .avoindata-vertical-divider {
   display: inline-block;
-  border-left: 1px solid rgb(148, 148, 148);
+  border-left: 1px solid rgb(148 148 148);
   height: 28px;
   width: 1px;
   margin: 0 20px;
 }
 
 .avoindata-vertical-divider:first-of-type {
-  border-left: 1.3px solid rgb(148, 148, 148);
+  border-left: 1.3px solid rgb(148 148 148);
 }
 
 #clear-all-link {
@@ -231,8 +231,7 @@
 select.avoindata-order-by {
   padding-right: 25px;
   height: auto;
-  -moz-appearance: none;
-  -webkit-appearance: none;
+  appearance: none;
   background: transparent;
 }
 

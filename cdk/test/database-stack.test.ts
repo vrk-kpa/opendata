@@ -41,7 +41,8 @@ test('verify database stack resources', () => {
     secondaryDomainName: 'mock.localhost',
     vpc: clusterStack.vpc,
     backups: true,
-    backupPlan: backupStack.backupPlan
+    backupPlan: backupStack.backupPlan,
+    multiAz: true
   });
   // THEN
   // no actual resources to verify

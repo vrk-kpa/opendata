@@ -22,12 +22,12 @@ cache_dir = /tmp/%(ckan.site_id)s/
 
 # beaker.session.key = ckan
 beaker.session.secret = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
-# Secure session does not currently work in our environments as ssl is terminated on Load balancerreq
+# Secure session does not currently work in our environments as ssl is terminated on Load balancer
 #beaker.session.secure = True
 beaker.session.httponly = True
 beaker.session.type = cookie
 beaker.session.validate_key = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
-beaker.session.url = postgresql://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_CKAN') }}
+beaker.session.url = postgresql://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_CKAN_HOST') }}/{{ environ('DB_CKAN') }}
 
 ckan.csrf_protection.ignore_extensions = true
 
@@ -37,7 +37,7 @@ who.config_file = %(here)s/who.ini
 who.log_level = warning
 who.log_file = %(cache_dir)s/who_log.ini
 
-sqlalchemy.url = postgresql://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_CKAN') }}
+sqlalchemy.url = postgresql://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_CKAN_HOST') }}/{{ environ('DB_CKAN') }}
 ckan.site_url = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_NAME') }}
 ckan.site_url_internally = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_NAME') }}/data/
 
@@ -45,8 +45,8 @@ ckan.site_url_internally = {{ environ('SITE_PROTOCOL') }}://{{ environ('DOMAIN_N
 ckan.root_path = /data/{{LANG}}
 {% endraw %}
 
-ckan.datastore.write_url = postgresql://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DATASTORE_READONLY') }}
-ckan.datastore.read_url = postgresql://{{ environ('DB_DATASTORE_READONLY_USER') }}:{{ environ('DB_DATASTORE_READONLY_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DATASTORE_READONLY') }}
+ckan.datastore.write_url = postgresql://{{ environ('DB_DATASTORE_USER') }}:{{ environ('DB_DATASTORE_PASS') }}@{{ environ('DB_DATASTORE_HOST') }}/{{ environ('DB_DATASTORE') }}
+ckan.datastore.read_url = postgresql://{{ environ('DB_DATASTORE_READONLY_USER') }}:{{ environ('DB_DATASTORE_READONLY_PASS') }}@{{ environ('DB_DATASTORE_HOST') }}/{{ environ('DB_DATASTORE') }}
 ckan.datastore.sqlsearch.enabled = True
 
 ckan.redis.url = redis://{{ environ('REDIS_HOST') }}:{{ environ('REDIS_PORT') }}/{{ environ('REDIS_DB') }}
@@ -121,7 +121,7 @@ smtp.mail_from = {{ environ('SMTP_FROM') }}
 
 ckan.views.default_views = recline_grid_view geo_view
 
-ckanext.ytp.drupal.connection = postgresql://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DRUPAL') }}
+ckanext.ytp.drupal.connection = postgresql://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_DRUPAL_HOST') }}/{{ environ('DB_DRUPAL') }}
 
 ckan.harvest.mq.type = redis
 ckan.harvest.mq.hostname = {{ environ('REDIS_HOST') }}
@@ -129,6 +129,7 @@ ckan.harvest.mq.port = {{ environ('REDIS_PORT') }}
 ckan.harvest.mq.redis_db = {{ environ('REDIS_DB') }}
 
 ckanext.organizationapproval.admin_email = {{ environ('SYSADMIN_EMAIL') }}
+ckanext.ytp_request.admin_email = {{ environ('SYSADMIN_EMAIL') }}
 
 ckanext-archiver.archive_dir = {{ environ('CKAN_ARCHIVER_PATH') }}
 ckanext-archiver.max_content_length = 50000000
@@ -146,17 +147,10 @@ ckanext.sixodp_showcasesubmit.recipient_emails = {{ environ('SYSADMIN_EMAIL') }}
 ckanext.ytp_recommendation.recaptcha_sitekey = {{ environ('RECAPTCHA_PUBLIC_KEY') }}
 ckanext.ytp_recommendation.recaptcha_secret = {{ environ('RECAPTCHA_PRIVATE_KEY') }}
 
-disqus.name = {{ environ('DISQUS_DOMAIN') }}
-disqus.notify = false
-disqus.notify.name_field = maintainer
-disqus.notify.email_field = maintainer_email
-
-ckanext-datarequests.datarequest_notifications_admin_email = None
-
 ckanext.drupal8.site_url = {{ environ('CKAN_DRUPAL_SITE_URL') }}
 ckanext.drupal8.domain = {{ environ('DOMAIN_NAME') }},{{ environ('SECONDARY_DOMAIN_NAME') }}
 ckanext.drupal8.sysadmin_role = {{ environ('ROLES_CKAN_ADMIN') }}
-ckanext.drupal8.connection = postgresql://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_HOST') }}/{{ environ('DB_DRUPAL') }}
+ckanext.drupal8.connection = postgresql://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_DRUPAL_HOST') }}/{{ environ('DB_DRUPAL') }}
 ckanext.drupal8.allow_edit = true
 
 licenses_group_url = file://{{ environ('CKAN_STORAGE_PATH') }}/license.json
@@ -230,6 +224,7 @@ ckanext.matomo.domain = https://{{ environ('MATOMO_DOMAIN') }}/
 ckanext.matomo.script_domain = {{ environ('MATOMO_SCRIPT_DOMAIN') }}
 ckanext.matomo.token_auth = {{ environ('MATOMO_TOKEN') }}
 ckanext.matomo.ignored_user_agents = docker-healthcheck
+ckanext.matomo.track_api = true
 {% endif %}
 
 ckanext.spatial.harvest.continue_on_validation_errors = true

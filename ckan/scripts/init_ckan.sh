@@ -18,7 +18,8 @@ echo "Upgrade CKAN database ..."
 ckan -c ${APP_DIR}/production.ini db upgrade
 
 # execute SQL scripts
-cat ${SCRIPT_DIR}/datastore_permissions.sql | PGPASSWORD="${DB_CKAN_PASS}" psql -d ${DB_DATASTORE_READONLY} -h ${DB_HOST} -U ${DB_CKAN_USER} --set ON_ERROR_STOP=1
+echo "Modify datastore permissions ..."
+cat ${SCRIPT_DIR}/datastore_permissions.sql | PGPASSWORD="${DB_DATASTORE_ADMIN_PASS}" psql -d ${DB_DATASTORE} -h ${DB_DATASTORE_HOST} -U ${DB_DATASTORE_ADMIN} --set ON_ERROR_STOP=1
 
 # init ckan extensions
 echo "init ckan extensions ..."

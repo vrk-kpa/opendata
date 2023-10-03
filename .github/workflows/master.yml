@@ -95,8 +95,18 @@ jobs:
           cache: 'npm'
           cache-dependency-path: opendata-assets/package-lock.json
 
-      - name: install npm packages
+      - name: cache node_modules
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
+        uses: actions/cache@v3
+        id: cache-node_modules
+        with:
+          path: ./opendata-assets/node_modules
+          key: ${{ runner.os }}-build-node_v16-${{ hashFiles('opendata-assets/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-node_v16-
+
+      - name: install npm packages
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true && steps.cache-node_modules.outputs.cache-hit != 'true'}}
         run: npm ci
         working-directory: ./opendata-assets
 

@@ -23,9 +23,9 @@ export class DrupalStack extends Stack {
     super(scope, id, props);
 
     // get params
-    const pDbHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbHost', {
-      parameterName: `/${props.environment}/opendata/common/db_host`,
-    });
+
+    const host = props.databaseInstance.instanceEndpoint
+
     const pDbDrupal = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDrupal', {
       parameterName: `/${props.environment}/opendata/common/db_drupal`,
     });
@@ -67,10 +67,6 @@ export class DrupalStack extends Stack {
     });
     const pSmtpPort = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpPort', {
       parameterName: `/${props.environment}/opendata/common/smtp_port`,
-    });
-
-    const pDisqusDomain = ssm.StringParameter.fromStringParameterAttributes(this, 'pDisqusDomain', {
-      parameterName: `/${props.environment}/opendata/common/disqus_domain`,
     });
 
     let pUsers: DrupalUser[];
@@ -134,7 +130,7 @@ export class DrupalStack extends Stack {
       DRUPAL_IMAGE_TAG: props.envProps.DRUPAL_IMAGE_TAG,
       DRUPAL_CONFIG_SYNC_DIRECTORY: '/opt/drupal/web/sites/default/sync',
       // .env
-      DB_HOST: pDbHost.stringValue,
+      DB_DRUPAL_HOST: host.hostname,
       DB_DRUPAL: pDbDrupal.stringValue,
       DB_DRUPAL_USER: pDbDrupalUser.stringValue,
       DOMAIN_NAME: props.domainName,
@@ -152,8 +148,8 @@ export class DrupalStack extends Stack {
       SMTP_FROM: pSmtpFrom.stringValue,
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
-      DISQUS_DOMAIN: pDisqusDomain.stringValue,
       SENTRY_ENV: props.environment,
+      BYPASS_CDN_DOMAIN: `vip.${props.fqdn}`
     };
 
     let drupalContainerSecrets: { [key: string]: ecs.Secret; } = {
@@ -309,7 +305,7 @@ export class DrupalStack extends Stack {
           uid: '0',
         },
       });
-      
+
       props.migrationFileSystemProps.fileSystem.grant(drupalTaskDef.taskRole, 'elasticfilesystem:ClientRootAccess');
 
       drupalTaskDef.addVolume({

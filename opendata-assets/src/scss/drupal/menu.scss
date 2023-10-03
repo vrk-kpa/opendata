@@ -1,7 +1,6 @@
 // Restricted to guide page menu at least for now but likely will be expanded to cover other pages as well later
 #guide-menu-column {
   top: 0;
-  position: -webkit-sticky;
   position: sticky;
   max-height: 100vh;
   overflow: auto;

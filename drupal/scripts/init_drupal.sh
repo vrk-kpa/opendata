@@ -5,10 +5,10 @@ echo "init_drupal ..."
 
 # init database if not exists (return value is 0 and result is 0 rows)
 DB_CHECK_SQL="SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
-DB_CHECK_RES=$(PGPASSWORD="${DB_DRUPAL_PASS}" psql -tA -h "${DB_HOST}" -U "${DB_DRUPAL_USER}" -d "${DB_DRUPAL}" -c "${DB_CHECK_SQL}")
+DB_CHECK_RES=$(PGPASSWORD="${DB_DRUPAL_PASS}" psql -tA -h "${DB_DRUPAL_HOST}" -U "${DB_DRUPAL_USER}" -d "${DB_DRUPAL}" -c "${DB_CHECK_SQL}")
 if [ $? -eq 0 ] && [[ -z "${DB_CHECK_RES}" ]]; then
   drush site:install -y standard \
-    --db-url="pgsql://${DB_DRUPAL_USER}:${DB_DRUPAL_PASS}@${DB_HOST}:5432/${DB_DRUPAL}" \
+    --db-url="pgsql://${DB_DRUPAL_USER}:${DB_DRUPAL_PASS}@${DB_DRUPAL_HOST}:5432/${DB_DRUPAL}" \
     --account-name="${SYSADMIN_USER}" \
     --account-pass="${SYSADMIN_PASS}" \
     --account-mail="${SYSADMIN_EMAIL}" \
@@ -60,6 +60,34 @@ drush language:default -y "fi"
 # enable base theme
 drush theme:enable -y bootstrap
 
+# remove some configurations
+# NOTE: ansible role skips errors with this condition:
+#       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
+echo "delete configurations.."
+drush config:delete easy_breadcrumb.settings                                       || true
+drush config:delete node.type.page                                                 || true
+drush config:delete core.entity_form_display.node.page.default                     || true
+drush config:delete core.entity_view_display.node.page.default                     || true
+drush config:delete pathauto.settings                                              || true
+drush config:delete captcha.captcha_point.contact_message_feedback_form            || true
+drush config:delete core.base_field_override.node.article.promote                  || true
+drush config:delete editor.editor.full_html                                        || true
+drush config:delete block.block.avoindata_collapsiblesearch                        || true
+drush config:delete block.block.avoindata_infobox                                  || true
+drush config:delete disqus.settings                                                || true
+drush config:delete field.field.node.avoindata_guide_page.field_guide_comments     || true
+drush config:delete field.field.node.avoindata_article.field_article_comments      || true
+drush config:delete field.field.node.avoindata_event.field_event_comments          || true
+drush config:delete field.storage.node.field_article_comments                      || true
+drush config:delete field.storage.node.field_basic_page_comments                   || true
+drush config:delete field.storage.node.field_event_comments                        || true
+drush config:delete field.storage.node.field_guide_comments                        || true
+drush config:delete core.entity_view_display.node.page.search_index                || true
+drush config:delete core.entity_view_display.node.page.search_result               || true
+drush config:delete core.entity_view_display.node.page.teaser                      || true
+drush config:delete field.field.node.page.field_basic_page_comments                || true
+drush config:delete field.storage.node.field_basic_page_comments                   || true
+
 # uninstall modules
 echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"search"* ]]      && drush pm:uninstall -y search
@@ -68,6 +96,7 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"protected_submissions"* ]]  && drush pm:uninstall -y protected_submissions
 [[ "$MODULE_INFO" == *"avoindata_datasetlist"* ]]  && drush pm:uninstall -y avoindata_datasetlist
 [[ "$MODULE_INFO" == *"avoindata_appfeed"* ]]  && drush pm:uninstall -y avoindata_appfeed
+[[ "$MODULE_INFO" == *"disqus"* ]]  && drush pm:uninstall -y disqus
 
 # enable modules
 echo "enable modules.."
@@ -77,7 +106,6 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"pathauto"* ]]                      && drush pm:enable -y pathauto
 [[ "$MODULE_INFO" != *"easy_breadcrumb"* ]]               && drush pm:enable -y easy_breadcrumb
 [[ "$MODULE_INFO" != *"twig_field_value"* ]]              && drush pm:enable -y twig_field_value
-[[ "$MODULE_INFO" != *"disqus"* ]]                        && drush pm:enable -y disqus
 [[ "$MODULE_INFO" != *"redirect"* ]]                      && drush pm:enable -y redirect
 [[ "$MODULE_INFO" != *"search_api"* ]]                    && drush pm:enable -y search_api
 [[ "$MODULE_INFO" != *"search_api_db"* ]]                 && drush pm:enable -y search_api_db
@@ -118,21 +146,6 @@ echo "enable custom modules.."
 [[ "$MODULE_INFO" != *"avoindata_user"* ]]              && drush pm:enable -y avoindata_user
 [[ "$MODULE_INFO" != *"avoindata_ckeditor_plugins"* ]]  && drush pm:enable -y avoindata_ckeditor_plugins
 
-# remove some configurations
-# NOTE: ansible role skips errors with this condition:
-#       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
-echo "delete configurations.."
-drush config:delete easy_breadcrumb.settings                            || true
-drush config:delete node.type.page                                      || true
-drush config:delete core.entity_form_display.node.page.default          || true
-drush config:delete core.entity_view_display.node.page.default          || true
-drush config:delete pathauto.settings                                   || true
-drush config:delete captcha.captcha_point.contact_message_feedback_form || true
-drush config:delete core.base_field_override.node.article.promote       || true
-drush config:delete editor.editor.full_html                             || true
-drush config:delete block.block.avoindata_collapsiblesearch             || true
-drush config:delete block.block.avoindata_infobox                       || true
-
 # enable custom theme + reload themes
 echo "enable theme and install theme configurations.."
 drush theme:enable -y avoindata
@@ -158,7 +171,6 @@ drush config:import -y --partial --source ${MOD_DIR}/avoindata-user/config/insta
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-ckeditor-plugins/config/install || true
 
 # apply jinja2 templates
-jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/disqus.settings.yml.j2    -o ${APP_DIR}/site_config/disqus.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/matomo.settings.yml.j2    -o ${APP_DIR}/site_config/matomo.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/recaptcha.settings.yml.j2 -o ${APP_DIR}/site_config/recaptcha.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/smtp.settings.yml.j2      -o ${APP_DIR}/site_config/smtp.settings.yml
