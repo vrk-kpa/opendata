@@ -7,7 +7,6 @@ import re
 
 from sqlalchemy import exists
 
-from ckan.lib.base import c
 from ckan import model
 from ckan.logic import ValidationError, NotFound, get_action
 from ckan.lib.helpers import json
@@ -174,7 +173,7 @@ class HRIHarvester(HarvesterBase):
                     raise ValueError('default_groups must be a list')
 
                 # Check if default groups exist
-                context = {'model': model, 'user': c.user}
+                context = {'model': model, 'user': toolkit.g.user}
                 for group_name in config_obj['default_groups']:
                     try:
                         get_action('group_show')(context, {'id': group_name})
@@ -187,7 +186,7 @@ class HRIHarvester(HarvesterBase):
 
             if 'user' in config_obj:
                 # Check if user exists
-                context = {'model': model, 'user': c.user}
+                context = {'model': model, 'user': toolkit.g.user}
                 try:
                     get_action('user_show')(context, {'id': config_obj.get('user')})
                 except NotFound:

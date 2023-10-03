@@ -9,6 +9,7 @@
 {% endif %}
 
 <form id="resource-edit" class="dataset-form dataset-resource-form flex-form" method="post" action="{{ action }}" data-module="basic-form resource-form" enctype="multipart/form-data">
+  {{ h.csrf_input() }}
   <div class="page-container">
     {% block errors %}{{ form.errors(error_summary) }}{% endblock %}
 

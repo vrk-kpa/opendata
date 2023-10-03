@@ -180,7 +180,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
         return pkg_dict
 
     # IPackageController
-    def after_show(self, context, data_dict):
+    def after_dataset_show(self, context, data_dict):
         if context.get('for_edit') is not True:
             if data_dict.get('notifier', None) is not None:
                 data_dict.pop('notifier')
@@ -189,7 +189,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
 
         return self._add_to_pkg_dict(context, data_dict)
 
-    def before_index(self, data_dict):
+    def before_dataset_index(self, data_dict):
         if data_dict.get('platform'):
             data_dict['vocab_platform'] = [tag for tag in data_dict['platform'].split(',')]
 
@@ -208,7 +208,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
 
         return data_dict
 
-    def after_search(self, search_results, search_params):
+    def after_dataset_search(self, search_results, search_params):
         if(search_results['search_facets'].get('groups')):
             context = {'for_view': True, 'with_private': False}
             data_dict = {

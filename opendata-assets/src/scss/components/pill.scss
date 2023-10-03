@@ -1,0 +1,15 @@
+.pill {
+  background-color: $opendata-brand-primary;
+  border: none;
+  font-size: $font-size-slightly-smaller-base;
+  font-weight: $font-weight-heavier;
+  line-height: $font-size-slightly-smaller-base;
+  padding: $padding__pill;
+
+  .pill__icon {
+    font-size: $font-size-smaller-base;
+    line-height: $font-size-smaller-base;
+    color: $color--white;
+    margin-left: $padding-x--small;
+  }
+}

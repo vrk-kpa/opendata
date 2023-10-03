@@ -60,7 +60,7 @@ Avoindata servicemessage module is being used to show service messages (eg. sche
 
 ### Avoindata theme
 
-Avoindata theme module is based on the Drupal 8 boostrap theme. It contains Drupal specific configuration and template overrides. CSS (less) style related to the Drupal side can be found from [ytp-assets-common](https://github.com/vrk-kpa/opendata/tree/master/modules/ytp-assets-common/src/less/Drupal). Building styles is done with the gulp file found from the same module.
+Avoindata theme module is based on the Drupal 8 boostrap theme. It contains Drupal specific configuration and template overrides. CSS (scss) style related to the Drupal side can be found from [ytp-assets-common](https://github.com/vrk-kpa/opendata/tree/master/modules/ytp-assets-common/src/scss/Drupal). Building styles is done with the gulp file found from the same module.
 
 ### Avoindata user
 
