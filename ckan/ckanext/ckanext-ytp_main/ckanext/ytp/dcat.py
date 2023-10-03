@@ -588,10 +588,10 @@ class AvoindataDCATAPProfile(RDFProfile):
         title = p.config.get('ckan.site_title', '')
         g.add((catalog_ref, DCT.title, Literal(title)))
 
-        description = ('Suomen kansallinen avoimen datan portaali. Avoindata.fi on kaikille tarkoitettu palvelu avoimen '
+        description = ('Suomen kansallinen avoimen datan portaali. Suomi.fi-avoindata on kaikille tarkoitettu palvelu avoimen '
                        'datan julkaisemiseen ja hyödyntämiseen. Den finska nationella dataportalen för öppna data. '
-                       'Avoindata.fi är en tjänst för att publicera och utnyttja öppna data. The Finnish national open data '
-                       'portal. Opendata.fi is a service for publishing and utilising open data for everyone.')
+                       'Suomi.fi-öppnadata är en tjänst för att publicera och utnyttja öppna data. The Finnish national open '
+                       'data portal. Suomi.fi Open Data is a service for publishing and utilising open data for everyone.')
         g.add((catalog_ref, DCT.description, Literal(description)))
 
         spatial = 'koko Suomi, hela Finland, entire Finland'
