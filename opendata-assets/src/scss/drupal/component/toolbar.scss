@@ -5,7 +5,6 @@
 $toolbar-width: 240px;
 
 .toolbar-fixed {
-
   // Fix z-index.
   .toolbar-oriented .toolbar-bar {
     z-index: ($zindex-navbar-fixed + 1);

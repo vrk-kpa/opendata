@@ -1,10 +1,10 @@
 /**
  * Navbar styling.
  */
-$mobile:          unquote("screen and (max-width: #{$screen-xs-max})");
-$tablet:          unquote("screen and (min-width: #{$screen-sm-min})");
-$normal:          unquote("screen and (min-width: #{$screen-md-min})");
-$wide:            unquote("screen and (min-width: #{$screen-lg-min})");
+$mobile: unquote("screen and (max-width: #{$screen-xs-max})");
+$tablet: unquote("screen and (min-width: #{$screen-sm-min})");
+$normal: unquote("screen and (min-width: #{$screen-md-min})");
+$wide: unquote("screen and (min-width: #{$screen-lg-min})");
 $grid-breakpoint: unquote("screen and (min-width: #{$grid-float-breakpoint})");
 
 body {
@@ -40,6 +40,7 @@ body {
           z-index: 500;
         }
       }
+
       // Default toolbar fixed height value.
       // $see core/modules/toolbar/css/toolbar.icons.theme.css$261
       &.navbar-is-fixed-top header {

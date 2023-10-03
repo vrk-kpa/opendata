@@ -1,6 +1,6 @@
 @import "bootstrap/variables";
-@import "variables.scss";
-@import "mixins/mixins.scss";
+@import "variables";
+@import "mixins/mixins";
 
 /*
 Dropdown CSS Originally from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-bootstrap-menu-drupal-8
@@ -81,7 +81,7 @@ End of dropdown CSS
   margin-top: 0;
 }
 
-//Region header contains the logo, language links and the search link
+// Region header contains the logo, language links and the search link
 .region-top-bar {
   display: flex;
   align-items: center;
@@ -93,7 +93,7 @@ End of dropdown CSS
   height: 67px;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (width <= 500px) {
   .region-top-bar {
     flex-direction: column;
   }
@@ -138,8 +138,9 @@ End of dropdown CSS
 #block-avoindata-language-switcher {
   ul {
     margin: 0;
-    //To make the space between search icon similar to space
-    //between language icons
+
+    // To make the space between search icon similar to space
+    // between language icons
     margin-right: 15px;
     display: flex;
 
@@ -151,7 +152,7 @@ End of dropdown CSS
       color: #222;
     }
 
-    //Hovering language selection draws a box around it
+    // Hovering language selection draws a box around it
     .language-link:hover {
       border-style: solid;
       border-color: rgb(0 0 0 / 98%);
@@ -359,7 +360,6 @@ End of dropdown CSS
 }
 
 // Second navbar
-//
 #second-navbar {
   background-color: $navbar-background;
   min-height: auto;
@@ -388,7 +388,7 @@ End of dropdown CSS
   }
 
   .navbar-toggle:hover {
-    background-color: transparent; //hovering the bootstrap toggle button
+    background-color: transparent; // hovering the bootstrap toggle button
   }
 
   a:hover {
@@ -415,6 +415,7 @@ End of dropdown CSS
     a {
       margin: 0;
       padding-top: $padding-x__navigation;
+
       // Because border-bottom adds "padding" to bottom, subtract border-width from bottom padding
       padding-bottom: $padding-x__navigation - $border-width__navigation;
       border-bottom: $border-width__navigation solid transparent;
@@ -430,7 +431,7 @@ End of dropdown CSS
       }
 
       // Bit of a hack to not make the nav go crazy on resize.
-      @media (max-width: 1155px) {
+      @media (width <= 1155px) {
         padding-left: 10px;
         padding-right: 10px;
       }
@@ -528,7 +529,7 @@ End of dropdown CSS
   }
 }
 
-//Links of the collapsible navbar
+// Links of the collapsible navbar
 #navbar-collapse {
   padding-left: 0;
   padding-right: 0;
@@ -689,7 +690,7 @@ End of dropdown CSS
   list-style: none;
   margin: 0;
   padding: 0;
-  font-size: @font-size-base;
+  font-size: $font-size-base;
 
   .alert-info {
     @include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);

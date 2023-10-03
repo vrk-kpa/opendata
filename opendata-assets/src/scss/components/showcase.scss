@@ -49,11 +49,13 @@
 
 .showcase-list {
   background-color: transparent;
+
   // $NOTE: These should be same as $grid-gutter-width / 2 but because bootstrap isn't compiled from less sources
   // with overwritten customized variables these are partly hardcoded now.
   width: auto;
   padding: 0;
   list-style: none;
+
   // $NOTE: Reduce showcase-items margin from both sides of padding
   margin-top: $padding-y--common;
   margin-left: -($margin-x__showcase-item / 2);
@@ -63,6 +65,7 @@
 
   .showcase-item {
     background-color: $color--white;
+
     // Because margin is added on both sides, make it only half of margin
     margin: 0 ($margin-x__showcase-item / 2) $margin-y__showcase-item ($margin-x__showcase-item / 2);
     float: none;

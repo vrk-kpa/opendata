@@ -1,8 +1,9 @@
-@import "../variables.scss";
+@import "../variables";
 
 .dataset-list {
   padding: 0;
   background-color: $background-color__content;
+
   // $NOTE: To make top border of first item in search list overlapping with result text border
   margin-top: -1px;
 }
@@ -16,6 +17,7 @@
 
   &:last-of-type {
     border-bottom: 1px solid $opendata-brand-border-gray;
+
     // $NOTE: This is needed as otherwise ckan styles overwrites it with zero bottom padding
     padding-bottom: $padding-y--common;
   }

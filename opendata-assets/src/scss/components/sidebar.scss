@@ -1,4 +1,4 @@
-@import '../variables.scss';
+@import '../variables';
 
 .tertiary .control-order-by label {
   font-weight: 700;
@@ -30,6 +30,7 @@ aside.tertiary {
     background-color: $opendata-brand-primary;
     color: $color--white;
     padding: $padding-y--common $padding-x--common;
+
     // -1px prefix to make header overlap with container borders
     margin: -1px  (-$grid-gutter-width / 2);
     text-transform: uppercase;
@@ -61,6 +62,7 @@ aside.tertiary {
     padding: 0;
     color: $color--black;
     margin: 0 (-$grid-gutter-width / 2);
+
     // $NOTE: 1 pixel difference for top- & bottom-padding to make divider between modules middle-aligned
     padding-top: $padding-y--common + 1;
     padding-bottom: $padding-y--common;

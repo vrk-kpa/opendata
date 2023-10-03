@@ -24,7 +24,7 @@
   color: $suomi-highlightBase;
 }
 
-.suomi-button {
+%suomi-button {
   height: 38px;
   padding: 0 20px;
   font-size: 12px;
@@ -136,7 +136,6 @@
   color: $opendata-ckan-list-item-header;
   background-image: none;
   outline: 0;
-  -webkit-box-shadow: none;
   box-shadow: none;
 }
 
@@ -195,10 +194,9 @@
 }
 
 .admin-banner {
-
   // Use suomi designs without changing classes in templates
   .btn {
-    @extend .suomi-button;
+    @extend %suomi-button;
 
     i {
       margin-right: 3px;
@@ -210,6 +208,6 @@
   }
 
   .btn-primary {
-    @extend .suomi-button, .suomi-button-primary;
+    @extend %suomi-button, .suomi-button-primary;
   }
 }

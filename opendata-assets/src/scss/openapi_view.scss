@@ -28,18 +28,18 @@
   }
 
   .opblock.opblock-get {
-    @include opblock-colors(rgba($suomi-highlightBase, 10%/100%), $suomi-highlightBase);
+    @include opblock-colors(rgba($suomi-highlightBase, 10% / 100%), $suomi-highlightBase);
   }
 
   .opblock.opblock-post {
-    @include opblock-colors(rgba($suomi-successBase, 10%/100%), $suomi-successBase, true);
+    @include opblock-colors(rgba($suomi-successBase, 10% / 100%), $suomi-successBase, true);
   }
 
   .opblock.opblock-put {
-    @include opblock-colors(rgba($suomi-warningBase, 10%/100%), $suomi-warningBase, true);
+    @include opblock-colors(rgba($suomi-warningBase, 10% / 100%), $suomi-warningBase, true);
   }
 
   .opblock.opblock-delete {
-    @include opblock-colors(rgba($suomi-alertBase, 10%/100%), $suomi-alertBase);
+    @include opblock-colors(rgba($suomi-alertBase, 10% / 100%), $suomi-alertBase);
   }
 }

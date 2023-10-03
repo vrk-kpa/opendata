@@ -27,8 +27,9 @@
 
 .module-resource {
   border: none;
-  //margin-bottom: $margin__module;
-  //padding-bottom: $margin__module;
+
+  // margin-bottom: $margin__module;
+  // padding-bottom: $margin__module;
 
   // Additional padding for desktop only
   @media (min-width: $screen-sm-min) {
@@ -104,8 +105,7 @@
 
     .embedded-content,
     .resources,
-    .additional-info,
-    .disqus-comments {
+    .additional-info {
       margin-bottom: $margin__module--large;
 
       h3 {

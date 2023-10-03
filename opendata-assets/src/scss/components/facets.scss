@@ -1,4 +1,4 @@
-@import '../variables.scss';
+@import '../variables';
 
 .nav-facet {
   .nav-item.active > a::after,
@@ -24,7 +24,7 @@
     }
   }
 
-  //Plus icon (fa-plus)
+  // Plus icon (fa-plus)
   .nav-item:hover {
     > a {
       &:hover::after,
@@ -39,7 +39,7 @@
     }
   }
 
-  //Minus icon (fa-minus)
+  // Minus icon (fa-minus)
   .nav-item.active > a::after,
   .nav-item.active:hover > a::after {
     background-image: none;

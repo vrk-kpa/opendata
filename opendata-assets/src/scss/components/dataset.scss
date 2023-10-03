@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@import "../variables";
 
 .dataset-container {
   background-color: $background-color__content;
@@ -155,7 +155,7 @@
     font-weight: 600;
     height: 24px;
     line-height: 21px;
-    color: rgb(255, 255, 255);
+    color: rgb(255 255 255);
     background: $opendata-brand-primary;
     border-radius: 14px;
     padding: 0 13px;

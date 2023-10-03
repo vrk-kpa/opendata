@@ -36,6 +36,7 @@ $display-properties: none,
 @mixin make-display-mq($property, $i: length($breakpoints)) {
   @if $i > 0 {
     @include make-display-mq($property, $i - 1);
+
     $pair: nth($breakpoints, $i);
     $key: nth($pair, 1);
     $value: nth($pair, 2);
@@ -59,13 +60,15 @@ $display-properties: none,
 @mixin make-display-classes($i: length($display-properties)) {
   @if $i > 0 {
     @include make-display-classes($i - 1);
+
     $property: nth($display-properties, $i);
 
     @include make-display-class($property);
   }
 }
+
 // Call the functions and generate classes
-@include make-display-classes();
+@include make-display-classes;
 
 .flex-wrap {
   flex-wrap: wrap;
@@ -245,6 +248,7 @@ $display-properties: none,
 @mixin make-margins-and-paddings($size: 4, $index: 1, $increment: 2) {
   @if $size < 128 {
     @include make-margins-and-paddings($size * $increment, $index + 1);
+
     $size-px: '#{$size}px';
 
     @include make-margin-padding-css($index, $size-px);
@@ -254,7 +258,7 @@ $display-properties: none,
 // Creates with index 0, by adding this here it can be overriden with custom numbers
 // example: <div class="m-0 mb-2">  <---  resets other margins to zero but margin bottom is 2
 @include make-margin-padding-css(0, 0);
-@include make-margins-and-paddings();
+@include make-margins-and-paddings;
 
 // ------
 // COLORS

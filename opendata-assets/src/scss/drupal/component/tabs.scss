@@ -138,13 +138,8 @@
 
       &:hover,
       &:focus {
-<<<<<<< HEAD:opendata-assets/src/scss/drupal/component/tabs.scss
         border-color: $nav-tabs-link-hover-border-color $nav-tabs-link-hover-border-color $nav-tabs-link-hover-border-color $nav-tabs-border-color;
-        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
-=======
-        border-color: @nav-tabs-link-hover-border-color @nav-tabs-link-hover-border-color @nav-tabs-link-hover-border-color @nav-tabs-border-color;
         box-shadow: 1px 1px 1px rgb(0 0 0 / 5%);
->>>>>>> master:opendata-assets/src/less/drupal/component/tabs.less
       }
     }
 

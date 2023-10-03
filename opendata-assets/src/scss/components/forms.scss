@@ -1,6 +1,6 @@
 // Form specific overrides
-@import "../variables.scss";
-@import "../mixins/mixins.scss";
+@import "../variables";
+@import "../mixins/mixins";
 
 $input-border-radius: 2px;
 $input-border-color: $suomi-depthLight1;
@@ -139,7 +139,7 @@ label.group-label {
       margin-top: 0;
       height: 62px;
 
-      @media (max-width: 450px) {
+      @media (width <= 450px) {
         span {
           display: none;
         }
@@ -397,7 +397,7 @@ fieldset.checkboxes {
   }
 }
 
-.ytp-input-element {
+%ytp-input-element {
   width: 100%;
   border: solid $input-border-width $input-border-color;
   padding: 8px 10px;
@@ -424,7 +424,7 @@ fieldset.checkboxes {
 
 // Frontpage search bar input.
 .ytp-input-element-frontpage {
-  @extend .ytp-input-element;
+  @extend %ytp-input-element;
 
   &::placeholder {
     color: rgb(109 120 126);
@@ -498,7 +498,7 @@ fieldset.checkboxes {
   }
 }
 
-.ytp-input-with-icon {
+%ytp-input-with-icon {
   position: relative;
   display: flex;
   align-items: center;
@@ -529,7 +529,7 @@ fieldset.checkboxes {
 
 // Frontpage search bar.
 .ytp-input-with-icon-frontpage {
-  @extend .ytp-input-with-icon;
+  @extend %ytp-input-with-icon;
 
   height: 40px;
   margin-right: 10px;
@@ -973,9 +973,9 @@ td.selectable-row {
   height: 18px;
 }
 
-//TODO Use recources
+// TODO Use recources
 .dataset-heading.dataset-type {
-  color: rgb(41, 41, 41);
+  color: rgb(41 41 41);
   font-family: $font-family-sans-serif;
   font-size: $font-size-base;
   font-weight: $font-weight-normal;
@@ -1008,6 +1008,6 @@ td.selectable-row {
   padding-bottom: 20px;
 }
 
-input[type=search]::-webkit-search-cancel-button {
-  -webkit-appearance: searchfield-cancel-button;
+input[type="search"]::-webkit-search-cancel-button {
+  appearance: searchfield-cancel-button;
 }

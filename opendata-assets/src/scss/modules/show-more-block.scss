@@ -9,6 +9,7 @@
   position: relative;
   z-index: 11;
   padding: $padding-y__button $padding-x__button;
+
   // To match buttons left side with content when not focused
   margin-left: -$padding-x__button;
   transition: color $transition-duration--short $transition-timing-function--default;
@@ -29,6 +30,7 @@
     transition-property: color, border-color;
     font-size: $font-size-small;
     width: $font-size-slightly-smaller-base;
+
     // $NOTE: Make font-awesome icon centered in bordered square
     height: $font-size-slightly-smaller-base + 1;
     line-height: $font-size-slightly-smaller-base;

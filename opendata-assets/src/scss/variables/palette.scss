@@ -10,36 +10,30 @@ $color--light-grey: #6d787e;
 $color--extra-light-grey: #ced2d5;
 
 // New (guide) layout style variables
-$new-layout-bg-color: rgb(255, 255, 255);
-$new-layout-highlight-bg-color: rgb(238, 245, 255);
-$new-layout-secondary-text-color: rgb(42, 110, 187);
-$new-layout-secondary-text-color-dark: rgb(0, 52, 121);
-$new-layout-primary-text-color: rgb(41, 41, 41);
-$new-layout-nonimportant-text-color: rgb(95, 104, 109);
+$new-layout-bg-color: rgb(255 255 255);
+$new-layout-highlight-bg-color: rgb(238 245 255);
+$new-layout-secondary-text-color: rgb(42 110 187);
+$new-layout-secondary-text-color-dark: rgb(0 52 121);
+$new-layout-primary-text-color: rgb(41 41 41);
+$new-layout-nonimportant-text-color: rgb(95 104 109);
 
 // ---------------
 // SUOMI.FI COLORS
 // ---------------
 $suomi-blackBase: $color--black;
 $suomi-blackLight1: #949494;
-
 $suomi-brandBase: #003479;
-
 $suomi-highlightBase: #2a6ebb;
 $suomi-highlightLight1: #2e78cc;
 $suomi-highlightLight2: #D5E4F6;
 $suomi-highlightLight3: #eaf2fa;
 $suomi-highlightLight4: #f7fafd;
 $suomi-highlightDark1: #235a9a;
-
 $suomi-accentBase: #E86717;
-
 $suomi-accentSecondary: #1A99C7;
 $suomi-accentSecondaryLight1: #f1fafd;
-
 $suomi-accentTertiary: #9B5CB2;
 $suomi-accentTertiaryDark1: #86499C;
-
 $suomi-depthBase: #a5acb1;
 $suomi-depthLight1: #c8cdd0;
 $suomi-depthLight2: #ecedee;
@@ -47,16 +41,12 @@ $suomi-depthLight3: #F7F7F8;
 $suomi-depthDark1: #5f686d;
 $suomi-depthDark2: #6D787E;
 $suomi-depthDark3: #8C969B;
-
 $suomi-depthSecondary: #f0f6ff;
 $suomi-depthSecondaryDark1: #e5f0ff;
-
 $suomi-successBase: #09ae87;
-$suomi-successLightTransparent50: rgba(9, 170, 132, 0.5);
-
+$suomi-successLightTransparent50: rgb(9 170 132 / 50%);
 $suomi-warningBase: #faaf00;
 $suomi-warningLight47: #faebeb;
-
 $suomi-alertBase: #c33932;
 $suomi-whiteBase: #ffffff;
 
@@ -67,7 +57,7 @@ $opendata-brand-primary: #2a6ebb; // Primary navigation/interaction/focus color
 $opendata-brand-primary--highlight: #235a9a; // Primary higlight color
 $opendata-brand-decorative: #2a8bb8; // Decorative secondary color
 $opendata-brand-complementary: #e97025;
-$opendata-brand-gray: #ebe7e7; //#88827A; // Neutral grayish elements
+$opendata-brand-gray: #ebe7e7; // #88827A; // Neutral grayish elements
 $opendata-brand-border-gray: #c9cdcf; // Gray used in many borders
 $opendata-brand-blue: #00347a; // Blue used in many elements and backgrounds
 $opendata-brand-dark: #302f2f; // Secondary background color
@@ -98,6 +88,7 @@ $border-color__content: #ced2d5;
 $background-color--highlight: #eef5ff; // Background highlight color
 // For very 'extra' information, meant for small text on white/light backgrounds
 $nonimportant-text-color: lighten($opendata-brand-gray, 0%);
+
 // Light background to emphasize a subarea in main content, gives a "post-it note" feeling
 $background-hilight-primary: lighten(#d3cdc5, 16%);
 $background-hilight: lighten(#d3cdc5, 16%);
@@ -113,8 +104,10 @@ $btn-default-border: #e8e7e6;
 $btn-dark-bg: $opendata-brand-primary;
 $btn-dark-text-color: #fff;
 $btn-black-color: #000;
+
 // Text color that is on a colored background (labels, buttons, carousel)
 $button-inverse-text-color: #fff;
+
 // TODO workaround for having buttons with both 'a' and 'button' tags
 $button-background: #999999;
 $button-hilight: #747474;
@@ -132,7 +125,7 @@ $link-dark-color: #000000;
 /**
  * Tables
  */
-$table-bg-accent: $suomi-depthLight30;
+$table-bg-accent: $suomi-depthLight3;
 $table-border-color: $suomi-depthLight1;
 
 /**
@@ -144,7 +137,7 @@ $navbarInverseBackgroundHighlight: $color--dark-black;
 /**
  * Guide menu
  */
-$background-color__submenu: rgba(234, 242, 250, 0.5);
+$background-color__submenu: rgb(234 242 250 / 50%);
 
 /*
 * Custom elements
@@ -152,7 +145,7 @@ $background-color__submenu: rgba(234, 242, 250, 0.5);
 $background-color__expander: #f6f9fc;
 $background-color__expander--open: $color--white;
 $border-color__expander: #ecedee;
-$box-shadow-color__expander: rgba(41, 41, 41, 0.1);
+$box-shadow-color__expander: rgb(41 41 41 / 10%);
 $background-color__dropzone: #f6f9fc;
 $background-color__dropzone--hover: #e2ebf6;
 

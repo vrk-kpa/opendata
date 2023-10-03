@@ -27,6 +27,7 @@
 
   .input-group & {
     display: table-cell;
+
     // Reset rounded corners
     &:first-child .form-control:first-child {
       @include border-left-radius($border-radius-base);

@@ -3,6 +3,7 @@
  */
 
 // Mimic .panel-default styling.
+/* stylelint-disable scss/at-extend-no-missing-placeholder */
 .filter-wrapper {
   background-color: $panel-bg;
   border: 1px solid $panel-default-border;

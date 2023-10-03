@@ -22,9 +22,10 @@
 
 // FontAwesome
 @import '../../vendor/@fortawesome/fontawesome/scss/fontawesome';
-@import '../../vendor/@fortawesome/fontawesome/scss/solid.scss';
-@import '../../vendor/@fortawesome/fontawesome/scss/regular.scss';
-@import '../../vendor/@fortawesome/fontawesome/scss/brands.scss';
+@import '../../vendor/@fortawesome/fontawesome/scss/solid';
+@import '../../vendor/@fortawesome/fontawesome/scss/regular';
+@import '../../vendor/@fortawesome/fontawesome/scss/brands';
+
 $fa-font-path: '../fonts';
 
 // Avoindata common variables
@@ -33,17 +34,18 @@ $fa-font-path: '../fonts';
 
 // Avoindata components
 @import '../navbars';
+
 // TODO: This could only import the needed styles for drupal and not all
 @import '../components/all';
 
 // New layout menu styles
-@import 'menu.scss';
+@import 'menu';
 
 // Guide styles
-@import 'guide.scss';
+@import 'guide';
 
 // Avoindata custom element styles (ckeditor plugins)
-@import 'custom-elements.scss';
+@import 'custom-elements';
 
 body,
 html {
@@ -121,6 +123,7 @@ p:last-child,
   color: $sidebar-block-color-header;
 }
 
+/* stylelint-disable scss/at-extend-no-missing-placeholder */
 .avoindata-label-primary {
   @extend .label-primary;
 
@@ -168,6 +171,7 @@ p:last-child,
     float: none;
     display: block;
     margin: 0 auto;
+
     // NOTE: Without this you can't click the content inside.
     position: relative;
   }
@@ -307,7 +311,7 @@ p:last-child,
     display: block;
     margin: 0 auto;
 
-    @media (max-width: 768px) {
+    @media (width <= 768px) {
       .equal-height-row {
         @include flex-display(flex);
         @include flex-wrap(wrap);
@@ -315,7 +319,7 @@ p:last-child,
     }
 
     .avoindata-infobox-wrapper {
-      @media (max-width: 768px) {
+      @media (width <= 768px) {
         padding-top: 15px;
       }
 
@@ -353,7 +357,7 @@ p:last-child,
             font-size: 50px;
             margin-left: 20px;
 
-            @media (min-width: 768px) and (max-width: 940px) {
+            @media (width >= 768px) and (width <= 940px) {
               display: none;
             }
           }
@@ -511,6 +515,7 @@ p:last-child,
   color: $icon-color-orange;
   font-size: 0.6em;
   margin-right: 5px;
+
   // vertical-align: middle;
 }
 
@@ -534,6 +539,7 @@ p:last-child,
 
 .avoindata-explore-apis {
   background-color: $suomi-depthSecondary;
+}
 
 .avoindata-datasetlist {
   padding: 10px 50px 25px;
@@ -616,7 +622,7 @@ p:last-child,
     .avoindata-datasetlist-wrapper {
       display: flex;
 
-      @media (max-width: 786px) {
+      @media (width <= 786px) {
         flex-direction: column;
       }
 
@@ -697,7 +703,7 @@ p:last-child,
   & + & {
     padding-left: 40px;
 
-    @media (max-width: 768px) {
+    @media (width <= 768px) {
       padding-left: 0;
     }
   }
@@ -861,7 +867,7 @@ p:last-child,
     .avoindata-appfeed-applist-wrapper {
       display: flex;
 
-      @media (max-width: 768px) {
+      @media (width <= 768px) {
         flex-direction: column;
       }
     }
@@ -943,7 +949,7 @@ p:last-child,
   & + & {
     margin-left: 32px;
 
-    @media (max-width: 768px) {
+    @media (width <= 768px) {
       margin-left: 0;
       margin-top: 10px;
     }
@@ -1502,8 +1508,8 @@ p:last-child,
   padding-top: 2em;
 }
 
-//Overrides navbar-collapse padding
-@media (min-width: 768px) {
+// Overrides navbar-collapse padding
+@media (width >= 768px) {
   .opendata-menu-container {
     padding-left: 0;
     padding-right: 0;

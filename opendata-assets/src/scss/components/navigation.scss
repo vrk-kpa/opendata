@@ -55,8 +55,8 @@
   }
 }
 
-//In the resources view, the current resource is active and
-//it shouldn't be blue
+// In the resources view, the current resource is active and
+// it shouldn't be blue
 .resources .nav-simple > li.active {
   color: $facet-link-text-color;
 }
