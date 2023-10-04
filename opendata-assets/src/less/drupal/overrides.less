@@ -417,13 +417,23 @@ p:last-child,
   }
 }
 
-.block-avoindata-support {
+.block-avoindata-support,
+.block-avoindata-external {
   margin-top: 30px;
 }
 
 .avoindata-explore,
 .avoindata-support {
   background-color: @suomi-highlightLight3;
+}
+
+.avoindata-external {
+  background-color: @suomi-highlightLight2;
+}
+
+.avoindata-explore,
+.avoindata-support,
+.avoindata-external {
 
   h2 {
     font-family: @font-family-sans-serif-semibold;
@@ -480,6 +490,22 @@ p:last-child,
   }
 }
 
+.avoindata-external {
+  .avoindata-block-card {
+    width: 470px;
+  }
+
+  .avoindata-block-card-icon {
+    max-width: 125px;
+  }
+
+  .avoindata-block-card-content {
+    width: max-content;
+    padding-right: 20px;
+  }
+}
+
+
 .avoindata-block-card-icon {
   height: 100%;
   width: 35%;
@@ -526,6 +552,10 @@ p:last-child,
 
 .avoindata-explore-showcase {
   background-color: @suomi-depthLight3;
+}
+
+.avoindata-external-service{
+  background-color: @suomi-depthSecondaryDark1;
 }
 
 .avoindata-datasetlist {
