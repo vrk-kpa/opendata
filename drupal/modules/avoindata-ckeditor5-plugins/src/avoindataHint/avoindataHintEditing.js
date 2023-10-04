@@ -66,14 +66,6 @@ export default class AvoindataHintEditing extends Plugin {
       allowWhere: '$block',
     });
 
-    schema.register('avoindataHintHeader', {
-      // This is only to be used within avoindataHint.
-      isObject: true,
-      isSelectable: false,
-      allowIn: 'avoindataHint',
-      allowChildren: ['avoindataHintIcon', 'avoindataHintContent']
-    });
-
     schema.register('avoindataHintIcon', {
       isObject: true,
       isContent: true,
@@ -82,13 +74,13 @@ export default class AvoindataHintEditing extends Plugin {
       isSelectable: false,
       isLimit: false,
       // This is only to be used within avoindataHint.
-      allowIn: 'avoindataHintHeader',
+      allowIn: 'avoindataHint',
       allowAttributes: ['src', 'alt', 'class']
     });
 
     schema.register('avoindataHintContent', {
       isLimit: true,
-      allowIn: 'avoindataHintHeader',
+      allowIn: 'avoindataHint',
       allowContentOf: '$root',
     });
 
@@ -126,14 +118,6 @@ export default class AvoindataHintEditing extends Plugin {
     });
 
     conversion.for('upcast').elementToElement({
-      model: 'avoindataHintHeader',
-      view: {
-        name: 'div',
-        classes: 'avoindata-hint-header',
-      },
-    });
-
-    conversion.for('upcast').elementToElement({
       model: 'avoindataHintIcon',
       view: {
         name: 'img',
@@ -166,22 +150,12 @@ export default class AvoindataHintEditing extends Plugin {
       },
     });
 
-    // Instances of <avoindataHintHeader> are saved as
-    // <div class="avoindata-hint-header">{{inner content}}</div>.
-    conversion.for('dataDowncast').elementToElement({
-      model: 'avoindataHintHeader',
-      view: {
-        name: 'div',
-        classes: 'avoindata-hint-header',
-      },
-    });
-
     // Instances of <avoindataHintIcon> are saved as
     // <img class="avoindata-hint-icon" src="../icons/icon-hint.svg" alt="Avoindata Hint icon"></div>.
-    conversion.for('dataDowncast').elementToElement({
+    conversion.for('downcast').elementToElement({
       model: 'avoindataHintIcon',
       view: (modelElement, { writer }) => {
-        return writer.createUIElement('img', { class: "avoindata-hint-icon", src: '/themes/avoindata/images/avoindata-hint-icon.svg' })
+        return writer.createEmptyElement('img', { class: "avoindata-hint-icon", src: '/themes/avoindata/images/avoindata-hint-icon.svg' })
       }
     });
 
@@ -212,28 +186,6 @@ export default class AvoindataHintEditing extends Plugin {
       },
     });
 
-    // Convert the <avoindataHintHeader> model into a container element in the editor UI.
-    conversion.for('editingDowncast').elementToElement({
-      model: 'avoindataHintHeader',
-      view: (modelElement, { writer: viewWriter }) => {
-        return viewWriter.createContainerElement('div', {
-          class: 'avoindata-hint-header',
-        });
-      },
-    });
-
-    // Convert the <avoindataHintIcon> model into an UI element in the editor UI.
-    conversion.for('editingDowncast').elementToElement({
-      model: 'avoindataHintIcon',
-      view: (modelElement, { writer: viewWriter }) => {
-        return viewWriter.createUIElement('img', {
-          class: 'avoindata-hint-icon',
-          src: "/themes/avoindata/images/avoindata-hint-icon.svg",
-          alt: "Avoindata Hint icon",
-        });
-      },
-    });
-
     // Convert the <avoindataHintContent> model into an editable <div> widget.
     conversion.for('editingDowncast').elementToElement({
       model: 'avoindataHintContent',
@@ -242,6 +194,14 @@ export default class AvoindataHintEditing extends Plugin {
           class: 'avoindata-hint-content',
         });
         return toWidgetEditable(div, viewWriter);
+      },
+    });
+
+    conversion.for('upcast').elementToElement({
+      model: 'avoindataHintIcon',
+      view: {
+        name: 'img',
+        classes: 'avoindata-hint-image',
       },
     });
   }

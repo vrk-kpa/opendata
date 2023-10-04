@@ -52,27 +52,24 @@
     margin-bottom: 20px;
   }
 
-  .avoindata-note-header {
-    .avoindata-note-icon {
-        height: 24px;
-        width: 24px;
-        float: left;
-        margin: 24px 6px 0 20px;
-    }
+  .avoindata-note-icon {
+    vertical-align: text-bottom;
+    height: 24px;
+    width: 24px;
+    display: inline-flex;
+    margin: 20px 10px 0 20px;
+  }
 
-    .avoindata-note-title {
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 28px;
-      padding: 19px 0 13px 60px;
-      margin-block-start: 0;
-      margin-block-end: 0;
-      margin-inline-start: 0;
-      margin-inline-end: 0;
+  .avoindata-note-title {
+    display: inline-flex;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+    padding: 10px 0;
+    width: calc(100% - 70px);
 
-      > *:last-child {
-        margin: 0;
-      }
+    > *:last-child {
+      margin: 0;
     }
   }
 
@@ -91,16 +88,13 @@
 
   .avoindata-hint {
     margin: 20px 0;
+    display: flex;
   }
 
-  .avoindata-hint-header {
-    display: flex;
-    .avoindata-hint-icon {
-        height: 24px;
-        width: 24px;
-        float: left;
-        margin: 20px 6px 0 20px;
-    }
+  .avoindata-hint-icon {
+      height: 24px;
+      width: 24px;
+      margin: 20px 10px 0 20px;
   }
 
   .avoindata-hint-content {

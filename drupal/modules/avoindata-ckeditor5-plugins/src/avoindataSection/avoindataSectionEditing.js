@@ -56,7 +56,8 @@ export default class AvoindataSectionEditing extends Plugin {
       isObject: true,
       // Allow in places where other blocks are allowed (e.g. directly in the root).
       allowWhere: '$block',
-      allowAttributes: ['avoindataSectionId']
+      allowAttributes: ['avoindataSectionId'],
+      allowContentOf: '$block',
     });
 
     schema.register('avoindataSectionTitle', {
@@ -214,6 +215,25 @@ export default class AvoindataSectionEditing extends Plugin {
           class: 'avoindata-section-content',
         });
         return toWidgetEditable(div, viewWriter);
+      },
+    });
+
+
+
+    // Extra converters for the older format ckeditor4 plugins
+    conversion.for('upcast').elementToElement({
+      model: 'avoindataSectionTitle',
+      view: {
+        name: 'h3',
+        classes: 'avoindata-section__title',
+      },
+    });
+
+    conversion.for('upcast').elementToElement({
+      model: 'avoindataSectionContent',
+      view: {
+        name: 'div',
+        classes: 'avoindata-section__content',
       },
     });
   }

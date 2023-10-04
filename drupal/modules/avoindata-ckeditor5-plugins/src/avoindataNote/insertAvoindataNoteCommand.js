@@ -38,16 +38,14 @@ function createAvoindataNote(writer) {
   // Create instances of the elements registered with the editor in
   // avoindataexpanderediting.js.
   const avoindataNote = writer.createElement('avoindataNote');
-  const avoindataNoteHeader = writer.createElement('avoindataNoteHeader');
   const avoindataNoteIcon = writer.createElement('avoindataNoteIcon');
   const avoindataNoteTitle = writer.createElement('avoindataNoteTitle');
   const avoindataNoteContent = writer.createElement('avoindataNoteContent');
 
   // Append the title and content elements to the avoindataNote, which matches
   // the parent/child relationship as defined in their schemas.
-  writer.append(avoindataNoteHeader, avoindataNote);
-  writer.append(avoindataNoteIcon, avoindataNoteHeader);
-  writer.append(avoindataNoteTitle, avoindataNoteHeader);
+  writer.append(avoindataNoteIcon, avoindataNote);
+  writer.append(avoindataNoteTitle, avoindataNote);
   writer.append(avoindataNoteContent, avoindataNote);
 
   // The text content will automatically be wrapped in a

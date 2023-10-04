@@ -38,15 +38,13 @@ function createAvoindataHint(writer) {
   // Create instances of the elements registered with the editor in
   // avoindataexpanderediting.js.
   const avoindataHint = writer.createElement('avoindataHint');
-  const avoindataHintHeader = writer.createElement('avoindataHintHeader');
   const avoindataHintIcon = writer.createElement('avoindataHintIcon');
   const avoindataHintContent = writer.createElement('avoindataHintContent');
 
   // Append the title and content elements to the avoindataHint, which matches
   // the parent/child relationship as defined in their schemas.
-  writer.append(avoindataHintHeader, avoindataHint);
-  writer.append(avoindataHintIcon, avoindataHintHeader);
-  writer.append(avoindataHintContent, avoindataHintHeader);
+  writer.append(avoindataHintIcon, avoindataHint);
+  writer.append(avoindataHintContent, avoindataHint);
 
   // The text content will automatically be wrapped in a
   // `<p>`.

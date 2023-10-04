@@ -69,14 +69,6 @@ export default class AvoindataNoteEditing extends Plugin {
       allowWhere: '$block',
     });
 
-    schema.register('avoindataNoteHeader', {
-      // This is only to be used within avoindataNote.
-      isObject: true,
-      isSelectable: false,
-      allowIn: 'avoindataNote',
-      allowChildren: ['avoindataNoteIcon', 'avoindataNoteTitle']
-    });
-
     schema.register('avoindataNoteIcon', {
       isObject: true,
       isContent: true,
@@ -85,7 +77,7 @@ export default class AvoindataNoteEditing extends Plugin {
       isSelectable: false,
       isLimit: false,
       // This is only to be used within avoindataNote.
-      allowIn: 'avoindataNoteHeader',
+      allowIn: 'avoindataNote',
       allowAttributes: ['src', 'alt', 'class']
     });
 
@@ -96,7 +88,7 @@ export default class AvoindataNoteEditing extends Plugin {
       // the box.
       isLimit: true,
       // This is only to be used within avoindataNote.
-      allowIn: 'avoindataNoteHeader',
+      allowIn: 'avoindataNote',
       // Allow content that is allowed in blocks (e.g. text with attributes).
       allowContentOf: '$root',
     });
@@ -137,14 +129,6 @@ export default class AvoindataNoteEditing extends Plugin {
       view: {
         name: 'div',
         classes: 'avoindata-note',
-      },
-    });
-
-    conversion.for('upcast').elementToElement({
-      model: 'avoindataNoteHeader',
-      view: {
-        name: 'div',
-        classes: 'avoindata-note-header',
       },
     });
 
@@ -190,16 +174,6 @@ export default class AvoindataNoteEditing extends Plugin {
       view: {
         name: 'div',
         classes: 'avoindata-note',
-      },
-    });
-
-    // Instances of <avoindataNoteHeader> are saved as
-    // <div class="avoindata-note-header">{{inner content}}</div>.
-    conversion.for('dataDowncast').elementToElement({
-      model: 'avoindataNoteHeader',
-      view: {
-        name: 'div',
-        classes: 'avoindata-note-header',
       },
     });
 
@@ -249,16 +223,6 @@ export default class AvoindataNoteEditing extends Plugin {
       },
     });
 
-    // Convert the <avoindataNoteHeader> model into a container element in the editor UI.
-    conversion.for('editingDowncast').elementToElement({
-      model: 'avoindataNoteHeader',
-      view: (modelElement, { writer: viewWriter }) => {
-        return viewWriter.createContainerElement('div', {
-          class: 'avoindata-note-header',
-        });
-      },
-    });
-
     // Convert the <avoindataNoteIcon> model into an UI element in the editor UI.
     conversion.for('editingDowncast').elementToStructure({
       model: 'avoindataNoteIcon',
@@ -286,6 +250,14 @@ export default class AvoindataNoteEditing extends Plugin {
           class: 'avoindata-note-content',
         });
         return toWidgetEditable(div, viewWriter);
+      },
+    });
+
+    conversion.for('upcast').elementToElement({
+      model: 'avoindataNoteIcon',
+      view: {
+        name: 'img',
+        classes: 'avoindata-note-header-image'
       },
     });
   }
