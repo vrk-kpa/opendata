@@ -26,7 +26,10 @@ export class MonitoringStack extends Stack {
       eventPattern: {
         source: ['aws.ecs'],
         detail: {
-          message: [{suffix: 'failed container health checks.'}]
+          eventType: ['SERVICE_TASK_START_IMPAIRED',
+                      'SERVICE_DISCOVERY_INSTANCE_UNHEALTHY',
+                      'SERVICE_TASK_PLACEMENT_FAILURE',
+                      'SERVICE_TASK_CONFIGURATION_FAILURE']
         }
       },
       targets: [sendToDeveloperZulipTarget, taskHealthCheckFailLogGroupTarget],
