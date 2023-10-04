@@ -16,6 +16,7 @@ import {CertificateStack} from "../lib/certificate-stack";
 import {BypassCdnStack} from "../lib/bypass-cdn-stack";
 import {MonitoringStack} from "../lib/monitoring-stack";
 import {LambdaStack} from "../lib/lambda-stack";
+import {DomainStack} from "../lib/domain-stack";
 import {CiTestStack} from "../lib/ci-test-stack";
 
 // load .env file, shared with docker setup
@@ -376,6 +377,7 @@ const prodProps = {
   secondaryFqdn: 'opendata.fi',
   domainName: 'www.avoindata.fi',
   secondaryDomainName: 'www.opendata.fi',
+  newDomainName: "avoindata.suomi.fi"
 };
 
 const clusterStackProd = new ClusterStack(app, 'ClusterStack-prod', {
@@ -687,6 +689,10 @@ const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
   secondaryDomainName: prodProps.secondaryDomainName,
 });
 
+const domainStackProd = new DomainStack(app, 'DomainStack-prod', {
+  zoneName: prodProps.newDomainName,
+  crossAccountId: betaProps.account
+})
 
 const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
   env: {
