@@ -18,6 +18,7 @@ import {MonitoringStack} from "../lib/monitoring-stack";
 import {LambdaStack} from "../lib/lambda-stack";
 import {DomainStack} from "../lib/domain-stack";
 import {CiTestStack} from "../lib/ci-test-stack";
+import {SubDomainStack} from "../lib/sub-domain-stack";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -692,6 +693,11 @@ const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
 const domainStackProd = new DomainStack(app, 'DomainStack-prod', {
   zoneName: prodProps.newDomainName,
   crossAccountId: betaProps.account
+})
+
+const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
+  prodAccountId: prodProps.account,
+  subDomainName: betaProps.environment
 })
 
 const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
