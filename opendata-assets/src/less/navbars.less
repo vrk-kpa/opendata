@@ -376,6 +376,45 @@ End of dropdown CSS
     font-size: 18px;
   }
 
+  .link-button {
+    color: @link-default-color;
+    border: 1px solid @link-default-color;
+    background: transparent;
+    padding: 0 20px;
+    margin: 10px;
+    border-radius: 2px;
+    box-shadow: none;
+    display: flex;
+    line-height: 40px;
+    font-weight: @font-weight-heavier;
+    letter-spacing: 0.4px;
+    font-size: @font-size-smaller-base;
+    text-decoration: none;
+    align-items: center;
+    gap: 8px;
+    float: right;
+
+    &.borderless {
+      border: 1px solid transparent;
+    }
+
+    &.external {
+      &::before {
+        font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free", sans-serif;
+        font-size: 16px;
+        align-self: center;
+        content: "\f35d"
+      }
+    }
+
+    &:hover {
+      color: @link-default-color;
+      border: 1px solid @suomi-depthBase;
+      background: linear-gradient(to top, transparent 0%, rgb(255 255 255 / 8.5%) 100%);
+      text-decoration: none;
+    }
+  }
+
   .navbar-collapse {
     border: 0;
   }
