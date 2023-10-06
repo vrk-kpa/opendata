@@ -12,7 +12,8 @@ export default class InsertAvoindataExpanderCommand extends Command {
     model.change((writer) => {
       // Insert <avoindataExpander>*</avoindataExpander> at the current selection position
       // in a way that will result in creating a valid model structure.
-      model.insertContent(createAvoindataExpander(writer));
+      const avoindataExpander = createAvoindataExpander(writer);
+      model.insertContent(avoindataExpander);
     });
   }
 
@@ -48,8 +49,12 @@ function createAvoindataExpander(writer) {
 
   // The text content will automatically be wrapped in a
   // `<p>`.
-  writer.appendElement('paragraph', avoindataExpanderTitle);
-  writer.appendElement('paragraph', avoindataExpanderContent);
+  const title = writer.createElement('paragraph');
+  writer.insertText('Title', title, 0);
+  writer.append(title, avoindataExpanderTitle);
+  const content = writer.createElement('paragraph');
+  writer.insertText('Content', content, 0);
+  writer.append(content, avoindataExpanderContent);
 
   // Return the element to be added to the editor.
   return avoindataExpander;

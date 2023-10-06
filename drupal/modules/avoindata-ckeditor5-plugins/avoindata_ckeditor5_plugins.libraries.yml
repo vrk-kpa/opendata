@@ -1,8 +1,8 @@
 # This adds the plugin JavaScript to the page.
 
-externalLink:
+avoindataExternalLink:
   js:
-    js/externalLink.js: { preprocess: false, minified: true }
+    js/avoindataExternalLink.js: { preprocess: false, minified: true }
   dependencies:
     - core/ckeditor5
 

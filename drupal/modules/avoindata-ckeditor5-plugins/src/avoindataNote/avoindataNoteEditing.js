@@ -219,7 +219,7 @@ export default class AvoindataNoteEditing extends Plugin {
           class: 'avoindata-note',
         });
 
-        return toWidget(section, viewWriter, { label: 'Avoindata Note widget' });
+        return toWidget(section, viewWriter, { label: 'Avoindata Note' });
       },
     });
 

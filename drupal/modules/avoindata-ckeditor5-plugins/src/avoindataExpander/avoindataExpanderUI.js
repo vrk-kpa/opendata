@@ -17,7 +17,7 @@ export default class AvoindataExpanderUI extends Plugin {
 
       // Create the toolbar button.
       buttonView.set({
-        label: editor.t('Avoindata Expander widget'),
+        label: editor.t('Avoindata Expander'),
         icon,
         tooltip: true,
       });

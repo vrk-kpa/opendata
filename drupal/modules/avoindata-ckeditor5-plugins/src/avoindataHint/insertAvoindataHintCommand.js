@@ -12,7 +12,8 @@ export default class InsertAvoindataHintCommand extends Command {
     model.change((writer) => {
       // Insert <avoindataHint>*</avoindataHint> at the current selection position
       // in a way that will result in creating a valid model structure.
-      model.insertContent(createAvoindataHint(writer));
+      const avoindataHint = createAvoindataHint(writer);
+      model.insertContent(avoindataHint);
     });
   }
 
@@ -48,7 +49,9 @@ function createAvoindataHint(writer) {
 
   // The text content will automatically be wrapped in a
   // `<p>`.
-  writer.appendElement('paragraph', avoindataHintContent);
+  const content = writer.createElement('paragraph');
+  writer.insertText('Content', content, 0);
+  writer.append(content, avoindataHintContent);
 
   // Return the element to be added to the editor.
   return avoindataHint;

@@ -12,7 +12,8 @@ export default class InsertAvoindataNoteCommand extends Command {
     model.change((writer) => {
       // Insert <avoindataNote>*</avoindataNote> at the current selection position
       // in a way that will result in creating a valid model structure.
-      model.insertContent(createAvoindataNote(writer));
+      const avoindataNote = createAvoindataNote(writer);
+      model.insertContent(avoindataNote);
     });
   }
 
@@ -50,8 +51,12 @@ function createAvoindataNote(writer) {
 
   // The text content will automatically be wrapped in a
   // `<p>`.
-  writer.appendElement('paragraph', avoindataNoteTitle);
-  writer.appendElement('paragraph', avoindataNoteContent);
+  const title = writer.createElement('paragraph');
+  writer.insertText('Title', title, 0);
+  writer.append(title, avoindataNoteTitle);
+  const content = writer.createElement('paragraph');
+  writer.insertText('Content', content, 0);
+  writer.append(content, avoindataNoteContent);
 
   // Return the element to be added to the editor.
   return avoindataNote;

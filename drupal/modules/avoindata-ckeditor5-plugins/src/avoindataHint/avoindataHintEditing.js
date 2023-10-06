@@ -2,6 +2,7 @@ import { Plugin } from 'ckeditor5/src/core';
 import { toWidget, toWidgetEditable } from 'ckeditor5/src/widget';
 import { Widget } from 'ckeditor5/src/widget';
 import InsertAvoindataHintCommand from './insertAvoindataHintCommand';
+import icon from '../../icons/icon-hint.svg'
 
 /**
  * CKEditor 5 plugins do not work directly with the DOM. They are defined as
@@ -155,7 +156,7 @@ export default class AvoindataHintEditing extends Plugin {
     conversion.for('downcast').elementToElement({
       model: 'avoindataHintIcon',
       view: (modelElement, { writer }) => {
-        return writer.createEmptyElement('img', { class: "avoindata-hint-icon", src: '/themes/avoindata/images/avoindata-hint-icon.svg' })
+        return writer.createEmptyElement('img', { class: "avoindata-hint-icon", src: icon })
       }
     });
 
@@ -182,7 +183,7 @@ export default class AvoindataHintEditing extends Plugin {
           class: 'avoindata-hint',
         });
 
-        return toWidget(section, viewWriter, { label: 'Avoindata Hint widget' });
+        return toWidget(section, viewWriter, { label: 'Avoindata Hint' });
       },
     });
 

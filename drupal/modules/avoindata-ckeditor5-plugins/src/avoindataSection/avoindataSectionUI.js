@@ -25,7 +25,7 @@ export default class AvoindataSectionUI extends Plugin {
 
       // Create the toolbar button.
       buttonView.set({
-        label: editor.t('Avoindata Section widget'),
+        label: editor.t('Avoindata Section'),
         icon,
         tooltip: true
       });

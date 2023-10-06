@@ -17,7 +17,7 @@ export default class AvoindataHintUI extends Plugin {
 
       // Create the toolbar button.
       buttonView.set({
-        label: editor.t('Avoindata Hint widget'),
+        label: editor.t('Avoindata Hint'),
         icon,
         tooltip: true,
       });

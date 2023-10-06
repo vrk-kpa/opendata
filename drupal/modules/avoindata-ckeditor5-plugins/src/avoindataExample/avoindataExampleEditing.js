@@ -181,7 +181,7 @@ export default class AvoindataExampleEditing extends Plugin {
           class: 'avoindata-example',
         });
 
-        return toWidget(section, viewWriter, { label: 'Avoindata Example widget' });
+        return toWidget(section, viewWriter, { label: 'Avoindata Example' });
       },
     });
 

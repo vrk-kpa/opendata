@@ -12,7 +12,8 @@ export default class InsertAvoindataExampleCommand extends Command {
     model.change((writer) => {
       // Insert <avoindataExample>*</avoindataExample> at the current selection position
       // in a way that will result in creating a valid model structure.
-      model.insertContent(createAvoindataExample(writer));
+      const avoindataExample = createAvoindataExample(writer);
+      model.insertContent(avoindataExample);
     });
   }
 
@@ -48,8 +49,12 @@ function createAvoindataExample(writer) {
 
   // The text content will automatically be wrapped in a
   // `<p>`.
-  writer.appendElement('paragraph', avoindataExampleTitle);
-  writer.appendElement('paragraph', avoindataExampleContent);
+  const title = writer.createElement('paragraph');
+  writer.insertText('Title', title, 0);
+  writer.append(title, avoindataExampleTitle);
+  const content = writer.createElement('paragraph');
+  writer.insertText('Content', content, 0);
+  writer.append(content, avoindataExampleContent);
 
   // Return the element to be added to the editor.
   return avoindataExample;

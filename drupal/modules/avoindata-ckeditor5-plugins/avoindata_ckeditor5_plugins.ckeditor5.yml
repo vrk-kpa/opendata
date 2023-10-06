@@ -49,10 +49,10 @@
 #    # class: Optional PHP class that makes it possible for the plugin to provide
 #    #   dynamic values, or a configuration UI.
 
-avoindata_ckeditor5_plugins_externallink:
+avoindata_ckeditor5_plugins_avoindataexternallink:
   ckeditor5:
     plugins:
-      - externalLink.ExternalLink
+      - avoindataExternalLink.AvoindataExternalLink
     config:
       link:
         decorators:
@@ -66,7 +66,7 @@ avoindata_ckeditor5_plugins_externallink:
               - 'external-link'
   drupal:
     label: Link
-    library: avoindata_ckeditor5_plugins/externalLink
+    library: avoindata_ckeditor5_plugins/avoindataExternalLink
     elements:
       - <a>
       - <a target="_blank">

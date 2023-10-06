@@ -188,7 +188,7 @@ export default class AvoindataExpanderEditing extends Plugin {
           class: 'avoindata-expander',
         });
 
-        return toWidget(section, viewWriter, { label: 'Avoindata Expander widget' });
+        return toWidget(section, viewWriter, { label: 'Avoindata Expander' });
       },
     });
 
