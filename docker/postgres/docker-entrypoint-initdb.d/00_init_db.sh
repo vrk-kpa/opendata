@@ -16,6 +16,11 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
     GRANT ALL PRIVILEGES ON DATABASE $DB_DRUPAL TO $POSTGRES_USER;
 EOSQL
 
+# Create pg_trgm extension for drupal, can be removed once postgres is at least 13 and drupal is in version 10
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" -d "$DB_DRUPAL" <<-EOSQL
+    CREATE EXTENSION pg_trgm;
+EOSQL
+
 # init datapusher job database
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
     CREATE ROLE $DB_DATAPUSHER_JOBS_USER LOGIN PASSWORD '$DB_DATAPUSHER_JOBS_PASS';
