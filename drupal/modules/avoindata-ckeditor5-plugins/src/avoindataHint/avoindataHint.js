@@ -12,6 +12,7 @@
 import AvoindataHintEditing from './avoindataHintEditing';
 import AvoindataHintUI from './avoindataHintUI';
 import { Plugin } from 'ckeditor5/src/core';
+import '../../css/styles.css';
 
 export default class AvoindataHint extends Plugin {
   // Note that AvoindataHintEditing and AvoindataHintUI also extend `Plugin`, but these

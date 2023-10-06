@@ -12,6 +12,7 @@
 import AvoindataExampleEditing from './avoindataExampleEditing';
 import AvoindataExampleUI from './avoindataExampleUI';
 import { Plugin } from 'ckeditor5/src/core';
+import '../../css/styles.css';
 
 export default class AvoindataExample extends Plugin {
   // Note that AvoindataExampleEditing and AvoindataExampleUI also extend `Plugin`, but these

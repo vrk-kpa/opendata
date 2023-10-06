@@ -24,6 +24,7 @@ var paths = {
     drupal: "src/less/drupal/style.less",
     drupal_avoindata_header: "../drupal/modules/avoindata-header/resources/avoindata_header.js",
     drupal_ckeditor_plugins: "src/less/drupal/custom-elements.less",
+    drupal_ckeditor5_plugins: ["src/less/drupal/custom-elements.less", "src/less/drupal/editor.less"],
     templates: "src/templates/**/*",
     static_pages: "src/static_pages",
     fonts: "src/fonts/**/*",
@@ -160,6 +161,19 @@ gulp.task("drupal_copy_custom_element_styles_to_plugin", (done) => {
     concat("style.css"),
     sourcemaps.write("./maps"),
     gulp.dest("../drupal/modules/avoindata-ckeditor-plugins/css"),
+  ], done)
+});
+
+// // Compiles Less files in Drupal theme directory
+// // Output destination is also in Drupal theme directory
+gulp.task("drupal_copy_custom_ckeditor_styles_to_plugin", (done) => {
+  pump([
+    gulp.src(paths.src.drupal_ckeditor5_plugins),
+    less({paths: paths.src.drupal_ckeditor5_plugins}),
+    cleancss({format: 'beautify'}),
+    template({ timestamp: timestamp }),
+    concat("styles.css"),
+    gulp.dest("../drupal/modules/avoindata-ckeditor5-plugins/css"),
   ], done)
 });
 
@@ -341,6 +355,7 @@ gulp.task(
       "openapi_view",
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
+      "drupal_copy_custom_ckeditor_styles_to_plugin",
       "fonts",
       "fontsCss",
       "scripts")
@@ -371,6 +386,7 @@ gulp.task("watch_styles", () => {
       "ckan",
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
+      "drupal_copy_custom_ckeditor_styles_to_plugin",
       "fontsCss",
       "lint"
     )
@@ -389,6 +405,7 @@ gulp.task("watch_drupal_styles", () => {
     gulp.series(
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
+      "drupal_copy_custom_ckeditor_styles_to_plugin",
       "fontsCss",
       "lint"
     )

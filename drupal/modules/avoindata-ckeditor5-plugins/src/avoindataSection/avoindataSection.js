@@ -12,6 +12,7 @@
 import AvoindataSectionEditing from './avoindataSectionEditing';
 import AvoindataSectionUI from './avoindataSectionUI';
 import { Plugin } from 'ckeditor5/src/core';
+import '../../css/styles.css';
 
 export default class AvoindataSection extends Plugin {
   // Note that AvoindataSectionEditing and AvoindataSectionUI also extend `Plugin`, but these

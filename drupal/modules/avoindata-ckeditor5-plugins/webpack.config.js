@@ -14,7 +14,6 @@ module.exports = [];
 // Loop through every subdirectory in src, each a different plugin, and build
 // each one in ./build.
 getDirectories('./src').forEach((dir) => {
-  console.log(dir)
   const bc = {
     mode: 'production',
     optimization: {

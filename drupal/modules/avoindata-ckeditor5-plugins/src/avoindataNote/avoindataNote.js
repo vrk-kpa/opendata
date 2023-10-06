@@ -12,6 +12,7 @@
 import AvoindataNoteEditing from './avoindataNoteEditing';
 import AvoindataNoteUI from './avoindataNoteUI';
 import { Plugin } from 'ckeditor5/src/core';
+import '../../css/styles.css';
 
 export default class AvoindataNote extends Plugin {
   // Note that AvoindataNoteEditing and AvoindataNoteUI also extend `Plugin`, but these
