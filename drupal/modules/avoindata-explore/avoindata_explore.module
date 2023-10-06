@@ -33,6 +33,10 @@ function avoindata_explore_theme($existing, $type, $theme, $path) {
       'variables' => ['language' => NULL,],
       'template' => 'avoindata_support_block',
     ],
+    'avoindata_external' => [
+      'variables' => ['language' => NULL,],
+      'template' => 'avoindata_external_block'
+    ]
   ];
 }
 

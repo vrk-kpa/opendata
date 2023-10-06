@@ -1,4 +1,4 @@
-# build args
+# build args 
 ARG SECRET_NPMRC
 
 #
@@ -318,7 +318,6 @@ COPY ckanext/ckanext-ytp_request            ${EXT_DIR}/ckanext-ytp_request/
 COPY ckanext/ckanext-ytp_main               ${EXT_DIR}/ckanext-ytp_main/
 COPY ckanext/ckanext-hierarchy              ${EXT_DIR}/ckanext-hierarchy/
 COPY ckanext/ckanext-matomo                 ${EXT_DIR}/ckanext-matomo/
-COPY ckanext/ckanext-datarequests           ${EXT_DIR}/ckanext-datarequests/
 COPY ckanext/ckanext-harvest                ${EXT_DIR}/ckanext-harvest/
 COPY ckanext/ckanext-report                 ${EXT_DIR}/ckanext-report/
 COPY ckanext/ckanext-spatial                ${EXT_DIR}/ckanext-spatial/

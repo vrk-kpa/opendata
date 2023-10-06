@@ -26,7 +26,7 @@ export class MonitoringStack extends Stack {
       eventPattern: {
         source: ['aws.ecs'],
         detail: {
-          message: assertions.Match.stringLikeRegexp('service [^ ]+ task [0-9a-f]+ failed container health checks.')
+          message: [{suffix: 'failed container health checks.'}]
         }
       },
       targets: [sendToDeveloperZulipTarget, taskHealthCheckFailLogGroupTarget],

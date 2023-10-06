@@ -2,9 +2,9 @@
 
 namespace Drupal\avoindata_newsfeed\Plugin\Block;
 
-use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\taxonomy\Entity\Term;
 
 /**
@@ -55,20 +55,24 @@ class NewsFeedBlock extends BlockBase {
       $articleTags = [];
       if ($fieldTags) {
         foreach ($fieldTags as &$tag) {
-          array_push($articleTags, (object) [
-            'tid' => $tag['target_id'],
-            'name' => Term::load($tag['target_id'])->getName(),
-          ]);
+          array_push(
+                $articleTags, (object) [
+                  'tid' => $tag['target_id'],
+                  'name' => Term::load($tag['target_id'])->getName(),
+                ]
+            );
         }
       }
 
-      array_push($articles, (object) [
-        'id' => $node->id(),
-        'label' => $node->label(),
-        'createdtime' => $node->getCreatedTime(),
-        'body' => $node->body->getValue(),
-        'tags' => $articleTags,
-      ]);
+      array_push(
+            $articles, (object) [
+              'id' => $node->id(),
+              'label' => $node->label(),
+              'createdtime' => $node->getCreatedTime(),
+              'body' => $node->body->getValue(),
+              'tags' => $articleTags,
+            ]
+        );
     }
 
     return [

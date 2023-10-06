@@ -75,7 +75,7 @@ scheming.group_schemas = ckanext.ytp.schemas:group.json
 scheming.organization_schemas = ckanext.ytp.schemas:organization.json
 advancedsearch.schema = ckanext.advancedsearch:search_fields.json
 
-ckan.site_title = avoindata.fi
+ckan.site_title = Suomi.fi-avoindata
 ckan.site_logo =
 ckan.site_description =
 
@@ -138,8 +138,6 @@ ckanext.sixodp_showcasesubmit.recipient_emails = {{ environ('SYSADMIN_EMAIL') }}
 
 ckanext.ytp_recommendation.recaptcha_sitekey = {{ environ('RECAPTCHA_PUBLIC_KEY') }}
 ckanext.ytp_recommendation.recaptcha_secret = {{ environ('RECAPTCHA_PRIVATE_KEY') }}
-
-ckanext-datarequests.datarequest_notifications_admin_email = None
 
 ckanext.drupal8.site_url = {{ environ('CKAN_DRUPAL_SITE_URL') }}
 ckanext.drupal8.domain = {{ environ('DOMAIN_NAME') }},{{ environ('SECONDARY_DOMAIN_NAME') }}
@@ -218,6 +216,7 @@ ckanext.matomo.domain = https://{{ environ('MATOMO_DOMAIN') }}/
 ckanext.matomo.script_domain = {{ environ('MATOMO_SCRIPT_DOMAIN') }}
 ckanext.matomo.token_auth = {{ environ('MATOMO_TOKEN') }}
 ckanext.matomo.ignored_user_agents = docker-healthcheck
+ckanext.matomo.track_api = true
 {% endif %}
 
 ckanext.spatial.harvest.continue_on_validation_errors = true

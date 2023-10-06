@@ -96,13 +96,13 @@ def search():
     query = get_action('package_search')(context, data_dict)
 
     json_query = json.dumps(
-        {k: v for k, v in list(params_to_dict(request.form).items()) if k != 'page' and type(v) is list and len(v[0]) > 0}
+        {k: v for k, v in list(params_to_dict(request.form).items()) if k != 'page' and isinstance(v, list) and len(v[0]) > 0}
     )
 
     filters = {
         k: v for k, v in list(params_to_dict(request.form).items()) if k != 'search_target' and k != 'search_query'
         and k != 'page' and k != 'released-before' and k != 'released-after' and k != 'updated-before'
-        and k != 'updated-after' and k != 'sort' and type(v) is list and len(v[0]) > 0
+        and k != 'updated-after' and k != 'sort' and isinstance(v, list) and len(v[0]) > 0
     }
 
     for key, value in filters.items():

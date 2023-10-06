@@ -47,8 +47,6 @@ Differences in the smaller screen size are together with other @media definition
 .dropdown-submenu.pull-left > .dropdown-menu {
   left: -100%;
   margin-left: 10px;
-  -webkit-border-radius: 6px 0 6px 6px;
-  -moz-border-radius: 6px 0 6px 6px;
   border-radius: 6px 0 6px 6px;
 }
 
@@ -156,7 +154,7 @@ End of dropdown CSS
     //Hovering language selection draws a box around it
     .language-link:hover {
       border-style: solid;
-      border-color: rgba(0, 0, 0, 0.98);
+      border-color: rgb(0 0 0 / 98%);
       border-radius: 2px;
     }
   }
@@ -193,7 +191,7 @@ End of dropdown CSS
       display: none;
       background: #fff;
       border: 1px solid #a5acb0;
-      box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 3px 0 rgb(0 0 0 / 20%);
       border-radius: 2px;
       right: 0;
       top: 58px;
@@ -260,8 +258,8 @@ End of dropdown CSS
 .search-button-submit {
   background: @suomi-highlightBase;
   border: none;
-  width: 40;
-  height: 40;
+  width: 40px;
+  height: 40px;
 }
 
 .avoindata-search-id {
@@ -276,7 +274,6 @@ End of dropdown CSS
   width: 360px;
   border: solid 1px #c8cdd0;
   padding: 8px 10px;
-  -webkit-box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
   box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
   height: 40px;
   border-radius: 1px;
@@ -295,8 +292,6 @@ End of dropdown CSS
 .header-search-group input,
 .header-search-group button {
   float: left;
-  -webtkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: 40px;
 }
@@ -379,6 +374,45 @@ End of dropdown CSS
   .navbar-nav > li > a {
     color: @navbar-color-links;
     font-size: 18px;
+  }
+
+  .link-button {
+    color: @link-default-color;
+    border: 1px solid @link-default-color;
+    background: transparent;
+    padding: 0 20px;
+    margin: 10px;
+    border-radius: 2px;
+    box-shadow: none;
+    display: flex;
+    line-height: 40px;
+    font-weight: @font-weight-heavier;
+    letter-spacing: 0.4px;
+    font-size: @font-size-smaller-base;
+    text-decoration: none;
+    align-items: center;
+    gap: 8px;
+    float: right;
+
+    &.borderless {
+      border: 1px solid transparent;
+    }
+
+    &.external {
+      &::before {
+        font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free", sans-serif;
+        font-size: 16px;
+        align-self: center;
+        content: "\f35d"
+      }
+    }
+
+    &:hover {
+      color: @link-default-color;
+      border: 1px solid @suomi-depthBase;
+      background: linear-gradient(to top, transparent 0%, rgb(255 255 255 / 8.5%) 100%);
+      text-decoration: none;
+    }
   }
 
   .navbar-collapse {
