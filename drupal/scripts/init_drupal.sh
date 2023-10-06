@@ -111,7 +111,7 @@ drush config:delete core.entity_view_display.node.page.default                  
 drush config:delete pathauto.settings                                              || true
 drush config:delete captcha.captcha_point.contact_message_feedback_form            || true
 drush config:delete core.base_field_override.node.article.promote                  || true
-drush config:delete editor.editor.full_html
+drush config:delete editor.editor.full_html                                        || true
 
 # enable custom modules
 echo "enable custom modules.."

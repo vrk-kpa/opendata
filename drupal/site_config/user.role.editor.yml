@@ -52,5 +52,6 @@ permissions:
   - 'translate user-defined strings'
   - 'use text format filtered_html'
   - 'use text format full_html'
+  - 'use text format ckeditor5'
   - 'view own unpublished content'
   - 'view revisions'
