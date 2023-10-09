@@ -38,6 +38,10 @@ export class CkanStack extends Stack {
       parameterName: `/${props.environment}/opendata/ckan/harvester_instruction_url`,
     });
 
+    const pCkanOrganizationapprovalEmail = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanOrganizationapprovalEmail', {
+      parameterName: `/${props.environment}/opendata/ckan/organizationapproval_email`,
+    });
+
     const host = props.databaseInstance.instanceEndpoint;
 
     const datastoreHost = props.datastoreInstance.instanceEndpoint;
@@ -258,6 +262,7 @@ export class CkanStack extends Stack {
       SENTRY_ENV: props.environment,
       CKAN_SYSADMIN_NAME: pSysadminUser.stringValue,
       CKAN_SYSADMIN_EMAIL: pSysadminEmail.stringValue,
+      ORGANIZATIONAPPROVAL_EMAIL: pCkanOrganizationapprovalEmail.stringValue,
       // fuseki
       FUSEKI_HOST: `fuseki.${props.namespace.namespaceName}`,
       FUSEKI_PORT: '3030',
