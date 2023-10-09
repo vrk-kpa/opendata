@@ -5,7 +5,22 @@ import FormData = require('form-data');
 
 const { ZULIP_API_URL, ZULIP_API_USER, ZULIP_API_KEY_SECRET, ZULIP_STREAM, ZULIP_TOPIC } = process.env;
 
+function eventMessage(event: any) {
+  const {detail} = event;
+  if(detail?.eventName) {
+    // Generic event
+    const {resources} = event;
+    return `${detail?.eventName}: ${resources?.join(', ')}`;
+  } else if(detail?.stoppedReason) {
+    // Container stopped event
+    const {taskArn, group, stoppedReason} = detail;
+    return `${taskArn} (${group}): ${stoppedReason}`;
+  } else {
+    return 'Unknown message type';
+  }
+}
 export const handler: Handler = async (event: any) => {
+  console.log(event);
   if(!ZULIP_API_URL || !ZULIP_API_USER || !ZULIP_API_KEY_SECRET ||
      !ZULIP_STREAM || !ZULIP_TOPIC) {
     return {
@@ -21,8 +36,7 @@ export const handler: Handler = async (event: any) => {
   const response = await secretsManagerClient.send(command);
   const zulipApiKey = response.SecretString;
 
-  const { resources, detail } = event;
-  const message = `${detail?.eventName}: ${resources?.join(', ')}`;
+  const message = eventMessage(event);
   
   const data = new FormData();
   data.append('type', 'stream');
