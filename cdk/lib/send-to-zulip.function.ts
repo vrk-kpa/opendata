@@ -20,7 +20,6 @@ function eventMessage(event: any) {
   }
 }
 export const handler: Handler = async (event: any) => {
-  console.log(event);
   if(!ZULIP_API_URL || !ZULIP_API_USER || !ZULIP_API_KEY_SECRET ||
      !ZULIP_STREAM || !ZULIP_TOPIC) {
     return {
@@ -55,8 +54,8 @@ export const handler: Handler = async (event: any) => {
 
   await new Promise((resolve, reject) => {
     const req = https.request(options, (res: any) => {
-      console.log('Response from Zulip API:', res.statusCode);
       if(res.statusCode != 200) {
+        console.log('Response from Zulip API:', res.statusCode);
         res.on('data', (chunk: any) => {
           console.log(chunk.toString());
         }).on('end', () => {
