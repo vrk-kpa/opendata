@@ -23,7 +23,7 @@ This folder contains dockerized versions of the opendata services.
   * ../ckan/
     * ckan docker image
   * ../drupal
-    * drupal docker image 
+    * drupal docker image
 
 ## Build requirements
 
@@ -157,6 +157,7 @@ services:
       - ../drupal/modules/avoindata-guide/:/opt/drupal/web/modules/avoindata-guide
       - ../drupal/modules/avoindata-user/:/opt/drupal/web/modules/avoindata-user
       - ../drupal/modules/avoindata-ckeditor-plugins/:/opt/drupal/web/modules/avoindata-ckeditor-plugins
+      - ../drupal/modules/avoindata-ckeditor5-plugins/:/opt/drupal/web/modules/avoindata-ckeditor5-plugins
       - ../drupal/modules/avoindata-theme:/opt/drupal/web/themes/avoindata
       - ../opendata-assets:/opt/drupal/web/modules/opendata-assets
       - /opt/drupal/web/modules/opendata-assets/node_modules/
