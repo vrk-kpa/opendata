@@ -87,6 +87,8 @@ drush config:delete core.entity_view_display.node.page.search_result            
 drush config:delete core.entity_view_display.node.page.teaser                      || true
 drush config:delete field.field.node.page.field_basic_page_comments                || true
 drush config:delete field.storage.node.field_basic_page_comments                   || true
+drush config:delete user.role.editor                                               || true
+
 
 # uninstall modules
 echo "uninstall modules.."
