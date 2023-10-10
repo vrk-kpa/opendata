@@ -213,5 +213,14 @@ export default class AvoindataExpanderEditing extends Plugin {
         return toWidgetEditable(div, viewWriter);
       },
     });
+
+    // Extra converters for the older format ckeditor4 plugins
+    conversion.for('upcast').elementToElement({
+      model: 'avoindataExpanderTitle',
+      view: {
+        name: 'h2',
+        classes: 'avoindata-expander-title',
+      },
+    });
   }
 }
