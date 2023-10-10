@@ -60,6 +60,35 @@ drush language:default -y "fi"
 # enable base theme
 drush theme:enable -y bootstrap
 
+# remove some configurations
+# NOTE: ansible role skips errors with this condition:
+#       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
+echo "delete configurations.."
+drush config:delete easy_breadcrumb.settings                                       || true
+drush config:delete node.type.page                                                 || true
+drush config:delete core.entity_form_display.node.page.default                     || true
+drush config:delete core.entity_view_display.node.page.default                     || true
+drush config:delete pathauto.settings                                              || true
+drush config:delete captcha.captcha_point.contact_message_feedback_form            || true
+drush config:delete core.base_field_override.node.article.promote                  || true
+drush config:delete editor.editor.full_html                                        || true
+drush config:delete block.block.avoindata_collapsiblesearch                        || true
+drush config:delete block.block.avoindata_infobox                                  || true
+drush config:delete disqus.settings                                                || true
+drush config:delete field.field.node.avoindata_guide_page.field_guide_comments     || true
+drush config:delete field.field.node.avoindata_article.field_article_comments      || true
+drush config:delete field.field.node.avoindata_event.field_event_comments          || true
+drush config:delete field.storage.node.field_article_comments                      || true
+drush config:delete field.storage.node.field_basic_page_comments                   || true
+drush config:delete field.storage.node.field_event_comments                        || true
+drush config:delete field.storage.node.field_guide_comments                        || true
+drush config:delete core.entity_view_display.node.page.search_index                || true
+drush config:delete core.entity_view_display.node.page.search_result               || true
+drush config:delete core.entity_view_display.node.page.teaser                      || true
+drush config:delete field.field.node.page.field_basic_page_comments                || true
+drush config:delete field.storage.node.field_basic_page_comments                   || true
+drush config:delete user.role.editor                                               || true
+
 
 # uninstall modules
 echo "uninstall modules.."
