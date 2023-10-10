@@ -33,12 +33,20 @@ settings:
       - '|'
       - sourceEditing
       - '-'
+      - heading
+      - '|'
       - avoindataExpander
       - avoindataNote
       - avoindataHint
       - avoindataExample
       - avoindataSection
   plugins:
+    ckeditor5_heading:
+      enabled_headings:
+        - heading3
+        - heading4
+        - heading5
+        - heading6
     ckeditor5_sourceEditing:
       allowed_tags: {  }
     ckeditor5_list:

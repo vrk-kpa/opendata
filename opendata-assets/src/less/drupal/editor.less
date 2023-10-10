@@ -1,7 +1,22 @@
 /* This selector targets the editable element (excluding comments). */
-.ck-editor__editable_inline {
-  height: 300px;
-  overflow-y: auto;
+.ck.ck-editor__main {
+  height: 100%;
+
+  .ck-editor__editable_inline {
+    height: 500px;
+    overflow-y: auto;
+    resize: vertical;
+  }
+}
+
+.ck.ck-editor__main .ck-source-editing-area {
+  height: 500px;
+  resize: vertical;
+
+  textarea {
+    position: unset;
+    overflow-y: auto;
+  }
 }
 
 .ck-content {
