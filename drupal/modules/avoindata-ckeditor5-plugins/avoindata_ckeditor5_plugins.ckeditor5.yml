@@ -1,0 +1,174 @@
+# Example from https://git.drupalcode.org/project/ckeditor5_dev/-/blob/1.0.3/ckeditor5_plugin_starter_template/MODULE_NAME.ckeditor5.yml
+# If using yml to configure plugins, rename this to {module_name}.ckeditor5.yml.
+# If using annotations, this file can be removed.
+# @see https://www.drupal.org/docs/drupal-apis/plugin-api/annotations-based-plugins
+#   For information on using annotations to define plugins.
+# @see the CKEditor 5 module's README.md for more details regarding plugin
+#   configuration options.
+# cSpell:ignore simplebox demobox
+
+#MODULE_NAME_demo_simplebox:
+#  # Use the provider: property for this plugin to depend on another module.
+#
+#  # Configuration that will be sent to CKEditor 5 JavaScript plugins.
+#  ckeditor5:
+#    plugins:
+#      - demoPlugin.SimpleBox
+#    # *Additional configuration properties*
+#    # config: data sent to the constructor of any CKEditor 5 plugin
+#    #   editorPluginName:
+#    #     editorPluginProperty: editorPluginValue
+#
+#  # Configuration that will be used directly by Drupal.
+#  drupal:
+#    label: Simple box demo
+#    # The library loaded while using the editor.
+#    library: MODULE_NAME/demobox
+#    # The library loaded when configuring the text format using this plugin.
+#    admin_library: MODULE_NAME/admin.demobox
+#    toolbar_items:
+#      # This should match the name of the corresponding plugin exported in the
+#      # plugin's index.js.
+#      simpleBox:
+#        label: Simple box demo
+#    # If the plugin does not provide elements, set this as
+#    # `elements: false`
+#    elements:
+#      # Note that it necessary for elements to separately provide both the tag
+#      # (f.e. `<h2>`) and the attribute being added to the tag
+#      # (f.e. `<h2 class="simple-box-title">`).
+#      - <h2>
+#      - <h2 class="simple-box-title">
+#      - <div>
+#      - <div class="simple-box-description">
+#      - <section>
+#      - <section class="simple-box">
+#    # *Additional configuration properties*
+#    # conditions: for setting additional criteria that must be met for the
+#    #   plugin to be active.
+#    # class: Optional PHP class that makes it possible for the plugin to provide
+#    #   dynamic values, or a configuration UI.
+
+avoindata_ckeditor5_plugins_avoindataexternallink:
+  ckeditor5:
+    plugins:
+      - avoindataExternalLink.AvoindataExternalLink
+    config:
+      link:
+        decorators:
+          isExternal:
+            mode: manual
+            label: Open in a new tab
+            attributes:
+              target: '_blank'
+              aria-label: 'Leads to external site'
+            classes:
+              - 'external-link'
+  drupal:
+    label: Link
+    library: avoindata_ckeditor5_plugins/avoindataExternalLink
+    elements:
+      - <a>
+      - <a target="_blank">
+      - <a class="external-link">
+      - <a aria-label="">
+      - <i>
+      - <i class="fas fa-external-link-alt">
+
+avoindata_ckeditor5_plugins_avoindataexpander:
+  ckeditor5:
+    plugins:
+      - avoindataExpander.AvoindataExpander
+  drupal:
+    label: Avoindata Expander
+    library: avoindata_ckeditor5_plugins/avoindataExpander
+    admin_library: avoindata_ckeditor5_plugins/toolbarIcons
+    toolbar_items:
+      avoindataExpander:
+        label: Avoindata Expander
+    elements:
+      - <div>
+      - <div class="avoindata-expander-header">
+      - <div class="avoindata-expander-title">
+      - <span>
+      - <span class="icon-wrapper pull-right">
+      - <i>
+      - <i class="fas fa-angle-down">
+      - <div class="avoindata-expander-content">
+
+avoindata_ckeditor5_plugins_avoindatanote:
+  ckeditor5:
+    plugins:
+      - avoindataNote.AvoindataNote
+  drupal:
+    label: Avoindata Note
+    library: avoindata_ckeditor5_plugins/avoindataNote
+    admin_library: avoindata_ckeditor5_plugins/toolbarIcons
+    toolbar_items:
+      avoindataNote:
+        label: Avoindata Note
+    elements:
+      - <div>
+      - <div class="avoindata-note">
+      - <div class="avoindata-note-header">
+      - <img>
+      - <img class="avoindata-note-icon">
+      - <div class="avoindata-note-title">
+      - <div class="avoindata-note-content">
+
+avoindata_ckeditor5_plugins_avoindatahint:
+  ckeditor5:
+    plugins:
+      - avoindataHint.AvoindataHint
+  drupal:
+    label: Avoindata Hint
+    library: avoindata_ckeditor5_plugins/avoindataHint
+    admin_library: avoindata_ckeditor5_plugins/toolbarIcons
+    toolbar_items:
+      avoindataHint:
+        label: Avoindata Hint
+    elements:
+      - <div>
+      - <div class="avoindata-hint">
+      - <div class="avoindata-hint-header">
+      - <img>
+      - <img class="avoindata-hint-icon">
+      - <div class="avoindata-hint-content">
+
+avoindata_ckeditor5_plugins_avoindataexample:
+  ckeditor5:
+    plugins:
+      - avoindataExample.AvoindataExample
+  drupal:
+    label: Avoindata Example
+    library: avoindata_ckeditor5_plugins/avoindataExample
+    admin_library: avoindata_ckeditor5_plugins/toolbarIcons
+    toolbar_items:
+      avoindataExample:
+        label: Avoindata Example
+    elements:
+      - <div>
+      - <div class="avoindata-example">
+      - <div class="avoindata-example-header">
+      - <div class="avoindata-example-title">
+      - <div class="avoindata-example-content">
+
+avoindata_ckeditor5_plugins_avoindatasection:
+  ckeditor5:
+    plugins:
+      - avoindataSection.AvoindataSection
+  drupal:
+    label: Avoindata Example
+    library: avoindata_ckeditor5_plugins/avoindataSection
+    admin_library: avoindata_ckeditor5_plugins/toolbarIcons
+    toolbar_items:
+      avoindataSection:
+        label: Avoindata Section
+    elements:
+      - <div>
+      - <div id>
+      - <div class id>
+      - <div class="avoindata-section">
+      - <div class="avoindata-section-id">
+      - <div class="avoindata-section-title">
+      - <div class="avoindata-section-content">
