@@ -213,8 +213,20 @@ a.external svg {
   height: 16px;
   fill: #2a6ebb;
 }
-.ck-editor__editable_inline {
-  height: 300px;
+.ck.ck-editor__main {
+  height: 100%;
+}
+.ck.ck-editor__main .ck-editor__editable_inline {
+  height: 500px;
+  overflow-y: auto;
+  resize: vertical;
+}
+.ck.ck-editor__main .ck-source-editing-area {
+  height: 500px;
+  resize: vertical;
+}
+.ck.ck-editor__main .ck-source-editing-area textarea {
+  position: unset;
   overflow-y: auto;
 }
 .ck-content .external-link {
