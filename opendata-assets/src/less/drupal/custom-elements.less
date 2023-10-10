@@ -1,5 +1,19 @@
 @import "../../../src/less/variables";
 
+.external-link {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+
+  &::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    transform: scale(0.6);
+    background-image: url("../images/icon-external-link.svg");
+  }
+}
+
 .avoindata-expander {
   background: @background-color__expander;
   border-radius: 2px;
@@ -31,12 +45,8 @@
   font-size: 18px;
   font-weight: 600;
   padding: 20px 0 20px 20px;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
   display: inline-block;
-  max-width: 90%;
+  width: calc(100% - 45px);
 }
 
 .avoindata-expander-content {
@@ -70,7 +80,8 @@
   margin-bottom: @padding-y--small;
 }
 
-.avoindata-note-header-image {
+.avoindata-note-header-image,
+.avoindata-note-icon {
   height: 24px;
   width: 24px;
   margin-left: 20px;
@@ -96,6 +107,7 @@
   margin-inline-start: 0;
   margin-inline-end: 0;
   display: inline-block;
+  width: calc(100% - 70px);
 
   > *:last-child {
     margin: 0;
@@ -121,7 +133,8 @@
   margin: 20px 0;
 }
 
-.avoindata-hint-image {
+.avoindata-hint-image,
+.avoindata-hint-icon {
   display: inline-block;
   vertical-align: top;
   height: 24px;
@@ -160,7 +173,7 @@
   margin-block-end: 0;
   margin-inline-start: 0;
   margin-inline-end: 0;
-  display: inline-block;
+  display: block;
 
   > *:last-child {
     margin: 0;
@@ -176,16 +189,6 @@
   padding: 0 20px 20px;
 }
 
-a.external {
-  svg {
-    margin-bottom: -2px;
-    margin-left: 4px;
-    width: 16px;
-    height: 16px;
-    fill: @link-color;
-  }
-}
-
 .avoindata-section {
   background-color: @background-color__content;
   box-shadow: @box-shadow__section;
@@ -198,10 +201,16 @@ a.external {
     margin-top: 0;
   }
 
-  .avoindata-section__title {
+  .avoindata-section__title,
+  .avoindata-section-title {
     margin-top: 0;
     margin-bottom: @margin-bottom__section__title;
     font-size: @font-size__section-title;
+
+    p {
+      line-height: 34px;
+      font-weight: 600;
+    }
   }
 }
 
@@ -230,5 +239,15 @@ table {
 
   td {
     color: @color--black;
+  }
+}
+
+a.external {
+  svg {
+    margin-bottom: -2px;
+    margin-left: 4px;
+    width: 16px;
+    height: 16px;
+    fill: @link-color;
   }
 }

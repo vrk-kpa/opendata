@@ -96,9 +96,6 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"contextual"* ]]  && drush pm:uninstall -y contextual
 [[ "$MODULE_INFO" == *"page_cache"* ]]  && drush pm:uninstall -y page_cache
 [[ "$MODULE_INFO" == *"protected_submissions"* ]]  && drush pm:uninstall -y protected_submissions
-[[ "$MODULE_INFO" == *"avoindata_datasetlist"* ]]  && drush pm:uninstall -y avoindata_datasetlist
-[[ "$MODULE_INFO" == *"avoindata_appfeed"* ]]  && drush pm:uninstall -y avoindata_appfeed
-[[ "$MODULE_INFO" == *"disqus"* ]]  && drush pm:uninstall -y disqus
 
 # enable modules
 echo "enable modules.."
@@ -118,7 +115,7 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"ape"* ]]                           && drush pm:enable -y ape
 [[ "$MODULE_INFO" != *"honeypot"* ]]                      && drush pm:enable -y honeypot
 [[ "$MODULE_INFO" != *"domain_registration"* ]]           && drush pm:enable -y domain_registration
-[[ "$MODULE_INFO" != *"protected_forms"* ]]         && drush pm:enable -y protected_forms
+[[ "$MODULE_INFO" != *"protected_forms"* ]]               && drush pm:enable -y protected_forms
 [[ "$MODULE_INFO" != *"recaptcha"* ]]                     && drush pm:enable -y recaptcha
 [[ "$MODULE_INFO" != *"unpublished_node_permissions"* ]]  && drush pm:enable -y unpublished_node_permissions
 [[ "$MODULE_INFO" != *"menu_item_role_access"* ]]         && drush pm:enable -y menu_item_role_access
@@ -131,6 +128,19 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"password_policy_length"* ]]        && drush pm:enable -y password_policy_length
 [[ "$MODULE_INFO" != *"raven"* ]]                         && drush pm:enable -y raven
 [[ "$MODULE_INFO" != *"menu_link_attributes"* ]]          && drush pm:enable -y menu_link_attributes
+
+# remove some configurations
+# NOTE: ansible role skips errors with this condition:
+#       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
+echo "delete configurations.."
+drush config:delete easy_breadcrumb.settings                                       || true
+drush config:delete node.type.page                                                 || true
+drush config:delete core.entity_form_display.node.page.default                     || true
+drush config:delete core.entity_view_display.node.page.default                     || true
+drush config:delete pathauto.settings                                              || true
+drush config:delete captcha.captcha_point.contact_message_feedback_form            || true
+drush config:delete core.base_field_override.node.article.promote                  || true
+drush config:delete editor.editor.full_html                                        || true
 
 # enable custom modules
 echo "enable custom modules.."
@@ -147,6 +157,7 @@ echo "enable custom modules.."
 [[ "$MODULE_INFO" != *"avoindata_guide"* ]]             && drush pm:enable -y avoindata_guide
 [[ "$MODULE_INFO" != *"avoindata_user"* ]]              && drush pm:enable -y avoindata_user
 [[ "$MODULE_INFO" != *"avoindata_ckeditor_plugins"* ]]  && drush pm:enable -y avoindata_ckeditor_plugins
+[[ "$MODULE_INFO" != *"avoindata_ckeditor5_plugins"* ]]  && drush pm:enable -y avoindata_ckeditor5_plugins
 
 # enable custom theme + reload themes
 echo "enable theme and install theme configurations.."
@@ -159,18 +170,10 @@ drush config:import -y --partial --source ${THEME_DIR}/avoindata/config/install
 #       result.rc == 1 and 'The source directory does not exist. The source is not a directory.' not in result.stderr and 'already exists' not in result.stderr
 echo "import module configurations.."
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-header/config/install           || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-servicemessage/config/install   || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-hero/config/install             || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-categories/config/install       || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-infobox/config/install          || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-explore/config/install          || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-newsfeed/config/install         || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-footer/config/install           || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-articles/config/install         || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-events/config/install           || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-guide/config/install            || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-user/config/install             || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-ckeditor-plugins/config/install || true
 
 # apply jinja2 templates
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/matomo.settings.yml.j2    -o ${APP_DIR}/site_config/matomo.settings.yml

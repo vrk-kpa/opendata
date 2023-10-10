@@ -32,8 +32,8 @@ export class LambdaStack extends Stack {
 
     const sendToZulip = new SendToZulip(this, 'send-to-zulip', {
       zulipApiUser: 'avoindata-bot@turina.dvv.fi',
-      zulipApiUrl: 'https://turina.dvv.fi',
-      zulipStream: 'avoindata.fi',
+      zulipApiUrl: 'turina.dvv.fi',
+      zulipStream: 'Avoindata.fi',
       zulipTopic: 'Container restarts',
       envProps: props.envProps,
       env: props.env,

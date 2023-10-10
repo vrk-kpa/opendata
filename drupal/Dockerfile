@@ -101,6 +101,7 @@ COPY modules/avoindata-ckeditor-plugins     ${MOD_DIR}/avoindata-ckeditor-plugin
 COPY modules/avoindata-theme                ${MOD_DIR}/avoindata-theme/
 COPY modules/avoindata-appfeed              ${MOD_DIR}/avoindata-appfeed/
 COPY modules/avoindata-datasetlist          ${MOD_DIR}/avoindata-datasetlist/
+COPY modules/avoindata-ckeditor5-plugins    ${MOD_DIR}/avoindata-ckeditor5-plugins/
 
 
 #

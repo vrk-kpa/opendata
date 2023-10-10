@@ -4,71 +4,53 @@ dependencies:
   config:
     - filter.format.full_html
   module:
-    - ckeditor
+    - ckeditor5
 format: full_html
-editor: ckeditor
+editor: ckeditor5
 settings:
   toolbar:
-    rows:
-      -
-        -
-          name: Formatting
-          items:
-            - Bold
-            - Italic
-            - Strike
-            - Superscript
-            - Subscript
-            - '-'
-            - RemoveFormat
-        -
-          name: Linking
-          items:
-            - DrupalLink
-            - DrupalUnlink
-        -
-          name: Lists
-          items:
-            - BulletedList
-            - NumberedList
-        -
-          name: Media
-          items:
-            - Blockquote
-            - DrupalImage
-            - Table
-            - HorizontalRule
-            - ImceLink
-            - ImceImage
-        -
-          name: 'Block Formatting'
-          items:
-            - Format
-        -
-          name: Tools
-          items:
-            - Styles
-            - ShowBlocks
-            - Source
-        -
-          name: 'Avoindata elements'
-          items:
-            - avoindata_expander
-            - avoindata_note
-            - avoindata_hint
-            - avoindata_example
-            - avoindata_external-link
-            - avoindata_section
+    items:
+      - bold
+      - italic
+      - strikethrough
+      - superscript
+      - subscript
+      - removeFormat
+      - '|'
+      - undo
+      - redo
+      - '|'
+      - link
+      - bulletedList
+      - numberedList
+      - '|'
+      - blockQuote
+      - drupalInsertImage
+      - insertTable
+      - horizontalLine
+      - imce_link
+      - imce_image
+      - '|'
+      - sourceEditing
+      - '-'
+      - avoindataExpander
+      - avoindataNote
+      - avoindataHint
+      - avoindataExample
+      - avoindataSection
   plugins:
-    stylescombo:
-      styles: 'table.table.table-responsive|Responsive table'
-    language:
-      language_list: un
+    ckeditor5_sourceEditing:
+      allowed_tags: {  }
+    ckeditor5_list:
+      reversed: true
+      startIndex: true
+    ckeditor5_imageResize:
+      allow_resize: true
 image_upload:
   status: true
   scheme: public
   directory: inline-images
   max_size: ''
   max_dimensions:
-    width: null
-    height: null
+    width: 0
+    height: 0
