@@ -41,8 +41,10 @@ class ArticlesController extends ControllerBase {
     }
 
     $articleNodeIdsTitle = $articleNodeIdsTitleQuery
+      ->accessCheck(TRUE)
       ->execute();
     $articleNodeIdsBody = $articleNodeIdsBodyQuery
+      ->accessCheck(TRUE)
       ->execute();
 
     $articleNodeIdsCombined = array_unique(array_merge($articleNodeIdsTitle, $articleNodeIdsBody), SORT_REGULAR);
@@ -64,7 +66,9 @@ class ArticlesController extends ControllerBase {
         }
       }
 
-      $articleNodeIds = $articleNodeIdsQuery->execute();
+      $articleNodeIds = $articleNodeIdsQuery
+        ->accessCheck(TRUE)
+        ->execute();
     }
 
     $articleNodes = \Drupal::entityTypeManager()
