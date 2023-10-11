@@ -65,7 +65,6 @@ permissions:
   - 'update content translations'
   - 'use text format basic_html'
   - 'use text format full_html'
-  - 'use text format ckeditor5'
   - 'use text format restricted_html'
   - 'view avoindata_article revisions'
   - 'view avoindata_article unpublished content'
