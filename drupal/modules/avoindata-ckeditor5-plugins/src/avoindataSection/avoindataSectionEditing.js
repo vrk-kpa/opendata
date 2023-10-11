@@ -224,6 +224,14 @@ export default class AvoindataSectionEditing extends Plugin {
     conversion.for('upcast').elementToElement({
       model: 'avoindataSectionTitle',
       view: {
+        name: 'h2',
+        classes: 'avoindata-section__title',
+      },
+    });
+
+    conversion.for('upcast').elementToElement({
+      model: 'avoindataSectionTitle',
+      view: {
         name: 'h3',
         classes: 'avoindata-section__title',
       },

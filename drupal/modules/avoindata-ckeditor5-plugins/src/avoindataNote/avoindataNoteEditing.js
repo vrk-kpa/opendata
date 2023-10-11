@@ -260,5 +260,21 @@ export default class AvoindataNoteEditing extends Plugin {
         classes: 'avoindata-note-header-image'
       },
     });
+
+    conversion.for('upcast').elementToElement({
+      model: 'avoindataNoteTitle',
+      view: {
+        name: 'h2',
+        classes: 'avoindata-note-title'
+      },
+    });
+
+    conversion.for('upcast').elementToElement({
+      model: 'avoindataNoteTitle',
+      view: {
+        name: 'h3',
+        classes: 'avoindata-note-title'
+      },
+    });
   }
 }
