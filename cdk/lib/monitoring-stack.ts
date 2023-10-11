@@ -26,7 +26,8 @@ export class MonitoringStack extends Stack {
       eventPattern: {
         source: ['aws.ecs'],
         detail: {
-          message: [{suffix: 'failed container health checks.'}]
+          desiredStatus: ['STOPPED'],
+          stoppedReason: [{wildcard: '*health*'}]
         }
       },
       targets: [sendToDeveloperZulipTarget, taskHealthCheckFailLogGroupTarget],

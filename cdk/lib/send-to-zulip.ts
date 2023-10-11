@@ -9,7 +9,8 @@ export class SendToZulip extends Construct {
     super(scope, id);
 
     // Task restart zulip reporting
-    const zulipSecret = new sm.Secret(this, `/${props.environment}/opendata/common/zulip_api_key`);
+    const zulipSecret = sm.Secret.fromSecretNameV2(this, 'sZulipSecret', `/${props.environment}/zulip_api_key`);
+
     this.lambda = new NodejsFunction(this, 'function', {
       environment: {
         ZULIP_API_USER: props.zulipApiUser,
