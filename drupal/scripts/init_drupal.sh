@@ -113,6 +113,7 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"contextual"* ]]  && drush pm:uninstall -y contextual
 [[ "$MODULE_INFO" == *"page_cache"* ]]  && drush pm:uninstall -y page_cache
 [[ "$MODULE_INFO" == *"protected_submissions"* ]]  && drush pm:uninstall -y protected_submissions
+[[ "$MODULE_INFO" == *"avoindata_infobox"* ]]  && drush pm:uninstall -y avoindata_infobox
 
 # enable modules
 echo "enable modules.."
@@ -165,7 +166,6 @@ echo "enable custom modules.."
 [[ "$MODULE_INFO" != *"avoindata_servicemessage"* ]]    && drush pm:enable -y avoindata_servicemessage
 [[ "$MODULE_INFO" != *"avoindata_hero"* ]]              && drush pm:enable -y avoindata_hero
 [[ "$MODULE_INFO" != *"avoindata_categories"* ]]        && drush pm:enable -y avoindata_categories
-[[ "$MODULE_INFO" != *"avoindata_infobox"* ]]           && drush pm:enable -y avoindata_infobox
 [[ "$MODULE_INFO" != *"avoindata_explore"* ]]           && drush pm:enable -y avoindata_explore
 [[ "$MODULE_INFO" != *"avoindata_newsfeed"* ]]          && drush pm:enable -y avoindata_newsfeed
 [[ "$MODULE_INFO" != *"avoindata_footer"* ]]            && drush pm:enable -y avoindata_footer
