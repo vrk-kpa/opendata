@@ -101,6 +101,9 @@ drush config:delete field.field.node.article.body                               
 drush config:delete field.field.node.article.comment                               || true
 drush config:delete field.field.node.article.field_image                           || true
 drush config:delete field.field.node.article.field_tags                            || true
+drush config:delete user.role.content_editor                                       || true
+drush config:delete system.action.user_add_role_action.content_editor              || true
+drush config:delete system.action.user_remove_role_action.content_editor           || true
 
 
 
