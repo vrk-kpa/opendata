@@ -683,7 +683,7 @@ classes:
         - name: DataUserInterface
           term: adfi:DataUserInterface
           range: rdfs:Literal
-          description: The showcase’s URL on opendata.fi. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.
+          description: The showcase’s URL on Suomi.fi Open Data. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.
           min: 1
           max: 1
       recommended:

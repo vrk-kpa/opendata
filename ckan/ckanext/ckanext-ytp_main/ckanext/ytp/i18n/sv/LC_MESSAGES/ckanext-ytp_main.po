@@ -10,8 +10,8 @@
 # Daniel Vainio, 2021
 # Ville Teräväinen, 2022
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2023
-# Roosa Lampinen, 2023
 # Suvi Nuttunen, 2023
+# Roosa Lampinen, 2023
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2023
 # 
 #, fuzzy
@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-08 07:15+0000\n"
+"POT-Creation-Date: 2023-10-09 07:14+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2023\n"
 "Language-Team: Swedish (https://app.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -661,7 +661,7 @@ msgstr "Medlemmarna kan endast redigera sina egna datamängder"
 
 #: ckanext/ytp/translations.py:76
 msgid "Home page"
-msgstr "Startsida"
+msgstr "Framsida"
 
 #: ckanext/ytp/translations.py:77
 msgid "Maturity"
@@ -2670,7 +2670,7 @@ msgstr "Status"
 
 #: ckanext/ytp/templates/package/snippets/additional_info.html:60
 msgid "Last Updated"
-msgstr "Senast uppdaterat"
+msgstr "Senast uppdaterad"
 
 #: ckanext/ytp/templates/package/snippets/categories.html:26
 msgid "Show more categories"
@@ -3064,12 +3064,12 @@ msgstr "Senaste 6 mån."
 
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:81
 msgid ""
-"Dataset counts are based on submission statistics from avoindata.fi. Open "
-"data quality rating is based on a metricdevised by Tim Berners-Lee in 2010 "
-"for evaluating open data. More information on the metric is available at <a "
-"href=\"http://5stardata.info\">http://5stardata.info</a>."
+"Dataset counts are based on submission statistics from Suomi.fi Open Data. "
+"Open data quality rating is based on a metricdevised by Tim Berners-Lee in "
+"2010 for evaluating open data. More information on the metric is available "
+"at <a href=\"http://5stardata.info\">http://5stardata.info</a>."
 msgstr ""
-"Datamängderna har räknats utifrån datamängderna i avoindata.fi. "
+"Datamängderna har räknats utifrån datamängderna i Suomi.fi-öppnadata. "
 "Poängsättningen av öppna data baserar sig på en kvalitetsklassificering "
 "utvecklad av Tim Berners-Lee 2010. Mer information finns till exempel på <a "
 "href=\\\"http://5stardata.info\\\">http://5stardata.info</a>."
@@ -3446,7 +3446,7 @@ msgstr "Sökresultaten innehåller inga fält med {facet_type}"
 
 #: ckanext/ytp/templates/snippets/home_breadcrumb_item.html:2
 msgid "Home"
-msgstr "Startsida"
+msgstr "Framsida"
 
 #: ckanext/ytp/templates/snippets/license.html:14
 msgid "No License Provided"
@@ -3621,10 +3621,10 @@ msgstr "SPARQL sökning"
 #: ckanext/ytp/templates/sparql/query.html:18
 msgid ""
 "You can use the SPARQL search to find datasets and their metadata by using "
-"SPARQL query language. Datasets on opendata.fi are published as RDF triples "
-"and they follow the DCAT-AP specification. You can find information on <a "
-"href=\"https://www.avoindata.fi/ns/\">opendata.fi’s DCAT AP extension "
-"here</a>."
+"SPARQL query language. Datasets on Suomi.fi Open Data are published as RDF "
+"triples and they follow the DCAT-AP specification. You can find information "
+"on <a href=\"https://www.avoindata.fi/ns/\">Suomi.fi Open Data’s DCAT AP "
+"extension here</a>."
 msgstr ""
 
 #: ckanext/ytp/templates/sparql/query.html:22
