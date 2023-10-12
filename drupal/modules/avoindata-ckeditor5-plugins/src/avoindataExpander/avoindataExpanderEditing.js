@@ -222,5 +222,13 @@ export default class AvoindataExpanderEditing extends Plugin {
         classes: 'avoindata-expander-title',
       },
     });
+
+    conversion.for('upcast').elementToElement({
+      model: 'avoindataExpanderTitle',
+      view: {
+        name: 'h3',
+        classes: 'avoindata-expander-title',
+      },
+    });
   }
 }
