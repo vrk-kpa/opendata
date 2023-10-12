@@ -90,6 +90,20 @@ drush config:delete field.storage.node.field_basic_page_comments                
 drush config:delete user.role.editor                                               || true
 drush config:delete system.action.user_add_role_action.editor                      || true
 drush config:delete system.action.user_remove_role_action.editor                   || true
+drush config:delete node.type.article                                              || true
+drush config:delete core.entity_form_display.node.article.default                  || true
+drush config:delete core.entity_view_display.node.article.default                  || true
+drush config:delete core.entity_view_display.node.article.rss                      || true
+drush config:delete core.entity_view_display.node.article.search_index             || true
+drush config:delete core.entity_view_display.node.article.search_result            || true
+drush config:delete core.entity_view_display.node.article.teaser                   || true
+drush config:delete field.field.node.article.body                                  || true
+drush config:delete field.field.node.article.comment                               || true
+drush config:delete field.field.node.article.field_image                           || true
+drush config:delete field.field.node.article.field_tags                            || true
+drush config:delete user.role.content_editor                                       || true
+drush config:delete system.action.user_add_role_action.content_editor              || true
+drush config:delete system.action.user_remove_role_action.content_editor           || true
 
 
 
@@ -99,6 +113,7 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"contextual"* ]]  && drush pm:uninstall -y contextual
 [[ "$MODULE_INFO" == *"page_cache"* ]]  && drush pm:uninstall -y page_cache
 [[ "$MODULE_INFO" == *"protected_submissions"* ]]  && drush pm:uninstall -y protected_submissions
+[[ "$MODULE_INFO" == *"avoindata_infobox"* ]]  && drush pm:uninstall -y avoindata_infobox
 
 # enable modules
 echo "enable modules.."
@@ -151,7 +166,6 @@ echo "enable custom modules.."
 [[ "$MODULE_INFO" != *"avoindata_servicemessage"* ]]    && drush pm:enable -y avoindata_servicemessage
 [[ "$MODULE_INFO" != *"avoindata_hero"* ]]              && drush pm:enable -y avoindata_hero
 [[ "$MODULE_INFO" != *"avoindata_categories"* ]]        && drush pm:enable -y avoindata_categories
-[[ "$MODULE_INFO" != *"avoindata_infobox"* ]]           && drush pm:enable -y avoindata_infobox
 [[ "$MODULE_INFO" != *"avoindata_explore"* ]]           && drush pm:enable -y avoindata_explore
 [[ "$MODULE_INFO" != *"avoindata_newsfeed"* ]]          && drush pm:enable -y avoindata_newsfeed
 [[ "$MODULE_INFO" != *"avoindata_footer"* ]]            && drush pm:enable -y avoindata_footer
