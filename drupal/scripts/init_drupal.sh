@@ -90,6 +90,20 @@ drush config:delete field.storage.node.field_basic_page_comments                
 drush config:delete user.role.editor                                               || true
 drush config:delete system.action.user_add_role_action.editor                      || true
 drush config:delete system.action.user_remove_role_action.editor                   || true
+drush config:delete node.type.article                                              || true
+drush config:delete core.entity_form_display.node.article.default                  || true
+drush config:delete core.entity_view_display.node.article.default                  || true
+drush config:delete core.entity_view_display.node.article.rss                      || true
+drush config:delete core.entity_view_display.node.article.search_index             || true
+drush config:delete core.entity_view_display.node.article.search_result            || true
+drush config:delete core.entity_view_display.node.article.teaser                   || true
+drush config:delete field.field.node.article.body                                  || true
+drush config:delete field.field.node.article.comment                               || true
+drush config:delete field.field.node.article.field_image                           || true
+drush config:delete field.field.node.article.field_tags                            || true
+drush config:delete user.role.content_editor                                       || true
+drush config:delete system.action.user_add_role_action.content_editor              || true
+drush config:delete system.action.user_remove_role_action.content_editor           || true
 
 
 
