@@ -1,9 +1,3 @@
-/**
- * @file
- */
-
-'use strict';
-
 (function (Drupal, $, once) {
   const openText = Drupal.t("Expand all"),
         closeText = Drupal.t("Close all");
