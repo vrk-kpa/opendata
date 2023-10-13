@@ -10,9 +10,9 @@ avoindata-custom-elements:
   js:
     'js/avoindata_custom_elements.js': {}
   dependencies:
-    - core/jquery
-    - core/jquery.once
     - core/drupal
+    - core/jquery
+    - core/once
 webfonts:
   css:
     base:
