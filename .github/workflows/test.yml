@@ -357,12 +357,15 @@ jobs:
           -v $PWD:/e2e
           -v $PWD/../.git:/e2e/.git
           -w /e2e 
+          -e DEBUG
           --entrypoint cypress 
           cypress/included:13.3.1 run 
           --browser chrome:stable 
           --record --key ${{ secrets.CYPRESS_RECORD_KEY }} 
           --parallel 
           --ci-build-id ${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt}}
+        env:
+          DEBUG: commit-info,cypress:server:record
 
       - name: export e2e test logs 
         if: failure()
