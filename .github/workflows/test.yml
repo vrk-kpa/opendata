@@ -355,7 +355,6 @@ jobs:
           docker run 
           --network host 
           -v $PWD:/e2e
-          -v $PWD/../.git:/e2e/.git
           -w /e2e 
           -e DEBUG
           --entrypoint cypress 
