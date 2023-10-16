@@ -356,6 +356,7 @@ jobs:
           --network host 
           -v $PWD:/e2e
           -w /e2e 
+          --user="$(id --user):$(id --group)"
           -e DEBUG
           --entrypoint cypress 
           cypress/included:13.3.1 run 
