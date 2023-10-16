@@ -33,6 +33,7 @@ class NewsFeedBlock extends BlockBase {
       ->condition('status', 1)
       ->sort('created', 'DESC')
       ->range(0, 4)
+      ->accessCheck(TRUE)
       ->execute();
     $articleNodes = \Drupal::entityTypeManager()
       ->getStorage('node')
@@ -44,6 +45,7 @@ class NewsFeedBlock extends BlockBase {
       ->condition('field_start_date', $formattedcurrentDateTime, '>=')
       ->sort('field_start_date', 'ASC')
       ->range(0, 4)
+      ->accessCheck(TRUE)
       ->execute();
     $eventNodes = \Drupal::entityTypeManager()
       ->getStorage('node')

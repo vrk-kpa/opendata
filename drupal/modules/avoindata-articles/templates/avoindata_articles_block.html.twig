@@ -56,7 +56,7 @@
                     {% trans with {'context': 'Tag listing for articles page.', 'langcode': 'en'} %}
                     Tags:
                     {% endtrans %}
-                    {% for key, tag in tags if tag.tid.value in activetags%}
+                    {% for key, tag in tags | filter(tag => tag.tid.value in activetags) %}
                       <span class="label avoindata-label-primary">{{ tag.label }}</span>
                     {% endfor %}
                   </p>

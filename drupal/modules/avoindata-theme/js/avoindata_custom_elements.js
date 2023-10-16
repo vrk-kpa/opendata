@@ -1,17 +1,11 @@
-/**
- * @file
- */
-
-'use strict';
-
-(function ($, Drupal) {
+(function (Drupal, $, once) {
   const openText = Drupal.t("Expand all"),
         closeText = Drupal.t("Close all");
 
   Drupal.behaviors.avoindataExpanderBehavior = {
     attach: function (context) {
       let togglerIndex = 0;
-      $('.avoindata-expander', context).once('avoindataExpanderBehavior').each(function (index, element) {
+      $(once('avoindataExpanderBehavior','.avoindata-expander', context)).each(function (index, element) {
         // Check if current expander should be considered as a group of expanders
         // In case of group, add toggler button before first expander
         if ($(element).next().hasClass('avoindata-expander') && !$(element).prev().hasClass('avoindata-expander')) {
@@ -154,4 +148,4 @@
       history.replaceState({}, "", url);
     }
   }
-})(jQuery, Drupal);
+})(Drupal, jQuery, once);

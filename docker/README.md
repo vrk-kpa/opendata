@@ -148,7 +148,6 @@ services:
       - ../drupal/modules/avoindata-servicemessage/:/opt/drupal/web/modules/avoindata-servicemessage
       - ../drupal/modules/avoindata-hero/:/opt/drupal/web/modules/avoindata-hero
       - ../drupal/modules/avoindata-categories/:/opt/drupal/web/modules/avoindata-categories
-      - ../drupal/modules/avoindata-infobox/:/opt/drupal/web/modules/avoindata-infobox
       - ../drupal/modules/avoindata-newsfeed/:/opt/drupal/web/modules/avoindata-newsfeed
       - ../drupal/modules/avoindata-explore/:/opt/drupal/web/modules/avoindata-explore
       - ../drupal/modules/avoindata-footer/:/opt/drupal/web/modules/avoindata-footer
