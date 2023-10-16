@@ -340,16 +340,6 @@ jobs:
           docker logs opendata_nginx_1
           docker logs opendata_fuseki_1
 
-      # Might not be needed once https://github.com/cypress-io/cypress-docker-images/issues/873 is fixed
-      #- name: Get commit information
-      #  id: commit_info
-      #  run: |
-      #    echo "commit_info_message=$(git show -s --pretty=oneline)" >> $GITHUB_OUTPUT
-      #    echo "commit_info_sha=$(git show -s --pretty=%H)" >> $GITHUB_OUTPUT
-      #    echo "commit_info_email=$(git show -s --pretty=%ae)" >> $GITHUB_OUTPUT
-      #    echo "commit_info_author=$(git show -s --pretty=%an)" >> $GITHUB_OUTPUT
-      #    echo "commit_info_remote=$(git config --get remote.origin.url)" >> $GITHUB_OUTPUT
-
       - name: Build cypress container
         run: docker build -t cypress/test cypress/
 
@@ -359,7 +349,6 @@ jobs:
           --network host 
           -v $PWD:/e2e
           -w /e2e 
-          -e DEBUG
           -e COMMIT_INFO_BRANCH
           -e CYPRESS_PULL_REQUEST_ID
           -e CYPRESS_PULL_REQUEST_URL
@@ -371,7 +360,6 @@ jobs:
           --parallel 
           --ci-build-id ${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt}}
         env:
-          DEBUG: commit-info,cypress:server:record
           COMMIT_INFO_BRANCH: ${{ github.head_ref || github.ref_name }}
           CYPRESS_PULL_REQUEST_ID: ${{ github.event.number }}
           CYPRESS_PULL_REQUEST_URL: ${{ github.event.pull_request.url }}
