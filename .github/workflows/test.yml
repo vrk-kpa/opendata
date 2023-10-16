@@ -350,16 +350,18 @@ jobs:
       #    echo "commit_info_author=$(git show -s --pretty=%an)" >> $GITHUB_OUTPUT
       #    echo "commit_info_remote=$(git config --get remote.origin.url)" >> $GITHUB_OUTPUT
 
+      - name: Build cypress container
+        run: docker build -t cypress/test cypress/
+
       - name: run cypress e2e tests
         run: >
           docker run 
           --network host 
           -v $PWD:/e2e
           -w /e2e 
-          --user=node
           -e DEBUG
           --entrypoint cypress 
-          cypress/included:13.3.1 run 
+          cypress/test run 
           --browser chrome:stable 
           --record --key ${{ secrets.CYPRESS_RECORD_KEY }} 
           --parallel 
