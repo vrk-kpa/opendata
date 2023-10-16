@@ -361,6 +361,8 @@ jobs:
           -w /e2e 
           -e DEBUG
           -e COMMIT_INFO_BRANCH
+          -e CYPRESS_PULL_REQUEST_ID
+          -e CYPRESS_PULL_REQUEST_URL
           --entrypoint cypress 
           cypress/test run 
           --browser chrome:stable 
@@ -370,6 +372,8 @@ jobs:
         env:
           DEBUG: commit-info,cypress:server:record
           COMMIT_INFO_BRANCH: ${{ github.head_ref || github.ref_name }}
+          CYPRESS_PULL_REQUEST_ID: ${{ github.event.number }}
+          CYPRESS_PULL_REQUEST_URL: ${{ github.event.pull_request.url }}
 
       - name: export e2e test logs 
         if: failure()
