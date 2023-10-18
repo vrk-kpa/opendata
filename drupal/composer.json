@@ -21,7 +21,6 @@
         "drupal/bootstrap": "^3.28",
         "drupal/captcha": "^1.10",
         "drupal/coder": "^8.2",
-        "drupal/console": "^1.0.2",
         "drupal/core-composer-scaffold": "^9.2",
         "drupal/core-project-message": "^9.2",
         "drupal/core-recommended": "^9.2",
