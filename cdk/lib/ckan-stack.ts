@@ -365,6 +365,7 @@ export class CkanStack extends Stack {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = pCkanCloudstorageContainerName.stringValue;
       ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = pCkanCloudstorageUseSecureUrls.stringValue;
       ckanContainerEnv['CKAN_CLOUDSTORAGE_AWS_USE_BOTO3_SESSIONS'] = '1';
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER_OPTIONS'] = '';
 
       const ckanTaskExecPolicyAllowCloudstorage = new iam.PolicyStatement({
         actions: ['*'],
