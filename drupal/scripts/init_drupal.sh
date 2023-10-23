@@ -109,9 +109,9 @@ drush config:delete system.action.user_remove_role_action.content_editor        
 
 # uninstall modules
 echo "uninstall modules.."
-[[ "$MODULE_INFO" == *"search"* ]]      && drush pm:uninstall -y search
+#[[ "$MODULE_INFO" == *"search"* ]]      && drush pm:uninstall -y search
 [[ "$MODULE_INFO" == *"contextual"* ]]  && drush pm:uninstall -y contextual
-[[ "$MODULE_INFO" == *"page_cache"* ]]  && drush pm:uninstall -y page_cache
+#[[ "$MODULE_INFO" == *"page_cache"* ]]  && drush pm:uninstall -y page_cache
 [[ "$MODULE_INFO" == *"protected_submissions"* ]]  && drush pm:uninstall -y protected_submissions
 [[ "$MODULE_INFO" == *"avoindata_infobox"* ]]  && drush pm:uninstall -y avoindata_infobox
 [[ "$MODULE_INFO" == "avoindata_ckeditor_plugins" ]]  && drush pm:uninstall -y avoindata_ckeditor_plugins
