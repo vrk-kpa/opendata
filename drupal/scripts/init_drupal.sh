@@ -114,12 +114,12 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"page_cache"* ]]  && drush pm:uninstall -y page_cache
 [[ "$MODULE_INFO" == *"protected_submissions"* ]]  && drush pm:uninstall -y protected_submissions
 [[ "$MODULE_INFO" == *"avoindata_infobox"* ]]  && drush pm:uninstall -y avoindata_infobox
-[[ "$MODULE_INFO" == "avoindata_ckeditor_plugins" ]]  && drush pm:uninstall -y avoindata_ckeditor_plugins
-[[ "$MODULE_INFO" == "ckeditor" ]]  && drush pm:uninstall -y ckeditor
-[[ "$MODULE_INFO" == "color" ]]  && drush pm:uninstall -y color
-[[ "$MODULE_INFO" == "rdf" ]]  && drush pm:uninstall -y rdf
-[[ "$MODULE_INFO" == "bartik" ]]  && drush pm:uninstall -y bartik
-[[ "$MODULE_INFO" == "seven" ]]  && drush pm:uninstall -y seven
+[[ "$MODULE_INFO" == *"avoindata_ckeditor_plugins"* ]]  && drush pm:uninstall -y avoindata_ckeditor_plugins
+[[ "$MODULE_INFO" == *"ckeditor"* ]]  && drush pm:uninstall -y ckeditor
+[[ "$MODULE_INFO" == *"color"* ]]  && drush pm:uninstall -y color
+[[ "$MODULE_INFO" == *"rdf"* ]]  && drush pm:uninstall -y rdf
+[[ "$MODULE_INFO" == *"bartik"* ]]  && drush pm:uninstall -y bartik
+[[ "$MODULE_INFO" == *"seven"* ]]  && drush pm:uninstall -y seven
 
 # enable modules
 echo "enable modules.."
