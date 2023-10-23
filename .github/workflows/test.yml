@@ -364,7 +364,7 @@ jobs:
           -e COMMIT_INFO_REMOTE
           -e CYPRESS_CI_BUILD_URL
           --entrypoint cypress 
-          cypress/included:12.17.2 run 
+          cypress/included:13.3.1 run 
           --browser chrome:stable 
           --record --key ${{ secrets.CYPRESS_RECORD_KEY }} 
           --parallel 

@@ -20,7 +20,7 @@ jobs:
           pip install ruff
       - name: Run ruff
         run: |
-          ruff check --format=github ckan
+          ruff check --output-format=github ckan
 
   code-sniffer:
     name: code-sniffer
