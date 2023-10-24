@@ -42,13 +42,6 @@ export class CkanStack extends Stack {
       parameterName: `/${props.environment}/opendata/ckan/organizationapproval_email`,
     });
 
-    const pCkanUwsgiProcesses = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanUwsgiProcesses', {
-      parameterName: `/${props.environment}/opendata/ckan/uwsgi_processes`,
-    });
-    const pCkanUwsgiThreads = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanUwsgiThreads', {
-      parameterName: `/${props.environment}/opendata/ckan/uwsgi_threads`,
-    });
-
     const host = props.databaseInstance.instanceEndpoint;
 
     const datastoreHost = props.datastoreInstance.instanceEndpoint;
@@ -230,8 +223,8 @@ export class CkanStack extends Stack {
       CKAN_PROFILING_ENABLED: 'false',
       CKAN_LOG_LEVEL: 'INFO',
       CKAN_EXT_LOG_LEVEL: 'INFO',
-      CKAN_UWSGI_PROCESSES: pCkanUwsgiProcesses.stringValue,
-      CKAN_UWSGI_THREADS: pCkanUwsgiThreads.stringValue,
+      CKAN_UWSGI_PROCESSES: props.ckanUwsgiProps.processes.toString(),
+      CKAN_UWSGI_THREADS: props.ckanUwsgiProps.threads.toString(),
       // .env
       CKAN_HOST: `ckan.${props.namespace.namespaceName}`,
       CKAN_PORT: '5000',

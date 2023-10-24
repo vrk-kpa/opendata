@@ -275,6 +275,10 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     taskMinCapacity: 0,
     taskMaxCapacity: 1,
   },
+  ckanUwsgiProps: {
+    processes: 4,
+    threads: 2
+  },
   ckanCronEnabled: true,
   archiverSendNotificationEmailsToMaintainers: false,
   archiverExemptDomainsFromBrokenLinkNotifications: [],
@@ -598,6 +602,10 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     taskMem: 2048,
     taskMinCapacity: 0,
     taskMaxCapacity: 1,
+  },
+  ckanUwsgiProps: {
+    processes: 4,
+    threads: 2
   },
   ckanCronEnabled: true,
   archiverSendNotificationEmailsToMaintainers: true,
