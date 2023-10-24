@@ -161,6 +161,8 @@ drush config:delete easy_breadcrumb.settings                                    
 drush config:delete node.type.page                                                 || true
 drush config:delete core.entity_form_display.node.page.default                     || true
 drush config:delete core.entity_view_display.node.page.default                     || true
+drush config:delete core.base_field_override.node.page.promote                     || true
+drush config:delete field.field.node.page.body                                     || true
 drush config:delete pathauto.settings                                              || true
 drush config:delete captcha.captcha_point.contact_message_feedback_form            || true
 drush config:delete core.base_field_override.node.article.promote                  || true
