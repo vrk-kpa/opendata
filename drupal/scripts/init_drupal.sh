@@ -118,8 +118,8 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"ckeditor"* ]]  && drush pm:uninstall -y ckeditor
 [[ "$MODULE_INFO" == *"color"* ]]  && drush pm:uninstall -y color
 [[ "$MODULE_INFO" == *"rdf"* ]]  && drush pm:uninstall -y rdf
-[[ "$MODULE_INFO" == *"bartik"* ]]  && drush pm:uninstall -y bartik
-[[ "$MODULE_INFO" == *"seven"* ]]  && drush pm:uninstall -y seven
+[[ "$MODULE_INFO" == *"bartik"* ]]  && drush theme:uninstall -y bartik
+[[ "$MODULE_INFO" == *"seven"* ]]  && drush theme:uninstall -y seven
 
 # enable modules
 echo "enable modules.."
