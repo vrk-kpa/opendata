@@ -223,6 +223,8 @@ export class CkanStack extends Stack {
       CKAN_PROFILING_ENABLED: 'false',
       CKAN_LOG_LEVEL: 'INFO',
       CKAN_EXT_LOG_LEVEL: 'INFO',
+      CKAN_UWSGI_PROCESSES: props.ckanUwsgiProps.processes.toString(),
+      CKAN_UWSGI_THREADS: props.ckanUwsgiProps.threads.toString(),
       // .env
       CKAN_HOST: `ckan.${props.namespace.namespaceName}`,
       CKAN_PORT: '5000',
