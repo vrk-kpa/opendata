@@ -168,7 +168,6 @@ COPY templates ${TEMPLATE_DIR}
 COPY supervisor ${SUPERV_DIR}
 COPY cron ${CRON_DIR}
 COPY src/ckan/patches ${SRC_DIR}/ckan/patches
-COPY src/ckan/ckan-uwsgi.ini ${APP_DIR}
 
 # apply patches
 RUN cd ${SRC_DIR}/ckan && \
