@@ -2,6 +2,7 @@ import { EcsStackProps, EcsStackPropsTaskDef } from './ecs-stack-props';
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as rds from "aws-cdk-lib/aws-rds";
 import {ISecret} from "aws-cdk-lib/aws-secretsmanager";
+import { CkanUwsgiProps } from './ckan-uwsgi-props';
 
 export interface CkanStackProps extends EcsStackProps {
   ckanTaskDef: EcsStackPropsTaskDef,
@@ -9,6 +10,7 @@ export interface CkanStackProps extends EcsStackProps {
   datapusherTaskDef: EcsStackPropsTaskDef,
   solrTaskDef: EcsStackPropsTaskDef,
   fusekiTaskDef: EcsStackPropsTaskDef,
+  ckanUwsgiProps: CkanUwsgiProps,
   ckanCronEnabled: boolean;
   archiverSendNotificationEmailsToMaintainers: boolean;
   archiverExemptDomainsFromBrokenLinkNotifications: string[];

@@ -9,6 +9,7 @@ rsync -au ${DATA_DIR}_base/. ${DATA_DIR}
 # apply templates
 jinja2 ${TEMPLATE_DIR}/production.ini.j2 -o ${APP_DIR}/production.ini
 jinja2 ${TEMPLATE_DIR}/who.ini.j2 -o ${APP_DIR}/who.ini
+jinja2 ${TEMPLATE_DIR}/ckan-uwsgi.ini.j2 -o ${APP_DIR}/ckan-uwsgi.ini
 jinja2 ${TEMPLATE_DIR}/datastore_permissions.sql.j2 -o ${SCRIPT_DIR}/datastore_permissions.sql
 
 # run prerun script that checks connections and inits db

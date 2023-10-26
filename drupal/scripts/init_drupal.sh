@@ -118,8 +118,8 @@ echo "uninstall modules.."
 #[[ "$MODULE_INFO" == *"ckeditor"* ]]  && drush pm:uninstall -y ckeditor
 [[ "$MODULE_INFO" == *"color"* ]]  && drush pm:uninstall -y color
 [[ "$MODULE_INFO" == *"rdf"* ]]  && drush pm:uninstall -y rdf
-[[ "$MODULE_INFO" == *"bartik"* ]]  && drush pm:uninstall -y bartik
-[[ "$MODULE_INFO" == *"seven"* ]]  && drush pm:uninstall -y seven
+[[ "$MODULE_INFO" == *"bartik"* ]]  && drush theme:uninstall -y bartik
+[[ "$MODULE_INFO" == *"seven"* ]]  && drush theme:uninstall -y seven
 
 
 # enable modules
@@ -162,6 +162,8 @@ drush config:delete easy_breadcrumb.settings                                    
 drush config:delete node.type.page                                                 || true
 drush config:delete core.entity_form_display.node.page.default                     || true
 drush config:delete core.entity_view_display.node.page.default                     || true
+drush config:delete core.base_field_override.node.page.promote                     || true
+drush config:delete field.field.node.page.body                                     || true
 drush config:delete pathauto.settings                                              || true
 drush config:delete captcha.captcha_point.contact_message_feedback_form            || true
 drush config:delete core.base_field_override.node.article.promote                  || true

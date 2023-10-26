@@ -1,5 +1,6 @@
 [uwsgi]
 
+strict              =  true
 http                =  0.0.0.0:5000
 env                 =  CKAN_INI=/srv/app/production.ini
 uid                 =  www-data
@@ -16,8 +17,17 @@ vacuum              =  true
 callable            =  application
 buffer-size         =  32768
 stats               = /tmp/stats.sock
-processes           = 2
-threads             = 2
+processes           = {{ environ('CKAN_UWSGI_PROCESSES') }}
+threads             = {{ environ('CKAN_UWSGI_THREADS') }}
+
+# Avoid multiple interpreters (automatically created in case you need mounts)
+single-interpreter = true
+
+# Fix SIGTERM
+die-on-term = true
+
+# Enable an accept mutex for a more balanced worker load
+thunder-lock = true
 
 # Fix SQLAlchemy SSL errors
 # <https://stackoverflow.com/questions/22752521/uwsgi-flask-sqlalchemy-and-postgres-ssl-error-decryption-failed-or-bad-reco>

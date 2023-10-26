@@ -154,6 +154,10 @@ test('verify ckan stack resources', () => {
       taskMinCapacity: 0,
       taskMaxCapacity: 1,
     },
+    ckanUwsgiProps: {
+      processes: 2,
+      threads: 2
+    },
     ckanCronEnabled: true,
     archiverSendNotificationEmailsToMaintainers: false,
     archiverExemptDomainsFromBrokenLinkNotifications: [],
