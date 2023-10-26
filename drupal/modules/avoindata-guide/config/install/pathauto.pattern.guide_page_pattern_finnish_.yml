@@ -10,7 +10,7 @@ type: 'canonical_entities:node'
 pattern: 'kayttoohjeet/[node:title]'
 selection_criteria:
   f8ca3a75-8e82-4178-a617-4d4e19f58ff0:
-    id: node_type
+    id: 'entity_bundle:node'
     bundles:
       avoindata_guide_page: avoindata_guide_page
     negate: false
