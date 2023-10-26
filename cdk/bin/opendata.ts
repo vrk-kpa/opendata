@@ -276,7 +276,7 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     taskMaxCapacity: 1,
   },
   ckanUwsgiProps: {
-    processes: 4,
+    processes: 2,
     threads: 2
   },
   ckanCronEnabled: true,
