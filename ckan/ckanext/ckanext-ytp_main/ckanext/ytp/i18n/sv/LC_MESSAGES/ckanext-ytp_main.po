@@ -10,9 +10,9 @@
 # Daniel Vainio, 2021
 # Ville Teräväinen, 2022
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2023
+# Teemu Erkkola <teemu.erkkola@iki.fi>, 2023
 # Suvi Nuttunen, 2023
 # Roosa Lampinen, 2023
-# Teemu Erkkola <teemu.erkkola@iki.fi>, 2023
 # 
 #, fuzzy
 msgid ""
@@ -21,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-10-09 07:14+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2023\n"
+"Last-Translator: Roosa Lampinen, 2023\n"
 "Language-Team: Swedish (https://app.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1270,11 +1270,11 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:227
 msgid "e.g. Dataset updated 15.5.2023"
-msgstr ""
+msgstr "t.ex. Datamängden uppdaterad 15.5.2023"
 
 #: ckanext/ytp/translations.py:228
 msgid "Inform users about dataset updates"
-msgstr ""
+msgstr "Informera användare om datamängdens uppdateringar"
 
 #: ckanext/ytp/translations.py:231
 msgid "Data resource title"
@@ -1507,7 +1507,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:287
 msgid "Platforms"
-msgstr ""
+msgstr "Plattformar"
 
 #: ckanext/ytp/translations.py:290
 msgid "Show more collection_type"
@@ -3172,12 +3172,16 @@ msgid ""
 "Maximum filesize of single file is {max_filesize}Mb. Total maximum size of "
 "all files is {max_total_size}Mb."
 msgstr ""
+"Maximal filstorlek för en fil är {max_filesize}Mb. Total maximal storlek på "
+"alla filer är {max_total_size}Mb."
 
 #: ckanext/ytp/templates/scheming/macros/form.html:194
 msgid ""
 "Allowed filetypes are: pdf, jpg, jpeg, png, doc, docx, xls, xlsx, ppt, pptx,"
 " odt, ods, txt."
 msgstr ""
+"Tillåtna filtyper är: pdf, jpg, jpeg, png, doc, docx, xls, xlsx, ppt, pptx, "
+"odt, ods, txt"
 
 #: ckanext/ytp/templates/scheming/macros/form.html:231
 #, python-format
@@ -3378,7 +3382,7 @@ msgstr "Ikon"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:193
 msgid "Icon will be shown at the top of the showcase page"
-msgstr ""
+msgstr "Ikonen kommer att visas överst på sidan Applikationer"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:208
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:209
@@ -3390,12 +3394,16 @@ msgid ""
 "The featured image will be shown on the Showcases-page as well as on the "
 "showcase's own page."
 msgstr ""
+"Presentationsbilden visas på sidan Applikationer och på applikationens egen "
+"sida."
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:220
 msgid ""
 "Add max. 3 images of your showcase. Good images are for example those that "
 "show the user interface and features of the showcase.)"
 msgstr ""
+"Lägg till högst tre bilder av applikationen. Bra bilder är till exempel "
+"sådana där man ser användargränssnittet och dess funktioner."
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:235
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:236
@@ -3518,8 +3526,8 @@ msgstr ""
 #: ckanext/ytp/templates/snippets/search_result_text.html:19
 msgid "{number} apiset found"
 msgid_plural "{number} apisets found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} gränssnitt hittades"
+msgstr[1] "{number} gränssnitt hittades"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:20
 msgid "No apisets found"
