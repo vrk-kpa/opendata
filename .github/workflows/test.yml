@@ -340,44 +340,30 @@ jobs:
           docker logs opendata_nginx_1
           docker logs opendata_fuseki_1
 
-      # Might not be needed once https://github.com/cypress-io/cypress-docker-images/issues/873 is fixed
-      - name: Get commit information
-        id: commit_info
-        run: |
-          echo "commit_info_message=$(git show -s --pretty=oneline)" >> $GITHUB_OUTPUT
-          echo "commit_info_sha=$(git show -s --pretty=%H)" >> $GITHUB_OUTPUT
-          echo "commit_info_email=$(git show -s --pretty=%ae)" >> $GITHUB_OUTPUT
-          echo "commit_info_author=$(git show -s --pretty=%an)" >> $GITHUB_OUTPUT
-          echo "commit_info_remote=$(git config --get remote.origin.url)" >> $GITHUB_OUTPUT
+      - name: Build cypress container
+        run: docker build -t cypress/test cypress/
 
       - name: run cypress e2e tests
         run: >
           docker run 
           --network host 
-          -v $PWD:/e2e 
+          -v $PWD:/e2e
           -w /e2e 
-          -e COMMIT_INFO_MESSAGE
-          -e COMMIT_INFO_SHA
           -e COMMIT_INFO_BRANCH
-          -e COMMIT_INFO_EMAIL
-          -e COMMIT_INFO_AUTHOR
-          -e COMMIT_INFO_REMOTE
+          -e CYPRESS_PULL_REQUEST_ID
+          -e CYPRESS_PULL_REQUEST_URL
           -e CYPRESS_CI_BUILD_URL
           --entrypoint cypress 
-          cypress/included:13.3.1 run 
+          cypress/test run 
           --browser chrome:stable 
           --record --key ${{ secrets.CYPRESS_RECORD_KEY }} 
           --parallel 
           --ci-build-id ${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt}}
         env:
-          COMMIT_INFO_MESSAGE: ${{ steps.commit_info.outputs.commit_info_message }}
-          COMMIT_INFO_SHA: ${{ steps.commit_info.outputs.commit_info_sha }}
           COMMIT_INFO_BRANCH: ${{ github.head_ref || github.ref_name }}
-          COMMIT_INFO_EMAIL: ${{ steps.commit_info.outputs.commit_info_email }}
-          COMMIT_INFO_AUTHOR: ${{ steps.commit_info.outputs.commit_info_author }}
-          COMMIT_INFO_REMOTE: ${{ steps.commit_info.outputs.commit_info_remote }}
+          CYPRESS_PULL_REQUEST_ID: ${{ github.event.number }}
+          CYPRESS_PULL_REQUEST_URL: ${{ github.event.pull_request.url }}
           CYPRESS_CI_BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
 
       - name: export e2e test logs 
         if: failure()
