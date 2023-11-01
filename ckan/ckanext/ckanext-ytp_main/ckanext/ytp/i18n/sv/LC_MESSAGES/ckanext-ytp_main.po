@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-10-09 07:14+0000\n"
+"POT-Creation-Date: 2023-11-01 08:04+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Roosa Lampinen, 2023\n"
 "Language-Team: Swedish (https://app.transifex.com/avoindata/teams/7979/sv/)\n"
@@ -1677,12 +1677,12 @@ msgid "Organization not found"
 msgstr ""
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:52
-#: ckanext/ytp/resources/opendata/scripts/translations.js:20
+#: ckanext/ytp/resources/opendata/scripts/translations.js:22
 msgid "Reorder apiset"
 msgstr ""
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:53
-#: ckanext/ytp/resources/opendata/scripts/translations.js:21
+#: ckanext/ytp/resources/opendata/scripts/translations.js:23
 msgid ""
 "You can rearrange the apiset resources by dragging them using the arrow "
 "icon. Drag the resource to the right and place it to the desired location on"
@@ -1690,12 +1690,12 @@ msgid ""
 msgstr ""
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:57
-#: ckanext/ytp/resources/opendata/scripts/translations.js:16
+#: ckanext/ytp/resources/opendata/scripts/translations.js:18
 msgid "Reorder resources"
 msgstr "Ordna dataresurserna"
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:58
-#: ckanext/ytp/resources/opendata/scripts/translations.js:17
+#: ckanext/ytp/resources/opendata/scripts/translations.js:19
 msgid ""
 "You can rearrange the resources by dragging them using the arrow icon. Drag "
 "the resource to the right and place it to the desired location on the list. "
@@ -1796,6 +1796,17 @@ msgstr "Lägg till länk"
 #: ckanext/ytp/resources/opendata/scripts/translations.js:13
 msgid "Add email"
 msgstr "Lägg till e-post"
+
+#: ckanext/ytp/resources/opendata/scripts/translations.js:14
+#: ckanext/ytp/templates/package/snippets/categories.html:28
+#: ckanext/ytp/templates/snippets/facet_list.html:95
+msgid "Show more"
+msgstr "Visa mer"
+
+#: ckanext/ytp/resources/opendata/scripts/translations.js:15
+#: ckanext/ytp/templates/snippets/facet_list.html:98
+msgid "Show less"
+msgstr ""
 
 #: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/filter-control/utils.js:10
 msgid "Can't call method on "
@@ -2676,11 +2687,6 @@ msgstr "Senast uppdaterad"
 msgid "Show more categories"
 msgstr "Visa mer Kategorier"
 
-#: ckanext/ytp/templates/package/snippets/categories.html:28
-#: ckanext/ytp/templates/snippets/facet_list.html:95
-msgid "Show more"
-msgstr "Visa mer"
-
 #: ckanext/ytp/templates/package/snippets/categories.html:37
 #: ckanext/ytp/templates/package/snippets/categories.html:41
 #: ckanext/ytp/templates/package/snippets/categories.html:45
@@ -3443,10 +3449,6 @@ msgstr "Bredd:"
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:15
 msgid "Height:"
 msgstr "Höjd:"
-
-#: ckanext/ytp/templates/snippets/facet_list.html:98
-msgid "Show less"
-msgstr ""
 
 #: ckanext/ytp/templates/snippets/facet_list.html:102
 msgid "There are no {facet_type} that match this search"
