@@ -71,13 +71,6 @@ ENTRYPOINT ["/opt/drupal/scripts/entrypoint.sh"]
 #
 FROM ubuntu:focal AS modules_build
 
-# install required packages
-RUN apt-get update -yq && apt-get install -yq curl
-
-# install nodejs via nodesource & frontend requirements
-RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
-RUN apt-get install -yq nodejs libjpeg-turbo8
-
 # setup env vars:
 ENV APP_DIR=/opt/drupal
 ENV WEB_DIR=${APP_DIR}/web

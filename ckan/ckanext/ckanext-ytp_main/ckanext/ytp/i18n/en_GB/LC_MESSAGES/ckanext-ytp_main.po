@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-01 12:41+0000\n"
+"POT-Creation-Date: 2023-11-01 08:04+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Suvi Nuttunen, 2023\n"
 "Language-Team: English (United Kingdom) (https://app.transifex.com/avoindata/teams/7979/en_GB/)\n"
@@ -253,11 +253,11 @@ msgstr ""
 msgid "Date format incorrect"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:103 ckanext/ytp/plugin.py:364
+#: ckanext/ytp/helpers.py:105 ckanext/ytp/plugin.py:364
 msgid "Unnamed resource"
 msgstr ""
 
-#: ckanext/ytp/helpers.py:583
+#: ckanext/ytp/helpers.py:593
 msgid "-"
 msgstr ""
 
@@ -957,10 +957,13 @@ msgid ""
 "licensed, openly accessible, structured, open format, URIs for entities, "
 "linked."
 msgstr ""
+"Datasets evaluated on Tim Berners-Lee's Five Stars of Openness - openly "
+"licensed, openly accessible, structured, open format, URIs for entities, "
+"linked."
 
 #: ckanext/ytp/translations.py:161
 msgid "Datasets given a score"
-msgstr "Datasets given a star"
+msgstr "Evaluated datasets"
 
 #: ckanext/ytp/translations.py:162
 msgid "Score frequencies"
@@ -968,7 +971,7 @@ msgstr "Star frequencies"
 
 #: ckanext/ytp/translations.py:163
 msgid "Score TBC"
-msgstr "Without a star"
+msgstr "Without an evaluation"
 
 #: ckanext/ytp/translations.py:164
 msgid "Score"
@@ -1251,25 +1254,37 @@ msgstr ""
 "API is private. Only members of the organisation that has published the API "
 "can view the API."
 
+#: ckanext/ytp/translations.py:226
+msgid "Maintainer note"
+msgstr ""
+
+#: ckanext/ytp/translations.py:227
+msgid "e.g. Dataset updated 15.5.2023"
+msgstr ""
+
 #: ckanext/ytp/translations.py:228
+msgid "Inform users about dataset updates"
+msgstr ""
+
+#: ckanext/ytp/translations.py:231
 msgid "Data resource title"
 msgstr ""
 
-#: ckanext/ytp/translations.py:229
+#: ckanext/ytp/translations.py:232
 msgid ""
 "Write a short and descriptive name for the data resource. If the data covers"
 " a specific time frame, mention that in the name."
 msgstr ""
 
-#: ckanext/ytp/translations.py:230
+#: ckanext/ytp/translations.py:233
 msgid "e.g. Most popular Finnish first names 2019"
 msgstr ""
 
-#: ckanext/ytp/translations.py:231
+#: ckanext/ytp/translations.py:234
 msgid "Resource *"
 msgstr ""
 
-#: ckanext/ytp/translations.py:232
+#: ckanext/ytp/translations.py:235
 msgid ""
 "Add the data resource by uploading a file or adding a link to the "
 "data.<br>Select or drag the files here.<br>The maximum file size is 5 Gb. "
@@ -1280,288 +1295,288 @@ msgstr ""
 "data.<br>The maximum file size is 5 Gb. Valid data formats are e.g. pdf, "
 "jpg, jpeg, png, doc, docx, xls, xlsx, csv, ppt, pptx, odt, ods, txt."
 
-#: ckanext/ytp/translations.py:233
+#: ckanext/ytp/translations.py:236
 msgid "Data resource description"
 msgstr ""
 
-#: ckanext/ytp/translations.py:234
+#: ckanext/ytp/translations.py:237
 msgid "Write a description for the resource"
 msgstr ""
 
-#: ckanext/ytp/translations.py:235
+#: ckanext/ytp/translations.py:238
 msgid ""
 "Describe the data clearly and concisely. Use as confining terms as possible "
 "to make it easier to find and understand the data."
 msgstr ""
 
-#: ckanext/ytp/translations.py:236
+#: ckanext/ytp/translations.py:239
 msgid "Additional information"
 msgstr ""
 
-#: ckanext/ytp/translations.py:237
+#: ckanext/ytp/translations.py:240
 msgid "Data status"
 msgstr ""
 
-#: ckanext/ytp/translations.py:238
+#: ckanext/ytp/translations.py:241
 msgid ""
 "Define a state for the data. This is recommended especially if your dataset "
 "has data resources from multiple years."
 msgstr ""
 
-#: ckanext/ytp/translations.py:239
+#: ckanext/ytp/translations.py:242
 msgid "Coordinate system"
 msgstr ""
 
-#: ckanext/ytp/translations.py:240
+#: ckanext/ytp/translations.py:243
 msgid ""
 "If your data includes geographic information, specify the coordinate system "
 "it uses."
 msgstr ""
 
-#: ckanext/ytp/translations.py:241
+#: ckanext/ytp/translations.py:244
 msgid "e.g. WGS84 (World Geodetic System 1984)"
 msgstr ""
 
-#: ckanext/ytp/translations.py:242
+#: ckanext/ytp/translations.py:245
 msgid ""
 "Select the time frame by which the data is separated. For example, does the "
 "resource include data from every week or month."
 msgstr ""
 
-#: ckanext/ytp/translations.py:243
+#: ckanext/ytp/translations.py:246
 msgid "e.g. a month"
 msgstr ""
 
-#: ckanext/ytp/translations.py:244
+#: ckanext/ytp/translations.py:247
 msgid "Time Frame"
 msgstr ""
 
-#: ckanext/ytp/translations.py:245
+#: ckanext/ytp/translations.py:248
 msgid "Start date"
 msgstr ""
 
-#: ckanext/ytp/translations.py:246
+#: ckanext/ytp/translations.py:249
 msgid "End date"
 msgstr ""
 
-#: ckanext/ytp/translations.py:247
+#: ckanext/ytp/translations.py:250
 msgid "Geographical accuracy"
 msgstr ""
 
-#: ckanext/ytp/translations.py:248
+#: ckanext/ytp/translations.py:251
 msgid ""
 "If your data includes geographic information, specify the accuracy in meters"
 msgstr ""
 "If your data includes geographic information, specify the accuracy in "
 "meters. For example, 30"
 
-#: ckanext/ytp/translations.py:251
+#: ckanext/ytp/translations.py:254
 msgid "Producer name"
 msgstr "Publisher name"
 
-#: ckanext/ytp/translations.py:252
+#: ckanext/ytp/translations.py:255
 msgid "Producer description"
 msgstr "Publisher description"
 
-#: ckanext/ytp/translations.py:253
+#: ckanext/ytp/translations.py:256
 msgid "Common, compact and plain description about producer"
 msgstr ""
 "Describe what your organisation does and what kind of services and data it "
 "produces."
 
-#: ckanext/ytp/translations.py:254
+#: ckanext/ytp/translations.py:257
 msgid "Other information"
 msgstr ""
 
-#: ckanext/ytp/translations.py:255
+#: ckanext/ytp/translations.py:258
 msgid "Upload logo"
 msgstr "Upload logo"
 
-#: ckanext/ytp/translations.py:258
+#: ckanext/ytp/translations.py:261
 msgid "cc-by"
 msgstr "Creative Commons Attribution"
 
-#: ckanext/ytp/translations.py:259
+#: ckanext/ytp/translations.py:262
 msgid "cc-by-4-fi"
 msgstr "Creative Commons Nimeä 4.0"
 
-#: ckanext/ytp/translations.py:260
+#: ckanext/ytp/translations.py:263
 msgid "cc-by-4.0"
 msgstr "Creative Commons Attribution 4.0"
 
-#: ckanext/ytp/translations.py:261
+#: ckanext/ytp/translations.py:264
 msgid "cc-by-sa"
 msgstr "Creative Commons Attribution Share-Alike"
 
-#: ckanext/ytp/translations.py:262
+#: ckanext/ytp/translations.py:265
 msgid "cc-by-sa-1-fi"
 msgstr "Creative Commons Nimeä-Tarttuva 1.0 Suomi (CC BY-SA 1.0)"
 
-#: ckanext/ytp/translations.py:263
+#: ckanext/ytp/translations.py:266
 msgid "cc-nc"
 msgstr "Creative Commons Non-Commercial (Any)"
 
-#: ckanext/ytp/translations.py:264
+#: ckanext/ytp/translations.py:267
 msgid "cc-zero"
 msgstr "Creative Commons CCZero"
 
-#: ckanext/ytp/translations.py:265
+#: ckanext/ytp/translations.py:268
 msgid "cc-zero-1.0"
 msgstr "Creative Commons CCZero 1.0"
 
-#: ckanext/ytp/translations.py:266
+#: ckanext/ytp/translations.py:269
 msgid "gfdl"
 msgstr "GNU Free Documentation License"
 
-#: ckanext/ytp/translations.py:267
+#: ckanext/ytp/translations.py:270
 msgid "helsinkikanava-opendata-tos"
 msgstr "Helsinkikanava Open Data käyttöehdot"
 
-#: ckanext/ytp/translations.py:268
+#: ckanext/ytp/translations.py:271
 msgid "hri-tietoaineistot-lisenssi-nimea"
 msgstr "HRI - tietoaineistojen lisenssi - nimeä"
 
-#: ckanext/ytp/translations.py:269
+#: ckanext/ytp/translations.py:272
 msgid "ilmoitettumuualla"
 msgstr "Lisenssi ilmoitettu tietoaineiston ylläpitäjän palvelussa"
 
-#: ckanext/ytp/translations.py:270
+#: ckanext/ytp/translations.py:273
 msgid "kmo-aluejakorajat"
 msgstr "KMO aluejakorajojen vektoriaineistojen käyttöehdot"
 
-#: ckanext/ytp/translations.py:271
+#: ckanext/ytp/translations.py:274
 msgid "notspecified"
 msgstr "License Not Specified"
 
-#: ckanext/ytp/translations.py:272
+#: ckanext/ytp/translations.py:275
 msgid "odc-by"
 msgstr "Open Data Commons Attribution License"
 
-#: ckanext/ytp/translations.py:273
+#: ckanext/ytp/translations.py:276
 msgid "odc-odbl"
 msgstr "Open Data Commons Open Database License (ODbL)"
 
-#: ckanext/ytp/translations.py:274
+#: ckanext/ytp/translations.py:277
 msgid "odc-pddl"
 msgstr "Open Data Commons Public Domain Dedication and Licence (PDDL)"
 
-#: ckanext/ytp/translations.py:275
+#: ckanext/ytp/translations.py:278
 msgid "other"
 msgstr "Other"
 
-#: ckanext/ytp/translations.py:276
+#: ckanext/ytp/translations.py:279
 msgid "other-at"
 msgstr "Other (Attribution)"
 
-#: ckanext/ytp/translations.py:277
+#: ckanext/ytp/translations.py:280
 msgid "other-closed"
 msgstr "Other (Not Open)"
 
-#: ckanext/ytp/translations.py:278
+#: ckanext/ytp/translations.py:281
 msgid "other-nc"
 msgstr "Other (Non-Commercial)"
 
-#: ckanext/ytp/translations.py:279
+#: ckanext/ytp/translations.py:282
 msgid "other-open"
 msgstr "Other (Open)"
 
-#: ckanext/ytp/translations.py:280
+#: ckanext/ytp/translations.py:283
 msgid "other-pd"
 msgstr "Other (Public Domain)"
 
-#: ckanext/ytp/translations.py:281
+#: ckanext/ytp/translations.py:284
 msgid "uk-ogl"
 msgstr "UK Open Government Licence (OGL)"
 
-#: ckanext/ytp/translations.py:284
+#: ckanext/ytp/translations.py:287
 msgid "Platforms"
 msgstr ""
 
-#: ckanext/ytp/translations.py:287
+#: ckanext/ytp/translations.py:290
 msgid "Show more collection_type"
 msgstr "Show more Collection Types"
 
-#: ckanext/ytp/translations.py:288
+#: ckanext/ytp/translations.py:291
 msgid "Show more vocab_international_benchmarks"
 msgstr "Show more International Benchmarks"
 
-#: ckanext/ytp/translations.py:289
+#: ckanext/ytp/translations.py:292
 msgid "Show more vocab_keywords_en"
 msgstr "Show more Keywords"
 
-#: ckanext/ytp/translations.py:290
+#: ckanext/ytp/translations.py:293
 msgid "Show more vocab_keywords_fi"
 msgstr ""
 
-#: ckanext/ytp/translations.py:291
+#: ckanext/ytp/translations.py:294
 msgid "Show more vocab_keywords_sv"
 msgstr ""
 
-#: ckanext/ytp/translations.py:292
+#: ckanext/ytp/translations.py:295
 msgid "Show more organization"
 msgstr "Show more Publishers"
 
-#: ckanext/ytp/translations.py:293
+#: ckanext/ytp/translations.py:296
 msgid "Show more res_format"
 msgstr "Show more Formats"
 
-#: ckanext/ytp/translations.py:294
+#: ckanext/ytp/translations.py:297
 msgid "Show more source"
 msgstr "Show more Sources"
 
-#: ckanext/ytp/translations.py:295
+#: ckanext/ytp/translations.py:298
 msgid "Show more license_id"
 msgstr "Show more Licenses"
 
-#: ckanext/ytp/translations.py:296
+#: ckanext/ytp/translations.py:299
 msgid "Show more groups"
 msgstr "Show more Groups"
 
-#: ckanext/ytp/translations.py:297
+#: ckanext/ytp/translations.py:300
 msgid "Show more vocab_platform"
 msgstr "Show more Platforms"
 
-#: ckanext/ytp/translations.py:300
+#: ckanext/ytp/translations.py:303
 msgid "Show less collection_type"
 msgstr "Show less Collection Types"
 
-#: ckanext/ytp/translations.py:301
+#: ckanext/ytp/translations.py:304
 msgid "Show less vocab_international_benchmarks"
 msgstr "Show less International Benchmarks"
 
-#: ckanext/ytp/translations.py:302
+#: ckanext/ytp/translations.py:305
 msgid "Show less vocab_keywords_en"
 msgstr "Show less Keywords"
 
-#: ckanext/ytp/translations.py:303
+#: ckanext/ytp/translations.py:306
 msgid "Show less vocab_keywords_fi"
 msgstr ""
 
-#: ckanext/ytp/translations.py:304
+#: ckanext/ytp/translations.py:307
 msgid "Show less vocab_keywords_sv"
 msgstr ""
 
-#: ckanext/ytp/translations.py:305
+#: ckanext/ytp/translations.py:308
 msgid "Show less organization"
 msgstr "Show less Publishers"
 
-#: ckanext/ytp/translations.py:306
+#: ckanext/ytp/translations.py:309
 msgid "Show less res_format"
 msgstr "Show less Formats"
 
-#: ckanext/ytp/translations.py:307
+#: ckanext/ytp/translations.py:310
 msgid "Show less source"
 msgstr "Show less Sources"
 
-#: ckanext/ytp/translations.py:308
+#: ckanext/ytp/translations.py:311
 msgid "Show less license_id"
 msgstr "Show less Licenses"
 
-#: ckanext/ytp/translations.py:309
+#: ckanext/ytp/translations.py:312
 msgid "Show less groups"
 msgstr "Show less Groups"
 
-#: ckanext/ytp/translations.py:310
+#: ckanext/ytp/translations.py:313
 msgid "Show less vocab_platform"
 msgstr "Show less Platforms"
 
@@ -1645,12 +1660,12 @@ msgid "Organization not found"
 msgstr ""
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:52
-#: ckanext/ytp/resources/opendata/scripts/translations.js:20
+#: ckanext/ytp/resources/opendata/scripts/translations.js:22
 msgid "Reorder apiset"
 msgstr "Reorder resources"
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:53
-#: ckanext/ytp/resources/opendata/scripts/translations.js:21
+#: ckanext/ytp/resources/opendata/scripts/translations.js:23
 msgid ""
 "You can rearrange the apiset resources by dragging them using the arrow "
 "icon. Drag the resource to the right and place it to the desired location on"
@@ -1661,12 +1676,12 @@ msgstr ""
 "When you are done, click the \"Save order\" -button."
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:57
-#: ckanext/ytp/resources/opendata/scripts/translations.js:16
+#: ckanext/ytp/resources/opendata/scripts/translations.js:18
 msgid "Reorder resources"
 msgstr ""
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:58
-#: ckanext/ytp/resources/opendata/scripts/translations.js:17
+#: ckanext/ytp/resources/opendata/scripts/translations.js:19
 msgid ""
 "You can rearrange the resources by dragging them using the arrow icon. Drag "
 "the resource to the right and place it to the desired location on the list. "
@@ -1768,12 +1783,19 @@ msgstr ""
 msgid "Add email"
 msgstr ""
 
-#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/filter-control/utils.js:10
-msgid "Can't call method on "
+#: ckanext/ytp/resources/opendata/scripts/translations.js:14
+#: ckanext/ytp/templates/package/snippets/categories.html:28
+#: ckanext/ytp/templates/snippets/facet_list.html:95
+msgid "Show more"
+msgstr "Show more"
+
+#: ckanext/ytp/resources/opendata/scripts/translations.js:15
+#: ckanext/ytp/templates/snippets/facet_list.html:98
+msgid "Show less"
 msgstr ""
 
-#: ckanext/ytp/templates/disqus_comments.html:2
-msgid "Give feedback"
+#: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/filter-control/utils.js:10
+msgid "Can't call method on "
 msgstr ""
 
 #: ckanext/ytp/templates/page.html:13
@@ -2646,11 +2668,6 @@ msgstr ""
 msgid "Show more categories"
 msgstr "Show more Categories"
 
-#: ckanext/ytp/templates/package/snippets/categories.html:28
-#: ckanext/ytp/templates/snippets/facet_list.html:95
-msgid "Show more"
-msgstr "Show more"
-
 #: ckanext/ytp/templates/package/snippets/categories.html:37
 #: ckanext/ytp/templates/package/snippets/categories.html:41
 #: ckanext/ytp/templates/package/snippets/categories.html:45
@@ -2689,6 +2706,10 @@ msgstr ""
 #: ckanext/ytp/templates/package/snippets/dataset_social.html:4
 msgid "Social"
 msgstr "Share in social media"
+
+#: ckanext/ytp/templates/package/snippets/dataset_state_banner.html:38
+msgid "Dataset maintainer informs:"
+msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/license_rdf.html:18
 #, python-format
@@ -3030,10 +3051,10 @@ msgstr ""
 
 #: ckanext/ytp/templates/report/administrative_branch_summary_report.html:81
 msgid ""
-"Dataset counts are based on submission statistics from avoindata.fi. Open "
-"data quality rating is based on a metricdevised by Tim Berners-Lee in 2010 "
-"for evaluating open data. More information on the metric is available at <a "
-"href=\"http://5stardata.info\">http://5stardata.info</a>."
+"Dataset counts are based on submission statistics from Suomi.fi Open Data. "
+"Open data quality rating is based on a metricdevised by Tim Berners-Lee in "
+"2010 for evaluating open data. More information on the metric is available "
+"at <a href=\"http://5stardata.info\">http://5stardata.info</a>."
 msgstr ""
 
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:9
@@ -3382,10 +3403,6 @@ msgstr ""
 msgid "Height:"
 msgstr ""
 
-#: ckanext/ytp/templates/snippets/facet_list.html:98
-msgid "Show less"
-msgstr ""
-
 #: ckanext/ytp/templates/snippets/facet_list.html:102
 msgid "There are no {facet_type} that match this search"
 msgstr ""
@@ -3560,13 +3577,17 @@ msgstr ""
 msgid "There is no description for this harvest source"
 msgstr ""
 
+#: ckanext/ytp/templates/sparql/query.html:15
+msgid "SPARQL search"
+msgstr ""
+
 #: ckanext/ytp/templates/sparql/query.html:18
 msgid ""
 "You can use the SPARQL search to find datasets and their metadata by using "
-"SPARQL query language. Datasets on opendata.fi are published as RDF triples "
-"and they follow the DCAT-AP specification. You can find information on <a "
-"href=\"https://www.avoindata.fi/ns/\">opendata.fi’s DCAT AP extension "
-"here</a>."
+"SPARQL query language. Datasets on Suomi.fi Open Data are published as RDF "
+"triples and they follow the DCAT-AP specification. You can find information "
+"on <a href=\"https://www.avoindata.fi/ns/\">Suomi.fi Open Data’s DCAT AP "
+"extension here</a>."
 msgstr ""
 
 #: ckanext/ytp/templates/sparql/query.html:22
