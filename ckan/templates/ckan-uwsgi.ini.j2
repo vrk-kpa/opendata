@@ -20,6 +20,12 @@ stats               = /tmp/stats.sock
 processes           = {{ environ('CKAN_UWSGI_PROCESSES') }}
 threads             = {{ environ('CKAN_UWSGI_THREADS') }}
 
+cheaper-algo = busyness
+cheaper = 1
+cheaper-initial = 1
+cheaper-step = 1
+
+
 # Avoid multiple interpreters (automatically created in case you need mounts)
 single-interpreter = true
 

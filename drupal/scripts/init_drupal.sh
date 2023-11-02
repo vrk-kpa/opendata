@@ -65,9 +65,6 @@ drush theme:enable -y bootstrap
 #       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
 echo "delete configurations.."
 drush config:delete easy_breadcrumb.settings                                       || true
-drush config:delete node.type.page                                                 || true
-drush config:delete core.entity_form_display.node.page.default                     || true
-drush config:delete core.entity_view_display.node.page.default                     || true
 drush config:delete pathauto.settings                                              || true
 drush config:delete captcha.captcha_point.contact_message_feedback_form            || true
 drush config:delete core.base_field_override.node.article.promote                  || true
@@ -82,9 +79,6 @@ drush config:delete field.storage.node.field_article_comments                   
 drush config:delete field.storage.node.field_basic_page_comments                   || true
 drush config:delete field.storage.node.field_event_comments                        || true
 drush config:delete field.storage.node.field_guide_comments                        || true
-drush config:delete core.entity_view_display.node.page.search_index                || true
-drush config:delete core.entity_view_display.node.page.search_result               || true
-drush config:delete core.entity_view_display.node.page.teaser                      || true
 drush config:delete field.field.node.page.field_basic_page_comments                || true
 drush config:delete field.storage.node.field_basic_page_comments                   || true
 drush config:delete user.role.editor                                               || true
@@ -159,11 +153,6 @@ echo "enable modules.."
 #       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
 echo "delete configurations.."
 drush config:delete easy_breadcrumb.settings                                       || true
-drush config:delete node.type.page                                                 || true
-drush config:delete core.entity_form_display.node.page.default                     || true
-drush config:delete core.entity_view_display.node.page.default                     || true
-drush config:delete core.base_field_override.node.page.promote                     || true
-drush config:delete field.field.node.page.body                                     || true
 drush config:delete pathauto.settings                                              || true
 drush config:delete captcha.captcha_point.contact_message_feedback_form            || true
 drush config:delete core.base_field_override.node.article.promote                  || true
