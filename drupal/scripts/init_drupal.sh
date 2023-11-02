@@ -34,7 +34,7 @@ if [[ "${DEV_MODE}" == "true" ]]; then
   drush pm:enable -y devel
 
   # enable dev mode
-  #drupal site:mode dev
+  drush en dev_mode
 
 fi
 
