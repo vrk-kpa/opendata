@@ -4,7 +4,7 @@ ARG SECRET_NPMRC
 #
 # Drupal build
 #
-FROM drupal:9.5.8-php8.1-apache-buster AS drupal_build
+FROM drupal:10.1.6-php8.1-apache-bullseye AS drupal_build
 
 # upgrade system + install required packages
 RUN apt-get update -yq && \
