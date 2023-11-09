@@ -28,7 +28,9 @@ class MenuUtils {
             'block-operatingmodelmenuen-menu',
             'block-operatingmodelmenufi-menu',
             'block-operatingmodelmenusv-menu',
-            'block-faqmenufi-menu'
+            'block-faqmenuen-menu',
+            'block-faqmenufi-menu',
+            'block-faqmenusv-menu'
         ]
 
         this.menuLinkSelectors = [
@@ -44,7 +46,9 @@ class MenuUtils {
             'block-operatingmodelmenuen',
             'block-operatingmodelmenufi',
             'block-operatingmodelmenusv',
-            'block-faqmenufi'
+            'block-faqmenuen',
+            'block-faqmenufi',
+            'block-faqmenusv'
         ]
 
         this.menu = this.getMenu();
