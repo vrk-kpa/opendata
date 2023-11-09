@@ -234,6 +234,9 @@ a.external svg {
   position: unset;
   overflow-y: auto;
 }
+.ck-content p {
+  margin-bottom: 27px;
+}
 .ck-content .external-link {
   display: inline-flex;
   flex-direction: row;
@@ -378,7 +381,7 @@ a.external svg {
   font-weight: 600;
 }
 .ck-content .avoindata-section .avoindata-section-content > p {
-  margin: 0;
+  margin: 0 0 27px;
   font-size: 18px;
   line-height: 27px;
   font-weight: 400;
