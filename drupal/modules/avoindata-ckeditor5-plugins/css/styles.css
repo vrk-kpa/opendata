@@ -254,10 +254,12 @@ a.external svg {
   margin-top: 0;
   margin-bottom: 27px;
 }
-.ck-content p img:not(.avoindata-hint-icon,.avoindata-note-icon) {
+.ck-content p img:not(.avoindata-hint-icon,
+                      .avoindata-note-icon) {
   margin-bottom: -27px;
 }
-.ck-content p > a img:not(.avoindata-hint-icon,.avoindata-note-icon) {
+.ck-content p > a img:not(.avoindata-hint-icon,
+                          .avoindata-note-icon) {
   margin-bottom: 0;
   vertical-align: unset;
 }
