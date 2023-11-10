@@ -1,14 +1,12 @@
 @import "../../../src/less/variables";
 
 .external-link {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-
   &::after {
     content: '';
     width: 24px;
     height: 24px;
+    display: inline-block;
+    vertical-align: text-top;
     transform: scale(0.6);
     background-image: url("../images/icon-external-link.svg");
   }
@@ -26,6 +24,27 @@
   }
 }
 
+.avoindata-expander-header {
+  cursor: pointer;
+  color: @new-layout-secondary-text-color;
+  font-family: @font-family-sans-serif-semibold;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 20px;
+  display: inline-block;
+  width: 100%;
+  background: @background-color__expander;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px 1px @box-shadow-color__expander;
+  border: 1px solid @border-color__expander;
+  margin: 0;
+  text-align: left;
+
+  .icon-wrapper {
+    float: right;
+  }
+}
+
 .avoindata-expander.open {
   background: @background-color__expander--open;
 
@@ -33,10 +52,12 @@
   .avoindata-expander-content.collapse {
     display: block;
   }
-}
 
-.avoindata-expander-header {
-  cursor: pointer;
+  .avoindata-expander-header {
+    background: @background-color__expander--open;
+    box-shadow: none;
+    border: 1px solid @background-color__expander--open;
+  }
 }
 
 .avoindata-expander-title {
@@ -44,15 +65,9 @@
   font-family: @font-family-sans-serif-semibold;
   font-size: 18px;
   font-weight: 600;
-  padding: 20px 0 20px 20px;
+  padding: 0;
   display: inline-block;
   width: calc(100% - 45px);
-
-  h2,
-  h3,
-  h4 {
-    margin: 0;
-  }
 }
 
 .avoindata-expander-content {
@@ -69,12 +84,7 @@
   }
 }
 
-.avoindata-expander-header .icon-wrapper {
-  float: right;
-  padding-right: 20px;
-  padding-top: 24px;
-}
-
+.avoindata-expander-header
 .avoindata-expander-header .icon-wrapper i {
   color: @new-layout-secondary-text-color;
 }
@@ -114,10 +124,6 @@
   margin-inline-end: 0;
   display: inline-block;
   width: calc(100% - 70px);
-
-  > *:last-child {
-    margin: 0;
-  }
 }
 
 .avoindata-note-content {
@@ -127,12 +133,6 @@
   font-weight: normal;
   line-height: 27px;
   padding: 0 20px 15px;
-}
-
-.avoindata-expander-content p:last-of-type,
-.avoindata-note-content p:last-of-type,
-.avoindata-hint-content p:last-of-type {
-  margin-bottom: 0;
 }
 
 .avoindata-hint {
@@ -180,10 +180,6 @@
   margin-inline-start: 0;
   margin-inline-end: 0;
   display: block;
-
-  > *:last-child {
-    margin: 0;
-  }
 }
 
 .avoindata-example-content {
@@ -255,5 +251,15 @@ a.external {
     width: 16px;
     height: 16px;
     fill: @link-color;
+  }
+}
+
+.avoindata-example-title,
+.avoindata-expander-title,
+.avoindata-note-title,
+.avoindata-section-title {
+  > p,
+  > p:last-child {
+    margin-bottom: 0;
   }
 }

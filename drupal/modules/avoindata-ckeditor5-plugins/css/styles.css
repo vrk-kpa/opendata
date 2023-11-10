@@ -1,12 +1,9 @@
-.external-link {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-}
 .external-link::after {
   content: '';
   width: 24px;
   height: 24px;
+  display: inline-block;
+  vertical-align: text-top;
   transform: scale(.6);
   background-image: url(../images/icon-external-link.svg);
 }
@@ -20,6 +17,25 @@
 .avoindata-expander + .avoindata-expander {
   margin-top: -1px;
 }
+.avoindata-expander-header {
+  cursor: pointer;
+  color: #2a6ebb;
+  font-family: "Source Sans Pro SemiBold","Helvetica Neue",Arial,sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 20px;
+  display: inline-block;
+  width: 100%;
+  background: #f6f9fc;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px 1px rgba(41,41,41,.1);
+  border: 1px solid #ecedee;
+  margin: 0;
+  text-align: left;
+}
+.avoindata-expander-header .icon-wrapper {
+  float: right;
+}
 .avoindata-expander.open {
   background: #fff;
 }
@@ -27,22 +43,19 @@
 .avoindata-expander.open .avoindata-expander-content.collapse {
   display: block;
 }
-.avoindata-expander-header {
-  cursor: pointer;
+.avoindata-expander.open .avoindata-expander-header {
+  background: #fff;
+  box-shadow: none;
+  border: 1px solid #fff;
 }
 .avoindata-expander-title {
   color: #2a6ebb;
   font-family: "Source Sans Pro SemiBold","Helvetica Neue",Arial,sans-serif;
   font-size: 18px;
   font-weight: 600;
-  padding: 20px 0 20px 20px;
+  padding: 0;
   display: inline-block;
   width: calc(100% - 45px);
-}
-.avoindata-expander-title h2,
-.avoindata-expander-title h3,
-.avoindata-expander-title h4 {
-  margin: 0;
 }
 .avoindata-expander-content {
   display: none;
@@ -56,12 +69,7 @@
 .avoindata-expander-content.cke_widget_editable {
   display: block;
 }
-.avoindata-expander-header .icon-wrapper {
-  float: right;
-  padding-right: 20px;
-  padding-top: 24px;
-}
-.avoindata-expander-header .icon-wrapper i {
+.avoindata-expander-header .avoindata-expander-header .icon-wrapper i {
   color: #2a6ebb;
 }
 .avoindata-expander-group-toggler {
@@ -97,9 +105,6 @@
   display: inline-block;
   width: calc(100% - 70px);
 }
-.avoindata-note-title > :last-child {
-  margin: 0;
-}
 .avoindata-note-content {
   color: #292929;
   font-family: "Source Sans Pro Regular","Helvetica Neue",Arial,sans-serif;
@@ -107,11 +112,6 @@
   font-weight: 400;
   line-height: 27px;
   padding: 0 20px 15px;
-}
-.avoindata-expander-content p:last-of-type,
-.avoindata-hint-content p:last-of-type,
-.avoindata-note-content p:last-of-type {
-  margin-bottom: 0;
 }
 .avoindata-hint {
   margin: 20px 0;
@@ -154,9 +154,6 @@
   margin-inline-start: 0;
   margin-inline-end: 0;
   display: block;
-}
-.avoindata-example-title > :last-child {
-  margin: 0;
 }
 .avoindata-example-content {
   color: #292929;
@@ -218,6 +215,16 @@ a.external svg {
   height: 16px;
   fill: #2a6ebb;
 }
+.avoindata-example-title > p,
+.avoindata-example-title > p:last-child,
+.avoindata-expander-title > p,
+.avoindata-expander-title > p:last-child,
+.avoindata-note-title > p,
+.avoindata-note-title > p:last-child,
+.avoindata-section-title > p,
+.avoindata-section-title > p:last-child {
+  margin-bottom: 0;
+}
 .ck.ck-editor__main {
   height: 100%;
 }
@@ -240,33 +247,68 @@ a.external svg {
 .ck-content ol,
 .ck-content ul {
   margin-top: 0;
-  margin-bottom: 13.5px;
+  margin-bottom: 27px;
   padding-left: unset;
 }
 .ck-content p {
-  margin-bottom: 27px;
   margin-top: 0;
+  margin-bottom: 27px;
 }
-.ck-content p img:not(.avoindata-hint-icon),
-.ck-content p img:not(.avoindata-note-icon) {
+.ck-content p img:not(.avoindata-hint-icon,.avoindata-note-icon) {
   margin-bottom: -27px;
 }
-.ck-content p ~ ol,
-.ck-content p ~ ul {
+.ck-content p > a img:not(.avoindata-hint-icon,.avoindata-note-icon) {
+  margin-bottom: 0;
+  vertical-align: unset;
+}
+.ck-content p + ol,
+.ck-content p + ul {
   margin-top: -27px;
 }
-.ck-content .external-link {
-  display: inline-flex;
-  flex-direction: row;
-  align-content: center;
+.ck-content .avoindata-example-title > p,
+.ck-content .avoindata-expander-title > p,
+.ck-content .avoindata-note-title > p,
+.ck-content .avoindata-section-title > p {
+  margin-bottom: 0;
 }
 .ck-content .external-link::after {
   content: "";
+  display: inline-block;
+  vertical-align: text-top;
   width: 24px;
   height: 24px;
   transform: scale(.6);
   margin-left: 2px;
   background-image: url(../icons/icon-external-link.svg);
+}
+.ck-content .avoindata-section {
+  background-color: #fff;
+  box-shadow: 0 2px 4px 1px rgba(41,41,41,.2);
+  border-top: 4px solid #2a6ebb;
+  border-radius: 4px 4px 0 0;
+  margin: 45px 0;
+  padding: 30px;
+  display: block;
+}
+.ck-content .avoindata-section:first-of-type {
+  margin-top: 0;
+}
+.ck-content .avoindata-section .avoindata-section-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+  display: block;
+}
+.ck-content .avoindata-section .avoindata-section-title h3,
+.ck-content .avoindata-section .avoindata-section-title p {
+  font-size: 22px;
+  line-height: 34px;
+  font-weight: 600;
+}
+.ck-content .avoindata-section .avoindata-section-content > p {
+  margin: 0 0 27px;
+  font-size: 18px;
+  line-height: 27px;
+  font-weight: 400;
 }
 .ck-content .avoindata-expander {
   background: #f6f9fc;
@@ -279,15 +321,19 @@ a.external svg {
   font-size: 18px;
   font-weight: 600;
   line-height: 27px;
-  padding: 0 20px 5px;
+  padding: 20px;
   color: #2a6ebb;
   display: block;
 }
 .ck-content .avoindata-expander .avoindata-expander-title h2,
 .ck-content .avoindata-expander .avoindata-expander-title h3,
-.ck-content .avoindata-expander .avoindata-expander-title h4 {
+.ck-content .avoindata-expander .avoindata-expander-title h4,
+.ck-content .avoindata-expander .avoindata-expander-title p {
   margin: 0;
-  margin-top: 1em;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 27px;
+  color: #2a6ebb;
 }
 .ck-content .avoindata-expander .avoindata-expander-content {
   padding: 0 20px 15px;
@@ -319,8 +365,11 @@ a.external svg {
   padding: 10px 0;
   width: calc(100% - 70px);
 }
-.ck-content .avoindata-note-title > :last-child {
+.ck-content .avoindata-note-title p {
   margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
 }
 .ck-content .avoindata-note-content {
   font-size: 18px;
@@ -328,10 +377,10 @@ a.external svg {
   line-height: 27px;
   padding: 0 20px 15px;
 }
-.ck-content .avoindata-expander-content p:last-of-type,
-.ck-content .avoindata-hint-content p:last-of-type,
-.ck-content .avoindata-note-content p:last-of-type {
-  margin-bottom: 0;
+.ck-content .avoindata-note-content p {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
 }
 .ck-content .avoindata-hint {
   margin: 20px 0;
@@ -349,7 +398,12 @@ a.external svg {
   line-height: 27px;
   padding: 0 20px 15px 15px;
 }
-.ck-content .avoindata-example {
+.ck-content .avoindata-hint-content p {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+}
+.ck-content .avoindata-example p {
   background: #fff;
   border-radius: 2px;
   border: 1.5px solid #2a6ebb;
@@ -358,51 +412,20 @@ a.external svg {
   margin-bottom: 20px;
   display: block;
 }
-.ck-content .avoindata-example-title {
+.ck-content .avoindata-example-title p {
+  margin: 0;
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
   padding: 20px 20px 6px;
   display: block;
 }
-.ck-content .avoindata-example-title > :last-child {
-  margin: 0;
-}
-.ck-content .avoindata-example-content {
+.ck-content .avoindata-example-content p {
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
   padding: 0 20px 20px;
   display: block;
-}
-.ck-content .avoindata-section {
-  background-color: #fff;
-  box-shadow: 0 2px 4px 1px rgba(41,41,41,.2);
-  border-top: 4px solid #2a6ebb;
-  border-radius: 4px 4px 0 0;
-  margin: 45px 0;
-  padding: 30px;
-  display: block;
-}
-.ck-content .avoindata-section:first-of-type {
-  margin-top: 0;
-}
-.ck-content .avoindata-section .avoindata-section-title {
-  margin-top: 0;
-  margin-bottom: 20px;
-  display: block;
-}
-.ck-content .avoindata-section .avoindata-section-title > p {
-  margin: 0;
-  font-size: 22px;
-  line-height: 34px;
-  font-weight: 600;
-}
-.ck-content .avoindata-section .avoindata-section-content > p {
-  margin: 0 0 27px;
-  font-size: 18px;
-  line-height: 27px;
-  font-weight: 400;
 }
 .avoindata-section-id-form {
   padding: 8px;
