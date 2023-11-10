@@ -234,6 +234,27 @@ a.external svg {
   position: unset;
   overflow-y: auto;
 }
+.ck-content figure.image {
+  margin-bottom: 0;
+}
+.ck-content ol,
+.ck-content ul {
+  margin-top: 0;
+  margin-bottom: 13.5px;
+  padding-left: unset;
+}
+.ck-content p {
+  margin-bottom: 27px;
+  margin-top: 0;
+}
+.ck-content p img:not(.avoindata-hint-icon),
+.ck-content p img:not(.avoindata-note-icon) {
+  margin-bottom: -27px;
+}
+.ck-content p ~ ol,
+.ck-content p ~ ul {
+  margin-top: -27px;
+}
 .ck-content .external-link {
   display: inline-flex;
   flex-direction: row;
@@ -378,7 +399,7 @@ a.external svg {
   font-weight: 600;
 }
 .ck-content .avoindata-section .avoindata-section-content > p {
-  margin: 0;
+  margin: 0 0 27px;
   font-size: 18px;
   line-height: 27px;
   font-weight: 400;

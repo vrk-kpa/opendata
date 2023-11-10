@@ -20,6 +20,32 @@
 }
 
 .ck-content {
+  figure.image {
+    margin-bottom: 0;
+  }
+
+  ol,
+  ul {
+    margin-top: 0;
+    margin-bottom: 13.5px;
+    padding-left: unset;
+  }
+
+  p {
+    margin-bottom: 27px;
+    margin-top: 0;
+
+    img:not(.avoindata-hint-icon),
+    img:not(.avoindata-note-icon) {
+      margin-bottom: -27px;
+    }
+
+    &~ol,
+    &~ul {
+      margin-top: -27px;
+    }
+  }
+
   .external-link {
     display: inline-flex;
     flex-direction: row;
@@ -43,7 +69,7 @@
     margin: 0;
 
 
-  .avoindata-expander-title {
+    .avoindata-expander-title {
       font-size: 18px;
       font-weight: 600;
       line-height: 27px;
@@ -190,7 +216,7 @@
 
     .avoindata-section-content {
       & > p {
-        margin: 0;
+        margin: 0 0 27px;
         font-size: 18px;
         line-height: 27px;
         font-weight: 400;
