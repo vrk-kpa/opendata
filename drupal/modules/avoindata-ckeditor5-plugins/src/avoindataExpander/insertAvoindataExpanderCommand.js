@@ -49,7 +49,7 @@ function createAvoindataExpander(writer) {
 
   // The text content will automatically be wrapped in a
   // `<p>`.
-  const title = writer.createElement('heading4');
+  const title = writer.createElement('paragraph');
   writer.insertText('Title', title, 0);
   writer.append(title, avoindataExpanderTitle);
   const content = writer.createElement('paragraph');
