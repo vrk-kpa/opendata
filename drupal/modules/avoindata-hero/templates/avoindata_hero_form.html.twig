@@ -55,7 +55,7 @@
                 <div class="text-center">
                     <h2>{{ count.count }}</h2>
                     <h4>
-                        <a href="/data/{{ form.language }}/{{ count.url }}">
+                        <a href="/data/{{ language }}/{{ count.url }}">
                             <strong>{{ count.text }}</strong>
                         </a>
                     </h4>
@@ -89,7 +89,7 @@
         </div>
         {{ form.searchfilter }}
         <div class="d-flex mt-3 justify-content-end">
-            <a href="/data/{{ form.language }}/advanced_search">
+            <a href="/data/{{ language }}/advanced_search">
                 {% trans %}
                     Use advanced search
                 {% endtrans %}
