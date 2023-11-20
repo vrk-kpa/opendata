@@ -1,3 +1,5 @@
+/* stylelint-disable rule-empty-line-before */
+
 /* This selector targets the editable element (excluding comments). */
 .ck.ck-editor__main {
   height: 100%;
@@ -20,43 +22,67 @@
 }
 
 .ck-content {
-  figure.image {
-    margin-bottom: 0;
+  .avoindata-example,
+  .avoindata-expander,
+  .avoindata-hint,
+  .avoindata-note,
+  .avoindata-section {
+
+    &.ck-widget {
+      padding: 20px;
+
+      > [class*="-title"] {
+        padding: 3px;
+
+        > * {
+          margin: 0;
+        }
+
+        &:not([class*="section"]) {
+          font-size: 18px;
+          font-weight: 600;
+          line-height: 27px;
+        }
+
+        &[class*="section"] {
+          font-size: 22px;
+          line-height: 34px;
+          font-weight: 600;
+        }
+
+        > p {
+          padding: 0;
+        }
+      }
+
+      > [class*="-content"] {
+        padding: 3px;
+        font-size: 18px;
+        line-height: 27px;
+        font-weight: 400;
+
+        > p {
+          padding: 0;
+        }
+      }
+
+      > [class*="-title"] + [class*="-content"] {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  p {
+    margin: 0;
+
+    + p {
+      margin-top: 27px;
+    }
   }
 
   ol,
   ul {
-    margin-top: 0;
-    margin-bottom: 27px;
     padding-left: unset;
-  }
-
-  p {
-    margin-top: 0;
-    margin-bottom: 27px;
-
-    img:not(.avoindata-hint-icon, .avoindata-note-icon) {
-      margin-bottom: -27px;
-    }
-
-    > a img:not(.avoindata-hint-icon, .avoindata-note-icon) {
-      margin-bottom:  0;
-      vertical-align: unset;
-    }
-
-    & + ol,
-    & + ul {
-      margin-top: -27px;
-    }
-  }
-
-  .avoindata-example-title,
-  .avoindata-expander-title,
-  .avoindata-note-title,
-  .avoindata-section-title {
-    > p {
-      margin-bottom: 0;
-    }
   }
 
   .external-link {
@@ -84,28 +110,6 @@
     &:first-of-type {
       margin-top: 0;
     }
-
-    .avoindata-section-title {
-      margin-top: 0;
-      margin-bottom: 20px;
-      display: block;
-
-      p,
-      h3 {
-        font-size: 22px;
-        line-height: 34px;
-        font-weight: 600;
-      }
-    }
-
-    .avoindata-section-content {
-      > p {
-        margin: 0 0 27px;
-        font-size: 18px;
-        line-height: 27px;
-        font-weight: 400;
-      }
-    }
   }
 
   .avoindata-expander {
@@ -116,137 +120,56 @@
     margin: 0;
 
     .avoindata-expander-title {
-      font-size: 18px;
-      font-weight: 600;
-      line-height: 27px;
-      padding: 20px;
       color: #2a6ebb;
-      display: block;
-
-      h2,
-      h3,
-      h4,
-      p {
-        margin: 0;
-        font-size: 18px;
-        font-weight: 600;
-        line-height: 27px;
-        color: #2a6ebb;
-      }
     }
 
     .avoindata-expander-content {
-      padding: 0 20px 15px;
-    }
-
-    &.ck-widget .avoindata-expander-content {
       display: block;
     }
-  }
 
-  .avoindata-expander + .avoindata-expander {
-    margin-top: -1px;
+    + .avoindata-expander {
+      margin-top: -1px;
+    }
   }
 
   .avoindata-note {
     background: rgb(247 247 248);
     border-radius: 0;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    align-items: center;
   }
 
-  .avoindata-note-icon {
-    vertical-align: text-bottom;
-    height: 24px;
-    width: 24px;
-    display: inline-flex;
-    margin: 20px 10px 0 20px;
-  }
-
-  .avoindata-note-title {
-    display: inline-flex;
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 28px;
-    padding: 10px 0;
-    width: calc(100% - 70px);
-
-    p {
-      margin: 0;
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 28px;
-    }
-  }
-
-  .avoindata-note-content {
-    font-size: 18px;
-    font-weight: normal;
-    line-height: 27px;
-    padding: 0 20px 15px;
-
-    p {
-      font-size: 18px;
-      font-weight: normal;
-      line-height: 27px;
-    }
-  }
-
+  .avoindata-note,
   .avoindata-hint {
-    margin: 20px 0;
     display: flex;
+    flex-flow: row wrap;
+    gap: 0 10px;
   }
 
+  .avoindata-note-icon,
   .avoindata-hint-icon {
     height: 24px;
     width: 24px;
-    margin: 20px 10px 0 20px;
+    flex: 0 auto;
   }
 
-  .avoindata-hint-content {
-    flex-grow: 2;
-    font-size: 18px;
-    font-weight: normal;
-    line-height: 27px;
-    padding: 0 20px 15px 15px;
+  .avoindata-note-title {
+    flex: 1 0px;
+  }
 
-    p {
-      font-size: 18px;
-      font-weight: normal;
-      line-height: 27px;}
+  .avoindata-note-content {
+    flex: 1 100%;
+  }
+
+  .avoindata-hint-icon {
+    margin-top: 5px;
   }
 
   .avoindata-example {
-    p {
-      background: white;
-      border-radius: 2px;
-      border: 1.5px solid #2a6ebb;
-      border-left: 4.5px solid #2a6ebb;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      display: block;
-    }
-  }
-
-  .avoindata-example-title {
-    p {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 600;
-      line-height: 24px;
-      padding: 20px 20px 6px;
-      display: block;
-    }
-  }
-
-  .avoindata-example-content {
-    p {
-      font-size: 16px;
-      font-weight: normal;
-      line-height: 24px;
-      padding: 0 20px 20px;
-      display: block;
-    }
+    background: white;
+    border-radius: 2px;
+    border: 1.5px solid #2a6ebb;
+    border-left: 4.5px solid #2a6ebb;
+    display: block;
   }
 }
 

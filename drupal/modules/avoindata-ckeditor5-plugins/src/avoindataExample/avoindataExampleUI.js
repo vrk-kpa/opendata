@@ -22,6 +22,11 @@ export default class AvoindataExampleUI extends Plugin {
         tooltip: true,
       });
 
+      buttonView.iconView.set({
+        isColorInherited: false,
+        viewBox: '0 0 24 24'
+      })
+
       // Bind the state of the button to the command.
       buttonView.bind('isOn', 'isEnabled').to(command, 'value', 'isEnabled');
 
