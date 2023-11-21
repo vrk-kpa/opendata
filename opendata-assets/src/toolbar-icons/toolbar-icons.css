@@ -1,0 +1,19 @@
+.ckeditor5-toolbar-button-avoindataExpander {
+  background-image: inline("icon-expander.svg");
+}
+
+.ckeditor5-toolbar-button-avoindataNote {
+  background-image: inline("icon-note.svg");
+}
+
+.ckeditor5-toolbar-button-avoindataHint {
+  background-image: inline("icon-hint.svg");
+}
+
+.ckeditor5-toolbar-button-avoindataExample {
+  background-image: inline("icon-example.svg");
+}
+
+.ckeditor5-toolbar-button-avoindataSection {
+  background-image: inline("icon-section.svg");
+}
