@@ -1,11 +1,11 @@
 (function (Drupal, $, once) {
   const openText = Drupal.t("Expand all"),
-    closeText = Drupal.t("Close all");
+        closeText = Drupal.t("Close all");
 
   Drupal.behaviors.avoindataExpanderBehavior = {
     attach: function (context) {
       let togglerIndex = 0;
-      $(once('avoindataExpanderBehavior', '.avoindata-expander', context)).each(function (index, element) {
+      $(once('avoindataExpanderBehavior','.avoindata-expander', context)).each(function (index, element) {
         // Check if current expander should be considered as a group of expanders
         // In case of group, add toggler button before first expander
         if ($(element).next().hasClass('avoindata-expander') && !$(element).prev().hasClass('avoindata-expander')) {
@@ -16,16 +16,7 @@
           $togglerWrapper.insertBefore(element);
         }
         // Apply the avoindataExpanderBehavior effect to the elements only once.
-        const headerId = 'avoindata-expander-header-' + (index + 1);
-        const panelId = 'avoindata-expander-panel-' + (index + 1);
-        const header = $('.avoindata-expander-header', this);
-        const panel = $('.avoindata-expander-content', this);
-
-        header.on('click', toggleAvoindataExpander);
-        header.attr('id', headerId);
-        panel.attr('id', panelId);
-        header.attr('aria-controls', panelId);
-        panel.attr('aria-labelledby', headerId);
+        $('.avoindata-expander-header', this).on('click', toggleAvoindataExpander);
       });
     }
   };
@@ -34,11 +25,9 @@
     // Toggle status for current expander
     if ($(this.parentElement).hasClass('open')) {
       $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-up').addClass('fa-angle-down');
-      $('.avoindata-expander-header', this.parentElement).attr("aria-expanded", false);
       $(this.parentElement).removeClass('open');
     } else {
       $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-down').addClass('fa-angle-up');
-      $('.avoindata-expander-header', this.parentElement).attr("aria-expanded", true);
       $(this.parentElement).addClass('open');
     }
 
@@ -136,7 +125,7 @@
           const offsetTopSectionBottom = offsetTop + $(section).outerHeight();
 
           // As long as section is visible in screen, set it active in menu
-          if (offsetTop < triggerPosition && triggerPosition <= offsetTopSectionBottom) {
+          if (offsetTop < triggerPosition  && triggerPosition <= offsetTopSectionBottom) {
             let hash = '#' + $(section).attr('id');
             guideMenuSetActiveSubnavItemByHash(subnavElement, hash);
             break;

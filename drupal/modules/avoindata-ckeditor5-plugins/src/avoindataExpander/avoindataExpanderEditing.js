@@ -154,11 +154,11 @@ export default class AvoindataExpanderEditing extends Plugin {
     conversion.for('dataDowncast').elementToStructure({
       model: 'avoindataExpanderTitle',
       view: (modelElement, { writer }) => {
-        return writer.createContainerElement('button', { class: 'avoindata-expander-header', 'aria-expanded': false, role: 'button' }, [
+        return writer.createContainerElement('div', { class: 'avoindata-expander-header' }, [
           writer.createContainerElement('div', { class: 'avoindata-expander-title' }, [
             writer.createSlot()
           ]),
-          writer.createContainerElement('span', { class: 'icon-wrapper pull-right', 'aria-hidden': true }, [
+          writer.createContainerElement('span', { class: 'icon-wrapper pull-right' }, [
             writer.createEmptyElement('i', { class: 'fas fa-angle-down' })
           ])
         ])
@@ -166,13 +166,12 @@ export default class AvoindataExpanderEditing extends Plugin {
     });
 
     // Instances of <avoindataExpanderContent> are saved as
-    // <div class="avoindata-expander-content">{{inner content}}</div>.
+    // <div class="savoindata-expander-content">{{inner content}}</div>.
     conversion.for('dataDowncast').elementToElement({
       model: 'avoindataExpanderContent',
       view: {
         name: 'div',
         classes: 'avoindata-expander-content',
-        attributes: { role: 'region' }
       },
     });
 
