@@ -88,16 +88,13 @@ avoindata_ckeditor5_plugins_avoindataexpander:
         label: Avoindata Expander
     elements:
       - <div>
-      - <button>
-      - <button class="avoindata-expander-header">
+      - <div class="avoindata-expander-header">
       - <div class="avoindata-expander-title">
       - <span>
       - <span class="icon-wrapper pull-right">
       - <i>
       - <i class="fas fa-angle-down">
-      - <div role>
-      - <div role="region">
-      - <div class="avoindata-expander-content" role="region">
+      - <div class="avoindata-expander-content">
 
 avoindata_ckeditor5_plugins_avoindatanote:
   ckeditor5:
@@ -173,6 +170,5 @@ avoindata_ckeditor5_plugins_avoindatasection:
       - <div class id>
       - <div class="avoindata-section">
       - <div class="avoindata-section-id">
-      - <h3>
-      - <h3 class="avoindata-section-title">
+      - <div class="avoindata-section-title">
       - <div class="avoindata-section-content">
