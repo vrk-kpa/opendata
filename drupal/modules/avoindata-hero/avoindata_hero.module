@@ -29,9 +29,6 @@ function avoindata_hero_theme($existing, $type, $theme, $path) {
     'avoindata_hero' => [
       'render element' => 'form',
       'template' => 'avoindata_hero_form',
-      'variables' => [
-        'language' => []
-      ]
     ],
   ];
 }
