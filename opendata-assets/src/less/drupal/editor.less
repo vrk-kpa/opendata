@@ -64,6 +64,14 @@
         > p {
           padding: 0;
         }
+
+        > :first-child {
+          &.avoindata-hint,
+          &.avoindata-note,
+          &.avoindata-example {
+            margin-top: 0;
+          }
+        }
       }
 
       > [class*="-title"] + [class*="-content"] {
@@ -120,7 +128,6 @@
     box-shadow: 0 2px 4px 1px rgb(41 41 41 / 10%);
     border: 1px solid #ecedee;
     margin: 0;
-
 
     .avoindata-expander-title {
       color: #2a6ebb;
