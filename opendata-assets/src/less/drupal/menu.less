@@ -3,13 +3,13 @@
   top: 0;
   position: sticky;
   max-height: 100vh;
-  overflow: auto;
 
   > .opendata-card {
     border-top: none;
-    background: transparent;
+    background: white;
     padding-top: 0;
     margin-right: 0;
+    box-shadow: 0 2px 4px 1px rgb(41 41 41 / 10%);
 
     .opendata-card-content {
       margin-top: 0;
@@ -47,6 +47,11 @@
       &::before {
         color: @color--white;
       }
+    }
+
+    & + .navbar {
+      max-height: calc(100vh - 54px);
+      overflow: auto;
     }
   }
 

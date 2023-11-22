@@ -3,7 +3,7 @@
  */
 
 import { Plugin } from 'ckeditor5/src/core';
-import { ButtonView } from 'ckeditor5/src/ui';
+import { ButtonView, IconView } from 'ckeditor5/src/ui';
 import icon from '../../icons/icon-hint.svg?source';
 
 export default class AvoindataHintUI extends Plugin {
@@ -21,6 +21,11 @@ export default class AvoindataHintUI extends Plugin {
         icon,
         tooltip: true,
       });
+
+      buttonView.iconView.set({
+        isColorInherited: false,
+        viewBox: '0 0 24 24'
+      })
 
       // Bind the state of the button to the command.
       buttonView.bind('isOn', 'isEnabled').to(command, 'value', 'isEnabled');
