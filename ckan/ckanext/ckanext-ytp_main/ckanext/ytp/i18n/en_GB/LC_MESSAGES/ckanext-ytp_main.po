@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-11-01 08:04+0000\n"
+"POT-Creation-Date: 2023-11-24 10:16+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Suvi Nuttunen, 2023\n"
 "Language-Team: English (United Kingdom) (https://app.transifex.com/avoindata/teams/7979/en_GB/)\n"
@@ -1256,7 +1256,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:226
 msgid "Maintainer note"
-msgstr ""
+msgstr "Dataset update message"
 
 #: ckanext/ytp/translations.py:227
 msgid "e.g. Dataset updated 15.5.2023"
@@ -1264,7 +1264,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:228
 msgid "Inform users about dataset updates"
-msgstr ""
+msgstr "Inform users about dataset updates"
 
 #: ckanext/ytp/translations.py:231
 msgid "Data resource title"
@@ -2301,14 +2301,10 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:16
 msgid ""
-"Organisations that have added data to opendata.fi are listed on this page. "
-"The number next to the publisher’s name indicates the amount of datasets "
-"belonging to that publisher and its suborganisations."
+"Organisations that have added data to Suomi.fi Open Data are listed on this "
+"page. The number next to the publisher’s name indicates the amount of "
+"datasets belonging to that publisher and its suborganisations."
 msgstr ""
-"You can create a new organisation if your organisation has not yet been "
-"added to opendata.fi. Before you are able to add data to your organisation, "
-"our website admins have to approve your organisation. This may take a couple"
-" of days. "
 
 #: ckanext/ytp/templates/organization/snippets/organization_item.html:18
 msgid "{num} Child Organization"
@@ -2600,16 +2596,16 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:34
 msgid ""
-"The Opendata.fi service does not have an organization where you can upload a"
-" data set."
+"Suomi.fi Open Data does not have an organization where you can upload a data"
+" set."
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:35
 msgid ""
 "Ask your employer's open data administrator to add your user account in your"
 " organization. If your employer's organization has not been created yet on "
-"Opendata.fi, ask the service administration to create it before you can "
-"continue. Alternatively, you can also ask the data to be published as a "
+"Suomi.fi Open Data, ask the service administration to create it before you "
+"can continue. Alternatively, you can also ask the data to be published as a "
 "private individual."
 msgstr ""
 
@@ -3263,8 +3259,8 @@ msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:55
 msgid ""
-"Select which of the datasets found on opendata.fi were used in the showcase."
-" Search for a dataset by typing its name in the field below."
+"Select which of the datasets found on Suomi.fi Open Data were used in the "
+"showcase. Search for a dataset by typing its name in the field below."
 msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:59
