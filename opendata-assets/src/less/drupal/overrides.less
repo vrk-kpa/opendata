@@ -1403,7 +1403,9 @@ p:last-child,
   background: #2a6ebb;
   height: 125px;
   text-align: center;
-  margin-bottom: 20px;
+  @media (min-width: @screen-md-min) {
+    margin-bottom: 40px;
+  }
 
   h1 {
     margin: 0;
@@ -1412,33 +1414,35 @@ p:last-child,
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-family: @font-family-sans-serif-semibold;
+    font-family: @font-family-sans-serif-light;
     font-weight: 600;
   }
+
 }
 
-.arrow-box::after {
-  top: 100%;
-  left: 50%;
-  border: solid transparent;
-  content: "";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-color: rgb(42 110 187 / 0%);
-  border-top-color: #2a6ebb;
-  border-width: 15px;
-  margin-left: -15px;
+@media (min-width: @screen-md-min) {
+  .arrow-box::after {
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgb(42 110 187 / 0%);
+    border-top-color: #2a6ebb;
+    border-width: 15px;
+    margin-left: -15px;
+  }
 }
 
 // Guide page
 .avoindata-guide-container {
   max-width: @opendata-container-max-width;
-  float: none;
   display: block;
   margin: 0 auto;
-  padding-top: 30px;
+  padding-top: 20px;
   padding-bottom: 20px;
   overflow-wrap: break-word;
   hyphens: auto;

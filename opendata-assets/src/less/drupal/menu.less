@@ -3,19 +3,56 @@
   top: 0;
   position: sticky;
   max-height: 100vh;
+  border: @navbar-border;
+  z-index: 255;
+
+  .avoindata-guide-menu-toggle {
+    align-self: end;
+    margin: 10px;
+  }
+  @media (min-width: @screen-md-min) {
+    .avoindata-guide-menu-toggle {
+      display: none;
+    }
+    .avoindata-guide-menu-content.collapse {
+      display: block;
+    }
+  }
 
   > .opendata-card {
+    display: flex;
+    flex-direction: column;
     border-top: none;
     background: white;
     padding-top: 0;
     margin-right: 0;
-    box-shadow: 0 2px 4px 1px rgb(41 41 41 / 10%);
+    padding-bottom: 0;
 
     .opendata-card-content {
       margin-top: 0;
     }
   }
 
+  .menu-header {
+    display: flex;
+    gap: 15px;
+    margin: 0px 25px;
+    align-items: center;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    border-bottom: 1px solid @suomi-depthSecondary;
+    border-top: 1px solid @suomi-depthSecondary;
+
+    @media (min-width: @screen-md-min) {
+      margin-top: 25px;
+      border-top: none;
+    }
+
+    img {
+      width: 25px;
+      height: 30px;
+    }
+  }
   .menu-heading {
     font-size: @font-size-base;
     font-weight: @font-weight-heavier;
@@ -23,20 +60,6 @@
     position: relative;
     margin-top: 0;
     margin-bottom: 0;
-    padding: @padding__nav__item__link--guide;
-    padding-left: @padding-left__nav--guide;
-
-    &::before {
-      content: "\f111";
-      font-family: "Font Awesome 5 Pro", sans-serif;
-      font-weight: 900;
-      font-size: @font-size-small;
-      color: @opendata-brand-primary;
-      position: absolute;
-      left: @padding-left__nav--guide-counter;
-      top: 50%;
-      transform: translateY(-50%);
-    }
 
     &.active {
       background-color: @opendata-brand-primary;
