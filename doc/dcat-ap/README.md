@@ -275,7 +275,7 @@ Term | Range | Cardinality | Comment
 -----|-------|-------------|--------
 dcat:description | rdfs:Resource | 1..n | This property contains a free-text account of the Showcase. This property can be repeated for parallel language versions of the description.
 dct:title | rdfs:Literal | 1..n | This property contains a name given to the Showcase. This property can be repeated for parallel language versions of the name.
-adfi:DataUserInterface | rdfs:Literal | 1..1 | The showcase’s URL on opendata.fi. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.
+adfi:DataUserInterface | rdfs:Literal | 1..1 | The showcase’s URL on Suomi.fi Open Data. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.
  
 
 ##### Recommended

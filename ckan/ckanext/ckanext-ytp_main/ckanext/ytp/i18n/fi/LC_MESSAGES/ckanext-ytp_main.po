@@ -14,8 +14,8 @@
 # Meeri Hakala <meeri.hakala@dvv.fi>, 2022
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2023
 # Roosa Lampinen, 2023
-# Suvi Nuttunen, 2023
 # Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2023
+# Suvi Nuttunen, 2023
 # Teemu Erkkola <teemu.erkkola@iki.fi>, 2023
 # 
 #, fuzzy
@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-11-01 08:04+0000\n"
+"POT-Creation-Date: 2023-11-24 10:16+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
 "Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2023\n"
 "Language-Team: Finnish (https://app.transifex.com/avoindata/teams/7979/fi/)\n"
@@ -1229,10 +1229,10 @@ msgstr "esim. avoindata@dvv.fi"
 #: ckanext/ytp/translations.py:218
 msgid "You can mark dataset as high value dataset"
 msgstr ""
-"Voit merkitä tietoaineiston korkean arvon tietoaineistoksi. Korkean arvon "
-"tietoaineistoja ovat sellaiset julkishallinnon asiakirjat ja tiedot, joilla "
-"katsotaan olevan erityistä arvoa yhteiskunnalle, ympäristölle ja taloudelle."
-" "
+"Voit merkitä tietoaineiston arvokkaaksi tietoaineistoksi. Arvokkaat "
+"tietoaineistot ovat sellaisia julkishallinnon asiakirjoja ja tietoja, joilla"
+" katsotaan olevan erityistä arvoa yhteiskunnalle, ympäristölle ja "
+"taloudelle. "
 
 #: ckanext/ytp/translations.py:219
 msgid "You can set the state of the dataset back to active."
@@ -1288,7 +1288,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:226
 msgid "Maintainer note"
-msgstr "Ylläpitäjän ilmoitus"
+msgstr "Tietoaineiston päivitystiedote"
 
 #: ckanext/ytp/translations.py:227
 msgid "e.g. Dataset updated 15.5.2023"
@@ -1296,7 +1296,7 @@ msgstr "esim. Tietoaineisto päivitetty 15.5.2023"
 
 #: ckanext/ytp/translations.py:228
 msgid "Inform users about dataset updates"
-msgstr "Tiedota palvelun käyttäjille tietoaineiston päivittämisestä"
+msgstr "Tiedota käyttäjiä tietoaineiston päivityksistä"
 
 #: ckanext/ytp/translations.py:231
 msgid "Data resource title"
@@ -2347,9 +2347,9 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:16
 msgid ""
-"Organisations that have added data to opendata.fi are listed on this page. "
-"The number next to the publisher’s name indicates the amount of datasets "
-"belonging to that publisher and its suborganisations."
+"Organisations that have added data to Suomi.fi Open Data are listed on this "
+"page. The number next to the publisher’s name indicates the amount of "
+"datasets belonging to that publisher and its suborganisations."
 msgstr ""
 "Voit luoda uuden organisaation, jos organisaatiotasi ei ennestään löydy "
 "palveluumme. Ennen kuin voit lisätä dataa organisaatiolle, palvelumme "
@@ -2482,7 +2482,7 @@ msgstr "Lisää data-aineisto"
 
 #: ckanext/ytp/templates/package/read.html:32
 msgid "High value dataset"
-msgstr "Korkean arvon tietoaineisto"
+msgstr "Arvokas tietoaineisto"
 
 #: ckanext/ytp/templates/package/read.html:60
 msgid "Datasets provided by the API"
@@ -2649,8 +2649,8 @@ msgstr "Lisää tietoaineisto"
 
 #: ckanext/ytp/templates/package/search.html:34
 msgid ""
-"The Opendata.fi service does not have an organization where you can upload a"
-" data set."
+"Suomi.fi Open Data does not have an organization where you can upload a data"
+" set."
 msgstr ""
 "Et ole minkään avoindata.fi-palvelussa olevan organisaation jäsen, joten et "
 "voi lisätä tietoaineistoja palveluun."
@@ -2659,8 +2659,8 @@ msgstr ""
 msgid ""
 "Ask your employer's open data administrator to add your user account in your"
 " organization. If your employer's organization has not been created yet on "
-"Opendata.fi, ask the service administration to create it before you can "
-"continue. Alternatively, you can also ask the data to be published as a "
+"Suomi.fi Open Data, ask the service administration to create it before you "
+"can continue. Alternatively, you can also ask the data to be published as a "
 "private individual."
 msgstr ""
 "Jos haluat lisätä tietoaineistoja, pyydä organisaatiosi ylläpitäjää "
@@ -3375,10 +3375,10 @@ msgstr "Sovelluksessa käytetyt tietoaineistot"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:55
 msgid ""
-"Select which of the datasets found on opendata.fi were used in the showcase."
-" Search for a dataset by typing its name in the field below."
+"Select which of the datasets found on Suomi.fi Open Data were used in the "
+"showcase. Search for a dataset by typing its name in the field below."
 msgstr ""
-"Kerro, mitä avoindata.fi:ssä olevia tietoaineistoja sovelluksessa on "
+"Kerro, mitä Suomi.fi-avoindatassa olevia tietoaineistoja sovelluksessa on "
 "käytetty. Hae tietoaineistoja kirjoittamalla kenttään aineiston nimi."
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:59

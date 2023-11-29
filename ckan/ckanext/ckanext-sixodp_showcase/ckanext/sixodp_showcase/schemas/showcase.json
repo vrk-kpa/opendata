@@ -20,7 +20,7 @@
       "label": "URL",
       "preset": "dataset_slug_ex",
       "form_placeholder": "eg. my-dataset",
-      "description": "The showcase’s URL on opendata.fi. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.",
+      "description": "The showcase’s URL on Suomi.fi Open Data. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.",
       "required": true
     },
     {

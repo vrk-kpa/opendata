@@ -10,18 +10,18 @@
 # Daniel Vainio, 2021
 # Ville Teräväinen, 2022
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2023
-# Teemu Erkkola <teemu.erkkola@iki.fi>, 2023
-# Suvi Nuttunen, 2023
 # Roosa Lampinen, 2023
+# Suvi Nuttunen, 2023
+# Teemu Erkkola <teemu.erkkola@iki.fi>, 2023
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-11-01 08:04+0000\n"
+"POT-Creation-Date: 2023-11-24 10:16+0000\n"
 "PO-Revision-Date: 2018-03-08 13:35+0000\n"
-"Last-Translator: Roosa Lampinen, 2023\n"
+"Last-Translator: Teemu Erkkola <teemu.erkkola@iki.fi>, 2023\n"
 "Language-Team: Swedish (https://app.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -421,7 +421,7 @@ msgstr "Giltig fr.o.m."
 
 #: ckanext/ytp/translations.py:9
 msgid "Valid till"
-msgstr "Giltig t.o.m."
+msgstr "Giltig till"
 
 #: ckanext/ytp/translations.py:10
 msgid "Title en"
@@ -1019,11 +1019,11 @@ msgstr "förra veckan"
 
 #: ckanext/ytp/translations.py:173
 msgid "month"
-msgstr ""
+msgstr "månad"
 
 #: ckanext/ytp/translations.py:174
 msgid "year"
-msgstr ""
+msgstr "år"
 
 #: ckanext/ytp/translations.py:177
 msgid ""
@@ -1116,7 +1116,8 @@ msgid ""
 "Keywords help users to find your data. Select at least one keyword in "
 "Finnish."
 msgstr ""
-"Nyckelorden gör det lättare att hitta data. Välj minst ett finskt nyckelord."
+"Nyckelorden gör det lättare att hitta dina data. Välj minst ett finskt "
+"nyckelord."
 
 #: ckanext/ytp/translations.py:200
 msgid "Select at least one category."
@@ -1144,7 +1145,7 @@ msgstr ""
 msgid ""
 "Select a license that suits your needs. We recommend using CC0 or CC BY 4 "
 "-licenses."
-msgstr "Välj lämplig licens. Vi rekommenderar licenserna CC0 och CC BY 4."
+msgstr "Välj en lämplig licens. Vi rekommenderar licenserna CC0 och CC BY 4."
 
 #: ckanext/ytp/translations.py:205
 msgid "More about the license"
@@ -1266,7 +1267,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:226
 msgid "Maintainer note"
-msgstr ""
+msgstr "Uppdateringsmeddelande för datamängd"
 
 #: ckanext/ytp/translations.py:227
 msgid "e.g. Dataset updated 15.5.2023"
@@ -1285,7 +1286,7 @@ msgid ""
 "Write a short and descriptive name for the data resource. If the data covers"
 " a specific time frame, mention that in the name."
 msgstr ""
-"Ange en kort och beskrivande namn för dataresursen. Om datan endast täcker "
+"Ange ett kort och beskrivande namn för dataresursen. Om datan endast täcker "
 "en viss tidsintervall, uppge detta i namnet."
 
 #: ckanext/ytp/translations.py:233
@@ -1806,7 +1807,7 @@ msgstr "Visa mer"
 #: ckanext/ytp/resources/opendata/scripts/translations.js:15
 #: ckanext/ytp/templates/snippets/facet_list.html:98
 msgid "Show less"
-msgstr ""
+msgstr "Visa mindre"
 
 #: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/filter-control/utils.js:10
 msgid "Can't call method on "
@@ -1962,7 +1963,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/general_search/index.html:34
 msgid "Search term"
-msgstr ""
+msgstr "Sökord"
 
 #: ckanext/ytp/templates/general_search/index.html:38
 msgid "No search term provided"
@@ -2317,10 +2318,13 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:16
 msgid ""
-"Organisations that have added data to opendata.fi are listed on this page. "
-"The number next to the publisher’s name indicates the amount of datasets "
-"belonging to that publisher and its suborganisations."
+"Organisations that have added data to Suomi.fi Open Data are listed on this "
+"page. The number next to the publisher’s name indicates the amount of "
+"datasets belonging to that publisher and its suborganisations."
 msgstr ""
+"På denna sida hittar du alla producenter som lagt till data i vår tjänst. "
+"Siffran vid namnet anger hur många datamängder som ägs av varje producent "
+"och dess eventuella underorganisationer."
 
 #: ckanext/ytp/templates/organization/snippets/organization_item.html:18
 msgid "{num} Child Organization"
@@ -2435,7 +2439,7 @@ msgstr ""
 #: ckanext/ytp/templates/package/new_resource.html:12
 #: ckanext/ytp/templates/package/new_resource_not_draft.html:9
 msgid "Add new api"
-msgstr ""
+msgstr "Lägg till ett nytt gränssnitt"
 
 #: ckanext/ytp/templates/package/new_resource.html:14
 #: ckanext/ytp/templates/package/new_resource_not_draft.html:11
@@ -2447,7 +2451,7 @@ msgstr "Lägg till dataresurs"
 
 #: ckanext/ytp/templates/package/read.html:32
 msgid "High value dataset"
-msgstr "Högvärdig datamängd"
+msgstr "Värdefull datamängd"
 
 #: ckanext/ytp/templates/package/read.html:60
 msgid "Datasets provided by the API"
@@ -2614,17 +2618,18 @@ msgstr "Lägg till datamängden"
 
 #: ckanext/ytp/templates/package/search.html:34
 msgid ""
-"The Opendata.fi service does not have an organization where you can upload a"
-" data set."
+"Suomi.fi Open Data does not have an organization where you can upload a data"
+" set."
 msgstr ""
-"Avoindata.fi har ingen organisation dit du kan ladda upp en datamängd."
+"Suomi.fi Öppna Data har ingen organisation dit du kan ladda upp en "
+"datamängd."
 
 #: ckanext/ytp/templates/package/search.html:35
 msgid ""
 "Ask your employer's open data administrator to add your user account in your"
 " organization. If your employer's organization has not been created yet on "
-"Opendata.fi, ask the service administration to create it before you can "
-"continue. Alternatively, you can also ask the data to be published as a "
+"Suomi.fi Open Data, ask the service administration to create it before you "
+"can continue. Alternatively, you can also ask the data to be published as a "
 "private individual."
 msgstr ""
 "Be admin för öppna data hos din arbetsgivare att lägga till dig i "
@@ -2905,7 +2910,7 @@ msgstr "Spara och lägg till fler"
 
 #: ckanext/ytp/templates/package/snippets/resource_form.html:87
 msgid "Save api"
-msgstr ""
+msgstr "Spara gränssnittet"
 
 #: ckanext/ytp/templates/package/snippets/resource_form.html:89
 msgid "Save dataset"
@@ -3018,7 +3023,7 @@ msgstr "Skapa ny datamängd"
 #: ckanext/ytp/templates/package/snippets/stages.html:51
 #: ckanext/ytp/templates/package/snippets/stages.html:57
 msgid "Add api"
-msgstr ""
+msgstr "Lägg till ett gränssnitt"
 
 #: ckanext/ytp/templates/package/snippets/subtitle_byline.html:26
 msgid "Languages"
@@ -3123,7 +3128,7 @@ msgstr "Rapporter"
 
 #: ckanext/ytp/templates/report/index.html:23
 msgid "View Report"
-msgstr "Granska rapport"
+msgstr "Visa rapport"
 
 #: ckanext/ytp/templates/report/index.html:33
 msgid ""
@@ -3301,11 +3306,11 @@ msgstr "De datamängder som applikationen använder"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:55
 msgid ""
-"Select which of the datasets found on opendata.fi were used in the showcase."
-" Search for a dataset by typing its name in the field below."
+"Select which of the datasets found on Suomi.fi Open Data were used in the "
+"showcase. Search for a dataset by typing its name in the field below."
 msgstr ""
-"Ange vilka datamängder från avoindata.fi som används i applikationen. Sök "
-"datamängder genom att skriva namnet i fältet nedan."
+"Ange vilka datamängder från Suomi.fi Öppna Data som används i applikationen."
+" Sök datamängder genom att skriva namnet i fältet nedan."
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:59
 msgid " e.g. Most popular first names"
