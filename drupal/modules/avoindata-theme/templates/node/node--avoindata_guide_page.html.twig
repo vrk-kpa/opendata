@@ -17,37 +17,37 @@
 {% endif %}
 
 <div id="guide-page" class="container-fluid">
-    <div class="avoindata-guide-container avoindata-card-container">
-        <div class="row guide-header-container">
-            <div class="col-xs-12 {{ has_menu ? 'col-md-8 col-md-push-4 col--guide-right' : ''}}">
+    <div class="row col-md-10 col-md-push-1">
+        {% if has_menu %}
+            <div id="guide-menu-column" class="secondary col-md-4 col--guide-left">
+                {{ drupal_region('guide_menu') }}
+            </div>
+        {% endif %}
+
+        <div class="avoindata-guide-container {{ has_menu ? 'col-md-8 col--guide-right' : ''}}">
+            <div class="row guide-header-container">
                 <h2 id="guide-header">
                     {{ label }}
                 </h2>
             </div>
-        </div>
-        <div class="row">
-            {% if has_menu %}
-                <div id="guide-menu-column" class="secondary col-xs-12 col-md-4 col--guide-left">
-                    {{ drupal_region('guide_menu') }}
-                </div>
-            {% endif %}
-
-            <div class="secondary col-xs-12 {{ has_menu ? 'col-md-8 col--guide-right' : ''}}">
-                <div class="guide-image">
-                    {{ content.field_page_image|field_value }}
-                </div>
-                <div class="guide-content">
-                    {{ content.field_content|field_value }}
-                </div>
-                {% if has_menu %}
-                    <div class="guide-cycle-btn-container">
-                        <a href="" id="previous-page-btn"></a>
-                        <a href="" id="next-page-btn"></a>
+            <div class="row">
+                <div class="secondary">
+                    <div class="guide-image">
+                        {{ content.field_page_image|field_value }}
                     </div>
-                {% endif %}
+                    <div class="guide-content">
+                        {{ content.field_content|field_value }}
+                    </div>
+                    {% if has_menu %}
+                        <div class="guide-cycle-btn-container">
+                            <a href="" id="previous-page-btn"></a>
+                            <a href="" id="next-page-btn"></a>
+                        </div>
+                    {% endif %}
 
-                <div class="mt-4">
-                    <span class="post-date"><b>{{ 'Updated date' | t }}</b>: {{ node.changed.value | date(date_format) }}</span>
+                    <div class="mt-4">
+                        <span class="post-date"><b>{{ 'Updated date' | t }}</b>: {{ node.changed.value | date(date_format) }}</span>
+                    </div>
                 </div>
             </div>
         </div>

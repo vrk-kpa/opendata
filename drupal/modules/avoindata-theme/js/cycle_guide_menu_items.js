@@ -174,7 +174,8 @@ class GuidePageView {
         }
 
         // First item in the list should be the header which will be displayed in the Arrowbox.
-        let headerPathName = this.paths[0].itemName;
+        // Trim to get rid of occasional line breaks
+        let headerPathName = this.paths[0].itemName.trim();
         if (headerPathName) {
             this.arrowBoxTitleSelector.innerText = headerPathName;
         }
@@ -193,6 +194,12 @@ class GuidePageView {
 
     setNextAnchorLink(currentPageIndex) {
         const currentElement = this.paths[currentPageIndex];
+
+        // Corner case in development environments
+        if (currentElement === undefined) {
+            return;
+        }
+
         if (currentElement.next === undefined) {
             this.nextBtn.style.display = 'none';
             return;
@@ -207,6 +214,12 @@ class GuidePageView {
 
     setPrevAnchorLink(currentPageIndex) {
         const currentElement = this.paths[currentPageIndex];
+
+        // Corner case in development environments
+        if (currentElement === undefined) {
+            return;
+        }
+
         if (currentElement.prev === undefined) {
             this.prevBtn.style.display = 'none';
             return;

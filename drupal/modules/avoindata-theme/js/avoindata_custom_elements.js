@@ -148,4 +148,29 @@
       history.replaceState({}, "", url);
     }
   }
+  
+  Drupal.behaviors.avoindataGuideMenuBehavior = {
+    attach: function (context) {
+      $(once('avoindataGuideMenuBehavior','.avoindata-guide-menu-toggle', context)).each(function (_index, element) {
+        // Remove duplicate collapse functionality
+        $('.opendata-menu-container', target).removeClass('collapse');
+
+        var target = $(element).next();
+        var icon = $('i', element);
+        $(target).on('shown.bs.collapse', () => {
+          icon.addClass('fa-times');
+          icon.removeClass('fa-bars');
+        });
+        $(target).on('hidden.bs.collapse', () => {
+          icon.addClass('fa-bars');
+          icon.removeClass('fa-times');
+
+          // Bootstrap collapse sets element height to 0 during collapsing.
+          // If the user collapses the menu in mobile view, then resizes to
+          // desktop view the menu stays collapsed without this
+          target.height('auto');
+        });
+      });
+    }
+  };
 })(Drupal, jQuery, once);

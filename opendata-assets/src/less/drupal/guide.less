@@ -34,6 +34,23 @@
   text-decoration: none;
 }
 
+@media (max-width: @screen-sm-max) {
+  #guide-page {
+    padding-left: 0;
+    padding-right: 0;
+
+    .avoindata-guide-container {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+
+    .avoindata-section {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+}
+
 #guide-page > .avoindata-guide-container {
   padding-top: 0;
   margin-top: 15px;
@@ -53,11 +70,11 @@
 }
 
 #guide-header {
-  margin: 0 0 20px;
+  margin: 0 0 20px 20px;
   color: @new-layout-primary-text-color;
-  font-family: @font-family-sans-serif;
-  font-size: @font-size__module-h1;
-  font-weight: @font-weight-heavier;
+  font-family: @font-family-sans-serif-light;
+  font-size: @font-size__module-large-h1;
+  font-weight: @font-weight-light;
   line-height: @line-height__module-title;
 }
 
