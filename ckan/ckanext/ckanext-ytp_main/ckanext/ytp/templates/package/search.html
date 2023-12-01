@@ -3,8 +3,10 @@
 {% if page is not defined %}{% set page = c.page %}{% endif %}
 
 {% block meta %}
-{{ super() }}
-<meta name="robots" content="noindex, follow" />
+  {{ super() }}
+  {% if c.q %}
+    <meta name="robots" content="noindex, follow" />
+  {% endif %}
 {% endblock %}
 
 
