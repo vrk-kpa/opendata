@@ -1,8 +1,9 @@
 class MenuItem {
-    constructor(path, itemName, subnavItem, next, prev) {
+    constructor(path, itemName, subnavItem, next, prev, ordinal) {
         this.path = path;
         this.itemName = itemName;
         this.subnavItem = subnavItem;
+        this.ordinal = ordinal;
         this.next = next; // Next will always be the next MAIN link (never subnav)
         this.prev = prev; // Next will always be the previous MAIN link (never subnav)
     }
@@ -73,6 +74,8 @@ class MenuUtils {
             paths.push(headerLink);
         }
 
+        const showOrdinals = this.menu.classList.contains("menu--counter");
+
         if (this.menu) {
             const menuItems = this.menu.getElementsByClassName(this.navItemLinkSelector);
             for (let item of menuItems) {
@@ -81,14 +84,19 @@ class MenuUtils {
                 const itemName = item.getElementsByClassName(this.navItemLinkContentSelector);
                 const next = null;
                 const prev = null;
+                const ordinal = null;
 
                 if (itemName.length > 0) {
-                    paths.push(new MenuItem(path, itemName[0].innerText, subnavElement, next, prev));
+                    paths.push(new MenuItem(path, itemName[0].innerText, subnavElement, next, prev, ordinal));
                 }
             }
 
             // Set the next and prev pointers so that they're always pointing at the next or previous main items in the list.
             for (let i = 0; i < paths.length; i++) {
+                // Skip ordinals for two last items
+                if (showOrdinals && i > 0 && i < paths.length - 2) {
+                    paths[i].ordinal = i;
+                }
                 if (i === 0) {
                     paths[i].next = this.getNextMainElementIndex(i, paths);
                 }
@@ -146,7 +154,7 @@ class MenuUtils {
                 let linkAnchors = link.getElementsByTagName('a');
                 if (linkAnchors.length > 0) {
                     let href = linkAnchors[0].getAttribute('href');
-                    return new MenuItem(href, link.innerText, subnavElement);
+                    return new MenuItem(href, link.innerText, subnavElement, null, null, null);
                 }
             }
         }
@@ -208,8 +216,15 @@ class GuidePageView {
         const innerChevron = '<i class="far fa-chevron-right"></i>';
         const nextMainElement = this.paths[currentElement.next];
 
-        this.nextBtn.innerHTML = nextMainElement.itemName + innerChevron;
-        this.nextBtn.href = nextMainElement.path;
+        if (nextMainElement !== undefined) {
+            let nextOrdinal = "";
+            if (nextMainElement.ordinal !== null) {
+                nextOrdinal = nextMainElement.ordinal + ". ";
+            }
+
+            this.nextBtn.innerHTML = nextOrdinal + nextMainElement.itemName + innerChevron;
+            this.nextBtn.href = nextMainElement.path;
+        }
     }
 
     setPrevAnchorLink(currentPageIndex) {
@@ -227,9 +242,14 @@ class GuidePageView {
 
         const innerChevron = '<i class="far fa-chevron-left"></i>';
         const prevMainElement = this.paths[currentElement.prev];
-
-        this.prevBtn.innerHTML = innerChevron + prevMainElement.itemName;
-        this.prevBtn.href = prevMainElement.path;
+        if (prevMainElement !== undefined) {
+            let prevOrdinal = "";
+            if (prevMainElement.ordinal !== null) {
+                prevOrdinal = prevMainElement.ordinal + ". ";
+            }
+            this.prevBtn.innerHTML = innerChevron + prevOrdinal + prevMainElement.itemName;
+            this.prevBtn.href = prevMainElement.path;
+        }
     }
 
     getIndexOfCurrentPage() {
