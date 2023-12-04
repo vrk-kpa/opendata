@@ -85,7 +85,7 @@ class MenuUtils {
                 const itemName = item.getElementsByClassName(this.navItemLinkContentSelector);
                 const next = null;
                 const prev = null;
-                const ordinal = subnavElement ? null : nextOrdinal++;
+                const ordinal = showOrdinals && !subnavElement ? nextOrdinal++ : null;
 
                 if (itemName.length > 0) {
                     paths.push(new MenuItem(path, itemName[0].innerText, subnavElement, next, prev, ordinal));
@@ -95,7 +95,7 @@ class MenuUtils {
             // Set the next and prev pointers so that they're always pointing at the next or previous main items in the list.
             for (let i = 0; i < paths.length; i++) {
                 // Remove ordinals for two last items
-                if (!showOrdinals || i >= paths.length - 2) {
+                if (i >= paths.length - 2) {
                     paths[i].ordinal = null;
                 }
                 if (i === 0) {
