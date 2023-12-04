@@ -215,13 +215,16 @@ class GuidePageView {
 
         const innerChevron = '<i class="far fa-chevron-right"></i>';
         const nextMainElement = this.paths[currentElement.next];
-        let nextOrdinal = "";
-        if (nextMainElement.ordinal !== null) {
-            nextOrdinal = nextMainElement.ordinal + ". ";
-        }
 
-        this.nextBtn.innerHTML = nextOrdinal + nextMainElement.itemName + innerChevron;
-        this.nextBtn.href = nextMainElement.path;
+        if (nextMainElement !== undefined) {
+            let nextOrdinal = "";
+            if (nextMainElement.ordinal !== null) {
+                nextOrdinal = nextMainElement.ordinal + ". ";
+            }
+
+            this.nextBtn.innerHTML = nextOrdinal + nextMainElement.itemName + innerChevron;
+            this.nextBtn.href = nextMainElement.path;
+        }
     }
 
     setPrevAnchorLink(currentPageIndex) {
@@ -239,12 +242,14 @@ class GuidePageView {
 
         const innerChevron = '<i class="far fa-chevron-left"></i>';
         const prevMainElement = this.paths[currentElement.prev];
-        let prevOrdinal = "";
-        if (prevMainElement.ordinal !== null) {
-            prevOrdinal = prevMainElement.ordinal + ". ";
+        if (prevMainElement !== undefined) {
+            let prevOrdinal = "";
+            if (prevMainElement.ordinal !== null) {
+                prevOrdinal = prevMainElement.ordinal + ". ";
+            }
+            this.prevBtn.innerHTML = innerChevron + prevOrdinal + prevMainElement.itemName;
+            this.prevBtn.href = prevMainElement.path;
         }
-        this.prevBtn.innerHTML = innerChevron + prevOrdinal + prevMainElement.itemName;
-        this.prevBtn.href = prevMainElement.path;
     }
 
     getIndexOfCurrentPage() {
