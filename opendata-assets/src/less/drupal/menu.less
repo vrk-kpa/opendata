@@ -3,9 +3,12 @@
   top: 0;
   position: sticky;
   max-height: 100vh;
-  max-width: 350px;
   border: @navbar-border;
   z-index: 255;
+
+  @media (min-width: @screen-md-min) {
+    max-width: 350px;
+  }
 
   .avoindata-guide-menu-toggle {
     align-self: end;
