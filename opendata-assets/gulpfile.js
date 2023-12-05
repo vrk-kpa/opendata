@@ -310,7 +310,8 @@ gulp.task("scripts", (done) => {
   pump([
     gulp.src([paths.src.scripts, paths.src.drupal_avoindata_header]),
     gulp.dest(paths.dist + "/scripts"),
-    gulp.dest(paths.ckanResources + "/scripts")
+    gulp.dest(paths.ckanResources + "/scripts"),
+    gulp.dest(paths.drupalTheme + "/scripts")
   ], done)
 });
 
