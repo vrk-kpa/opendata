@@ -51,6 +51,23 @@
   }
 }
 
+.guide-menu-for-print {
+  display: none;
+  @media print {
+    display: block;
+    .avoindata-guide-menu-toggle,
+    .menu-header,
+    .nav > .nav__item,
+    .nav > .nav__item > a {
+      display: none;
+    }
+    .collapse,
+    .navbar,
+    .nav > .nav__item.open {
+      display: block;
+    }
+  }
+}
 @media print {
   #guide-page > .row {
     left: 0;
