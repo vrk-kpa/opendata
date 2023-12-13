@@ -1407,6 +1407,7 @@ p:last-child,
   @media (min-width: @screen-md-min) {
     margin-bottom: 40px;
   }
+
   @media print {
     display: none;
   }
@@ -1444,11 +1445,13 @@ p:last-child,
 // Guide page
 .avoindata-guide-container {
   max-width: @opendata-container-max-width;
+
   @media print {
     max-width: 100%;
     width: auto;
     float: none;
   }
+
   display: block;
   margin: 0 auto;
   padding-top: 20px;
