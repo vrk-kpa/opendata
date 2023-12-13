@@ -88,6 +88,11 @@
   font-size: @font-size__module-large-h1;
   font-weight: @font-weight-light;
   line-height: @line-height__module-title;
+  padding: 0 15px;
+  
+  @media screen and (min-width: @screen-md-min) {
+    padding: unset;
+  }
 }
 
 .guide-content {
