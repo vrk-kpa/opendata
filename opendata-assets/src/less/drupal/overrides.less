@@ -56,6 +56,10 @@ html {
   padding: 0;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+
+  @media print {
+    overflow-x: unset;
+  }
 }
 
 // Footer to the bottom of the screen if there is not enough content on the page (not sticky).
