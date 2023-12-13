@@ -2,7 +2,11 @@
 #guide-menu-column {
   border: @navbar-border;
 
-  @media (min-width: @screen-md-min) {
+  @media print {
+    display: none;
+  }
+
+  @media screen and (min-width: @screen-md-min) {
     top: 0;
     position: sticky;
     z-index: 255;
@@ -16,7 +20,7 @@
     margin: 10px;
   }
 
-  @media (min-width: @screen-md-min) {
+  @media screen and (min-width: @screen-md-min) {
     .avoindata-guide-menu-toggle {
       display: none;
     }

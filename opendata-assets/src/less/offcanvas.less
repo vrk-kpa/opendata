@@ -8,6 +8,9 @@
 html,
 body {
   overflow-x: hidden; /* Prevent scroll on narrow devices */
+  @media print {
+    overflow-x: unset;
+  }
 }
 
 /*
