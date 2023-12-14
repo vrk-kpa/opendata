@@ -124,6 +124,10 @@ p {
 
   .avoindata-expander-content {
     display: none;
+
+    @media print {
+      display: block;
+    }
   }
 
   &.open {
@@ -184,6 +188,10 @@ p {
   color: @new-layout-secondary-text-color;
   cursor: pointer;
   margin-bottom: @padding-y--small;
+
+  @media print {
+    display: none;
+  }
 }
 
 table {

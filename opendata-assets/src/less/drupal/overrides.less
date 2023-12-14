@@ -56,6 +56,10 @@ html {
   padding: 0;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+
+  @media print {
+    overflow-x: unset;
+  }
 }
 
 // Footer to the bottom of the screen if there is not enough content on the page (not sticky).
@@ -1408,6 +1412,10 @@ p:last-child,
     margin-bottom: 40px;
   }
 
+  @media print {
+    display: none;
+  }
+
   h1 {
     margin: 0;
     position: relative;
@@ -1441,6 +1449,13 @@ p:last-child,
 // Guide page
 .avoindata-guide-container {
   max-width: @opendata-container-max-width;
+
+  @media print {
+    max-width: 100%;
+    width: auto;
+    float: none;
+  }
+
   display: block;
   margin: 0 auto;
   padding-top: 20px;

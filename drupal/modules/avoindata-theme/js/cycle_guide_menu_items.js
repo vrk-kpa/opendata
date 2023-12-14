@@ -74,9 +74,9 @@ class MenuUtils {
             paths.push(headerLink);
         }
 
-        const showOrdinals = this.menu.classList.contains("menu--counter");
-
         if (this.menu) {
+            const showOrdinals = this.menu.classList.contains("menu--counter");
+
             const menuItems = this.menu.getElementsByClassName(this.navItemLinkSelector);
             let nextOrdinal = 1;
             for (let item of menuItems) {
