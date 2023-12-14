@@ -21,3 +21,7 @@ webfonts:
 cycle-guide-menu-items:
   js:
     'js/cycle_guide_menu_items.js': {}
+
+inject-responsive-tables:
+  js:
+    'scripts/inject_responsive_tables.js': {}
