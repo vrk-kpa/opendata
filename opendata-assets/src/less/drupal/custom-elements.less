@@ -198,6 +198,9 @@ table {
   border-collapse: collapse;
   text-align: left;
 
+  thead {
+    border-bottom: 2px solid @table-head-border-color;
+  }
   caption {
     color: @color--dark-black;
     font-weight: @font-weight-heavier;
@@ -205,8 +208,13 @@ table {
     padding: @padding-y__table-caption @padding-x__table-caption;
   }
 
+  tr:nth-child(even) {
+    background-color: @table-bg-accent;
+  }
+
   th,
   td {
+    height: 60px;
     padding: @padding-y__table-cell @padding-x__table-cell;
     border: 1px solid @table-border-color;
   }
