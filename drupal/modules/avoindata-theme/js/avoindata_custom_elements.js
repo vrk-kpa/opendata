@@ -15,20 +15,30 @@
           const $togglerWrapper = $('<div class="clearfix avoindata-expander-group-toggler-container"></div>').append($groupToggler);
           $togglerWrapper.insertBefore(element);
         }
+
+        let header = $('.avoindata-expander-header', this);
+
         // Apply the avoindataExpanderBehavior effect to the elements only once.
-        $('.avoindata-expander-header', this).on('click', toggleAvoindataExpander);
+        header.on('click', toggleAvoindataExpander);
+
+        // Add accessibility metadata
+        header.attr('role', 'button');
+        header.attr('aria-label', Drupal.t('expand'));
       });
     }
   };
 
   function toggleAvoindataExpander() {
     // Toggle status for current expander
-    if ($(this.parentElement).hasClass('open')) {
-      $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-up').addClass('fa-angle-down');
-      $(this.parentElement).removeClass('open');
+    let expander = $(this.parentElement);
+    if (expander.hasClass('open')) {
+      $('.icon-wrapper i', expander).removeClass('fa-angle-up').addClass('fa-angle-down');
+      expander.removeClass('open');
+      $('.avoindata-expander-header', expander).attr('aria-label', Drupal.t('expand'));
     } else {
-      $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-down').addClass('fa-angle-up');
-      $(this.parentElement).addClass('open');
+      $('.icon-wrapper i', expander).removeClass('fa-angle-down').addClass('fa-angle-up');
+      expander.addClass('open');
+      $('.avoindata-expander-header', expander).attr('aria-label', Drupal.t('close'));
     }
 
     // If next or previous element is also avoindata-expander, consider them as a group of expanders
