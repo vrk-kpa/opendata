@@ -147,6 +147,7 @@ RUN \
       zlib-dev \
       jpeg-dev \
       geos-dev \
+      libpq-dev \
       util-linux \
       nfs-utils && \
   pip install \

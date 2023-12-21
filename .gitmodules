@@ -77,3 +77,6 @@
 [submodule "ckan/ckanext/ckanext-sitesearch"]
 	path = ckan/ckanext/ckanext-sitesearch
 	url = https://github.com/vrk-kpa/ckanext-sitesearch.git
+[submodule "ckan/ckanext/ckanext-sitemap"]
+	path = ckan/ckanext/ckanext-sitemap
+	url = https://github.com/datopian/ckanext-sitemap.git
