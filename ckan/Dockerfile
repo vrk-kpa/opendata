@@ -88,6 +88,7 @@ RUN \
   pip install setuptools==44.1.0 && \
   # Install CKAN and requirements
   pip install --find-links=/srv/app/wheels -r ${SRC_DIR}/ckan-requirements.txt && \
+  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.9.10#egg=ckan && \
   # Configure environment
   addgroup -g 92 ckan && \
   adduser -u 92 -h ${APP_DIR} -H -D -G ckan ckan && \
@@ -147,6 +148,7 @@ RUN \
       zlib-dev \
       jpeg-dev \
       geos-dev \
+      libpq-dev \
       util-linux \
       nfs-utils && \
   pip install \
