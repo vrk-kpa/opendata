@@ -154,7 +154,8 @@ describe('Dataset resource tests', function(){
             cy.get('.resource-module-table');
             cy.get('.resource-module-table').find('th').contains("Muoto");
             cy.get('.resource-module-table').find('th').contains("Katettu ajanjakso");
-            cy.get('.resource-module-table').find('th').contains("Viimeisin päivitys");
+            cy.get('.resource-module-table').find('th').contains("Data viimeksi päivitetty");
+            cy.get('.resource-module-table').find('th').contains("Metatieto viimeksi päivitetty");
             cy.get('.resource-module-table').find('th').contains("Luotu");
             cy.get('.resource-module-table').find('th').contains("SHA256");
         });
@@ -199,7 +200,8 @@ describe('Dataset resource tests', function(){
             cy.get('.resource-module-table');
             cy.get('.resource-module-table').find('th').contains("Format");
             cy.get('.resource-module-table').find('th').contains("Temporal Coverage");
-            cy.get('.resource-module-table').find('th').contains("Last updated");
+            cy.get('.resource-module-table').find('th').contains("Data last updated");
+            cy.get('.resource-module-table').find('th').contains("Metadata last updated");
             cy.get('.resource-module-table').find('th').contains("Created");
             cy.get('.resource-module-table').find('th').contains("SHA256");
         });
@@ -244,7 +246,8 @@ describe('Dataset resource tests', function(){
             cy.get('.resource-module-table');
             cy.get('.resource-module-table').find('th').contains("Format");
             cy.get('.resource-module-table').find('th').contains("Tidsmässig täckning");
-            cy.get('.resource-module-table').find('th').contains("Senaste uppdatering");
+            cy.get('.resource-module-table').find('th').contains("Data senast uppdaterad");
+            cy.get('.resource-module-table').find('th').contains("Metadata senast uppdaterad");
             cy.get('.resource-module-table').find('th').contains("Skapad");
             cy.get('.resource-module-table').find('th').contains("SHA256");
         });
