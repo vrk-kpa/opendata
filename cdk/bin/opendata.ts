@@ -69,6 +69,7 @@ const clusterStackBeta = new ClusterStack(app, 'ClusterStack-beta', {
   secondaryFqdn: betaProps.secondaryFqdn,
   domainName: betaProps.domainName,
   secondaryDomainName: betaProps.secondaryDomainName,
+  vpcId: 'vpc-0162f60213eb96ab2'
 });
 
 const backupStackBeta = new BackupStack(app, 'BackupStack-beta', {
@@ -416,6 +417,7 @@ const clusterStackProd = new ClusterStack(app, 'ClusterStack-prod', {
   secondaryFqdn: prodProps.secondaryFqdn,
   domainName: prodProps.domainName,
   secondaryDomainName: prodProps.secondaryDomainName,
+  vpcId: 'vpc-07f19c5db1390f949'
 });
 
 const backupStackProd = new BackupStack(app, 'BackupStack-prod', {
