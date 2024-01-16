@@ -8,6 +8,7 @@ coverage
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+cdk.context.json
 
 # cfn-dia outputs
 *.drawio
