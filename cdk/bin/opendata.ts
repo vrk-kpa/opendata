@@ -19,6 +19,7 @@ import {LambdaStack} from "../lib/lambda-stack";
 import {DomainStack} from "../lib/domain-stack";
 import {CiTestStack} from "../lib/ci-test-stack";
 import {SubDomainStack} from "../lib/sub-domain-stack";
+import {ShieldStack} from "../lib/shield-stack";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -191,6 +192,25 @@ const bypassCdnStackBeta = new BypassCdnStack(app, 'BypassCdnStack-beta', {
   secondaryDomainName: betaProps.secondaryDomainName,
   loadbalancer: loadBalancerStackBeta.loadBalancer
 })
+
+const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  environment: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+  domainName: betaProps.domainName,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  loadBalancer: loadBalancerStackBeta.loadBalancer,
+  bannedIpsRequestSamplingEnabled: false,
+  highPriorityRequestSamplingEnabled: false,
+  rateLimitRequestSamplingEnabled: false,
+  requestSampleAllTrafficEnabled: false,
+})
+
 
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
   envProps: envProps,
@@ -517,6 +537,24 @@ const bypassCdnStackProd = new BypassCdnStack(app, 'BypassCdnStack-prod', {
   domainName: prodProps.domainName,
   secondaryDomainName: prodProps.secondaryDomainName,
   loadbalancer: loadBalancerStackProd.loadBalancer
+})
+
+const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  environment: prodProps.environment,
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  domainName: prodProps.domainName,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  loadBalancer: loadBalancerStackProd.loadBalancer,
+  bannedIpsRequestSamplingEnabled: false,
+  highPriorityRequestSamplingEnabled: false,
+  rateLimitRequestSamplingEnabled: false,
+  requestSampleAllTrafficEnabled: false,
 })
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {
