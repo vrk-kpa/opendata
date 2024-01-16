@@ -15,6 +15,7 @@ test('verify cache stack resources', () => {
     secondaryFqdn: 'localhost',
     domainName: 'mock.localhost',
     secondaryDomainName: 'mock.localhost',
+    vpcId: 'someid'
   });
   // WHEN
   const stack = new CacheStack(app, 'CacheStack-test', {

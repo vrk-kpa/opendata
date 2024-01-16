@@ -15,6 +15,7 @@ test('verify cluster stack resources', () => {
     secondaryFqdn: 'localhost',
     domainName: 'mock.localhost',
     secondaryDomainName: 'mock.localhost',
+    vpcId: 'someid'
   });
   // THEN
   const template = Template.fromStack(stack);

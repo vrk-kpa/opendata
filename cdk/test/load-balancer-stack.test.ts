@@ -16,6 +16,7 @@ test('verify load balancer stack resources', () => {
     secondaryFqdn: 'localhost',
     domainName: 'mock.localhost',
     secondaryDomainName: 'mock.localhost',
+    vpcId: 'someid'
   });
   
   // WHEN
