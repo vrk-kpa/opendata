@@ -253,12 +253,12 @@ jobs:
       - name: synthesize cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk synth WebStack-beta --quiet >/dev/null 2>&1
+          $(npm bin)/cdk synth *-beta --quiet >/dev/null 2>&1
 
       - name: deploy cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk deploy WebStack-beta --require-approval=never > /tmp/deploy.log 2>&1
+          $(npm bin)/cdk deploy *-beta --require-approval=never > /tmp/deploy.log 2>&1
 
       - name: upload log artifacts
         if: failure()

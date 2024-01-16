@@ -69,12 +69,12 @@ jobs:
       - name: synthesize cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk synth WebStack-prod --quiet >/dev/null 2>&1
+          $(npm bin)/cdk synth *-prod --quiet >/dev/null 2>&1
 
       - name: deploy cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk deploy WebStack-prod --require-approval=never >/dev/null 2>&1
+          $(npm bin)/cdk deploy *-prod --require-approval=never >/dev/null 2>&1
 
       - name: Notify Zulip
         uses: zulip/github-actions-zulip/send-message@v1
