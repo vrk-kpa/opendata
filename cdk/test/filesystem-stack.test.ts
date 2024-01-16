@@ -16,6 +16,7 @@ test('verify filesystem stack resources', () => {
     secondaryFqdn: 'localhost',
     domainName: 'mock.localhost',
     secondaryDomainName: 'mock.localhost',
+    vpcId: 'someid'
   });
   const backupStack = new BackupStack(app, 'BackupStack-Test', {
     envProps: mockEnvProps,
