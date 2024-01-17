@@ -739,11 +739,19 @@ const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
 });
 
 const domainStackProd = new DomainStack(app, 'DomainStack-prod', {
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
   zoneName: prodProps.newDomainName,
   crossAccountId: betaProps.account
 })
 
 const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
+  env: {
+    account: betaProps.account,
+    region: betaProps.region
+  },
   prodAccountId: prodProps.account,
   subDomainName: betaProps.environment
 })
