@@ -22,26 +22,30 @@ export class ShieldStack extends Stack {
       name: 'Cloudfront distribution',
       resourceArn: cloudfrontDistributionArn.stringValue
     })
+    
 
-    const banned_ips = aws_ssm.StringListParameter.fromStringListParameterName(this, 'bannedIpsList',
-      `/${props.environment}/waf/banned_ips`);
-
-    const whitelisted_ips = aws_ssm.StringListParameter.fromStringListParameterName(this, 'whitelistedIpsList',
-      `/${props.environment}/waf/whitelisted_ips`);
-
+    const banned_ips = new CfnParameter(this, 'bannedIpsList', {
+      type: 'AWS::SSM::Parameter::Value<List<String>>',
+      default: `/${props.environment}/waf/banned_ips`
+    })
 
     const cfnBannedIPSet = new aws_wafv2.CfnIPSet(this, 'BannedIPSet', {
       name: 'banned-ips',
       scope: 'REGIONAL',
       ipAddressVersion: "IPV4",
-      addresses: banned_ips.stringListValue
+      addresses: banned_ips.valueAsList
+    })
+
+    const whitelisted_ips = new CfnParameter(this, 'whitelistedIpsList', {
+      type: 'AWS::SSM::Parameter::Value<List<String>>',
+      default: `/${props.environment}/waf/whitelisted_ips`
     })
 
     const cfnWhiteListedIpSet = new aws_wafv2.CfnIPSet(this, 'WhitelistedIPSet', {
       name: 'whitelisted-ips',
       scope: 'REGIONAL',
       ipAddressVersion: "IPV4",
-      addresses: whitelisted_ips.stringListValue
+      addresses: whitelisted_ips.valueAsList
     })
 
 
