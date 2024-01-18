@@ -231,16 +231,16 @@
                           </tr>
                           <tr>
                             <th>{{ _('Data last updated') }}</th>
-                            <th>{{ h.render_datetime(res.last_modified, with_hours=True, with_seconds=True) or h.render_datetime(res.created, with_hours=True, with_seconds=True) or _('unknown') }}</th>
+                            <th>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.created) or _('unknown') }}</th>
                           </tr>
 
                           <tr>
                             <th>{{ _('Metadata last updated') }}</th>
-                            <th>{{ h.render_datetime(res.metadata_modified, with_hours=True, with_seconds=True) or h.render_datetime(res.created,with_hours=True, with_seconds=True) or _('unknown') }}</th>
+                            <th>{{ h.render_datetime(res.metadata_modified) or h.render_datetime(res.created) or _('unknown') }}</th>
                           </tr>
                           <tr>
                             <th>{{ _('Created') }}</th>
-                            <th>{{ h.render_datetime(res.created,with_hours=True,with_seconds=True) or _('unknown') }}</th>
+                            <th>{{ h.render_datetime(res.created) or _('unknown') }}</th>
                           </tr>
                           <tr>
                             <th>{{ _('sha256')|upper }}</th>
