@@ -69,14 +69,6 @@ export class LoadBalancerStack extends Stack {
     })
 
     this.loadBalancer.logAccessLogs(logBucket, this.stackName)
-
-    // Associate WAF to loadbalancer
-
-    const wafArn = Fn.importValue(`avoindata-${props.environment}-wafarn`)
-    new CfnWebACLAssociation(this, 'WafAssociation', {
-      resourceArn: this.loadBalancer.loadBalancerArn,
-      webAclArn: wafArn
-    })
-
+    
   }
 }
