@@ -31,7 +31,7 @@ export class ShieldStack extends Stack {
 
     const cfnBannedIPSet = new aws_wafv2.CfnIPSet(this, 'BannedIPSet', {
       name: 'banned-ips',
-      scope: 'REGIONAL',
+      scope: 'CLOUDFRONT',
       ipAddressVersion: "IPV4",
       addresses: banned_ips.valueAsList
     })
@@ -43,7 +43,7 @@ export class ShieldStack extends Stack {
 
     const cfnWhiteListedIpSet = new aws_wafv2.CfnIPSet(this, 'WhitelistedIPSet', {
       name: 'whitelisted-ips',
-      scope: 'REGIONAL',
+      scope: 'CLOUDFRONT',
       ipAddressVersion: "IPV4",
       addresses: whitelisted_ips.valueAsList
     })
@@ -235,7 +235,7 @@ export class ShieldStack extends Stack {
 
 
     const cfnWebAcl = new aws_wafv2.CfnWebACL(this, 'WAFWebACL', {
-      scope: "REGIONAL",
+      scope: "CLOUDFRONT",
       defaultAction: {
         allow: {}
       },
@@ -245,12 +245,6 @@ export class ShieldStack extends Stack {
         sampledRequestsEnabled: props.requestSampleAllTrafficEnabled
       },
       rules: rules
-    })
-
-
-    new aws_wafv2.CfnWebACLAssociation(this, 'WafAssociation', {
-      resourceArn: props.loadBalancer.loadBalancerArn,
-      webAclArn: cfnWebAcl.attrArn
     })
 
     const WafAutomationArn = aws_ssm.StringParameter.fromStringParameterName(this, 'WafAutomationArn',
