@@ -73,15 +73,10 @@ export class DrupalStack extends Stack {
     switch (props.environment) {
       case 'prod': {
         pUsers = [
-          new DrupalUser(this, props.environment, 0),
-          new DrupalUser(this, props.environment, 1),
         ];
       } break;
       default: {
         pUsers = [
-          new DrupalUser(this, props.environment, 0),
-          new DrupalUser(this, props.environment, 1),
-          new DrupalUser(this, props.environment, 2),
         ];
       } break;
     }
