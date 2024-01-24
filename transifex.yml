@@ -1,0 +1,33 @@
+git:
+  filters:
+    - filter_type: file
+      file_format: PO
+      source_language: en
+      source_file: 'drupal/i18n/drupal.pot'
+      translation_files_expression: 'drupal/i18n/<lang>/drupal.po'
+    - filter_type: file
+      file_format: PO
+      source_language: en
+      source_file: 'ckan/ckanext/ckanext-advancedsearch/ckanext/advancedsearch/i18n/ckanext-advancedsearch.pot'
+      translation_files_expression: 'ckan/ckanext/ckanext-advancedsearch/ckanext/advancedsearch/i18n/<lang>/LC_MESSAGES/ckanext-advancedsearch.po'
+    - filter_type: file
+      file_format: PO
+      source_language: en
+      source_file: 'ckan/ckanext/ckanext-sixodp_showcase/ckanext/sixodp_showcase/i18n/ckanext-sixodp_showcase.pot'
+      translation_files_expression: 'ckan/ckanext/ckanext-sixodp_showcase/ckanext/sixodp_showcase/i18n/<lang>/LC_MESSAGES/ckanext-sixodp_showcase.po'
+    - filter_type: file
+      file_format: PO
+      source_language: en
+      source_file: 'ckan/ckanext/ckanext-ytp_main/ckanext/ytp/i18n/ckanext-ytp_main.pot'
+      translation_files_expression: 'ckan/ckanext/ckanext-ytp_main/ckanext/ytp/i18n/<lang>/LC_MESSAGES/ckanext-ytp_main.po'
+    - filter_type: file
+      file_format: PO
+      source_language: en
+      source_file: 'ckan/ckanext/ckanext-ytp_recommendation/ckanext/ytp_recommendation/i18n/ckanext-ytp_recommendation.pot'
+      translation_files_expression: 'ckan/ckanext/ckanext-ytp_recommendation/ckanext/ytp_recommendation/i18n/<lang>/LC_MESSAGES/ckanext-ytp_recommendation.po'
+    - filter_type: file
+      file_format: PO
+      source_language: en
+      source_file: 'ckan/ckanext/ckanext-ytp_request/ckanext/ytp_request/i18n/ckanext-ytp_request.pot'
+      translation_files_expression: 'ckan/ckanext/ckanext-ytp_request/ckanext/ytp_request/i18n/<lang>/LC_MESSAGES/ckanext-ytp_request.po'
+
