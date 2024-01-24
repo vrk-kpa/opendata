@@ -1,20 +1,13 @@
 # LANGUAGE translation of PROJECT
 # 
 # Translators:
-# Teemu Leivo <teemu.leivo@gofore.com>, 2019
-# Jonna Jantunen <jonna.jantunen@vrk.fi>, 2020
-# Meeri Hakala <meeri.hakala@dvv.fi>, 2022
-# Ville Teräväinen, 2022
-# Eetu Mansikkamäki <eetu.mansikkamaki@gofore.com>, 2023
-# Roosa Lampinen, 2023
-# Suvi Nuttunen, 2023
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2024-01-23 08:30+0000\n"
-"PO-Revision-Date: 2018-10-17 06:12+0000\n"
+"PO-Revision-Date: 2024-01-24 12:03+0000\n"
 "Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2024\n"
 "Language-Team: Swedish (https://app.transifex.com/avoindata/teams/7979/sv/)\n"
 "MIME-Version: 1.0\n"
