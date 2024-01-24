@@ -153,7 +153,13 @@ producer_type_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/producer_t
 producer_type_private_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/producer_types_private.json
 target_group_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/target_groups.json
 
+ckanext.ytp.zulip.api_url = {{ environ('ZULIP_API_URL')|default('', true) }}
+ckanext.ytp.zulip.api_user = {{ environ('ZULIP_API_USER')|default('', true) }}
+ckanext.ytp.zulip.api_key = {{ environ('ZULIP_API_KEY')|default('', true) }}
 ckanext.ytp.harvester_status_recipients = {% if environ('CKAN_HARVESTER_STATUS_RECIPIENTS') != 'null' %} {{ environ('CKAN_HARVESTER_STATUS_RECIPIENTS') }} {% else %} '' {% endif %}
+ckanext.ytp.harvester_status_zulip_stream = Avoindata.fi
+ckanext.ytp.harvester_status_zulip_topic = Harvester status
+
 ckanext.ytp.fault_recipients = {% if environ('CKAN_HARVESTER_FAULT_RECIPIENTS') != 'null' %} {{ environ('CKAN_HARVESTER_FAULT_RECIPIENTS') }} {% else %} '' {% endif %}
 ckanext.ytp.harvester_instruction_url = {% if environ('CKAN_HARVESTER_INSTRUCTION_URL') != 'null' %} {{ environ('CKAN_HARVESTER_INSTRUCTION_URL') }} {% else %} '' {% endif %}
 

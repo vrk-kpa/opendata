@@ -93,11 +93,10 @@ export class CkanStack extends Stack {
       aliasName: `alias/secrets-key-${props.environment}`
     })
 
-
-
     // get secrets
     const sCkanSecrets = sm.Secret.fromSecretNameV2(this, 'sCkanSecrets', `/${props.environment}/opendata/ckan`);
     const sCommonSecrets = sm.Secret.fromSecretNameV2(this, 'sCommonSecrets', `/${props.environment}/opendata/common`);
+    const sZulipApiKey = sm.Secret.fromSecretNameV2(this, 'sZulipApiKey', `/${props.environment}/zulip_api_key`);
 
     // get repositories
     const ckanRepo = ecr.Repository.fromRepositoryArn(this, 'ckanRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/ckan`);
@@ -270,6 +269,8 @@ export class CkanStack extends Stack {
       FUSEKI_PORT: '3030',
       FUSEKI_ADMIN_USER: pFusekiAdminUser.stringValue,
       FUSEKI_OPENDATA_DATASET: 'opendata',
+      ZULIP_API_URL: 'turina.dvv.fi',
+      ZULIP_API_USER: 'avoindata-bot@turina.dvv.fi',
     };
 
     const ckanContainerSecrets: { [key: string]: ecs.Secret; } = {
@@ -287,6 +288,7 @@ export class CkanStack extends Stack {
       CKAN_SYSADMIN_PASSWORD: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
       FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
+      ZULIP_API_KEY: ecs.Secret.fromSecretsManager(sZulipApiKey),
     };
 
     ckanTaskDef.addToExecutionRolePolicy(new PolicyStatement({
