@@ -19,9 +19,9 @@ WORKDIR ${SRC_DIR}
 RUN apk add build-base linux-headers git gettext curl py3-wheel
 
 #install qsv;
-RUN wget https://github.com/jqnatividad/qsv/releases/download/0.112.0/qsv-0.112.0-x86_64-unknown-linux-musl.zip -P /tmp
-RUN unzip /tmp/qsv-0.112.0-x86_64-unknown-linux-musl.zip -d /tmp
-RUN rm /tmp/qsv-0.112.0-x86_64-unknown-linux-musl.zip
+RUN wget https://github.com/jqnatividad/qsv/releases/download/0.122.0/qsv-0.122.0-x86_64-unknown-linux-musl.zip -P /tmp
+RUN unzip /tmp/qsv-0.122.0-x86_64-unknown-linux-musl.zip -d /tmp
+RUN rm /tmp/qsv-0.122.0-x86_64-unknown-linux-musl.zip
 RUN mv /tmp/qsv* /usr/local/bin
 
 RUN python -m venv ${VENV}
