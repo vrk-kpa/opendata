@@ -589,7 +589,7 @@ def send_harvester_status_emails(ctx, dryrun, force, all_harvesters, send_email)
         click.echo('No harvesters matching criteria found')
         return
 
-    site_title = t.config.get('ckan.site_title', '')
+    site_url = t.config.get('ckan.site_url', '')
     today = datetime.now().date().isoformat()
 
     status_templates = {
@@ -610,13 +610,13 @@ def send_harvester_status_emails(ctx, dryrun, force, all_harvesters, send_email)
                 'errors': values.get('errors')
                 }
 
-    msg = '%(site_title)s - Harvester summary %(today)s\n\n%(status)s' % {
-            'site_title': site_title,
+    msg = '%(site_url)s - Harvester summary %(today)s\n\n%(status)s' % {
+            'site_url': site_url,
             'today': today,
             'status': '\n'.join(status_string(title, values) for title, values in list(status.items()))
             }
 
-    subject = '%s - Harvester summary %s' % (site_title, today)
+    subject = '%s - Harvester summary %s' % (site_url, today)
     _send_harvester_notification(subject, msg, email_notification_recipients, dryrun, send_email=send_email)
 
     if dryrun:
@@ -645,18 +645,18 @@ def send_stuck_runs_report(dryrun, force, all_harvesters, send_email):
                   if job_status.get('status') == 'running' and _elapsed_since(job_status.get('started')).days > 1]
 
     if stuck_runs:
-        site_title = t.config.get('ckan.site_title', '')
+        site_url = t.config.get('ckan.site_url', '')
 
-        msg = '%(site_title)s - Following harvesters have been running more than 24 hours: \n\n%(status)s\n\n' \
+        msg = '%(site_url)s - Following harvesters have been running more than 24 hours: \n\n%(status)s\n\n' \
               'Instructions to fix this can be found from here %(instructions)s' % \
               {
-                  'site_title': site_title,
+                  'site_url': site_url,
                   'status': '\n'.join('%s has been stuck since %s' %
                                       (title, status.get('started')) for title, status in stuck_runs),
                   'instructions': t.config.get('ckanext.ytp.harvester_instruction_url', 'url not configured')
               }
 
-        subject = '%s - There are stuck harvester runs that need to have a look at' % site_title
+        subject = '%s - There are stuck harvester runs that need to have a look at' % site_url
         _send_harvester_notification(subject, msg, email_notification_recipients, dryrun, send_email=send_email)
 
         if dryrun:
