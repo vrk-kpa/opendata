@@ -28,6 +28,10 @@ export class CkanStack extends Stack {
     super(scope, id, props);
 
     // get params
+    const pCkanSiteName = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanSiteName', {
+      parameterName: `/${props.environment}/opendata/common/site_name`,
+    });
+
     const pCkanHarvesterStatusRecipients = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanHarvesterStatusRecipients', {
       parameterName: `/${props.environment}/opendata/ckan/harvester_status_recipients`,
     });
@@ -204,6 +208,7 @@ export class CkanStack extends Stack {
     const ckanContainerEnv: { [key: string]: string; } = {
       // .env.ckan
       CKAN_IMAGE_TAG: props.envProps.CKAN_IMAGE_TAG,
+      CKAN_SITE_NAME: pCkanSiteName.stringValue,
       CKAN_SITE_URL: `https://${props.domainName}`,
       CKAN_DRUPAL_SITE_URL: `https://${props.domainName}`,
       CKAN_SITE_ID: 'default',
