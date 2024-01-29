@@ -62,7 +62,7 @@ ckan.auth.public_user_details = False
 
 ckan.site_id = {{ environ('CKAN_SITE_ID') }}
 
-ckan.plugins = {{ environ('CKAN_PLUGINS') }} {% if environ('MATOMO_ENABLED') == 'true' %}matomo{% endif %} {% if environ('CKAN_CLOUDSTORAGE_ENABLED') == 'true' %}cloudstorage{% endif %} {{ environ('CKAN_PLUGINS_DEFAULT') }}
+ckan.plugins = {{ environ('CKAN_PLUGINS') }} {% if environ('MATOMO_ENABLED') == 'true' %}matomo matomo_dataset_report matomo_resource_report matomo_location_report matomo_search_terms_report{% endif %} {% if environ('CKAN_CLOUDSTORAGE_ENABLED') == 'true' %}cloudstorage{% endif %} {{ environ('CKAN_PLUGINS_DEFAULT') }}
 
 scheming.dataset_schemas = ckanext.ytp.schemas:dataset.json
                            ckanext.sixodp_showcase.schemas:showcase.json
