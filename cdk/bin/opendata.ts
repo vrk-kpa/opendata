@@ -300,6 +300,7 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     threads: 2
   },
   ckanCronEnabled: true,
+  prhToolsInUse: false,
   archiverSendNotificationEmailsToMaintainers: false,
   archiverExemptDomainsFromBrokenLinkNotifications: [],
   cloudstorageEnabled: true,
@@ -646,6 +647,7 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     threads: 2
   },
   ckanCronEnabled: true,
+  prhToolsInUse: true,
   archiverSendNotificationEmailsToMaintainers: true,
   archiverExemptDomainsFromBrokenLinkNotifications: ['fmi.fi'],
   cloudstorageEnabled: true,
