@@ -130,6 +130,7 @@ ckanext-archiver.user_agent_string = {{ environ('DOMAIN_NAME') }} archiver
 ckanext-archiver.archive_cloud = True
 ckanext-archiver.send_notification_emails_to_maintainers = {{ environ('CKAN_ARCHIVER_SEND_NOTIFICATION_EMAILS_TO_MAINTAINERS') }}
 ckanext-archiver.exempt_domains_from_broken_link_notifications = {{ environ('CKAN_ARCHIVER_EXEMPT_DOMAINS_FROM_BROKEN_LINK_NOTIFICATIONS') }}
+ckanext-archiver.resource_download_timeout = 15
 
 ckanext.sixodp_showcasesubmit.creating_user_username = {{ environ('SYSADMIN_USER') }}
 ckanext.sixodp_showcasesubmit.recaptcha_sitekey = {{ environ('RECAPTCHA_PUBLIC_KEY') }}
