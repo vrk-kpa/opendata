@@ -160,6 +160,7 @@ test('verify ckan stack resources', () => {
       threads: 2
     },
     ckanCronEnabled: true,
+    prhToolsInUse: false,
     archiverSendNotificationEmailsToMaintainers: false,
     archiverExemptDomainsFromBrokenLinkNotifications: [],
     cloudstorageEnabled: true,
