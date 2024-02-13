@@ -42,6 +42,18 @@ export class CacheStack extends Stack {
       preferredMaintenanceWindow: 'sun:23:00-mon:01:30',
       vpcSecurityGroupIds: [this.cacheSecurityGroup.securityGroupId],
       clusterName: `${props.environment}-opendata-cache`,
+      logDeliveryConfigurations: [{
+        destinationDetails: {
+          cloudWatchLogsDetails: {
+            logGroup: `/${props.environment}/elasticache/redis`
+          }
+        },
+        destinationType: 'cloudwatch-logs',
+        logFormat: 'text',
+        logType: 'engine-logs'
+      }
+
+      ]
     });
     
   }
