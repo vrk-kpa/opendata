@@ -50,7 +50,7 @@ export class CacheStack extends Stack {
         },
         destinationType: 'cloudwatch-logs',
         logFormat: 'text',
-        logType: 'engine-logs'
+        logType: 'engine-log'
       }
 
       ]
