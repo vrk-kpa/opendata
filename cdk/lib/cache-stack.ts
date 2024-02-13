@@ -4,6 +4,7 @@ import * as ec from 'aws-cdk-lib/aws-elasticache';
 import { Construct } from 'constructs';
 
 import { EcStackProps } from './ec-stack-props';
+import * as logs from "aws-cdk-lib/aws-logs";
 
 export class CacheStack extends Stack {
   readonly cachePort: number;
@@ -32,6 +33,10 @@ export class CacheStack extends Stack {
       description: 'cache security group',
     });
 
+    const cacheLogGroup = new logs.LogGroup(this, 'cacheLogGroup', {
+      logGroupName: `/${props.environment}/elasticache/redis`,
+    });
+
     this.cacheCluster = new ec.CfnCacheCluster(this, 'cacheCluster', {
       cacheNodeType: props.cacheNodeType,
       engine: 'redis',
@@ -45,7 +50,7 @@ export class CacheStack extends Stack {
       logDeliveryConfigurations: [{
         destinationDetails: {
           cloudWatchLogsDetails: {
-            logGroup: `/${props.environment}/elasticache/redis`
+            logGroup: cacheLogGroup.logGroupName
           }
         },
         destinationType: 'cloudwatch-logs',
