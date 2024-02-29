@@ -194,7 +194,7 @@ export class ShieldStack extends Stack {
 
         let ruleActionOverrides = []
 
-        for (let excludedRule in rule.excludedRules) {
+        for (let excludedRule of rule.excludedRules) {
           let excludedRuleObj = {
             actionToUse: {
               count: {}
