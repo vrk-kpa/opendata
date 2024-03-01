@@ -469,7 +469,7 @@ jobs:
       image: ckan/ckan-dev:2.9.9
     services:
       solr:
-        image: ckan/ckan-solr-dev:2.9
+        image: ckan/ckan-solr:2.9
       postgres:
         image: postgres:12
         env:
