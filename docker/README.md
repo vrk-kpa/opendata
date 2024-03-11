@@ -276,6 +276,40 @@ services:
       TEST: "true"
 ```
 
-### DCAT-AP
+### Unit tests
+
+Running unit tests locally require separate solr container not interfere with the regular one, you can add it by adding following to `docker-compose.override.yml`:
+
+```yml
+services:
+  ...
+  solr-test:
+      image: opendata/solr:latest
+      build:
+        context: ./solr
+      expose:
+        - 8983
+      networks:
+        - backend
+      volumes:
+        - solr_test_data:/opt/solr/server/solr/ckan/data
+    restart: unless-stopped
+```
+
+and adding volume for it by adding the following to the end of file:
+```yml
+volumes:
+  solr_test_data:
+```
+
+Running the tests within the container can be done by running following commands:
+
+```bash
+cd ckanext/ckanext-ytp_main/
+ckan -c test.ini db init
+pytest --ckan-ini test.ini --disable-warning ckanext/ytp/tests/
+```
+
+## DCAT-AP
 
 There is custom profile for DCAT-AP. You can generate `doc/dcat-ap/readme.md` and `nginx/www/ns/index.html` from jinja templates under `doc/dcat-ap` with [j2cli](https://pypi.org/project/j2cli/) by running a command `j2 --undefined template.*.j2 model.yml > destination/file.example` inside `doc/dcat-ap/`
