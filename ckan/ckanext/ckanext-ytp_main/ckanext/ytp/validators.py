@@ -199,6 +199,9 @@ def repeating_text(key, data, errors, context):
 
         out = []
         for element in value:
+            if not element:
+                continue
+
             if isinstance(element, bytes):
                 try:
                     element = element.decode('utf-8')
