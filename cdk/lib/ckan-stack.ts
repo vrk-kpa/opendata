@@ -801,6 +801,7 @@ export class CkanStack extends Stack {
         container: solrContainer,
         containerPort: 8983
       },
+      enableExecuteCommand: true
     });
 
     solrService.connections.allowFrom(props.fileSystems['solr'], ec2.Port.tcp(2049), 'EFS connection (solr)');
