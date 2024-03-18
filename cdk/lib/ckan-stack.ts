@@ -742,6 +742,20 @@ export class CkanStack extends Stack {
       ],
     });
 
+    const solrTaskPolicyAllowExec = new iam.PolicyStatement({
+      actions: [
+        'ssmmessages:CreateControlChannel',
+        'ssmmessages:CreateDataChannel',
+        'ssmmessages:OpenControlChannel',
+        'ssmmessages:OpenDataChannel',
+      ],
+      resources: ['*'],
+      effect: iam.Effect.ALLOW,
+    });
+
+    solrTaskDef.addToTaskRolePolicy(solrTaskPolicyAllowExec);
+
+
     const solrLogGroup = new logs.LogGroup(this, 'solrLogGroup', {
       logGroupName: `/${props.environment}/opendata/solr`,
     });
