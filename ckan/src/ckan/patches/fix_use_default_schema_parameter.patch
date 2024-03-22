@@ -1,0 +1,13 @@
+diff --git a/ckan/logic/action/get.py b/ckan/logic/action/get.py
+index f767c443e..5d016079c 100644
+--- a/ckan/logic/action/get.py
++++ b/ckan/logic/action/get.py
+@@ -985,7 +985,7 @@ def package_show(context, data_dict):
+ 
+     _check_access('package_show', context, data_dict)
+ 
+-    if data_dict.get('use_default_schema', False):
++    if asbool(data_dict.get('use_default_schema', False)):
+         context['schema'] = ckan.logic.schema.default_show_package_schema()
+     include_tracking = asbool(data_dict.get('include_tracking', False))
+ 
