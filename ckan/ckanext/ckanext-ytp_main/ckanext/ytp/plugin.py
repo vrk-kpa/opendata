@@ -448,7 +448,14 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'include_extras': True,
                 'groups': pkg_dict.get('categories')
             }
-            pkg_dict['groups'] = get_action('group_list')(context, translation_dict)
+
+            group_context = context.copy()
+
+            # Schema should be none for group_list -> group_show calls,
+            # otherwise it will produce an error as dataset schema is wrong for this
+            group_context.pop('schema', None)
+
+            pkg_dict['groups'] = get_action('group_list')(group_context, translation_dict)
 
     def before_index(self, pkg_dict):
         if 'tags' in pkg_dict:
