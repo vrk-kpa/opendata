@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
 
-from ckan.tests.factories import Dataset
+from ckan.tests.factories import Dataset, Group
 from ckan.tests.helpers import call_action
 from ckan.plugins import toolkit
 
@@ -59,3 +59,19 @@ class TestYtpDatasetPlugin():
         result = call_action('package_patch', id=dataset['id'], external_urls=[''])
         assert result['external_urls'] == []
 
+
+    def test_categories_with_translations(self):
+        category = Group(title_translated={'fi': 'finnish title', 'sv': 'swedish title', 'en': 'english title'},
+                         description_translated={'fi': 'finnish description',
+                                                 'sv': 'swedish description',
+                                                 'en': 'english description'})
+
+        data_dict = create_minimal_dataset()
+        data_dict['categories'] = [category['name']]
+        dataset = Dataset(**data_dict)
+
+        result = call_action('package_show', id=dataset['id'])
+        assert result['groups'][0]['title_translated'] == {'fi': 'finnish title', 'sv': 'swedish title', 'en': 'english title'}
+        assert result['groups'][0]['description_translated'] == {'fi': 'finnish description',
+                                                                 'sv': 'swedish description',
+                                                                 'en': 'english description'}
