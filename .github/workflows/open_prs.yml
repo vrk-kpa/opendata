@@ -1,9 +1,11 @@
 name: Notify about open PRs
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   send_open_prs:
+    name: Fetch and send open PRs
     runs-on: ubuntu-latest
     steps:
       - name: Fetch open PRs
