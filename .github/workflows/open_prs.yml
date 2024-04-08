@@ -1,0 +1,16 @@
+name: Notify about open PRs
+on:
+  workflow_dispatch:
+
+jobs:
+  fetch_open_prs:
+    uses: vrk-kpa/fetch-open-prs/@main
+    with:
+      repository: "vrk-kpa/opendata"
+
+  send_open_prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print
+        run: echo "${{ steps.fetch_open_prs.outputs.PRs }}"
+
