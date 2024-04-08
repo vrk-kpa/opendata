@@ -14,6 +14,7 @@ jobs:
         with:
           repository: "vrk-kpa/opendata"
           format: "markdown"
+          ignored_users: '["dependabot[bot]"]'
 
       - name: Print
         run: echo "${{ steps.fetch_open_prs.outputs.PRs }}"
