@@ -13,7 +13,19 @@ jobs:
         uses: vrk-kpa/fetch-open-prs@main
         with:
           repository: "vrk-kpa/opendata"
+          format: "markdown"
 
       - name: Print
         run: echo "${{ steps.fetch_open_prs.outputs.PRs }}"
+
+      - name: Send to zulip
+        uses: zulip/github-actions-zulip/send-message@v1
+        with:
+          api-key: ${{ secrets.ZULIP_API_KEY }}
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Avoimet koodikatselmoinnit'
+          content: '${{ steps.fetch_open_prs.outputs.PRs }}'
 
