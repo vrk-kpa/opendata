@@ -4,7 +4,7 @@ on:
 
 jobs:
   fetch_open_prs:
-    uses: vrk-kpa/fetch-open-prs/@main
+    uses: vrk-kpa/fetch-open-prs@main
     with:
       repository: "vrk-kpa/opendata"
 
