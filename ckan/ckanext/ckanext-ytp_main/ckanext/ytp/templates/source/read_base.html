@@ -1,13 +1,5 @@
 {% ckan_extends %}
 
-{% block content_action %}
-    <div class="content_action">
-        {% if authorized_user %}
-            {{ self.admin_link() }}
-        {% endif %}
-    </div>
-{% endblock %}
-
 {# TODO: once #354 is merged in CKAN core .profile-info doesn't exist #}
 {% block secondary_content %}
   <div class="module context-info profile-info">
