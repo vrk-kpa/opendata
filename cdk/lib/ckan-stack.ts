@@ -361,6 +361,9 @@ export class CkanStack extends Stack {
       ckanContainerEnv['RECAPTCHA_PRIVATE_KEY'] = '';
     }
 
+    // implemented on following if-block and used later in another if block
+    let ckanTaskPolicyAllowCloudstorage;
+
     if (props.cloudstorageEnabled) {
       // get params
       const pCkanCloudstorageDriver = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanCloudstorageDriver', {
@@ -380,7 +383,7 @@ export class CkanStack extends Stack {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_AWS_USE_BOTO3_SESSIONS'] = '1';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER_OPTIONS'] = '';
 
-      const ckanTaskExecPolicyAllowCloudstorage = new iam.PolicyStatement({
+      ckanTaskPolicyAllowCloudstorage = new iam.PolicyStatement({
         actions: ['*'],
         resources: [
           `arn:aws:s3:::${pCkanCloudstorageContainerName.stringValue}`,
@@ -389,7 +392,7 @@ export class CkanStack extends Stack {
         effect: iam.Effect.ALLOW,
       });
 
-      ckanTaskDef.addToTaskRolePolicy(ckanTaskExecPolicyAllowCloudstorage);
+      ckanTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowCloudstorage);
     } else {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_ENABLED'] = 'false';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = '';
@@ -573,6 +576,9 @@ export class CkanStack extends Stack {
       });
 
       ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
+      if (props.cloudstorageEnabled) {
+        ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowCloudstorage!)
+      }
 
       ckanCronTaskDef.addToExecutionRolePolicy(new PolicyStatement({
         effect: Effect.ALLOW,
