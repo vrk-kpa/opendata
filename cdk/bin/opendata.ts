@@ -225,7 +225,7 @@ const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
   secondaryDomainName: betaProps.secondaryDomainName,
   vpc: clusterStackBeta.vpc,
   cacheNodeType: 'cache.t3.small',
-  cacheEngineVersion: '6.x',
+  cacheEngineVersion: '7.x',
   cacheNumNodes: 1,
 });
 
@@ -571,7 +571,7 @@ const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {
   secondaryDomainName: prodProps.secondaryDomainName,
   vpc: clusterStackProd.vpc,
   cacheNodeType: 'cache.t3.small',
-  cacheEngineVersion: '6.x',
+  cacheEngineVersion: '7.x',
   cacheNumNodes: 1,
 });
 
