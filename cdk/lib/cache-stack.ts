@@ -37,6 +37,10 @@ export class CacheStack extends Stack {
       logGroupName: `/${props.environment}/elasticache/redis`,
     });
 
+    const cacheSlowLogGroup = new logs.LogGroup(this, 'cacheSlowLogGroup', {
+      logGroupName: `/${props.environment}/elasticache/redis_slow`,
+    });
+
     this.cacheCluster = new ec.CfnCacheCluster(this, 'cacheCluster', {
       cacheNodeType: props.cacheNodeType,
       engine: 'redis',
@@ -56,8 +60,17 @@ export class CacheStack extends Stack {
         destinationType: 'cloudwatch-logs',
         logFormat: 'text',
         logType: 'engine-log'
+      },
+      {
+        destinationDetails: {
+          cloudWatchLogsDetails: {
+            logGroup: cacheSlowLogGroup.logGroupName
+          }
+        },
+        destinationType: 'cloudwatch-logs',
+        logFormat: 'text',
+        logType: 'slow-log'
       }
-
       ]
     });
     
