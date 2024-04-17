@@ -8,9 +8,6 @@ Many of the modules are being currently used only on the front page. The configu
 
 Modules are installed and enabled within ansible Drupal role. Adding or removing a custom module requires changing the [custom_modules list](https://github.com/vrk-kpa/opendata/blob/master/ansible/roles/Ddupal/vars/main.yml)  that in Drupal role vars.
 
-### Avoindata appfeed
-
-Appfeed module is a Drupal block module that lists recently modified showcases using [CKAN API](https://docs.ckan.org/en/latest/api/index.html). The module also shows recent tweets from [avoindata.fi user](https://twitter.com/avoindatafi). Module is being used in the frontpage of the site but as a block module it can be inserted into any basic page also.
 
 ### Avoindata articles
 
@@ -22,9 +19,6 @@ More information how to build the frontend for this module can be found from mod
 
 Avoindata categories module. Displays list of CKAN categories (groups) in the frontpage.
 
-### Avoindata datasetlist
-
-Avoindata dataset list module. Provides list of recently modified, new and popular datasets from CKAN as a Drupal block. This module is being used on the frontpage.
 
 ### Avoindata events
 
