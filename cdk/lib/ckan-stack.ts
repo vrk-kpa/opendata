@@ -623,7 +623,6 @@ export class CkanStack extends Stack {
     const datapusherTaskDef = new ecs.FargateTaskDefinition(this, 'datapusherTaskDef', {
       cpu: props.datapusherTaskDef.taskCpu,
       memoryLimitMiB: props.datapusherTaskDef.taskMem,
-      ephemeralStorageGiB: props.datapusherTaskDef.taskStorage
     });
 
 
