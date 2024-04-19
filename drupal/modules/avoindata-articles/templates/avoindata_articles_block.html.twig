@@ -28,13 +28,6 @@
                   {% endtrans %}
                 </a>
               </li>
-              <li>
-                <a data-toggle="pill" href="#avoindata-twitter-tab">
-                  {% trans %}
-                  Twitter@avoindatafi
-                  {% endtrans %}
-                </a>
-              </li>
             </ul>
           </div>
         </div>
@@ -102,15 +95,6 @@
                   </a>
                 </div>
               {% endfor %}
-            </div>
-            <div id="avoindata-twitter-tab" class="tab-pane fade in col-md-12 col-sm-12 col-xs-12">
-              {% if language == 'fi' %}
-                <a class="twitter-timeline" data-lang="fi" data-dnt="true" csp=on href="https://twitter.com/avoindatafi">Tweetit käyttäjältä avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-              {% elseif language == 'sv' %}
-                <a class="twitter-timeline" data-lang="sv" data-dnt="true" csp=on href="https://twitter.com/avoindatafi">Tweets av avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-              {% elseif language == 'en' %}
-                <a class="twitter-timeline" data-lang="en" data-dnt="true" csp=on href="https://twitter.com/avoindatafi">Tweets by avoindatafi</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-              {% endif %}
             </div>
         </div>
       </div>
