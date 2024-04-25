@@ -20,7 +20,6 @@ import {DomainStack} from "../lib/domain-stack";
 import {CiTestStack} from "../lib/ci-test-stack";
 import {SubDomainStack} from "../lib/sub-domain-stack";
 import {ShieldStack} from "../lib/shield-stack";
-import {CloudfrontParameterStack} from "../lib/cloudfront-parameter-stack";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
