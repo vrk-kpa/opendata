@@ -1,7 +1,7 @@
 import {aws_ec2, aws_rds, StackProps} from "aws-cdk-lib";
-import {CommonStackProps} from "./common-stack-props";
+import {EnvStackProps} from "./env-stack-props";
 
-export interface CreateDatabasesAndUsersProps extends CommonStackProps{
+export interface CreateDatabasesAndUsersProps extends EnvStackProps{
   datastoreInstance: aws_rds.IDatabaseInstance,
   datastoreCredentials: aws_rds.Credentials,
   vpc: aws_ec2.IVpc;

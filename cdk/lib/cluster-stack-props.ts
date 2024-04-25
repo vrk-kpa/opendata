@@ -1,5 +1,6 @@
-import {CommonStackProps} from "./common-stack-props";
 
-export interface ClusterStackProps extends CommonStackProps {
+import {EnvStackProps} from "./env-stack-props";
+
+export interface ClusterStackProps extends EnvStackProps {
   vpcId: string
 }
