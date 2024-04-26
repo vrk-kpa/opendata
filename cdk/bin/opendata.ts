@@ -59,46 +59,31 @@ const betaProps = {
 };
 
 const clusterStackBeta = new ClusterStack(app, 'ClusterStack-beta', {
-  envProps: envProps,
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
   environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName,
   vpcId: 'vpc-0162f60213eb96ab2'
 });
 
 const backupStackBeta = new BackupStack(app, 'BackupStack-beta', {
-  envProps: envProps,
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
-  domainName: betaProps.domainName,
   environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryDomainName: betaProps.secondaryDomainName,
-  secondaryFqdn: betaProps.secondaryFqdn,
   backups: true,
   importVault: true
 })
 
 
 const fileSystemStackBeta = new FileSystemStack(app, 'FileSystemStack-beta', {
-  envProps: envProps,
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
   environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName,
   vpc: clusterStackBeta.vpc,
   backups: true,
   backupPlan: backupStackBeta.backupPlan,
@@ -106,16 +91,11 @@ const fileSystemStackBeta = new FileSystemStack(app, 'FileSystemStack-beta', {
 });
 
 const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
-  envProps: envProps,
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
   environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName,
   vpc: clusterStackBeta.vpc,
   backups: true,
   backupPlan: backupStackBeta.backupPlan,
@@ -123,16 +103,11 @@ const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
 });
 
 const lambdaStackBeta = new LambdaStack(app, 'LambdaStack-beta', {
-  envProps: envProps,
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
   environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName,
   datastoreInstance: databaseStackBeta.datastoreInstance,
   datastoreCredentials: databaseStackBeta.datastoreCredentials,
   vpc: clusterStackBeta.vpc
@@ -166,16 +141,11 @@ const certificateStackForCloudfrontBeta = new CertificateStack(app, 'Certificate
 
 
 const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta', {
-  envProps: envProps,
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
   environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName,
   vpc: clusterStackBeta.vpc
 });
 
@@ -195,34 +165,23 @@ const bypassCdnStackBeta = new BypassCdnStack(app, 'BypassCdnStack-beta', {
 })
 
 const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
-  envProps: envProps,
   env: {
     account: betaProps.account,
     region: 'us-east-1',
   },
   environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName,
   bannedIpsRequestSamplingEnabled: false,
   highPriorityRequestSamplingEnabled: false,
   rateLimitRequestSamplingEnabled: false,
   requestSampleAllTrafficEnabled: false,
 })
 
-
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
-  envProps: envProps,
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
   environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName,
   vpc: clusterStackBeta.vpc,
   cacheNodeType: 'cache.t3.small',
   cacheEngineVersion: '7.1',
@@ -379,16 +338,11 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
 
 const monitoringStackBeta = new MonitoringStack(app, 'MonitoringStack-beta', {
   sendToZulipLambda: lambdaStackBeta.sendToZulipLambda,
-  envProps: envProps,
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
   environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName,
 });
 
 //
@@ -407,45 +361,30 @@ const prodProps = {
 };
 
 const clusterStackProd = new ClusterStack(app, 'ClusterStack-prod', {
-  envProps: envProps,
   env: {
     account: prodProps.account,
     region: prodProps.region,
   },
   environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName,
   vpcId: 'vpc-07f19c5db1390f949'
 });
 
 const backupStackProd = new BackupStack(app, 'BackupStack-prod', {
-  envProps: envProps,
   env: {
     account: prodProps.account,
     region: prodProps.region,
   },
-  domainName: prodProps.domainName,
   environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryDomainName: prodProps.secondaryDomainName,
-  secondaryFqdn: prodProps.secondaryFqdn,
   backups: true,
   importVault: false
 })
 
 const fileSystemStackProd = new FileSystemStack(app, 'FileSystemStack-prod', {
-  envProps: envProps,
   env: {
     account: prodProps.account,
     region: prodProps.region,
   },
   environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName,
   vpc: clusterStackProd.vpc,
   backups: true,
   backupPlan: backupStackProd.backupPlan,
@@ -453,16 +392,11 @@ const fileSystemStackProd = new FileSystemStack(app, 'FileSystemStack-prod', {
 });
 
 const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
-  envProps: envProps,
   env: {
     account: prodProps.account,
     region: prodProps.region,
   },
   environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName,
   vpc: clusterStackProd.vpc,
   backups: true,
   backupPlan: backupStackProd.backupPlan,
@@ -470,16 +404,11 @@ const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
 });
 
 const lambdaStackProd = new LambdaStack(app, 'LambdaStack-prod', {
-  envProps: envProps,
   env: {
     account: prodProps.account,
     region: prodProps.region,
   },
   environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName,
   datastoreInstance: databaseStackProd.datastoreInstance,
   datastoreCredentials: databaseStackProd.datastoreCredentials,
   vpc: clusterStackProd.vpc
@@ -514,16 +443,11 @@ const certificateStackForCloudfrontProd = new CertificateStack(app, 'Certificate
 })
 
 const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod', {
-  envProps: envProps,
   env: {
     account: prodProps.account,
     region: prodProps.region,
   },
   environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName,
   vpc: clusterStackProd.vpc
 });
 
@@ -542,16 +466,11 @@ const bypassCdnStackProd = new BypassCdnStack(app, 'BypassCdnStack-prod', {
 })
 
 const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
-  envProps: envProps,
   env: {
     account: prodProps.account,
     region: 'us-east-1'
   },
   environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName,
   bannedIpsRequestSamplingEnabled: false,
   highPriorityRequestSamplingEnabled: false,
   rateLimitRequestSamplingEnabled: false,
@@ -559,16 +478,11 @@ const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
 })
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {
-  envProps: envProps,
   env: {
     account: prodProps.account,
     region: prodProps.region,
   },
   environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName,
   vpc: clusterStackProd.vpc,
   cacheNodeType: 'cache.t3.small',
   cacheEngineVersion: '7.1',
@@ -725,16 +639,11 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
 
 const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
   sendToZulipLambda: lambdaStackProd.sendToZulipLambda,
-  envProps: envProps,
   env: {
     account: prodProps.account,
     region: prodProps.region,
   },
   environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName,
 });
 
 const domainStackProd = new DomainStack(app, 'DomainStack-prod', {

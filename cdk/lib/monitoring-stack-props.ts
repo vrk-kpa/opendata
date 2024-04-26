@@ -1,7 +1,7 @@
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { CommonStackProps } from './common-stack-props';
+import {EnvStackProps} from "./env-stack-props";
 
-export interface MonitoringStackProps extends CommonStackProps {
+export interface MonitoringStackProps extends EnvStackProps {
   sendToZulipLambda: NodejsFunction
 }
 
