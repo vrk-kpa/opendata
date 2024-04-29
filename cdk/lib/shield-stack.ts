@@ -16,9 +16,6 @@ export class ShieldStack extends Stack {
   constructor(scope: Construct, id: string, props: ShieldStackProps) {
     super(scope, id, props);
 
-    //const cloudfrontDistributionArn = aws_ssm.StringParameter.fromStringParameterName(this,'cloudfrontDistributionArn',
-    //  `/${props.environment}/waf/cloudfrontDistributionArn`)
-
     const cfnProtection = new aws_shield.CfnProtection(this, 'ShieldProtection', {
       name: 'Cloudfront distribution',
       resourceArn: props.cloudfrontDistributionArn.stringValue
@@ -54,13 +51,6 @@ export class ShieldStack extends Stack {
       type: 'AWS::SSM::Parameter::Value<List<String>>',
       default: props.highPriorityCountryCodeListParameterName
     });
-
-
-    //const highPriorityRateLimit = aws_ssm.StringParameter.fromStringParameterName(this, 'highPriorityRateLimit',
-    //  `/${props.environment}/waf/high_priority_rate_limit`);
-
-    //const rateLimit = aws_ssm.StringParameter.fromStringParameterName(this, 'rateLimit',
-    //  `/${props.environment}/waf/rate_limit`);
 
 
     let rules = [
@@ -305,15 +295,8 @@ export class ShieldStack extends Stack {
       rules: rules
     })
 
-    //const WafAutomationArn = aws_ssm.StringParameter.fromStringParameterName(this, 'WafAutomationArn',
-    //  `/${props.environment}/waf/waf_automation_arn`);
-
     const WafAutomationLambdaFunction = aws_lambda.Function.fromFunctionArn(this, "WafAutomation", props.wafAutomationArn.stringValue)
-
-    //const SNSTopicArn = aws_ssm.StringParameter.fromStringParameterName(this, 'SNSTopicArn',
-    //  `/${props.environment}/waf/sns_topic_arn`);
-
-
+    
     const topic =  aws_sns.Topic.fromTopicArn(this, "SNSTopic", props.snsTopicArn.stringValue)
 
     topic.addSubscription(new aws_sns_subscriptions.LambdaSubscription(WafAutomationLambdaFunction))
