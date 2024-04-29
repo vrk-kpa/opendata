@@ -193,7 +193,8 @@ const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
   rateLimit: cloudfrontParameterStackBeta.rateLimit,
   managedRulesParameterName: cloudfrontParameterStackBeta.managedRulesParameterName,
   snsTopicArn: cloudfrontParameterStackBeta.snsTopicArn,
-  wafAutomationArn: cloudfrontParameterStackBeta.wafAutomationArn
+  wafAutomationArn: cloudfrontParameterStackBeta.wafAutomationArn,
+  evaluationPeriod: cloudfrontParameterStackBeta.evaluationPeriod
 })
 
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
@@ -511,7 +512,8 @@ const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
   rateLimit: cloudfrontParameterStackProd.rateLimit,
   managedRulesParameterName: cloudfrontParameterStackProd.managedRulesParameterName,
   snsTopicArn: cloudfrontParameterStackProd.snsTopicArn,
-  wafAutomationArn: cloudfrontParameterStackProd.wafAutomationArn
+  wafAutomationArn: cloudfrontParameterStackProd.wafAutomationArn,
+  evaluationPeriod: cloudfrontParameterStackProd.evaluationPeriod
 })
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {

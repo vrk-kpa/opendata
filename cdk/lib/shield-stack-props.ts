@@ -14,5 +14,6 @@ export interface ShieldStackProps extends EnvStackProps{
   rateLimit: aws_ssm.IStringParameter,
   managedRulesParameterName: string,
   wafAutomationArn: aws_ssm.IStringParameter,
-  snsTopicArn: aws_ssm.IStringParameter
+  snsTopicArn: aws_ssm.IStringParameter,
+  evaluationPeriod: aws_ssm.IStringParameter
 }

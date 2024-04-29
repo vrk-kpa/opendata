@@ -133,6 +133,7 @@ export class ShieldStack extends Stack {
           rateBasedStatement: {
             limit: Token.asNumber(props.highPriorityRateLimit.stringValue),
             aggregateKeyType: "IP",
+            evaluationWindowSec: Token.asNumber(props.evaluationPeriod.stringValue),
             scopeDownStatement: {
               geoMatchStatement: {
                 countryCodes: highPriorityCountryCodesParameter.valueAsList
@@ -157,6 +158,7 @@ export class ShieldStack extends Stack {
           rateBasedStatement: {
             limit: Token.asNumber(props.rateLimit.stringValue),
             aggregateKeyType: "IP",
+            evaluationWindowSec: Token.asNumber(props.evaluationPeriod.stringValue),
             scopeDownStatement: {
               notStatement: {
                 statement: {

@@ -13,6 +13,8 @@ export class CloudfrontParameterStack extends Stack {
   readonly managedRulesParameterName: string;
   readonly wafAutomationArn: aws_ssm.IStringParameter;
   readonly snsTopicArn: aws_ssm.IStringParameter;
+  readonly evaluationPeriod: aws_ssm.IStringParameter;
+
   constructor(scope: Construct, id: string, props: EnvStackProps ) {
     super(scope, id, props);
 
@@ -72,6 +74,12 @@ export class CloudfrontParameterStack extends Stack {
       stringValue: '',
       description: 'Arn of sns topic',
       parameterName: `/${props.environment}/waf/sns_topic_arn`,
+    })
+
+    this.evaluationPeriod = new aws_ssm.StringParameter(this, 'evaluationPeriod', {
+      stringValue: '0',
+      description: 'Evaluation period for rate limits',
+      parameterName: `/${props.environment}/waf/evaluation_period`
     })
   }
 }
