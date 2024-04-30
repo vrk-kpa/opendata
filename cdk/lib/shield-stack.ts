@@ -191,9 +191,7 @@ export class ShieldStack extends Stack {
 
     if ( managedRules !== "dummy"){
       let ruleList: any[] = []
-      console.log(managedRules)
       const validatedRules = RuleGroupSchema.parse(managedRules)
-      console.log(validatedRules)
       validatedRules.forEach((rule, index: number) => {
 
         let ruleActionOverrides = []
