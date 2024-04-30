@@ -19,7 +19,7 @@ export class CloudfrontParameterStack extends Stack {
     super(scope, id, props);
 
     this.cloudFrontDistributionArn = new aws_ssm.StringParameter(this, 'cloudfrontDistributionArn', {
-      stringValue: '',
+      stringValue: 'some placeholder',
       description: 'Arn of cloudfront distribution',
       parameterName: `/${props.environment}/waf/cloudfrontDistributionArn`,
     })
@@ -59,19 +59,19 @@ export class CloudfrontParameterStack extends Stack {
 
     this.managedRulesParameterName = `/${props.environment}/waf/managed_rules`
     new aws_ssm.StringParameter(this, 'managedRules', {
-      stringValue: '',
+      stringValue: 'some placeholder',
       description: 'JSON value for managed rules',
       parameterName: this.managedRulesParameterName
     })
 
     this.wafAutomationArn = new aws_ssm.StringParameter(this, 'wafAutomationArn', {
-      stringValue: '',
+      stringValue: 'some placeholder',
       description: 'Arn of waf automation lambda',
       parameterName: `/${props.environment}/waf/waf_automation_arn`,
     })
 
     this.snsTopicArn = new aws_ssm.StringParameter(this, 'snsTopicArn', {
-      stringValue: '',
+      stringValue: 'some placeholder',
       description: 'Arn of sns topic',
       parameterName: `/${props.environment}/waf/sns_topic_arn`,
     })
