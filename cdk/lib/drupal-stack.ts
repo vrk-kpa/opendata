@@ -255,6 +255,7 @@ export class DrupalStack extends Stack {
     this.drupalService = new ecs.FargateService(this, 'drupalService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
+      serviceName: "drupal",
       taskDefinition: drupalTaskDef,
       minHealthyPercent: 50,
       maxHealthyPercent: 200,

@@ -1,0 +1,25 @@
+name: Restart beta containers
+
+on:
+  workflow_dispatch:
+
+jobs:
+  restart-dev:
+    name: restart beta containers
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    strategy:
+      matrix:
+        container: ["ckan", "ckanCron", "drupal"]
+    steps:
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          role-to-assume: ${{ secrets.AWS_BETA_DEPLOY_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-north-1
+
+      - name: Restart containers
+        run: |
+          aws ecs update-service --cluster ${{ secrets.beta_cluster }} --service ${{ matrix.container }} --force-new-deployment
