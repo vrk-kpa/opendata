@@ -19,7 +19,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           role-session-name: github-actions
-          aws-region: eu-north-1
+          aws-region: eu-west-1
 
       - name: Restart containers
         run: |
