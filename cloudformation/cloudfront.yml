@@ -85,9 +85,6 @@ Parameters:
   AlternateDNSDomainName:
     Description: "Alternate Domain name"
     Type: 'AWS::SSM::Parameter::Value<String>'
-  WAFWebACLId:
-    Description: "[Optional] Arn of WAF Web ACL"
-    Type: String
 Conditions:
   CreateAlternateDomainRecord: !Not [!Equals [!Ref HostedZoneIdAlternate, ""]]
   CloudfrontLogging: !Equals [!Ref LogEnabled, "true"]
@@ -152,7 +149,6 @@ Resources:
           MinimumProtocolVersion: 'TLSv1.1_2016'
           SslSupportMethod: 'sni-only'
         DefaultRootObject: 'fi'
-        WebACLId: !Ref WAFWebACLId
       Tags:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}
