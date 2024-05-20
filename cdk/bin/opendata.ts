@@ -22,7 +22,7 @@ import {SubDomainStack} from "../lib/sub-domain-stack";
 import {ShieldStack} from "../lib/shield-stack";
 import {CloudfrontParameterStack} from "../lib/cloudfront-parameter-stack";
 import {undefined} from "zod";
-import {ParameterStack} from "../lib/parameter-stack";
+import {ShieldParameterStack} from "../lib/shield-parameter-stack";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -175,7 +175,7 @@ const cloudfrontParameterStackBeta = new CloudfrontParameterStack(app, 'Cloudfro
   environment: betaProps.environment,
 })
 
-const parameterStackBeta = new ParameterStack(app, 'ParameterStack-beta', {
+const shieldParameterStackBeta = new ShieldParameterStack(app, 'ShieldParameterStack-beta', {
   env: {
     account: betaProps.account,
     region: betaProps.region
@@ -193,15 +193,15 @@ const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
   highPriorityRequestSamplingEnabled: false,
   rateLimitRequestSamplingEnabled: false,
   requestSampleAllTrafficEnabled: false,
-  bannedIpListParameterName: parameterStackBeta.bannedIpListParameterName,
-  whitelistedIpListParameterName: parameterStackBeta.whitelistedIpListParameterName,
-  highPriorityCountryCodeListParameterName: parameterStackBeta.highPriorityCountryCodeListParameterName,
-  highPriorityRateLimit: parameterStackBeta.highPriorityRateLimit,
-  rateLimit: parameterStackBeta.rateLimit,
-  managedRulesParameterName: parameterStackBeta.managedRulesParameterName,
-  snsTopicArn: parameterStackBeta.snsTopicArn,
-  wafAutomationArn: parameterStackBeta.wafAutomationArn,
-  evaluationPeriod: parameterStackBeta.evaluationPeriod,
+  bannedIpListParameterName: shieldParameterStackBeta.bannedIpListParameterName,
+  whitelistedIpListParameterName: shieldParameterStackBeta.whitelistedIpListParameterName,
+  highPriorityCountryCodeListParameterName: shieldParameterStackBeta.highPriorityCountryCodeListParameterName,
+  highPriorityRateLimit: shieldParameterStackBeta.highPriorityRateLimit,
+  rateLimit: shieldParameterStackBeta.rateLimit,
+  managedRulesParameterName: shieldParameterStackBeta.managedRulesParameterName,
+  snsTopicArn: shieldParameterStackBeta.snsTopicArn,
+  wafAutomationArn: shieldParameterStackBeta.wafAutomationArn,
+  evaluationPeriod: shieldParameterStackBeta.evaluationPeriod,
   loadBalancer: loadBalancerStackBeta.loadBalancer
 })
 
@@ -502,7 +502,7 @@ const cloudfrontParameterStackProd = new CloudfrontParameterStack(app, 'Cloudfro
   environment: prodProps.environment,
 })
 
-const parameterStackProd = new ParameterStack(app, 'ParameterStack-prod', {
+const shieldParameterStackProd = new ShieldParameterStack(app, 'ShieldParameterStack-prod', {
   env: {
     account: prodProps.account,
     region: prodProps.region
@@ -520,15 +520,15 @@ const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
   highPriorityRequestSamplingEnabled: false,
   rateLimitRequestSamplingEnabled: false,
   requestSampleAllTrafficEnabled: false,
-  bannedIpListParameterName: parameterStackProd.bannedIpListParameterName,
-  whitelistedIpListParameterName: parameterStackProd.whitelistedIpListParameterName,
-  highPriorityCountryCodeListParameterName: parameterStackProd.highPriorityCountryCodeListParameterName,
-  highPriorityRateLimit: parameterStackProd.highPriorityRateLimit,
-  rateLimit: parameterStackProd.rateLimit,
-  managedRulesParameterName: parameterStackProd.managedRulesParameterName,
-  snsTopicArn: parameterStackProd.snsTopicArn,
-  wafAutomationArn: parameterStackProd.wafAutomationArn,
-  evaluationPeriod: parameterStackProd.evaluationPeriod,
+  bannedIpListParameterName: shieldParameterStackProd.bannedIpListParameterName,
+  whitelistedIpListParameterName: shieldParameterStackProd.whitelistedIpListParameterName,
+  highPriorityCountryCodeListParameterName: shieldParameterStackProd.highPriorityCountryCodeListParameterName,
+  highPriorityRateLimit: shieldParameterStackProd.highPriorityRateLimit,
+  rateLimit: shieldParameterStackProd.rateLimit,
+  managedRulesParameterName: shieldParameterStackProd.managedRulesParameterName,
+  snsTopicArn: shieldParameterStackProd.snsTopicArn,
+  wafAutomationArn: shieldParameterStackProd.wafAutomationArn,
+  evaluationPeriod: shieldParameterStackProd.evaluationPeriod,
   loadBalancer: loadBalancerStackProd.loadBalancer
 })
 

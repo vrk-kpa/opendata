@@ -3,7 +3,7 @@ import {Construct} from "constructs";
 
 import {EnvStackProps} from "./env-stack-props";
 
-export class ParameterStack extends Stack {
+export class ShieldParameterStack extends Stack {
   readonly bannedIpListParameterName: string;
   readonly whitelistedIpListParameterName: string;
   readonly highPriorityCountryCodeListParameterName: string;
