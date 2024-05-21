@@ -17,8 +17,8 @@ export class ShieldStack extends Stack {
     super(scope, id, props);
 
     const cfnProtection = new aws_shield.CfnProtection(this, 'ShieldProtection', {
-      name: 'Cloudfront distribution',
-      resourceArn: props.cloudfrontDistributionArn.stringValue
+      name: 'Application Load Balancers',
+      resourceArn: props.loadBalancer.loadBalancerArn
     })
     
 
@@ -29,7 +29,7 @@ export class ShieldStack extends Stack {
 
     const cfnBannedIPSet = new aws_wafv2.CfnIPSet(this, 'BannedIPSet', {
       name: 'banned-ips',
-      scope: 'CLOUDFRONT',
+      scope: 'REGIONAL',
       ipAddressVersion: "IPV4",
       addresses: banned_ips.valueAsList
     })
@@ -41,7 +41,7 @@ export class ShieldStack extends Stack {
 
     const cfnWhiteListedIpSet = new aws_wafv2.CfnIPSet(this, 'WhitelistedIPSet', {
       name: 'whitelisted-ips',
-      scope: 'CLOUDFRONT',
+      scope: 'REGIONAL',
       ipAddressVersion: "IPV4",
       addresses: whitelisted_ips.valueAsList
     })
@@ -281,7 +281,7 @@ export class ShieldStack extends Stack {
 
 
     const cfnWebAcl = new aws_wafv2.CfnWebACL(this, 'WAFWebACL', {
-      scope: "CLOUDFRONT",
+      scope: "REGIONAL",
       defaultAction: {
         allow: {}
       },
@@ -291,6 +291,11 @@ export class ShieldStack extends Stack {
         sampledRequestsEnabled: props.requestSampleAllTrafficEnabled
       },
       rules: rules
+    })
+
+    new aws_wafv2.CfnWebACLAssociation(this, 'WafAssociation', {
+      resourceArn: props.loadBalancer.loadBalancerArn,
+      webAclArn: cfnWebAcl.attrArn
     })
 
     const WafAutomationLambdaFunction = aws_lambda.Function.fromFunctionArn(this, "WafAutomation", props.wafAutomationArn.stringValue)

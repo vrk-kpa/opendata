@@ -1,12 +1,11 @@
 import {EnvStackProps} from "./env-stack-props";
-import {aws_ssm} from "aws-cdk-lib";
+import {aws_ec2, aws_elasticloadbalancingv2, aws_ssm} from "aws-cdk-lib";
 
 export interface ShieldStackProps extends EnvStackProps{
   bannedIpsRequestSamplingEnabled: boolean,
   requestSampleAllTrafficEnabled: boolean,
   highPriorityRequestSamplingEnabled: boolean,
   rateLimitRequestSamplingEnabled: boolean,
-  cloudfrontDistributionArn: aws_ssm.IStringParameter,
   bannedIpListParameterName: string,
   whitelistedIpListParameterName: string,
   highPriorityCountryCodeListParameterName: string,
@@ -15,5 +14,6 @@ export interface ShieldStackProps extends EnvStackProps{
   managedRulesParameterName: string,
   wafAutomationArn: aws_ssm.IStringParameter,
   snsTopicArn: aws_ssm.IStringParameter,
-  evaluationPeriod: aws_ssm.IStringParameter
+  evaluationPeriod: aws_ssm.IStringParameter,
+  loadBalancer: aws_elasticloadbalancingv2.ApplicationLoadBalancer
 }

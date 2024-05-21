@@ -22,6 +22,7 @@ import {SubDomainStack} from "../lib/sub-domain-stack";
 import {ShieldStack} from "../lib/shield-stack";
 import {CloudfrontParameterStack} from "../lib/cloudfront-parameter-stack";
 import {undefined} from "zod";
+import {ShieldParameterStack} from "../lib/shield-parameter-stack";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -174,27 +175,34 @@ const cloudfrontParameterStackBeta = new CloudfrontParameterStack(app, 'Cloudfro
   environment: betaProps.environment,
 })
 
+const shieldParameterStackBeta = new ShieldParameterStack(app, 'ShieldParameterStack-beta', {
+  env: {
+    account: betaProps.account,
+    region: betaProps.region
+  },
+  environment: betaProps.environment,
+})
 
 const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
   env: {
     account: betaProps.account,
-    region: 'us-east-1',
+    region: betaProps.region,
   },
   environment: betaProps.environment,
   bannedIpsRequestSamplingEnabled: false,
   highPriorityRequestSamplingEnabled: false,
   rateLimitRequestSamplingEnabled: false,
   requestSampleAllTrafficEnabled: false,
-  cloudfrontDistributionArn: cloudfrontParameterStackBeta.cloudFrontDistributionArn,
-  bannedIpListParameterName: cloudfrontParameterStackBeta.bannedIpListParameterName,
-  whitelistedIpListParameterName: cloudfrontParameterStackBeta.whitelistedIpListParameterName,
-  highPriorityCountryCodeListParameterName: cloudfrontParameterStackBeta.highPriorityCountryCodeListParameterName,
-  highPriorityRateLimit: cloudfrontParameterStackBeta.highPriorityRateLimit,
-  rateLimit: cloudfrontParameterStackBeta.rateLimit,
-  managedRulesParameterName: cloudfrontParameterStackBeta.managedRulesParameterName,
-  snsTopicArn: cloudfrontParameterStackBeta.snsTopicArn,
-  wafAutomationArn: cloudfrontParameterStackBeta.wafAutomationArn,
-  evaluationPeriod: cloudfrontParameterStackBeta.evaluationPeriod
+  bannedIpListParameterName: shieldParameterStackBeta.bannedIpListParameterName,
+  whitelistedIpListParameterName: shieldParameterStackBeta.whitelistedIpListParameterName,
+  highPriorityCountryCodeListParameterName: shieldParameterStackBeta.highPriorityCountryCodeListParameterName,
+  highPriorityRateLimit: shieldParameterStackBeta.highPriorityRateLimit,
+  rateLimit: shieldParameterStackBeta.rateLimit,
+  managedRulesParameterName: shieldParameterStackBeta.managedRulesParameterName,
+  snsTopicArn: shieldParameterStackBeta.snsTopicArn,
+  wafAutomationArn: shieldParameterStackBeta.wafAutomationArn,
+  evaluationPeriod: shieldParameterStackBeta.evaluationPeriod,
+  loadBalancer: loadBalancerStackBeta.loadBalancer
 })
 
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
@@ -494,26 +502,34 @@ const cloudfrontParameterStackProd = new CloudfrontParameterStack(app, 'Cloudfro
   environment: prodProps.environment,
 })
 
+const shieldParameterStackProd = new ShieldParameterStack(app, 'ShieldParameterStack-prod', {
+  env: {
+    account: prodProps.account,
+    region: prodProps.region
+  },
+  environment: prodProps.environment,
+})
+
 const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
   env: {
     account: prodProps.account,
-    region: 'us-east-1'
+    region: prodProps.region
   },
   environment: prodProps.environment,
   bannedIpsRequestSamplingEnabled: false,
   highPriorityRequestSamplingEnabled: false,
   rateLimitRequestSamplingEnabled: false,
   requestSampleAllTrafficEnabled: false,
-  cloudfrontDistributionArn: cloudfrontParameterStackProd.cloudFrontDistributionArn,
-  bannedIpListParameterName: cloudfrontParameterStackProd.bannedIpListParameterName,
-  whitelistedIpListParameterName: cloudfrontParameterStackProd.whitelistedIpListParameterName,
-  highPriorityCountryCodeListParameterName: cloudfrontParameterStackProd.highPriorityCountryCodeListParameterName,
-  highPriorityRateLimit: cloudfrontParameterStackProd.highPriorityRateLimit,
-  rateLimit: cloudfrontParameterStackProd.rateLimit,
-  managedRulesParameterName: cloudfrontParameterStackProd.managedRulesParameterName,
-  snsTopicArn: cloudfrontParameterStackProd.snsTopicArn,
-  wafAutomationArn: cloudfrontParameterStackProd.wafAutomationArn,
-  evaluationPeriod: cloudfrontParameterStackProd.evaluationPeriod
+  bannedIpListParameterName: shieldParameterStackProd.bannedIpListParameterName,
+  whitelistedIpListParameterName: shieldParameterStackProd.whitelistedIpListParameterName,
+  highPriorityCountryCodeListParameterName: shieldParameterStackProd.highPriorityCountryCodeListParameterName,
+  highPriorityRateLimit: shieldParameterStackProd.highPriorityRateLimit,
+  rateLimit: shieldParameterStackProd.rateLimit,
+  managedRulesParameterName: shieldParameterStackProd.managedRulesParameterName,
+  snsTopicArn: shieldParameterStackProd.snsTopicArn,
+  wafAutomationArn: shieldParameterStackProd.wafAutomationArn,
+  evaluationPeriod: shieldParameterStackProd.evaluationPeriod,
+  loadBalancer: loadBalancerStackProd.loadBalancer
 })
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {
