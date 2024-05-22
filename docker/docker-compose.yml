@@ -123,7 +123,7 @@ services:
     networks:
       - backend
     volumes:
-      - solr_data:/opt/solr/server/solr/ckan/data
+      - solr_data:/var/solr/data
     healthcheck:
       test: ["CMD-SHELL", "curl --fail -s http://localhost:8983/solr/ckan/admin/ping?wt=json | grep -o 'OK'"]
       interval: 15s
