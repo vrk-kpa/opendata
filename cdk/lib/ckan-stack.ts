@@ -793,7 +793,7 @@ export class CkanStack extends Stack {
     });
 
     solrContainer.addMountPoints({
-      containerPath: '/var/solr/data',
+      containerPath: '/var/solr/data/ckan/data',
       readOnly: false,
       sourceVolume: 'solr_data',
     });
