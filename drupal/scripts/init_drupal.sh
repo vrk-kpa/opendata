@@ -111,12 +111,11 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"rdf"* ]]  && drush pm:uninstall -y rdf
 [[ "$MODULE_INFO" == *"bartik"* ]]  && drush theme:uninstall -y bartik
 [[ "$MODULE_INFO" == *"seven"* ]]  && drush theme:uninstall -y seven
-
+[[ "$MODULE_INFO" == *"fontawesome_menu_icons"* ]] && drush pm:uninstall -y fontawesome_menu_icons
 
 # enable modules
 echo "enable modules.."
 [[ "$MODULE_INFO" != *"twig_tweak"* ]]                    && drush pm:enable -y twig_tweak
-[[ "$MODULE_INFO" != *"fontawesome_menu_icons"* ]]        && drush pm:enable -y fontawesome_menu_icons
 [[ "$MODULE_INFO" != *"smtp"* ]]                          && drush pm:enable -y smtp
 [[ "$MODULE_INFO" != *"pathauto"* ]]                      && drush pm:enable -y pathauto
 [[ "$MODULE_INFO" != *"easy_breadcrumb"* ]]               && drush pm:enable -y easy_breadcrumb
