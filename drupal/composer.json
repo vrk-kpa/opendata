@@ -39,7 +39,7 @@
         "drupal/password_policy": "^4.0",
         "drupal/pathauto": "^1.2",
         "drupal/protected_forms": "^2.0",
-        "drupal/raven": "^4.0",
+        "drupal/raven": "^6.0",
         "drupal/recaptcha": "^3.0",
         "drupal/redirect": "^1.2",
         "drupal/search_api": "^1.29",
