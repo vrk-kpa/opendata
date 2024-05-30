@@ -19,7 +19,7 @@
         "cweagans/composer-patches": "^1.7",
         "drupal/ape": "^1.4",
         "drupal/bootstrap": "^3.28",
-        "drupal/captcha": "^1.10",
+        "drupal/captcha": "^2.0",
         "drupal/coder": "^8.2",
         "drupal/core-composer-scaffold": "^10",
         "drupal/core-project-message": "^10",
