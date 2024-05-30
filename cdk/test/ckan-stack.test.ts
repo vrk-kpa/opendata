@@ -134,6 +134,8 @@ test('verify ckan stack resources', () => {
     archiverSendNotificationEmailsToMaintainers: false,
     archiverExemptDomainsFromBrokenLinkNotifications: [],
     cloudstorageEnabled: true,
+    sentryTracesSampleRate: "1.0",
+    sentryProfilesSampleRate: "1.0"
   });
   // THEN
   const template = Template.fromStack(stack);
