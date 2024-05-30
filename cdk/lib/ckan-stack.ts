@@ -270,6 +270,8 @@ export class CkanStack extends Stack {
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
       SENTRY_ENV: props.environment,
+      SENTRY_TRACES_SAMPLE_RATE: props.sentryTracesSampleRate,
+      SENTRY_PROFILES_SAMPLE_RATE: props.sentryProfilesSampleRate,
       CKAN_SYSADMIN_NAME: pSysadminUser.stringValue,
       CKAN_SYSADMIN_EMAIL: pSysadminEmail.stringValue,
       ORGANIZATIONAPPROVAL_EMAIL: pCkanOrganizationapprovalEmail.stringValue,
@@ -296,6 +298,7 @@ export class CkanStack extends Stack {
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
       CKAN_SYSADMIN_PASSWORD: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
+      SENTRY_LOADER_SCRIPT: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_loader_script'),
       FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
       ZULIP_API_KEY: ecs.Secret.fromSecretsManager(sZulipApiKey),
     };
