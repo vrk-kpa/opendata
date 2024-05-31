@@ -143,6 +143,7 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"password_policy_length"* ]]        && drush pm:enable -y password_policy_length
 [[ "$MODULE_INFO" != *"raven"* ]]                         && drush pm:enable -y raven
 [[ "$MODULE_INFO" != *"menu_link_attributes"* ]]          && drush pm:enable -y menu_link_attributes
+[[ "$MODULE_INFO" != *"fontawesome"* ]]                   && drush pm:enable -y fontawesome
 
 # remove some configurations
 # NOTE: ansible role skips errors with this condition:

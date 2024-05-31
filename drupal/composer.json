@@ -28,7 +28,7 @@
         "drupal/domain_registration": "^1.8",
         "drupal/drush_language": "1.x-dev",
         "drupal/easy_breadcrumb": "^2.0",
-        "drupal/fontawesome": "^2.25",
+        "drupal/fontawesome": "^2.26",
         "drupal/fontawesome_menu_icons": "^2.0",
         "drupal/honeypot": "^2.0",
         "drupal/imce": "^3.0",
