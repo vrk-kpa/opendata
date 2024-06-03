@@ -144,6 +144,7 @@ export class DrupalStack extends Stack {
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
       SENTRY_ENV: props.environment,
+      SENTRY_TRACES_SAMPLE_RATE: props.sentryTracesSampleRate,
       BYPASS_CDN_DOMAIN: `vip.${props.fqdn}`
     };
 

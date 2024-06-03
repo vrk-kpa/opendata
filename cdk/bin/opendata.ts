@@ -292,6 +292,8 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
   archiverSendNotificationEmailsToMaintainers: false,
   archiverExemptDomainsFromBrokenLinkNotifications: [],
   cloudstorageEnabled: true,
+  sentryTracesSampleRate: "1.0",
+  sentryProfilesSampleRate: "1.0"
 });
 
 const drupalStackBeta = new DrupalStack(app, 'DrupalStack-beta', {
@@ -328,6 +330,7 @@ const drupalStackBeta = new DrupalStack(app, 'DrupalStack-beta', {
     taskMinCapacity: 1,
     taskMaxCapacity: 3,
   },
+  sentryTracesSampleRate: "1.0"
 });
 
 const webStackBeta = new WebStack(app, 'WebStack-beta', {
@@ -619,6 +622,8 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
   archiverSendNotificationEmailsToMaintainers: true,
   archiverExemptDomainsFromBrokenLinkNotifications: ['fmi.fi'],
   cloudstorageEnabled: true,
+  sentryTracesSampleRate: "0.1",
+  sentryProfilesSampleRate: "0.1"
 });
 
 const drupalStackProd = new DrupalStack(app, 'DrupalStack-prod', {
@@ -655,6 +660,7 @@ const drupalStackProd = new DrupalStack(app, 'DrupalStack-prod', {
     taskMinCapacity: 2,
     taskMaxCapacity: 4,
   },
+  sentryTracesSampleRate: "0.1"
 });
 
 const webStackProd = new WebStack(app, 'WebStack-prod', {
