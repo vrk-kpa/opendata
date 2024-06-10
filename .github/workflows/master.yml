@@ -261,3 +261,40 @@ jobs:
           type: 'stream'
           topic: 'Beta Deployments'
           content: 'Beta deployment succeeded! (${{ github.event.head_commit.message }})'
+
+      - name: Notify Zulip on error
+        if: failure()
+        uses: zulip/github-actions-zulip/send-message@v1
+        with:
+          api-key: ${{ secrets.ZULIP_API_KEY }}
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Beta Deployments'
+          content: 'Beta deployment failed! (${{ github.event.head_commit.message }})'
+
+  detect-build-failure:
+    name: Detect build failure
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs:
+      - build-and-test-containers
+    steps:
+      - run: exit 1
+        if: >-
+          ${{
+              contains(needs.*.result, 'failure')
+              || contains(needs.*.result, 'skipped')
+          }}
+      - name: Notify Zulip on  build error
+        if: failure()
+        uses: zulip/github-actions-zulip/send-message@v1
+        with:
+          api-key: ${{ secrets.ZULIP_API_KEY }}
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Beta Deployments'
+          content: 'Build failed! (${{ github.event.head_commit.message }})'
