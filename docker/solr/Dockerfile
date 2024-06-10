@@ -1,4 +1,4 @@
-FROM solr:9.0.0
+FROM solr:9.6.1
 
 # switch from solr to root user
 USER root

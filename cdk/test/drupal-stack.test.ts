@@ -81,6 +81,7 @@ test('verify drupal stack resources', () => {
       taskMinCapacity: 1,
       taskMaxCapacity: 2,
     },
+    sentryTracesSampleRate: "1.0"
   });
   // THEN
   const template = Template.fromStack(stack);

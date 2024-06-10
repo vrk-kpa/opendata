@@ -111,12 +111,11 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"rdf"* ]]  && drush pm:uninstall -y rdf
 [[ "$MODULE_INFO" == *"bartik"* ]]  && drush theme:uninstall -y bartik
 [[ "$MODULE_INFO" == *"seven"* ]]  && drush theme:uninstall -y seven
-
+[[ "$MODULE_INFO" == *"fontawesome_menu_icons"* ]] && drush pm:uninstall -y fontawesome_menu_icons
 
 # enable modules
 echo "enable modules.."
 [[ "$MODULE_INFO" != *"twig_tweak"* ]]                    && drush pm:enable -y twig_tweak
-[[ "$MODULE_INFO" != *"fontawesome_menu_icons"* ]]        && drush pm:enable -y fontawesome_menu_icons
 [[ "$MODULE_INFO" != *"smtp"* ]]                          && drush pm:enable -y smtp
 [[ "$MODULE_INFO" != *"pathauto"* ]]                      && drush pm:enable -y pathauto
 [[ "$MODULE_INFO" != *"easy_breadcrumb"* ]]               && drush pm:enable -y easy_breadcrumb
@@ -144,6 +143,7 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"password_policy_length"* ]]        && drush pm:enable -y password_policy_length
 [[ "$MODULE_INFO" != *"raven"* ]]                         && drush pm:enable -y raven
 [[ "$MODULE_INFO" != *"menu_link_attributes"* ]]          && drush pm:enable -y menu_link_attributes
+[[ "$MODULE_INFO" != *"fontawesome"* ]]                   && drush pm:enable -y fontawesome
 
 # remove some configurations
 # NOTE: ansible role skips errors with this condition:
