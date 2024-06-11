@@ -56,6 +56,11 @@ jobs:
             build-frontend: true
             name: ckan
             build-container: ${{ (needs.build-and-test-containers.outputs.ckan == 'true') || (needs.build-and-test-containers.outputs.assets == 'true') }}
+          - dockerfile: ./clamav/clamav-docker/Dockerfile
+            context: ./clamav/clamav-docker
+            submodules: ""
+            name: clamav
+            build-container: ${{ needs.build-and-test-containers.outputs.clamav == 'true' }}
 
     steps:
       - name: checkout
@@ -172,6 +177,11 @@ jobs:
         run: |
           sed -i.bak -E 's/^(NGINX_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
 
+      - name: Update .env.template to reference new clamav image
+        if: ${{ (needs.build-and-test-containers.outputs.clamav == 'true') }}
+        run: |
+          sed -i.bak -E 's/^(CLAMAV_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
       - name: Commit updated .env.template
         id: envtemplate
         if: ${{ (needs.build-and-test-containers.outputs.ckan == 'true') || 
@@ -179,7 +189,8 @@ jobs:
                 (needs.build-and-test-containers.outputs.drupal == 'true' ) || 
                 (needs.build-and-test-containers.outputs.solr == 'true') || 
                 (needs.build-and-test-containers.outputs.nginx == 'true') ||
-                (needs.build-and-test-containers.outputs.datapusher == 'true') }}
+                (needs.build-and-test-containers.outputs.datapusher == 'true') ||
+                (needs.build-and-test-containers.outputs.clamav == 'true') }}
         run: |
           git config user.name "YTP Bot"
           git config user.email "yhteentoimivuus.kehittajat@gofore.com"
