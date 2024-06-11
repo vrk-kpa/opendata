@@ -59,7 +59,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: ${{ matrix.submodules }}
 
@@ -87,26 +87,16 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: install nodejs v16
+      - name: install nodejs v20
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: 'npm'
           cache-dependency-path: opendata-assets/package-lock.json
 
-      - name: cache node_modules
-        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        uses: actions/cache@v3
-        id: cache-node_modules
-        with:
-          path: ./opendata-assets/node_modules
-          key: ${{ runner.os }}-build-node_v16-${{ hashFiles('opendata-assets/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-node_v16-
-
       - name: install npm packages
-        if: ${{ matrix.build-frontend == true && matrix.build-container == true && steps.cache-node_modules.outputs.cache-hit != 'true'}}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npm ci
         working-directory: ./opendata-assets
 
@@ -204,22 +194,16 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ needs.commit-new-images.outputs.sha }}
 
-      - name: install nodejs v16
-        uses: actions/setup-node@v3
+      - name: install nodejs v20
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
-
-      - name: cache node_modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_cdk_v16-
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'cdk/package-lock.json'
 
       - name: install cdk npm packages and verify installation
         working-directory: cdk
@@ -277,3 +261,40 @@ jobs:
           type: 'stream'
           topic: 'Beta Deployments'
           content: 'Beta deployment succeeded! (${{ github.event.head_commit.message }})'
+
+      - name: Notify Zulip on error
+        if: failure()
+        uses: zulip/github-actions-zulip/send-message@v1
+        with:
+          api-key: ${{ secrets.ZULIP_API_KEY }}
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Beta Deployments'
+          content: 'Beta deployment failed! (${{ github.event.head_commit.message }})'
+
+  detect-build-failure:
+    name: Detect build failure
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs:
+      - build-and-test-containers
+    steps:
+      - run: exit 1
+        if: >-
+          ${{
+              contains(needs.*.result, 'failure')
+              || contains(needs.*.result, 'skipped')
+          }}
+      - name: Notify Zulip on  build error
+        if: failure()
+        uses: zulip/github-actions-zulip/send-message@v1
+        with:
+          api-key: ${{ secrets.ZULIP_API_KEY }}
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Beta Deployments'
+          content: 'Build failed! (${{ github.event.head_commit.message }})'
