@@ -8,7 +8,6 @@ export interface EnvProps {
   SOLR_IMAGE_TAG: string,
   DATAPUSHER_IMAGE_TAG: string,
   NGINX_IMAGE_TAG: string,
-  CLAMAV_IMAGE_TAG: string,
   // 3rd party images
   FUSEKI_IMAGE_TAG: string,
 }
