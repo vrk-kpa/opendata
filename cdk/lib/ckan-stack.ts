@@ -485,7 +485,7 @@ export class CkanStack extends Stack {
     });
 
     ckanServiceAsg.scaleOnCpuUtilization('ckanServiceAsgPolicy', {
-      targetUtilizationPercent: 50,
+      targetUtilizationPercent: 40,
       scaleInCooldown: Duration.seconds(60),
       scaleOutCooldown: Duration.seconds(60),
     });

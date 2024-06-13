@@ -281,7 +281,7 @@ export class DrupalStack extends Stack {
     });
 
     drupalServiceAsg.scaleOnCpuUtilization('drupalServiceAsgPolicy', {
-      targetUtilizationPercent: 50,
+      targetUtilizationPercent: 40,
       scaleInCooldown: Duration.seconds(60),
       scaleOutCooldown: Duration.seconds(60),
     });
