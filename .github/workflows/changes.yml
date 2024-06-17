@@ -18,6 +18,9 @@ on:
       datapusher:
         description: "Change in datapusher container"
         value: ${{ jobs.changes_in_containers.outputs.datapusher }}
+      clamav:
+        description: "Change in clamav container"
+        value: ${{ jobs.changes_in_containers.outputs.clamav }}
       assets:
         description: "Change in assets"
         value: ${{ jobs.changes_in_containers.outputs.assets }}
@@ -34,6 +37,7 @@ jobs:
       nginx: ${{ steps.filter.outputs.nginx }}
       solr: ${{ steps.filter.outputs.solr }}
       datapusher: ${{ steps.filter.outputs.datapusher }}
+      clamav: ${{ steps.filter.outputs.clamav }}
       assets: ${{ steps.filter.outputs.assets }}
       environment: ${{ steps.filter.outputs.environment }}
     steps:
@@ -56,6 +60,7 @@ jobs:
             drupal: drupal/**
             solr: docker/solr/**
             datapusher: docker/datapusher-plus/**
+            clamav: clamav/clamav-docker/**
             nginx: docker/nginx/**
             assets: opendata-assets/**
             environment: docker/*

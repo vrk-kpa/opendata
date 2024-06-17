@@ -19,7 +19,7 @@ def clamd_check(decorated):
 
 class ClamScanner:
     clamd_up = False
-    clamd_client = clamd.ClamdUnixSocket()
+    clamd_client = clamd.ClamdUnixSocket(path="/tmp/clamd.sock")
 
     def __init__(self, file_name):
         self.file = file_name
@@ -33,14 +33,16 @@ class ClamScanner:
             logger.info('Updating ClamAV database')
             freshclam_process_output = subprocess.check_output(
                 'freshclam').decode('utf-8')
-            if 'Database updated' in freshclam_process_output:
-                logger.info('ClamAV database updated')
-            elif freshclam_process_output.count('is up to date') >= 3:
-                logger.info('ClamAV database is up to date')
-            else:
+            updated = freshclam_process_output.count('updated')
+            up_to_date = freshclam_process_output.count('is up-to-date')
+            if updated + up_to_date < 3:
                 raise Exception(
                     f'Unable to ensure that ClamAV database is up to date: \n'
                     f'{freshclam_process_output}')
+            elif updated == 0:
+                logger.info('ClamAV database is up to date')
+            else:
+                logger.info('ClamAV database updated')
         except subprocess.CalledProcessError as e:
             error_message = e.output.decode('utf-8')
             outdated = 'OUTDATED' in error_message

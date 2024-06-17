@@ -22,6 +22,9 @@ on:
       datapusher:
         description: "Change in datapusher container"
         value: ${{ jobs.detect-changes.outputs.datapusher }}
+      clamav:
+        description: "Change in clamav container"
+        value: ${{ jobs.detect-changes.outputs.clamav }}
       assets:
         description: "Change in assets"
         value: ${{ jobs.detect-changes.outputs.assets }}
@@ -84,6 +87,12 @@ jobs:
             build-frontend: true
             name: ckan
             build-container: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
+          - dockerfile: ./clamav/clamav-docker/Dockerfile
+            context: ./clamav/clamav-docker
+            submodules: ""
+            build-frontend: false
+            name: clamav
+            build-container: ${{ needs.detect-changes.outputs.clamav == 'true' }}
 
     steps:
       - name: checkout
