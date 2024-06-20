@@ -430,7 +430,7 @@ jobs:
           node-version: 16
 
       - name: cache node_modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
