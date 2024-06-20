@@ -1,8 +1,8 @@
 import { Stack } from 'aws-cdk-lib';
+import { ITopic, Topic } from "aws-cdk-lib/aws-sns";
 import { MonitoringStackProps } from './monitoring-stack-props';
 
 import * as events from 'aws-cdk-lib/aws-events';
-import * as assertions from 'aws-cdk-lib/assertions';
 import * as eventsTargets from 'aws-cdk-lib/aws-events-targets';
 import * as logs from 'aws-cdk-lib/aws-logs';
 

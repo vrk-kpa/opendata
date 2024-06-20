@@ -5,9 +5,12 @@ import {LambdaStackProps} from "./lambda-stack-props";
 import { SendToZulip } from "./send-to-zulip";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import {Credentials} from "aws-cdk-lib/aws-rds";
+import { Topic } from "aws-cdk-lib/aws-sns";
+import { LambdaSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
 
 export class LambdaStack extends Stack {
   readonly sendToZulipLambda: NodejsFunction;
+  readonly sendToZulipTopic: Topic;
   readonly datastoreJobsCredentials: Credentials;
   readonly datastoreReadCredentials: Credentials;
   readonly datastoreUserCredentials: Credentials;
@@ -35,5 +38,8 @@ export class LambdaStack extends Stack {
       environment: props.environment,
     });
     this.sendToZulipLambda = sendToZulip.lambda;
+
+    this.sendToZulipTopic = new Topic(this, 'monitoringTopic');
+    this.sendToZulipTopic.addSubscription(new LambdaSubscription(this.sendToZulipLambda));
   }
 }
