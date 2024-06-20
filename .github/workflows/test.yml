@@ -289,6 +289,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: /tmp
+          pattern: /tmp/*.tar
 
       - name: load built ckan image
         if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true')}}
