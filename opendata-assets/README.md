@@ -13,7 +13,7 @@ PPA is only required if node.js version is lower than 0.8
 
 	sudo apt-get install nodejs
 
-Install gulp:
+Install gulp: 
 
 	sudo npm install -g gulp
 
