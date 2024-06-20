@@ -133,10 +133,6 @@ jobs:
         run: npx gulp
         working-directory: ./opendata-assets
 
-      - name: create image directory
-        run: mkdir /tmp/images
-        if: ${{ matrix.build-container == true }}
-        
       - name: build images
         if: ${{ matrix.build-container == true }}
         uses: docker/build-push-action@v6
