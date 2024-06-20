@@ -80,7 +80,7 @@ jobs:
 
       - name: login to AWS ECR
         id: login
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: configure NPM credentials
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
