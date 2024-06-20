@@ -135,7 +135,7 @@ jobs:
 
       - name: build images
         if: ${{ matrix.build-container == true }}
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
