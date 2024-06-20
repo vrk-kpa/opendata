@@ -45,7 +45,7 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
-      - uses: nrwl/nx-set-shas@v3
+      - uses: nrwl/nx-set-shas@v4
         id: last_successful_commit
         with:
           main-branch-name: 'master'
