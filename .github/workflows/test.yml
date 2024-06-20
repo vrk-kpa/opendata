@@ -142,7 +142,7 @@ jobs:
           push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          outputs: type=docker,dest=/tmp/${{ matrix.name }}.tar
+          outputs: type=docker,dest=/tmp/images/${{ matrix.name }}.tar
           tags: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ matrix.name }}:latest
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
