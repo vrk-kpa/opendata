@@ -153,7 +153,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.name }}
-          path: /tmp/${{ matrix.name }}.tar
+          path: /tmp/images/${{ matrix.name }}.tar
 
   test-e2e:
     name: test-e2e
@@ -288,32 +288,32 @@ jobs:
       - name: download built images
         uses: actions/download-artifact@v4
         with:
-          path: /tmp
+          path: /tmp/images
 
       - name: load built ckan image
         if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true')}}
         run: |
-          docker load --input /tmp/ckan/ckan.tar
+          docker load --input /tmp/images/ckan/ckan.tar
 
       - name: load built drupal image
         if: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
         run: |
-          docker load --input /tmp/drupal/drupal.tar
+          docker load --input /tmp/images/drupal/drupal.tar
 
       - name: load built datapusher image
         if: ${{ needs.detect-changes.outputs.datapusher == 'true' }}
         run: |
-          docker load --input /tmp/datapusher/datapusher.tar
+          docker load --input /tmp/images/datapusher/datapusher.tar
 
       - name: load built solr image
         if: ${{ needs.detect-changes.outputs.solr == 'true' }}
         run: |
-          docker load --input /tmp/solr/solr.tar
+          docker load --input /tmp/images/solr/solr.tar
 
       - name: load built nginx image
         if: ${{ needs.detect-changes.outputs.nginx == 'true' }}
         run: |
-          docker load --input /tmp/nginx/nginx.tar
+          docker load --input /tmp/images/nginx/nginx.tar
 
       - name: bring services up
         working-directory: docker
