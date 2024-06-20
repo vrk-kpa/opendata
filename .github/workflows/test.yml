@@ -197,7 +197,7 @@ jobs:
       - run: npm ci
 
       - name: configure AWS credentials for running tests
-        uses: aws-actions/configure-aws-credentials@v4.0.2
+        uses: aws-actions/configure-aws-credentials@v4
         id: aws-credentials
         with:
           role-to-assume: ${{ secrets.AWS_TEST_ROLE }}
@@ -271,7 +271,7 @@ jobs:
           AWS_SESSION_TOKEN: ${{ steps.aws-credentials.outputs.aws-session-token }}
 
       - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4.0.2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
           role-session-name: github-actions
