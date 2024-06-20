@@ -24,7 +24,7 @@
     "@aws-sdk/client-secrets-manager": "^3.370.0",
     "aws-cdk-lib": "^2.83.1",
     "constructs": "^10.0.0",
-    "dotenv": "^10.0.0",
+    "dotenv": "^16.4.5",
     "form-data": "^4.0.0",
     "knex": "^2.4.2",
     "pg": "^8.11.0",
