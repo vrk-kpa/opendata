@@ -422,7 +422,7 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: install nodejs v16
         uses: actions/setup-node@v3
@@ -487,7 +487,7 @@ jobs:
       PGPASSWORD: postgres
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
     - name: Create Database

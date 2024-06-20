@@ -41,7 +41,7 @@ jobs:
       assets: ${{ steps.filter.outputs.assets }}
       environment: ${{ steps.filter.outputs.environment }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 0
