@@ -1,11 +1,9 @@
-import { Stack } from 'aws-cdk-lib';
-import { ITopic, Topic } from "aws-cdk-lib/aws-sns";
+import { Stack,
+         aws_events as events,
+         aws_events_targets as eventsTargets,
+         aws_logs as logs
+       } from 'aws-cdk-lib';
 import { MonitoringStackProps } from './monitoring-stack-props';
-
-import * as events from 'aws-cdk-lib/aws-events';
-import * as eventsTargets from 'aws-cdk-lib/aws-events-targets';
-import * as logs from 'aws-cdk-lib/aws-logs';
-
 import { Construct } from 'constructs';
 
 export class MonitoringStack extends Stack {
@@ -18,7 +16,7 @@ export class MonitoringStack extends Stack {
     });
 
     // Eventbridge rule to send 
-    const sendToDeveloperZulipTarget = new eventsTargets.LambdaFunction(props.sendToZulipLambda, {});
+    const sendToDeveloperZulipTarget = new eventsTargets.SnsTopic(props.sendToZulipTopic, {});
     const taskHealthCheckFailLogGroupTarget = new eventsTargets.CloudWatchLogGroup(taskHealthCheckFailLogGroup);
 
     new events.Rule(this, 'taskHealthCheckFailedRule', {

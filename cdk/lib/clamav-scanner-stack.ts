@@ -5,7 +5,7 @@ import { Fn, Stack,
          aws_ssm as ssm,
          aws_s3 as s3,
          aws_s3_notifications as s3n,
-         aws_lambda_nodejs as lambda_nodejs
+         aws_lambda_nodejs as lambdaNodejs
        } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { ClamavScannerStackProps } from './clamav-scanner-stack-props';
@@ -14,7 +14,7 @@ import { ClamavScan } from './clamav-scan';
 
 export class ClamavScannerStack extends Stack {
 
-  readonly lambda: lambda_nodejs.NodejsFunction;
+  readonly lambda: lambdaNodejs.NodejsFunction;
 
   constructor(scope: Construct, id: string, props: ClamavScannerStackProps) {
     super(scope, id, props);

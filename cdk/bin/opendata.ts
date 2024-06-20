@@ -371,7 +371,7 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
 });
 
 const monitoringStackBeta = new MonitoringStack(app, 'MonitoringStack-beta', {
-  sendToZulipLambda: lambdaStackBeta.sendToZulipLambda,
+  sendToZulipTopic: lambdaStackBeta.sendToZulipTopic,
   env: {
     account: betaProps.account,
     region: betaProps.region,
@@ -717,7 +717,7 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
 });
 
 const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
-  sendToZulipLambda: lambdaStackProd.sendToZulipLambda,
+  sendToZulipTopic: lambdaStackProd.sendToZulipTopic,
   env: {
     account: prodProps.account,
     region: prodProps.region,
