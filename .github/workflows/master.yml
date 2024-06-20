@@ -257,7 +257,7 @@ jobs:
 
       - name: upload log artifacts
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: deploy-logs
           path: /tmp/deploy.log
