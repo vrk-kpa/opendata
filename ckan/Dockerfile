@@ -159,7 +159,7 @@ RUN \
     pyasn1 \
     polib \
     botocore \
-    numpy \
+    "numpy < 2" \
     boto \
     boto3
 

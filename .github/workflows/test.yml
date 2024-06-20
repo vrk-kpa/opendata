@@ -147,6 +147,7 @@ jobs:
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
+          DOCKER_BUILD_NO_SUMMARY: true
 
       - name: upload images
         if: ${{ matrix.build-container == true }}
@@ -454,9 +455,10 @@ jobs:
           npm run test
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           flags: cdk
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   test:
     name: Test opendata extensions
@@ -547,7 +549,14 @@ jobs:
     - name: Run tests
       run: |
         pytest --ckan-ini=ckan/ckanext/ckanext-ytp_main/test.ini --cov=ckanext.ytp --disable-warnings ckan/ckanext/ckanext-ytp_main/ckanext/ytp/tests
+
+    - name: install codecov requirements
+      run: |
+        apk add gpg gpg-agent
+
     - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         flags: ckan
+        os: alpine
+        token: ${{ secrets.CODECOV_TOKEN }}
