@@ -49,7 +49,7 @@ jobs:
           REPOSITORY: ${{ secrets.REPOSITORY }}
 
       - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           role-session-name: github-actions

@@ -47,6 +47,12 @@ updates:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
+- package-ecosystem: "docker"
+  directory: "/cypress/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
 - package-ecosystem: npm
   directory: "/"
   schedule:
