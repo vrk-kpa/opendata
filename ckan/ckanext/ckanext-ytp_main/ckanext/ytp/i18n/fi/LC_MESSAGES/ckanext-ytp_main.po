@@ -1645,7 +1645,7 @@ msgstr ""
 
 #: ckanext/ytp/validators.py:294 ckanext/ytp/validators.py:350
 msgid "expecting JSON object"
-msgstr ""
+msgstr "odottaa JSON-objektia"
 
 #: ckanext/ytp/validators.py:298 ckanext/ytp/validators.py:305
 #, python-format
