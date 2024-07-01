@@ -1633,7 +1633,7 @@ msgstr ""
 
 #: ckanext/ytp/validators.py:263 ckanext/ytp/validators.py:651
 msgid "expecting a list"
-msgstr ""
+msgstr "odottaa listaa"
 
 #: ckanext/ytp/validators.py:288 ckanext/ytp/validators.py:344
 msgid "Failed to decode JSON string"
