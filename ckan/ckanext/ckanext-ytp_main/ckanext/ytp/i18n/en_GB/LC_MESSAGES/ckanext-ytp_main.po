@@ -3488,27 +3488,27 @@ msgstr "Send submission"
 
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:6
 msgid "Embed Data Viewer"
-msgstr ""
+msgstr "Embed Data Viewer"
 
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:10
 msgid "Embed this view by copying this into your webpage:"
-msgstr ""
+msgstr "Embed this view by copying this into your webpage:"
 
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:12
 msgid "Choose width and height in pixels:"
-msgstr ""
+msgstr "Choose width and height in pixels:"
 
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:13
 msgid "Width:"
-msgstr ""
+msgstr "Width:"
 
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:15
 msgid "Height:"
-msgstr ""
+msgstr "Height:"
 
 #: ckanext/ytp/templates/snippets/facet_list.html:102
 msgid "There are no {facet_type} that match this search"
-msgstr ""
+msgstr "There are no {facet_type} that match this search"
 
 #: ckanext/ytp/templates/snippets/home_breadcrumb_item.html:2
 msgid "Home"
