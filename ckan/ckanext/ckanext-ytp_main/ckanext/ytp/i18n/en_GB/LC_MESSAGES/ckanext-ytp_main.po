@@ -3790,11 +3790,11 @@ msgstr "Password"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:41
 msgid "Confirm Password"
-msgstr ""
+msgstr "Confirm Password"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:59
 msgid "Update Profile"
-msgstr ""
+msgstr "Update Profile"
 
 #: ckanext/ytp/templates/user/read.html:14
 msgid "You haven't created any datasets."
