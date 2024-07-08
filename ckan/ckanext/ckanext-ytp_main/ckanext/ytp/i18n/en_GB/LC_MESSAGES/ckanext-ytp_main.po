@@ -3750,19 +3750,19 @@ msgstr "You are not a member of any organisations."
 #: ckanext/ytp/templates/user/dashboard_organizations.html:34
 #: ckanext/ytp/templates/user/read.html:16
 msgid "Create one now?"
-msgstr ""
+msgstr "Create one now?"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:7
 msgid "Change details"
-msgstr ""
+msgstr "Change details"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:10
 msgid "Full name"
-msgstr ""
+msgstr "Full name"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:10
 msgid "eg. Joe Bloggs"
-msgstr ""
+msgstr "eg. Joe Bloggs"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:15
 msgid "A little information about yourself"
