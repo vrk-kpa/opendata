@@ -3389,11 +3389,11 @@ msgstr "Showcase website"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:91
 msgid "Type in application website"
-msgstr ""
+msgstr "Type in application website"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:104
 msgid "Links to app stores"
-msgstr ""
+msgstr "Links to app stores"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:106
 msgid "e.g. appstore.com/app"
