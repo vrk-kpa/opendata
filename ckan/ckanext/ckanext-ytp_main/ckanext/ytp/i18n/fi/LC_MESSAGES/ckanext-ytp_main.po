@@ -2497,7 +2497,7 @@ msgstr "tietoaineisto"
 #: ckanext/ytp/templates/package/resource_read.html:88
 #, python-format
 msgid "%(dataset)s"
-msgstr ""
+msgstr "%(dataset)s"
 
 #: ckanext/ytp/templates/package/resource_read.html:142
 #: ckanext/ytp/templates/package/snippets/resource_item.html:46
