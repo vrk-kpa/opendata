@@ -3270,11 +3270,11 @@ msgstr "Original dataset"
 
 #: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:36
 msgid "Link to harvested dataset"
-msgstr ""
+msgstr "Link to harvested dataset"
 
 #: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:60
 msgid "Last modified"
-msgstr ""
+msgstr "Last modified"
 
 #: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:63
 msgid "Show change log"
