@@ -3215,7 +3215,7 @@ msgstr "<a href=\"%(category_url)s\">Muokkaa kategorioita täältä</a>."
 #: ckanext/ytp/templates/scheming/macros/form.html:7
 #: ckanext/ytp/templates/scheming/macros/form.html:153
 msgid "http://example.com/my-image.jpg"
-msgstr ""
+msgstr "http://example.com/my-image.jpg"
 
 #: ckanext/ytp/templates/scheming/macros/form.html:21
 #: ckanext/ytp/templates/scheming/macros/form.html:179
