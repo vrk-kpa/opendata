@@ -3766,19 +3766,19 @@ msgstr "eg. Joe Bloggs"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:15
 msgid "A little information about yourself"
-msgstr ""
+msgstr "A little information about yourself"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:18
 msgid "Subscribe to notification emails"
-msgstr ""
+msgstr "Subscribe to notification emails"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:28
 msgid "Change password"
-msgstr ""
+msgstr "Change password"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:31
 msgid "Sysadmin Password"
-msgstr ""
+msgstr "Sysadmin Password"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:31
 msgid "Old Password"
