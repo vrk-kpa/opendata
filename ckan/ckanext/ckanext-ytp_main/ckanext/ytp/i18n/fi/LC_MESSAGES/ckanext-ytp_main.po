@@ -3684,7 +3684,7 @@ msgstr "{actor} loi rajapinnan {dataset}"
 
 #: ckanext/ytp/templates/snippets/activities/new_package.html:9
 msgid "{actor} created the dataset {dataset}"
-msgstr ""
+msgstr "{actor} loi tietoaineiston {dataset}"
 
 #: ckanext/ytp/templates/source/read_base.html:19
 msgid "read more"
