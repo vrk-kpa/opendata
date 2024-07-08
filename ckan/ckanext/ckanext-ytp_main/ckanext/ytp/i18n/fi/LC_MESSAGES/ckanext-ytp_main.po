@@ -2031,7 +2031,7 @@ msgstr "Sovellukset"
 
 #: ckanext/ytp/templates/general_search/snippets/package_item.html:25
 msgid "showcase"
-msgstr ""
+msgstr "sovellus"
 
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:14
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:20
