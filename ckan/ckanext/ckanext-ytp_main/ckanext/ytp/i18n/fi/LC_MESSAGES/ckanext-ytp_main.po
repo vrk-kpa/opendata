@@ -2492,7 +2492,7 @@ msgstr "Esikatselunäkymät"
 
 #: ckanext/ytp/templates/package/resource_read.html:43
 msgid "dataset"
-msgstr ""
+msgstr "tietoaineisto"
 
 #: ckanext/ytp/templates/package/resource_read.html:88
 #, python-format
