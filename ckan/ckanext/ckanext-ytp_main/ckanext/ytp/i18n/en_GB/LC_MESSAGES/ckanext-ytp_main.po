@@ -3652,7 +3652,7 @@ msgstr[1] "{number} publishers"
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:8
 msgid "{actor} updated the api {dataset}"
-msgstr ""
+msgstr "{actor} updated the api {dataset}"
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:10
 msgid "{actor} updated the dataset {dataset}"
