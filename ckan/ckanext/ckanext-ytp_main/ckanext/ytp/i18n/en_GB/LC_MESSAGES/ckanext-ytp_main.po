@@ -3316,11 +3316,11 @@ msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:7
 msgid "Showcase submit"
-msgstr ""
+msgstr "Submit showcase"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:13
 msgid "Tell us about a showcase"
-msgstr ""
+msgstr "Tell us about a showcase"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/base_form_page.html:15
 msgid ""
