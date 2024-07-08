@@ -3717,7 +3717,7 @@ msgid ""
 msgstr ""
 "Data.europa.eu provides <a "
 "href=\"https://data.europa.eu/en/about/sparql\">examples on how to use "
-"SPARQL queries</a>."
+"SPARQL queries</a> which can also be used on avoindata.fi."
 
 #: ckanext/ytp/templates/spatial/snippets/dataset_map_sidebar.html:17
 msgid "Dataset extent"
