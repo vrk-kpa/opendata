@@ -2052,7 +2052,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:85
 msgid "Last page"
-msgstr ""
+msgstr "Viimeinen sivu"
 
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:94
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:100
