@@ -3192,15 +3192,15 @@ msgstr ""
 
 #: ckanext/ytp/templates/scheming/form_snippets/organization_ex.html:27
 msgid "No organization"
-msgstr "No organisation"
+msgstr "No publisher organisation"
 
 #: ckanext/ytp/templates/scheming/form_snippets/private.html:2
 msgid "Visibility"
-msgstr ""
+msgstr "Visibility"
 
 #: ckanext/ytp/templates/scheming/form_snippets/private.html:5
 msgid "Public"
-msgstr ""
+msgstr "Public"
 
 #: ckanext/ytp/templates/scheming/form_snippets/ytp_multiple_checkbox.html:17
 #, python-format
