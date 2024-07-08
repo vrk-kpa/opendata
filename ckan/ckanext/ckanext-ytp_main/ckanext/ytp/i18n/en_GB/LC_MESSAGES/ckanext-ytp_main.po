@@ -3154,11 +3154,11 @@ msgstr ""
 
 #: ckanext/ytp/templates/report/harvester_report.html:9
 msgid "Times harvested"
-msgstr ""
+msgstr "Times harvested"
 
 #: ckanext/ytp/templates/report/harvester_report.html:28
 msgid "Not yet scheduled"
-msgstr ""
+msgstr "Not yet scheduled"
 
 #: ckanext/ytp/templates/report/harvester_report.html:31
 msgid "Added"
