@@ -3789,7 +3789,7 @@ msgstr "Vaihda salasana"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:31
 msgid "Sysadmin Password"
-msgstr ""
+msgstr "Sysadmin salasana"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:31
 msgid "Old Password"
