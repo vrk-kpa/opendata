@@ -3475,16 +3475,16 @@ msgstr "Image 1"
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:251
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:252
 msgid "Image 2"
-msgstr ""
+msgstr "Image 2"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:267
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:268
 msgid "Image 3"
-msgstr ""
+msgstr "Image 3"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:288
 msgid "Send submission"
-msgstr ""
+msgstr "Send submission"
 
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:6
 msgid "Embed Data Viewer"
