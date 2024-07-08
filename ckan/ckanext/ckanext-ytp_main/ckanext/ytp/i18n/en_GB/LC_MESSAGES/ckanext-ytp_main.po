@@ -3695,12 +3695,19 @@ msgid ""
 "on <a href=\"https://www.avoindata.fi/ns/\">Suomi.fi Open Data’s DCAT AP "
 "extension here</a>."
 msgstr ""
+"You can use the SPARQL search to find datasets and their metadata by using "
+"SPARQL query language. Datasets on Suomi.fi Open Data are published as RDF "
+"triples and they follow the DCAT-AP specification. You can find information "
+"on <a href=\"https://www.avoindata.fi/ns/\">Suomi.fi Open Data’s DCAT AP "
+"extension here</a>."
 
 #: ckanext/ytp/templates/sparql/query.html:22
 msgid ""
 "<a href=\"https://www.w3.org/TR/rdf-sparql-query/\">Read more about "
 "SPARQL.</a>"
 msgstr ""
+"<a href=\"https://www.w3.org/TR/rdf-sparql-query/\">Read more about "
+"SPARQL.</a>"
 
 #: ckanext/ytp/templates/sparql/query.html:26
 msgid ""
