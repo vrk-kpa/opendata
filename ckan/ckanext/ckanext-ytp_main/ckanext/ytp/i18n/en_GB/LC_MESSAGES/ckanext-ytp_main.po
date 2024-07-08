@@ -3706,8 +3706,8 @@ msgid ""
 "<a href=\"https://www.w3.org/TR/rdf-sparql-query/\">Read more about "
 "SPARQL.</a>"
 msgstr ""
-"<a href=\"https://www.w3.org/TR/rdf-sparql-query/\">Read more about "
-"SPARQL.</a>"
+"<a href=\"https://www.w3.org/TR/rdf-sparql-query/\">Read more about SPARQL "
+"queries.</a>"
 
 #: ckanext/ytp/templates/sparql/query.html:26
 msgid ""
@@ -3715,6 +3715,9 @@ msgid ""
 "href=\"https://data.europa.eu/en/about/sparql\">examples on how to use "
 "SPARQL queries</a>."
 msgstr ""
+"Data.europa.eu provides <a "
+"href=\"https://data.europa.eu/en/about/sparql\">examples on how to use "
+"SPARQL queries</a>."
 
 #: ckanext/ytp/templates/spatial/snippets/dataset_map_sidebar.html:17
 msgid "Dataset extent"
