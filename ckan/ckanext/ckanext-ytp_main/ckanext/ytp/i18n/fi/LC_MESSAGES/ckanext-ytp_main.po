@@ -2925,7 +2925,7 @@ msgstr "Tiedostokoko"
 
 #: ckanext/ytp/templates/package/snippets/resource_form.html:51
 msgid "eg. 1024"
-msgstr ""
+msgstr "esim. 1024"
 
 #: ckanext/ytp/templates/package/snippets/resource_form.html:53
 #: ckanext/ytp/templates/package/snippets/resource_form.html:55
