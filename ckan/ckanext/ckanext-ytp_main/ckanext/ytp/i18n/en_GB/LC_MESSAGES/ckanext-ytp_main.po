@@ -3458,6 +3458,8 @@ msgid ""
 "The featured image will be shown on the Showcases-page as well as on the "
 "showcase's own page."
 msgstr ""
+"The featured image will be shown on the Showcases-page as well as on the "
+"showcase's own page."
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:220
 msgid ""
@@ -3468,7 +3470,7 @@ msgstr "Add images that show the user interface and features of the showcase."
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:235
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:236
 msgid "Image 1"
-msgstr ""
+msgstr "Image 1"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:251
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:252
