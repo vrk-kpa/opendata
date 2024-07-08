@@ -3087,11 +3087,11 @@ msgstr "Kirjaudu"
 
 #: ckanext/ytp/templates/rating/snippets/rating.html:28
 msgid "to leave a rating"
-msgstr ""
+msgstr "jättääksesi arvion"
 
 #: ckanext/ytp/templates/reminder/snippets/subscription_form.html:6
 msgid "joe@example.com"
-msgstr ""
+msgstr "joe@example.com"
 
 #: ckanext/ytp/templates/reminder/snippets/subscription_form.html:8
 msgid "Subscribe"
