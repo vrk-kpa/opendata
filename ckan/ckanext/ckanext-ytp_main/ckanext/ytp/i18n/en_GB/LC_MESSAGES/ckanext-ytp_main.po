@@ -3782,11 +3782,11 @@ msgstr "Sysadmin Password"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:31
 msgid "Old Password"
-msgstr ""
+msgstr "Old Password"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:39
 msgid "Password"
-msgstr ""
+msgstr "Password"
 
 #: ckanext/ytp/templates/user/edit_user_form.html:41
 msgid "Confirm Password"
