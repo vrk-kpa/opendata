@@ -3127,6 +3127,10 @@ msgid ""
 "2010 for evaluating open data. More information on the metric is available "
 "at <a href=\"http://5stardata.info\">http://5stardata.info</a>."
 msgstr ""
+"Dataset counts are based on submission statistics from Suomi.fi Open Data. "
+"Open data quality rating is based on a metric devised by Tim Berners-Lee in "
+"2010 for evaluating open data. More information on the metric is available "
+"at <a href=\"http://5stardata.info\">http://5stardata.info</a>."
 
 #: ckanext/ytp/templates/report/deprecated_dataset_report.html:9
 msgid "Deprecated"
