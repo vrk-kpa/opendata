@@ -3363,6 +3363,8 @@ msgid ""
 "Select which of the datasets found on Suomi.fi Open Data were used in the "
 "showcase. Search for a dataset by typing its name in the field below."
 msgstr ""
+"Select which of the datasets found on Suomi.fi Open Data were used in the "
+"showcase. Search for a dataset by typing its name in the field below."
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:59
 msgid " e.g. Most popular first names"
