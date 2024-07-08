@@ -3814,12 +3814,12 @@ msgstr ""
 
 #: ckanext/ytp/templates/user/read_base.html:29
 msgid "Open ID"
-msgstr ""
+msgstr "Open ID"
 
 #: ckanext/ytp/templates/user/read_base.html:38
 #: ckanext/ytp/templates/user/read_base.html:52
 msgid "This means only you can see this"
-msgstr ""
+msgstr "This means only you can see this"
 
 #: ckanext/ytp/templates/user/read_base.html:43
 msgid "Member Since"
