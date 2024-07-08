@@ -3427,7 +3427,7 @@ msgstr "Submitter email"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:174
 msgid "Showcase images"
-msgstr ""
+msgstr "Showcase images"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:175
 msgid ""
