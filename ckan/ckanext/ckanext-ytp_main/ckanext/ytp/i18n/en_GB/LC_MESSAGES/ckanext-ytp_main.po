@@ -3254,19 +3254,19 @@ msgstr ""
 
 #: ckanext/ytp/templates/scheming/organization/about.html:38
 msgid "Logo of organization {org}"
-msgstr "Logo of organization {org}"
+msgstr "Logo of organisation {org}"
 
 #: ckanext/ytp/templates/scheming/organization/group_form.html:44
 msgid "Are you sure you want to delete this Organization?"
-msgstr ""
+msgstr "Are you sure you want to delete this Organisation?"
 
 #: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:28
 msgid "Collection"
-msgstr ""
+msgstr "Collection"
 
 #: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:34
 msgid "Original dataset"
-msgstr ""
+msgstr "Original dataset"
 
 #: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:36
 msgid "Link to harvested dataset"
