@@ -3259,7 +3259,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/scheming/organization/about.html:38
 msgid "Logo of organization {org}"
-msgstr ""
+msgstr "Organisaation logo {org}"
 
 #: ckanext/ytp/templates/scheming/organization/group_form.html:44
 msgid "Are you sure you want to delete this Organization?"
