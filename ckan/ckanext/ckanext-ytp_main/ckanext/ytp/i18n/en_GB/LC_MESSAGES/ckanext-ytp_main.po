@@ -3405,11 +3405,11 @@ msgstr "Name or organisation of the author"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:129
 msgid "Author Website"
-msgstr ""
+msgstr "Developer Website"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:141
 msgid "Submitter information"
-msgstr ""
+msgstr "Submitter information"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:142
 msgid ""
