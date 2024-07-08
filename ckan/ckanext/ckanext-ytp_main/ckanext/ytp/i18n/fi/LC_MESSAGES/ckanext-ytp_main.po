@@ -1998,7 +1998,7 @@ msgstr "Rajaa hakua"
 
 #: ckanext/ytp/templates/general_search/search_form.html:13
 msgid "Order"
-msgstr ""
+msgstr "Järjestä"
 
 #: ckanext/ytp/templates/general_search/search_form.html:22
 #: ckanext/ytp/templates/organization/index.html:43
