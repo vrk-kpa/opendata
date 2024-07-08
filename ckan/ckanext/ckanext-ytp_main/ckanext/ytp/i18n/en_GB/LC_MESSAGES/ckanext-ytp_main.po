@@ -3729,7 +3729,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/spatial/snippets/spatial_query.html:17
 msgid "Clear"
-msgstr ""
+msgstr "Clear"
 
 #: ckanext/ytp/templates/spatial/snippets/spatial_search.html:6
 msgid "Select municipality"
