@@ -3442,7 +3442,7 @@ msgstr ""
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:187
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:188
 msgid "Icon"
-msgstr ""
+msgstr "Logo"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:193
 msgid "Icon will be shown at the top of the showcase page"
