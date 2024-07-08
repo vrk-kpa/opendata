@@ -2036,7 +2036,7 @@ msgstr "sovellus"
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:14
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:20
 msgid "Previous page"
-msgstr ""
+msgstr "Edellinen sivu"
 
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:29
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:38
