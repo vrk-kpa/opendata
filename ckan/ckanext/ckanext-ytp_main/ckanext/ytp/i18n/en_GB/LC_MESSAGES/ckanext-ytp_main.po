@@ -3656,7 +3656,7 @@ msgstr "{actor} updated the API {dataset}"
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:10
 msgid "{actor} updated the dataset {dataset}"
-msgstr ""
+msgstr "{actor} updated the dataset {dataset}"
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:18
 #: ckanext/ytp/templates/snippets/activities/new_package.html:17
