@@ -3278,11 +3278,11 @@ msgstr "Last modified"
 
 #: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:63
 msgid "Show change log"
-msgstr ""
+msgstr "Show change log"
 
 #: ckanext/ytp/templates/scheming/package/snippets/additional_info.html:67
 msgid "Created on"
-msgstr ""
+msgstr "Created on"
 
 #: ckanext/ytp/templates/scheming/package/snippets/package_form.html:48
 msgid ""
