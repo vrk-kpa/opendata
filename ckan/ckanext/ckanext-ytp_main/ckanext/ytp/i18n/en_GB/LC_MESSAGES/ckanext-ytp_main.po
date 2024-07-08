@@ -3597,12 +3597,12 @@ msgstr "No APIs found"
 #: ckanext/ytp/templates/snippets/search_result_text.html:23
 msgid "{number} dataset found for \"{query}\""
 msgid_plural "{number} datasets found for \"{query}\""
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} dataset found for \"{query}\""
+msgstr[1] "{number} datasets found for \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:24
 msgid "No datasets found for \"{query}\""
-msgstr ""
+msgstr "No datasets found for \"{query}\""
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:25
 msgid "{number} dataset found"
