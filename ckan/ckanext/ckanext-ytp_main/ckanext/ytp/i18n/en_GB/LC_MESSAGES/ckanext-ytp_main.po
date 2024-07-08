@@ -3419,11 +3419,11 @@ msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:147
 msgid "Submitter name"
-msgstr ""
+msgstr "Submitter name"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:161
 msgid "Submitter email"
-msgstr ""
+msgstr "Submitter email"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:174
 msgid "Showcase images"
