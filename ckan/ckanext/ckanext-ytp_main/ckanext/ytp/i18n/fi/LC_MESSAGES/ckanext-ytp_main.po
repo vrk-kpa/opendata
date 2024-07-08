@@ -2044,7 +2044,7 @@ msgstr "Edellinen sivu"
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:72
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:86
 msgid "Page number:"
-msgstr ""
+msgstr "Sivunumero:"
 
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:53
 msgid "Current page number:"
