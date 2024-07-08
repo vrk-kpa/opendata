@@ -3607,12 +3607,12 @@ msgstr "No datasets found for \"{query}\""
 #: ckanext/ytp/templates/snippets/search_result_text.html:25
 msgid "{number} dataset found"
 msgid_plural "{number} datasets found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} dataset found"
+msgstr[1] "{number} datasets found"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:26
 msgid "No datasets found"
-msgstr ""
+msgstr "No datasets found"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:29
 msgid "{number} group found for \"{query}\""
