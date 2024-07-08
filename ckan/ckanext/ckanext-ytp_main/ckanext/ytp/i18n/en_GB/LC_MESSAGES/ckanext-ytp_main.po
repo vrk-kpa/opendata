@@ -3665,11 +3665,11 @@ msgstr ""
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:22
 msgid "Changes"
-msgstr ""
+msgstr "Changes"
 
 #: ckanext/ytp/templates/snippets/activities/new_package.html:7
 msgid "{actor} created the api {dataset}"
-msgstr ""
+msgstr "{actor} created the API {dataset}"
 
 #: ckanext/ytp/templates/snippets/activities/new_package.html:9
 msgid "{actor} created the dataset {dataset}"
