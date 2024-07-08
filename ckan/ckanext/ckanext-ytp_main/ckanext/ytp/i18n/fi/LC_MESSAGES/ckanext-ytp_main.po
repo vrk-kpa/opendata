@@ -2057,7 +2057,7 @@ msgstr ""
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:94
 #: ckanext/ytp/templates/general_search/snippets/post_pagination.html:100
 msgid "Next page"
-msgstr ""
+msgstr "Seuraava sivu"
 
 #: ckanext/ytp/templates/group/member_new.html:13
 #: ckanext/ytp/templates/organization/member_new.html:13
