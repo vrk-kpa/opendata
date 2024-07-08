@@ -3823,8 +3823,8 @@ msgstr "This means only you can see this"
 
 #: ckanext/ytp/templates/user/read_base.html:43
 msgid "Member Since"
-msgstr ""
+msgstr "Member Since"
 
 #: ckanext/ytp/templates/user/read_base.html:52
 msgid "API Key"
-msgstr ""
+msgstr "API Key"
