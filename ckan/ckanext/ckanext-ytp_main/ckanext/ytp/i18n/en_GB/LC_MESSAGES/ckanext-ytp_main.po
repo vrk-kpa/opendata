@@ -3528,7 +3528,7 @@ msgstr "There is no description for this organisation"
 
 #: ckanext/ytp/templates/snippets/organization.html:68
 msgid "Last Harvested"
-msgstr ""
+msgstr "Last Harvested"
 
 #: ckanext/ytp/templates/snippets/search_form.html:5
 msgid "Search apis..."
