@@ -3676,7 +3676,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:22
 msgid "Changes"
-msgstr ""
+msgstr "Muutokset"
 
 #: ckanext/ytp/templates/snippets/activities/new_package.html:7
 msgid "{actor} created the api {dataset}"
