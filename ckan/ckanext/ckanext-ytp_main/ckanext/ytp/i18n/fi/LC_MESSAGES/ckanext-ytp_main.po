@@ -2361,7 +2361,7 @@ msgstr "Lisää tuottaja"
 
 #: ckanext/ytp/templates/organization/snippets/organization_tree.html:29
 msgid "Expand"
-msgstr ""
+msgstr "Laajenna"
 
 #: ckanext/ytp/templates/organization/snippets/organization_tree.html:30
 msgid "Collapse"
