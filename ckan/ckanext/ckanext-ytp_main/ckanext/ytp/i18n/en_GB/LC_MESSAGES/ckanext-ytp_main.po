@@ -3516,11 +3516,11 @@ msgstr "Home"
 
 #: ckanext/ytp/templates/snippets/license.html:14
 msgid "No License Provided"
-msgstr ""
+msgstr "No License Provided"
 
 #: ckanext/ytp/templates/snippets/license.html:28
 msgid "This dataset satisfies the Open Definition."
-msgstr ""
+msgstr "This dataset satisfies the Open Definition."
 
 #: ckanext/ytp/templates/snippets/organization.html:41
 msgid "There is no description for this organization"
