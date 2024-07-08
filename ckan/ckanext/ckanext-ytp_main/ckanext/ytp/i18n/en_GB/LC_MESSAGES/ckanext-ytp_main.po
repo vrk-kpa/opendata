@@ -3238,6 +3238,8 @@ msgid ""
 "Allowed filetypes are: pdf, jpg, jpeg, png, doc, docx, xls, xlsx, ppt, pptx,"
 " odt, ods, txt."
 msgstr ""
+"Allowed file types are: pdf, jpg, jpeg, png, doc, docx, xls, xlsx, ppt, "
+"pptx, odt, ods, txt."
 
 #: ckanext/ytp/templates/scheming/macros/form.html:231
 #, python-format
@@ -3246,6 +3248,9 @@ msgid ""
 "target=\"popover\" data-content=\"%(markdown_tooltip)s\" data-"
 "html=\"true\">Markdown formatting</a> here"
 msgstr ""
+"You can use <a href=\"#markdown\" title=\"Markdown quick reference\" data-"
+"target=\"popover\" data-content=\"%(markdown_tooltip)s\" data-"
+"html=\"true\">Markdown formatting</a> here"
 
 #: ckanext/ytp/templates/scheming/organization/about.html:38
 msgid "Logo of organization {org}"
