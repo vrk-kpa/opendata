@@ -3564,13 +3564,15 @@ msgstr "Toggle menu"
 
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:90
 msgid "<p class=\"extra\">Please try another search or change search facets.</p>"
-msgstr ""
+msgstr "<p class=\"extra\">Please try another search or change search facets.</p>"
 
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:96
 msgid ""
 "<p><strong>There was an error while searching.</strong> Please try "
 "again.</p>"
 msgstr ""
+"<p><strong>There was an error while searching.</strong> Please try "
+"again.</p>"
 
 #: ckanext/ytp/templates/snippets/search_result_text.html:17
 msgid "{number} apiset found for \"{query}\""
