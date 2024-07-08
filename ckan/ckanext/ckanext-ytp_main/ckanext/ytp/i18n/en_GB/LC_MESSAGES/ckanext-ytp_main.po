@@ -3352,11 +3352,11 @@ msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:50
 msgid "Showcase information"
-msgstr ""
+msgstr "Showcase information"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:53
 msgid "Datasets used in the showcase"
-msgstr ""
+msgstr "Datasets used in the showcase"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:55
 msgid ""
