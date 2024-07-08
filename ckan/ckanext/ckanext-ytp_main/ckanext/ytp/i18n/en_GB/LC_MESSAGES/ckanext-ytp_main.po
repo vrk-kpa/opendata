@@ -3741,7 +3741,7 @@ msgstr "Dashboard"
 
 #: ckanext/ytp/templates/user/dashboard.html:27
 msgid "Activity from items that I'm following"
-msgstr ""
+msgstr "Activity from items that I'm following"
 
 #: ckanext/ytp/templates/user/dashboard_organizations.html:32
 msgid "You are not a member of any organizations."
