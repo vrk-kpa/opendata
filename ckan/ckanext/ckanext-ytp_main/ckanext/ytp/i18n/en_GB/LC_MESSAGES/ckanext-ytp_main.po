@@ -3551,15 +3551,16 @@ msgstr ""
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:110
 msgid "<strong>There was an error while searching.</strong> Please try again."
 msgstr ""
+"<strong>There was an error while searching.</strong> Please try again."
 
 #: ckanext/ytp/templates/snippets/search_form_with_table_header.html:50
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:36
 msgid "Order by"
-msgstr ""
+msgstr "Order by"
 
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:59
 msgid "Toggle menu"
-msgstr ""
+msgstr "Toggle menu"
 
 #: ckanext/ytp/templates/snippets/search_form_without_input.html:90
 msgid "<p class=\"extra\">Please try another search or change search facets.</p>"
