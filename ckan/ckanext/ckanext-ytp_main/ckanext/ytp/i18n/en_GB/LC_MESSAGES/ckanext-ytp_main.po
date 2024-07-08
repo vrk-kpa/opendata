@@ -3215,7 +3215,7 @@ msgstr "http://example.com/my-image.jpg"
 #: ckanext/ytp/templates/scheming/macros/form.html:21
 #: ckanext/ytp/templates/scheming/macros/form.html:179
 msgid "Clear Upload"
-msgstr ""
+msgstr "Clear Upload"
 
 #: ckanext/ytp/templates/scheming/macros/form.html:73
 msgid "Custom"
