@@ -3346,6 +3346,9 @@ msgid ""
 "about possible applications and the creation process, as well as about how "
 "open data has been used in the showcase."
 msgstr ""
+"A short and easily understandable description of the showcase. Describe, for"
+" example, the possible uses and the creation process of the showcase, as "
+"well as how open data has been used in the showcase."
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:50
 msgid "Showcase information"
