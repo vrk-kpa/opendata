@@ -3290,6 +3290,9 @@ msgid ""
 "other field on the form. The information in the fields is not shown on the "
 "showcase’s page."
 msgstr ""
+"Additional fields are meant for the information that does not fit in any "
+"other field on the form. The information in the fields is not shown on the "
+"showcase’s page."
 
 #: ckanext/ytp/templates/scheming/package/snippets/package_form.html:50
 msgid ""
