@@ -3512,7 +3512,7 @@ msgstr "There are no {facet_type} that match this search"
 
 #: ckanext/ytp/templates/snippets/home_breadcrumb_item.html:2
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 #: ckanext/ytp/templates/snippets/license.html:14
 msgid "No License Provided"
