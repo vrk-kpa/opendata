@@ -3328,14 +3328,17 @@ msgid ""
 "our showcase gallery within a few days. Fields marked with an asterisk (*) "
 "are required."
 msgstr ""
+"Tell us about a showcase which uses open data that you have created or "
+"found, and we will add it to our showcase gallery within a few days. Fields "
+"marked with an asterisk (*) are required."
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:20
 msgid "Showcase title"
-msgstr ""
+msgstr "Showcase title"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:36
 msgid "Showcase description"
-msgstr ""
+msgstr "Showcase description"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:37
 msgid ""
