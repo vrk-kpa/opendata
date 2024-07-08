@@ -3223,13 +3223,15 @@ msgstr "Custom"
 
 #: ckanext/ytp/templates/scheming/macros/form.html:187
 msgid "Paste or drag file in here"
-msgstr ""
+msgstr "Paste or drag file in here"
 
 #: ckanext/ytp/templates/scheming/macros/form.html:193
 msgid ""
 "Maximum filesize of single file is {max_filesize}Mb. Total maximum size of "
 "all files is {max_total_size}Mb."
 msgstr ""
+"Maximum filesize of single file is {max_filesize}Mb. Total maximum size of "
+"all files is {max_total_size}Mb."
 
 #: ckanext/ytp/templates/scheming/macros/form.html:194
 msgid ""
