@@ -3798,11 +3798,11 @@ msgstr "Update Profile"
 
 #: ckanext/ytp/templates/user/read.html:14
 msgid "You haven't created any datasets."
-msgstr ""
+msgstr "You haven't created any datasets."
 
 #: ckanext/ytp/templates/user/read.html:21
 msgid "User hasn't created any datasets."
-msgstr ""
+msgstr "User hasn't created any datasets."
 
 #: ckanext/ytp/templates/user/read_base.html:20
 msgid "You have not provided a biography."
