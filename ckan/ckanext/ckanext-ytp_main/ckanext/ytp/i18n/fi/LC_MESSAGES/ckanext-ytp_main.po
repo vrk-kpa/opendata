@@ -2888,7 +2888,7 @@ msgstr "Data"
 
 #: ckanext/ytp/templates/package/snippets/resource_form.html:22
 msgid "http://example.com/external-data.csv"
-msgstr ""
+msgstr "http://example.com/external-data.csv"
 
 #: ckanext/ytp/templates/package/snippets/resource_form.html:26
 msgid "Name"
