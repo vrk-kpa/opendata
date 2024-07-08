@@ -3673,19 +3673,19 @@ msgstr "{actor} created the API {dataset}"
 
 #: ckanext/ytp/templates/snippets/activities/new_package.html:9
 msgid "{actor} created the dataset {dataset}"
-msgstr ""
+msgstr "{actor} created the dataset {dataset}"
 
 #: ckanext/ytp/templates/source/read_base.html:19
 msgid "read more"
-msgstr ""
+msgstr "read more"
 
 #: ckanext/ytp/templates/source/read_base.html:22
 msgid "There is no description for this harvest source"
-msgstr ""
+msgstr "There is no description for this harvest source"
 
 #: ckanext/ytp/templates/sparql/query.html:15
 msgid "SPARQL search"
-msgstr ""
+msgstr "SPARQL search"
 
 #: ckanext/ytp/templates/sparql/query.html:18
 msgid ""
