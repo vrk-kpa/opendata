@@ -3205,7 +3205,7 @@ msgstr "Public"
 #: ckanext/ytp/templates/scheming/form_snippets/ytp_multiple_checkbox.html:17
 #, python-format
 msgid "Categories can be edited from <a href=\"%(category_url)s\">here</a>"
-msgstr ""
+msgstr "Categories can be edited from <a href=\"%(category_url)s\">here</a>"
 
 #: ckanext/ytp/templates/scheming/macros/form.html:7
 #: ckanext/ytp/templates/scheming/macros/form.html:153
