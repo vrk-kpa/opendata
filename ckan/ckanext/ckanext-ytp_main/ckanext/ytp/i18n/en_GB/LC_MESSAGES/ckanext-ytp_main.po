@@ -3370,7 +3370,7 @@ msgstr " e.g. Most popular first names"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:71
 msgid "Platform"
-msgstr ""
+msgstr "Platform"
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:72
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:79
