@@ -3672,7 +3672,7 @@ msgstr "{actor} päivitti tietoaineistoa {dataset}"
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:18
 #: ckanext/ytp/templates/snippets/activities/new_package.html:17
 msgid "View this version"
-msgstr ""
+msgstr "Tarkastele tätä versiota"
 
 #: ckanext/ytp/templates/snippets/activities/changed_package.html:22
 msgid "Changes"
