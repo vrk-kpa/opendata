@@ -2951,7 +2951,7 @@ msgstr "Tallenna ja lisää toinen"
 
 #: ckanext/ytp/templates/package/snippets/resource_form.html:87
 msgid "Save api"
-msgstr "Lisää rajapinta"
+msgstr "Tallenna rajapinta"
 
 #: ckanext/ytp/templates/package/snippets/resource_form.html:89
 msgid "Save dataset"
