@@ -247,4 +247,4 @@ msgstr "Last page"
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:92
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:98
 msgid "Next page"
-msgstr ""
+msgstr "Next page"
