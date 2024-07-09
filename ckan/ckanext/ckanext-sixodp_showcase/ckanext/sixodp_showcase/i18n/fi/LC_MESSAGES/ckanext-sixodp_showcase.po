@@ -542,7 +542,7 @@ msgstr "Hae ja lisää rajapintoja sovellukselle"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_apisets.html:16
 msgid "No apisets could be found"
-msgstr ""
+msgstr "Rajapintoja ei löytynyt"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:3
 msgid "Showcases - Manage datasets"
