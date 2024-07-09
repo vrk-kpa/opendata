@@ -284,6 +284,8 @@ msgid ""
 "This shows a given membership request. Only admins can approve, modify or "
 "reject requests."
 msgstr ""
+"This shows a given membership request. As organisation admin you can "
+"approve, modify or reject the request."
 
 #: ckanext/ytp_request/templates/request/show.html:44
 msgid "State"
