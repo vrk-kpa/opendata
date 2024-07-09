@@ -722,7 +722,7 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:28
 msgid "Add Showcase"
-msgstr ""
+msgstr "Add Showcase"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:43
 msgid "Search applications..."
@@ -730,11 +730,11 @@ msgstr "Search showcases..."
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/search.html:63
 msgid "Filter list"
-msgstr ""
+msgstr "Filter list"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:2
 msgid "Additional Info"
-msgstr ""
+msgstr "Additional Info"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:13
 msgid "Application website"
