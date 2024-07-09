@@ -378,8 +378,8 @@ msgstr ""
 #: ckanext/sixodp_showcase/utils.py:537
 msgid "The apiset has been removed from the showcase."
 msgid_plural "The apisets have been removed from the showcase."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Rajapinta on poistettu sovelluksesta"
+msgstr[1] "Rajapinnat on poistettu sovelluksesta"
 
 #: ckanext/sixodp_showcase/utils.py:569
 msgid "The apiset has been added to the showcase."
