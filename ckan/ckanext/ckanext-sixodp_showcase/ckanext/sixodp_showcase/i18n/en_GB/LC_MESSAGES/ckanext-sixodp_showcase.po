@@ -772,36 +772,36 @@ msgstr "Add showcase"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_info.html:12
 msgid "Categories"
-msgstr ""
+msgstr "Categories"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_item.html:54
 msgid "Remove dataset from this showcase"
-msgstr ""
+msgstr "Remove dataset from this showcase"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:14
 msgid "Newest first"
-msgstr ""
+msgstr "Newest first"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_input.html:15
 msgid "Oldest first"
-msgstr ""
+msgstr "Oldest first"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:7
 msgid "{number} showcase found for '{query}'"
 msgid_plural "{number} showcases found for '{query}'"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} showcase found for '{query}'"
+msgstr[1] "{number} showcases found for '{query}'"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:8
 msgid "No showcases found for '{query}'"
-msgstr ""
+msgstr "No showcases found for '{query}'"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:9
 msgid "{number} showcase found"
 msgid_plural "{number} showcases found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{number} showcase found"
+msgstr[1] "{number} showcases found"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_search_result_text.html:10
 msgid "No showcases found"
-msgstr ""
+msgstr "No showcases found"
