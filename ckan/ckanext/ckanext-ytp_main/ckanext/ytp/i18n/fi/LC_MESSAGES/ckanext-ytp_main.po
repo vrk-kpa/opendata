@@ -1980,7 +1980,7 @@ msgstr ""
 
 #: ckanext/ytp/templates/general_search/index.html:34
 msgid "Search term"
-msgstr ""
+msgstr "Hakusana"
 
 #: ckanext/ytp/templates/general_search/index.html:38
 msgid "No search term provided"
