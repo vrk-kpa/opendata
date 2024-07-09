@@ -188,7 +188,7 @@ msgstr "Date Created Descending"
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:103
 msgid "Popular"
-msgstr ""
+msgstr "Popular"
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:108
 msgid "Found {count} results"
