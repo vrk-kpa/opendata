@@ -196,11 +196,11 @@ msgstr "Found {count} results"
 
 #: ckanext/advancedsearch/templates/advanced_search/index.html:111
 msgid "Sorting"
-msgstr ""
+msgstr "Sorting"
 
 #: ckanext/advancedsearch/templates/advanced_search/search_form.html:8
 msgid "Filter search"
-msgstr ""
+msgstr "Filter search"
 
 #: ckanext/advancedsearch/templates/advanced_search/search_form.html:32
 msgid "Update interval"
