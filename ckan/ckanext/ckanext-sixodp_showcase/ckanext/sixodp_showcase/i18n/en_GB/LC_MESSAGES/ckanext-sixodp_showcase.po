@@ -750,11 +750,11 @@ msgstr ""
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:52
 msgid "Published"
-msgstr ""
+msgstr "Published"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_additional_info.html:62
 msgid "Last Updated"
-msgstr ""
+msgstr "Last Updated"
 
 #: ckanext/sixodp_showcase/templates/sixodp_showcase/snippets/showcase_greeting.html:14
 msgid "Have you created application that utilizes open data?"
