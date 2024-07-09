@@ -277,7 +277,7 @@ msgstr "Send request"
 #: ckanext/ytp_request/templates/request/show.html:9
 #: ckanext/ytp_request/templates/request/show.html:21
 msgid "Organization membership request"
-msgstr ""
+msgstr "Organisation membership request"
 
 #: ckanext/ytp_request/templates/request/show.html:12
 msgid ""
