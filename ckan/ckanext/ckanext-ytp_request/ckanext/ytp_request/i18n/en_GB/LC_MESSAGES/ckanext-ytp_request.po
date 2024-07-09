@@ -267,11 +267,11 @@ msgstr "You can request to be a member of the organisation."
 
 #: ckanext/ytp_request/templates/request/new_request_form.html:14
 msgid "Select an organization..."
-msgstr ""
+msgstr "Select an organisation..."
 
 #: ckanext/ytp_request/templates/request/new_request_form.html:27
 msgid "Send request"
-msgstr ""
+msgstr "Send request"
 
 #: ckanext/ytp_request/templates/request/show.html:3
 #: ckanext/ytp_request/templates/request/show.html:9
