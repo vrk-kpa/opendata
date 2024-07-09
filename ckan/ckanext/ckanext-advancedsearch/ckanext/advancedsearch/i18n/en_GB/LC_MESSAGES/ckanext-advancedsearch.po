@@ -234,15 +234,15 @@ msgstr "Previous page"
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:70
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:84
 msgid "Page number:"
-msgstr ""
+msgstr "Page number:"
 
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:51
 msgid "Current page number:"
-msgstr ""
+msgstr "Current page number:"
 
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:83
 msgid "Last page"
-msgstr ""
+msgstr "Last page"
 
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:92
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:98
