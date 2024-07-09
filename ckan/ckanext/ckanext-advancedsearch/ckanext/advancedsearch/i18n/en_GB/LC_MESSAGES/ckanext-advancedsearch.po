@@ -221,12 +221,12 @@ msgstr "before"
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:25
 #: ckanext/advancedsearch/templates/advanced_search/display_snippets/multiselect.html:39
 msgid "selected"
-msgstr ""
+msgstr "selected"
 
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:12
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:18
 msgid "Previous page"
-msgstr ""
+msgstr "Previous page"
 
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:27
 #: ckanext/advancedsearch/templates/advanced_search/snippets/post_pagination.html:36
