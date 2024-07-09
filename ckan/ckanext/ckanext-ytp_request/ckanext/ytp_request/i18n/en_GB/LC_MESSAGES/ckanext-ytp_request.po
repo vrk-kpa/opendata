@@ -289,7 +289,7 @@ msgstr ""
 
 #: ckanext/ytp_request/templates/request/show.html:44
 msgid "State"
-msgstr ""
+msgstr "State"
 
 #: ckanext/ytp_request/templates/request/show.html:62
 msgid "Are you sure you want approve this request?"
