@@ -384,8 +384,8 @@ msgstr[1] "Rajapinnat on poistettu sovelluksesta"
 #: ckanext/sixodp_showcase/utils.py:569
 msgid "The apiset has been added to the showcase."
 msgid_plural "The apisets have been added to the showcase."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Rajapinta on lisätty sovellukseen"
+msgstr[1] "Rajapinnat on lisätty sovellukseen"
 
 #: ckanext/sixodp_showcase/views.py:158
 msgid "Dataset not found"
