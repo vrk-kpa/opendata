@@ -51,7 +51,7 @@ export class WebStack extends Stack {
       'https://avoindata-' + props.environment + '-datasets.s3.eu-west-1.amazonaws.com/'
     ];
 
-    const nginxCspConnecSrc: string[] = [
+    const nginxCspConnectSrc: string[] = [
       "suomi.matomo.cloud",
       "*.sentry.io"
     ]
@@ -71,7 +71,7 @@ export class WebStack extends Stack {
         NGINX_CSP_SCRIPT_SRC: nginxCspScriptSrc.join(' '),
         NGINX_CSP_STYLE_SRC: nginxCspStyleSrc.join(' '),
         NGINX_CSP_FRAME_SRC: nginxCspFrameSrc.join(' '),
-        NGINX_CSP_CONNECT_SRC: nginxCspConnecSrc.join(' '),
+        NGINX_CSP_CONNECT_SRC: nginxCspConnectSrc.join(' '),
         // .env
         NGINX_PORT: '80',
         DOMAIN_NAME: props.domainName,
