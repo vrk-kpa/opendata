@@ -196,7 +196,7 @@ describe('Dataset resource tests', function(){
             cy.get('.data-viewer-info').find('p').find('a').contains('Click here for more information.');
         
             //dataset info table
-            cy.get('.module-content').find('h3').contains("Extra information"); //there isn't a good identifier to find this element without using the contains text
+            cy.get('.module-content').find('h3').contains("Additional information"); //there isn't a good identifier to find this element without using the contains text
             cy.get('.resource-module-table');
             cy.get('.resource-module-table').find('th').contains("Format");
             cy.get('.resource-module-table').find('th').contains("Temporal Coverage");
