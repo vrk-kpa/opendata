@@ -2,13 +2,14 @@
 # 
 # Translators:
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2024
+# Laura Eloranta, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "POT-Creation-Date: 2024-01-23 08:30+0000\n"
 "PO-Revision-Date: 2024-01-24 12:03+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2024\n"
+"Last-Translator: Laura Eloranta, 2024\n"
 "Language-Team: Finnish (https://app.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13637,7 +13638,7 @@ msgid "Do not flag other translations as outdated"
 msgstr "Älä merkitse muita käännöksiä vanhentuneiksi"
 
 msgid "Example: 'Hero image' or 'Author image'."
-msgstr "Esimerkki: 'Sankarikuva' tai 'Kirjoittajan kuva'."
+msgstr "Esimerkki: 'Ingressikuva' tai 'Kirjoittajan kuva'."
 
 msgid "Breakpoint group"
 msgstr "Keskeytyskohtaryhmä"

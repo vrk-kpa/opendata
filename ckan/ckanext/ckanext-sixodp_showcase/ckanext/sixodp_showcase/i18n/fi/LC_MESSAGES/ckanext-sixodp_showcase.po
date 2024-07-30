@@ -6,6 +6,7 @@
 # 
 # Translators:
 # Zharktas <jari-pekka.voutilainen@gofore.com>, 2024
+# Laura Eloranta, 2024
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-03-30 08:46+0000\n"
 "PO-Revision-Date: 2024-01-24 12:20+0000\n"
-"Last-Translator: Zharktas <jari-pekka.voutilainen@gofore.com>, 2024\n"
+"Last-Translator: Laura Eloranta, 2024\n"
 "Language-Team: Finnish (https://app.transifex.com/avoindata/teams/7979/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -377,18 +378,18 @@ msgstr ""
 #: ckanext/sixodp_showcase/utils.py:537
 msgid "The apiset has been removed from the showcase."
 msgid_plural "The apisets have been removed from the showcase."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Rajapinta on poistettu sovelluksesta"
+msgstr[1] "Rajapinnat on poistettu sovelluksesta"
 
 #: ckanext/sixodp_showcase/utils.py:569
 msgid "The apiset has been added to the showcase."
 msgid_plural "The apisets have been added to the showcase."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Rajapinta on lisätty sovellukseen"
+msgstr[1] "Rajapinnat on lisätty sovellukseen"
 
 #: ckanext/sixodp_showcase/views.py:158
 msgid "Dataset not found"
-msgstr ""
+msgstr "Tietoaineistoa ei löydy"
 
 #: ckanext/sixodp_showcase/views.py:179
 #, python-format
@@ -541,7 +542,7 @@ msgstr "Hae ja lisää rajapintoja sovellukselle"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_apisets.html:16
 msgid "No apisets could be found"
-msgstr ""
+msgstr "Rajapintoja ei löytynyt"
 
 #: ckanext/sixodp_showcase/templates/showcase/manage_datasets.html:3
 msgid "Showcases - Manage datasets"
