@@ -190,7 +190,7 @@ describe('Dataset resource tests', function(){
         
             //dataset preview
             cy.get('.resource-view').find('h3').contains("Preview");
-            cy.get('.data-viewer-info').find('p').contains("There are no views created for this resource yet.");
+            cy.get('.data-viewer-info').find('p').contains("There are no views created for this data resource yet.");
             //requires user to be logged in and viewing their own dataset
             cy.get('.data-viewer-info').find('p').contains("Not seeing the views you were expecting?");
             cy.get('.data-viewer-info').find('p').find('a').contains('Click here for more information.');
