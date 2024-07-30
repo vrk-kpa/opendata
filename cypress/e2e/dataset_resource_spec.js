@@ -172,7 +172,7 @@ describe('Dataset resource tests', function(){
             cy.get('.breadcrumb').find('li').eq(4).contains(dataset_data);
         
             //sidebar
-            cy.get('.secondary').find('h2').contains('Resources');
+            cy.get('.secondary').find('h2').contains('Data resources');
             cy.get('.secondary').find('li').find('a').contains('test data');
         
             //dataset titles, actions and heading
