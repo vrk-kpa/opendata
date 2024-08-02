@@ -517,6 +517,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             if 'producer_type' in org:
                 pkg_dict['producer_type'] = org['producer_type']
 
+        if pkg_dict.get('highvalue_category'):
+            pkg_dict['vocab_highvalue_category'] = json.loads(pkg_dict.get('highvalue_category'))
+
         return pkg_dict
 
     def before_view(self, pkg_dict):
@@ -529,6 +532,17 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 keywords[lang] = [tag for tag in {tag.lower() for tag in keywords[lang]} if tag not in ignored_tags]
 
         return pkg_dict
+
+    def after_search(self, search_results, search_params):
+        # Modify facet display name to be human-readable
+        # TODO: handle translations for groups and highvalue categories
+        if search_results.get('search_facets'):
+            for facet in search_results['search_facets']:
+                if facet == "vocab_highvalue_category":
+                    for facet_item in search_results['search_facets'][facet]['items']:
+                        facet_item['display_name'] = get_highvalue_category_label(facet_item['name'])
+
+        return search_results
 
     # IActions #
     def get_actions(self):

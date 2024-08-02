@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
 
-from ckan.tests.factories import Dataset, Group, Sysadmin, User
+from ckan.tests.factories import Dataset, Group, Sysadmin, User, Organization
 from ckan.tests.helpers import call_action
 from ckan.plugins import toolkit
 from .utils import minimal_dataset_with_one_resource_fields
@@ -113,7 +113,9 @@ class TestYtpDatasetPlugin():
 
     def test_dataset_with_highvalue_category_as_normal_user(self):
         user = User()
+        organization = Organization(user=user)
         dataset_fields = minimal_dataset_with_one_resource_fields(user)
+        dataset_fields['owner_org'] = organization['id']
         d = Dataset(**dataset_fields)
 
         dataset_fields['highvalue'] = True
