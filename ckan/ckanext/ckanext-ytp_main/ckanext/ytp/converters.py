@@ -2,7 +2,7 @@ import json
 import datetime
 import urllib.parse
 import logging
-from ckan.lib.navl.dictization_functions import Invalid, Missing, missing, flatten_list, StopOnError
+from ckan.lib.navl.dictization_functions import Invalid, Missing, missing, flatten_list
 from ckan.common import _
 from ckan.plugins import toolkit
 from ckan.logic.validators import tag_length_validator, tag_name_validator
@@ -167,15 +167,13 @@ def save_to_groups(key, data, errors, context):
                     groups_with_details.append({"name": identifier})
                 group_patch = flatten_list(groups_with_details)
 
-                for k, v in list(group_patch.items()):
+                for k, v in group_patch.items():
                     group_key = ('groups',) + k
                     data[group_key] = v
 
     else:
-
-        # Delete categories key if it is missing
-        # TODO: Should delete existing groups from dataset
-        data.pop(key, None)
-        raise StopOnError
+        # Convert categories and groups key values to empty string if categories key is missing
+        data[key] = ""
+        data[('groups',)] = ""
 
     return data[key]
