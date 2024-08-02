@@ -75,7 +75,6 @@ class TestYtpDatasetPlugin():
         assert result['groups'][0]['description_translated'] == translated_description
 
 
-    @pytest.mark.usefixtures("clean_db", "with_plugins")
     def test_dataset_with_highvalue_category(self):
         dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
         dataset_fields['highvalue'] = True
@@ -86,7 +85,6 @@ class TestYtpDatasetPlugin():
         assert dataset['highvalue_category'] == ["geospatial"]
 
 
-    @pytest.mark.usefixtures("clean_db", "with_plugins")
     def test_dataset_with_multiple_highvalue_categories(self):
         dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
         dataset_fields['highvalue'] = True
@@ -97,7 +95,6 @@ class TestYtpDatasetPlugin():
         assert dataset['highvalue_category'] == ["geospatial", "mobility", "earth-observation-and-environment"]
 
 
-    @pytest.mark.usefixtures("clean_db", "with_plugins")
     def test_highvalue_category_is_required_when_highvalue_is_true(self):
         dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
         dataset_fields['highvalue'] = True
@@ -106,7 +103,6 @@ class TestYtpDatasetPlugin():
             Dataset(**dataset_fields)
 
 
-    @pytest.mark.usefixtures("clean_db", "with_plugins")
     def test_dataset_with_invalid_highvalue_category(self):
         dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
         dataset_fields['highvalue'] = True
@@ -115,7 +111,6 @@ class TestYtpDatasetPlugin():
             Dataset(**dataset_fields)
 
 
-    @pytest.mark.usefixtures("clean_db", "with_plugins")
     def test_dataset_with_highvalue_category_as_normal_user(self):
         user = User()
         dataset_fields = minimal_dataset_with_one_resource_fields(user)
@@ -133,7 +128,6 @@ class TestYtpDatasetPlugin():
         assert dataset['highvalue_category'] == ["geospatial"]
 
 
-    @pytest.mark.usefixtures("clean_db", "clean_index", "with_plugins")
     def test_search_facets_with_highvalue_category(self):
         dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
         dataset_fields['highvalue'] = True
