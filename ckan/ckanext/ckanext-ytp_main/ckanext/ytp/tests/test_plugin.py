@@ -153,3 +153,36 @@ class TestYtpDatasetPlugin():
         }
 
 
+    def test_categories_are_added_as_groups(app):
+        g = Group(title_translated={
+            "fi": "some title in finnish",
+            "sv": "some title in swedish",
+            "en": "some title in english"
+        })
+        dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
+        dataset_fields['categories'] = g['name']
+        d = Dataset(**dataset_fields)
+        dataset = call_action('package_show', id=d['name'])
+
+        assert dataset['groups'][0]['id'] == g['id']
+
+
+
+    def test_groups_are_removed_when_categories_are_removed(app):
+        g = Group(title_translated={
+            "fi": "some title in finnish",
+            "sv": "some title in swedish",
+            "en": "some title in english"
+        })
+        dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
+
+        d = Dataset(**dataset_fields)
+
+        dataset_fields['categories'] = g['name']
+        d = call_action('package_update', name=d['id'], **dataset_fields)
+
+        dataset_fields['categories'] = []
+        dataset = call_action('package_update', name=d['id'], **dataset_fields)
+
+        assert len(dataset['groups']) == 0
+
