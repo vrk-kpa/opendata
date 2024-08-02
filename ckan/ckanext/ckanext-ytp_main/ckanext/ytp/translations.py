@@ -227,6 +227,14 @@ def _translations():
     _('e.g. Dataset updated 15.5.2023')
     _('Inform users about dataset updates')
 
+    _('High-value dataset category')
+    _('Meteorological')
+    _('Companies and company ownership')
+    _('Geospatial')
+    _('Mobility')
+    _('Earth observation and environment')
+    _('Statistics')
+
     # Resource
     _("Data resource title")
     _("Write a short and descriptive name for the data resource. If the data covers a specific time frame, mention that in the name.")  # noqa: E501
