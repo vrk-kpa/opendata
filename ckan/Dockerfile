@@ -88,6 +88,7 @@ RUN \
   pip install setuptools==44.1.0 && \
   # Install CKAN and requirements
   pip install --find-links=/srv/app/wheels -r ${SRC_DIR}/ckan-requirements.txt && \
+  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.9.11#egg=ckan && \
   # Configure environment
   addgroup -g 92 ckan && \
   adduser -u 92 -h ${APP_DIR} -H -D -G ckan ckan && \
@@ -147,6 +148,7 @@ RUN \
       zlib-dev \
       jpeg-dev \
       geos-dev \
+      libpq-dev \
       util-linux \
       nfs-utils && \
   pip install \
@@ -157,7 +159,7 @@ RUN \
     pyasn1 \
     polib \
     botocore \
-    numpy \
+    "numpy < 2" \
     boto \
     boto3
 
@@ -168,7 +170,6 @@ COPY templates ${TEMPLATE_DIR}
 COPY supervisor ${SUPERV_DIR}
 COPY cron ${CRON_DIR}
 COPY src/ckan/patches ${SRC_DIR}/ckan/patches
-COPY src/ckan/ckan-uwsgi.ini ${APP_DIR}
 
 # apply patches
 RUN cd ${SRC_DIR}/ckan && \
@@ -181,7 +182,8 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/json_serializable_lazyjsonobject.patch && \
     patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
     patch --strip=1 --input=patches/add_drafts_to_search.patch && \
-    patch --strip=1 --input=patches/add_prefix_to_werkzeug.patch
+    patch --strip=1 --input=patches/add_prefix_to_werkzeug.patch && \
+    patch --strip=1 --input=patches/fix_use_default_schema_parameter.patch
 
 RUN \
   # Make scripts executable

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ckanext-ytp_main 0.3\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-10-09 07:14+0000\n"
+"POT-Creation-Date: 2023-11-24 10:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1594,12 +1594,12 @@ msgid "Organization not found"
 msgstr ""
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:52
-#: ckanext/ytp/resources/opendata/scripts/translations.js:20
+#: ckanext/ytp/resources/opendata/scripts/translations.js:22
 msgid "Reorder apiset"
 msgstr ""
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:53
-#: ckanext/ytp/resources/opendata/scripts/translations.js:21
+#: ckanext/ytp/resources/opendata/scripts/translations.js:23
 msgid ""
 "You can rearrange the apiset resources by dragging them using the arrow icon."
 " Drag the resource to the right and place it to the desired location on the "
@@ -1607,12 +1607,12 @@ msgid ""
 msgstr ""
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:57
-#: ckanext/ytp/resources/opendata/scripts/translations.js:16
+#: ckanext/ytp/resources/opendata/scripts/translations.js:18
 msgid "Reorder resources"
 msgstr ""
 
 #: ckanext/ytp/public/base/javascript/modules/resource-reorder.js:58
-#: ckanext/ytp/resources/opendata/scripts/translations.js:17
+#: ckanext/ytp/resources/opendata/scripts/translations.js:19
 msgid ""
 "You can rearrange the resources by dragging them using the arrow icon. Drag "
 "the resource to the right and place it to the desired location on the list. "
@@ -1710,6 +1710,17 @@ msgstr ""
 
 #: ckanext/ytp/resources/opendata/scripts/translations.js:13
 msgid "Add email"
+msgstr ""
+
+#: ckanext/ytp/resources/opendata/scripts/translations.js:14
+#: ckanext/ytp/templates/package/snippets/categories.html:28
+#: ckanext/ytp/templates/snippets/facet_list.html:95
+msgid "Show more"
+msgstr ""
+
+#: ckanext/ytp/resources/opendata/scripts/translations.js:15
+#: ckanext/ytp/templates/snippets/facet_list.html:98
+msgid "Show less"
 msgstr ""
 
 #: ckanext/ytp/resources/vendor/bootstrap-table/dist/extensions/filter-control/utils.js:10
@@ -2218,9 +2229,9 @@ msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/helper.html:16
 msgid ""
-"Organisations that have added data to opendata.fi are listed on this page. "
-"The number next to the publisher’s name indicates the amount of datasets "
-"belonging to that publisher and its suborganisations."
+"Organisations that have added data to Suomi.fi Open Data are listed on this "
+"page. The number next to the publisher’s name indicates the amount of "
+"datasets belonging to that publisher and its suborganisations."
 msgstr ""
 
 #: ckanext/ytp/templates/organization/snippets/organization_item.html:18
@@ -2513,16 +2524,16 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:34
 msgid ""
-"The Opendata.fi service does not have an organization where you can upload a "
-"data set."
+"Suomi.fi Open Data does not have an organization where you can upload a data "
+"set."
 msgstr ""
 
 #: ckanext/ytp/templates/package/search.html:35
 msgid ""
 "Ask your employer's open data administrator to add your user account in your "
 "organization. If your employer's organization has not been created yet on "
-"Opendata.fi, ask the service administration to create it before you can "
-"continue. Alternatively, you can also ask the data to be published as a "
+"Suomi.fi Open Data, ask the service administration to create it before you "
+"can continue. Alternatively, you can also ask the data to be published as a "
 "private individual."
 msgstr ""
 
@@ -2579,11 +2590,6 @@ msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/categories.html:26
 msgid "Show more categories"
-msgstr ""
-
-#: ckanext/ytp/templates/package/snippets/categories.html:28
-#: ckanext/ytp/templates/snippets/facet_list.html:95
-msgid "Show more"
 msgstr ""
 
 #: ckanext/ytp/templates/package/snippets/categories.html:37
@@ -3177,8 +3183,8 @@ msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:55
 msgid ""
-"Select which of the datasets found on opendata.fi were used in the showcase. "
-"Search for a dataset by typing its name in the field below."
+"Select which of the datasets found on Suomi.fi Open Data were used in the "
+"showcase. Search for a dataset by typing its name in the field below."
 msgstr ""
 
 #: ckanext/ytp/templates/sixodp_showcasesubmit/snippets/new_package_form.html:59
@@ -3313,10 +3319,6 @@ msgstr ""
 
 #: ckanext/ytp/templates/snippets/datapreview_embed_dialog.html:15
 msgid "Height:"
-msgstr ""
-
-#: ckanext/ytp/templates/snippets/facet_list.html:98
-msgid "Show less"
 msgstr ""
 
 #: ckanext/ytp/templates/snippets/facet_list.html:102

@@ -80,8 +80,18 @@ function avoindata_preprocess_block(&$variables) {
       'class' => '',
       'menucounter' => true,
       ],
+    'faqmenuen' => [
+      'href' => '/en/faq',
+      'class' => '',
+      'menucounter' => false,
+      ],
     'faqmenufi' => [
       'href' => '/fi/ukk',
+      'class' => '',
+      'menucounter' => false,
+      ],
+    'faqmenusv' => [
+      'href' => '/sv/vanliga-fragor',
       'class' => '',
       'menucounter' => false,
       ]

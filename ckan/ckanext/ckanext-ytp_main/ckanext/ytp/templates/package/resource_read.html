@@ -1,7 +1,7 @@
 {% extends "package/base.html" %}
 
 {% set res = c.resource %}
-{% set visits =  h.get_visits_for_resource(res.id) if 'get_visits_for_resource' in h else None %}
+{% set visits =  h.get_downloads_in_date_range_for_resource(res.id) if 'get_downloads_in_date_range_for_resource' in h else None %}
 {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
 {% block head_extras -%}
   {{ super() }}
@@ -230,8 +230,13 @@
                             </th>
                           </tr>
                           <tr>
-                            <th>{{ _('Last updated') }}</th>
-                            <th>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.revision_timestamp) or h.render_datetime(res.created) or _('unknown') }}</th>
+                            <th>{{ _('Data last updated') }}</th>
+                            <th>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.created) or _('unknown') }}</th>
+                          </tr>
+
+                          <tr>
+                            <th>{{ _('Metadata last updated') }}</th>
+                            <th>{{ h.render_datetime(res.metadata_modified) or h.render_datetime(res.created) or _('unknown') }}</th>
                           </tr>
                           <tr>
                             <th>{{ _('Created') }}</th>

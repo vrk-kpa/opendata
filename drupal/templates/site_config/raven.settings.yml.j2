@@ -27,7 +27,7 @@ send_user_data: false
 rate_limit: 0
 send_request_body: false
 request_tracing: false
-traces_sample_rate: null
+traces_sample_rate: {{ environ('SENTRY_TRACES_SAMPLE_RATE') }}
 browser_traces_sample_rate: null
 database_tracing: false
 twig_tracing: false

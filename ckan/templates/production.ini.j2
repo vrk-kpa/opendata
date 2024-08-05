@@ -62,7 +62,7 @@ ckan.auth.public_user_details = False
 
 ckan.site_id = {{ environ('CKAN_SITE_ID') }}
 
-ckan.plugins = {{ environ('CKAN_PLUGINS') }} {% if environ('MATOMO_ENABLED') == 'true' %}matomo{% endif %} {% if environ('CKAN_CLOUDSTORAGE_ENABLED') == 'true' %}cloudstorage{% endif %} {{ environ('CKAN_PLUGINS_DEFAULT') }}
+ckan.plugins = {{ environ('CKAN_PLUGINS') }} {% if environ('MATOMO_ENABLED') == 'true' %}matomo matomo_dataset_report matomo_resource_report matomo_location_report matomo_search_terms_report{% endif %} {% if environ('CKAN_CLOUDSTORAGE_ENABLED') == 'true' %}cloudstorage{% endif %} {{ environ('CKAN_PLUGINS_DEFAULT') }}
 
 scheming.dataset_schemas = ckanext.ytp.schemas:dataset.json
                            ckanext.sixodp_showcase.schemas:showcase.json
@@ -75,7 +75,7 @@ scheming.group_schemas = ckanext.ytp.schemas:group.json
 scheming.organization_schemas = ckanext.ytp.schemas:organization.json
 advancedsearch.schema = ckanext.advancedsearch:search_fields.json
 
-ckan.site_title = Suomi.fi-avoindata
+ckan.site_title = {{ environ('CKAN_SITE_NAME') }}
 ckan.site_logo =
 ckan.site_description =
 
@@ -130,6 +130,7 @@ ckanext-archiver.user_agent_string = {{ environ('DOMAIN_NAME') }} archiver
 ckanext-archiver.archive_cloud = True
 ckanext-archiver.send_notification_emails_to_maintainers = {{ environ('CKAN_ARCHIVER_SEND_NOTIFICATION_EMAILS_TO_MAINTAINERS') }}
 ckanext-archiver.exempt_domains_from_broken_link_notifications = {{ environ('CKAN_ARCHIVER_EXEMPT_DOMAINS_FROM_BROKEN_LINK_NOTIFICATIONS') }}
+ckanext-archiver.resource_download_timeout = 15
 
 ckanext.sixodp_showcasesubmit.creating_user_username = {{ environ('SYSADMIN_USER') }}
 ckanext.sixodp_showcasesubmit.recaptcha_sitekey = {{ environ('RECAPTCHA_PUBLIC_KEY') }}
@@ -153,7 +154,13 @@ producer_type_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/producer_t
 producer_type_private_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/producer_types_private.json
 target_group_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/target_groups.json
 
+ckanext.ytp.zulip.api_url = {{ environ('ZULIP_API_URL')|default('', true) }}
+ckanext.ytp.zulip.api_user = {{ environ('ZULIP_API_USER')|default('', true) }}
+ckanext.ytp.zulip.api_key = {{ environ('ZULIP_API_KEY')|default('', true) }}
 ckanext.ytp.harvester_status_recipients = {% if environ('CKAN_HARVESTER_STATUS_RECIPIENTS') != 'null' %} {{ environ('CKAN_HARVESTER_STATUS_RECIPIENTS') }} {% else %} '' {% endif %}
+ckanext.ytp.harvester_status_zulip_stream = Avoindata.fi
+ckanext.ytp.harvester_status_zulip_topic = Harvester status
+
 ckanext.ytp.fault_recipients = {% if environ('CKAN_HARVESTER_FAULT_RECIPIENTS') != 'null' %} {{ environ('CKAN_HARVESTER_FAULT_RECIPIENTS') }} {% else %} '' {% endif %}
 ckanext.ytp.harvester_instruction_url = {% if environ('CKAN_HARVESTER_INSTRUCTION_URL') != 'null' %} {{ environ('CKAN_HARVESTER_INSTRUCTION_URL') }} {% else %} '' {% endif %}
 
@@ -198,8 +205,13 @@ ckanext.cloudstorage.datapusher.formats = csv xls xlsx tsv application/csv appli
 ckan.datapusher.formats = nonexistingformat
 {% endif %}
 
+{% if environ('SENTRY_DSN') %}
 sentry.dsn = {{ environ('SENTRY_DSN') }}
 sentry.environment = {{ environ('SENTRY_ENV') }}
+sentry.traces_sample_rate = {{ environ('SENTRY_TRACES_SAMPLE_RATE') }}
+sentry.profiles_sample_rate = {{ environ('SENTRY_PROFILES_SAMPLE_RATE') }}
+sentry.loader_script = {{ environ('SENTRY_LOADER_SCRIPT') }}
+{% endif %}
 
 
 ofs.impl = pairtree
@@ -218,6 +230,9 @@ ckanext.matomo.token_auth = {{ environ('MATOMO_TOKEN') }}
 ckanext.matomo.ignored_user_agents = docker-healthcheck
 ckanext.matomo.track_api = true
 {% endif %}
+
+
+ckan.search.solr_allowed_query_parsers = frange
 
 ckanext.spatial.harvest.continue_on_validation_errors = true
 ckanext.spatial.search_backend = solr-bbox

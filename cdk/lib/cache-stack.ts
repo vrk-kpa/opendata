@@ -4,6 +4,7 @@ import * as ec from 'aws-cdk-lib/aws-elasticache';
 import { Construct } from 'constructs';
 
 import { EcStackProps } from './ec-stack-props';
+import * as logs from "aws-cdk-lib/aws-logs";
 
 export class CacheStack extends Stack {
   readonly cachePort: number;
@@ -32,6 +33,14 @@ export class CacheStack extends Stack {
       description: 'cache security group',
     });
 
+    const cacheLogGroup = new logs.LogGroup(this, 'cacheLogGroup', {
+      logGroupName: `/${props.environment}/elasticache/redis`,
+    });
+
+    const cacheSlowLogGroup = new logs.LogGroup(this, 'cacheSlowLogGroup', {
+      logGroupName: `/${props.environment}/elasticache/redis_slow`,
+    });
+
     this.cacheCluster = new ec.CfnCacheCluster(this, 'cacheCluster', {
       cacheNodeType: props.cacheNodeType,
       engine: 'redis',
@@ -42,6 +51,27 @@ export class CacheStack extends Stack {
       preferredMaintenanceWindow: 'sun:23:00-mon:01:30',
       vpcSecurityGroupIds: [this.cacheSecurityGroup.securityGroupId],
       clusterName: `${props.environment}-opendata-cache`,
+      logDeliveryConfigurations: [{
+        destinationDetails: {
+          cloudWatchLogsDetails: {
+            logGroup: cacheLogGroup.logGroupName
+          }
+        },
+        destinationType: 'cloudwatch-logs',
+        logFormat: 'text',
+        logType: 'engine-log'
+      },
+      {
+        destinationDetails: {
+          cloudWatchLogsDetails: {
+            logGroup: cacheSlowLogGroup.logGroupName
+          }
+        },
+        destinationType: 'cloudwatch-logs',
+        logFormat: 'text',
+        logType: 'slow-log'
+      }
+      ]
     });
     
   }

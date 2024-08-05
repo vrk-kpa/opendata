@@ -153,26 +153,7 @@ Resources:
         - Key: Name
           Value: !Sub avoindata-${EnvironmentName}
 
-  DomainName:
-    Type: AWS::Route53::RecordSet
-    Properties:
-      Name: !Sub ${DNSHostName}.${DNSDomainName}.
-      Type: A
-      HostedZoneId: !Ref HostedZoneId
-      AliasTarget:
-        DNSName: !GetAtt Cloudfront.DomainName
-        HostedZoneId: 'Z2FDTNDATAQYW2'
-
-  DomainNameAlternate:
-    Type: AWS::Route53::RecordSet
-    Condition: CreateAlternateDomainRecord
-    Properties:
-      Name: !Sub ${DNSHostName}.${AlternateDNSDomainName}.
-      Type: A
-      HostedZoneId: !Ref HostedZoneIdAlternate
-      AliasTarget:
-        DNSName: !GetAtt Cloudfront.DomainName
-        HostedZoneId: 'Z2FDTNDATAQYW2'
+  
 
   LogBucket:
     Type: AWS::S3::Bucket

@@ -4,7 +4,7 @@ ARG SECRET_NPMRC
 #
 # Drupal build
 #
-FROM drupal:9.5.8-php8.1-apache-buster AS drupal_build
+FROM drupal:10.2.6-php8.3-apache-bullseye AS drupal_build
 
 # upgrade system + install required packages
 RUN apt-get update -yq && \
@@ -70,13 +70,6 @@ ENTRYPOINT ["/opt/drupal/scripts/entrypoint.sh"]
 # Modules build (for production)
 #
 FROM ubuntu:focal AS modules_build
-
-# install required packages
-RUN apt-get update -yq && apt-get install -yq curl
-
-# install nodejs via nodesource & frontend requirements
-RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
-RUN apt-get install -yq nodejs libjpeg-turbo8
 
 # setup env vars:
 ENV APP_DIR=/opt/drupal

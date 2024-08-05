@@ -7,16 +7,11 @@ registries:
 
 updates:
 - package-ecosystem: pip
-  directory: "/"
+  directory: "/ckan/"
   schedule:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: flake8
-    versions:
-    - 3.8.4
-    - 3.9.0
 - package-ecosystem: "docker"
   directory: "/ckan/"
   schedule:
@@ -36,6 +31,24 @@ updates:
   open-pull-requests-limit: 10
 - package-ecosystem: "docker"
   directory: "/docker/nginx/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: "docker"
+  directory: "/docker/postgres/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: "docker"
+  directory: "/docker/datapusher-plus/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: "docker"
+  directory: "/cypress/"
   schedule:
     interval: daily
     time: "03:00"
@@ -75,3 +88,17 @@ updates:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
+
+- package-ecosystem: npm
+  directory: "/cdk/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+
+
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    # Check for updates to GitHub Actions every week
+    interval: "weekly"

@@ -9,6 +9,7 @@ rsync -au ${DATA_DIR}_base/. ${DATA_DIR}
 # apply templates
 jinja2 ${TEMPLATE_DIR}/production.ini.j2 -o ${APP_DIR}/production.ini
 jinja2 ${TEMPLATE_DIR}/who.ini.j2 -o ${APP_DIR}/who.ini
+jinja2 ${TEMPLATE_DIR}/ckan-uwsgi.ini.j2 -o ${APP_DIR}/ckan-uwsgi.ini
 jinja2 ${TEMPLATE_DIR}/datastore_permissions.sql.j2 -o ${SCRIPT_DIR}/datastore_permissions.sql
 
 # run prerun script that checks connections and inits db
@@ -34,7 +35,7 @@ ckan -c ${APP_DIR}/production.ini sixodp-showcase create_platform_vocabulary
 echo "init ckan extension databases ..."
 ckan -c ${APP_DIR}/production.ini opendata-model initdb
 ckan -c ${APP_DIR}/production.ini opendata-request init-db
-ckan -c ${APP_DIR}/production.ini harvester initdb
+ckan -c ${APP_DIR}/production.ini db upgrade -p harvest
 [[ "${CKAN_PLUGINS}" == *" archiver "* ]]     && ckan -c ${APP_DIR}/production.ini archiver init
 [[ "${CKAN_PLUGINS}" == *" qa "* ]]           && ckan -c ${APP_DIR}/production.ini qa init
 ckan -c ${APP_DIR}/production.ini report initdb

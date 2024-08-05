@@ -56,6 +56,10 @@ html {
   padding: 0;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+
+  @media print {
+    overflow-x: unset;
+  }
 }
 
 // Footer to the bottom of the screen if there is not enough content on the page (not sticky).
@@ -172,6 +176,10 @@ p:last-child,
     margin: 0 auto;
     // NOTE: Without this you can't click the content inside.
     position: relative;
+
+    .ytp-input-element-frontpage {
+      color: @color--black;
+    }
   }
 
   .avoindata-hero-logo {
@@ -1399,7 +1407,14 @@ p:last-child,
   background: #2a6ebb;
   height: 125px;
   text-align: center;
-  margin-bottom: 20px;
+
+  @media (min-width: @screen-md-min) {
+    margin-bottom: 40px;
+  }
+
+  @media print {
+    display: none;
+  }
 
   h1 {
     margin: 0;
@@ -1408,33 +1423,42 @@ p:last-child,
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-family: @font-family-sans-serif-semibold;
+    font-family: @font-family-sans-serif-light;
     font-weight: 600;
   }
+
 }
 
-.arrow-box::after {
-  top: 100%;
-  left: 50%;
-  border: solid transparent;
-  content: "";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-color: rgb(42 110 187 / 0%);
-  border-top-color: #2a6ebb;
-  border-width: 15px;
-  margin-left: -15px;
+@media (min-width: @screen-md-min) {
+  .arrow-box::after {
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgb(42 110 187 / 0%);
+    border-top-color: #2a6ebb;
+    border-width: 15px;
+    margin-left: -15px;
+  }
 }
 
 // Guide page
 .avoindata-guide-container {
   max-width: @opendata-container-max-width;
-  float: none;
+
+  @media print {
+    max-width: 100%;
+    width: auto;
+    float: none;
+  }
+
   display: block;
   margin: 0 auto;
-  padding-top: 30px;
+  padding-top: 20px;
   padding-bottom: 20px;
   overflow-wrap: break-word;
   hyphens: auto;

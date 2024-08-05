@@ -165,39 +165,72 @@ gulp.task("drupal_copy_custom_element_styles_to_plugin", (done) => {
   ], done)
 });
 
+// Copy toolbar styles to avoindata-ckeditor5-plugins
+gulp.task("toolbarIcons",
+  gulp.series(
+    (done) => {
+      pump([
+        gulp.src('src/toolbar-icons/*.svg'),
+        imagemin([
+          imagemin.svgo()
+        ]),
+        gulp.dest(paths.dist + "/toolbar-icons/"),
+      ], done)
+    },
+    (done) => {
+      pump([
+        gulp.src('src/toolbar-icons/toolbar-icons.css'),
+        base64("/../../" + paths.dist + "/toolbar-icons/"),
+        gulp.dest("../drupal/modules/avoindata-ckeditor5-plugins/css"),
+      ], done)
+    },
+    (done) => {
+      pump([
+        gulp.src(paths.dist + "/toolbar-icons/*.svg"),
+        gulp.dest("../drupal/modules/avoindata-ckeditor5-plugins/icons"),
+      ], done)
+    }))
+
 // // Compiles Less files in Drupal theme directory
 // // Output destination is also in Drupal theme directory
-gulp.task("drupal_copy_custom_ckeditor_styles_to_plugin", (done) => {
-  pump([
-    gulp.src(paths.src.drupal_ckeditor5_plugins),
-    less({ paths: paths.src.drupal_ckeditor5_plugins }),
-    cleancss({
-      format: {
-        semicolonAfterLastProperty: true,
-        indentBy: 2,
-        breaks: {
-          afterAtRule: 2,
-          afterBlockBegins: 1,
-          afterBlockEnds: 2,
-          afterComment: 1,
-          afterProperty: 1,
-          afterRuleBegins: 1,
-          afterRuleEnds: 1,
-          beforeBlockEnds: 1,
-          betweenSelectors: 1
-        },
-        spaces: {
-          aroundSelectorRelation: true, // controls if spaces come around selector relations; e.g. `div > a`; defaults to `false`
-          beforeBlockBegins: true, // controls if a space comes before a block begins; e.g. `.block {`; defaults to `false`
-          beforeValue: true // controls if a space comes before a value; e.g. `width: 1rem`; defaults to `false`
-        }
+gulp.task("drupal_copy_custom_ckeditor_styles_to_plugin",
+  gulp.parallel(
+    [
+      'toolbarIcons',
+      (done) => {
+        pump([
+          gulp.src(paths.src.drupal_ckeditor5_plugins),
+          less({ paths: paths.src.drupal_ckeditor5_plugins }),
+          cleancss({
+            format: {
+              semicolonAfterLastProperty: true,
+              indentBy: 2,
+              breaks: {
+                afterAtRule: 2,
+                afterBlockBegins: 1,
+                afterBlockEnds: 2,
+                afterComment: 1,
+                afterProperty: 1,
+                afterRuleBegins: 1,
+                afterRuleEnds: 1,
+                beforeBlockEnds: 1,
+                betweenSelectors: 1
+              },
+              spaces: {
+                aroundSelectorRelation: true, // controls if spaces come around selector relations; e.g. `div > a`; defaults to `false`
+                beforeBlockBegins: true, // controls if a space comes before a block begins; e.g. `.block {`; defaults to `false`
+                beforeValue: true // controls if a space comes before a value; e.g. `width: 1rem`; defaults to `false`
+              }
+            }
+          }),
+          template({ timestamp: timestamp }),
+          concat("styles.css"),
+          gulp.dest("../drupal/modules/avoindata-ckeditor5-plugins/css")
+        ], done)
       }
-    }),
-    template({ timestamp: timestamp }),
-    concat("styles.css"),
-    gulp.dest("../drupal/modules/avoindata-ckeditor5-plugins/css"),
-  ], done)
-});
+    ]
+  )
+);
 
 // Separate fonts to their own css to optimize their loading
 gulp.task("fontsCss", (done) => {
@@ -277,7 +310,8 @@ gulp.task("scripts", (done) => {
   pump([
     gulp.src([paths.src.scripts, paths.src.drupal_avoindata_header]),
     gulp.dest(paths.dist + "/scripts"),
-    gulp.dest(paths.ckanResources + "/scripts")
+    gulp.dest(paths.ckanResources + "/scripts"),
+    gulp.dest(paths.drupalTheme + "/scripts")
   ], done)
 });
 

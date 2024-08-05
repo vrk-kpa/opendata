@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     container: python:3.11
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Install requirements
@@ -20,14 +20,14 @@ jobs:
           pip install ruff
       - name: Run ruff
         run: |
-          ruff check --format=github ckan
+          ruff check --output-format=github ckan
 
   code-sniffer:
     name: code-sniffer
     runs-on: ubuntu-latest
-    container: php:8.1
+    container: php:8.3
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Composer
         run: |
           EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
@@ -39,7 +39,7 @@ jobs:
               rm composer-setup.php
               exit 1
           fi
-          php composer-setup.php --quiet --version=2.1.14
+          php composer-setup.php --quiet
           RESULT=$?
           rm composer-setup.php
           mv composer.phar /usr/local/bin/composer
@@ -65,21 +65,12 @@ jobs:
     name: stylelint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
           cache-dependency-path: opendata-assets/package-lock.json
-
-      - name: cache node_modules
-        uses: actions/cache@v3
-        id: cache-node_modules
-        with:
-          path: ./opendata-assets/node_modules
-          key: ${{ runner.os }}-build-node_v20-${{ hashFiles('opendata-assets/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-node_v20-
 
       - name: Authenticate npm registry
         if: ${{ steps.cache-node_modules.outputs.cache-hit != 'true' }}
@@ -93,7 +84,6 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: install npm packages
-        if: ${{ steps.cache-node_modules.outputs.cache-hit != 'true' }}
         run: npm ci
         working-directory: ./opendata-assets
 

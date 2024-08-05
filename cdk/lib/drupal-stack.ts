@@ -73,15 +73,10 @@ export class DrupalStack extends Stack {
     switch (props.environment) {
       case 'prod': {
         pUsers = [
-          new DrupalUser(this, props.environment, 0),
-          new DrupalUser(this, props.environment, 1),
         ];
       } break;
       default: {
         pUsers = [
-          new DrupalUser(this, props.environment, 0),
-          new DrupalUser(this, props.environment, 1),
-          new DrupalUser(this, props.environment, 2),
         ];
       } break;
     }
@@ -149,6 +144,7 @@ export class DrupalStack extends Stack {
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
       SENTRY_ENV: props.environment,
+      SENTRY_TRACES_SAMPLE_RATE: props.sentryTracesSampleRate,
       BYPASS_CDN_DOMAIN: `vip.${props.fqdn}`
     };
 
@@ -260,6 +256,7 @@ export class DrupalStack extends Stack {
     this.drupalService = new ecs.FargateService(this, 'drupalService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
+      serviceName: "drupal",
       taskDefinition: drupalTaskDef,
       minHealthyPercent: 50,
       maxHealthyPercent: 200,
@@ -284,7 +281,7 @@ export class DrupalStack extends Stack {
     });
 
     drupalServiceAsg.scaleOnCpuUtilization('drupalServiceAsgPolicy', {
-      targetUtilizationPercent: 50,
+      targetUtilizationPercent: 40,
       scaleInCooldown: Duration.seconds(60),
       scaleOutCooldown: Duration.seconds(60),
     });

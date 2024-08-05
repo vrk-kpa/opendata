@@ -18,6 +18,9 @@ on:
       datapusher:
         description: "Change in datapusher container"
         value: ${{ jobs.changes_in_containers.outputs.datapusher }}
+      clamav:
+        description: "Change in clamav container"
+        value: ${{ jobs.changes_in_containers.outputs.clamav }}
       assets:
         description: "Change in assets"
         value: ${{ jobs.changes_in_containers.outputs.assets }}
@@ -34,19 +37,20 @@ jobs:
       nginx: ${{ steps.filter.outputs.nginx }}
       solr: ${{ steps.filter.outputs.solr }}
       datapusher: ${{ steps.filter.outputs.datapusher }}
+      clamav: ${{ steps.filter.outputs.clamav }}
       assets: ${{ steps.filter.outputs.assets }}
       environment: ${{ steps.filter.outputs.environment }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
           fetch-depth: 0
-      - uses: nrwl/nx-set-shas@v3
+      - uses: nrwl/nx-set-shas@v4
         id: last_successful_commit
         with:
           main-branch-name: 'master'
           workflow-id: 'master.yml'
-      - uses: dorny/paths-filter@v2
+      - uses: dorny/paths-filter@v3
         id: filter
         with:
           initial-fetch-depth: '10'
@@ -56,6 +60,7 @@ jobs:
             drupal: drupal/**
             solr: docker/solr/**
             datapusher: docker/datapusher-plus/**
+            clamav: clamav/clamav-docker/**
             nginx: docker/nginx/**
             assets: opendata-assets/**
             environment: docker/*

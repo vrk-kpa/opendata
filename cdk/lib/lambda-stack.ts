@@ -17,13 +17,9 @@ export class LambdaStack extends Stack {
       datastoreInstance: props.datastoreInstance,
       datastoreCredentials: props.datastoreCredentials,
       vpc: props.vpc,
-      envProps: props.envProps,
       env: props.env,
       environment: props.environment,
-      fqdn: props.fqdn,
-      secondaryFqdn: props.secondaryFqdn,
-      domainName: props.domainName,
-      secondaryDomainName: props.secondaryDomainName,
+
     })
 
     this.datastoreJobsCredentials = Credentials.fromSecret(createDatabases.datastoreJobsSecret);
@@ -35,13 +31,8 @@ export class LambdaStack extends Stack {
       zulipApiUrl: 'turina.dvv.fi',
       zulipStream: 'Avoindata.fi',
       zulipTopic: 'Container restarts',
-      envProps: props.envProps,
       env: props.env,
       environment: props.environment,
-      fqdn: props.fqdn,
-      secondaryFqdn: props.secondaryFqdn,
-      domainName: props.domainName,
-      secondaryDomainName: props.secondaryDomainName,
     });
     this.sendToZulipLambda = sendToZulip.lambda;
   }

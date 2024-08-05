@@ -34,7 +34,7 @@ if [[ "${DEV_MODE}" == "true" ]]; then
   drush pm:enable -y devel
 
   # enable dev mode
-  drupal site:mode dev
+  drush en dev_mode
 
 fi
 
@@ -65,9 +65,6 @@ drush theme:enable -y bootstrap
 #       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
 echo "delete configurations.."
 drush config:delete easy_breadcrumb.settings                                       || true
-drush config:delete node.type.page                                                 || true
-drush config:delete core.entity_form_display.node.page.default                     || true
-drush config:delete core.entity_view_display.node.page.default                     || true
 drush config:delete pathauto.settings                                              || true
 drush config:delete captcha.captcha_point.contact_message_feedback_form            || true
 drush config:delete core.base_field_override.node.article.promote                  || true
@@ -82,9 +79,6 @@ drush config:delete field.storage.node.field_article_comments                   
 drush config:delete field.storage.node.field_basic_page_comments                   || true
 drush config:delete field.storage.node.field_event_comments                        || true
 drush config:delete field.storage.node.field_guide_comments                        || true
-drush config:delete core.entity_view_display.node.page.search_index                || true
-drush config:delete core.entity_view_display.node.page.search_result               || true
-drush config:delete core.entity_view_display.node.page.teaser                      || true
 drush config:delete field.field.node.page.field_basic_page_comments                || true
 drush config:delete field.storage.node.field_basic_page_comments                   || true
 drush config:delete user.role.editor                                               || true
@@ -109,16 +103,19 @@ drush config:delete system.action.user_remove_role_action.content_editor        
 
 # uninstall modules
 echo "uninstall modules.."
-[[ "$MODULE_INFO" == *"search"* ]]      && drush pm:uninstall -y search
 [[ "$MODULE_INFO" == *"contextual"* ]]  && drush pm:uninstall -y contextual
-[[ "$MODULE_INFO" == *"page_cache"* ]]  && drush pm:uninstall -y page_cache
 [[ "$MODULE_INFO" == *"protected_submissions"* ]]  && drush pm:uninstall -y protected_submissions
 [[ "$MODULE_INFO" == *"avoindata_infobox"* ]]  && drush pm:uninstall -y avoindata_infobox
+[[ "$MODULE_INFO" == *"avoindata_ckeditor_plugins"* ]]  && drush pm:uninstall -y avoindata_ckeditor_plugins
+[[ "$MODULE_INFO" == *"color"* ]]  && drush pm:uninstall -y color
+[[ "$MODULE_INFO" == *"rdf"* ]]  && drush pm:uninstall -y rdf
+[[ "$MODULE_INFO" == *"bartik"* ]]  && drush theme:uninstall -y bartik
+[[ "$MODULE_INFO" == *"seven"* ]]  && drush theme:uninstall -y seven
+[[ "$MODULE_INFO" == *"fontawesome_menu_icons"* ]] && drush pm:uninstall -y fontawesome_menu_icons
 
 # enable modules
 echo "enable modules.."
 [[ "$MODULE_INFO" != *"twig_tweak"* ]]                    && drush pm:enable -y twig_tweak
-[[ "$MODULE_INFO" != *"fontawesome_menu_icons"* ]]        && drush pm:enable -y fontawesome_menu_icons
 [[ "$MODULE_INFO" != *"smtp"* ]]                          && drush pm:enable -y smtp
 [[ "$MODULE_INFO" != *"pathauto"* ]]                      && drush pm:enable -y pathauto
 [[ "$MODULE_INFO" != *"easy_breadcrumb"* ]]               && drush pm:enable -y easy_breadcrumb
@@ -146,15 +143,13 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"password_policy_length"* ]]        && drush pm:enable -y password_policy_length
 [[ "$MODULE_INFO" != *"raven"* ]]                         && drush pm:enable -y raven
 [[ "$MODULE_INFO" != *"menu_link_attributes"* ]]          && drush pm:enable -y menu_link_attributes
+[[ "$MODULE_INFO" != *"fontawesome"* ]]                   && drush pm:enable -y fontawesome
 
 # remove some configurations
 # NOTE: ansible role skips errors with this condition:
 #       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
 echo "delete configurations.."
 drush config:delete easy_breadcrumb.settings                                       || true
-drush config:delete node.type.page                                                 || true
-drush config:delete core.entity_form_display.node.page.default                     || true
-drush config:delete core.entity_view_display.node.page.default                     || true
 drush config:delete pathauto.settings                                              || true
 drush config:delete captcha.captcha_point.contact_message_feedback_form            || true
 drush config:delete core.base_field_override.node.article.promote                  || true
@@ -173,7 +168,6 @@ echo "enable custom modules.."
 [[ "$MODULE_INFO" != *"avoindata_events"* ]]            && drush pm:enable -y avoindata_events
 [[ "$MODULE_INFO" != *"avoindata_guide"* ]]             && drush pm:enable -y avoindata_guide
 [[ "$MODULE_INFO" != *"avoindata_user"* ]]              && drush pm:enable -y avoindata_user
-[[ "$MODULE_INFO" != *"avoindata_ckeditor_plugins"* ]]  && drush pm:enable -y avoindata_ckeditor_plugins
 [[ "$MODULE_INFO" != *"avoindata_ckeditor5_plugins"* ]]  && drush pm:enable -y avoindata_ckeditor5_plugins
 
 # enable custom theme + reload themes

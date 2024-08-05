@@ -1,6 +1,6 @@
-import {CommonStackProps} from "./common-stack-props";
+import {EnvStackProps} from "./env-stack-props";
 
-export interface SendToZulipProps extends CommonStackProps {
+export interface SendToZulipProps extends EnvStackProps {
   zulipApiUser: string,
   zulipApiUrl: string,
   zulipStream: string,
