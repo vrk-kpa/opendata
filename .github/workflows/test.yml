@@ -319,7 +319,7 @@ jobs:
       - name: bring services up
         working-directory: docker
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose.build.yml -p opendata up -d
+          docker compose -f docker-compose.yml -f docker-compose.build.yml -p opendata up -d
 
       - name: wait until services have started
         shell: bash
@@ -333,12 +333,12 @@ jobs:
           # print the list of containers
           docker ps -a
           # print logs to debug errors
-          docker logs opendata_ckan_1
-          docker logs opendata_drupal_1
-          docker logs opendata_solr_1
-          docker logs opendata_datapusher_1
-          docker logs opendata_nginx_1
-          docker logs opendata_fuseki_1
+          docker logs opendata-ckan-1
+          docker logs opendata-drupal-1
+          docker logs opendata-solr-1
+          docker logs opendata-datapusher-1
+          docker logs opendata-nginx-1
+          docker logs opendata-fuseki-1
 
       - name: Build cypress container
         run: docker build -t cypress/test cypress/
@@ -369,20 +369,20 @@ jobs:
         if: failure()
         shell: bash
         run: |
-          docker logs opendata_ckan_1 > /tmp/opendata_ckan_1.log 2>&1
-          docker logs opendata_ckan_cron_1 > /tmp/opendata_ckan_cron_1.log 2>&1
-          docker logs opendata_drupal_1 > /tmp/opendata_drupal_1.log 2>&1
-          docker logs opendata_solr_1 > /tmp/opendata_solr_1.log 2>&1
-          docker logs opendata_datapusher_1 > /tmp/opendata_datapusher_1.log 2>&1
-          docker logs opendata_nginx_1 > /tmp/opendata_nginx_1.log 2>&1
-          docker logs opendata_fuseki_1 > /tmp/opendata_fuseki_1.log 2>&1
+          docker logs opendata-ckan-1 > /tmp/opendata-ckan-1.log 2>&1
+          docker logs opendata-ckan_cron-1 > /tmp/opendata-ckan_cron-1.log 2>&1
+          docker logs opendata-drupal-1 > /tmp/opendata-drupal-1.log 2>&1
+          docker logs opendata-solr-1 > /tmp/opendata-solr-1.log 2>&1
+          docker logs opendata-datapusher-1 > /tmp/opendata-datapusher-1.log 2>&1
+          docker logs opendata-nginx-1 > /tmp/opendata-nginx-1.log 2>&1
+          docker logs opendata-fuseki-1 > /tmp/opendata-fuseki-1.log 2>&1
 
       - name: upload log artifacts
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: docker-logs
-          path: /tmp/opendata_*.log
+          path: /tmp/opendata-*.log
 
       - name: upload cypress screenshot artifacts
         uses: actions/upload-artifact@v4
