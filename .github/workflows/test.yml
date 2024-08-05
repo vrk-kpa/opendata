@@ -349,7 +349,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: cypress/test:latest
-          outputs: type=docker
+          outputs: type=image
         env:
           DOCKER_BUILD_RECORD_UPLOAD: false
 
