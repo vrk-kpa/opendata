@@ -1306,7 +1306,7 @@ msgstr "Paikkatiedot"
 
 #: ckanext/ytp/translations.py:234
 msgid "Mobility"
-msgstr ""
+msgstr "Liikkuvuustiedot"
 
 #: ckanext/ytp/translations.py:235
 msgid "Earth observation and environment"
