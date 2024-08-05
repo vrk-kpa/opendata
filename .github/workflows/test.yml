@@ -349,7 +349,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: cypress/test:latest
-          outputs: type=image
+          load: true
         env:
           DOCKER_BUILD_RECORD_UPLOAD: false
 
