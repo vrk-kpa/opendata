@@ -1298,7 +1298,7 @@ msgstr "Säätiedot"
 
 #: ckanext/ytp/translations.py:232
 msgid "Companies and company ownership"
-msgstr ""
+msgstr "Yritys- ja yritysten omistustiedot"
 
 #: ckanext/ytp/translations.py:233
 msgid "Geospatial"
