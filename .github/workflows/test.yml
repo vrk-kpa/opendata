@@ -546,6 +546,7 @@ jobs:
     - name: Setup extension
       run: |
         ckan -c ckan/ckanext/ckanext-ytp_main/test.ini db init
+        ckan -c ckan/ckanext/ckanext-ytp_main/test.ini db upgrade -p harvest
     - name: Run tests
       run: |
         pytest --ckan-ini=ckan/ckanext/ckanext-ytp_main/test.ini --cov=ckanext.ytp --disable-warnings ckan/ckanext/ckanext-ytp_main/ckanext/ytp/tests

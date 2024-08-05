@@ -22,4 +22,6 @@ flag_management:
       paths:
         - ckan/ckanext/**
       carryforward: true
+      ignore:
+        - ckan/**/translations.py
 

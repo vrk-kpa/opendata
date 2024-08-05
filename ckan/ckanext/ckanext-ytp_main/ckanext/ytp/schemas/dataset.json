@@ -59,7 +59,6 @@
       "field_name": "categories",
       "label": "Categories",
       "preset": "multiple_checkbox",
-      "form_snippet": "ytp_multiple_checkbox.html",
       "choices_helper": "scheming_category_list",
       "description": "Select at least one category.",
       "validators": "save_to_groups",
@@ -89,20 +88,33 @@
       "field_name": "highvalue",
       "label": "High value dataset",
       "preset": "select",
-      "form_snippet": "radio_sysadmin.html",
+      "form_snippet": "radio.html",
       "choices": [
         {
           "label": "No",
-          "value": "false"
+          "value": "false",
+          "hide_element": "highvalue_category"
         },
         {
           "label": "Yes",
-          "value": "true"
+          "value": "true",
+          "show_element": "highvalue_category"
         }
       ],
       "default_value": "false",
-      "validators": "ignore_not_sysadmin keep_old_value_if_missing boolean_validator",
+      "validators": "boolean_validator",
       "description": "You can mark dataset as high value dataset"
+    },
+    {
+      "field_name": "highvalue_category",
+      "label": "High-value dataset category",
+      "visual_required": true,
+      "hideable": true,
+      "preset": "multiple_checkbox",
+      "choices_helper": "scheming_highvalue_category_list",
+      "validators": "highvalue_category scheming_multiple_choice",
+      "description": "Select at least one category.",
+      "display_snippet": "tag_list.html"
     },
     {
       "field_name": "deprecated",
