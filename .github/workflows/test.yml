@@ -147,7 +147,7 @@ jobs:
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
-          DOCKER_BUILD_NO_SUMMARY: true
+          DOCKER_BUILD_RECORD_UPLOAD: false
 
       - name: upload images
         if: ${{ matrix.build-container == true }}
@@ -341,7 +341,18 @@ jobs:
           docker logs opendata-fuseki-1
 
       - name: Build cypress container
-        run: docker build -t cypress/test cypress/
+        uses: docker/build-push-action@v6
+        with:
+          context: ./cypress
+          file: ./cypress/Dockerfile
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: cypress/test:latest
+          load: true
+        env:
+          DOCKER_BUILD_RECORD_UPLOAD: false
+
 
       - name: run cypress e2e tests
         run: >
