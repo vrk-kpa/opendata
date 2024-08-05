@@ -191,27 +191,27 @@ services:
 
 ### Build/rebuild & create/recreate
 ```bash
-docker-compose -p opendata up --build -d
+docker compose -p opendata up --build -d
 ```
 
 ### Bring services down
 ```bash
-docker-compose -p opendata down
+docker compose -p opendata down
 ```
 
 ### Destroy services
 ```bash
-docker-compose -p opendata down --volumes
+docker compose -p opendata down --volumes
 ```
 
 ### Example: Scale service X to N containers
 ```bash
-docker-compose -p opendata up --scale X=N -d
+docker compose -p opendata up --scale X=N -d
 ```
 
 ### Example: scaling drupal to 5 instances
 ```bash
-docker-compose -p opendata up --scale drupal=5 -d
+docker compose -p opendata up --scale drupal=5 -d
 ```
 
 ## Services that currently support scaling in local environment
@@ -259,10 +259,10 @@ npx cypress open
 ```
 #### Test environment
 
-When you want to separate tests from development environment, you can give docker-compose different project name:
+When you want to separate tests from development environment, you can give docker compose different project name:
 
 ```bash
-docker-compose -p opendata-test up
+docker compose -p opendata-test up
 ```
 
 To get rid of flask debug toolbar (cypress tests will fail when toolbar is visible), you can add environment-variable `TEST: 'true'` for ckan-service in `docker-compose.override.yml`
