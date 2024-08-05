@@ -1314,7 +1314,7 @@ msgstr "Maan havainnointi ja ympäristö"
 
 #: ckanext/ytp/translations.py:236
 msgid "Statistics"
-msgstr ""
+msgstr "Tilastotiedot"
 
 #: ckanext/ytp/translations.py:239
 msgid "Data resource title"
