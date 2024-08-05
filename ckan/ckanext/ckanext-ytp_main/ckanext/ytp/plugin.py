@@ -537,10 +537,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         # Modify facet display name to be human-readable
         # TODO: handle translations for groups and highvalue categories
         if search_results.get('search_facets'):
-            for facet in search_results['search_facets']:
-                if facet == "vocab_highvalue_category":
-                    for facet_item in search_results['search_facets'][facet]['items']:
-                        facet_item['display_name'] = get_highvalue_category_label(facet_item['name'])
+            highvalue_facet = search_results['search_facets'].get('vocab_highvalue_category')
+            if highvalue_facet:
+                for facet_item in highvalue_facet['items']:
+                    facet_item['display_name'] = get_highvalue_category_label(facet_item['name'])
 
         return search_results
 
