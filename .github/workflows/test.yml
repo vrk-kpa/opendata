@@ -370,7 +370,7 @@ jobs:
         shell: bash
         run: |
           docker logs opendata-ckan-1 > /tmp/opendata-ckan-1.log 2>&1
-          docker logs opendata-ckan_cron-1 > /tmp/opendata-ckan-cron-1.log 2>&1
+          docker logs opendata-ckan_cron-1 > /tmp/opendata-ckan_cron-1.log 2>&1
           docker logs opendata-drupal-1 > /tmp/opendata-drupal-1.log 2>&1
           docker logs opendata-solr-1 > /tmp/opendata-solr-1.log 2>&1
           docker logs opendata-datapusher-1 > /tmp/opendata-datapusher-1.log 2>&1
