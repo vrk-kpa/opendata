@@ -1302,7 +1302,7 @@ msgstr ""
 
 #: ckanext/ytp/translations.py:233
 msgid "Geospatial"
-msgstr ""
+msgstr "Paikkatiedot"
 
 #: ckanext/ytp/translations.py:234
 msgid "Mobility"
