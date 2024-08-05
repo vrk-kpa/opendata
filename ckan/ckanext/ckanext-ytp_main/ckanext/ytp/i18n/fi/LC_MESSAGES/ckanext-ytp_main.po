@@ -1310,7 +1310,7 @@ msgstr "Liikkuvuustiedot"
 
 #: ckanext/ytp/translations.py:235
 msgid "Earth observation and environment"
-msgstr ""
+msgstr "Maan havainnointi ja ympäristö"
 
 #: ckanext/ytp/translations.py:236
 msgid "Statistics"
