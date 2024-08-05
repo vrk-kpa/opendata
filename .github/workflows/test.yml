@@ -185,8 +185,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: setup docker buildx
-        uses: docker/setup-buildx-action@v3
+      #- name: setup docker buildx
+      #  uses: docker/setup-buildx-action@v3
 
       - name: install nodejs v20
         uses: actions/setup-node@v4
