@@ -8,7 +8,7 @@ RUN cargo install qsv@0.130.0 --locked --bin qsvdp -F datapusher_plus,luau
 #############################
 ### Build DataPusher Plus ###
 #############################
-FROM public.ecr.aws/docker/library/python:3.10.13-alpine3.19
+FROM public.ecr.aws/docker/library/python:3.12.5-alpine3.19
 
 # Set timezone
 ENV TZ=UTC
