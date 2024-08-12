@@ -172,8 +172,15 @@ def save_to_groups(key, data, errors, context):
                     data[group_key] = v
 
     else:
-        # Convert categories and groups key values to empty string if categories key is missing
+        # if categories is missing, remove groups
         data[key] = ""
-        data[('groups',)] = ""
+        removed_keys = []
+        for k in data.keys():
+            if 'groups' in k:
+                removed_keys.append(k)
+
+        for k in removed_keys:
+            data[k] = ""
+
 
     return data[key]
