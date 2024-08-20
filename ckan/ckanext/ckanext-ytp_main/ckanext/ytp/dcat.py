@@ -95,7 +95,7 @@ class AvoindataDCATAPProfile(RDFProfile):
         Recommended:  dcat:contactPoint, dcat:distribution, dcat:keyword
                       dct:publisher, dcat:theme
         Optional: dcat:landingPage, dct:spatial, dct:accuralPeriodicity, dct:type,
-                  dct:identifier, dct:temporal, dct:issued
+                  dct:identifier, dct:temporal, dct:issued, dct:modified
 
     Supported distribution fields:
         Mandatory: dct:accessUrl
@@ -141,13 +141,13 @@ class AvoindataDCATAPProfile(RDFProfile):
             access_rights_value = access_rights.values()
             g.add((rights_statement, RDF.type, DCT.RightsStatement))
             g.add((rights_statement, DCT.description, Literal('\n\n'.join(access_rights_value))))
-            g.add((dataset_ref, DCT.rights, rights_statement))
+            g.add((dataset_ref, DCT.accessRights, rights_statement))
 
     def _parse_showcase(self, dataset_dict, dataset_ref):
         g = self.g
         showcase_url = h.url_for('{}.read'.format(dataset_dict.get('type', 'dataset')),
                                  id=dataset_dict.get('name'))
-        g.add((dataset_ref, ADFI.DataUserInterface, uriref(showcase_url)))
+        g.add((dataset_ref, ADFI.dataUserInterface, uriref(showcase_url)))
 
         if dataset_dict.get('platform', None):
             platform = BNode()
@@ -302,12 +302,17 @@ class AvoindataDCATAPProfile(RDFProfile):
         if contact_email:
             g.add((dataset_ref, DCAT.contactPoint, uriref(contact_email)))
 
-        # dcat:distribution
+        if dataset_type == 'apiset':
+            resource_term = DCAT.endpointDescription
+        else:
+            resource_term = DCAT.distribution
+
+        # dcat:distribution / dcat:endpointDescription
         for resource_dict in dataset_dict.get('resources', []):
             resource_dict = as_dict(resource_dict)
             distribution = BNode()
             g.add((distribution, RDF.type, DCAT.Distribution))
-            g.add((dataset_ref, DCAT.distribution, distribution))
+            g.add((dataset_ref, resource_term, distribution))
 
             # dct:title
             titles = set(t for t in list(get_dict(resource_dict, 'name_translated').values()) if t)

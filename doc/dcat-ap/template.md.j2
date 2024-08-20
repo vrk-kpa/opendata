@@ -24,7 +24,7 @@ Prefix | URI
 {% for class in classes %}
 ### {{ class.term }}
 
-{% if class.subclassOf %}
+{% if 'subclassOf' in class %}
   Sub-class of {{ class.subclassOf }}
 {% endif -%}
 
@@ -35,12 +35,14 @@ Prefix | URI
 #### Properties
 
 {% for level in ['mandatory', 'recommended', 'optional'] %}
+{% if level in class.properties and class.properties[level] %}
 ##### {{ level | title }}
 Term | Range | Cardinality | Comment
 -----|-------|-------------|--------
 {% for property in class.properties[level] -%}
-  {% if property.extension %}**{{ property.term }}** {% else %}{{ property.term }} {% endif -%}
+  {% if 'extension' in property %}**{{ property.term }}** {% else %}{{ property.term }} {% endif -%}
   | {{ property.range }} | {{ property.min }}..{{ property.max }} | {{ property.description }}
 {% endfor %} {# property #}
+{% endif %}
 {% endfor %} {# level #}
 {% endfor %} {# class #}
