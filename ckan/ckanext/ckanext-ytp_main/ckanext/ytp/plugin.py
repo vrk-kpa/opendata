@@ -310,6 +310,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             facets_dict['license_id'] = _('Licenses')
             facets_dict['groups'] = _('Category')
             facets_dict['producer_type'] = _('Producer type')
+            facets_dict['vocab_highvalue_category'] = _('High-value dataset category')
             # add more dataset facets here
 
         return facets_dict
