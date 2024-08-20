@@ -30,7 +30,7 @@ COPY --from=cargo_build /usr/local/cargo/bin/qsvdp /usr/local/bin
 RUN python -m venv ${VENV}
 RUN ${VENV}/bin/pip install uwsgi
 
-ENV DATAPUSHER_COMMIT=90325a432e029138c3b47dc5e2edd19893c05411
+ENV DATAPUSHER_COMMIT=89b6bb626d1a1f968438413749848dd2b73427fb
 
 # Install DataPusher+ from repository, switch repository once latest PR on iconv has been merged
 RUN wget https://github.com/Zharktas/datapusher-plus/archive/${DATAPUSHER_COMMIT}.zip -P /tmp
