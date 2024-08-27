@@ -26,15 +26,27 @@
   {% endif %}
 
   {% if h.check_access('package_update', {'id': c.pkg_dict.id}) %}
+
+  {%- set schema = h.scheming_get_dataset_schema('dataset') -%}
+
+  {%- set category_field = h.scheming_field_by_name(schema.dataset_fields, 'groups') -%}
+  {%- set choices = [] -%}
+
+  {%- for c in h.scheming_field_choices(category_field) -%}
+    {%- do choices.append(
+      (c.value, h.scheming_language_text_or_empty(c.label))) -%}
+  {%- endfor -%}
+
     <form method="post">
       <hr>
       <label for="field-add_group">{{_('Dataset categories')}}</label>
       <fieldset class="checkboxes" id="field-add_group">
-        {% for group in h.group_list_with_selected(c.pkg_dict.groups) %}
-          <label class="ytp-checkbox mb-3 mr-4" for="field-{{ group.name }}">
-            <input id="field-{{ group.name }}" type="checkbox" name="categories" value="{{group.name}}" {% if group.selected %} checked {% endif %}>
+        {% set selected_groups =  c.pkg_dict.groups | map(attribute='name') |join(', ') %}
+        {% for val, label in choices %}
+          <label class="ytp-checkbox mb-3 mr-4" for="field-{{ val }}">
+            <input id="field-{{ val }}" type="checkbox" name="categories" value="{{ val }}" {% if val in selected_groups %} checked {% endif %}>
             <span class="custom-checkbox"></span>
-            {{ h.get_translated(group, 'title') }}
+            {{ label }}
           </label>
         {% endfor %}
       </fieldset>

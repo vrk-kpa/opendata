@@ -67,7 +67,7 @@ class TestYtpDatasetPlugin():
                          description_translated=translated_description)
 
         data_dict = create_minimal_dataset()
-        data_dict['categories'] = [category['name']]
+        data_dict['groups'] = [{'name': category['name']}]
         dataset = Dataset(**data_dict)
 
         result = call_action('package_show', id=dataset['id'])
@@ -153,59 +153,71 @@ class TestYtpDatasetPlugin():
         }
 
 
-    def test_categories_are_added_as_groups(self):
+    def test_groups_are_added(self):
         g = Group(title_translated={
             "fi": "some title in finnish",
             "sv": "some title in swedish",
             "en": "some title in english"
         })
         dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
-        dataset_fields['categories'] = g['name']
+        dataset_fields['groups'] = [{'name': g['name']}]
         d = Dataset(**dataset_fields)
-        dataset = call_action('package_show', id=d['name'])
 
-        assert dataset['groups'][0]['id'] == g['id']
-
+        assert d['groups'][0]['id'] == g['id']
 
 
-    def test_groups_are_removed_when_categories_are_removed(self):
-        g = Group(title_translated={
+    def test_groups_are_updated(self):
+
+        user = Sysadmin()
+
+        g1 = Group(title_translated={
             "fi": "some title in finnish",
             "sv": "some title in swedish",
             "en": "some title in english"
         })
-        dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
 
-        dataset_fields['categories'] = g['name']
+        g2 = Group(title_translated={
+            "fi": "some other title in finnish",
+            "sv": "some other title in swedish",
+            "en": "some other title in english"
+        })
+
+        dataset_fields = minimal_dataset_with_one_resource_fields(user)
+
+        dataset_fields['groups'] =[{'name': g1['name']}]
         d = Dataset(**dataset_fields)
 
         assert len(d['groups']) == 1
+        assert d['groups'][0]['id'] == g1['id']
 
-        dataset_fields['categories'] = []
-        dataset = call_action('package_update', name=d['id'], **dataset_fields)
+        dataset_fields['groups'] = [{'name': g2['name']}]
+        dataset = call_action('package_update', context={'user': user['name']}, name=d['id'], **dataset_fields)
 
-        assert len(dataset['groups']) == 0
+        assert len(dataset['groups']) == 1
+        assert dataset['groups'][0]['name'] == g2['name']
 
 
-    def test_groups_are_removed_if_categories_are_missing(self, app):
+    def test_groups_are_removed(self, app):
         g = Group(title_translated={
             "fi": "some title in finnish",
             "sv": "some title in swedish",
             "en": "some title in english"
         })
-        dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
 
-        dataset_fields['categories'] = g['name']
+        user = Sysadmin()
+
+        dataset_fields = minimal_dataset_with_one_resource_fields(user)
+
+        dataset_fields['groups'] = [{'name': g['name']}]
         d = Dataset(**dataset_fields)
 
         assert len(d['groups']) == 1
         assert d['groups'][0]['id'] == g['id']
-        assert d['categories'] == [g['name']]
+        assert d['groups'][0]['name'] == g['name']
 
-        dataset_fields.pop('categories')
-        dataset_fields['groups'] = d['groups']
-        dataset = call_action('package_update', name=d['id'], **dataset_fields)
+        dataset_fields['groups'] = []
+        dataset = call_action('package_update', context={'user': user['name']}, name=d['id'], **dataset_fields)
         assert len(dataset['groups']) == 0
-        assert dataset['categories'] == [""]
+
 
 

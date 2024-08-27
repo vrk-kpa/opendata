@@ -33,8 +33,6 @@ from ckanext.ytp.logic import package_autocomplete, store_municipality_bbox_data
 import ckanext.ytp.views as views
 from ckanext.ytp import auth, menu, cli, validators, views_organization
 
-from .converters import save_to_groups
-
 from .helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
     get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, \
@@ -446,11 +444,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 if 'url_type' in resource and isinstance(resource['url_type'], Missing):
                     resource['url_type'] = None
 
-        if (pkg_dict.get('categories', None) and pkg_dict.get('groups', None)):
+        if (pkg_dict.get('groups', None)):
             translation_dict = {
                 'all_fields': True,
                 'include_extras': True,
-                'groups': pkg_dict.get('categories')
+                'groups': [ group.get('name') for group in pkg_dict.get('groups') ]
             }
 
             group_context = context.copy()
@@ -557,8 +555,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'check_deprecation': validators.check_deprecation,
             'convert_to_list': validators.convert_to_list,
             'lowercase': validators.lowercase,
-            # NOTE: this is a converter. (https://github.com/vrk-kpa/ckanext-scheming/#validators)
-            'save_to_groups': save_to_groups,
             'create_fluent_tags': validators.create_fluent_tags,
             'create_tags': validators.create_tags,
             'from_date_is_before_until_date': validators.from_date_is_before_until_date,
