@@ -44,7 +44,7 @@
         {% set selected_groups =  c.pkg_dict.groups | map(attribute='name') |join(', ') %}
         {% for val, label in choices %}
           <label class="ytp-checkbox mb-3 mr-4" for="field-{{ val }}">
-            <input id="field-{{ val }}" type="checkbox" name="categories" value="{{ val }}" {% if val in selected_groups %} checked {% endif %}>
+            <input id="field-{{ val }}" type="checkbox" name="groups" value="{{ val }}" {% if val in selected_groups %} checked {% endif %}>
             <span class="custom-checkbox"></span>
             {{ label }}
           </label>
