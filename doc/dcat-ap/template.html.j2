@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Suomi.fi Open Data DCAT-AP extension</title>
-    <link rel="stylesheet" href="/resources/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="/modules/opendata-assets/resources/vendor/bootstrap.min.css">
   </head>
   <body class="container">
     <h1>Suomi.fi Open Data DCAT-AP extension</h1>
@@ -37,7 +37,7 @@
     {% for class in classes %}
     <h3 id="{{ class.term }}">{{ class.term }}</h3>
     
-    {% if class.subclassOf %}
+    {% if 'subclassOf' in class %}
       <p>Sub-class of {{ class.subclassOf }}</p>
     {% endif -%}
 
@@ -49,22 +49,25 @@
     <h4>Properties</h4>
 
     {% for level in ['mandatory', 'recommended', 'optional'] %}
-    <table class="table table-striped">
-      <caption>{{ level | title }} properties</caption>
-      <thead>
-        <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
-      </thead>
-      <tbody>
-      {% for property in class.properties[level] -%}
-        <tr>
-          <td>{% if property.extension %}<strong>{{ property.term }}</strong>{% else %}{{ property.term }} {% endif -%}</td>
-          <td>{{ property.range }}</td>
-          <td>{{ property.min }}..{{ property.max }}</td>
-          <td>{{ property.description }}</td>
-        </tr>
-      {% endfor %} {# property #}
-      </tbody>
-    </table>
+      {% if level in class.properties and class.properties[level] %}
+
+        <table class="table table-striped">
+          <caption>{{ level | title }} properties</caption>
+          <thead>
+            <tr><th>Term</th><th>Range</th><th>Cardinality</th><th>Comment</th></tr>
+          </thead>
+          <tbody>
+          {% for property in class.properties[level] -%}
+            <tr>
+              <td>{% if 'extension' in property %}<strong>{{ property.term }}</strong>{% else %}{{ property.term }} {% endif -%}</td>
+              <td>{{ property.range }}</td>
+              <td>{{ property.min }}..{{ property.max }}</td>
+              <td>{{ property.description }}</td>
+            </tr>
+          {% endfor %} {# property #}
+          </tbody>
+        </table>
+      {% endif %}
     {% endfor %} {# level #}
     {% endfor %} {# class #}
 
