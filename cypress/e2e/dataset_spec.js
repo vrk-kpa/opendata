@@ -156,7 +156,7 @@ describe('Dataset tests',
       cy.get('.slug-preview button').contains('Muokkaa').click();
       cy.get('#field-name').type(dataset_name);
       cy.fill_form_fields(dataset_form_data);
-      cy.get('#field-categories-' + category_name_1 + ' ~ span').click();
+      cy.get('#field-groups-' + category_name_1 + ' ~ span').click();
       cy.get('button[name=save]').click();
   
       const resource_form_data = {

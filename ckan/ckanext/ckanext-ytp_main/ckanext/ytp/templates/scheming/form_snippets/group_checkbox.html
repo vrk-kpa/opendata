@@ -1,0 +1,34 @@
+{% import 'scheming/macros/form.html' as form %}
+
+{%- call form.input_block(
+    for=field.field_name,
+    label=h.scheming_language_text(field.label),
+    classes=['control-medium'],
+    error=errors[field.field_name],
+    is_required=h.scheming_field_required(field) or field.visual_required,
+    description=field.description,
+    hideable=field.hideable) -%}
+  {%- set choices = [] -%}
+  {%- for c in h.scheming_field_choices(field) -%}
+    {%- do choices.append(
+        (c.value, h.scheming_language_text_or_empty(c.label))) -%}
+  {%- endfor -%}
+  <fieldset class="checkboxes">
+    {# Submitted as hidden so empty selection will remove groups #}
+    <input type="hidden" name="groups-{{ choices|count + 1 }}-name" value="" />
+    {% set selected_groups =  data[field.field_name] | map(attribute='name') |join(', ') %}
+    {%- for val, label in choices -%}
+
+      <label class="ytp-checkbox mb-3 mr-4" for="field-{{ field.field_name }}-{{ val }}">
+        <input id="field-{{ field.field_name }}-{{ val }}"
+               type="checkbox"
+               name="{{ field.field_name ~  '-' ~ loop.index ~ '-name' }}"
+               value="{{ val }}"
+               {% if val in selected_groups %}checked{% endif %} />
+        <span class="custom-checkbox"></span>
+        {{ label }}
+      </label>
+    {%- endfor -%}
+  </fieldset>
+  {%- snippet 'scheming/form_snippets/help_text.html', field=field -%}
+{%- endcall -%}
