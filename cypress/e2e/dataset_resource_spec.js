@@ -172,7 +172,7 @@ describe('Dataset resource tests', function(){
             cy.get('.breadcrumb').find('li').eq(4).contains(dataset_data);
         
             //sidebar
-            cy.get('.secondary').find('h2').contains('Resources');
+            cy.get('.secondary').find('h2').contains('Data resources');
             cy.get('.secondary').find('li').find('a').contains('test data');
         
             //dataset titles, actions and heading
@@ -190,13 +190,13 @@ describe('Dataset resource tests', function(){
         
             //dataset preview
             cy.get('.resource-view').find('h3').contains("Preview");
-            cy.get('.data-viewer-info').find('p').contains("There are no views created for this resource yet.");
+            cy.get('.data-viewer-info').find('p').contains("There are no views created for this data resource yet.");
             //requires user to be logged in and viewing their own dataset
             cy.get('.data-viewer-info').find('p').contains("Not seeing the views you were expecting?");
             cy.get('.data-viewer-info').find('p').find('a').contains('Click here for more information.');
         
             //dataset info table
-            cy.get('.module-content').find('h3').contains("Extra information"); //there isn't a good identifier to find this element without using the contains text
+            cy.get('.module-content').find('h3').contains("Additional information"); //there isn't a good identifier to find this element without using the contains text
             cy.get('.resource-module-table');
             cy.get('.resource-module-table').find('th').contains("Format");
             cy.get('.resource-module-table').find('th').contains("Temporal Coverage");

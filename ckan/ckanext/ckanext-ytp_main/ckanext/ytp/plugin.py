@@ -33,8 +33,6 @@ from ckanext.ytp.logic import package_autocomplete, store_municipality_bbox_data
 import ckanext.ytp.views as views
 from ckanext.ytp import auth, menu, cli, validators, views_organization
 
-from .converters import save_to_groups
-
 from .helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
     get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, \
@@ -46,7 +44,8 @@ from .helpers import extra_translation, render_date, service_database_enabled, g
     get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_apiset_package_list, \
     get_groups_where_user_is_admin, get_value_from_extras_by_key, get_field_from_dataset_schema, \
     get_field_from_resource_schema, is_boolean_selected, site_url_with_root_path, \
-    get_organization_filters_count, package_count_for_source_customized, group_tree_section
+    get_organization_filters_count, package_count_for_source_customized, group_tree_section, \
+    get_highvalue_category_label, scheming_highvalue_category_list
 
 from .tools import create_system_context
 
@@ -309,6 +308,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             facets_dict['license_id'] = _('Licenses')
             facets_dict['groups'] = _('Category')
             facets_dict['producer_type'] = _('Producer type')
+            facets_dict['vocab_highvalue_category'] = _('High-value dataset category')
             # add more dataset facets here
 
         return facets_dict
@@ -426,6 +426,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_organization_filters_count': get_organization_filters_count,
                 'asbool': toolkit.asbool,
                 'package_count_for_source_customized': package_count_for_source_customized,
+                'scheming_highvalue_category_list': scheming_highvalue_category_list,
+                'get_highvalue_category_label': get_highvalue_category_label
                 }
 
     def get_auth_functions(self):
@@ -442,11 +444,11 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 if 'url_type' in resource and isinstance(resource['url_type'], Missing):
                     resource['url_type'] = None
 
-        if (pkg_dict.get('categories', None) and pkg_dict.get('groups', None)):
+        if (pkg_dict.get('groups', None)):
             translation_dict = {
                 'all_fields': True,
                 'include_extras': True,
-                'groups': pkg_dict.get('categories')
+                'groups': [ group.get('name') for group in pkg_dict.get('groups') ]
             }
 
             group_context = context.copy()
@@ -514,6 +516,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             if 'producer_type' in org:
                 pkg_dict['producer_type'] = org['producer_type']
 
+        if pkg_dict.get('highvalue_category'):
+            pkg_dict['vocab_highvalue_category'] = json.loads(pkg_dict.get('highvalue_category'))
+
         return pkg_dict
 
     def before_view(self, pkg_dict):
@@ -527,6 +532,17 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
         return pkg_dict
 
+    def after_search(self, search_results, search_params):
+        # Modify facet display name to be human-readable
+        # TODO: handle translations for groups and highvalue categories
+        if search_results.get('search_facets'):
+            highvalue_facet = search_results['search_facets'].get('vocab_highvalue_category')
+            if highvalue_facet:
+                for facet_item in highvalue_facet['items']:
+                    facet_item['display_name'] = get_highvalue_category_label(facet_item['name'])
+
+        return search_results
+
     # IActions #
     def get_actions(self):
         return {'package_show': action_package_show, 'package_search': action_package_search,
@@ -539,8 +555,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'check_deprecation': validators.check_deprecation,
             'convert_to_list': validators.convert_to_list,
             'lowercase': validators.lowercase,
-            # NOTE: this is a converter. (https://github.com/vrk-kpa/ckanext-scheming/#validators)
-            'save_to_groups': save_to_groups,
             'create_fluent_tags': validators.create_fluent_tags,
             'create_tags': validators.create_tags,
             'from_date_is_before_until_date': validators.from_date_is_before_until_date,
@@ -564,7 +578,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'use_url_for_name_if_left_empty': validators.use_url_for_name_if_left_empty,
             'convert_to_json_compatible_str_if_str': validators.convert_to_json_compatible_str_if_str,
             'empty_string_if_value_missing': validators.empty_string_if_value_missing,
-            'resource_url_validator': validators.resource_url_validator
+            'resource_url_validator': validators.resource_url_validator,
+            'highvalue_category': validators.highvalue_category
         }
 
     def get_blueprint(self):
