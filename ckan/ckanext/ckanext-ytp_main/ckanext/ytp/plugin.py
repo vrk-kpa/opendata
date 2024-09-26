@@ -860,6 +860,23 @@ def action_user_create(original_action, context, data_dict):
     return result
 
 
+# Adds all users to newly created groups
+@chained_action
+def action_group_create(original_action, context, data_dict):
+    result = original_action(context, data_dict)
+
+    if result and data_dict.get('type', 'group') == 'group':
+        context = create_system_context()
+
+        users = plugins.toolkit.get_action('user_list')(context, {})
+
+        for user in users:
+            member_data = {'id': result['id'], 'username': user['name'], 'role': 'editor'}
+            plugins.toolkit.get_action('group_member_create')(context, member_data)
+
+    return result
+
+
 @logic.side_effect_free
 def action_organization_tree_list(context, data_dict):
     check_access('site_read', context)
@@ -1030,6 +1047,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
 
     def get_actions(self):
         return {'user_create': action_user_create,
+                'group_create': action_group_create,
                 'organization_tree_list': action_organization_tree_list,
                 'group_tree': plugin_hierarchy.group_tree,
                 'group_tree_section': plugin_hierarchy.group_tree_section,

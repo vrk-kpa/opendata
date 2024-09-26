@@ -220,4 +220,21 @@ class TestYtpDatasetPlugin():
         assert len(dataset['groups']) == 0
 
 
+    def test_user_can_add_datasets_to_newly_created_groups(self, app):
+        user = User()
+        organization = Organization(user=user)
+        dataset_fields = minimal_dataset_with_one_resource_fields(user)
+        dataset = Dataset(owner_org=organization['id'], **dataset_fields)
 
+        group = Group(title_translated={
+            "fi": "some title in finnish",
+            "sv": "some title in swedish",
+            "en": "some title in english"
+        })
+
+        updated_dataset = call_action('package_update',
+                                      context={'user': user['name'], 'ignore_auth': False},
+                                      name=dataset['id'],
+                                      groups=[{'name': group['name']}],
+                                      **dataset_fields)
+        assert len(updated_dataset['groups']) == 1
