@@ -534,7 +534,11 @@ def opendata_group():
 @click.option('--dryrun', is_flag=True)
 @click.pass_context
 def add_to_groups(ctx, dryrun):
-    context = {'ignore_auth': True}
+    site_user = get_action(u'get_site_user')({
+        u'ignore_auth': True},
+        {}
+    )
+    context = {'user': site_user['name'], 'ignore_auth': True}
     groups = get_action('group_list')(context, {})
     users = get_action('user_list')(context, {})
 
