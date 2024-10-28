@@ -18,7 +18,7 @@
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "^1.7",
         "drupal/ape": "^1.4",
-        "drupal/bootstrap": "^3.28",
+        "drupal/bootstrap": "^3.32",
         "drupal/captcha": "^2.0",
         "drupal/coder": "^8.2",
         "drupal/core-composer-scaffold": "^10",
