@@ -41,6 +41,8 @@ fi
 # get current modules
 MODULE_INFO=$(drush pm:list --status enabled --field=name)
 
+# Enable prerequisite modules
+
 # enable language modules
 echo "enable language modules.."
 [[ "$MODULE_INFO" != *"config_translation"* ]]  && drush pm:enable -y config_translation
@@ -58,6 +60,9 @@ LANG_INFO=$(drush language-info --field=language)
 drush language:default -y "fi"
 
 # enable base theme
+drush pm:enable -y jquery_ui
+drush pm:enable -y jquery_ui_draggable
+drush pm:enable -y jquery_ui_resizable
 drush theme:enable -y bootstrap
 
 # remove some configurations
