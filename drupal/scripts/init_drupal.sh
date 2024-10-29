@@ -41,8 +41,6 @@ fi
 # get current modules
 MODULE_INFO=$(drush pm:list --status enabled --field=name)
 
-# Enable prerequisite modules
-
 # enable language modules
 echo "enable language modules.."
 [[ "$MODULE_INFO" != *"config_translation"* ]]  && drush pm:enable -y config_translation

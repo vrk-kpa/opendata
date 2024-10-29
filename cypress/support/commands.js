@@ -99,7 +99,12 @@ Cypress.Commands.add('login', (username, password) => {
 
 Cypress.Commands.add('logout', () => {
   cy.visit('/user/logout');
-  cy.get('#edit-submit').click();
+
+  // Handle confirmation dialog if it pops up
+  if(window.location.pathname.endsWith("/user/logout/confirm")) {
+    cy.get('#edit-submit').click();
+  }
+
   cy.url().should('eq', Cypress.config().baseUrl + '/fi');
   // Check that authentication cookie doesn't exist anymore
   cy.getCookies().each((cookie) => {
