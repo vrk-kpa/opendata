@@ -346,7 +346,7 @@ describe('Apiset tests',
     });
 
     it('Cannot create apiset if logged out', function () {
-      cy.logout_request();
+      cy.logout();
       cy.visit(('/data/fi/apiset/new'), {
         failOnStatusCode: false
       });

@@ -10,7 +10,6 @@ describe('Login page tests', function(){
       });
       
       it('Admin Logout', function(){
-        cy.logout();
         cy.login('admin', 'administrator');
         cy.location('pathname').should('contain', `/data/fi/user/admin`);
         cy.logout();
@@ -23,7 +22,6 @@ describe('Login page tests', function(){
       });
       
       it('User Logout', function(){
-        cy.logout();
         cy.login('test-user', 'test-user');
         cy.location('pathname').should('contain', `/data/fi/user/test-user`)
         cy.logout();
