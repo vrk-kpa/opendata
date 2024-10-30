@@ -58,9 +58,9 @@ LANG_INFO=$(drush language-info --field=language)
 drush language:default -y "fi"
 
 # enable base theme
-drush pm:enable -y jquery_ui
-drush pm:enable -y jquery_ui_draggable
-drush pm:enable -y jquery_ui_resizable
+[[ "$MODULE_INFO" != *"jquery_ui"* ]]           && drush pm:enable -y jquery_ui
+[[ "$MODULE_INFO" != *"jquery_ui_draggable"* ]] && drush pm:enable -y jquery_ui_draggable
+[[ "$MODULE_INFO" != *"jquery_ui_resizable"* ]] && drush pm:enable -y jquery_ui_resizable
 drush theme:enable -y bootstrap
 
 # remove some configurations
