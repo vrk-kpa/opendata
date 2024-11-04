@@ -5,7 +5,7 @@ describe('SPARQL tests', () => {
         // Admin things
         cy.login_post_request('admin', 'administrator');
 
-        cy.logout_request();
+        cy.logout();
 
         // User things
         cy.create_organization_for_user('testi_organisaatio', 'test-user');

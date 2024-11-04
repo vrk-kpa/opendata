@@ -20,7 +20,7 @@ describe('Dataset resource tests', function(){
       })
 
     it("Can't edit resource while not logged in", function() {
-        cy.logout_request();
+        cy.logout();
         cy.visit('/');
         cy.get('nav a[href="/data/fi/dataset"]').click();
         cy.get(`a[href="/data/fi/dataset/${dataset_name}"]`).click();

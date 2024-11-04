@@ -11,7 +11,7 @@ describe('Advanced search tests', () => {
         cy.create_category(category_name_1);
         cy.create_category(category_name_2);
 
-        cy.logout_request();
+        cy.logout();
 
         // User things
         cy.create_organization_for_user('testi_organisaatio', 'test-user');
@@ -97,7 +97,10 @@ describe('Advanced search tests', () => {
         it("Navigating to advanced search from the front page", function(){
             cy.visit('/');
             // open dataset page manually and wait page to load
-            cy.get('.opendata-menu-container > .nav > :nth-child(2) > a').click();
+            cy.get('.opendata-menu-container a[href="/data/fi/dataset"]').click({
+                // Disable scrolling so drupal toolbar doesn't cover the link
+                scrollBehavior: false
+            });
             cy.location('pathname').should('contain', `data/fi/dataset`)
             //open advanced search page manually and wait for load
             cy.get('.mb-2 > .btn-avoindata-header').click();

@@ -134,11 +134,11 @@ describe('Dataset tests',
     })
 
     it('Create a dataset with a category', function(){
-      cy.logout_request();
+      cy.logout();
       cy.login_post_request('admin', 'administrator');
       const category_name_1 = 'test_category_1';
       cy.create_category(category_name_1);
-      cy.logout_request();
+      cy.logout();
       cy.login_post_request('test-user', 'test-user')
 
       const dataset_name = 'category_test';
@@ -270,7 +270,7 @@ describe('Dataset tests',
     });
 
     it('Cannot create dataset if logged out', function() {
-      cy.logout_request();
+      cy.logout();
       cy.visit('/');
       cy.get('nav a[href="/data/fi/dataset"]').click();
       cy.get('a[href="/data/fi/dataset/new"]').should('not.exist');

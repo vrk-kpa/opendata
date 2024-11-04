@@ -77,13 +77,6 @@ Cypress.Commands.add('login_post_request', (username, password) => {
   });
 });
 
-Cypress.Commands.add('logout_request', (username, password) => {
-  cy.request({
-    method: 'GET',
-    url: '/user/logout'
-  });
-});
-
 Cypress.Commands.add('login', (username, password) => {
   cy.visit('/user/login');
   cy.get('input[name=name]').type(username);
@@ -98,7 +91,14 @@ Cypress.Commands.add('login', (username, password) => {
 });
 
 Cypress.Commands.add('logout', () => {
-  cy.visit('/user/logout');
+  cy.visit('/');
+  cy.scrollTo('top', {
+    ensureScrollable: false
+  });
+  cy.get('.navbar a[href*="/user/logout"]').click({
+    scrollBehavior: false
+  });
+
   cy.url().should('eq', Cypress.config().baseUrl + '/fi');
   // Check that authentication cookie doesn't exist anymore
   cy.getCookies().each((cookie) => {
@@ -207,11 +207,11 @@ Cypress.Commands.add('create_organization_for_user', (organization_name, user_na
     }
     cy.login_post_request(user_name, user_name)
     cy.create_new_organization(organization_name);
-    cy.logout_request();
+    cy.logout();
 
     cy.login_post_request('admin', 'administrator');
     cy.approve_organization(organization_name);
-    cy.logout_request();
+    cy.logout();
 });
 
 Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, resource_form_data, parent_organization) => {
@@ -364,7 +364,7 @@ Cypress.Commands.add('add_showcase_user', () => {
   // Login with test-publisher and visit ckan to create the user
   cy.login_post_request('test-publisher', 'test-publisher');
   cy.request('/data/fi/dataset');
-  cy.logout_request();
+  cy.logout();
 
   // Set showcase-admin rights for test-publisher
   cy.login_post_request('admin', 'administrator');
@@ -376,7 +376,7 @@ Cypress.Commands.add('add_showcase_user', () => {
   cy.get('#s2id_username').click();
   cy.get('#s2id_autogen1_search').type('test-publisher', {force: true}).wait(1000).type('{enter}');
   cy.get('button[name=submit]').click();
-  cy.logout_request();
+  cy.logout();
 
   // Login with test-publisher
   cy.login_post_request('test-publisher', 'test-publisher');
