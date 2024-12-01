@@ -15,7 +15,7 @@
     "gulp-clean-css": "^4.3.0",
     "gulp-cli": "^2.3.0",
     "gulp-concat": "^2.6.1",
-    "gulp-imagemin": "^7.1.0",
+    "gulp-imagemin": "^9.0.0",
     "gulp-inline-css": "^4.0.0",
     "gulp-less": "^5.0.0",
     "gulp-livereload": "~4.0.2",
