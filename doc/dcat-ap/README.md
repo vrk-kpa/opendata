@@ -95,6 +95,7 @@ Term | Range | Cardinality | Comment
 -----|-------|-------------|--------
 dct:description | rdfs:Literal | 1..n | This property contains a free-text account of the Dataset. This property can be repeated for parallel language versions of the description.
 dct:title | rdfs:Literal | 1..n | This property contains a name given to the Dataset. This property can be repeated for parallel language versions of the name.
+adfi:collectionType | rdfs:Literal | 1..1 | This property defines if the Dataset describes open data or interoperability tools
  
 
 
