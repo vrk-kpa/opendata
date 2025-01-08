@@ -64,8 +64,8 @@ export class DatabaseStack extends Stack {
 
 
     this.datastoreInstance = new rds.DatabaseInstance(this, 'datastoreInstance', {
-      engine: rds.DatabaseInstanceEngine.postgres({version: rds.PostgresEngineVersion.VER_14}),
-      allowMajorVersionUpgrade: false,
+      engine: rds.DatabaseInstanceEngine.postgres({version: rds.PostgresEngineVersion.VER_16}),
+      allowMajorVersionUpgrade: true,
       credentials: this.datastoreCredentials,
       vpc: props.vpc,
       port: 5432,
