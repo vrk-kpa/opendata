@@ -63,7 +63,7 @@ jobs:
       - name: synthesize cdk stacks
         working-directory: cdk
         run: |
-          npx cdk synth *-prod --quiet >/dev/null 2>&1
+          npx cdk synth *-prod 
 
       - name: deploy cdk stacks
         working-directory: cdk
