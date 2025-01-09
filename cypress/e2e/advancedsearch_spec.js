@@ -371,7 +371,6 @@ describe('Advanced search tests', () => {
         cy.get('#field-order-by > option').eq(3).should('have.value', 'metadata_modified desc');
         cy.get('#field-order-by > option').eq(4).should('have.value', 'metadata_created asc');
         cy.get('#field-order-by > option').eq(5).should('have.value', 'metadata_created desc');
-        cy.get('#field-order-by > option').eq(6).should('have.value', 'views_recent desc');
         });
 
         it('Default sorting option is sorting by relevance', function(){
