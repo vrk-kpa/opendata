@@ -1,0 +1,14 @@
+diff --git a/ckan/lib/search/index.py b/ckan/lib/search/index.py
+index e64045e8e..3fc0c1451 100644
+--- a/ckan/lib/search/index.py
++++ b/ckan/lib/search/index.py
+@@ -195,8 +195,7 @@ class PackageSearchIndex(SearchIndex):
+ 
+         # tracking
+         if not tracking_summary:
+-            tracking_summary = model.TrackingSummary.get_for_package(
+-                pkg_dict['id'])
++            tracking_summary = {'total' : 0, 'recent' : 0}
+         pkg_dict['views_total'] = tracking_summary['total']
+         pkg_dict['views_recent'] = tracking_summary['recent']
+ 
