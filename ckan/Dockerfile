@@ -184,7 +184,8 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/add_drafts_to_search.patch && \
     patch --strip=1 --input=patches/add_prefix_to_werkzeug.patch && \
     patch --strip=1 --input=patches/fix_use_default_schema_parameter.patch && \
-    patch --strip=1 --input=patches/remove_tracking.patch
+    patch --strip=1 --input=patches/remove_tracking.patch && \
+    patch --strip=1 --input=patches/remove_tracking_summary_from_solr_index.patch
 
 RUN \
   # Make scripts executable
