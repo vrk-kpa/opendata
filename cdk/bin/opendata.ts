@@ -732,5 +732,6 @@ const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
   },
   githubOrg: "vrk-kpa",
   githubRepo: "opendata",
+  githubRepo2: "ckanext-cloudstorage",
   testBucketName: "avoindata-ci-test-bucket"
 })
