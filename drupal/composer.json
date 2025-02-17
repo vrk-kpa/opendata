@@ -51,7 +51,7 @@
         "drupal/unpublished_node_permissions": "^1.0",
         "drupal/upgrade_status": "^4.0",
         "drush/drush": "^12",
-        "league/commonmark": "^1.5",
+        "league/commonmark": "^2.6",
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3"
