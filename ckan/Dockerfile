@@ -5,7 +5,7 @@ ARG BASE_IMAGE=public.ecr.aws/docker/library/python:3.9.18-alpine3.18
 #
 # Add common configuration to base image
 #
-FROM ${BASE_IMAGE} as configured_base
+FROM ${BASE_IMAGE} AS configured_base
 
 ENV APP_DIR=/srv/app
 ENV SRC_DIR=${APP_DIR}/src
@@ -19,7 +19,7 @@ RUN pip install --upgrade pip
 #
 # Build CKAN dependencies
 #
-FROM configured_base as base_ckan_build
+FROM configured_base AS base_ckan_build
 
 # Packages to build CKAN requirements and plugins
 RUN \
@@ -58,7 +58,7 @@ RUN \
 #
 # Base CKAN image
 #
-FROM configured_base as base_ckan
+FROM configured_base AS base_ckan
 
 # Install necessary packages to run CKAN
 RUN \
@@ -120,7 +120,7 @@ CMD ["/srv/app/start_ckan.sh"]
 #
 # CKAN build
 #
-FROM base_ckan as ckan_build
+FROM base_ckan AS ckan_build
 
 # switch from ckan to root user
 USER root
@@ -228,7 +228,7 @@ ENTRYPOINT ["/srv/app/scripts/entrypoint_ckan.sh"]
 #
 # Modules build (for production)
 #
-FROM configured_base as modules_build
+FROM configured_base AS modules_build
 
 # setup env vars:
 ENV APP_DIR=/srv/app \

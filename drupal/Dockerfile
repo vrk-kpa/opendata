@@ -57,7 +57,7 @@ RUN composer install --no-cache --no-dev
 #
 # Development image (For local development)
 #
-FROM drupal_build as drupal_development
+FROM drupal_build AS drupal_development
 
 ENV DEV_MODE=true
 
