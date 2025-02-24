@@ -34,8 +34,7 @@ export class CiTestStack extends Stack {
       })
     })
 
-    testBucket.grantWrite(testRole)
-    testBucket.grantRead(testRole)
+    testBucket.grantReadWrite(testRole)
   }
 
 }
