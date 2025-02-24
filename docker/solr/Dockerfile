@@ -7,8 +7,8 @@ USER root
 RUN apt-get update -yq && apt-get upgrade -yq
 
 # setup env vars
-ENV SOLR_CORE ckan
-ENV SOLR_CORE_PATH /var/solr/data
+ENV SOLR_CORE=ckan
+ENV SOLR_CORE_PATH=/var/solr/data
 
 # create folders
 RUN mkdir -p $SOLR_CORE_PATH/$SOLR_CORE/conf
