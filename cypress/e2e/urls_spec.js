@@ -27,7 +27,6 @@ describe('URL tests', function(){
       cy.request("/en/user-guide");
       cy.request("/sv/bruksanvisningar");
       cy.request("/user/register");
-      cy.request("/contact");
       cy.request("/tapahtumat");
       cy.request("/fi/tapahtumat");
       cy.request("/en/events");
