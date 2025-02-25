@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fd06e22ddb2d197b549857a4c54f2d9",
+    "content-hash": "84e6f9a023e3bf212f984ab8bbab29b1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2283,27 +2283,27 @@
         },
         {
             "name": "drupal/fontawesome_menu_icons",
-            "version": "2.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/fontawesome_menu_icons.git",
-                "reference": "8.x-2.0"
+                "reference": "3.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/fontawesome_menu_icons-8.x-2.0.zip",
-                "reference": "8.x-2.0",
-                "shasum": "b06f1e93cf6d02c8a69772dafc8b5c7c45031264"
+                "url": "https://ftp.drupal.org/files/projects/fontawesome_menu_icons-3.0.1.zip",
+                "reference": "3.0.1",
+                "shasum": "6ba7cff311f9f3342dc019c3146427961045ebaf"
             },
             "require": {
-                "drupal/core": "^9.2 || ^10",
+                "drupal/core": "^10 || ^11",
                 "drupal/fontawesome": "*"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-2.0",
-                    "datestamp": "1671730072",
+                    "version": "3.0.1",
+                    "datestamp": "1738087723",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
