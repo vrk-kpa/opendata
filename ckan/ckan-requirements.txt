@@ -38,7 +38,8 @@ fanstatic==1.1
     # via ckan
 feedgen==0.9.0
     # via ckan
-flask==1.1.1
+# sentry sdk requires flask 1.1.4, should not break anything
+flask==1.1.4
     # via
     #   ckan
     #   flask-babel
