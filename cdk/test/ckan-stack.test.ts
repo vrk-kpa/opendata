@@ -8,7 +8,6 @@ import { CacheStack } from '../lib/cache-stack';
 import { CkanStack } from '../lib/ckan-stack';
 import { BackupStack} from "../lib/backup-stack";
 import { mockEnv, mockEnvProps } from './mock-constructs';
-import {data} from "aws-cdk/lib/logging";
 import {LambdaStack} from "../lib/lambda-stack";
 
 
