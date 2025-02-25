@@ -3709,26 +3709,26 @@
         },
         {
             "name": "drupal/unpublished_node_permissions",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/unpublished_node_permissions.git",
-                "reference": "8.x-1.5"
+                "reference": "8.x-1.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/unpublished_node_permissions-8.x-1.5.zip",
-                "reference": "8.x-1.5",
-                "shasum": "13964763eb6029f9ae92cfa6a0852e4af56f2e5a"
+                "url": "https://ftp.drupal.org/files/projects/unpublished_node_permissions-8.x-1.6.zip",
+                "reference": "8.x-1.6",
+                "shasum": "3201e897f4661a30e0be713f3fd16980acf614cc"
             },
             "require": {
-                "drupal/core": "^8.9 || ^9 || ^10"
+                "drupal/core": "^8.9 || ^9 || ^10 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.5",
-                    "datestamp": "1708606148",
+                    "version": "8.x-1.6",
+                    "datestamp": "1736934266",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
