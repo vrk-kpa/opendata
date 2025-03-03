@@ -48,7 +48,9 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
 
     try {
-      $datasetResponse = $client->request('POST', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/package_search');
+      $datasetResponse = $client->request('POST', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/package_search', [
+        'rows' => 0
+      ]);
       $datasetResult = Json::decode($datasetResponse->getBody());
       $datasetCount = $datasetResult['result']['count'];
     } catch (\Exception $e) {
