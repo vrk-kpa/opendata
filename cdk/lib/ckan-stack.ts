@@ -215,6 +215,7 @@ export class CkanStack extends Stack {
       CKAN_SITE_NAME: pCkanSiteName.stringValue,
       CKAN_SITE_URL: `https://${props.domainName}`,
       CKAN_DRUPAL_SITE_URL: `https://${props.domainName}`,
+      CKAN_DRUPAL_SITE_URL_INTERNAL: `http://drupal.${props.namespace.namespaceName}`,
       CKAN_SITE_ID: 'default',
       CKAN_PLUGINS_DEFAULT: ckanPluginsDefault.join(' '),
       CKAN_PLUGINS: ckanPlugins.join(' '),
