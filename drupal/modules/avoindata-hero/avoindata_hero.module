@@ -72,7 +72,9 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
 
     try {
-      $apisetResponse = $client->request('POST', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/apiset_list');
+      $apisetResponse = $client->request('GET', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/apiset_list', [
+        'all_fields' => false
+      ]);
       $apisetResult = Json::decode($apisetResponse->getBody());
       $apisetCount = count($apisetResult['result']);
     } catch (\Exception $e) {
@@ -119,7 +121,9 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
 
     try {
-      $applicationResponse = $client->request('GET', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/ckanext_showcase_list');
+      $applicationResponse = $client->request('GET', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/ckanext_showcase_list', [
+        'all_fields' => false
+      ]);
       $applicationResult = Json::decode($applicationResponse->getBody());
       $applicationCount = count($applicationResult['result']);
     } catch (\Exception $e) {

@@ -33,11 +33,13 @@ def showcase_list(context, data_dict):
     if data_dict.get('include_private') == 'false':
         q = q.filter(model.Package.private == False) # Noqa
 
-    showcase_list = []
-    for pkg in q.all():
-        showcase_list.append(model_dictize.package_dictize(pkg, context))
 
-    return showcase_list
+    all_fields = toolkit.asbool(data_dict.get('all_fields', True))
+
+    if all_fields:
+        return [model_dictize.package_dictize(pkg, context) for pkg in q.all()]
+
+    return [pkg.name for pkg in q.all()]
 
 
 @toolkit.side_effect_free
