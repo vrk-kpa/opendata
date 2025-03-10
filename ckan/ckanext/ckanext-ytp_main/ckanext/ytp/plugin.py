@@ -20,7 +20,7 @@ from ckan.lib.navl.dictization_functions import Missing, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
 from ckan.logic import NotFound, get_action, check_access
 from ckan.model import Session
-from ckan.plugins import toolkit
+from ckan.plugins import toolkit, plugin_loaded
 from ckan.plugins.toolkit import config, chained_action
 from ckanext.report.interfaces import IReport
 
@@ -187,15 +187,16 @@ def action_package_search(original_action, context, data_dict):
 def statistics(context, data_dict):
 
     datasets = toolkit.get_action('package_search')({}, {'rows': 0})
-    apisets = toolkit.get_action('apiset_list')({}, {'all_fields': False})
+
+    apisets = len(toolkit.get_action('apiset_list')({}, {'all_fields': False})) if plugin_loaded('apisets') else 0
     organizations = toolkit.get_action('organization_list')({}, {})
-    showcases = toolkit.get_action('ckanext_showcase_list')({}, {'all_fields': False})
+    showcases = len(toolkit.get_action('ckanext_showcase_list')({}, {'all_fields': False})) if plugin_loaded('showcase') else 0
 
     return {
         'datasets': datasets['count'],
-        'apisets': len(apisets),
+        'apisets': apisets,
         'organizations': len(organizations),
-        'showcases': len(showcases)
+        'showcases': showcases
     }
 
 
