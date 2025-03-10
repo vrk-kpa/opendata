@@ -147,6 +147,10 @@ export class WebStack extends Stack {
     nginxService.service.connections.allowFrom(props.ckanService, ec2.Port.tcp(80), 'ckan - nginx connection');
     nginxService.service.connections.allowTo(props.ckanService, ec2.Port.tcp(5000), 'nginx - ckan connection');
 
+    props.ckanService.connections.allowTo(props.drupalService, ec2.Port.tcp(80), 'ckan - drupal connection')
+    props.ckanService.connections.allowFrom(props.drupalService, ec2.Port.tcp(5000), 'drupal - ckan connection')
+
+
     const nginxServiceAsg = nginxService.service.autoScaleTaskCount({
       minCapacity: props.nginxTaskDef.taskMinCapacity,
       maxCapacity: props.nginxTaskDef.taskMaxCapacity,
