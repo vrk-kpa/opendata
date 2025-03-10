@@ -1331,7 +1331,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
         try:
             # Call our custom Drupal API to get drupal block content
-            hostname = config.get('ckanext.drupal8.site_url') or config.get('ckan.site_url', '')
+            hostname = config.get('ckanext.drupal8.site_url')
             domains = config.get('ckanext.drupal8.domain').split(",")
             verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
             cookies = {}
@@ -1345,7 +1345,11 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                     if cookie is not None:
                         cookies.update({cookiename: cookie})
 
+            # If user hasn't signed in, no need to fetch non-cached content
+            if cookies == {}:
+                hostname = config.get('ckanext.drupal8.site_url_internal')
             snippet_url = '%s/%s/%s' % (hostname, lang, path)
+
             host = config.get('ckanext.drupal8.domain', '').split(',', 1)[0]
             headers = {'Host': host}
             response = requests.get(snippet_url, cookies=cookies, verify=verify_cert, headers=headers)

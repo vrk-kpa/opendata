@@ -49,7 +49,7 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
     $client = \Drupal::httpClient();
 
     try {
-      $response = $client->request('GET', 'http://' . getenv('NGINX_HOST') . '/data/api/3/action/statistics');
+      $response = $client->request('GET', 'http://' . getenv('DRUPAL_CKAN_HOST') . '/data/api/3/action/statistics');
       $result = Json::decode($response->getBody());
       $ckan_statistics = $result['result'];
     } catch (\Exception $e) {
@@ -99,7 +99,6 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
                     </h4>
                 </div>
 EOT;
-
     }
     return [
       '#markup' => $statistics_markup,

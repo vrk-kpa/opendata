@@ -124,6 +124,7 @@ export class DrupalStack extends Stack {
       // .env.drupal
       DRUPAL_IMAGE_TAG: props.envProps.DRUPAL_IMAGE_TAG,
       DRUPAL_CONFIG_SYNC_DIRECTORY: '/opt/drupal/web/sites/default/sync',
+      DRUPAL_CKAN_HOST: `http://ckan.${props.namespace.namespaceName}:5000`,
       // .env
       DB_DRUPAL_HOST: host.hostname,
       DB_DRUPAL: pDbDrupal.stringValue,
