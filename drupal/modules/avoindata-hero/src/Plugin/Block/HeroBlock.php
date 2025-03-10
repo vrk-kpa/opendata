@@ -21,11 +21,10 @@ class HeroBlock extends BlockBase {
   public function build() {
     $form = \Drupal::formBuilder()->getForm('Drupal\avoindata_hero\Plugin\Form\HeroForm');
 
-
     $form['statistics'] = [
-    '#lazy_builder' => [\AvoindataHeroHandler::class .
-      ':avoindata_hero_ckan_statistics', [],
-    ],
+      '#lazy_builder' => [\AvoindataHeroHandler::class .
+        ':avoindata_hero_ckan_statistics', [],
+      ],
       '#create_placeholder' => TRUE,
     ];
 
