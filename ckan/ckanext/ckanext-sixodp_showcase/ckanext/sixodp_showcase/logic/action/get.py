@@ -25,16 +25,19 @@ def showcase_list(context, data_dict):
 
     model = context["model"]
 
-    q = model.Session.query(model.Package) \
+    all_fields = toolkit.asbool(data_dict.get('all_fields', True))
+
+    model_to_query = model.Package.name
+    if all_fields:
+        model_to_query = model.Package
+
+    q = model.Session.query(model_to_query) \
         .filter(model.Package.type == 'showcase') \
         .filter(model.Package.state == 'active')
 
     # Showcase includes private showcases by default, but those can be excluded with include_private = false
     if data_dict.get('include_private') == 'false':
         q = q.filter(model.Package.private == False) # Noqa
-
-
-    all_fields = toolkit.asbool(data_dict.get('all_fields', True))
 
     if all_fields:
         return [model_dictize.package_dictize(pkg, context) for pkg in q.all()]
