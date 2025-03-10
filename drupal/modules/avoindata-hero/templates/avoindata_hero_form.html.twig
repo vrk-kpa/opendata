@@ -23,44 +23,7 @@
         </div>
         <!-- TODO: Change justify "evenly" to "between" -->
         <div class="d-flex flex-wrap justify-content-evenly mt-2">
-            {% set dataset_text %}
-                {% trans with {'context': 'x datasets'} %}
-                Datasets
-                {% endtrans %}
-            {% endset %}
-            {% set apiset_text %}
-                {% trans with {'context': 'x apisets'} %}
-                Apisets
-                {% endtrans %}
-            {% endset %}
-            {% set organization_text %}
-                {% trans with {'context': 'x organizations'} %}
-                Organizations
-                {% endtrans %}
-            {% endset %}
-            {% set showcase_text %}
-                {% trans with {'context': 'x applications'} %}
-                Applications
-                {% endtrans %}
-            {% endset %}
-
-
-            {% set dataset = {'url': 'dataset', 'count': form.datasetcount | default("0"), 'text': dataset_text} %}
-            {% set apiset = {'url': 'apiset', 'count': form.apisetcount | default("0"), 'text': apiset_text} %}
-            {% set organization = {'url': 'organization', 'count': form.organizationcount | default("0"), 'text': organization_text} %}
-            {% set showcase = {'url': 'showcase', 'count': form.applicationcount | default("0"), 'text': showcase_text} %}
-            {% set counts = [dataset, apiset, organization, showcase] %}
-
-            {% for count in counts %}
-                <div class="text-center">
-                    <h2>{{ count.count }}</h2>
-                    <h4>
-                        <a href="/data/{{ form['#language'] }}/{{ count.url }}">
-                            <strong>{{ count.text }}</strong>
-                        </a>
-                    </h4>
-                </div>
-            {% endfor %}
+          {{ form.statistics }}
         </div>
         <div class="ytp-bg-highlight-base d-flex p-3 mt-4">
             <div class="flex-1">

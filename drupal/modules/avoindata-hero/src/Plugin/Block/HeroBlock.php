@@ -21,31 +21,11 @@ class HeroBlock extends BlockBase {
   public function build() {
     $form = \Drupal::formBuilder()->getForm('Drupal\avoindata_hero\Plugin\Form\HeroForm');
 
-    $form['datasetcount'] = [
-      '#lazy_builder' => [\AvoindataHeroHandler::class .
-        ':avoindata_hero_dataset_count', [],
-      ],
-      '#create_placeholder' => TRUE,
-    ];
 
-    $form['apisetcount'] = [
-      '#lazy_builder' => [\AvoindataHeroHandler::class .
-        ':avoindata_hero_apiset_count', [],
-      ],
-      '#create_placeholder' => TRUE,
-    ];
-
-    $form['organizationcount'] = [
-      '#lazy_builder' => [\AvoindataHeroHandler::class .
-        ':avoindata_hero_organization_count', [],
-      ],
-      '#create_placeholder' => TRUE,
-    ];
-
-    $form['applicationcount'] = [
-      '#lazy_builder' => [\AvoindataHeroHandler::class .
-        ':avoindata_hero_application_count', [],
-      ],
+    $form['statistics'] = [
+    '#lazy_builder' => [\AvoindataHeroHandler::class .
+      ':avoindata_hero_ckan_statistics', [],
+    ],
       '#create_placeholder' => TRUE,
     ];
 

@@ -183,6 +183,21 @@ def action_package_search(original_action, context, data_dict):
     return original_action(context, data_dict)
 
 
+@logic.side_effect_free
+def statistics(context, data_dict):
+
+    datasets = toolkit.get_action('package_search')({}, {'rows': 0})
+    apisets = toolkit.get_action('apiset_list')({}, {'all_fields': False})
+    organizations = toolkit.get_action('organization_list')({}, {})
+    showcases = toolkit.get_action('ckanext_showcase_list')({}, {'all_fields': False})
+
+    return {
+        'datasets': datasets['count'],
+        'apisets': len(apisets),
+        'organizations': len(organizations),
+        'showcases': len(showcases)
+    }
+
 
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
@@ -547,7 +562,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     def get_actions(self):
         return {'package_show': action_package_show, 'package_search': action_package_search,
                 'package_autocomplete': package_autocomplete, 'store_municipality_bbox_data': store_municipality_bbox_data,
-                'dcat_catalog_show': dcat_catalog_show}
+                'dcat_catalog_show': dcat_catalog_show,
+                'statistics': statistics}
 
     # IValidators
     def get_validators(self):
