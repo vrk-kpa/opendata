@@ -8,6 +8,7 @@
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Security\TrustedCallbackInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Implements hook_help().
@@ -35,99 +36,72 @@ function avoindata_hero_theme($existing, $type, $theme, $path) {
 
 class AvoindataHeroHandler implements TrustedCallbackInterface
 {
-
+  use StringTranslationTrait;
 
   /**
-   * Queries dataset count from ckan.
+   * Queries statistics from ckan.
    *
    * @return array
    *   Returns markup.
    */
-  function avoindata_hero_dataset_count()
+  function avoindata_hero_ckan_statistics()
   {
     $client = \Drupal::httpClient();
 
     try {
-      $datasetResponse = $client->request('POST', getenv('DRUPAL_CKAN_HOST') . '/data/api/3/action/package_search');
-      $datasetResult = Json::decode($datasetResponse->getBody());
-      $datasetCount = $datasetResult['result']['count'];
+      $response = $client->request('GET', 'http://' . getenv('DRUPAL_CKAN_HOST') . '/data/api/3/action/statistics');
+      $result = Json::decode($response->getBody());
+      $ckan_statistics = $result['result'];
     } catch (\Exception $e) {
-      $datasetCount = 0;
+      $ckan_statistics = [
+        'datasets' => '0',
+        'apisets' => '0',
+        'organizations' => '0',
+        'showcases' => '0'
+      ];
     }
 
-    return [
-      '#markup' => $datasetCount,
-      '#cache' => ['max-age' => 0],
-    ];
-  }
 
-  /**
-   * Queries apiset count from ckan.
-   *
-   * @return array
-   *   Returns markup.
-   */
-  function avoindata_hero_apiset_count()
-  {
-    $client = \Drupal::httpClient();
+    $statistics = array(
+      [
+        'count' => $ckan_statistics['datasets'],
+        'url' => 'dataset',
+        'text' => $this->t('Datasets', [], ['context' => 'x datasets'] )
+      ],
+      [
+        'count' => $ckan_statistics['apisets'],
+        'url' => 'apiset',
+        'text' => $this->t('Apisets', [], ['context' => 'x apisets'])
+      ],
+      [
+        'count' => $ckan_statistics['organizations'],
+        'url' => 'organization',
+        'text' => $this->t('Organizations', [], ['context' => 'x organizations'])
+      ],
+      [
+        'count' => $ckan_statistics['showcases'],
+        'url' => 'showcase',
+        'text' => $this->t('Applications', [], ['context' => 'x applications'])
+      ]
+    );
 
-    try {
-      $apisetResponse = $client->request('POST', getenv('DRUPAL_CKAN_HOST') .  '/data/api/3/action/apiset_list');
-      $apisetResult = Json::decode($apisetResponse->getBody());
-      $apisetCount = count($apisetResult['result']);
-    } catch (\Exception $e) {
-      $apisetCount = 0;
+    $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $statistics_markup = '';
+
+    foreach ($statistics as $statistic) {
+    $statistics_markup .= <<<EOT
+        <div class="text-center">
+                    <h2>{$statistic['count']}</h2>
+                    <h4>
+                        <a href="/data/{$language}/{$statistic['url']}">
+                            <strong>{$statistic['text']}</strong>
+                        </a>
+                    </h4>
+                </div>
+EOT;
     }
-
     return [
-      '#markup' => $apisetCount,
-      '#cache' => ['max-age' => 0],
-    ];
-  }
-
-  /**
-   * Queries organization count from ckan.
-   *
-   * @return array
-   *   Returns markup.
-   */
-  function avoindata_hero_organization_count()
-  {
-    $client = \Drupal::httpClient();
-    try {
-      $organizationResponse = $client->request('GET', getenv('DRUPAL_CKAN_HOST') . '/data/api/3/action/organization_list');
-      $organizationResult = Json::decode($organizationResponse->getBody());
-      $organizationCount = count($organizationResult['result']);
-    } catch (\Exception $e) {
-      $organizationCount = 0;
-    }
-
-    return [
-      '#markup' => $organizationCount,
-      '#cache' => ['max-age' => 0],
-    ];
-  }
-
-  /**
-   * Queries application count from ckan.
-   *
-   * @return array
-   *   Returns markup.
-   */
-  function avoindata_hero_application_count()
-  {
-    $client = \Drupal::httpClient();
-
-    try {
-      $applicationResponse = $client->request('GET', getenv('DRUPAL_CKAN_HOST') . '/data/api/3/action/ckanext_showcase_list');
-      $applicationResult = Json::decode($applicationResponse->getBody());
-      $applicationCount = count($applicationResult['result']);
-    } catch (\Exception $e) {
-      $applicationCount = 0;
-    }
-
-    return [
-      '#markup' => $applicationCount,
+      '#markup' => $statistics_markup,
       '#cache' => ['max-age' => 0],
     ];
   }
@@ -136,6 +110,6 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
    * {@inheritdoc}
    */
   public static function trustedCallbacks() {
-    return ['avoindata_hero_dataset_count', 'avoindata_hero_apiset_count', 'avoindata_hero_organization_count', 'avoindata_hero_application_count'];
+    return ['avoindata_hero_ckan_statistics'];
   }
 }

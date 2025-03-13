@@ -238,3 +238,47 @@ class TestYtpDatasetPlugin():
                                       groups=[{'name': group['name']}],
                                       **dataset_fields)
         assert len(updated_dataset['groups']) == 1
+
+    def test_statistics_returning_correct_amounts(self):
+        empty_statistics = call_action('statistics')
+        assert empty_statistics == {
+            'datasets': 0,
+            'apisets': 0,
+            'organizations': 0,
+            'showcases': 0
+        }
+
+        user = User()
+        Organization(user=user)
+
+        one_organization = call_action('statistics')
+        assert one_organization == {
+            'datasets': 0,
+            'apisets': 0,
+            'organizations': 1,
+            'showcases': 0
+        }
+
+        Organization(user=user)
+
+        two_organizations = call_action('statistics')
+        assert two_organizations == {
+            'datasets': 0,
+            'apisets': 0,
+            'organizations': 2,
+            'showcases': 0
+        }
+
+        data_dict = create_minimal_dataset()
+        Dataset(**data_dict)
+
+        added_dataset = call_action('statistics')
+        assert added_dataset == {
+            'datasets': 1,
+            'apisets': 0,
+            'organizations': 2,
+            'showcases': 0
+        }
+
+
+
