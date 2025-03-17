@@ -18,7 +18,8 @@ RUN apt-get update -yq && \
       python3-pip \
       procps && \
     pip3 install \
-      jinja2-cli
+      jinja2-cli && \
+    pecl install apcu
 
 # setup env vars
 ENV APP_DIR=/opt/drupal
