@@ -20,7 +20,7 @@ from ckan.lib.navl.dictization_functions import Missing, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
 from ckan.logic import NotFound, get_action, check_access
 from ckan.model import Session
-from ckan.plugins import toolkit
+from ckan.plugins import toolkit, plugin_loaded
 from ckan.plugins.toolkit import config, chained_action
 from ckanext.report.interfaces import IReport
 
@@ -182,6 +182,22 @@ def action_package_search(original_action, context, data_dict):
     data_dict['sort'] = data_dict.get('sort') or 'score desc, metadata_created desc'
     return original_action(context, data_dict)
 
+
+@logic.side_effect_free
+def statistics(context, data_dict):
+
+    datasets = toolkit.get_action('package_search')({}, {'rows': 0})
+
+    apisets = len(toolkit.get_action('apiset_list')({}, {'all_fields': False})) if plugin_loaded('apisets') else 0
+    organizations = toolkit.get_action('organization_list')({}, {})
+    showcases = len(toolkit.get_action('ckanext_showcase_list')({}, {'all_fields': False})) if plugin_loaded('showcase') else 0
+
+    return {
+        'datasets': datasets['count'],
+        'apisets': apisets,
+        'organizations': len(organizations),
+        'showcases': showcases
+    }
 
 
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
@@ -547,7 +563,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     def get_actions(self):
         return {'package_show': action_package_show, 'package_search': action_package_search,
                 'package_autocomplete': package_autocomplete, 'store_municipality_bbox_data': store_municipality_bbox_data,
-                'dcat_catalog_show': dcat_catalog_show}
+                'dcat_catalog_show': dcat_catalog_show,
+                'statistics': statistics}
 
     # IValidators
     def get_validators(self):
