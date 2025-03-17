@@ -19,7 +19,7 @@ RUN apt-get update -yq && \
       procps && \
     pip3 install \
       jinja2-cli && \
-    pecl install apcu
+    pecl install apcu uploadprogress
 
 # setup env vars
 ENV APP_DIR=/opt/drupal
