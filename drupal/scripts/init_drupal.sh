@@ -103,6 +103,10 @@ drush config:delete user.role.content_editor                                    
 drush config:delete system.action.user_add_role_action.content_editor              || true
 drush config:delete system.action.user_remove_role_action.content_editor           || true
 drush config:delete contact.form.feedback                                          || true
+drush config:delete node.field_guide_comments                                      || true
+drush config:delete node.field_event_comments                                      || true
+drush config:delete node.field_basic_page_comments                                 || true
+drush config:delete node.field_article_comments                                    || true
 
 
 # uninstall modules
