@@ -121,6 +121,7 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"seven"* ]]  && drush theme:uninstall -y seven
 [[ "$MODULE_INFO" == *"fontawesome_menu_icons"* ]] && drush pm:uninstall -y fontawesome_menu_icons
 [[ "$MODULE_INFO" == *"tour"* ]] && drush pm:uninstall -y tour
+[[ "$MODULE_INFO" == *"transliterate_filenames"* ]] && drush pm:uninstall -y transliterate_filenames
 
 # enable modules
 echo "enable modules.."
@@ -146,7 +147,6 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"matomo"* ]]                        && drush pm:enable -y matomo
 [[ "$MODULE_INFO" != *"upgrade_status"* ]]                && drush pm:enable -y upgrade_status
 [[ "$MODULE_INFO" != *"imce"* ]]                          && drush pm:enable -y imce
-[[ "$MODULE_INFO" != *"transliterate_filenames"* ]]       && drush pm:enable -y transliterate_filenames
 [[ "$MODULE_INFO" != *"password_policy"* ]]               && drush pm:enable -y password_policy
 [[ "$MODULE_INFO" != *"password_policy_character_types"* ]] && drush pm:enable -y password_policy_character_types
 [[ "$MODULE_INFO" != *"password_policy_length"* ]]        && drush pm:enable -y password_policy_length
