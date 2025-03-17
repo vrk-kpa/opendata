@@ -120,6 +120,7 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"bartik"* ]]  && drush theme:uninstall -y bartik
 [[ "$MODULE_INFO" == *"seven"* ]]  && drush theme:uninstall -y seven
 [[ "$MODULE_INFO" == *"fontawesome_menu_icons"* ]] && drush pm:uninstall -y fontawesome_menu_icons
+[[ "$MODULE_INFO" == *"tour"* ]] && drush pm:uninstall -y tour
 
 # enable modules
 echo "enable modules.."
