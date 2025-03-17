@@ -190,7 +190,8 @@ def statistics(context, data_dict):
 
     apisets = len(toolkit.get_action('apiset_list')({}, {'all_fields': False})) if plugin_loaded('apis') else 0
     organizations = toolkit.get_action('organization_list')({}, {})
-    showcases = len(toolkit.get_action('ckanext_showcase_list')({}, {'all_fields': False})) if plugin_loaded('sixodp_showcase') else 0
+    showcases = len(toolkit.get_action('ckanext_showcase_list')({}, {'all_fields': False})) \
+        if plugin_loaded('sixodp_showcase') else 0
 
     return {
         'datasets': datasets['count'],
