@@ -160,7 +160,6 @@ services:
     image: ${REGISTRY}/${REPOSITORY}/ckan:${CKAN_IMAGE_TAG}
     restart: always
     entrypoint: /srv/app/scripts/entrypoint_cron.sh
-    user: root
     networks:
       - frontend
       - backend
