@@ -172,7 +172,7 @@ services:
     volumes:
       - ckan_data:/srv/app/data
     healthcheck:
-      test: ["CMD-SHELL", "ps -aux | grep -o '[c]ron -f' && ps -aux | grep -o '[s]upervisord --configuration'"]
+      test: ["CMD-SHELL", "ps -aux | grep -o '[s]upercronic' && ps -aux | grep -o '[s]upervisord --configuration'"]
       interval: 15s
       timeout: 5s
       retries: 5
