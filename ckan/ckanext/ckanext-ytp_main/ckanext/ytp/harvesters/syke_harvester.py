@@ -112,6 +112,14 @@ class SYKEHarvester(CKANHarvester):
                               if topic_category in iso_topic_categories]
                 package_dict['categories'] = categories
 
+        # Remove harvested information about harvesting, it'll interfere with solr query logic
+        extras_copy = extras.copy()
+        for extra in extras_copy:
+            if (extra['key'] == 'harvest_object_id' or
+                extra['key'] == 'harvest_source_id' or
+                extra['key'] == 'harvest_source_title'):
+                extras.remove(extra)
+
         return package_dict
 
     def gather_stage(self, harvest_job):
