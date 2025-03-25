@@ -56,9 +56,6 @@ export class DrupalStack extends Stack {
     const pSmtpHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpHost', {
       parameterName: `/${props.environment}/opendata/common/smtp_host`,
     });
-    const pSmtpUsername = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpUsername', {
-      parameterName: `/${props.environment}/opendata/common/smtp_username`,
-    });
     const pSmtpFrom = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpFrom', {
       parameterName: `/${props.environment}/opendata/common/smtp_from`,
     });
@@ -140,7 +137,6 @@ export class DrupalStack extends Stack {
       SYSADMIN_ROLES: pSysadminRoles.stringValue,
       NGINX_HOST: `nginx.${props.namespace.namespaceName}`,
       SMTP_HOST: pSmtpHost.stringValue,
-      SMTP_USERNAME: pSmtpUsername.stringValue,
       SMTP_FROM: pSmtpFrom.stringValue,
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
@@ -155,6 +151,7 @@ export class DrupalStack extends Stack {
       // .env
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
+      SMTP_USERNAME: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_username'),
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
     };
