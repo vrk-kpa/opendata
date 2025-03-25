@@ -71,9 +71,6 @@ export class CkanStack extends Stack {
     const pSmtpHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpHost', {
       parameterName: `/${props.environment}/opendata/common/smtp_host`,
     });
-    const pSmtpUsername = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpUsername', {
-      parameterName: `/${props.environment}/opendata/common/smtp_username`,
-    });
     const pSmtpFrom = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpFrom', {
       parameterName: `/${props.environment}/opendata/common/smtp_from`,
     });
@@ -264,7 +261,6 @@ export class CkanStack extends Stack {
       SYSADMIN_USER: pSysadminUser.stringValue,
       SYSADMIN_EMAIL: pSysadminEmail.stringValue,
       SMTP_HOST: pSmtpHost.stringValue,
-      SMTP_USERNAME: pSmtpUsername.stringValue,
       SMTP_FROM: pSmtpFrom.stringValue,
       SMTP_TO: pSmtpTo.stringValue,
       SMTP_FROM_ERROR: pSmtpFromError.stringValue,
@@ -296,6 +292,7 @@ export class CkanStack extends Stack {
       DB_DATASTORE_READONLY_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreReadCredentials.secret, 'password'),
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
+      SMTP_USERNAME: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_username'),
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
       CKAN_SYSADMIN_PASSWORD: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
