@@ -48,9 +48,17 @@ class Ytp_RecommendationPlugin(plugins.SingletonPlugin, DefaultTranslation):
         package_id = pkg_dict.get('id')
         data_dict = {'package_id': package_id}
 
+        try:
+            recommendation_count = self.get_actions().get('get_recommendation_count')({}, data_dict)
+            user_can_recommend = self.get_actions().get('user_can_recommend')({}, data_dict)
+        except toolkit.ValidationError:
+            log.warning(f'Error fetching recommendation information for package {package_id}')
+            recommendation_count = 0
+            user_can_recommend = False
+
         pkg_dict.update({
-            'recommendation_count': self.get_actions().get('get_recommendation_count')({}, data_dict),
-            'user_can_recommend': self.get_actions().get('user_can_recommend')({}, data_dict),
+            'recommendation_count': recommendation_count,
+            'user_can_recommend': user_can_recommend,
         })
 
         return pkg_dict
