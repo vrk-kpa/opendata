@@ -105,6 +105,9 @@ location ~ ^/data/(.*)$ {
   location ~ /data(/fi|/en_GB|/sv)?/group/kansainvaliset-asiat(.*) {
     return 301 /data$1/group/kansainvaliset-kysymykset$2$is_args$args;
   }
+  location ~ /data(/fi|/en_GB|/sv)?/group/(koulutus-ja-urheilu|kulttuuri-taide-ja-vapaa-aika)(.*) {
+    return 301 /data$1/group/koulutus-kulttuuri-ja-urheilu$3$is_args$args;
+  }
 
   location ~ /data/(fi/|en_GB/|sv/)?(api/)(.*) {
     proxy_pass http://$ckan_target/data/$1$2$3$is_args$args;
