@@ -93,6 +93,22 @@ location ~ ^/data/(.*)$ {
     add_header Bypass-Sameorigin-Policy 1;
   }
 
+  location ~ /data(/fi|/en_GB|/sv)?/group/talous-ja-rahoitus(.*) {
+    return 301 /data$1/group/talous-ja-raha-asiat$2$is_args$args;
+  }
+  location ~ /data(/fi|/en_GB|/sv)?/group/ymparisto-ja-luonto(.*) {
+    return 301 /data$1/group/ymparisto$2$is_args$args;
+  }
+  location ~ /data(/fi|/en_GB|/sv)?/group/hallinto-ja-julkinen-sektori(.*) {
+    return 301 /data$1/group/valtioneuvosto-ja-julkinen-sektori$2$is_args$args;
+  }
+  location ~ /data(/fi|/en_GB|/sv)?/group/kansainvaliset-asiat(.*) {
+    return 301 /data$1/group/kansainvaliset-kysymykset$2$is_args$args;
+  }
+  location ~ /data(/fi|/en_GB|/sv)?/group/(koulutus-ja-urheilu|kulttuuri-taide-ja-vapaa-aika)(.*) {
+    return 301 /data$1/group/koulutus-kulttuuri-ja-urheilu$3$is_args$args;
+  }
+
   location ~ /data/(fi/|en_GB/|sv/)?(api/)(.*) {
     proxy_pass http://$ckan_target/data/$1$2$3$is_args$args;
 

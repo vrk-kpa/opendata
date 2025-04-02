@@ -21,11 +21,11 @@ _category_mapping = {
     'maatalous-kalastus-metsatalous-ja-elintarvikkeet': ['farming'],
     'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligenceMilitary'],
     'rakennettu-ymparisto-ja-infrastruktuuri': ['utilitiesCommunication', 'structure'],
-    'talous-ja-rahoitus': ['economy'],
+    'talous-ja-raha-asiat': ['economy'],
     'terveys': ['health'],
     'vaesto-ja-yhteiskunta': ['society'],
-    'ymparisto-ja-luonto': ['climatologyMeteorologyAtmosphere', 'elevation', 'environment',
-                            'geoscientificInformation', 'biota', 'inlandWaters', 'oceans']
+    'ymparisto': ['climatologyMeteorologyAtmosphere', 'elevation', 'environment',
+                  'geoscientificInformation', 'biota', 'inlandWaters', 'oceans']
 }
 
 
