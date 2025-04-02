@@ -105,17 +105,17 @@ def group_map():
     return [_mapping(_and('asuminen', 'rakennettu-ymparisto'), ['alueet-ja-kaupungit']),
             _mapping(_and('asuminen', _not('rakennettu-ymparisto')), ['vaesto-ja-yhteiskunta']),
             _mapping(_keyword_search('energia'), ['energia']),
-            _mapping('hallinto-ja-paatoksenteko', ['hallinto-ja-julkinen-sektori']),
+            _mapping('hallinto-ja-paatoksenteko', ['valtioneuvosto-ja-julkinen-sektori']),
             _mapping('kartat', ['alueet-ja-kaupungit']),
             _mapping('opetus-ja-koulutus', ['koulutus-ja-urheilu']),
             _mapping('kulttuuri-ja-vapaa-aika', ['kulttuuri-taide-ja-vapaa-aika']),
             _mapping('liikenne-ja-matkailu', ['liikenne']),
             _mapping('rakennettu-ymparisto', ['rakennettu-ymparisto-ja-infrastruktuuri']),
-            _mapping('talous-ja-verotus', ['talous-ja-rahoitus']),
+            _mapping('talous-ja-verotus', ['talous-ja-raha-asiat']),
             _mapping('terveys-ja-sosiaalipalvelut', ['terveys']),
-            _mapping('tyo-ja-elinkeinot', ['vaesto-ja-yhteiskunta', 'talous-ja-rahoitus']),
+            _mapping('tyo-ja-elinkeinot', ['vaesto-ja-yhteiskunta', 'talous-ja-raha-asiat']),
             _mapping('vaesto', ['vaesto-ja-yhteiskunta']),
-            _mapping('ymparisto-ja-luonto', ['ymparisto-ja-luonto'])]
+            _mapping('ymparisto-ja-luonto', ['ymparisto'])]
 
 
 def evaluate_group_map(group_map, values):
