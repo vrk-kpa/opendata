@@ -81,7 +81,6 @@ _category_mapping = {
     'koulutus-kulttuuri-ja-urheilu': [],
     'liikenne': ['transportation'],
     'maatalous-kalastus-metsatalous-ja-elintarvikkeet': ['farming'],
-    'matkailu-ja-turismi': [],
     'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligence military', 'intelligenceMilitary'],
     'rakennettu-ymparisto-ja-infrastruktuuri': ['boundaries', 'elevation', 'imagery base maps earth cover', 'location',
                                                 'planning cadastre', 'structure', 'utilities communication',
