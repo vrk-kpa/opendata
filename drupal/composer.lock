@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fd06e22ddb2d197b549857a4c54f2d9",
+    "content-hash": "e6f4209fc6c19c7a64f830b3d37529d4",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1740,16 +1740,16 @@
         },
         {
             "name": "drupal/core-composer-scaffold",
-            "version": "10.3.14",
+            "version": "11.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-composer-scaffold.git",
-                "reference": "f58ab5c0d02d275c5aa226c4505b457e41b161cc"
+                "reference": "30e2dce1d08858236ae2703c0a72d120d8075bc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core-composer-scaffold/zipball/f58ab5c0d02d275c5aa226c4505b457e41b161cc",
-                "reference": "f58ab5c0d02d275c5aa226c4505b457e41b161cc",
+                "url": "https://api.github.com/repos/drupal/core-composer-scaffold/zipball/30e2dce1d08858236ae2703c0a72d120d8075bc5",
+                "reference": "30e2dce1d08858236ae2703c0a72d120d8075bc5",
                 "shasum": ""
             },
             "require": {
@@ -1784,9 +1784,9 @@
                 "drupal"
             ],
             "support": {
-                "source": "https://github.com/drupal/core-composer-scaffold/tree/10.3.14"
+                "source": "https://github.com/drupal/core-composer-scaffold/tree/11.1.6"
             },
-            "time": "2024-08-22T14:31:34+00:00"
+            "time": "2024-11-02T22:49:15+00:00"
         },
         {
             "name": "drupal/core-project-message",
@@ -15242,7 +15242,7 @@
     },
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": {},
-    "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }
