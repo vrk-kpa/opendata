@@ -213,6 +213,20 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
  && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
 
 
+# Install qsv for ckanext-qa
+
+ENV QSV_URL=https://github.com/dathere/qsv/releases/download/3.3.0/qsv-3.3.0-x86_64-unknown-linux-musl.zip \
+    QSV_SHA1SUM=57f42781d57213416165bd6fcd366d0a20d4ec53 \
+    QSV_ZIP=qsv-3.3.0-x86_64-unknown-linux-musl.zip \
+    QSV=qsv
+
+RUN curl -fsSLO "$QSV_URL" \
+ && echo "${QSV_SHA1SUM}  ${QSV_ZIP}" | sha1sum -c - \
+ && unzip "$QSV_ZIP" -d /tmp/qsv \
+ && chmod +x "/tmp/qsv/$QSV" \
+ && mv "/tmp/qsv/$QSV" "/usr/local/bin/$QSV"
+
+
 #
 # Development image (for local development)
 #
