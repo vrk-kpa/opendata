@@ -132,6 +132,9 @@ ckanext-archiver.send_notification_emails_to_maintainers = {{ environ('CKAN_ARCH
 ckanext-archiver.exempt_domains_from_broken_link_notifications = {{ environ('CKAN_ARCHIVER_EXEMPT_DOMAINS_FROM_BROKEN_LINK_NOTIFICATIONS') }}
 ckanext-archiver.resource_download_timeout = 15
 
+ckanext.qa.qsv_bin = /usr/local/bin/qsv
+
+
 ckanext.sixodp_showcasesubmit.creating_user_username = {{ environ('SYSADMIN_USER') }}
 ckanext.sixodp_showcasesubmit.recaptcha_sitekey = {{ environ('RECAPTCHA_PUBLIC_KEY') }}
 ckanext.sixodp_showcasesubmit.recaptcha_secret = {{ environ('RECAPTCHA_PRIVATE_KEY') }}

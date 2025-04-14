@@ -25,7 +25,7 @@
 	url = https://github.com/vrk-kpa/ckanext-fluent.git
 [submodule "modules/ckanext-qa"]
 	path = ckan/ckanext/ckanext-qa
-	url = https://github.com/vrk-kpa/ckanext-qa.git
+	url = https://github.com/ckan/ckanext-qa.git
 [submodule "modules/ckanext-archiver"]
 	path = ckan/ckanext/ckanext-archiver
 	url = https://github.com/vrk-kpa/ckanext-archiver.git
