@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "composer/installers": "^1.9",
+        "composer/installers": "^2.3",
         "cweagans/composer-patches": "^1.7",
         "drupal/ape": "^1.4",
         "drupal/bootstrap": "^3.32",
