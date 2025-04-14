@@ -13,6 +13,7 @@ done
 if [[ "${DEV_MODE}" == "true" ]]; then
   echo "entrypoint_cron - installing extensions because DEV_MODE = 'true' ..."
   sudo -E ${SCRIPT_DIR}/install_extensions.sh
+  sudo -E ${SCRIPT_DIR}/install_extension_requirements.sh
 fi
 
 # apply templates
@@ -25,5 +26,5 @@ printenv | sed 's/=\(.*\)/="\1"/' > ${CRON_DIR}/.environment
 
 # run supervisord
 supervisord --configuration ${SUPERV_DIR}/supervisord.conf &
-# run crond
-crond -f
+# run supercronic
+supercronic ${CRON_DIR}/crontab

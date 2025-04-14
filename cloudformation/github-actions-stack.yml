@@ -20,11 +20,17 @@ Parameters:
   ECRRepositoryArn:
     Description: Arn for the ECR repositories.
     Type: String
+  CreateBuildRole:
+    Description: Is the build role required for this aws account
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
 
 Conditions:
   CreateOIDCProvider: !Equals 
     - !Ref OIDCProviderArn
     - ""
+  ShouldCreateBuildRole: !Equals ['true', !Ref CreateBuildRole]
 
 Resources:
   Role:
@@ -50,6 +56,14 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: "ecr:GetAuthorizationToken"
+                Resource: "*"
+
+        - PolicyName: ecs-update-service
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "ecs:UpdateService"
                 Resource: "*"
 
         - PolicyName: ecr-access
@@ -100,6 +114,7 @@ Resources:
 
   BuildRole:
     Type: AWS::IAM::Role
+    Condition: ShouldCreateBuildRole
     Properties:
       Description: Role for GitHub actions build workflow.
       AssumeRolePolicyDocument:
@@ -144,4 +159,5 @@ Outputs:
   Role:
     Value: !GetAtt Role.Arn
   BuildRole:
+    Condition: ShouldCreateBuildRole
     Value: !GetAtt BuildRole.Arn

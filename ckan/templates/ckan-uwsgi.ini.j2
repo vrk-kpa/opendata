@@ -1,0 +1,48 @@
+[uwsgi]
+
+strict              =  true
+http                =  0.0.0.0:5000
+env                 =  CKAN_INI=/srv/app/production.ini
+uid                 =  www-data
+gid                 =  www-data
+wsgi-file           =  /srv/app/wsgi.py
+chdir               =  /srv/app
+mount               =  /data=wsgi:application
+manage-script-name  =  true
+master              =  true
+pidfile             =  /tmp/%n.pid
+harakiri            =  50
+max-requests        =  5000
+vacuum              =  true
+callable            =  application
+buffer-size         =  32768
+stats               = /tmp/stats.sock
+processes           = {{ environ('CKAN_UWSGI_PROCESSES') }}
+threads             = {{ environ('CKAN_UWSGI_THREADS') }}
+
+cheaper-algo = busyness
+cheaper = 1
+cheaper-initial = 1
+cheaper-step = 1
+
+
+# Avoid multiple interpreters (automatically created in case you need mounts)
+single-interpreter = true
+
+# Fix SIGTERM
+die-on-term = true
+
+# Enable an accept mutex for a more balanced worker load
+thunder-lock = true
+
+# Fix SQLAlchemy SSL errors
+# <https://stackoverflow.com/questions/22752521/uwsgi-flask-sqlalchemy-and-postgres-ssl-error-decryption-failed-or-bad-reco>
+lazy-apps = true
+
+# Sentry requires threads
+enable-threads = true
+
+# Ignore some errors from logs
+ignore-write-errors
+ignore-sigpipe
+disable-write-exception

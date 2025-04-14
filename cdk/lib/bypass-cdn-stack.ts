@@ -15,14 +15,27 @@ export class BypassCdnStack extends Stack {
       domainName: props.fqdn
     })
 
+    const alternateZone = route53.HostedZone.fromLookup(this, 'AlternateOpendataZone', {
+      domainName: props.secondaryFqdn
+    })
+
     let domain_record = new route53.ARecord(this, 'ARecord', {
       zone: zone,
       recordName: 'vip',
       target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(props.loadbalancer))
     })
 
+    let root_record = new route53.ARecord(this, "rootRecord", {
+      zone: zone,
+      recordName: 'www',
+      target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(props.loadbalancer))
+    })
 
-
+    let alternate_root_record = new route53.ARecord(this, "alternateRootRecord", {
+      zone: alternateZone,
+      recordName: 'www',
+      target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(props.loadbalancer))
+    })
   }
 }
 

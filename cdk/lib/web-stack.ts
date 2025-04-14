@@ -33,30 +33,29 @@ export class WebStack extends Stack {
     // define nginx content security policies
     const nginxCspDefaultSrc: string[] = [];
     const nginxCspScriptSrc: string[] = [
-      'platform.twitter.com',
-      'syndication.twitter.com',
-      'cdn.syndication.twimg.com',
       'https://www.google.com/recaptcha/',
       'https://www.gstatic.com/',
       'https://www.google.com',
       'cdn.matomo.cloud',
       'suomi.matomo.cloud',
-      "browser.sentry-cdn.com"
+      'https://js-de.sentry-cdn.com',
+      'https://browser.sentry-cdn.com'
     ];
     const nginxCspStyleSrc: string[] = [
       'https://fonts.googleapis.com',
-      'https://platform.twitter.com',
-      'https://ton.twimg.com',
       'https://www.google.com',
       'https://ajax.googleapis.com',
       'https://www.gstatic.com',
     ];
     const nginxCspFrameSrc: string[] = [
-      'syndication.twitter.com',
-      'https://platform.twitter.com',
       'https://www.google.com/recaptcha/',
       'https://avoindata-' + props.environment + '-datasets.s3.eu-west-1.amazonaws.com/'
     ];
+
+    const nginxCspConnectSrc: string[] = [
+      "suomi.matomo.cloud",
+      "*.sentry.io"
+    ]
 
     const nginxLogGroup = new logs.LogGroup(this, 'nginxLogGroup', {
       logGroupName: `/${props.environment}/opendata/nginx`,
@@ -73,6 +72,7 @@ export class WebStack extends Stack {
         NGINX_CSP_SCRIPT_SRC: nginxCspScriptSrc.join(' '),
         NGINX_CSP_STYLE_SRC: nginxCspStyleSrc.join(' '),
         NGINX_CSP_FRAME_SRC: nginxCspFrameSrc.join(' '),
+        NGINX_CSP_CONNECT_SRC: nginxCspConnectSrc.join(' '),
         // .env
         NGINX_PORT: '80',
         DOMAIN_NAME: props.domainName,
@@ -146,6 +146,10 @@ export class WebStack extends Stack {
     nginxService.service.connections.allowTo(props.drupalService, ec2.Port.tcp(80), 'nginx - drupal connection');
     nginxService.service.connections.allowFrom(props.ckanService, ec2.Port.tcp(80), 'ckan - nginx connection');
     nginxService.service.connections.allowTo(props.ckanService, ec2.Port.tcp(5000), 'nginx - ckan connection');
+
+    props.ckanService.connections.allowTo(props.drupalService, ec2.Port.tcp(80), 'ckan - drupal connection')
+    props.ckanService.connections.allowFrom(props.drupalService, ec2.Port.tcp(5000), 'drupal - ckan connection')
+
 
     const nginxServiceAsg = nginxService.service.autoScaleTaskCount({
       minCapacity: props.nginxTaskDef.taskMinCapacity,

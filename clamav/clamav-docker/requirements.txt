@@ -1,2 +1,2 @@
-boto3
-clamd
+boto3 >= 1, < 2.0
+clamd >= 1, < 2.0

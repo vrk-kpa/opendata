@@ -1,184 +1,104 @@
-# build args 
+# build args
 ARG SECRET_NPMRC
+ARG BASE_IMAGE=public.ecr.aws/docker/library/python:3.10.17-alpine3.21
 
 #
-# CKAN Base image
+# Add common configuration to base image
 #
-
-##################
-### Build CKAN ###
-##################
-FROM public.ecr.aws/docker/library/python:3.10.9-alpine3.17 as base_ckan_build
-
-# Used by Github Actions to tag the image with
-ENV IMAGE_TAG=2.10.0
-
-# Set CKAN version to build
-ENV GIT_URL=https://github.com/ckan/ckan.git
-ENV GIT_BRANCH=ckan-2.10.0
-
-# Set src dirs
-ENV SRC_DIR=/srv/app/src
-ENV PIP_SRC=${SRC_DIR}
-
-# Create pip config
-ENV PIP_CONFIG_FILE=${PIP_SRC}/pip.conf
-COPY ./pip.conf ${PIP_CONFIG_FILE}
-
-WORKDIR ${SRC_DIR}
-
-# Packages to build CKAN requirements and plugins
-RUN apk add --no-cache \
-        bash \
-        python3 \
-        python3-dev \
-        git \
-        curl \
-        postgresql-dev \
-        linux-headers \
-        gcc \
-        make \
-        g++ \
-        autoconf \
-        automake \
-        libtool \
-        patch \
-        musl-dev \
-        pcre-dev \
-        pcre \
-        libffi-dev \
-        libxml2-dev \
-        libxslt-dev
-
-# Create the src directory
-RUN mkdir -p ${SRC_DIR}
-
-# Install pip
-RUN curl -o ${SRC_DIR}/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
-    python ${SRC_DIR}/get-pip.py
-
-# Downgrade setuptools so that CKAN requirements can be built
-RUN pip install setuptools==44.1.0
-
-# Fetch and build CKAN and requirements
-RUN pip install -e git+${GIT_URL}@${GIT_BRANCH}#egg=ckan
-RUN rm -rf /srv/app/src/ckan/.git
-RUN pip wheel --wheel-dir=/wheels -r ckan/requirements.txt
-RUN pip wheel --wheel-dir=/wheels uWSGI==2.0.20 gevent==21.12.0 greenlet==1.1.3
-
-
-###########################
-### Default-Extensions ####
-###########################
-FROM public.ecr.aws/docker/library/python:3.10.9-alpine3.17 as base_extbuild
-
-# Set src dirs
-ENV SRC_DIR=/srv/app/src
-ENV PIP_SRC=${SRC_DIR}
-
-# List of default extensions
-ENV DEFAULT_EXTENSIONS envvars
-
-# Locations and tags, please use specific tags or revisions
-ENV ENVVARS_GIT_URL=https://github.com/okfn/ckanext-envvars
-ENV ENVVARS_GIT_BRANCH=0.0.1
-
-RUN apk add --no-cache \
-        python3 \
-        python3-dev \
-        git \
-        curl
-
-# Create the src directory
-RUN mkdir -p ${SRC_DIR}
-
-# Install pip
-RUN curl -o ${SRC_DIR}/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
-    python ${SRC_DIR}/get-pip.py
-
-# Fetch and build the default CKAN extensions
-RUN pip wheel --wheel-dir=/wheels git+${ENVVARS_GIT_URL}@${ENVVARS_GIT_BRANCH}#egg=ckanext-envvars
-
-############
-### MAIN ###
-############
-FROM public.ecr.aws/docker/library/python:3.10.9-alpine3.17 as base_ckan
+FROM ${BASE_IMAGE} AS configured_base
 
 ENV APP_DIR=/srv/app
-ENV SRC_DIR=/srv/app/src
-ENV CKAN_DIR=${SRC_DIR}/ckan
-ENV DATA_DIR=/srv/app/data
-ENV PIP_SRC=${SRC_DIR}
-ENV CKAN_SITE_URL=http://localhost:5000
-ENV CKAN__PLUGINS envvars image_view text_view recline_view datastore datapusher
+ENV SRC_DIR=${APP_DIR}/src
+ENV CKAN_DIR=${SRC_DIR}/ckan \
+    DATA_DIR=${APP_DIR}/data
+WORKDIR ${APP_DIR}
+COPY pip.conf /etc/pip.conf
+RUN pip install --upgrade pip
 
-ENV PIP_CONFIG_FILE=${PIP_SRC}/pip.conf
-COPY ./pip.conf ${PIP_CONFIG_FILE}
+
+
+#
+# Build CKAN dependencies
+#
+FROM configured_base AS base_ckan_build
+
+# Packages to build CKAN requirements and plugins
+RUN \
+  apk add --no-cache \
+    bash \
+    python3-dev \
+    git \
+    curl \
+    postgresql-dev \
+    linux-headers \
+    gcc \
+    make \
+    g++ \
+    autoconf \
+    automake \
+    libtool \
+    patch \
+    musl-dev \
+    pcre-dev \
+    pcre \
+    libffi-dev \
+    libxml2-dev \
+    libxslt-dev
+
+COPY ckan-requirements.txt .
+
+RUN \
+  # Create the src and pip cache directory
+  mkdir -p ${SRC_DIR} && \
+  # Fetch and build CKAN and requirements
+  pip wheel --wheel-dir=/wheels -r ckan-requirements.txt
+
+
+#
+# Base CKAN image
+#
+FROM configured_base AS base_ckan
 
 # Install necessary packages to run CKAN
-RUN apk add --no-cache \
-        python3 \
-        git \
-        gettext \
-        curl \
-        postgresql-client \
-        libmagic \
-        pcre \
-        libxslt \
-        libxml2 \
-        tzdata \
-        apache2-utils && \
-    # Create SRC_DIR
-    mkdir -p ${SRC_DIR}
+RUN \
+  apk add --no-cache \
+      git \
+      gettext \
+      curl \
+      postgresql-client \
+      libmagic \
+      pcre \
+      libxslt \
+      libxml2 \
+      tzdata
 
-# Install pip
-RUN curl -o ${SRC_DIR}/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
-    python ${SRC_DIR}/get-pip.py
 
 # Get artifacts from build stages
 COPY --from=base_ckan_build /wheels /srv/app/wheels
-COPY --from=base_extbuild /wheels /srv/app/ext_wheels
-COPY --from=base_ckan_build /srv/app/src/ckan ${CKAN_DIR}
 
-# Additional install steps for build stages artifacts
-RUN pip install --no-index --find-links=/srv/app/wheels uWSGI==2.0.20 gevent==21.12.0
-
-# Create a local user and group to run the app
-RUN addgroup -g 92 ckan && \
-    adduser -u 92 -h /srv/app -H -D -G ckan ckan
-
-WORKDIR ${CKAN_DIR}
-
-# Install CKAN
-RUN pip install -e /srv/app/src/ckan && \
-    cp who.ini ${APP_DIR} && \
-    pip install --no-index --find-links=/srv/app/wheels -r requirements.txt && \
-    # Install default CKAN extensions
-    pip install --no-index --find-links=/srv/app/ext_wheels ckanext-envvars && \
-    # Create and update CKAN config
-    # Set timezone
-    echo "UTC" >  /etc/timezone && \
-    # Generate CKAN config
-    ckan generate config ${APP_DIR}/production.ini && \
-    ckan config-tool ${APP_DIR}/production.ini "beaker.session.secret = " && \
-    # Configure plugins
-    ckan config-tool ${APP_DIR}/production.ini "ckan.plugins = ${CKAN__PLUGINS}" && \
-    # Create the data directory
-    mkdir ${DATA_DIR} && \
-    # Webassets can't be loaded from env variables at runtime, it needs to be in the config so that it is created
-    ckan config-tool ${APP_DIR}/production.ini "ckan.webassets.path = ${DATA_DIR}/webassets" && \
-    # Set the default level for extensions to INFO
-    ckan config-tool ${APP_DIR}/production.ini -s logger_ckanext -e level=INFO && \
-    # Change ownership to app user
-    chown -R ckan:ckan /srv/app
-
-# Remove wheels
-RUN rm -rf /srv/app/wheels /srv/app/ext_wheels
-
-# Copy necessary scripts
+# Copy configuration
+COPY ckan-requirements.txt ${SRC_DIR}/ckan-requirements.txt
 COPY setup/app ${APP_DIR}
 
-WORKDIR ${APP_DIR}
+RUN \
+  # Create SRC_DIR and DATA_DIR
+  mkdir -p ${SRC_DIR} && \
+  mkdir -p ${DATA_DIR} && \
+  # Install CKAN and requirements
+  pip install --find-links=/srv/app/wheels -r ${SRC_DIR}/ckan-requirements.txt && \
+  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.10.7#egg=ckan && \
+  # Configure environment
+  addgroup -g 92 ckan && \
+  adduser -u 92 -h ${APP_DIR} -H -D -G ckan ckan && \
+  cp ${CKAN_DIR}/who.ini ${APP_DIR} && \
+  # Set timezone
+  echo "UTC" >  /etc/timezone && \
+  # Change ownership to app user
+  chown -R ckan:ckan ${APP_DIR} && \
+  # Remove unnecessary files
+  rm -rf \
+      ${APP_DIR}/wheels \
+      ${CKAN_DIR}/.git
 
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir docker-entrypoint.d
@@ -197,52 +117,48 @@ CMD ["/srv/app/start_ckan.sh"]
 #
 # CKAN build
 #
-FROM base_ckan as ckan_build
+FROM base_ckan AS ckan_build
 
 # switch from ckan to root user
 USER root
 
-ENV PROJ_DIR=/usr
+ENV PROJ_DIR=/usr \
+    SUPERV_DIR=${APP_DIR}/supervisor \
+    CRON_DIR=${APP_DIR}/cron \
+    SCRIPT_DIR=${APP_DIR}/scripts \
+    TEMPLATE_DIR=${APP_DIR}/templates \
+    EXT_DIR=${APP_DIR}/ckanext \
+    WWW_DIR=/var/www
 
-# upgrade system + install required packages
-RUN apk add --no-cache \
-        gcc \
-        g++ \
-        libmagic \
-        zlib-dev \
-        jpeg-dev \
-        geos-dev \
-        bash \
-        patch \
-        zip \
-        unzip \
-        rsync \
-        proj-dev \
-        proj-util \
-        util-linux \
-        nfs-utils && \
-    pip install \
-      jinja2-cli \
-      supervisor \
-      cryptography \
-      ndg-httpsclient \
-      pyasn1 \
-      polib \
-      botocore \
-      numpy \
-      boto \
-      boto3
-
-# setup env vars, from base image:
-# - APP_DIR=/srv/app
-# - SRC_DIR=/srv/app/src
-# - DATA_DIR=/srv/app/data
-ENV SUPERV_DIR=${APP_DIR}/supervisor
-ENV CRON_DIR=${APP_DIR}/cron
-ENV SCRIPT_DIR=${APP_DIR}/scripts
-ENV TEMPLATE_DIR=${APP_DIR}/templates
-ENV EXT_DIR=${APP_DIR}/ckanext
-ENV WWW_DIR=/var/www
+# Install required packages
+RUN \
+  apk add --no-cache \
+      gcc \
+      g++ \
+      bash \
+      patch \
+      zip \
+      unzip \
+      rsync \
+      proj-dev \
+      proj-util \
+      zlib-dev \
+      jpeg-dev \
+      geos-dev \
+      libpq-dev \
+      util-linux \
+      nfs-utils && \
+  pip install \
+    jinja2-cli \
+    supervisor \
+    cryptography \
+    ndg-httpsclient \
+    pyasn1 \
+    polib \
+    botocore \
+    "numpy < 2" \
+    boto \
+    boto3
 
 # copy app files
 COPY scripts ${SCRIPT_DIR}
@@ -251,12 +167,6 @@ COPY templates ${TEMPLATE_DIR}
 COPY supervisor ${SUPERV_DIR}
 COPY cron ${CRON_DIR}
 COPY src/ckan/patches ${SRC_DIR}/ckan/patches
-COPY src/ckan/ckan-uwsgi.ini ${APP_DIR}
-RUN chmod +x ${SCRIPT_DIR}/*.sh && \
-    rm -f ${APP_DIR}/production.ini && \
-    rm -f ${APP_DIR}/ckan.ini && \
-    rm -f ${APP_DIR}/who.ini && \
-    mkdir -p ${WWW_DIR}
 
 # apply patches
 RUN cd ${SRC_DIR}/ckan && \
@@ -269,13 +179,50 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/json_serializable_lazyjsonobject.patch && \
     patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
     patch --strip=1 --input=patches/add_drafts_to_search.patch && \
-    patch --strip=1 --input=patches/fix_license_dictization.patch && \
-    patch --strip=1 --input=patches/fix_truncate_helper_annotations.patch
-    
+#    patch --strip=1 --input=patches/fix_license_dictization.patch && \
+    patch --strip=1 --input=patches/fix_truncate_helper_annotations.patch && \
+    patch --strip=1 --input=patches/fix_use_default_schema_parameter.patch && \
+    patch --strip=1 --input=patches/remove_tracking.patch && \
+    patch --strip=1 --input=patches/remove_tracking_summary_from_solr_index.patch
 
-# install crontab
-RUN chmod +x ${CRON_DIR}/scripts/*.sh && \
-    crontab -u ckan ${CRON_DIR}/crontab
+RUN \
+  # Make scripts executable
+  chmod +x ${SCRIPT_DIR}/*.sh && \
+  # Remove unused configuration
+  rm -f ${APP_DIR}/production.ini && \
+  rm -f ${APP_DIR}/ckan.ini && \
+  rm -f ${APP_DIR}/who.ini && \
+  # Add directory for static content
+  mkdir -p ${WWW_DIR} && \
+  # install crontab
+  chmod +x ${CRON_DIR}/scripts/*.sh && \
+  crontab -u ckan ${CRON_DIR}/crontab
+
+# Install supercronic for running cronjobs in container
+
+ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.33/supercronic-linux-amd64 \
+    SUPERCRONIC_SHA1SUM=71b0d58cc53f6bd72cf2f293e09e294b79c666d8 \
+    SUPERCRONIC=supercronic-linux-amd64
+
+RUN curl -fsSLO "$SUPERCRONIC_URL" \
+ && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
+ && chmod +x "$SUPERCRONIC" \
+ && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
+ && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
+
+
+# Install qsv for ckanext-qa
+
+ENV QSV_URL=https://github.com/dathere/qsv/releases/download/3.3.0/qsv-3.3.0-x86_64-unknown-linux-musl.zip \
+    QSV_SHA1SUM=57f42781d57213416165bd6fcd366d0a20d4ec53 \
+    QSV_ZIP=qsv-3.3.0-x86_64-unknown-linux-musl.zip \
+    QSV=qsv
+
+RUN curl -fsSLO "$QSV_URL" \
+ && echo "${QSV_SHA1SUM}  ${QSV_ZIP}" | sha1sum -c - \
+ && unzip "$QSV_ZIP" -d /tmp/qsv \
+ && chmod +x "/tmp/qsv/$QSV" \
+ && mv "/tmp/qsv/$QSV" "/usr/local/bin/$QSV"
 
 
 #
@@ -285,17 +232,17 @@ FROM ckan_build AS ckan_development
 
 ENV DEV_MODE=true
 
-# install ckan dev requirements
-RUN pip install -r ${SRC_DIR}/ckan/dev-requirements.txt
-
-# enable sudo for ckan user
-RUN apk add sudo && \
-    addgroup sudo && \
-    adduser ckan sudo && \
-    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-# fix permissions
-RUN chown -R ckan:ckan ${APP_DIR}
+RUN \
+  # install ckan dev requirements
+  pip install -r ${SRC_DIR}/ckan/dev-requirements.txt && \
+  pip install pytest-ckan && \
+  # enable sudo for ckan user
+  apk add --no-cache sudo && \
+  addgroup sudo && \
+  adduser ckan sudo && \
+  echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+  # fix permissions
+  chown -R ckan:ckan ${APP_DIR}
 
 # switch from root to ckan user
 USER ckan
@@ -305,49 +252,19 @@ ENTRYPOINT ["/srv/app/scripts/entrypoint_ckan.sh"]
 #
 # Modules build (for production)
 #
-FROM public.ecr.aws/docker/library/python:3.10.9-alpine3.17 as modules_build
-
-# install required packages
-RUN apk add curl nodejs libjpeg
+FROM configured_base AS modules_build
 
 # setup env vars:
-ENV APP_DIR=/srv/app
-ENV EXT_DIR=${APP_DIR}/ckanext
+ENV APP_DIR=/srv/app \
+    EXT_DIR=${APP_DIR}/ckanext
 
-# copy custom modules
-RUN mkdir -p ${EXT_DIR} && mkdir -p ${APP_DIR}/frontend
-COPY ckanext/ckanext-drupal8                ${EXT_DIR}/ckanext-drupal8/
-COPY ckanext/ckanext-ytp_drupal             ${EXT_DIR}/ckanext-ytp_drupal/
-COPY ckanext/ckanext-ytp_tasks              ${EXT_DIR}/ckanext-ytp_tasks/
-COPY ckanext/ckanext-ytp_request            ${EXT_DIR}/ckanext-ytp_request/
-COPY ckanext/ckanext-ytp_main               ${EXT_DIR}/ckanext-ytp_main/
-COPY ckanext/ckanext-hierarchy              ${EXT_DIR}/ckanext-hierarchy/
-COPY ckanext/ckanext-matomo                 ${EXT_DIR}/ckanext-matomo/
-COPY ckanext/ckanext-harvest                ${EXT_DIR}/ckanext-harvest/
-COPY ckanext/ckanext-report                 ${EXT_DIR}/ckanext-report/
-COPY ckanext/ckanext-spatial                ${EXT_DIR}/ckanext-spatial/
-COPY ckanext/ckanext-dcat                   ${EXT_DIR}/ckanext-dcat/
-COPY ckanext/ckanext-cloudstorage           ${EXT_DIR}/ckanext-cloudstorage/
-COPY ckanext/ckanext-scheming               ${EXT_DIR}/ckanext-scheming/
-COPY ckanext/ckanext-fluent                 ${EXT_DIR}/ckanext-fluent/
-COPY ckanext/ckanext-showcase               ${EXT_DIR}/ckanext-showcase/
-COPY ckanext/ckanext-sixodp_showcase        ${EXT_DIR}/ckanext-sixodp_showcase/
-COPY ckanext/ckanext-sixodp_showcasesubmit  ${EXT_DIR}/ckanext-sixodp_showcasesubmit/
-COPY ckanext/ckanext-geoview                ${EXT_DIR}/ckanext-geoview/
-COPY ckanext/ckanext-pdfview                ${EXT_DIR}/ckanext-pdfview/
-COPY ckanext/ckanext-reminder               ${EXT_DIR}/ckanext-reminder/
-COPY ckanext/ckanext-archiver               ${EXT_DIR}/ckanext-archiver/
-COPY ckanext/ckanext-qa                     ${EXT_DIR}/ckanext-qa/
-COPY ckanext/ckanext-organizationapproval   ${EXT_DIR}/ckanext-organizationapproval/
-COPY ckanext/ckanext-advancedsearch         ${EXT_DIR}/ckanext-advancedsearch/
-COPY ckanext/ckanext-forcetranslation       ${EXT_DIR}/ckanext-forcetranslation/
-COPY ckanext/ckanext-apis                   ${EXT_DIR}/ckanext-apis/
-COPY ckanext/ckanext-prh_tools              ${EXT_DIR}/ckanext-prh_tools/
-COPY ckanext/ckanext-openapiviewer          ${EXT_DIR}/ckanext-openapiviewer/
-COPY ckanext/ckanext-statistics             ${EXT_DIR}/ckanext-statistics/
-COPY ckanext/ckanext-sentry                 ${EXT_DIR}/ckanext-sentry/
-COPY ckanext/ckanext-sitesearch             ${EXT_DIR}/ckanext-sitesearch/
-COPY ckanext/ckanext-ytp_recommendation     ${EXT_DIR}/ckanext-ytp_recommendation/
+# install required packages
+RUN apk add --no-cache curl nodejs libjpeg
+
+# Copy extensions
+COPY ckanext/ ${EXT_DIR}/
+
+# Add module configuration here
 
 
 #
@@ -358,14 +275,40 @@ FROM ckan_build AS production
 # Install uwsgitop for stats analyzing
 RUN pip install uwsgitop
 
+# Install extension requirements (order in ascending probability of changes)
+COPY ckanext/ckanext-forcetranslation/requirements.txt ${EXT_DIR}/ckanext-forcetranslation/requirements.txt
+COPY ckanext/ckanext-archiver/requirements.txt ${EXT_DIR}/ckanext-archiver/requirements.txt
+COPY ckanext/ckanext-dcat/requirements.txt ${EXT_DIR}/ckanext-dcat/requirements.txt
+COPY ckanext/ckanext-drupal8/requirements.txt ${EXT_DIR}/ckanext-drupal8/requirements.txt
+COPY ckanext/ckanext-hierarchy/requirements.txt ${EXT_DIR}/ckanext-hierarchy/requirements.txt
+COPY ckanext/ckanext-prh_tools/requirements.txt ${EXT_DIR}/ckanext-prh_tools/requirements.txt
+COPY ckanext/ckanext-spatial/requirements.txt ${EXT_DIR}/ckanext-spatial/requirements.txt
+COPY ckanext/ckanext-statistics/requirements.txt ${EXT_DIR}/ckanext-statistics/requirements.txt
+COPY ckanext/ckanext-matomo/requirements.txt ${EXT_DIR}/ckanext-matomo/requirements.txt
+COPY ckanext/ckanext-fluent/requirements.txt ${EXT_DIR}/ckanext-fluent/requirements.txt
+COPY ckanext/ckanext-qa/requirements.txt ${EXT_DIR}/ckanext-qa/requirements.txt
+COPY ckanext/ckanext-showcase/requirements.txt ${EXT_DIR}/ckanext-showcase/requirements.txt
+COPY ckanext/ckanext-report/requirements.txt ${EXT_DIR}/ckanext-report/requirements.txt
+COPY ckanext/ckanext-sixodp_showcase/requirements.txt ${EXT_DIR}/ckanext-sixodp_showcase/requirements.txt
+COPY ckanext/ckanext-sixodp_showcasesubmit/requirements.txt ${EXT_DIR}/ckanext-sixodp_showcasesubmit/requirements.txt
+COPY ckanext/ckanext-ytp_recommendation/requirements.txt ${EXT_DIR}/ckanext-ytp_recommendation/requirements.txt
+COPY ckanext/ckanext-ytp_tasks/requirements.txt ${EXT_DIR}/ckanext-ytp_tasks/requirements.txt
+COPY ckanext/ckanext-harvest/requirements.txt ${EXT_DIR}/ckanext-harvest/requirements.txt
+COPY ckanext/ckanext-cloudstorage/requirements.txt ${EXT_DIR}/ckanext-cloudstorage/requirements.txt
+COPY ckanext/ckanext-organizationapproval/requirements.txt ${EXT_DIR}/ckanext-organizationapproval/requirements.txt
+COPY ckanext/ckanext-advancedsearch/requirements.txt ${EXT_DIR}/ckanext-advancedsearch/requirements.txt
+COPY ckanext/ckanext-apis/requirements.txt ${EXT_DIR}/ckanext-apis/requirements.txt
+COPY ckanext/ckanext-ytp_main/requirements.txt ${EXT_DIR}/ckanext-ytp_main/requirements.txt
+RUN ${SCRIPT_DIR}/install_extension_requirements.sh
+
 # copy extensions
 COPY --from=modules_build ${EXT_DIR} ${EXT_DIR}
 
-# install extensions
-RUN ${SCRIPT_DIR}/install_extensions.sh
-
-# fix permissions
-RUN chown -R ckan:ckan ${APP_DIR}
+RUN \
+  # install extensions
+  ${SCRIPT_DIR}/install_extensions.sh && \
+  # fix permissions
+  chown -R ckan:ckan ${APP_DIR}
 
 # switch from root to ckan user
 USER ckan

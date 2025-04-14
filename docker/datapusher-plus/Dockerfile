@@ -1,7 +1,14 @@
+# Build datapusher+
+FROM public.ecr.aws/docker/library/rust:alpine3.19 AS cargo_build
+
+RUN apk add build-base linux-headers
+RUN cargo install qsv@0.130.0 --locked --bin qsvdp -F datapusher_plus,luau
+
+
 #############################
 ### Build DataPusher Plus ###
 #############################
-FROM public.ecr.aws/docker/library/python:3.10.9-alpine3.17
+FROM public.ecr.aws/docker/library/python:3.10.13-alpine3.19
 
 # Set timezone
 ENV TZ=UTC
@@ -16,20 +23,18 @@ ENV CFG_DIR=/etc/ckan/datapusher-plus
 
 WORKDIR ${SRC_DIR}
 
-RUN apk add build-base linux-headers git gettext curl py3-wheel
+RUN apk add build-base linux-headers gettext curl py3-wheel uchardet
 
-#install qsv;
-RUN wget https://github.com/jqnatividad/qsv/releases/download/0.112.0/qsv-0.112.0-x86_64-unknown-linux-musl.zip -P /tmp
-RUN unzip /tmp/qsv-0.112.0-x86_64-unknown-linux-musl.zip -d /tmp
-RUN rm /tmp/qsv-0.112.0-x86_64-unknown-linux-musl.zip
-RUN mv /tmp/qsv* /usr/local/bin
+COPY --from=cargo_build /usr/local/cargo/bin/qsvdp /usr/local/bin
 
 RUN python -m venv ${VENV}
 RUN ${VENV}/bin/pip install uwsgi
 
+ENV DATAPUSHER_COMMIT=89b6bb626d1a1f968438413749848dd2b73427fb
 
-# Install DataPusher+ from repository
-RUN git clone https://github.com/dathere/datapusher-plus.git --depth 1 --branch 0.15.0
+# Install DataPusher+ from repository, switch repository once latest PR on iconv has been merged
+RUN wget https://github.com/Zharktas/datapusher-plus/archive/${DATAPUSHER_COMMIT}.zip -P /tmp
+RUN unzip /tmp/${DATAPUSHER_COMMIT}.zip -d ${SRC_DIR} && mv ${SRC_DIR}/datapusher-plus-${DATAPUSHER_COMMIT} ${SRC_DIR}/datapusher-plus && rm /tmp/${DATAPUSHER_COMMIT}.zip
 RUN cd ${SRC_DIR}/datapusher-plus && \
     ${VENV}/bin/pip install -r requirements-dev.txt && \
     ${VENV}/bin/pip install -e .

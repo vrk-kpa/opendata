@@ -181,12 +181,19 @@ body {
   color: $suomi-highlightBase;
   appearance: none;
   border: 1px solid $suomi-highlightBase;
-  padding: 10px 30px;
+  padding: 10px 20px;
+
+  @media (min-width: $screen-md-min) {
+    padding: 10px 30px;
+  }
+
   background: white;
   border-radius: 2px;
 
   i {
+    min-width: 16px;
     margin-right: 8px;
+    margin-left: 8px;
     font-size: 16px;
     margin-top: 1px;
   }

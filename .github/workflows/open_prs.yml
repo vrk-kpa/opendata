@@ -1,0 +1,35 @@
+name: Notify about open PRs
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1-5"
+
+
+jobs:
+  send_open_prs:
+    name: Fetch and send open PRs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch open PRs
+        id: fetch_open_prs
+        uses: vrk-kpa/fetch-open-prs@main
+        with:
+          repository: '["vrk-kpa/opendata", "vrk-kpa/ckanext-matomo"]'
+          format: "markdown"
+          ignored_users: '["dependabot[bot]"]'
+
+      - name: Print
+        run: echo "${{ steps.fetch_open_prs.outputs.PRs }}"
+
+      - name: Send to zulip
+        uses: zulip/github-actions-zulip/send-message@v1
+        if:  ${{ steps.fetch_open_prs.outputs.PRs }}
+        with:
+          api-key: ${{ secrets.ZULIP_API_KEY }}
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Avoimet koodikatselmoinnit'
+          content: '${{ steps.fetch_open_prs.outputs.PRs }}'
+

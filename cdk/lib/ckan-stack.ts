@@ -28,6 +28,10 @@ export class CkanStack extends Stack {
     super(scope, id, props);
 
     // get params
+    const pCkanSiteName = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanSiteName', {
+      parameterName: `/${props.environment}/opendata/common/site_name`,
+    });
+
     const pCkanHarvesterStatusRecipients = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanHarvesterStatusRecipients', {
       parameterName: `/${props.environment}/opendata/ckan/harvester_status_recipients`,
     });
@@ -36,6 +40,10 @@ export class CkanStack extends Stack {
     });
     const pCkanHarvesterInstructionUrl = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanHarvesterInstructionUrl', {
       parameterName: `/${props.environment}/opendata/ckan/harvester_instruction_url`,
+    });
+
+    const pCkanOrganizationapprovalEmail = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanOrganizationapprovalEmail', {
+      parameterName: `/${props.environment}/opendata/ckan/organizationapproval_email`,
     });
 
     const host = props.databaseInstance.instanceEndpoint;
@@ -63,9 +71,6 @@ export class CkanStack extends Stack {
     const pSmtpHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpHost', {
       parameterName: `/${props.environment}/opendata/common/smtp_host`,
     });
-    const pSmtpUsername = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpUsername', {
-      parameterName: `/${props.environment}/opendata/common/smtp_username`,
-    });
     const pSmtpFrom = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpFrom', {
       parameterName: `/${props.environment}/opendata/common/smtp_from`,
     });
@@ -89,11 +94,10 @@ export class CkanStack extends Stack {
       aliasName: `alias/secrets-key-${props.environment}`
     })
 
-
-
     // get secrets
     const sCkanSecrets = sm.Secret.fromSecretNameV2(this, 'sCkanSecrets', `/${props.environment}/opendata/ckan`);
     const sCommonSecrets = sm.Secret.fromSecretNameV2(this, 'sCommonSecrets', `/${props.environment}/opendata/common`);
+    const sZulipApiKey = sm.Secret.fromSecretNameV2(this, 'sZulipApiKey', `/${props.environment}/zulip_api_key`);
 
     // get repositories
     const ckanRepo = ecr.Repository.fromRepositoryArn(this, 'ckanRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/ckan`);
@@ -177,7 +181,6 @@ export class CkanStack extends Stack {
       'text_view',
       'image_view',
       'pdf_view',
-      'resource_proxy',
       'geo_view',
       'geojson_view',
       'sixodp_harvester',
@@ -199,11 +202,17 @@ export class CkanStack extends Stack {
       'sitesearch',
     ];
 
+    if (props.prhToolsInUse) {
+      ckanPlugins.push('prh_tools')
+    }
+
     const ckanContainerEnv: { [key: string]: string; } = {
       // .env.ckan
       CKAN_IMAGE_TAG: props.envProps.CKAN_IMAGE_TAG,
+      CKAN_SITE_NAME: pCkanSiteName.stringValue,
       CKAN_SITE_URL: `https://${props.domainName}`,
       CKAN_DRUPAL_SITE_URL: `https://${props.domainName}`,
+      CKAN_DRUPAL_SITE_URL_INTERNAL: `http://drupal.${props.namespace.namespaceName}`,
       CKAN_SITE_ID: 'default',
       CKAN_PLUGINS_DEFAULT: ckanPluginsDefault.join(' '),
       CKAN_PLUGINS: ckanPlugins.join(' '),
@@ -219,7 +228,9 @@ export class CkanStack extends Stack {
       CKAN_SHOW_POSTIT_DEMO: 'true',
       CKAN_PROFILING_ENABLED: 'false',
       CKAN_LOG_LEVEL: 'INFO',
-      CKAN_EXT_LOG_LEVEL: 'INFO',
+      CKAN_EXT_LOG_LEVEL: 'DEBUG',
+      CKAN_UWSGI_PROCESSES: props.ckanUwsgiProps.processes.toString(),
+      CKAN_UWSGI_THREADS: props.ckanUwsgiProps.threads.toString(),
       // .env
       CKAN_HOST: `ckan.${props.namespace.namespaceName}`,
       CKAN_PORT: '5000',
@@ -250,20 +261,24 @@ export class CkanStack extends Stack {
       SYSADMIN_USER: pSysadminUser.stringValue,
       SYSADMIN_EMAIL: pSysadminEmail.stringValue,
       SMTP_HOST: pSmtpHost.stringValue,
-      SMTP_USERNAME: pSmtpUsername.stringValue,
       SMTP_FROM: pSmtpFrom.stringValue,
       SMTP_TO: pSmtpTo.stringValue,
       SMTP_FROM_ERROR: pSmtpFromError.stringValue,
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
       SENTRY_ENV: props.environment,
+      SENTRY_TRACES_SAMPLE_RATE: props.sentryTracesSampleRate,
+      SENTRY_PROFILES_SAMPLE_RATE: props.sentryProfilesSampleRate,
       CKAN_SYSADMIN_NAME: pSysadminUser.stringValue,
       CKAN_SYSADMIN_EMAIL: pSysadminEmail.stringValue,
+      ORGANIZATIONAPPROVAL_EMAIL: pCkanOrganizationapprovalEmail.stringValue,
       // fuseki
       FUSEKI_HOST: `fuseki.${props.namespace.namespaceName}`,
       FUSEKI_PORT: '3030',
       FUSEKI_ADMIN_USER: pFusekiAdminUser.stringValue,
       FUSEKI_OPENDATA_DATASET: 'opendata',
+      ZULIP_API_URL: 'turina.dvv.fi',
+      ZULIP_API_USER: 'avoindata-bot@turina.dvv.fi',
     };
 
     const ckanContainerSecrets: { [key: string]: ecs.Secret; } = {
@@ -277,10 +292,13 @@ export class CkanStack extends Stack {
       DB_DATASTORE_READONLY_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreReadCredentials.secret, 'password'),
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
+      SMTP_USERNAME: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_username'),
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
       CKAN_SYSADMIN_PASSWORD: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
+      SENTRY_LOADER_SCRIPT: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_loader_script'),
       FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
+      ZULIP_API_KEY: ecs.Secret.fromSecretsManager(sZulipApiKey),
     };
 
     ckanTaskDef.addToExecutionRolePolicy(new PolicyStatement({
@@ -344,6 +362,9 @@ export class CkanStack extends Stack {
       ckanContainerEnv['RECAPTCHA_PRIVATE_KEY'] = '';
     }
 
+    // implemented on following if-block and used later in another if block
+    let ckanTaskPolicyAllowCloudstorage;
+
     if (props.cloudstorageEnabled) {
       // get params
       const pCkanCloudstorageDriver = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanCloudstorageDriver', {
@@ -361,8 +382,9 @@ export class CkanStack extends Stack {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = pCkanCloudstorageContainerName.stringValue;
       ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = pCkanCloudstorageUseSecureUrls.stringValue;
       ckanContainerEnv['CKAN_CLOUDSTORAGE_AWS_USE_BOTO3_SESSIONS'] = '1';
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER_OPTIONS'] = '';
 
-      const ckanTaskExecPolicyAllowCloudstorage = new iam.PolicyStatement({
+      ckanTaskPolicyAllowCloudstorage = new iam.PolicyStatement({
         actions: ['*'],
         resources: [
           `arn:aws:s3:::${pCkanCloudstorageContainerName.stringValue}`,
@@ -371,7 +393,7 @@ export class CkanStack extends Stack {
         effect: iam.Effect.ALLOW,
       });
 
-      ckanTaskDef.addToTaskRolePolicy(ckanTaskExecPolicyAllowCloudstorage);
+      ckanTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowCloudstorage);
     } else {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_ENABLED'] = 'false';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = '';
@@ -434,6 +456,7 @@ export class CkanStack extends Stack {
     this.ckanService = new ecs.FargateService(this, 'ckanService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
+      serviceName: "ckan",
       taskDefinition: ckanTaskDef,
       minHealthyPercent: 50,
       maxHealthyPercent: 200,
@@ -460,7 +483,7 @@ export class CkanStack extends Stack {
     });
 
     ckanServiceAsg.scaleOnCpuUtilization('ckanServiceAsgPolicy', {
-      targetUtilizationPercent: 50,
+      targetUtilizationPercent: 40,
       scaleInCooldown: Duration.seconds(60),
       scaleOutCooldown: Duration.seconds(60),
     });
@@ -534,13 +557,12 @@ export class CkanStack extends Stack {
         environment: ckanContainerEnv,
         secrets: ckanContainerSecrets,
         entryPoint: ['/srv/app/scripts/entrypoint_cron.sh'],
-        user: "root",
         logging: ecs.LogDrivers.awsLogs({
           logGroup: ckanCronLogGroup,
           streamPrefix: 'ckan_cron-service',
         }),
         healthCheck: {
-          command: ['CMD-SHELL', 'ps aux | grep -o "[c]rond -f" && ps aux | grep -o "[s]upervisord --configuration"'],
+          command: ['CMD-SHELL', 'ps aux | grep -o "[s]upercronic" && ps aux | grep -o "[s]upervisord --configuration"'],
           interval: Duration.seconds(15),
           timeout: Duration.seconds(5),
           retries: 5,
@@ -555,6 +577,9 @@ export class CkanStack extends Stack {
       });
 
       ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
+      if (props.cloudstorageEnabled) {
+        ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowCloudstorage!)
+      }
 
       ckanCronTaskDef.addToExecutionRolePolicy(new PolicyStatement({
         effect: Effect.ALLOW,
@@ -576,6 +601,7 @@ export class CkanStack extends Stack {
       this.ckanCronService = new ecs.FargateService(this, 'ckanCronService', {
         platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
         cluster: props.cluster,
+        serviceName: "ckanCron",
         taskDefinition: ckanCronTaskDef,
         desiredCount: 1,
         minHealthyPercent: 0,
@@ -599,7 +625,6 @@ export class CkanStack extends Stack {
     const datapusherTaskDef = new ecs.FargateTaskDefinition(this, 'datapusherTaskDef', {
       cpu: props.datapusherTaskDef.taskCpu,
       memoryLimitMiB: props.datapusherTaskDef.taskMem,
-      ephemeralStorageGiB: props.datapusherTaskDef.taskStorage
     });
 
 
@@ -687,6 +712,11 @@ export class CkanStack extends Stack {
     datapusherService.connections.allowFrom(this.ckanService, ec2.Port.tcp(8800), 'ckan - datapusher connection');
     datapusherService.connections.allowTo(this.ckanService, ec2.Port.tcp(5000), 'datapusher - ckan connection');
     datapusherService.connections.allowTo(props.datastoreSecurityGroup, ec2.Port.tcp(5432), 'RDS connection (datapusher)');
+    if (props.ckanCronEnabled){
+      datapusherService.connections.allowFrom(this.ckanCronService!, ec2.Port.tcp(8800), 'ckan cron - datapusher connection')
+      datapusherService.connections.allowTo(this.ckanCronService!, ec2.Port.tcp(5000), 'datapusher - ckan cron connection')
+    }
+
 
     const datapusherServiceAsg = datapusherService.autoScaleTaskCount({
       minCapacity: props.datapusherTaskDef.taskMinCapacity,
@@ -724,6 +754,20 @@ export class CkanStack extends Stack {
       ],
     });
 
+    const solrTaskPolicyAllowExec = new iam.PolicyStatement({
+      actions: [
+        'ssmmessages:CreateControlChannel',
+        'ssmmessages:CreateDataChannel',
+        'ssmmessages:OpenControlChannel',
+        'ssmmessages:OpenDataChannel',
+      ],
+      resources: ['*'],
+      effect: iam.Effect.ALLOW,
+    });
+
+    solrTaskDef.addToTaskRolePolicy(solrTaskPolicyAllowExec);
+
+
     const solrLogGroup = new logs.LogGroup(this, 'solrLogGroup', {
       logGroupName: `/${props.environment}/opendata/solr`,
     });
@@ -749,7 +793,7 @@ export class CkanStack extends Stack {
     });
 
     solrContainer.addMountPoints({
-      containerPath: '/opt/solr/server/solr/ckan/data',
+      containerPath: '/var/solr/data/ckan/data',
       readOnly: false,
       sourceVolume: 'solr_data',
     });
@@ -769,6 +813,7 @@ export class CkanStack extends Stack {
         container: solrContainer,
         containerPort: 8983
       },
+      enableExecuteCommand: true
     });
 
     solrService.connections.allowFrom(props.fileSystems['solr'], ec2.Port.tcp(2049), 'EFS connection (solr)');

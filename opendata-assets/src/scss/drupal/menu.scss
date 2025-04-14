@@ -1,18 +1,60 @@
 // Restricted to guide page menu at least for now but likely will be expanded to cover other pages as well later
 #guide-menu-column {
-  top: 0;
-  position: sticky;
-  max-height: 100vh;
-  overflow: auto;
+  border: $navbar-border;
+
+  @media print {
+    display: none;
+  }
+
+  @media screen and (min-width: $screen-md-min) {
+    top: 0;
+    position: sticky;
+    z-index: 255;
+    max-width: 350px;
+    max-height: 100vh;
+    overflow-y: scroll;
+  }
+
+  .avoindata-guide-menu-toggle {
+    align-self: end;
+    margin: 10px;
+  }
+
+  @media screen and (min-width: $screen-md-min) {
+    .avoindata-guide-menu-toggle {
+      display: none;
+    }
+
+    .avoindata-guide-menu-content.collapse {
+      display: block;
+    }
+  }
 
   > .opendata-card {
+    display: flex;
+    flex-direction: column;
     border-top: none;
-    background: transparent;
+    background: white;
     padding-top: 0;
     margin-right: 0;
+    padding-bottom: 0;
 
     .opendata-card-content {
       margin-top: 0;
+    }
+  }
+
+  .menu-header {
+    margin: 0 25px;
+    align-items: center;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    border-bottom: 1px solid $suomi-depthSecondary;
+    border-top: 1px solid $suomi-depthSecondary;
+
+    @media (min-width: $screen-md-min) {
+      margin-top: 25px;
+      border-top: none;
     }
   }
 
@@ -23,20 +65,7 @@
     position: relative;
     margin-top: 0;
     margin-bottom: 0;
-    padding: $padding__nav__item__link--guide;
-    padding-left: $padding-left__nav--guide;
-
-    &::before {
-      content: "\f111";
-      font-family: "Font Awesome 5 Pro", sans-serif;
-      font-weight: 900;
-      font-size: $font-size-small;
-      color: $opendata-brand-primary;
-      position: absolute;
-      left: $padding-left__nav--guide-counter;
-      top: 50%;
-      transform: translateY(-50%);
-    }
+    padding: 10px;
 
     &.active {
       background-color: $opendata-brand-primary;
@@ -47,6 +76,11 @@
       &::before {
         color: $color--white;
       }
+    }
+
+    & + .navbar {
+      max-height: calc(100vh - 54px);
+      overflow: auto;
     }
   }
 

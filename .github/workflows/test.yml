@@ -22,6 +22,9 @@ on:
       datapusher:
         description: "Change in datapusher container"
         value: ${{ jobs.detect-changes.outputs.datapusher }}
+      clamav:
+        description: "Change in clamav container"
+        value: ${{ jobs.detect-changes.outputs.clamav }}
       assets:
         description: "Change in assets"
         value: ${{ jobs.detect-changes.outputs.assets }}
@@ -84,17 +87,23 @@ jobs:
             build-frontend: true
             name: ckan
             build-container: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
+          - dockerfile: ./clamav/clamav-docker/Dockerfile
+            context: ./clamav/clamav-docker
+            submodules: ""
+            build-frontend: false
+            name: clamav
+            build-container: ${{ needs.detect-changes.outputs.clamav == 'true' }}
 
     steps:
       - name: checkout
         if: ${{ matrix.build-container == true }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: ${{ matrix.submodules }}
 
       - name: setup docker buildx
         if: ${{ matrix.build-container == true }}
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: configure NPM credentials
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
@@ -106,26 +115,16 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: install nodejs v16
+      - name: install nodejs v20
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: 'npm'
           cache-dependency-path: opendata-assets/package-lock.json
 
-      - name: cache node_modules
-        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        uses: actions/cache@v3
-        id: cache-node_modules
-        with:
-          path: ./opendata-assets/node_modules
-          key: ${{ runner.os }}-build-node_v16-${{ hashFiles('opendata-assets/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-node_v16-
-
       - name: install npm packages
-        if: ${{ matrix.build-frontend == true && matrix.build-container == true  && steps.cache-node_modules.outputs.cache-hit != 'true' }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npm ci
         working-directory: ./opendata-assets
 
@@ -136,7 +135,7 @@ jobs:
 
       - name: build images
         if: ${{ matrix.build-container == true }}
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
@@ -148,10 +147,11 @@ jobs:
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
+          DOCKER_BUILD_RECORD_UPLOAD: false
 
       - name: upload images
         if: ${{ matrix.build-container == true }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.name }}
           path: /tmp/${{ matrix.name }}.tar
@@ -183,15 +183,15 @@ jobs:
         containers: [1, 2, 3, 4, 5]
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: setup docker buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
-      - name: install nodejs v16
-        uses: actions/setup-node@v3
+      - name: install nodejs v20
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
@@ -240,7 +240,7 @@ jobs:
           })
           EOT
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -272,7 +272,7 @@ jobs:
           AWS_SESSION_TOKEN: ${{ steps.aws-credentials.outputs.aws-session-token }}
 
       - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
           role-session-name: github-actions
@@ -280,14 +280,14 @@ jobs:
 
       - name: login to AWS ECR
         id: login
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
         with:
           registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
 
 
 
       - name: download built images
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: /tmp
 
@@ -319,7 +319,7 @@ jobs:
       - name: bring services up
         working-directory: docker
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose.build.yml -p opendata up -d
+          docker compose -f docker-compose.yml -f docker-compose.build.yml -p opendata up -d
 
       - name: wait until services have started
         shell: bash
@@ -333,79 +333,77 @@ jobs:
           # print the list of containers
           docker ps -a
           # print logs to debug errors
-          docker logs opendata_ckan_1
-          docker logs opendata_drupal_1
-          docker logs opendata_solr_1
-          docker logs opendata_datapusher_1
-          docker logs opendata_nginx_1
-          docker logs opendata_fuseki_1
+          docker logs opendata-ckan-1
+          docker logs opendata-drupal-1
+          docker logs opendata-solr-1
+          docker logs opendata-datapusher-1
+          docker logs opendata-nginx-1
+          docker logs opendata-fuseki-1
 
-      # Might not be needed once https://github.com/cypress-io/cypress-docker-images/issues/873 is fixed
-      - name: Get commit information
-        id: commit_info
-        run: |
-          echo "commit_info_message=$(git show -s --pretty=oneline)" >> $GITHUB_OUTPUT
-          echo "commit_info_sha=$(git show -s --pretty=%H)" >> $GITHUB_OUTPUT
-          echo "commit_info_email=$(git show -s --pretty=%ae)" >> $GITHUB_OUTPUT
-          echo "commit_info_author=$(git show -s --pretty=%an)" >> $GITHUB_OUTPUT
-          echo "commit_info_remote=$(git config --get remote.origin.url)" >> $GITHUB_OUTPUT
+      - name: Build cypress container
+        uses: docker/build-push-action@v6
+        with:
+          context: ./cypress
+          file: ./cypress/Dockerfile
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: cypress/test:latest
+          load: true
+        env:
+          DOCKER_BUILD_RECORD_UPLOAD: false
+
 
       - name: run cypress e2e tests
         run: >
           docker run 
           --network host 
-          -v $PWD:/e2e 
+          -v $PWD:/e2e
           -w /e2e 
-          -e COMMIT_INFO_MESSAGE
-          -e COMMIT_INFO_SHA
           -e COMMIT_INFO_BRANCH
-          -e COMMIT_INFO_EMAIL
-          -e COMMIT_INFO_AUTHOR
-          -e COMMIT_INFO_REMOTE
+          -e CYPRESS_PULL_REQUEST_ID
+          -e CYPRESS_PULL_REQUEST_URL
           -e CYPRESS_CI_BUILD_URL
           --entrypoint cypress 
-          cypress/included:12.17.2 run 
+          cypress/test run 
           --browser chrome:stable 
           --record --key ${{ secrets.CYPRESS_RECORD_KEY }} 
           --parallel 
           --ci-build-id ${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt}}
         env:
-          COMMIT_INFO_MESSAGE: ${{ steps.commit_info.outputs.commit_info_message }}
-          COMMIT_INFO_SHA: ${{ steps.commit_info.outputs.commit_info_sha }}
           COMMIT_INFO_BRANCH: ${{ github.head_ref || github.ref_name }}
-          COMMIT_INFO_EMAIL: ${{ steps.commit_info.outputs.commit_info_email }}
-          COMMIT_INFO_AUTHOR: ${{ steps.commit_info.outputs.commit_info_author }}
-          COMMIT_INFO_REMOTE: ${{ steps.commit_info.outputs.commit_info_remote }}
+          CYPRESS_PULL_REQUEST_ID: ${{ github.event.number }}
+          CYPRESS_PULL_REQUEST_URL: ${{ github.event.pull_request.url }}
           CYPRESS_CI_BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
 
       - name: export e2e test logs 
         if: failure()
         shell: bash
         run: |
-          docker logs opendata_ckan_1 > /tmp/opendata_ckan_1.log 2>&1
-          docker logs opendata_drupal_1 > /tmp/opendata_drupal_1.log 2>&1
-          docker logs opendata_solr_1 > /tmp/opendata_solr_1.log 2>&1
-          docker logs opendata_datapusher_1 > /tmp/opendata_datapusher_1.log 2>&1
-          docker logs opendata_nginx_1 > /tmp/opendata_nginx_1.log 2>&1
-          docker logs opendata_fuseki_1 > /tmp/opendata_fuseki_1.log 2>&1
+          docker logs opendata-ckan-1 > /tmp/opendata-ckan-1.log 2>&1
+          docker logs opendata-ckan_cron-1 > /tmp/opendata-ckan_cron-1.log 2>&1
+          docker logs opendata-drupal-1 > /tmp/opendata-drupal-1.log 2>&1
+          docker logs opendata-solr-1 > /tmp/opendata-solr-1.log 2>&1
+          docker logs opendata-datapusher-1 > /tmp/opendata-datapusher-1.log 2>&1
+          docker logs opendata-nginx-1 > /tmp/opendata-nginx-1.log 2>&1
+          docker logs opendata-fuseki-1 > /tmp/opendata-fuseki-1.log 2>&1
 
       - name: upload log artifacts
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: docker-logs
-          path: /tmp/opendata_*.log
+          path: /tmp/opendata-*.log
 
       - name: upload cypress screenshot artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: screenshots
           path: cypress/screenshots
 
       - name: upload cypress video artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: videos
@@ -436,15 +434,15 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: install nodejs v16
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 16
 
       - name: cache node_modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
@@ -468,9 +466,10 @@ jobs:
           npm run test
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
           flags: cdk
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   test:
     name: Test opendata extensions
@@ -482,7 +481,7 @@ jobs:
       image: ckan/ckan-dev:2.9.9
     services:
       solr:
-        image: ckan/ckan-solr-dev:2.9
+        image: ckan/ckan-solr:2.9
       postgres:
         image: postgres:12
         env:
@@ -501,7 +500,7 @@ jobs:
       PGPASSWORD: postgres
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
     - name: Create Database
@@ -558,10 +557,18 @@ jobs:
     - name: Setup extension
       run: |
         ckan -c ckan/ckanext/ckanext-ytp_main/test.ini db init
+        ckan -c ckan/ckanext/ckanext-ytp_main/test.ini db upgrade -p harvest
     - name: Run tests
       run: |
         pytest --ckan-ini=ckan/ckanext/ckanext-ytp_main/test.ini --cov=ckanext.ytp --disable-warnings ckan/ckanext/ckanext-ytp_main/ckanext/ytp/tests
+
+    - name: install codecov requirements
+      run: |
+        apk add gpg gpg-agent
+
     - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       with:
         flags: ckan
+        os: alpine
+        token: ${{ secrets.CODECOV_TOKEN }}

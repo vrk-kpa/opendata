@@ -21,7 +21,7 @@ $new-layout-nonimportant-text-color: rgb(95 104 109);
 // SUOMI.FI COLORS
 // ---------------
 $suomi-blackBase: $color--black;
-$suomi-blackLight1: #949494;
+$suomi-blackLight1: #6B6B6B;
 $suomi-brandBase: #003479;
 $suomi-highlightBase: #2a6ebb;
 $suomi-highlightLight1: #2e78cc;
@@ -127,6 +127,7 @@ $link-dark-color: #000000;
  */
 $table-bg-accent: $suomi-depthLight3;
 $table-border-color: $suomi-depthLight1;
+$table-head-border-color: $suomi-blackLight1;
 
 /**
  * Navbars

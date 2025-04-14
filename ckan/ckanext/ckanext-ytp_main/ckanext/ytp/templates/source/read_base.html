@@ -1,13 +1,5 @@
 {% ckan_extends %}
 
-{% block content_action %}
-    <div class="content_action">
-        {% if authorized_user %}
-            {{ self.admin_link() }}
-        {% endif %}
-    </div>
-{% endblock %}
-
 {# TODO: once #354 is merged in CKAN core .profile-info doesn't exist #}
 {% block secondary_content %}
   <div class="module context-info profile-info">
@@ -16,7 +8,7 @@
       {% if harvest_source.notes %}
         <p>
           {{ h.markdown_extract(harvest_source.notes, 180) }}
-          {{ h.nav_link(_('read more'), named_route='{0}_about'.format(c.dataset_type), id=harvest_source.name) }}
+          {{ h.nav_link(_('read more'), named_route='harvester.about', id=harvest_source.name) }}
         </p>
       {% else %}
         <p class="empty">{{ _('There is no description for this harvest source') }}</p>

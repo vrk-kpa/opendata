@@ -15,6 +15,14 @@
     {% block geo_resource_styles %}{% endblock %}
 {% endblock %}
 
+{%- block links -%}
+    {{ super() }}
+    {% for locale in h.get_available_locales() %}
+      <link rel="alternate" hreflang="{{ locale.short_name }}" href="{% url_for h.current_url(), locale=locale.short_name %}" />
+    {% endfor %}
+
+{%- endblock -%}
+
 {%- block title -%}
     {%- block subtitle %}{% endblock -%}
     {%- if self.subtitle()|trim %} {{ g.template_title_deliminater }} {% endif -%}

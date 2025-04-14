@@ -67,8 +67,10 @@ class EventsController extends ControllerBase {
     }
 
     $eventNodeIdsTitle = $eventNodeIdsTitleQuery
+      ->accessCheck(TRUE)
       ->execute();
     $eventNodeIdsBody = $eventNodeIdsBodyQuery
+      ->accessCheck(TRUE)
       ->execute();
 
     $eventNodeIdsCombined = array_unique(array_merge($eventNodeIdsTitle, $eventNodeIdsBody), SORT_REGULAR);
@@ -83,12 +85,14 @@ class EventsController extends ControllerBase {
       if (strcmp($sort, 'asc') == 0) {
         $eventNodeIds = $eventNodeIdsQuery
           ->sort('field_start_date', 'asc')
+          ->accessCheck(TRUE)
           ->execute();
         $sort = 'asc';
       }
       else {
         $eventNodeIds = $eventNodeIdsQuery
           ->sort('field_start_date', 'desc')
+          ->accessCheck(TRUE)
           ->execute();
         $sort = 'desc';
       }

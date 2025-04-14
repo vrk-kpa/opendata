@@ -29,7 +29,7 @@ def _translations():
     _("Showcase name")
     _("* Required field")
     _("e.g. Most popular first names by region")
-    _("The showcase’s URL on opendata.fi. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.")  # noqa: E501
+    _("The showcase’s URL on Suomi.fi Open Data. The URL is created automatically based on the publisher’s name. You can edit the URL if you want.")  # noqa: E501
     _("Showcase description")
     _("A short and descriptive explanation about the showcase. Tell for example about possible applications and the creation process, as well as about how open data has been used in the showcase.")  # noqa: E501
     _("Write a description for the showcase.")

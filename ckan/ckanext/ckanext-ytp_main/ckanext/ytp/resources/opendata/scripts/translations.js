@@ -11,6 +11,8 @@ _('Subscribe to comments');
 _('Unsubscribe from comments');
 _('Add link');
 _('Add email');
+_('Show more')
+_('Show less')
 
 // Reorder resources
 _('Reorder resources');

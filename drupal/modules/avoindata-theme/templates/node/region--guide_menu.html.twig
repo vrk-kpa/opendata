@@ -1,5 +1,11 @@
 <div class="opendata-card">
-    <div class="opendata-card-content">
+    <button class="avoindata-guide-menu-toggle btn suomifi-button-secondary"
+            data-toggle="collapse"
+            data-target=".avoindata-guide-menu-content">
+        <span>Näytä sisällysluettelo</span>
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="opendata-card-content avoindata-guide-menu-content collapse">
         {{ content }}
     </div>
 </div>

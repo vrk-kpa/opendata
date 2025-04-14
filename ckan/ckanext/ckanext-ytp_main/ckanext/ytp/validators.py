@@ -199,6 +199,9 @@ def repeating_text(key, data, errors, context):
 
         out = []
         for element in value:
+            if not element:
+                continue
+
             if isinstance(element, bytes):
                 try:
                     element = element.decode('utf-8')
@@ -664,3 +667,13 @@ def resource_url_validator(key, data, errors, context):
     if url_type != 'upload':
         url_validator = toolkit.get_validator('url_validator')
         url_validator(key, data, errors, context)
+
+
+def highvalue_category(key, data, errors, context):
+    highvalue = data.get(("highvalue",), False)
+    if highvalue is True:
+        value = data.get(key)
+        if not value:
+            errors[key].append(_('You must select at least 1 high value category'))
+
+        return data[key]

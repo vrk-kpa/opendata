@@ -56,14 +56,32 @@
       "description": "Keywords help users to find your data. Select at least one keyword in Finnish."
     },
     {
-      "field_name": "categories",
+      "field_name": "groups",
       "label": "Categories",
-      "preset": "multiple_checkbox",
-      "form_snippet": "ytp_multiple_checkbox.html",
+      "form_snippet": "group_checkbox.html",
       "choices_helper": "scheming_category_list",
       "description": "Select at least one category.",
-      "validators": "save_to_groups",
-      "display_snippet": null
+      "display_snippet": null,
+      "repeating_subfields": [
+        {
+          "field_name": "id"
+        },
+        {
+          "field_name": "title"
+        },
+        {
+          "field_name": "name"
+        },
+        {
+          "field_name": "description"
+        },
+        {
+          "field_name": "display_name"
+        },
+        {
+          "field_name": "image_display_url"
+        }
+      ]
     },
     {
       "field_name": "private",
@@ -89,20 +107,33 @@
       "field_name": "highvalue",
       "label": "High value dataset",
       "preset": "select",
-      "form_snippet": "radio_sysadmin.html",
+      "form_snippet": "radio.html",
       "choices": [
         {
           "label": "No",
-          "value": "false"
+          "value": "false",
+          "hide_element": "highvalue_category"
         },
         {
           "label": "Yes",
-          "value": "true"
+          "value": "true",
+          "show_element": "highvalue_category"
         }
       ],
       "default_value": "false",
-      "validators": "ignore_not_sysadmin keep_old_value_if_missing boolean_validator",
+      "validators": "boolean_validator",
       "description": "You can mark dataset as high value dataset"
+    },
+    {
+      "field_name": "highvalue_category",
+      "label": "High-value dataset category",
+      "visual_required": true,
+      "hideable": true,
+      "preset": "multiple_checkbox",
+      "choices_helper": "scheming_highvalue_category_list",
+      "validators": "highvalue_category scheming_multiple_choice",
+      "description": "Select at least one category.",
+      "display_snippet": "tag_list.html"
     },
     {
       "field_name": "deprecated",
@@ -241,6 +272,25 @@
       "description": "You can set the state of the dataset back to active."
     },
     {
+      "field_name": "maintainer_note_translated",
+      "label": "Maintainer note",
+      "form_snippet": "fluent_text_ex.html",
+      "display_snippet": "null",
+      "validators": "fluent_text",
+      "output_validators": "fluent_core_translated_output",
+      "form_languages": ["fi", "en", "sv"],
+      "form_placeholder": "e.g. Dataset updated 15.5.2023",
+      "form_attrs": {
+        "class": "form-control"
+      },
+      "description": "Inform users about dataset updates"
+    },
+    {
+      "field_name": "maintainer_note_visible_until",
+      "label": "Show maintainer note until",
+      "preset": "date_ab-datepicker"
+    },
+    {
       "field_name": "owner_org",
       "label": "Publisher",
       "preset": "dataset_organization_ex",
@@ -293,25 +343,6 @@
       "description": "The dataset publication date.",
       "validators": "keep_old_value_if_missing ignore_missing",
       "output_validators": "ignore_if_invalid_isodatetime override_field(metadata_created)"
-    },
-    {
-      "field_name": "maintainer_note_translated",
-      "label": "Maintainer note",
-      "form_snippet": "fluent_text_ex.html",
-      "display_snippet": "null",
-      "validators": "fluent_text",
-      "output_validators": "fluent_core_translated_output",
-      "form_languages": ["fi", "en", "sv"],
-      "form_placeholder": "e.g. Dataset updated 15.5.2023",
-      "form_attrs": {
-        "class": "form-control"
-      },
-      "description": "Inform users about dataset updates"
-    },
-    {
-      "field_name": "maintainer_note_visible_until",
-      "label": "Show maintainer note until",
-      "preset": "date_ab-datepicker"
     }
   ],
   "resource_fields": [

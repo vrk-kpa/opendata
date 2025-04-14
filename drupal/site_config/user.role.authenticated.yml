@@ -13,6 +13,4 @@ permissions:
   - 'access content'
   - 'access site-wide contact form'
   - 'post comments'
-  - 'search content'
   - 'skip comment approval'
-  - 'use text format filtered_html'

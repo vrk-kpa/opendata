@@ -23,7 +23,7 @@ This folder contains dockerized versions of the opendata services.
   * ../ckan/
     * ckan docker image
   * ../drupal
-    * drupal docker image 
+    * drupal docker image
 
 ## Build requirements
 
@@ -148,7 +148,6 @@ services:
       - ../drupal/modules/avoindata-servicemessage/:/opt/drupal/web/modules/avoindata-servicemessage
       - ../drupal/modules/avoindata-hero/:/opt/drupal/web/modules/avoindata-hero
       - ../drupal/modules/avoindata-categories/:/opt/drupal/web/modules/avoindata-categories
-      - ../drupal/modules/avoindata-infobox/:/opt/drupal/web/modules/avoindata-infobox
       - ../drupal/modules/avoindata-newsfeed/:/opt/drupal/web/modules/avoindata-newsfeed
       - ../drupal/modules/avoindata-explore/:/opt/drupal/web/modules/avoindata-explore
       - ../drupal/modules/avoindata-footer/:/opt/drupal/web/modules/avoindata-footer
@@ -157,6 +156,7 @@ services:
       - ../drupal/modules/avoindata-guide/:/opt/drupal/web/modules/avoindata-guide
       - ../drupal/modules/avoindata-user/:/opt/drupal/web/modules/avoindata-user
       - ../drupal/modules/avoindata-ckeditor-plugins/:/opt/drupal/web/modules/avoindata-ckeditor-plugins
+      - ../drupal/modules/avoindata-ckeditor5-plugins/:/opt/drupal/web/modules/avoindata-ckeditor5-plugins
       - ../drupal/modules/avoindata-theme:/opt/drupal/web/themes/avoindata
       - ../opendata-assets:/opt/drupal/web/modules/opendata-assets
       - /opt/drupal/web/modules/opendata-assets/node_modules/
@@ -191,27 +191,27 @@ services:
 
 ### Build/rebuild & create/recreate
 ```bash
-docker-compose -p opendata up --build -d
+docker compose -p opendata up --build -d
 ```
 
 ### Bring services down
 ```bash
-docker-compose -p opendata down
+docker compose -p opendata down
 ```
 
 ### Destroy services
 ```bash
-docker-compose -p opendata down --volumes
+docker compose -p opendata down --volumes
 ```
 
 ### Example: Scale service X to N containers
 ```bash
-docker-compose -p opendata up --scale X=N -d
+docker compose -p opendata up --scale X=N -d
 ```
 
 ### Example: scaling drupal to 5 instances
 ```bash
-docker-compose -p opendata up --scale drupal=5 -d
+docker compose -p opendata up --scale drupal=5 -d
 ```
 
 ## Services that currently support scaling in local environment
@@ -259,10 +259,10 @@ npx cypress open
 ```
 #### Test environment
 
-When you want to separate tests from development environment, you can give docker-compose different project name:
+When you want to separate tests from development environment, you can give docker compose different project name:
 
 ```bash
-docker-compose -p opendata-test up
+docker compose -p opendata-test up
 ```
 
 To get rid of flask debug toolbar (cypress tests will fail when toolbar is visible), you can add environment-variable `TEST: 'true'` for ckan-service in `docker-compose.override.yml`
@@ -276,6 +276,40 @@ services:
       TEST: "true"
 ```
 
-### DCAT-AP
+### Unit tests
+
+Running unit tests locally require separate solr container not interfere with the regular one, you can add it by adding following to `docker-compose.override.yml`:
+
+```yml
+services:
+  ...
+  solr-test:
+      image: opendata/solr:latest
+      build:
+        context: ./solr
+      expose:
+        - 8983
+      networks:
+        - backend
+      volumes:
+        - solr_test_data:/opt/solr/server/solr/ckan/data
+    restart: unless-stopped
+```
+
+and adding volume for it by adding the following to the end of file:
+```yml
+volumes:
+  solr_test_data:
+```
+
+Running the tests within the container can be done by running following commands:
+
+```bash
+cd ckanext/ckanext-ytp_main/
+ckan -c test.ini db init
+pytest --ckan-ini test.ini --disable-warning ckanext/ytp/tests/
+```
+
+## DCAT-AP
 
 There is custom profile for DCAT-AP. You can generate `doc/dcat-ap/readme.md` and `nginx/www/ns/index.html` from jinja templates under `doc/dcat-ap` with [j2cli](https://pypi.org/project/j2cli/) by running a command `j2 --undefined template.*.j2 model.yml > destination/file.example` inside `doc/dcat-ap/`

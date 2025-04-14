@@ -437,8 +437,6 @@ def scheming_language_text_or_empty(text, prefer_lang=None):
                 return ''
 
     t = _(text)
-    if isinstance(t, str):
-        return t.decode('utf-8')
     return t
 
 
@@ -679,3 +677,19 @@ def group_tree_section(id_, type_='organization', include_parents=True,
         {'include_parents': include_parents,
          'include_siblings': include_siblings},
         {'id': id_, 'type': type_, 'only_approved': only_approved})
+
+
+highvalue_categories = {
+    "meteorological": "Meteorological",
+    "companies-and-company-ownership": "Companies and company ownership",
+    "geospatial": "Geospatial",
+    "mobility": "Mobility",
+    "earth-observation-and-environment": "Earth observation and environment",
+    "statistics": "Statistics"
+}
+
+def scheming_highvalue_category_list(field):
+    return [{"value": category, "label": label } for category, label in highvalue_categories.items()]
+
+def get_highvalue_category_label(value):
+    return highvalue_categories.get(value, "")

@@ -56,9 +56,6 @@ export class DrupalStack extends Stack {
     const pSmtpHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpHost', {
       parameterName: `/${props.environment}/opendata/common/smtp_host`,
     });
-    const pSmtpUsername = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpUsername', {
-      parameterName: `/${props.environment}/opendata/common/smtp_username`,
-    });
     const pSmtpFrom = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpFrom', {
       parameterName: `/${props.environment}/opendata/common/smtp_from`,
     });
@@ -73,15 +70,10 @@ export class DrupalStack extends Stack {
     switch (props.environment) {
       case 'prod': {
         pUsers = [
-          new DrupalUser(this, props.environment, 0),
-          new DrupalUser(this, props.environment, 1),
         ];
       } break;
       default: {
         pUsers = [
-          new DrupalUser(this, props.environment, 0),
-          new DrupalUser(this, props.environment, 1),
-          new DrupalUser(this, props.environment, 2),
         ];
       } break;
     }
@@ -129,6 +121,7 @@ export class DrupalStack extends Stack {
       // .env.drupal
       DRUPAL_IMAGE_TAG: props.envProps.DRUPAL_IMAGE_TAG,
       DRUPAL_CONFIG_SYNC_DIRECTORY: '/opt/drupal/web/sites/default/sync',
+      DRUPAL_CKAN_HOST: `http://ckan.${props.namespace.namespaceName}:5000`,
       // .env
       DB_DRUPAL_HOST: host.hostname,
       DB_DRUPAL: pDbDrupal.stringValue,
@@ -144,11 +137,11 @@ export class DrupalStack extends Stack {
       SYSADMIN_ROLES: pSysadminRoles.stringValue,
       NGINX_HOST: `nginx.${props.namespace.namespaceName}`,
       SMTP_HOST: pSmtpHost.stringValue,
-      SMTP_USERNAME: pSmtpUsername.stringValue,
       SMTP_FROM: pSmtpFrom.stringValue,
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
       SENTRY_ENV: props.environment,
+      SENTRY_TRACES_SAMPLE_RATE: props.sentryTracesSampleRate,
       BYPASS_CDN_DOMAIN: `vip.${props.fqdn}`
     };
 
@@ -158,6 +151,7 @@ export class DrupalStack extends Stack {
       // .env
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
+      SMTP_USERNAME: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_username'),
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
     };
@@ -260,6 +254,7 @@ export class DrupalStack extends Stack {
     this.drupalService = new ecs.FargateService(this, 'drupalService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
+      serviceName: "drupal",
       taskDefinition: drupalTaskDef,
       minHealthyPercent: 50,
       maxHealthyPercent: 200,
@@ -284,7 +279,7 @@ export class DrupalStack extends Stack {
     });
 
     drupalServiceAsg.scaleOnCpuUtilization('drupalServiceAsgPolicy', {
-      targetUtilizationPercent: 50,
+      targetUtilizationPercent: 40,
       scaleInCooldown: Duration.seconds(60),
       scaleOutCooldown: Duration.seconds(60),
     });

@@ -4,7 +4,8 @@
     display: block;
     display: flex;
     flex-wrap: wrap;
-    margin: -$margin__tag / 2;
+    margin: - calc($margin__tag / 2);
+    padding: 0;
 
     li {
       margin: 0;
@@ -12,7 +13,7 @@
     }
 
     .tag {
-      margin: $margin__tag / 2;
+      margin: calc($margin__tag / 2);
       background: $opendata-brand-primary;
       border: none;
       box-shadow: none;

@@ -4,7 +4,7 @@ ARG SECRET_NPMRC
 #
 # Drupal build
 #
-FROM drupal:9.5.8-php8.1-apache-buster AS drupal_build
+FROM drupal:10.3.14-php8.3-apache-bullseye AS drupal_build
 
 # upgrade system + install required packages
 RUN apt-get update -yq && \
@@ -18,7 +18,8 @@ RUN apt-get update -yq && \
       python3-pip \
       procps && \
     pip3 install \
-      jinja2-cli
+      jinja2-cli && \
+    pecl install apcu uploadprogress
 
 # setup env vars
 ENV APP_DIR=/opt/drupal
@@ -57,7 +58,7 @@ RUN composer install --no-cache --no-dev
 #
 # Development image (For local development)
 #
-FROM drupal_build as drupal_development
+FROM drupal_build AS drupal_development
 
 ENV DEV_MODE=true
 
@@ -71,13 +72,6 @@ ENTRYPOINT ["/opt/drupal/scripts/entrypoint.sh"]
 #
 FROM ubuntu:focal AS modules_build
 
-# install required packages
-RUN apt-get update -yq && apt-get install -yq curl
-
-# install nodejs via nodesource & frontend requirements
-RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
-RUN apt-get install -yq nodejs libjpeg-turbo8
-
 # setup env vars:
 ENV APP_DIR=/opt/drupal
 ENV WEB_DIR=${APP_DIR}/web
@@ -89,7 +83,6 @@ COPY modules/avoindata-header               ${MOD_DIR}/avoindata-header/
 COPY modules/avoindata-servicemessage       ${MOD_DIR}/avoindata-servicemessage/
 COPY modules/avoindata-hero                 ${MOD_DIR}/avoindata-hero/
 COPY modules/avoindata-categories           ${MOD_DIR}/avoindata-categories/
-COPY modules/avoindata-infobox              ${MOD_DIR}/avoindata-infobox/
 COPY modules/avoindata-explore              ${MOD_DIR}/avoindata-explore/
 COPY modules/avoindata-newsfeed             ${MOD_DIR}/avoindata-newsfeed/
 COPY modules/avoindata-footer               ${MOD_DIR}/avoindata-footer/
@@ -99,8 +92,7 @@ COPY modules/avoindata-guide                ${MOD_DIR}/avoindata-guide/
 COPY modules/avoindata-user                 ${MOD_DIR}/avoindata-user/
 COPY modules/avoindata-ckeditor-plugins     ${MOD_DIR}/avoindata-ckeditor-plugins/
 COPY modules/avoindata-theme                ${MOD_DIR}/avoindata-theme/
-COPY modules/avoindata-appfeed              ${MOD_DIR}/avoindata-appfeed/
-COPY modules/avoindata-datasetlist          ${MOD_DIR}/avoindata-datasetlist/
+COPY modules/avoindata-ckeditor5-plugins    ${MOD_DIR}/avoindata-ckeditor5-plugins/
 
 
 #

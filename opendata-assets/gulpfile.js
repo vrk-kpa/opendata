@@ -24,6 +24,7 @@ var paths = {
     drupal: "src/scss/drupal/style.scss",
     drupal_avoindata_header: "../drupal/modules/avoindata-header/resources/avoindata_header.js",
     drupal_ckeditor_plugins: "src/scss/drupal/custom-elements.scss",
+    drupal_ckeditor5_plugins: ["src/scss/drupal/custom-elements.scss", "src/scss/drupal/editor.scss"],
     templates: "src/templates/**/*",
     static_pages: "src/static_pages",
     fonts: "src/fonts/**/*",
@@ -42,7 +43,7 @@ var paths = {
   drupalTheme: "../drupal/modules/avoindata-theme"
 };
 
-if (!fs.existsSync(paths.src.fontawesome)){
+if (!fs.existsSync(paths.src.fontawesome)) {
   paths.src.fontawesome = "./node_modules/@fortawesome/fontawesome-free";
 }
 
@@ -96,17 +97,18 @@ gulp.task('lint', (done) => {
     gulp.src(paths.src.scss + '/**/*.scss'),
     gulpStylelint({
       failAfterError: true,
-      reporters:[
-        {formatter: 'string', console: true}
-      ]})
+      reporters: [
+        { formatter: 'string', console: true }
+      ]
+    })
   ], done)
 });
 
-gulp.task("ckan",(done) => {
+gulp.task("ckan", (done) => {
   pump([
     gulp.src(paths.src.ckan + "/*.scss"),
     sourcemaps.init(),
-    sass({paths: [paths.src.ckan], includePaths: [paths.src.bootstrap_styles]}),
+    sass({ paths: [paths.src.ckan], includePaths: [paths.src.bootstrap_styles] }),
     prefixer(),
     cleancss({ keepBreaks: false }),
     concat("ckan.css"),
@@ -116,7 +118,7 @@ gulp.task("ckan",(done) => {
   ], done)
 });
 
-gulp.task("openapi_view",(done) => {
+gulp.task("openapi_view", (done) => {
   pump([
     gulp.src(paths.src.scss + "/openapi_view.scss"),
     sourcemaps.init(),
@@ -137,7 +139,7 @@ gulp.task("drupal", (done) => {
   pump([
     gulp.src(paths.src.drupal),
     sourcemaps.init(),
-    sass({paths: [paths.src.drupal], includePaths: [paths.src.bootstrap_styles]}),
+    sass({ paths: [paths.src.drupal], includePaths: [paths.src.bootstrap_styles] }),
     prefixer(),
     template({ timestamp: timestamp }),
     cleancss({ keepBreaks: false }),
@@ -153,7 +155,7 @@ gulp.task("drupal_copy_custom_element_styles_to_plugin", (done) => {
   pump([
     gulp.src(paths.src.drupal_ckeditor_plugins),
     sourcemaps.init(),
-    sass({paths: [paths.src.drupal_ckeditor_plugins], includePaths: [paths.src.bootstrap_styles]}),
+    sass({ paths: [paths.src.drupal_ckeditor_plugins], includePaths: [paths.src.bootstrap_styles] }),
     prefixer(),
     template({ timestamp: timestamp }),
     cleancss({ keepBreaks: false }),
@@ -163,12 +165,79 @@ gulp.task("drupal_copy_custom_element_styles_to_plugin", (done) => {
   ], done)
 });
 
+// Copy toolbar styles to avoindata-ckeditor5-plugins
+gulp.task("toolbarIcons",
+  gulp.series(
+    (done) => {
+      pump([
+        gulp.src('src/toolbar-icons/*.svg'),
+        imagemin([
+          imagemin.svgo()
+        ]),
+        gulp.dest(paths.dist + "/toolbar-icons/"),
+      ], done)
+    },
+    (done) => {
+      pump([
+        gulp.src('src/toolbar-icons/toolbar-icons.css'),
+        base64("/../../" + paths.dist + "/toolbar-icons/"),
+        gulp.dest("../drupal/modules/avoindata-ckeditor5-plugins/css"),
+      ], done)
+    },
+    (done) => {
+      pump([
+        gulp.src(paths.dist + "/toolbar-icons/*.svg"),
+        gulp.dest("../drupal/modules/avoindata-ckeditor5-plugins/icons"),
+      ], done)
+    }))
+
+// // Compiles scss files in Drupal theme directory
+// // Output destination is also in Drupal theme directory
+gulp.task("drupal_copy_custom_ckeditor_styles_to_plugin",
+  gulp.parallel(
+    [
+      'toolbarIcons',
+      (done) => {
+        pump([
+          gulp.src(paths.src.drupal_ckeditor5_plugins),
+          sass({ paths: paths.src.drupal_ckeditor5_plugins, includePaths: [paths.src.bootstrap_styles] }),
+          cleancss({
+            format: {
+              semicolonAfterLastProperty: true,
+              indentBy: 2,
+              breaks: {
+                afterAtRule: 2,
+                afterBlockBegins: 1,
+                afterBlockEnds: 2,
+                afterComment: 1,
+                afterProperty: 1,
+                afterRuleBegins: 1,
+                afterRuleEnds: 1,
+                beforeBlockEnds: 1,
+                betweenSelectors: 1
+              },
+              spaces: {
+                aroundSelectorRelation: true, // controls if spaces come around selector relations; e.g. `div > a`; defaults to `false`
+                beforeBlockBegins: true, // controls if a space comes before a block begins; e.g. `.block {`; defaults to `false`
+                beforeValue: true // controls if a space comes before a value; e.g. `width: 1rem`; defaults to `false`
+              }
+            }
+          }),
+          template({ timestamp: timestamp }),
+          concat("styles.css"),
+          gulp.dest("../drupal/modules/avoindata-ckeditor5-plugins/css")
+        ], done)
+      }
+    ]
+  )
+);
+
 // Separate fonts to their own css to optimize their loading
 gulp.task("fontsCss", (done) => {
   pump([
     gulp.src(paths.src.fontsCss),
     sourcemaps.init(),
-    sass({paths: [paths.src.fontsCss]}),
+    sass({ paths: [paths.src.fontsCss] }),
     prefixer(),
     template({ timestamp: timestamp }),
     cleancss({ keepBreaks: false }),
@@ -190,8 +259,8 @@ gulp.task("images", (done) => {
       }),
       imagemin.svgo({
         plugins: [
-          {removeViewBox: true},
-          {cleanupIDs: false}
+          { removeViewBox: true },
+          { cleanupIDs: false }
         ]
       })
     ]),
@@ -211,13 +280,13 @@ gulp.task("templates", (done) => {
 
 gulp.task("static_css",
   gulp.series('images', (done) => {
-  pump([
-    gulp.src(paths.src.static_pages + "/css/main.css"),
-    base64('../../resources/images'),
-    concat("error.css"),
-    gulp.dest(paths.drupalTheme + "/css")
-  ], done)
-}));
+    pump([
+      gulp.src(paths.src.static_pages + "/css/main.css"),
+      base64('../../resources/images'),
+      concat("error.css"),
+      gulp.dest(paths.drupalTheme + "/css")
+    ], done)
+  }));
 
 gulp.task(
   "static_pages",
@@ -241,7 +310,8 @@ gulp.task("scripts", (done) => {
   pump([
     gulp.src([paths.src.scripts, paths.src.drupal_avoindata_header]),
     gulp.dest(paths.dist + "/scripts"),
-    gulp.dest(paths.ckanResources + "/scripts")
+    gulp.dest(paths.ckanResources + "/scripts"),
+    gulp.dest(paths.drupalTheme + "/scripts")
   ], done)
 });
 
@@ -255,7 +325,7 @@ gulp.task("bootstrap_scripts", (done) => {
 gulp.task("bootstrap_styles", (done) => {
   pump([
     gulp.src(paths.src.scss + "/bootstrap_build.scss"),
-    sass({includePaths: [paths.src.bootstrap_styles]}),
+    sass({ includePaths: [paths.src.bootstrap_styles] }),
     concat("bootstrap.css"),
     gulp.dest(paths.dist + "/vendor/bootstrap/dist/css"),
     gulp.dest(paths.ckanResources + "/vendor/bootstrap/dist/css"),
@@ -277,9 +347,9 @@ gulp.task('copy:libs', (done) => {
   pump([
     gulp.src(npmDist({
       excludes: ['/@fortawesome/**/*']
-    }), {base: './node_modules'}),
+    }), { base: './node_modules' }),
     rename((path) => {
-      if (path.extname === '.js' || path.extname === '.css'){
+      if (path.extname === '.js' || path.extname === '.css') {
         path.basename = path.basename.replace(".min", "");
       }
     }),
@@ -301,12 +371,12 @@ gulp.task("vendor",
     "bootstrap_scripts",
     "bootstrap_styles",
     "bootstrap_fonts", (done) => {
-    pump([
-      gulp.src(paths.src.root + "/vendor/**/*"),
-      gulp.dest(paths.drupalTheme + "/vendor"),
-      gulp.dest(paths.ckanResources + "/vendor"),
-    ], done)
-  })
+      pump([
+        gulp.src(paths.src.root + "/vendor/**/*"),
+        gulp.dest(paths.drupalTheme + "/vendor"),
+        gulp.dest(paths.ckanResources + "/vendor"),
+      ], done)
+    })
 );
 
 gulp.task(
@@ -343,6 +413,7 @@ gulp.task(
       "openapi_view",
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
+      "drupal_copy_custom_ckeditor_styles_to_plugin",
       "fonts",
       "fontsCss",
       "scripts")
@@ -373,6 +444,7 @@ gulp.task("watch_styles", () => {
       "ckan",
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
+      "drupal_copy_custom_ckeditor_styles_to_plugin",
       "fontsCss",
       "lint"
     )
@@ -391,6 +463,7 @@ gulp.task("watch_drupal_styles", () => {
     gulp.series(
       "drupal",
       "drupal_copy_custom_element_styles_to_plugin",
+      "drupal_copy_custom_ckeditor_styles_to_plugin",
       "fontsCss",
       "lint"
     )

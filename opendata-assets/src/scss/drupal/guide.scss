@@ -34,6 +34,69 @@
   text-decoration: none;
 }
 
+// Fix guide content centering on wide displays
+@media screen and (min-width: $screen-md-min) {
+  #guide-page > .row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    .avoindata-guide-container {
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: $screen-sm-max) {
+  #guide-page {
+    padding-left: 0;
+    padding-right: 0;
+
+    .avoindata-guide-container {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+
+    .avoindata-section {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+}
+
+.guide-menu-for-print {
+  display: none;
+
+  @media print {
+    display: block;
+
+    .avoindata-guide-menu-toggle,
+    .menu-header,
+    .nav > .nav__item,
+    .nav > .nav__item > a {
+      display: none;
+    }
+
+    .collapse,
+    .navbar,
+    .nav > .nav__item.open {
+      display: block;
+    }
+  }
+}
+
+@media print {
+  #guide-page > .row {
+    left: 0;
+    width: 100%;
+    float: none;
+  }
+
+  .page-node-type-avoindata-guide-page .region-footer {
+    display: none
+  }
+}
+
 #guide-page > .avoindata-guide-container {
   padding-top: 0;
   margin-top: 15px;
@@ -41,7 +104,7 @@
   background: none;
   border: none;
 
-  @media (min-width: $screen-md-min) {
+  @media screen and (min-width: $screen-md-min) {
     .col--guide-left {
       padding-right: 40px;
     }
@@ -53,12 +116,17 @@
 }
 
 #guide-header {
-  margin: 0 0 20px;
+  margin: 0 0 20px 20px;
   color: $new-layout-primary-text-color;
-  font-family: $font-family-sans-serif;
-  font-size: $font-size__module-h1;
-  font-weight: $font-weight-heavier;
+  font-family: $font-family-sans-serif-light;
+  font-size: $font-size__module-large-h1;
+  font-weight: $font-weight-light;
   line-height: $line-height__module-title;
+  padding: 0 15px;
+  
+  @media screen and (min-width: $screen-md-min) {
+    padding: unset;
+  }
 }
 
 .guide-content {
@@ -69,15 +137,15 @@
   line-height: 27px;
 }
 
-.guide-content p {
-  margin-bottom: 27px;
-}
-
 .guide-cycle-btn-container {
   background-color: rgb(41 110 187);
   margin: auto;
   padding: 10px;
   display: flex;
+
+  @media print {
+    display: none;
+  }
 
   a {
     color: rgb(255 255 255);

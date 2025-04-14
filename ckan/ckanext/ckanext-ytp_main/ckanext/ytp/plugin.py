@@ -20,7 +20,7 @@ from ckan.lib.navl.dictization_functions import Missing, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
 from ckan.logic import NotFound, get_action, check_access
 from ckan.model import Session
-from ckan.plugins import toolkit
+from ckan.plugins import toolkit, plugin_loaded
 from ckan.plugins.toolkit import config, chained_action
 from ckanext.report.interfaces import IReport
 
@@ -33,8 +33,6 @@ from ckanext.ytp.logic import package_autocomplete, store_municipality_bbox_data
 import ckanext.ytp.views as views
 from ckanext.ytp import auth, menu, cli, validators, views_organization
 
-from .converters import save_to_groups
-
 from .helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
     get_sorted_facet_items_dict, calculate_dataset_stars, get_upload_size, get_license, \
@@ -46,7 +44,8 @@ from .helpers import extra_translation, render_date, service_database_enabled, g
     get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_apiset_package_list, \
     get_groups_where_user_is_admin, get_value_from_extras_by_key, get_field_from_dataset_schema, \
     get_field_from_resource_schema, is_boolean_selected, site_url_with_root_path, \
-    get_organization_filters_count, package_count_for_source_customized, group_tree_section
+    get_organization_filters_count, package_count_for_source_customized, group_tree_section, \
+    get_highvalue_category_label, scheming_highvalue_category_list
 
 from .tools import create_system_context
 
@@ -77,24 +76,22 @@ _category_mapping = {
     'alueet-ja-kaupungit': ['imagery base maps earth cover', 'planning cadastre', 'structure', 'imageryBaseMapsEarthCover',
                             'planningCadastre'],
     'energia': [],
-    'hallinto-ja-julkinen-sektori': [],
-    'kansainvaliset-asiat': [],
-    'koulutus-ja-urheilu': [],
-    'kulttuuri-taide-ja-vapaa-aika': [],
+    'valtioneuvosto-ja-julkinen-sektori': [],
+    'kansainvaliset-kysymykset': [],
+    'koulutus-kulttuuri-ja-urheilu': [],
     'liikenne': ['transportation'],
     'maatalous-kalastus-metsatalous-ja-elintarvikkeet': ['farming'],
-    'matkailu-ja-turismi': [],
     'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligence military', 'intelligenceMilitary'],
     'rakennettu-ymparisto-ja-infrastruktuuri': ['boundaries', 'elevation', 'imagery base maps earth cover', 'location',
                                                 'planning cadastre', 'structure', 'utilities communication',
                                                 'imageryBaseMapsEarthCover', 'planningCadastre', 'utilitiesCommunication'],
-    'talous-ja-rahoitus': ['economy'],
+    'talous-ja-raha-asiat': ['economy'],
     'terveys': ['health'],
     'tiede-ja-teknologia': ['geoscientific information', 'geoscientificInformation'],
     'vaesto-ja-yhteiskunta': ['society'],
-    'ymparisto-ja-luonto': ['biota', 'elevation', 'environment', 'geoscientific information', 'imagery base maps earth cover',
-                            'inland waters', 'oceans', 'climatology, meteorology, atmosphere', 'geoscientificInformation',
-                            'imageryBaseMapsEarthCover', 'inlandWaters', 'climatologyMeteorologyAtmosphere']
+    'ymparisto': ['biota', 'elevation', 'environment', 'geoscientific information', 'imagery base maps earth cover',
+                  'inland waters', 'oceans', 'climatology, meteorology, atmosphere', 'geoscientificInformation',
+                  'imageryBaseMapsEarthCover', 'inlandWaters', 'climatologyMeteorologyAtmosphere']
 }
 
 
@@ -183,6 +180,23 @@ def action_package_search(original_action, context, data_dict):
     data_dict['sort'] = data_dict.get('sort') or 'score desc, metadata_created desc'
     return original_action(context, data_dict)
 
+
+@logic.side_effect_free
+def statistics(context, data_dict):
+
+    datasets = toolkit.get_action('package_search')({}, {'rows': 0})
+
+    apisets = len(toolkit.get_action('apiset_list')({}, {'all_fields': False})) if plugin_loaded('apis') else 0
+    organizations = toolkit.get_action('organization_list')({}, {})
+    showcases = len(toolkit.get_action('ckanext_showcase_list')({}, {'all_fields': False})) \
+        if plugin_loaded('sixodp_showcase') else 0
+
+    return {
+        'datasets': datasets['count'],
+        'apisets': apisets,
+        'organizations': len(organizations),
+        'showcases': showcases
+    }
 
 
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
@@ -274,6 +288,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             facets_dict['license_id'] = _('Licenses')
             facets_dict['groups'] = _('Category')
             facets_dict['producer_type'] = _('Producer type')
+            facets_dict['vocab_highvalue_category'] = _('High-value dataset category')
             # add more dataset facets here
 
         return facets_dict
@@ -391,6 +406,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'get_organization_filters_count': get_organization_filters_count,
                 'asbool': toolkit.asbool,
                 'package_count_for_source_customized': package_count_for_source_customized,
+                'scheming_highvalue_category_list': scheming_highvalue_category_list,
+                'get_highvalue_category_label': get_highvalue_category_label
                 }
 
     def get_auth_functions(self):
@@ -407,13 +424,20 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 if 'url_type' in resource and isinstance(resource['url_type'], Missing):
                     resource['url_type'] = None
 
-        if (pkg_dict.get('categories', None) and pkg_dict.get('groups', None)):
+        if (pkg_dict.get('groups', None)):
             translation_dict = {
                 'all_fields': True,
                 'include_extras': True,
-                'groups': pkg_dict.get('categories')
+                'groups': [ group.get('name') for group in pkg_dict.get('groups') ]
             }
-            pkg_dict['groups'] = get_action('group_list')(context, translation_dict)
+
+            group_context = context.copy()
+
+            # Schema should be none for group_list -> group_show calls,
+            # otherwise it will produce an error as dataset schema is wrong for this
+            group_context.pop('schema', None)
+
+            pkg_dict['groups'] = get_action('group_list')(group_context, translation_dict)
 
     def before_dataset_index(self, pkg_dict):
         pkg_dict = pkg_dict.copy()
@@ -474,6 +498,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             if 'producer_type' in org:
                 pkg_dict['producer_type'] = org['producer_type']
 
+        if pkg_dict.get('highvalue_category'):
+            pkg_dict['vocab_highvalue_category'] = json.loads(pkg_dict.get('highvalue_category'))
+
         return pkg_dict
 
     def before_view(self, pkg_dict):
@@ -487,11 +514,23 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
         return pkg_dict
 
+    def after_search(self, search_results, search_params):
+        # Modify facet display name to be human-readable
+        # TODO: handle translations for groups and highvalue categories
+        if search_results.get('search_facets'):
+            highvalue_facet = search_results['search_facets'].get('vocab_highvalue_category')
+            if highvalue_facet:
+                for facet_item in highvalue_facet['items']:
+                    facet_item['display_name'] = get_highvalue_category_label(facet_item['name'])
+
+        return search_results
+
     # IActions #
     def get_actions(self):
         return {'package_show': action_package_show, 'package_search': action_package_search,
                 'package_autocomplete': package_autocomplete, 'store_municipality_bbox_data': store_municipality_bbox_data,
-                'dcat_catalog_show': dcat_catalog_show}
+                'dcat_catalog_show': dcat_catalog_show,
+                'statistics': statistics}
 
     # IValidators
     def get_validators(self):
@@ -499,8 +538,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'check_deprecation': validators.check_deprecation,
             'convert_to_list': validators.convert_to_list,
             'lowercase': validators.lowercase,
-            # NOTE: this is a converter. (https://github.com/vrk-kpa/ckanext-scheming/#validators)
-            'save_to_groups': save_to_groups,
             'create_fluent_tags': validators.create_fluent_tags,
             'create_tags': validators.create_tags,
             'from_date_is_before_until_date': validators.from_date_is_before_until_date,
@@ -524,7 +561,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'use_url_for_name_if_left_empty': validators.use_url_for_name_if_left_empty,
             'convert_to_json_compatible_str_if_str': validators.convert_to_json_compatible_str_if_str,
             'empty_string_if_value_missing': validators.empty_string_if_value_missing,
-            'resource_url_validator': validators.resource_url_validator
+            'resource_url_validator': validators.resource_url_validator,
+            'highvalue_category': validators.highvalue_category
         }
 
     def get_blueprint(self):
@@ -805,6 +843,23 @@ def action_user_create(original_action, context, data_dict):
     return result
 
 
+# Adds all users to newly created groups
+@chained_action
+def action_group_create(original_action, context, data_dict):
+    result = original_action(context, data_dict)
+
+    if result and data_dict.get('type', 'group') == 'group':
+        context = create_system_context()
+
+        users = plugins.toolkit.get_action('user_list')(context, {})
+
+        for user in users:
+            member_data = {'id': result['id'], 'username': user['name'], 'role': 'editor'}
+            plugins.toolkit.get_action('group_member_create')(context, member_data)
+
+    return result
+
+
 @logic.side_effect_free
 def action_organization_tree_list(context, data_dict):
     check_access('site_read', context)
@@ -975,6 +1030,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
 
     def get_actions(self):
         return {'user_create': action_user_create,
+                'group_create': action_group_create,
                 'organization_tree_list': action_organization_tree_list,
                 'group_tree': plugin_hierarchy.group_tree,
                 'group_tree_section': plugin_hierarchy.group_tree_section,
@@ -1219,7 +1275,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
         try:
             # Call our custom Drupal API to get drupal block content
-            hostname = config.get('ckanext.drupal8.site_url') or config.get('ckan.site_url', '')
+            hostname = config.get('ckanext.drupal8.site_url')
             domains = config.get('ckanext.drupal8.domain').split(",")
             verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
             cookies = {}
@@ -1233,7 +1289,11 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                     if cookie is not None:
                         cookies.update({cookiename: cookie})
 
+            # If user hasn't signed in, no need to fetch non-cached content
+            if cookies == {}:
+                hostname = config.get('ckanext.drupal8.site_url_internal')
             snippet_url = '%s/%s/%s' % (hostname, lang, path)
+
             host = config.get('ckanext.drupal8.domain', '').split(',', 1)[0]
             headers = {'Host': host}
             response = requests.get(snippet_url, cookies=cookies, verify=verify_cert, headers=headers)

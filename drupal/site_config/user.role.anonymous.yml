@@ -9,6 +9,4 @@ permissions:
   - 'access comments'
   - 'access content'
   - 'access site-wide contact form'
-  - 'search content'
-  - 'services menu retrieve menu'
-  - 'use text format filtered_html'
+  

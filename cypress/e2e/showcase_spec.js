@@ -51,7 +51,7 @@ describe('Showcase tests', function() {
       // Create admin user
       cy.login_post_request('admin', 'administrator')
       cy.visit('/data/fi/dataset')
-      cy.logout_request()
+      cy.logout()
   
   
       cy.get('nav a[href="/data/fi/showcase"]').click();
@@ -63,7 +63,7 @@ describe('Showcase tests', function() {
     it('Add dataset to showcase and edit showcase with dataset', function() {
   
       cy.add_showcase_user();
-      cy.logout_request();
+      cy.logout();
   
       // Organization
       cy.login_post_request('admin', 'administrator');
@@ -76,7 +76,7 @@ describe('Showcase tests', function() {
       cy.get('#s2id_role').click();
       cy.get('#s2id_autogen2_search').type('admin', {force: true}).wait(1000).type('{enter}');
       cy.get('.form-actions > .btn').click();
-      cy.logout_request();
+      cy.logout();
   
   
       cy.login_post_request('test-publisher', 'test-publisher');
@@ -117,7 +117,7 @@ describe('Showcase tests', function() {
       // Create admin user
       cy.login_post_request('admin', 'administrator')
       cy.visit('/data/fi/dataset')
-      cy.logout_request()
+      cy.logout()
   
       cy.get('ul.nav a[href="/data/fi/showcase"]').click()
       cy.get('a[href="/data/fi/submit-showcase"]').click()
@@ -137,7 +137,7 @@ describe('Showcase tests', function() {
       // Create admin user
       cy.login_post_request('admin', 'administrator')
       cy.visit('/data/fi/dataset')
-      cy.logout_request()
+      cy.logout()
   
       cy.get('ul.nav a[href="/data/fi/showcase"]').click()
   

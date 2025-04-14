@@ -48,6 +48,10 @@ h5 {
 a {
   color: $link-color;
 
+  @media print {
+    color: $link-color !important;
+  }
+
   &:hover,
   &:focus {
     color: $link-color;

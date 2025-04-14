@@ -1,17 +1,11 @@
-/**
- * @file
- */
-
-'use strict';
-
-(function ($, Drupal) {
+(function (Drupal, $, once) {
   const openText = Drupal.t("Expand all"),
         closeText = Drupal.t("Close all");
 
   Drupal.behaviors.avoindataExpanderBehavior = {
     attach: function (context) {
       let togglerIndex = 0;
-      $('.avoindata-expander', context).once('avoindataExpanderBehavior').each(function (index, element) {
+      $(once('avoindataExpanderBehavior','.avoindata-expander', context)).each(function (index, element) {
         // Check if current expander should be considered as a group of expanders
         // In case of group, add toggler button before first expander
         if ($(element).next().hasClass('avoindata-expander') && !$(element).prev().hasClass('avoindata-expander')) {
@@ -21,20 +15,30 @@
           const $togglerWrapper = $('<div class="clearfix avoindata-expander-group-toggler-container"></div>').append($groupToggler);
           $togglerWrapper.insertBefore(element);
         }
+
+        let header = $('.avoindata-expander-header', this);
+
         // Apply the avoindataExpanderBehavior effect to the elements only once.
-        $('.avoindata-expander-header', this).on('click', toggleAvoindataExpander);
+        header.on('click', toggleAvoindataExpander);
+
+        // Add accessibility metadata
+        header.attr('role', 'button');
+        header.attr('aria-label', Drupal.t('expand'));
       });
     }
   };
 
   function toggleAvoindataExpander() {
     // Toggle status for current expander
-    if ($(this.parentElement).hasClass('open')) {
-      $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-up').addClass('fa-angle-down');
-      $(this.parentElement).removeClass('open');
+    let expander = $(this.parentElement);
+    if (expander.hasClass('open')) {
+      $('.icon-wrapper i', expander).removeClass('fa-angle-up').addClass('fa-angle-down');
+      expander.removeClass('open');
+      $('.avoindata-expander-header', expander).attr('aria-label', Drupal.t('expand'));
     } else {
-      $('.icon-wrapper i', this.parentElement).removeClass('fa-angle-down').addClass('fa-angle-up');
-      $(this.parentElement).addClass('open');
+      $('.icon-wrapper i', expander).removeClass('fa-angle-down').addClass('fa-angle-up');
+      expander.addClass('open');
+      $('.avoindata-expander-header', expander).attr('aria-label', Drupal.t('close'));
     }
 
     // If next or previous element is also avoindata-expander, consider them as a group of expanders
@@ -154,4 +158,29 @@
       history.replaceState({}, "", url);
     }
   }
-})(jQuery, Drupal);
+  
+  Drupal.behaviors.avoindataGuideMenuBehavior = {
+    attach: function (context) {
+      $(once('avoindataGuideMenuBehavior','.avoindata-guide-menu-toggle', context)).each(function (_index, element) {
+        // Remove duplicate collapse functionality
+        $('.opendata-menu-container', target).removeClass('collapse');
+
+        var target = $(element).next();
+        var icon = $('i', element);
+        $(target).on('shown.bs.collapse', () => {
+          icon.addClass('fa-times');
+          icon.removeClass('fa-bars');
+        });
+        $(target).on('hidden.bs.collapse', () => {
+          icon.addClass('fa-bars');
+          icon.removeClass('fa-times');
+
+          // Bootstrap collapse sets element height to 0 during collapsing.
+          // If the user collapses the menu in mobile view, then resizes to
+          // desktop view the menu stays collapsed without this
+          target.height('auto');
+        });
+      });
+    }
+  };
+})(Drupal, jQuery, once);

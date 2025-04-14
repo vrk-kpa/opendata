@@ -27,6 +27,7 @@ class ServicemessageBlock extends BlockBase {
       ->condition('langcode', $lang);
 
     $messageNodeIds = $messageNodeIdsQuery
+      ->accessCheck(TRUE)
       ->execute();
 
     $messageNodes = \Drupal::entityTypeManager()

@@ -3,5 +3,5 @@ type: module
 description: Modifies user validation
 package: Custom
 core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10
 
