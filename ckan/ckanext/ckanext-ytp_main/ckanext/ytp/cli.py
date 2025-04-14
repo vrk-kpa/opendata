@@ -283,6 +283,35 @@ def migrate_high_value_datasets(ctx, dryrun):
         apply_patches(package_patches, [])
 
 
+@opendata_dataset.command(
+    'move_to_group',
+    help='Moves datasets in one group to another group'
+)
+@click.option('--dryrun', is_flag=True)
+@click.argument('from_group_name')
+@click.argument('to_group_name')
+@click.pass_context
+def move_to_group(ctx, dryrun, from_group_name, to_group_name):
+    package_patches = []
+
+    for package_dict in package_generator('*:*', 10):
+        groups = set(g['name'] for g in package_dict.get('groups', []))
+        if from_group_name in groups:
+            groups.remove(from_group_name)
+            groups.add(to_group_name)
+            group_items = [{'name': g} for g in groups]
+            patch = {'id': package_dict['id'], "groups": group_items}
+            package_patches.append(patch)
+
+    if dryrun:
+        click.echo('\n'.join('%s' % p for p in package_patches))
+    else:
+        # No resources patches so empty parameter is passed
+        flask_app = ctx.meta['flask_app']
+        with flask_app.test_request_context():
+            apply_patches(package_patches, [])
+
+
 def apply_patches(package_patches, resource_patches):
     if not package_patches and not resource_patches:
         click.echo('No patches to process.')

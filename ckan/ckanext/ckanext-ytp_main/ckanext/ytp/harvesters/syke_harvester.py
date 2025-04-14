@@ -17,15 +17,20 @@ log = logging.getLogger(__name__)
 
 _category_mapping = {
     'alueet-ja-kaupungit': ['boundaries', 'planningCadastre', 'imageryBaseMapsEarthCover', 'location'],
+    'energia': [],
+    'kansainvaliset-kysymykset': [],
+    'koulutus-kulttuuri-ja-urheilu': [],
     'liikenne': ['transportation'],
     'maatalous-kalastus-metsatalous-ja-elintarvikkeet': ['farming'],
     'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligenceMilitary'],
     'rakennettu-ymparisto-ja-infrastruktuuri': ['utilitiesCommunication', 'structure'],
-    'talous-ja-rahoitus': ['economy'],
+    'talous-ja-raha-asiat': ['economy'],
     'terveys': ['health'],
+    'tiede-ja-teknologia': [],
+    'valtioneuvosto-ja-julkinen-sektori': [],
     'vaesto-ja-yhteiskunta': ['society'],
-    'ymparisto-ja-luonto': ['climatologyMeteorologyAtmosphere', 'elevation', 'environment',
-                            'geoscientificInformation', 'biota', 'inlandWaters', 'oceans']
+    'ymparisto': ['climatologyMeteorologyAtmosphere', 'elevation', 'environment',
+                  'geoscientificInformation', 'biota', 'inlandWaters', 'oceans']
 }
 
 

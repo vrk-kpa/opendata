@@ -76,24 +76,22 @@ _category_mapping = {
     'alueet-ja-kaupungit': ['imagery base maps earth cover', 'planning cadastre', 'structure', 'imageryBaseMapsEarthCover',
                             'planningCadastre'],
     'energia': [],
-    'hallinto-ja-julkinen-sektori': [],
-    'kansainvaliset-asiat': [],
-    'koulutus-ja-urheilu': [],
-    'kulttuuri-taide-ja-vapaa-aika': [],
+    'valtioneuvosto-ja-julkinen-sektori': [],
+    'kansainvaliset-kysymykset': [],
+    'koulutus-kulttuuri-ja-urheilu': [],
     'liikenne': ['transportation'],
     'maatalous-kalastus-metsatalous-ja-elintarvikkeet': ['farming'],
-    'matkailu-ja-turismi': [],
     'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligence military', 'intelligenceMilitary'],
     'rakennettu-ymparisto-ja-infrastruktuuri': ['boundaries', 'elevation', 'imagery base maps earth cover', 'location',
                                                 'planning cadastre', 'structure', 'utilities communication',
                                                 'imageryBaseMapsEarthCover', 'planningCadastre', 'utilitiesCommunication'],
-    'talous-ja-rahoitus': ['economy'],
+    'talous-ja-raha-asiat': ['economy'],
     'terveys': ['health'],
     'tiede-ja-teknologia': ['geoscientific information', 'geoscientificInformation'],
     'vaesto-ja-yhteiskunta': ['society'],
-    'ymparisto-ja-luonto': ['biota', 'elevation', 'environment', 'geoscientific information', 'imagery base maps earth cover',
-                            'inland waters', 'oceans', 'climatology, meteorology, atmosphere', 'geoscientificInformation',
-                            'imageryBaseMapsEarthCover', 'inlandWaters', 'climatologyMeteorologyAtmosphere']
+    'ymparisto': ['biota', 'elevation', 'environment', 'geoscientific information', 'imagery base maps earth cover',
+                  'inland waters', 'oceans', 'climatology, meteorology, atmosphere', 'geoscientificInformation',
+                  'imageryBaseMapsEarthCover', 'inlandWaters', 'climatologyMeteorologyAtmosphere']
 }
 
 
