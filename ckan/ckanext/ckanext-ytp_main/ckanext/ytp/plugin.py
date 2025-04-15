@@ -514,7 +514,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
         return pkg_dict
 
-    def after_search(self, search_results, search_params):
+    def after_dataset_search(self, search_results, search_params):
         # Modify facet display name to be human-readable
         # TODO: handle translations for groups and highvalue categories
         if search_results.get('search_facets'):
