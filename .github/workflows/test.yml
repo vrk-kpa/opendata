@@ -478,10 +478,11 @@ jobs:
       - detect-changes
     if: ${{ needs.detect-changes.outputs.ckan == 'true' }}
     container:
-      image: ckan/ckan-dev:2.9.9
+      image: ckan/ckan-dev:2.10-py3.10
+      options: --user root
     services:
       solr:
-        image: ckan/ckan-solr:2.9
+        image: ckan/ckan-solr:2.10-solr9
       postgres:
         image: postgres:12
         env:
@@ -512,7 +513,6 @@ jobs:
         createdb --encoding=utf-8 --host=postgres --username=postgres --owner=datastore_write datastore_test
     - name: Install requirements
       run: |
-        apk add proj proj-dev proj-util geos
         cd ckan/ckanext/ckanext-ytp_main
         pip install -r dev-requirements.txt
         pip install -r requirements.txt
@@ -564,11 +564,10 @@ jobs:
 
     - name: install codecov requirements
       run: |
-        apk add gpg gpg-agent
+        apt-get install -y curl gpg
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v5
       with:
         flags: ckan
-        os: alpine
         token: ${{ secrets.CODECOV_TOKEN }}
