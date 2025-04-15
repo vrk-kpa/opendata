@@ -16,10 +16,10 @@
       <div id="content" class="container-fluid">
         {% block main_content %}
           {% block flash %}
-            {% set flash_messages = h.flash.pop_messages() | list %}
+            {% set flash_messages = h.get_flashed_messages(with_categories=true) %}
             <div class="flash-messages">
-              {% for message in flash_messages %}
-                <div class="m-0 alert fade in {{ message.category }}">
+              {% for category, message in flash_messages %}
+                <div class="m-0 alert fade in {{ category }}">
                   {{ h.literal(message) }}
                 </div>
               {% endfor %}

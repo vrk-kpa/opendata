@@ -1,0 +1,233 @@
+@import 'bootstrap/mixins';
+@import 'variables';
+
+/* Extra small devices */
+@media (max-width: $screen-xs-max) {
+  body {
+    background-image: none;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .page_wrapper {
+    padding-top: 2px !important;
+    box-shadow: none;
+  }
+
+  .page_primary_action {
+    display: block;
+    text-align: left;
+    clear: left;
+  }
+
+  .container {
+    padding-left: ($grid-gutter-width / 4);
+    padding-right: ($grid-gutter-width / 4);
+  }
+
+  .alert {
+    margin-bottom: ($line-height-computed / 2);
+  }
+
+  .dl-horizontal {
+    dt {
+      float: none;
+      font-weight: bold;
+      text-align: left !important;
+      margin: 0 !important;
+    }
+
+    dd {
+      display: block;
+      margin: 0 0 ($line-height-computed / 2) 0 !important;
+    }
+  }
+
+  .navbar-brand {
+    max-width: unquote("calc(100% - 32px - 21px)");
+
+    .site-logo {
+      max-width: 100%;
+      padding-top: 5px;
+    }
+  }
+
+  .ytp-nav {
+    float: none;
+  }
+}
+
+/* Extra small, small, and medium devices */
+@media (min-width: $screen-xs-min) and (max-width: $screen-md-max) {
+  .page_wrapper {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+
+    // Make sure container does not overflow with added margins
+    .container {
+      width: auto;
+    }
+  }
+}
+
+/* Extra small, and small devices */
+@media (max-width: $screen-sm-max) {
+  .navbar-top {
+    margin-bottom: 0;
+    padding-top: 2px;
+    background-color: $opendata-brand-primary;
+  }
+
+  .page_wrapper {
+    padding-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
+
+    .search-form .control-order-by {
+      display: block;
+      float: none;
+      margin: 0;
+      margin-bottom: ($line-height-computed / 2);
+      border-bottom: 0;
+    }
+  }
+
+  .navbar-top .lang-select {
+    margin-top: ($line-height-computed / 4);
+    border-top: 1px solid transparent;
+    padding-top: ($line-height-computed / 4);
+  }
+
+  .article-list {
+    .left {
+      padding-right: 25px;
+    }
+
+    .right {
+      padding-left: 25px;
+    }
+  }
+}
+
+/* Medium devices */
+@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+  // Adjust navbar to available screen width
+  .navbar.navbar-main .navbar-nav li > a {
+    padding: 13px 8px;
+    min-width: 134px;
+  }
+
+  .guide-nav {
+    margin: 15px -25px;
+
+    li {
+      margin-top: 20px;
+      margin-bottom: 15px;
+
+      a {
+        padding: 15px 30px;
+        background-color: #eaf4fb;
+        border-radius: 20px;
+      }
+
+      span {
+        margin-left: -40px;
+        margin-right: 20px;
+      }
+    }
+  }
+}
+
+/* Large devices */
+@media (min-width: $screen-lg) {
+  .page_wrapper,
+  .navbar-main {
+    max-width: 100%;
+  }
+
+  .navbar.navbar-main .navbar-nav li > a {
+    padding: 13px 8px;
+  }
+}
+
+/* Extra small, small and medium devices */
+@media (max-width: $screen-md-min) {
+  .page_wrapper {
+    width: auto;
+  }
+
+  section.module {
+    margin: 0;
+    margin-bottom: 8px;
+  }
+
+  h2.module-heading {
+    margin: 0;
+  }
+
+  .module-footer {
+    margin-bottom: 0;
+  }
+
+  .panel-heading {
+    padding: 0 15px;
+    padding-top: 6px;
+  }
+
+  .panel-body {
+    padding: 0;
+  }
+
+  .navbar-top a.navbar-brand {
+    padding-top: 0;
+  }
+
+  .dataset-title-list {
+    padding: 10px;
+  }
+
+  /* Add margin between boxes */
+  .tutorial-box-content {
+    margin-top: 20px;
+  }
+
+  p {
+    font-size: 13px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .media-object,
+  .thumbnail {
+    width: 75px;
+  }
+
+  #tutorial-box .tutorial-box-content .tutorial-action-button {
+    font-size: 16px;
+  }
+}
+
+/* Responsive pull classes */
+@media (max-width: $screen-xs-max) {
+  .pull-xs-left {
+    float: left !important;
+  }
+
+  .pull-xs-right {
+    float: right !important;
+  }
+}
+
+@media (max-width: $screen-sm-max) {
+  .pull-sm-left {
+    float: left !important;
+  }
+
+  .pull-sm-right {
+    float: right !important;
+  }
+}

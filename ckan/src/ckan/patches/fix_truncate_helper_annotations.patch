@@ -1,0 +1,17 @@
+diff --git a/ckan/lib/helpers.py b/ckan/lib/helpers.py
+index 3ecc187e2..376e42b9f 100644
+--- a/ckan/lib/helpers.py
++++ b/ckan/lib/helpers.py
+@@ -1290,11 +1290,11 @@ def group_name_to_title(name: str) -> str:
+     return name
+ 
+ 
+-@core_helper
+ @maintain.deprecated("helpers.truncate() is deprecated and will be removed "
+                      "in a future version of CKAN. Instead, please use the "
+                      "builtin jinja filter instead.",
+                      since="2.10.0")
++@core_helper
+ def truncate(text: str,
+              length: int = 30,
+              indicator: str = '...',
