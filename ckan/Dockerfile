@@ -71,7 +71,8 @@ RUN \
       pcre \
       libxslt \
       libxml2 \
-      tzdata
+      tzdata \
+      file
 
 # Get artifacts from build stages
 COPY --from=base_ckan_build /wheels /srv/app/wheels
