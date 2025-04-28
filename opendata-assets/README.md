@@ -32,19 +32,19 @@ Check out `resources` folder for results.
 
 `resources` directory is deleted in the build process and generated from `src` dir. Fonts, images, templates and vendor directories are pretty much copies from src.
 
-`styles` directory contains main.css compiled from less-files. 
+`styles` directory contains main.css compiled from SCSS-files. 
 
 `static` contains copies from static_pages with css and images inlined during build.
 
-## Less-files
+## SCSS-files
 
-`less` directory contain all less-files used in project. It also contains upstream bootstrap and ckan sources. To modify css of YTP drupal or YTP ckan, less-files in the root of less directory are modified. It is presumed that upstream files are unmodified and can be upgraded at will at anytime.
+`scss` directory contain all sass-files used in project. It also contains upstream bootstrap and ckan sources. To modify css of YTP drupal or YTP ckan, SCSS-files in the root of SCSS directory are modified. It is presumed that upstream files are unmodified and can be upgraded at will at anytime.
 
 ### Exceptions
 
-[upstream_boostrap/bootstrap.less](src/less/upstream_bootstrap/bootstrap.less) imports [YTP varibles.less](src/less/variables.less) to modify bootstrap variables before bootstrap building, similar to what [Boostrap customize](http://getbootstrap.com/customize/) does.
+[upstream_boostrap/bootstrap.scss](src/scss/upstream_bootstrap/bootstrap.scss) imports [YTP varibles.scss](src/scss/variables.scss) to modify bootstrap variables before bootstrap building, similar to what [Boostrap customize](http://getbootstrap.com/customize/) does.
 
-`upstream_ckan` contains [ytp_ckan_bootstrap.less](src/less/upstream_ckan/ytp_ckan_bootstrap.less) and [ytp_main.less](src/less/upstream_ckan/ytp_main.less) which are used to build ckan css.
+`upstream_ckan` contains [ytp_ckan_bootstrap.scss](src/scss/upstream_ckan/ytp_ckan_bootstrap.scss) and [ytp_main.scss](src/scss/upstream_ckan/ytp_main.scss) which are used to build ckan css.
 
 
 ## Font Awesome

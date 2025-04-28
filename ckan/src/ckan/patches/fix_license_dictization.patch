@@ -1,0 +1,65 @@
+From 2c44855e8df0f469f5c49cca037e7995a3029258 Mon Sep 17 00:00:00 2001
+From: cirun <cirun@live.com>
+Date: Thu, 16 Mar 2023 14:36:17 +0100
+Subject: [PATCH 1/2] use attribute access
+
+---
+ ckan/logic/action/get.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ckan/logic/action/get.py b/ckan/logic/action/get.py
+index 5591a88ccd2..7a6929b4f85 100644
+--- a/ckan/logic/action/get.py
++++ b/ckan/logic/action/get.py
+@@ -759,7 +759,7 @@ def license_list(context: Context, data_dict: DataDict) -> ActionResult.LicenseL
+ 
+     license_register = model.Package.get_license_register()
+     licenses = license_register.values()
+-    licenses = [l.as_dict() for l in licenses]
++    licenses = [l._data for l in licenses]
+     return licenses
+ 
+ 
+
+From 676f6595c2d877c6a553f9ca76011f26fc44ddd8 Mon Sep 17 00:00:00 2001
+From: cirun <cirun@live.com>
+Date: Fri, 17 Mar 2023 16:14:33 +0100
+Subject: [PATCH 2/2] license dictize
+
+---
+ ckan/logic/action/get.py | 2 +-
+ ckan/model/license.py    | 8 ++++++++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/ckan/logic/action/get.py b/ckan/logic/action/get.py
+index 7a6929b4f85..b58d02cfc2e 100644
+--- a/ckan/logic/action/get.py
++++ b/ckan/logic/action/get.py
+@@ -759,7 +759,7 @@ def license_list(context: Context, data_dict: DataDict) -> ActionResult.LicenseL
+ 
+     license_register = model.Package.get_license_register()
+     licenses = license_register.values()
+-    licenses = [l._data for l in licenses]
++    licenses = [l.license_dictize() for l in licenses]
+     return licenses
+ 
+ 
+diff --git a/ckan/model/license.py b/ckan/model/license.py
+index becea11b54c..edd8b3be6c1 100644
+--- a/ckan/model/license.py
++++ b/ckan/model/license.py
+@@ -46,6 +46,14 @@ def isopen(self) -> bool:
+                 self.osd_conformance == 'approved'
+         return self._isopen
+ 
++    def license_dictize(self) -> dict[str, Any]:
++        data = self._data.copy()
++        if 'date_created' in data:
++            value = data['date_created']
++            value = value.isoformat()
++            data['date_created'] = value
++        return data
++
+ 
+ class LicenseRegister(object):
+     """Dictionary-like interface to a group of licenses."""

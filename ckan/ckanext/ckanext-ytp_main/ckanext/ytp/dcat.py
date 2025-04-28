@@ -136,7 +136,7 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((endpoint_urls, DCAT.endpointURL, uriref(resource_dict.get('url'))))
         g.add((dataset_ref, DCAT.endpointURL, endpoint_urls))
         access_rights = dataset_dict.get('access_rights_translated', None)
-        if access_rights:
+        if access_rights and isinstance(access_rights, dict):
             rights_statement = BNode()
             access_rights_value = access_rights.values()
             g.add((rights_statement, RDF.type, DCT.RightsStatement))

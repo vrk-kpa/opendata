@@ -54,7 +54,7 @@ def upper_if_exists(s):
 
 
 def list_to_string(list):
-    if isinstance(list, collections.Sequence) and not isinstance(list, str):
+    if isinstance(list, collections.abc.Sequence) and not isinstance(list, str):
         return ','.join(list)
     return list
 
