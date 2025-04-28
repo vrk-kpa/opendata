@@ -78,14 +78,14 @@ gulp.task('copy:fontawesomeScss', (done) => {
 
 gulp.task('copy:fontawesomeFonts', (done) => {
   pump([
-    gulp.src(paths.src.fontawesome + "/webfonts/*.*"),
+    gulp.src(paths.src.fontawesome + "/webfonts/*.*", { encoding: false }),
     gulp.dest(paths.drupalTheme + "/fonts")
   ], done)
 })
 
 gulp.task('copy:fontawesome', (done) => {
   pump([
-    gulp.src(paths.src.fontawesome + "/**/**.*"),
+    gulp.src(paths.src.fontawesome + "/**/**.*", {encoding: false}),
     gulp.dest(paths.ckanPublic + "/vendor/@fortawesome/fontawesome"),
     gulp.dest(paths.drupalTheme + "/vendor/@fortawesome/fontawesome")
   ], done)
@@ -250,7 +250,7 @@ gulp.task("fontsCss", (done) => {
 
 gulp.task("images", (done) => {
   pump([
-    gulp.src(paths.src.images),
+    gulp.src(paths.src.images, {encoding: false}),
     imagemin([
       imagemin.mozjpeg(),
       imagemin.optipng(),
@@ -300,7 +300,7 @@ gulp.task(
 
 gulp.task("fonts", (done) => {
   pump([
-    gulp.src(paths.src.fonts),
+    gulp.src(paths.src.fonts, {encoding: false}),
     gulp.dest(paths.drupalTheme + "/fonts"),
     gulp.dest(paths.ckanPublic + "/vendor/fonts")
   ], done)
@@ -338,7 +338,7 @@ gulp.task("bootstrap_styles", (done) => {
 
 gulp.task("bootstrap_fonts", (done) => {
   pump([
-    gulp.src(paths.src.bootstrap_fonts),
+    gulp.src(paths.src.bootstrap_fonts, {encoding: false}),
     gulp.dest(paths.drupalTheme + '/fonts')
   ], done)
 })
@@ -372,7 +372,7 @@ gulp.task("vendor",
     "bootstrap_styles",
     "bootstrap_fonts", (done) => {
       pump([
-        gulp.src(paths.src.root + "/vendor/**/*"),
+        gulp.src(paths.src.root + "/vendor/**/*", {encoding: false}),
         gulp.dest(paths.drupalTheme + "/vendor"),
         gulp.dest(paths.ckanResources + "/vendor"),
       ], done)

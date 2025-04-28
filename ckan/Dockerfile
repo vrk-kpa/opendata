@@ -70,7 +70,8 @@ RUN \
       pcre \
       libxslt \
       libxml2 \
-      tzdata
+      tzdata \
+      file
 
 
 # Get artifacts from build stages

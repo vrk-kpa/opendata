@@ -1,0 +1,15 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Sets ECR scanning rules
+
+Resources:
+  ECRRegistryScanningConfiguration:
+    Type: AWS::ECR::RegistryScanningConfiguration
+    Properties:
+      ScanType: ENHANCED
+      Rules:
+        - ScanFrequency: SCAN_ON_PUSH
+          RepositoryFilters:
+            - Filter: "*"
+              FilterType: WILDCARD
+
