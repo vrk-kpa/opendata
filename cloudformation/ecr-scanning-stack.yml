@@ -6,11 +6,10 @@ Resources:
   ECRRegistryScanningConfiguration:
     Type: AWS::ECR::RegistryScanningConfiguration
     Properties:
-      ScanningConfiguration:
-        ScanType: ENHANCED
-        Rules:
-          - ScanFrequency: SCAN_ON_PUSH
-            RepositoryFilters:
-              - Filter: "*"
-                FilterType: WILDCARD
+      ScanType: ENHANCED
+      Rules:
+        - ScanFrequency: SCAN_ON_PUSH
+          RepositoryFilters:
+            - Filter: "*"
+              FilterType: WILDCARD
 
