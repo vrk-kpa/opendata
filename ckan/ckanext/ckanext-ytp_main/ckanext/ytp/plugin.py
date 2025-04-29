@@ -20,7 +20,7 @@ from ckan.lib.navl.dictization_functions import Missing, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
 from ckan.logic import NotFound, get_action, check_access
 from ckan.model import Session
-from ckan.plugins import toolkit
+from ckan.plugins import toolkit, plugin_loaded
 from ckan.plugins.toolkit import config, chained_action
 from ckanext.report.interfaces import IReport
 
@@ -76,24 +76,22 @@ _category_mapping = {
     'alueet-ja-kaupungit': ['imagery base maps earth cover', 'planning cadastre', 'structure', 'imageryBaseMapsEarthCover',
                             'planningCadastre'],
     'energia': [],
-    'hallinto-ja-julkinen-sektori': [],
-    'kansainvaliset-asiat': [],
-    'koulutus-ja-urheilu': [],
-    'kulttuuri-taide-ja-vapaa-aika': [],
+    'valtioneuvosto-ja-julkinen-sektori': [],
+    'kansainvaliset-kysymykset': [],
+    'koulutus-kulttuuri-ja-urheilu': [],
     'liikenne': ['transportation'],
     'maatalous-kalastus-metsatalous-ja-elintarvikkeet': ['farming'],
-    'matkailu-ja-turismi': [],
     'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligence military', 'intelligenceMilitary'],
     'rakennettu-ymparisto-ja-infrastruktuuri': ['boundaries', 'elevation', 'imagery base maps earth cover', 'location',
                                                 'planning cadastre', 'structure', 'utilities communication',
                                                 'imageryBaseMapsEarthCover', 'planningCadastre', 'utilitiesCommunication'],
-    'talous-ja-rahoitus': ['economy'],
+    'talous-ja-raha-asiat': ['economy'],
     'terveys': ['health'],
     'tiede-ja-teknologia': ['geoscientific information', 'geoscientificInformation'],
     'vaesto-ja-yhteiskunta': ['society'],
-    'ymparisto-ja-luonto': ['biota', 'elevation', 'environment', 'geoscientific information', 'imagery base maps earth cover',
-                            'inland waters', 'oceans', 'climatology, meteorology, atmosphere', 'geoscientificInformation',
-                            'imageryBaseMapsEarthCover', 'inlandWaters', 'climatologyMeteorologyAtmosphere']
+    'ymparisto': ['biota', 'elevation', 'environment', 'geoscientific information', 'imagery base maps earth cover',
+                  'inland waters', 'oceans', 'climatology, meteorology, atmosphere', 'geoscientificInformation',
+                  'imageryBaseMapsEarthCover', 'inlandWaters', 'climatologyMeteorologyAtmosphere']
 }
 
 
@@ -182,6 +180,23 @@ def action_package_search(original_action, context, data_dict):
     data_dict['sort'] = data_dict.get('sort') or 'score desc, metadata_created desc'
     return original_action(context, data_dict)
 
+
+@logic.side_effect_free
+def statistics(context, data_dict):
+
+    datasets = toolkit.get_action('package_search')({}, {'rows': 0})
+
+    apisets = len(toolkit.get_action('apiset_list')({}, {'all_fields': False})) if plugin_loaded('apis') else 0
+    organizations = toolkit.get_action('organization_list')({}, {})
+    showcases = len(toolkit.get_action('ckanext_showcase_list')({}, {'all_fields': False})) \
+        if plugin_loaded('sixodp_showcase') else 0
+
+    return {
+        'datasets': datasets['count'],
+        'apisets': apisets,
+        'organizations': len(organizations),
+        'showcases': showcases
+    }
 
 
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
@@ -547,7 +562,8 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     def get_actions(self):
         return {'package_show': action_package_show, 'package_search': action_package_search,
                 'package_autocomplete': package_autocomplete, 'store_municipality_bbox_data': store_municipality_bbox_data,
-                'dcat_catalog_show': dcat_catalog_show}
+                'dcat_catalog_show': dcat_catalog_show,
+                'statistics': statistics}
 
     # IValidators
     def get_validators(self):
@@ -860,6 +876,23 @@ def action_user_create(original_action, context, data_dict):
     return result
 
 
+# Adds all users to newly created groups
+@chained_action
+def action_group_create(original_action, context, data_dict):
+    result = original_action(context, data_dict)
+
+    if result and data_dict.get('type', 'group') == 'group':
+        context = create_system_context()
+
+        users = plugins.toolkit.get_action('user_list')(context, {})
+
+        for user in users:
+            member_data = {'id': result['id'], 'username': user['name'], 'role': 'editor'}
+            plugins.toolkit.get_action('group_member_create')(context, member_data)
+
+    return result
+
+
 @logic.side_effect_free
 def action_organization_tree_list(context, data_dict):
     check_access('site_read', context)
@@ -1030,6 +1063,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
 
     def get_actions(self):
         return {'user_create': action_user_create,
+                'group_create': action_group_create,
                 'organization_tree_list': action_organization_tree_list,
                 'group_tree': plugin_hierarchy.group_tree,
                 'group_tree_section': plugin_hierarchy.group_tree_section,
@@ -1297,7 +1331,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
         try:
             # Call our custom Drupal API to get drupal block content
-            hostname = config.get('ckanext.drupal8.site_url') or config.get('ckan.site_url', '')
+            hostname = config.get('ckanext.drupal8.site_url')
             domains = config.get('ckanext.drupal8.domain').split(",")
             verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
             cookies = {}
@@ -1311,7 +1345,11 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                     if cookie is not None:
                         cookies.update({cookiename: cookie})
 
+            # If user hasn't signed in, no need to fetch non-cached content
+            if cookies == {}:
+                hostname = config.get('ckanext.drupal8.site_url_internal')
             snippet_url = '%s/%s/%s' % (hostname, lang, path)
+
             host = config.get('ckanext.drupal8.domain', '').split(',', 1)[0]
             headers = {'Host': host}
             response = requests.get(snippet_url, cookies=cookies, verify=verify_cert, headers=headers)

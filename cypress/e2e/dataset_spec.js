@@ -71,18 +71,14 @@ describe('Dataset tests',
 
       cy.get('#field-order-by').select('metadata_created desc');
       cy.url({timeout: 20000}).should('contain', `dataset?q=&sort=metadata_created+desc`)
-
-      cy.get('#field-order-by').select('views_recent desc');
-      cy.url({timeout: 20000}).should('contain', `dataset?q=&sort=views_recent+desc`)
     });
 
     it('Chosen sorting option persists after search', function(){
-      cy.get('#field-order-by').select('views_recent desc');
-      cy.url({timeout: 20000}).should('contain', `dataset?q=&sort=views_recent+desc`)
+      cy.get('#field-order-by').select('metadata_created desc');
+      cy.url({timeout: 20000}).should('contain', `dataset?q=&sort=metadata_created+desc`)
       cy.get('.search').type('random search');
       cy.get('.fal').click();
-      cy.url({timeout: 20000}).should('contain', `dataset?q=random+search&sort=views_recent+desc`)
-      cy.get('#field-order-by').select('views_recent desc');
+      cy.url({timeout: 20000}).should('contain', `dataset?q=random+search&sort=metadata_created+desc`)
     });
 
     it('Datasets have sorting options', function(){
@@ -92,7 +88,6 @@ describe('Dataset tests',
       cy.get('#field-order-by > option').eq(3).should('have.value', 'metadata_modified desc');
       cy.get('#field-order-by > option').eq(4).should('have.value', 'metadata_created asc');
       cy.get('#field-order-by > option').eq(5).should('have.value', 'metadata_created desc');
-      cy.get('#field-order-by > option').eq(6).should('have.value', 'views_recent desc');
     });
 
     // NOTE! This test currently is dependent on the ordering of the datasets, so if any datasets are created before in 
@@ -134,11 +129,11 @@ describe('Dataset tests',
     })
 
     it('Create a dataset with a category', function(){
-      cy.logout_request();
+      cy.logout();
       cy.login_post_request('admin', 'administrator');
       const category_name_1 = 'test_category_1';
       cy.create_category(category_name_1);
-      cy.logout_request();
+      cy.logout();
       cy.login_post_request('test-user', 'test-user')
 
       const dataset_name = 'category_test';
@@ -270,7 +265,7 @@ describe('Dataset tests',
     });
 
     it('Cannot create dataset if logged out', function() {
-      cy.logout_request();
+      cy.logout();
       cy.visit('/');
       cy.get('nav a[href="/data/fi/dataset"]').click();
       cy.get('a[href="/data/fi/dataset/new"]').should('not.exist');

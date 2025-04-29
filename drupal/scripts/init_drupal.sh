@@ -58,6 +58,10 @@ LANG_INFO=$(drush language-info --field=language)
 drush language:default -y "fi"
 
 # enable base theme
+# jquery ui module enable required here https://www.drupal.org/project/bootstrap/releases/8.x-3.32
+[[ "$MODULE_INFO" != *"jquery_ui"* ]]           && drush pm:enable -y jquery_ui
+[[ "$MODULE_INFO" != *"jquery_ui_draggable"* ]] && drush pm:enable -y jquery_ui_draggable
+[[ "$MODULE_INFO" != *"jquery_ui_resizable"* ]] && drush pm:enable -y jquery_ui_resizable
 drush theme:enable -y bootstrap
 
 # remove some configurations
@@ -98,7 +102,7 @@ drush config:delete field.field.node.article.field_tags                         
 drush config:delete user.role.content_editor                                       || true
 drush config:delete system.action.user_add_role_action.content_editor              || true
 drush config:delete system.action.user_remove_role_action.content_editor           || true
-
+drush config:delete contact.form.feedback                                          || true
 
 
 # uninstall modules
@@ -112,6 +116,8 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"bartik"* ]]  && drush theme:uninstall -y bartik
 [[ "$MODULE_INFO" == *"seven"* ]]  && drush theme:uninstall -y seven
 [[ "$MODULE_INFO" == *"fontawesome_menu_icons"* ]] && drush pm:uninstall -y fontawesome_menu_icons
+[[ "$MODULE_INFO" == *"tour"* ]] && drush pm:uninstall -y tour
+[[ "$MODULE_INFO" == *"transliterate_filenames"* ]] && drush pm:uninstall -y transliterate_filenames
 
 # enable modules
 echo "enable modules.."
@@ -137,7 +143,6 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"matomo"* ]]                        && drush pm:enable -y matomo
 [[ "$MODULE_INFO" != *"upgrade_status"* ]]                && drush pm:enable -y upgrade_status
 [[ "$MODULE_INFO" != *"imce"* ]]                          && drush pm:enable -y imce
-[[ "$MODULE_INFO" != *"transliterate_filenames"* ]]       && drush pm:enable -y transliterate_filenames
 [[ "$MODULE_INFO" != *"password_policy"* ]]               && drush pm:enable -y password_policy
 [[ "$MODULE_INFO" != *"password_policy_character_types"* ]] && drush pm:enable -y password_policy_character_types
 [[ "$MODULE_INFO" != *"password_policy_length"* ]]        && drush pm:enable -y password_policy_length

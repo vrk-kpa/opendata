@@ -71,9 +71,6 @@ export class CkanStack extends Stack {
     const pSmtpHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpHost', {
       parameterName: `/${props.environment}/opendata/common/smtp_host`,
     });
-    const pSmtpUsername = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpUsername', {
-      parameterName: `/${props.environment}/opendata/common/smtp_username`,
-    });
     const pSmtpFrom = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpFrom', {
       parameterName: `/${props.environment}/opendata/common/smtp_from`,
     });
@@ -215,6 +212,7 @@ export class CkanStack extends Stack {
       CKAN_SITE_NAME: pCkanSiteName.stringValue,
       CKAN_SITE_URL: `https://${props.domainName}`,
       CKAN_DRUPAL_SITE_URL: `https://${props.domainName}`,
+      CKAN_DRUPAL_SITE_URL_INTERNAL: `http://drupal.${props.namespace.namespaceName}`,
       CKAN_SITE_ID: 'default',
       CKAN_PLUGINS_DEFAULT: ckanPluginsDefault.join(' '),
       CKAN_PLUGINS: ckanPlugins.join(' '),
@@ -230,7 +228,7 @@ export class CkanStack extends Stack {
       CKAN_SHOW_POSTIT_DEMO: 'true',
       CKAN_PROFILING_ENABLED: 'false',
       CKAN_LOG_LEVEL: 'INFO',
-      CKAN_EXT_LOG_LEVEL: 'INFO',
+      CKAN_EXT_LOG_LEVEL: 'DEBUG',
       CKAN_UWSGI_PROCESSES: props.ckanUwsgiProps.processes.toString(),
       CKAN_UWSGI_THREADS: props.ckanUwsgiProps.threads.toString(),
       // .env
@@ -263,7 +261,6 @@ export class CkanStack extends Stack {
       SYSADMIN_USER: pSysadminUser.stringValue,
       SYSADMIN_EMAIL: pSysadminEmail.stringValue,
       SMTP_HOST: pSmtpHost.stringValue,
-      SMTP_USERNAME: pSmtpUsername.stringValue,
       SMTP_FROM: pSmtpFrom.stringValue,
       SMTP_TO: pSmtpTo.stringValue,
       SMTP_FROM_ERROR: pSmtpFromError.stringValue,
@@ -295,6 +292,7 @@ export class CkanStack extends Stack {
       DB_DATASTORE_READONLY_PASS: ecs.Secret.fromSecretsManager(<ISecret>props.datastoreReadCredentials.secret, 'password'),
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
+      SMTP_USERNAME: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_username'),
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
       CKAN_SYSADMIN_PASSWORD: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
       SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
@@ -559,13 +557,12 @@ export class CkanStack extends Stack {
         environment: ckanContainerEnv,
         secrets: ckanContainerSecrets,
         entryPoint: ['/srv/app/scripts/entrypoint_cron.sh'],
-        user: "root",
         logging: ecs.LogDrivers.awsLogs({
           logGroup: ckanCronLogGroup,
           streamPrefix: 'ckan_cron-service',
         }),
         healthCheck: {
-          command: ['CMD-SHELL', 'ps aux | grep -o "[c]rond -f" && ps aux | grep -o "[s]upervisord --configuration"'],
+          command: ['CMD-SHELL', 'ps aux | grep -o "[s]upercronic" && ps aux | grep -o "[s]upervisord --configuration"'],
           interval: Duration.seconds(15),
           timeout: Duration.seconds(5),
           retries: 5,

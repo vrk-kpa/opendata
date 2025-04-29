@@ -1,5 +1,5 @@
 # Build datapusher+
-FROM public.ecr.aws/docker/library/rust:alpine3.19 as cargo_build
+FROM public.ecr.aws/docker/library/rust:alpine3.19 AS cargo_build
 
 RUN apk add build-base linux-headers
 RUN cargo install qsv@0.130.0 --locked --bin qsvdp -F datapusher_plus,luau

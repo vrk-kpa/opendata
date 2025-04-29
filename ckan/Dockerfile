@@ -5,7 +5,7 @@ ARG BASE_IMAGE=public.ecr.aws/docker/library/python:3.9.18-alpine3.18
 #
 # Add common configuration to base image
 #
-FROM ${BASE_IMAGE} as configured_base
+FROM ${BASE_IMAGE} AS configured_base
 
 ENV APP_DIR=/srv/app
 ENV SRC_DIR=${APP_DIR}/src
@@ -19,7 +19,7 @@ RUN pip install --upgrade pip
 #
 # Build CKAN dependencies
 #
-FROM configured_base as base_ckan_build
+FROM configured_base AS base_ckan_build
 
 # Packages to build CKAN requirements and plugins
 RUN \
@@ -58,7 +58,7 @@ RUN \
 #
 # Base CKAN image
 #
-FROM configured_base as base_ckan
+FROM configured_base AS base_ckan
 
 # Install necessary packages to run CKAN
 RUN \
@@ -71,7 +71,8 @@ RUN \
       pcre \
       libxslt \
       libxml2 \
-      tzdata
+      tzdata \
+      file
 
 # Get artifacts from build stages
 COPY --from=base_ckan_build /wheels /srv/app/wheels
@@ -120,7 +121,7 @@ CMD ["/srv/app/start_ckan.sh"]
 #
 # CKAN build
 #
-FROM base_ckan as ckan_build
+FROM base_ckan AS ckan_build
 
 # switch from ckan to root user
 USER root
@@ -183,7 +184,9 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
     patch --strip=1 --input=patches/add_drafts_to_search.patch && \
     patch --strip=1 --input=patches/add_prefix_to_werkzeug.patch && \
-    patch --strip=1 --input=patches/fix_use_default_schema_parameter.patch
+    patch --strip=1 --input=patches/fix_use_default_schema_parameter.patch && \
+    patch --strip=1 --input=patches/remove_tracking.patch && \
+    patch --strip=1 --input=patches/remove_tracking_summary_from_solr_index.patch
 
 RUN \
   # Make scripts executable
@@ -197,6 +200,32 @@ RUN \
   # install crontab
   chmod +x ${CRON_DIR}/scripts/*.sh && \
   crontab -u ckan ${CRON_DIR}/crontab
+
+# Install supercronic for running cronjobs in container
+
+ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.33/supercronic-linux-amd64 \
+    SUPERCRONIC_SHA1SUM=71b0d58cc53f6bd72cf2f293e09e294b79c666d8 \
+    SUPERCRONIC=supercronic-linux-amd64
+
+RUN curl -fsSLO "$SUPERCRONIC_URL" \
+ && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
+ && chmod +x "$SUPERCRONIC" \
+ && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
+ && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
+
+
+# Install qsv for ckanext-qa
+
+ENV QSV_URL=https://github.com/dathere/qsv/releases/download/3.3.0/qsv-3.3.0-x86_64-unknown-linux-musl.zip \
+    QSV_SHA1SUM=57f42781d57213416165bd6fcd366d0a20d4ec53 \
+    QSV_ZIP=qsv-3.3.0-x86_64-unknown-linux-musl.zip \
+    QSV=qsv
+
+RUN curl -fsSLO "$QSV_URL" \
+ && echo "${QSV_SHA1SUM}  ${QSV_ZIP}" | sha1sum -c - \
+ && unzip "$QSV_ZIP" -d /tmp/qsv \
+ && chmod +x "/tmp/qsv/$QSV" \
+ && mv "/tmp/qsv/$QSV" "/usr/local/bin/$QSV"
 
 
 #
@@ -226,7 +255,7 @@ ENTRYPOINT ["/srv/app/scripts/entrypoint_ckan.sh"]
 #
 # Modules build (for production)
 #
-FROM configured_base as modules_build
+FROM configured_base AS modules_build
 
 # setup env vars:
 ENV APP_DIR=/srv/app \
@@ -256,7 +285,6 @@ COPY ckanext/ckanext-dcat/requirements.txt ${EXT_DIR}/ckanext-dcat/requirements.
 COPY ckanext/ckanext-drupal8/requirements.txt ${EXT_DIR}/ckanext-drupal8/requirements.txt
 COPY ckanext/ckanext-hierarchy/requirements.txt ${EXT_DIR}/ckanext-hierarchy/requirements.txt
 COPY ckanext/ckanext-prh_tools/requirements.txt ${EXT_DIR}/ckanext-prh_tools/requirements.txt
-COPY ckanext/ckanext-sentry/requirements.txt ${EXT_DIR}/ckanext-sentry/requirements.txt
 COPY ckanext/ckanext-spatial/requirements.txt ${EXT_DIR}/ckanext-spatial/requirements.txt
 COPY ckanext/ckanext-statistics/requirements.txt ${EXT_DIR}/ckanext-statistics/requirements.txt
 COPY ckanext/ckanext-matomo/requirements.txt ${EXT_DIR}/ckanext-matomo/requirements.txt

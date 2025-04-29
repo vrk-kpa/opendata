@@ -573,6 +573,9 @@ class AvoindataDCATAPProfile(RDFProfile):
             issued_date = Literal(date_released, datatype=XSD.date)
             g.add((dataset_ref, DCT.issued, issued_date))
 
+        # adfi:collectionType
+        g.add((dataset_ref, ADFI.collectionType, Literal(dataset_dict.get('collection_type')) ))
+
     def graph_from_catalog(self, catalog_dict, catalog_ref):
         # Fetch organization list for graph_from_dataset to use
 

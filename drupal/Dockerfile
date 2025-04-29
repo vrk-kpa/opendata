@@ -4,7 +4,7 @@ ARG SECRET_NPMRC
 #
 # Drupal build
 #
-FROM drupal:10.2.6-php8.3-apache-bullseye AS drupal_build
+FROM drupal:10.3.14-php8.3-apache-bullseye AS drupal_build
 
 # upgrade system + install required packages
 RUN apt-get update -yq && \
@@ -18,7 +18,8 @@ RUN apt-get update -yq && \
       python3-pip \
       procps && \
     pip3 install \
-      jinja2-cli
+      jinja2-cli && \
+    pecl install apcu uploadprogress
 
 # setup env vars
 ENV APP_DIR=/opt/drupal
@@ -57,7 +58,7 @@ RUN composer install --no-cache --no-dev
 #
 # Development image (For local development)
 #
-FROM drupal_build as drupal_development
+FROM drupal_build AS drupal_development
 
 ENV DEV_MODE=true
 

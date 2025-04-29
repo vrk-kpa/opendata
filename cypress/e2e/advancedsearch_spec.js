@@ -11,7 +11,7 @@ describe('Advanced search tests', () => {
         cy.create_category(category_name_1);
         cy.create_category(category_name_2);
 
-        cy.logout_request();
+        cy.logout();
 
         // User things
         cy.create_organization_for_user('testi_organisaatio', 'test-user');
@@ -97,7 +97,10 @@ describe('Advanced search tests', () => {
         it("Navigating to advanced search from the front page", function(){
             cy.visit('/');
             // open dataset page manually and wait page to load
-            cy.get('.opendata-menu-container > .nav > :nth-child(2) > a').click();
+            cy.get('.opendata-menu-container a[href="/data/fi/dataset"]').click({
+                // Disable scrolling so drupal toolbar doesn't cover the link
+                scrollBehavior: false
+            });
             cy.location('pathname').should('contain', `data/fi/dataset`)
             //open advanced search page manually and wait for load
             cy.get('.mb-2 > .btn-avoindata-header').click();
@@ -368,7 +371,6 @@ describe('Advanced search tests', () => {
         cy.get('#field-order-by > option').eq(3).should('have.value', 'metadata_modified desc');
         cy.get('#field-order-by > option').eq(4).should('have.value', 'metadata_created asc');
         cy.get('#field-order-by > option').eq(5).should('have.value', 'metadata_created desc');
-        cy.get('#field-order-by > option').eq(6).should('have.value', 'views_recent desc');
         });
 
         it('Default sorting option is sorting by relevance', function(){

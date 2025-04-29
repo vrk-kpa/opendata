@@ -27,13 +27,14 @@ export class CiTestStack extends Stack {
     const testRole = new aws_iam.Role(this, 'TestRole', {
       assumedBy: new aws_iam.WebIdentityPrincipal(oidcProviderArn, {
           StringLike: {
-            "token.actions.githubusercontent.com:sub": `repo:${props.githubOrg}/${props.githubRepo}:*`
+            "token.actions.githubusercontent.com:sub": [
+              `repo:${props.githubOrg}/${props.githubRepo}:*`,
+              `repo:${props.githubOrg}/${props.githubRepo2}:*`]
           }
       })
     })
 
-    testBucket.grantWrite(testRole)
-    testBucket.grantRead(testRole)
+    testBucket.grantReadWrite(testRole)
   }
 
 }
