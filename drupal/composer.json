@@ -136,7 +136,7 @@
         }
     },
     "require-dev": {
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
         "drupal/ckeditor5_dev": "^1.0",
         "drupal/core-dev": "^10",
         "drupal/dev_mode": "^2.6",
