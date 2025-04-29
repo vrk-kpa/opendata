@@ -29,7 +29,7 @@
         "drupal/drush_language": "1.x-dev",
         "drupal/easy_breadcrumb": "^2.0",
         "drupal/fontawesome": "^3.0",
-        "drupal/fontawesome_menu_icons": "^2.0",
+        "drupal/fontawesome_menu_icons": "^3.0",
         "drupal/honeypot": "^2.0",
         "drupal/imce": "^3.0",
         "drupal/matomo": "^1.11",
