@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/vrk-kpa/opendata#readme",
   "dependencies": {
-    "@aws-sdk/client-ecs": "^3.798.0",
     "cypress": "^14.3.2",
     "del": "^6.1.1",
     "uuid": "^9.0.1"
