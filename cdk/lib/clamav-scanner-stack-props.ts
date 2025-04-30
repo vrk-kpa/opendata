@@ -9,5 +9,6 @@ export interface ClamavScannerStackProps extends EnvStackProps {
   cluster: ICluster;
   topic: ITopic;
   clamavTaskDef: EcsStackPropsTaskDef,
+  datasetBucketName: string;
 }
 

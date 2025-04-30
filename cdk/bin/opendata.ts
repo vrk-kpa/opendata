@@ -392,7 +392,8 @@ const clamavScannerStackBeta = new ClamavScannerStack(app, 'ClamavScannerStack-b
     taskMaxCapacity: 1,
   },
   cluster: clusterStackBeta.cluster,
-  topic: lambdaStackBeta.sendToZulipTopic
+  topic: lambdaStackBeta.sendToZulipTopic,
+  datasetBucketName: 'avoindata-beta-datasets',
 });
 
 //
@@ -753,3 +754,21 @@ const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
   githubRepo2: "ckanext-cloudstorage",
   testBucketName: "avoindata-ci-test-bucket"
 })
+
+const clamavScannerStackProd = new ClamavScannerStack(app, 'ClamavScannerStack-prod', {
+  environment: prodProps.environment,
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  clamavTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  cluster: clusterStackProd.cluster,
+  topic: lambdaStackProd.sendToZulipTopic,
+  datasetBucketName: 'avoindata-prod-datasets',
+});

@@ -26,32 +26,6 @@ export class ClamavScannerStack extends Stack {
       memoryLimitMiB: props.clamavTaskDef.taskMem,
     });
 
-    // Allow clamavScan to manage S3 files
-    const pCkanCloudstorageContainerName = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanCloudstorageContainerName', {
-      parameterName: `/${props.environment}/opendata/ckan/cloudstorage_container_name`,
-    });
-    const bucketArn = `arn:aws:s3:::${pCkanCloudstorageContainerName.stringValue}`;
-
-    const clamavScanPolicyAllowCloudstorage = new iam.PolicyStatement({
-      actions: [
-                  "s3:DeleteObject",
-                  "s3:DeleteObjectTagging",
-                  "s3:GetObject",
-                  "s3:GetObjectTagging",
-                  "s3:HeadBucket",
-                  "s3:ListObjects",
-                  "s3:PutObject",
-                  "s3:PutObjectTagging",
-                ],
-      resources: [
-        bucketArn,
-        `${bucketArn}/*`,
-      ],
-      effect: iam.Effect.ALLOW,
-    });
-
-    clamavTaskDef.addToTaskRolePolicy(clamavScanPolicyAllowCloudstorage)
-
     const clamavContainer = clamavTaskDef.addContainer('clamav', {
       image: ecs.ContainerImage.fromEcrRepository(clamavRepo, props.envProps.CLAMAV_IMAGE_TAG),
     });
@@ -67,8 +41,10 @@ export class ClamavScannerStack extends Stack {
       subnetIds: [privateSubnetA, privateSubnetB]
     })
 
+    // Allow clamavScan to manage S3 files
+    const bucket = s3.Bucket.fromBucketName(this, 'DatasetBucket', props.datasetBucketName);
+    bucket.grantReadWrite(clamavTaskDef.taskRole);
     // S3 events to clamavScan lambda
-    const bucket = s3.Bucket.fromBucketArn(this, 'bucket', bucketArn);
     bucket.addEventNotification(s3.EventType.OBJECT_CREATED, new s3n.LambdaDestination(clamavScan.lambda))
   }
 }
