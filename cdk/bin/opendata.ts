@@ -23,6 +23,7 @@ import {ShieldStack} from "../lib/shield-stack";
 import {CloudfrontParameterStack} from "../lib/cloudfront-parameter-stack";
 import {undefined} from "zod";
 import {ShieldParameterStack} from "../lib/shield-parameter-stack";
+import { ClamavScannerStack } from '../lib/clamav-scanner-stack';
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -42,6 +43,7 @@ const envProps: EnvProps = {
   SOLR_IMAGE_TAG: parseEnv('SOLR_IMAGE_TAG'),
   DATAPUSHER_IMAGE_TAG: parseEnv('DATAPUSHER_IMAGE_TAG'),
   NGINX_IMAGE_TAG: parseEnv('NGINX_IMAGE_TAG'),
+  CLAMAV_IMAGE_TAG: parseEnv('CLAMAV_IMAGE_TAG'),
   // 3rd party images
   FUSEKI_IMAGE_TAG: parseEnv('FUSEKI_IMAGE_TAG'),
 };
@@ -369,12 +371,29 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
 });
 
 const monitoringStackBeta = new MonitoringStack(app, 'MonitoringStack-beta', {
-  sendToZulipLambda: lambdaStackBeta.sendToZulipLambda,
+  sendToZulipTopic: lambdaStackBeta.sendToZulipTopic,
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
   environment: betaProps.environment,
+});
+const clamavScannerStackBeta = new ClamavScannerStack(app, 'ClamavScannerStack-beta', {
+  environment: betaProps.environment,
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  clamavTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  cluster: clusterStackBeta.cluster,
+  topic: lambdaStackBeta.sendToZulipTopic,
+  datasetBucketName: 'avoindata-beta-datasets',
 });
 
 //
@@ -699,7 +718,7 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
 });
 
 const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
-  sendToZulipLambda: lambdaStackProd.sendToZulipLambda,
+  sendToZulipTopic: lambdaStackProd.sendToZulipTopic,
   env: {
     account: prodProps.account,
     region: prodProps.region,
@@ -735,3 +754,21 @@ const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
   githubRepo2: "ckanext-cloudstorage",
   testBucketName: "avoindata-ci-test-bucket"
 })
+
+const clamavScannerStackProd = new ClamavScannerStack(app, 'ClamavScannerStack-prod', {
+  environment: prodProps.environment,
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  clamavTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  cluster: clusterStackProd.cluster,
+  topic: lambdaStackProd.sendToZulipTopic,
+  datasetBucketName: 'avoindata-prod-datasets',
+});
