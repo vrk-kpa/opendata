@@ -17,7 +17,6 @@ export class ClamavScan extends Construct {
         SUBNET_IDS: props.subnetIds.join(",")
       },
       runtime: lambda.Runtime.NODEJS_20_X,
-      role: props.task.taskRole
     });
   }
 }
