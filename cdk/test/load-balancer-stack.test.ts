@@ -18,7 +18,12 @@ test('verify load balancer stack resources', () => {
   const stack = new LoadBalancerStack(app, 'LoadBalancerStack-test', {
     env: mockEnv,
     environment: 'mock-env',
-    vpc: clusterStack.vpc
+    vpc: clusterStack.vpc,
+    fqdn: 'localhost',
+    secondaryFqdn: 'localhost',
+    domainName: 'mock.localhost',
+    secondaryDomainName: 'mock.localhost',
+
   });
   // THEN
   // no actual resources to verify

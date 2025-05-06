@@ -4,7 +4,7 @@ import {
   aws_sns,
   aws_ssm,
   aws_wafv2,
-  Stack, Token, CfnParameter, aws_sns_subscriptions, aws_cloudfront
+  Stack, Token, CfnParameter, aws_sns_subscriptions
 } from "aws-cdk-lib";
 import {Construct} from "constructs";
 
