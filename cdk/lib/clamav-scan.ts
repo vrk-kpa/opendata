@@ -1,4 +1,4 @@
-import { aws_iam, aws_lambda as lambda,
+import { aws_lambda as lambda,
          aws_lambda_nodejs as lambda_nodejs
        } from 'aws-cdk-lib';
 import {Construct} from "constructs";
