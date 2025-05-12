@@ -41,6 +41,9 @@ export class ClamavScannerStack extends Stack {
       subnetIds: [privateSubnetA, privateSubnetB]
     })
 
+    // Allow clamavScan lambda to run the ecs task
+    clamavTaskDef.grantRun(clamavScan.lambda);
+
     // Allow clamavScan to manage S3 files
     const bucket = s3.Bucket.fromBucketName(this, 'DatasetBucket', props.datasetBucketName);
     bucket.grantReadWrite(clamavTaskDef.taskRole);
