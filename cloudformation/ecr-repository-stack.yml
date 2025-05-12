@@ -63,11 +63,12 @@ Resources:
                 }
               },
               {
-                "rulePriority": 2,
+                "rulePriority": 3,
                 "description": "Keep images newer than a week",
                 "selection": {
                     "tagStatus": "any",
                     "countType": "sinceImagePushed",
+                    "countUnit": "days",
                     "countNumber": 7
                 },
                 "action": {
