@@ -358,7 +358,7 @@ const clamavScannerStackBeta = new ClamavScannerStack(app, 'ClamavScannerStack-b
   },
   clamavTaskDef: {
     taskCpu: 512,
-    taskMem: 1024,
+    taskMem: 3072,
     taskMinCapacity: 0,
     taskMaxCapacity: 1,
   },
