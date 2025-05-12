@@ -731,6 +731,8 @@ const domainStackProd = new DomainStack(app, 'DomainStack-prod', {
     account: prodProps.account,
     region: prodProps.region,
   },
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
   zoneName: prodProps.newDomainName,
   crossAccountId: betaProps.account
 })
@@ -741,7 +743,8 @@ const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
     region: betaProps.region
   },
   prodAccountId: prodProps.account,
-  subDomainName: betaProps.environment
+  subDomainName: betaProps.environment,
+  dnssecKey: domainStackProd.dnssecKey
 })
 
 const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
