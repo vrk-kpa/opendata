@@ -262,6 +262,30 @@ jobs:
           name: deploy-logs
           path: /tmp/deploy.log
 
+
+      - name: Configure AWS credentials for re-tagging prod images
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_BUILD_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+
+      - name: Test prod-tag to used images
+        run: |
+          source docker/.env
+          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/ckan --image-ids imageTag=$CKAN_IMAGE_TAG --output text --query 'images[].imageManifest')
+          aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/ckan --image-tag prod-$CKAN_IMAGE_TAG --image-manifest "$MANIFEST"
+          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/drupal --image-ids imageTag=$DRUPAL_IMAGE_TAG --output text --query 'images[].imageManifest')
+          aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/drupal --image-tag prod-$DRUPAL_IMAGE_TAG --image-manifest "$MANIFEST"
+          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/solr --image-ids imageTag=$SOLR_IMAGE_TAG --output text --query 'images[].imageManifest')
+          aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/solr --image-tag prod-$SOLR_IMAGE_TAG --image-manifest "$MANIFEST"
+          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/datapusher --image-ids imageTag=$DATAPUSHER_IMAGE_TAG --output text --query 'images[].imageManifest')
+          aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/datapusher --image-tag prod-$DATAPUSHER_IMAGE_TAG --image-manifest "$MANIFEST"
+          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/nginx --image-ids imageTag=$NGINX_IMAGE_TAG --output text --query 'images[].imageManifest')
+          aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/nginx --image-tag prod-$NGINX_IMAGE_TAG --image-manifest "$MANIFEST"
+          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/clamav --image-ids imageTag=$CLAMAV_IMAGE_TAG --output text --query 'images[].imageManifest')
+          aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/clamav --image-tag prod-$CLAMAV_IMAGE_TAG --image-manifest "$MANIFEST"
+
       - name: Notify Zulip
         uses: zulip/github-actions-zulip/send-message@v1
         with:
