@@ -1,50 +1,42 @@
 import {aws_certificatemanager as acm, aws_route53 as route53, Stack} from "aws-cdk-lib";
 import {Construct} from "constructs";
-import {CommonStackProps} from "./common-stack-props";
+import {CertificateStackProps} from "./certificate-stack-props";
 
 export class CertificateStack extends Stack {
-  readonly zone: route53.IHostedZone;
-  readonly secondaryZone: route53.IHostedZone;
   readonly certificate: acm.ICertificate;
-  constructor(scope: Construct, id: string, props: CommonStackProps) {
+  constructor(scope: Construct, id: string, props: CertificateStackProps) {
     super(scope, id, props);
 
-    this.zone = route53.HostedZone.fromLookup(this, 'Avoindatafi', {
-      domainName: props.fqdn
-    })
-    this.secondaryZone = route53.HostedZone.fromLookup(this, 'Opendatafi', {
-      domainName: props.secondaryFqdn
-    })
-
+    // TODO: Remove once we move to suomi.fi domain, cannot be updated without rebuilding few stacks
     const alternativeNamePrefixes: string[] = [
       "www",
       "vip"
     ]
 
     const alternativeNames: string[] = alternativeNamePrefixes.map((name) => {
-      return name + "." + this.zone.zoneName
+      return name + "." + props.zone.zoneName
     })
 
     const secondaryAlternativeNames: string[] = alternativeNamePrefixes.map((name) => {
-      return name + "." + this.secondaryZone.zoneName
+      return name + "." + props.alternativeZone.zoneName
     })
 
-    secondaryAlternativeNames.push(this.secondaryZone.zoneName)
+    secondaryAlternativeNames.push(props.alternativeZone.zoneName)
 
     const validationZones: {[key: string]:  route53.IHostedZone }= {
-      "avoindata.fi": this.zone
+      "avoindata.fi": props.zone
     }
     alternativeNames.forEach((name) => {
-      validationZones[name] = this.zone
+      validationZones[name] = props.zone
     })
 
     secondaryAlternativeNames.forEach((name) => {
-      validationZones[name] = this.secondaryZone
+      validationZones[name] = props.alternativeZone
     })
 
 
     this.certificate = new acm.Certificate(this, 'Certificate', {
-      domainName: this.zone.zoneName,
+      domainName: props.zone.zoneName,
       subjectAlternativeNames: alternativeNames.concat(secondaryAlternativeNames),
       validation: acm.CertificateValidation.fromDnsMultiZone(validationZones)
     })
