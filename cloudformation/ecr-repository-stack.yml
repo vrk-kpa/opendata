@@ -32,3 +32,48 @@ Resources:
               - "ecr:GetDownloadUrlForLayer"
               - "ecr:BatchGetImage"
               - "ecr:BatchCheckLayerAvailability"
+      LifecyclePolicy:
+        LifecyclePolicyText: |
+          {
+            "rules": [
+              {
+                "rulePriority": 1,
+                "description": "Keep image tagged as latest",
+                "selection": {
+                    "tagStatus": "tagged",
+                    "tagPatternList": ["latest"],
+                    "countType": "imageCountMoreThan",
+                    "countNumber": 1
+                },
+                "action": {
+                  "type": "expire"
+                }
+              },
+              {
+                "rulePriority": 2,
+                "description": "Keep 3 latest prod images",
+                "selection": {
+                    "tagStatus": "tagged",
+                    "tagPatternList": ["prod-*"],
+                    "countType": "imageCountMoreThan",
+                    "countNumber": 3
+                },
+                "action": {
+                  "type": "expire"
+                }
+              },
+              {
+                "rulePriority": 2,
+                "description": "Keep images newer than a week",
+                "selection": {
+                    "tagStatus": "any",
+                    "countType": "sinceImagePushed",
+                    "countNumber": 7
+                },
+                "action": {
+                  "type": "expire"
+                }
+              }
+            ]
+          }
+
