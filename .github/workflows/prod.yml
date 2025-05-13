@@ -80,18 +80,24 @@ jobs:
       - name: Add prod-tag to used images
         run: |
           source docker/.env
-          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/ckan --image-ids imageTag=$CKAN_IMAGE_TAG --output text --query 'images[].imageManifest')
-          aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/ckan --image-tag prod-$CKAN_IMAGE_TAG --image-manifest "$MANIFEST"
-          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/drupal --image-ids imageTag=$DRUPAL_IMAGE_TAG --output text --query 'images[].imageManifest')
-          aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/drupal --image-tag prod-$DRUPAL_IMAGE_TAG --image-manifest "$MANIFEST"
-          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/solr --image-ids imageTag=$SOLR_IMAGE_TAG --output text --query 'images[].imageManifest')
-          aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/solr --image-tag prod-$SOLR_IMAGE_TAG --image-manifest "$MANIFEST"
-          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/datapusher --image-ids imageTag=$DATAPUSHER_IMAGE_TAG --output text --query 'images[].imageManifest')
-          aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/datapusher --image-tag prod-$DATAPUSHER_IMAGE_TAG --image-manifest "$MANIFEST"
-          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/nginx --image-ids imageTag=$NGINX_IMAGE_TAG --output text --query 'images[].imageManifest')
-          aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/nginx --image-tag prod-$NGINX_IMAGE_TAG --image-manifest "$MANIFEST"
-          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/clamav --image-ids imageTag=$CLAMAV_IMAGE_TAG --output text --query 'images[].imageManifest')
-          aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/clamav --image-tag prod-$CLAMAV_IMAGE_TAG --image-manifest "$MANIFEST"
+          aws ecr describe-images --filter tagStatus=TAGGED --repository-name ${{ secrets.REPOSITORY }}/ckan | jq -c ".imageDetails[] | select( .imageTags[] | contains("prod-$CKAN_IMAGE_TAG\"))" -e || \
+            MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/ckan --image-ids imageTag=$CKAN_IMAGE_TAG --output text --query 'images[].imageManifest') \
+            aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/ckan --image-tag prod-$CKAN_IMAGE_TAG --image-manifest "$MANIFEST"
+          aws ecr describe-images --filter tagStatus=TAGGED --repository-name ${{ secrets.REPOSITORY }}/drupal | jq -c ".imageDetails[] | select( .imageTags[] | contains("prod-$DRUPAL_IMAGE_TAG\"))" -e || \
+            MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/drupal --image-ids imageTag=$DRUPAL_IMAGE_TAG --output text --query 'images[].imageManifest') \
+            aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/drupal --image-tag prod-$DRUPAL_IMAGE_TAG --image-manifest "$MANIFEST"
+          aws ecr describe-images --filter tagStatus=TAGGED --repository-name ${{ secrets.REPOSITORY }}/solr | jq -c ".imageDetails[] | select( .imageTags[] | contains("prod-$SOLR_IMAGE_TAG\"))" -e || \
+            MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/solr --image-ids imageTag=$SOLR_IMAGE_TAG --output text --query 'images[].imageManifest')  \
+            aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/solr --image-tag prod-$SOLR_IMAGE_TAG --image-manifest "$MANIFEST"
+          aws ecr describe-images --filter tagStatus=TAGGED --repository-name ${{ secrets.REPOSITORY }}/datapusher | jq -c ".imageDetails[] | select( .imageTags[] | contains("prod-$DATAPUSHER_IMAGE_TAG\"))" -e || \
+            MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/datapusher --image-ids imageTag=$DATAPUSHER_IMAGE_TAG --output text --query 'images[].imageManifest') \
+            aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/datapusher --image-tag prod-$DATAPUSHER_IMAGE_TAG --image-manifest "$MANIFEST"
+          aws ecr describe-images --filter tagStatus=TAGGED --repository-name ${{ secrets.REPOSITORY }}/nginx | jq -c ".imageDetails[] | select( .imageTags[] | contains("prod-$NGINX_IMAGE_TAG\"))" -e || \
+            MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/nginx --image-ids imageTag=$NGINX_IMAGE_TAG --output text --query 'images[].imageManifest') \
+            aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/nginx --image-tag prod-$NGINX_IMAGE_TAG --image-manifest "$MANIFEST"
+          aws ecr describe-images --filter tagStatus=TAGGED --repository-name ${{ secrets.REPOSITORY }}/clamav | jq -c ".imageDetails[] | select( .imageTags[] | contains("prod-$CLAMAV_IMAGE_TAG\"))" -e || \
+            MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/clamav --image-ids imageTag=$CLAMAV_IMAGE_TAG --output text --query 'images[].imageManifest') \
+            aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/clamav --image-tag prod-$CLAMAV_IMAGE_TAG --image-manifest "$MANIFEST"
       
 
       - name: Notify Zulip
