@@ -282,6 +282,7 @@ jobs:
             aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/nginx --image-tag prod-$NGINX_IMAGE_TAG --image-manifest "$NGINX_MANIFEST"
           aws ecr describe-images --filter tagStatus=TAGGED --repository-name ${{ secrets.REPOSITORY }}/clamav | jq -c ".imageDetails[] | select( .imageTags[] | contains(\"prod-$CLAMAV_IMAGE_TAG\"))" -e || \
             CLAMAV_MANIFEST=$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/clamav --image-ids imageTag=$CLAMAV_IMAGE_TAG --output text --query 'images[].imageManifest') \
+            echo "$CLAMAV_MANIFEST" \
             aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/clamav --image-tag prod-$CLAMAV_IMAGE_TAG --image-manifest "$CLAMAV_MANIFEST"
 
       - name: upload log artifacts
