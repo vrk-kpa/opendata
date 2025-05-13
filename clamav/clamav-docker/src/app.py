@@ -36,7 +36,12 @@ def main():
 
     clamscanner = ClamScanner(processed_file.name)
     scan_output = clamscanner.scan_file()
+    errors = {error for status, error in scan_output.values() if status == 'ERROR'}
     infections = {virus for status, virus in scan_output.values() if status == 'FOUND'}
+
+    if errors:
+        error_str = ', '.join(errors)
+        raise RuntimeError(f'Error processing {object_key}: {error_str}')
 
     if infections:
         infection_name = ','.join(infections)
