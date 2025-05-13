@@ -29,6 +29,7 @@ export class ClamavScannerStack extends Stack {
     const clamavContainer = clamavTaskDef.addContainer('clamav', {
       image: ecs.ContainerImage.fromEcrRepository(clamavRepo, props.envProps.CLAMAV_IMAGE_TAG),
       containerName: "clamav-scanner",
+      logging: ecs.LogDrivers.awsLogs({streamPrefix: "clamav"}),
     });
 
     const privateSubnetA = Fn.importValue('vpc-SubnetPrivateA')
