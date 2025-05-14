@@ -4,6 +4,7 @@ import { Fn, Stack,
          aws_iam as iam,
          aws_ssm as ssm,
          aws_s3 as s3,
+         aws_logs as logs,
          aws_s3_notifications as s3n,
          aws_lambda_nodejs as lambdaNodejs
        } from 'aws-cdk-lib';
@@ -26,9 +27,16 @@ export class ClamavScannerStack extends Stack {
       memoryLimitMiB: props.clamavTaskDef.taskMem,
     });
 
+    const clamavLogGroup = new logs.LogGroup(this, 'clamavLogGroup', {
+      logGroupName: `/${props.environment}/opendata/clamav`,
+    });
     const clamavContainer = clamavTaskDef.addContainer('clamav', {
       image: ecs.ContainerImage.fromEcrRepository(clamavRepo, props.envProps.CLAMAV_IMAGE_TAG),
       containerName: "clamav-scanner",
+      logging: ecs.LogDrivers.awsLogs({
+        logGroup: clamavLogGroup,
+        streamPrefix: "clamav"
+      }),
     });
 
     const privateSubnetA = Fn.importValue('vpc-SubnetPrivateA')
