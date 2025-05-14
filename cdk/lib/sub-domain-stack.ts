@@ -28,6 +28,18 @@ export class SubDomainStack extends Stack {
             parentHostedZoneName: "avoindata.suomi.fi"
         })
 
+        // DNSSEC
+        const subZoneKeySigningKey = new aws_route53.CfnKeySigningKey(this, 'SubZoneKeySigningKey', {
+          hostedZoneId: this.subZone.hostedZoneId,
+          keyManagementServiceArn: props.dnssecKey.keyArn,
+          name: 'sub-zone-dnssec-key',
+          status: 'ACTIVE'
+        });
+
+        const subZoneDnssec = new aws_route53.CfnDNSSEC(this, 'SubZoneDNSSEC', {
+          hostedZoneId: this.subZone.hostedZoneId
+        });
+        subZoneDnssec.node.addDependency(subZoneKeySigningKey);
     }
 
 }
