@@ -34,6 +34,9 @@ def main():
     target_file_hash = get_sha256(processed_file.name)
     set_object_tags(s3, s3_bucket, object_key, updated=datetime.datetime.utcnow().isoformat(), sha256=target_file_hash)
 
+    if os.stat(processed_file.name).st_size == 0:
+        logger.info("Empty file, skipping scan...")
+
     clamscanner = ClamScanner(processed_file.name)
     scan_output = clamscanner.scan_file()
     errors = {error for status, error in scan_output.values() if status == 'ERROR'}
