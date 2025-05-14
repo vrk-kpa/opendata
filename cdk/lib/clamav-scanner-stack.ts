@@ -53,6 +53,9 @@ export class ClamavScannerStack extends Stack {
     // Allow clamavScan lambda to run the ecs task
     clamavTaskDef.grantRun(clamavScan.lambda);
 
+    // Allow clamavScan to publish on the SNS topic
+    props.topic.grantPublish(clamavTaskDef.taskRole)
+
     // Allow clamavScan to manage S3 files
     const bucket = s3.Bucket.fromBucketName(this, 'DatasetBucket', props.datasetBucketName);
     bucket.grantReadWrite(clamavTaskDef.taskRole);
