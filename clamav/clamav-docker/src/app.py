@@ -36,6 +36,7 @@ def main():
 
     if os.stat(processed_file.name).st_size == 0:
         logger.info("Empty file, skipping scan...")
+        return
 
     clamscanner = ClamScanner(processed_file.name)
     scan_output = clamscanner.scan_file()
