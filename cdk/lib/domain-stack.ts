@@ -101,5 +101,22 @@ export class DomainStack extends cdk.Stack {
     });
     secondaryOpendataZoneDnssec.node.addDependency(secondaryOpendataZoneKeySigningKey);
 
+    // Tertiary Opendata zone
+    if (props.tertiaryFqdn) {
+      const tertiaryOpendataZone = aws_route53.HostedZone.fromLookup(this, 'tertiaryOpendataZone', {
+        domainName: props.tertiaryFqdn
+      })
+
+      const tertiaryOpendataZoneKeySigningKey = new aws_route53.CfnKeySigningKey(this, 'tertiaryOpendataZoneKeySigningKey', {
+        hostedZoneId: tertiaryOpendataZone.hostedZoneId,
+        keyManagementServiceArn: this.dnssecKey.keyArn,
+        name: 'tertiary-opendata-zone-dnssec-key',
+        status: 'ACTIVE'
+      });
+      const tertiaryOpendataZoneDnssec = new aws_route53.CfnDNSSEC(this, 'tertiaryOpendataZoneDNSSEC', {
+        hostedZoneId: tertiaryOpendataZone.hostedZoneId
+      });
+      tertiaryOpendataZoneDnssec.node.addDependency(tertiaryOpendataZoneKeySigningKey);
+    }
   }
 }
