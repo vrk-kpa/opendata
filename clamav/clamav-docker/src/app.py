@@ -20,7 +20,7 @@ def main():
     object_key = os.getenv('OBJECT_KEY')
     sns_topic_arn = os.getenv('SNS_TOPIC_ARN')
     s3 = boto3.client('s3')
-    set_object_tags(s3, s3_bucket, object_key, updated=datetime.datetime.utcnow().isoformat())
+    set_object_tags(s3, s3_bucket, object_key, updated=utcnow_isoformat())
     sns = boto3.client('sns')
     processed_file = tempfile.NamedTemporaryFile(delete=False)
 
@@ -31,12 +31,13 @@ def main():
         logger.error(f'Downloading {object_key} from {s3_bucket} failed: \n{e}')
         raise e
 
-    target_file_hash = get_sha256(processed_file.name)
-    set_object_tags(s3, s3_bucket, object_key, updated=datetime.datetime.utcnow().isoformat(), sha256=target_file_hash)
-
+    # Must be done before setting any tags to avoid overwriting infection reports
     if os.stat(processed_file.name).st_size == 0:
         logger.info("Empty file, skipping scan...")
         return
+
+    target_file_hash = get_sha256(processed_file.name)
+    set_object_tags(s3, s3_bucket, object_key, updated=utcnow_isoformat(), sha256=target_file_hash)
 
     clamscanner = ClamScanner(processed_file.name)
     scan_output = clamscanner.scan_file()
@@ -50,15 +51,18 @@ def main():
     if infections:
         infection_name = ','.join(infections)
         logger.info(f'{object_key} is infected with {infection_name}')
-        now = datetime.datetime.utcnow().isoformat()
+        now = utcnow_isoformat()
         set_object_tags(s3, s3_bucket, object_key, malware=f'infected {infection_name}', updated=now, sha256=target_file_hash)
         replace_object_with_empty_file(s3, s3_bucket, object_key)
         set_object_tags(s3, s3_bucket, object_key, malware=f'infected {infection_name}', updated=now, sha256=target_file_hash)
         sns_publish(sns, sns_topic_arn,  s3_bucket, object_key, infection_name)
     else:
         logger.info(f'{object_key} is clean')
-        now = datetime.datetime.utcnow().isoformat()
-        set_object_tags(s3, s3_bucket, object_key, malware='clean', updated=now, sha256=target_file_hash)
+        set_object_tags(s3, s3_bucket, object_key, malware='clean', updated=utcnow_isoformat(), sha256=target_file_hash)
+
+
+def utcnow_isoformat():
+    return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
 
 def get_sha256(filename):
