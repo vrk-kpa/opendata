@@ -16,7 +16,7 @@ function eventMessage(event: any) {
     const {taskArn, group, stoppedReason} = detail;
     return `${taskArn} (${group}): ${stoppedReason}`;
   } else {
-    return `Unknown message type: ${event}`;
+    return `Unknown message type: ${JSON.stringify(event)}`;
   }
 }
 export const handler: Handler = async (event: any) => {
