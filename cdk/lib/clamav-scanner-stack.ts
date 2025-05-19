@@ -39,6 +39,21 @@ export class ClamavScannerStack extends Stack {
       }),
     });
 
+    clamavTaskDef.addVolume({
+      name: 'clamav_files',
+      efsVolumeConfiguration: {
+        fileSystemId: props.clamavFileSystem.fileSystemId,
+        transitEncryption: 'ENABLED',
+      },
+    });
+
+    // NOTE: ckan storage path will be in: /mnt/ytp_files/ckan
+    clamavContainer.addMountPoints({
+      containerPath: '/var/lib/clamav',
+      readOnly: false,
+      sourceVolume: 'clamav_files',
+    });
+
     const privateSubnetA = Fn.importValue('vpc-SubnetPrivateA')
     const privateSubnetB = Fn.importValue('vpc-SubnetPrivateB')
 
