@@ -13,6 +13,7 @@ export class FileSystemStack extends Stack {
   readonly ckanFs: efs.FileSystem;
   readonly solrFs: efs.FileSystem;
   readonly fusekiFs: efs.FileSystem;
+  readonly clamavFs: efs.FileSystem;
   readonly migrationFsSg?: ec2.ISecurityGroup;
   readonly migrationFs?: efs.IFileSystem;
 
@@ -58,6 +59,17 @@ export class FileSystemStack extends Stack {
       },
       encrypted: true,
     });
+
+    this.clamavFs = new efs.FileSystem(this, 'clamavFs', {
+      vpc: props.vpc,
+      performanceMode: efs.PerformanceMode.GENERAL_PURPOSE,
+      throughputMode: efs.ThroughputMode.BURSTING,
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+      },
+      encrypted: true,
+    });
+
     if (props.backups && props.backupPlan ) {
       props.backupPlan.addSelection('backupPlanFilesystemSelection', {
         resources: [

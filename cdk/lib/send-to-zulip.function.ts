@@ -15,10 +15,14 @@ function eventMessage(event: any) {
     // Container stopped event
     const {taskArn, group, stoppedReason} = detail;
     return `${taskArn} (${group}): ${stoppedReason}`;
+  } else if(event.Sns !== undefined) {
+    // Generic SNS message
+    return `${event.Sns.Subject} [${event.Sns.Timestamp}]:\n${event.Sns.Message}`
   } else {
     return `Unknown message type: ${JSON.stringify(event)}`;
   }
 }
+
 export const handler: Handler = async (event: any) => {
   if(!ZULIP_API_URL || !ZULIP_API_USER || !ZULIP_API_KEY_SECRET ||
      !ZULIP_STREAM || !ZULIP_TOPIC) {
@@ -35,8 +39,34 @@ export const handler: Handler = async (event: any) => {
   const response = await secretsManagerClient.send(command);
   const zulipApiKey = response.SecretString;
 
-  const message = eventMessage(event);
-  
+  if(zulipApiKey === undefined) {
+    return {
+      statusCode: 500,
+      body: 'Error retrieving Zulip API key',
+    };
+  }
+
+  if(event.Records === undefined) {
+    // Single event message, handle as is
+    const message = eventMessage(event);
+    return await sendZulipMessage(message, zulipApiKey);
+  } else {
+    // Message contains multiple events, handle each separately
+    let ok = true;
+    for(const e of event.Records) {
+      const message = eventMessage(e);
+      const response = await sendZulipMessage(message, zulipApiKey);
+      ok = ok && response.statusCode == 200;
+    }
+    if(ok) {
+      return {statusCode: 200, message: 'Message(s) sent to Zulip'};
+    } else {
+      return {statusCode: 500, message: 'Error sending message(s) to Zulip'};
+    }
+  }
+};
+
+async function sendZulipMessage(message: string, zulipApiKey: string) {
   const data = new FormData();
   data.append('type', 'stream');
   data.append('to', ZULIP_STREAM);
@@ -76,4 +106,4 @@ export const handler: Handler = async (event: any) => {
     statusCode: 200,
     body: 'Message sent to Zulip',
   };
-};
+}

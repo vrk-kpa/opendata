@@ -365,6 +365,7 @@ const clamavScannerStackBeta = new ClamavScannerStack(app, 'ClamavScannerStack-b
   cluster: clusterStackBeta.cluster,
   topic: lambdaStackBeta.sendToZulipTopic,
   datasetBucketName: 'avoindata-beta-datasets',
+  clamavFileSystem: fileSystemStackBeta.clamavFs,
 });
 
 //
@@ -713,4 +714,5 @@ const clamavScannerStackProd = new ClamavScannerStack(app, 'ClamavScannerStack-p
   cluster: clusterStackProd.cluster,
   topic: lambdaStackProd.sendToZulipTopic,
   datasetBucketName: 'avoindata-prod-datasets',
+  clamavFileSystem: fileSystemStackProd.clamavFs,
 });
