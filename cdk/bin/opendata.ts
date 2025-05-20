@@ -56,6 +56,7 @@ const betaProps = {
   environment: 'beta',
   fqdn: 'betaavoindata.fi',
   secondaryFqdn: 'betaopendata.fi',
+  tertiaryFqdn: null,
   domainName: 'www.betaavoindata.fi',
   secondaryDomainName: 'www.betaopendata.fi',
 };
@@ -378,9 +379,10 @@ const prodProps = {
   environment: 'prod',
   fqdn: 'avoindata.fi',
   secondaryFqdn: 'opendata.fi',
+  tertiaryFqdn: "yhteentoimivuus.fi",
   domainName: 'www.avoindata.fi',
   secondaryDomainName: 'www.opendata.fi',
-  newDomainName: "avoindata.suomi.fi"
+  newDomainName: "avoindata.suomi.fi",
 };
 
 const clusterStackProd = new ClusterStack(app, 'ClusterStack-prod', {
@@ -674,6 +676,9 @@ const domainStackProd = new DomainStack(app, 'DomainStack-prod', {
     account: prodProps.account,
     region: prodProps.region,
   },
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  tertiaryFqdn: prodProps.tertiaryFqdn,
   zoneName: prodProps.newDomainName,
   crossAccountId: betaProps.account
 })
@@ -684,7 +689,8 @@ const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
     region: betaProps.region
   },
   prodAccountId: prodProps.account,
-  subDomainName: betaProps.environment
+  subDomainName: betaProps.environment,
+  dnssecKey: domainStackProd.dnssecKey
 })
 
 const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
