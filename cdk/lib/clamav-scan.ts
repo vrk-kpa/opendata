@@ -14,7 +14,8 @@ export class ClamavScan extends Construct {
         CLUSTER_ID: props.cluster.clusterArn,
         SNS_TOPIC_ARN: props.snsTopic.topicArn,
         TASK_DEFINITION: props.task.taskDefinitionArn,
-        SUBNET_IDS: props.subnetIds.join(",")
+        SUBNET_IDS: props.subnetIds.join(","),
+        SECURITY_GROUP_ID: props.securityGroup.securityGroupId,
       },
       runtime: lambda.Runtime.NODEJS_20_X,
     });

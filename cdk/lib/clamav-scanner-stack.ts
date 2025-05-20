@@ -1,8 +1,6 @@
 import { Fn, Stack,
          aws_ecr as ecr,
          aws_ecs as ecs,
-         aws_iam as iam,
-         aws_ssm as ssm,
          aws_s3 as s3,
          aws_logs as logs,
          aws_s3_notifications as s3n,
@@ -12,6 +10,7 @@ import { Construct } from 'constructs';
 import { ClamavScannerStackProps } from './clamav-scanner-stack-props';
 import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 import { ClamavScan } from './clamav-scan';
+import { Port, SecurityGroup } from 'aws-cdk-lib/aws-ec2';
 
 export class ClamavScannerStack extends Stack {
 
@@ -39,6 +38,8 @@ export class ClamavScannerStack extends Stack {
       }),
     });
 
+    props.clamavFileSystem.grantRootAccess(clamavTaskDef.taskRole.grantPrincipal);
+
     clamavTaskDef.addVolume({
       name: 'clamav_files',
       efsVolumeConfiguration: {
@@ -47,13 +48,18 @@ export class ClamavScannerStack extends Stack {
       },
     });
 
-    // NOTE: ckan storage path will be in: /mnt/ytp_files/ckan
     clamavContainer.addMountPoints({
       containerPath: '/var/lib/clamav',
       readOnly: false,
       sourceVolume: 'clamav_files',
     });
 
+    const clamavSecurityGroup = new SecurityGroup(this, 'clamav-security-group', {
+      vpc: props.cluster.vpc,
+      description: "clamav container sercurity group"
+    });
+    clamavSecurityGroup.connections.allowFrom(props.clamavFileSystem, Port.tcp(2049), 'EFS connection (clamav)')
+    clamavSecurityGroup.connections.allowTo(props.clamavFileSystem, Port.tcp(2049), 'EFS connection (clamav)')
     const privateSubnetA = Fn.importValue('vpc-SubnetPrivateA')
     const privateSubnetB = Fn.importValue('vpc-SubnetPrivateB')
 
@@ -63,6 +69,7 @@ export class ClamavScannerStack extends Stack {
       task: clamavTaskDef,
       snsTopic: props.topic,
       subnetIds: [privateSubnetA, privateSubnetB]
+      securityGroup: clamavSecurityGroup,
     })
 
     // Allow clamavScan lambda to run the ecs task
