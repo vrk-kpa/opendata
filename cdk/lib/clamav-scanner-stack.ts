@@ -68,7 +68,7 @@ export class ClamavScannerStack extends Stack {
       cluster: props.cluster,
       task: clamavTaskDef,
       snsTopic: props.topic,
-      subnetIds: [privateSubnetA, privateSubnetB]
+      subnetIds: [privateSubnetA, privateSubnetB],
       securityGroup: clamavSecurityGroup,
     })
 
