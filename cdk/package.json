@@ -23,7 +23,7 @@
   "dependencies": {
     "@aws-sdk/client-ecs": "^3.798.0",
     "@aws-sdk/client-secrets-manager": "^3.750.0",
-    "aws-cdk-lib": "^2.180.0",
+    "aws-cdk-lib": "^2.197.0",
     "constructs": "^10.4.2",
     "dotenv": "^16.4.5",
     "form-data": "^4.0.0",
