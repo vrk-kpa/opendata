@@ -45,6 +45,11 @@ export class ClamavScannerStack extends Stack {
         gid: '0',
         uid: '0',
       },
+      createAcl: {
+        ownerGid: '0',
+        ownerUid: '0',
+        permissions: '0755',
+      },
     })
     clamavTaskDef.addVolume({
       name: 'clamav_files',
