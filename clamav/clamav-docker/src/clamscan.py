@@ -55,7 +55,7 @@ class ClamScanner:
                 raise(e)
 
     def start_clam_daemon(self):
-        clamd_max_retry_count = 12
+        clamd_max_retry_count = 120
         clamd_retry_count = 0
 
         subprocess.Popen(['clamd'], stdout=subprocess.PIPE,
@@ -66,7 +66,7 @@ class ClamScanner:
                 logger.info('Clamd is up')
                 self.clamd_up = True
             except Exception:
-                if clamd_retry_count == 12:
+                if clamd_retry_count >= clamd_max_retry_count:
                     raise Exception(
                         f'Clamd failed to respond within {clamd_max_retry_count} retries')
                 logger.warning('Clamd is not up yet, retrying in 10 seconds')
