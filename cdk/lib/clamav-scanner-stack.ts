@@ -38,11 +38,13 @@ export class ClamavScannerStack extends Stack {
       }),
     });
 
-    props.clamavFileSystem.grantRootAccess(clamavTaskDef.taskRole);
-    props.clamavFileSystem.grant(clamavTaskDef.taskRole, 'elasticfilesystem:ClientMount');
 
     const clamavFileSystemAccessPoint = props.clamavFileSystem.addAccessPoint('clamavFileSystemAccessPoint', {
       path: '/clamav',
+      posixUser: {
+        gid: '0',
+        uid: '0',
+      },
     })
     clamavTaskDef.addVolume({
       name: 'clamav_files',
