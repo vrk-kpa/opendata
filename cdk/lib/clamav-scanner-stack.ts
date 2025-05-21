@@ -56,7 +56,7 @@ export class ClamavScannerStack extends Stack {
 
     const clamavSecurityGroup = new SecurityGroup(this, 'clamav-security-group', {
       vpc: props.cluster.vpc,
-      description: "clamav container sercurity group"
+      description: "clamav container security group"
     });
     clamavSecurityGroup.connections.allowFrom(props.clamavFileSystem, Port.tcp(2049), 'EFS connection (clamav)')
     clamavSecurityGroup.connections.allowTo(props.clamavFileSystem, Port.tcp(2049), 'EFS connection (clamav)')
