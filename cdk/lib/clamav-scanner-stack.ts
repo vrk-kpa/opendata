@@ -38,7 +38,8 @@ export class ClamavScannerStack extends Stack {
       }),
     });
 
-    props.clamavFileSystem.grantRootAccess(clamavTaskDef.taskRole.grantPrincipal);
+    props.clamavFileSystem.grantRootAccess(clamavTaskDef.taskRole);
+    props.clamavFileSystem.grant(clamavTaskDef.taskRole, 'elasticfilesystem:ClientMount');
 
     const clamavFileSystemAccessPoint = props.clamavFileSystem.addAccessPoint('clamavFileSystemAccessPoint', {
       path: '/clamav',
