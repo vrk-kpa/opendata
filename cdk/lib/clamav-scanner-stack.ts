@@ -58,7 +58,6 @@ export class ClamavScannerStack extends Stack {
       vpc: props.cluster.vpc,
       description: "clamav container security group"
     });
-    clamavSecurityGroup.connections.allowFrom(props.clamavFileSystem, Port.tcp(2049), 'EFS connection (clamav)')
     clamavSecurityGroup.connections.allowTo(props.clamavFileSystem, Port.tcp(2049), 'EFS connection (clamav)')
     const privateSubnetA = Fn.importValue('vpc-SubnetPrivateA')
     const privateSubnetB = Fn.importValue('vpc-SubnetPrivateB')
