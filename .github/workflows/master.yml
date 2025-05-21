@@ -119,6 +119,7 @@ jobs:
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          provenance: false
           tags: |
             ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
             ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest
