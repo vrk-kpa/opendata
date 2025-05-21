@@ -1,10 +1,10 @@
 import {Handler, S3Event} from 'aws-lambda';
 import {ECSClient,RunTaskCommand} from '@aws-sdk/client-ecs';
 
-const { CLUSTER_ID, SNS_TOPIC_ARN, TASK_DEFINITION, SUBNET_IDS } = process.env;
+const { CLUSTER_ID, SNS_TOPIC_ARN, TASK_DEFINITION, SUBNET_IDS, SECURITY_GROUP_ID } = process.env;
 
 export const handler: Handler = async (event: S3Event) => {
-    if(!CLUSTER_ID || !SNS_TOPIC_ARN || !TASK_DEFINITION || !SUBNET_IDS) {
+    if(!CLUSTER_ID || !SNS_TOPIC_ARN || !TASK_DEFINITION || !SUBNET_IDS || !SECURITY_GROUP_ID) {
         return {
           statusCode: 500,
           body: 'Missing configuration values',
@@ -22,7 +22,8 @@ export const handler: Handler = async (event: S3Event) => {
         networkConfiguration: {
             'awsvpcConfiguration': {
                 'subnets': subnetIds,
-                'assignPublicIp': 'DISABLED'
+                'assignPublicIp': 'DISABLED',
+                'securityGroups': [SECURITY_GROUP_ID],
             }
         },
         platformVersion: 'LATEST',
