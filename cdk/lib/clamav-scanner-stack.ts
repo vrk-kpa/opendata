@@ -40,10 +40,16 @@ export class ClamavScannerStack extends Stack {
 
     props.clamavFileSystem.grantRootAccess(clamavTaskDef.taskRole.grantPrincipal);
 
+    const clamavFileSystemAccessPoint = props.clamavFileSystem.addAccessPoint('clamavFileSystemAccessPoint', {
+      path: '/clamav',
+    })
     clamavTaskDef.addVolume({
       name: 'clamav_files',
       efsVolumeConfiguration: {
         fileSystemId: props.clamavFileSystem.fileSystemId,
+        authorizationConfig: {
+          accessPointId: clamavFileSystemAccessPoint.accessPointId,
+        },
         transitEncryption: 'ENABLED',
       },
     });
