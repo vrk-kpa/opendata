@@ -23,8 +23,8 @@ class ClamScanner:
 
     def __init__(self, file_name):
         self.file = file_name
-        self.start_clam_daemon()
         self.update_clamav_definitions()
+        self.start_clam_daemon()
 
 
     @staticmethod
@@ -55,7 +55,7 @@ class ClamScanner:
                 raise(e)
 
     def start_clam_daemon(self):
-        clamd_max_retry_count = 120
+        clamd_max_retry_count = 12
         clamd_retry_count = 0
 
         subprocess.Popen(['clamd'], stdout=subprocess.PIPE,
