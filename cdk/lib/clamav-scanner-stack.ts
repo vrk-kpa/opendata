@@ -41,10 +41,6 @@ export class ClamavScannerStack extends Stack {
 
     const clamavFileSystemAccessPoint = props.clamavFileSystem.addAccessPoint('clamavFileSystemAccessPoint', {
       path: '/clamav',
-      posixUser: {
-        gid: '101',
-        uid: '100',
-      },
       createAcl: {
         ownerGid: '101',
         ownerUid: '100',
