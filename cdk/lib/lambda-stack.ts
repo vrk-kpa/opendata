@@ -31,7 +31,7 @@ export class LambdaStack extends Stack {
       zulipApiUser: 'avoindata-bot@turina.dvv.fi',
       zulipApiUrl: 'turina.dvv.fi',
       zulipStream: 'Avoindata.fi',
-      zulipTopic: 'Container restarts',
+      zulipTopic: 'Service events',
       env: props.env,
       environment: props.environment,
     });
