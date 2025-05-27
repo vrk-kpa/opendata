@@ -82,7 +82,7 @@ jobs:
           add_tag() {
             aws ecr describe-images --filter tagStatus=TAGGED --repository-name ${{ secrets.REPOSITORY }}/$1 | jq -c ".imageDetails[] | select( .imageTags[] | contains(\"prod-$2\"))" -e || \
             MANIFEST="$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/$1 --image-ids imageTag=$2 --output text --query 'images[].imageManifest')" \
-            bash -c 'source docker/.env && aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/$1 --image-tag prod-$2 --image-manifest "$MANIFEST"'
+            bash -c "source docker/.env && aws ecr put-image --repository-name ${{ secrets.REPOSITORY }}/$1 --image-tag prod-$2 --image-manifest \"$MANIFEST\""
           }
           
           source docker/.env
