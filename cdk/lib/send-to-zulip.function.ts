@@ -6,14 +6,9 @@ import FormData = require('form-data');
 const { ZULIP_API_URL, ZULIP_API_USER, ZULIP_API_KEY_SECRET, ZULIP_STREAM, ZULIP_TOPIC } = process.env;
 
 function eventMessage(event: any) {
-  const {detail} = event;
-  if(detail?.eventName) {
-    // Generic event
-    const {resources} = event;
-    return `${detail?.eventName}: ${resources?.join(', ')}`;
-  } else if(detail?.stoppedReason) {
+  if(event.Sns?.detail?.stoppedReason) {
     // Container stopped event
-    const {taskArn, group, stoppedReason} = detail;
+    const {taskArn, group, stoppedReason} = event.Sns.detail;
     return `${taskArn} (${group}): ${stoppedReason}`;
   } else if(event.Sns !== undefined) {
     // Generic SNS message
@@ -21,6 +16,14 @@ function eventMessage(event: any) {
   } else {
     return `Unknown message type: ${JSON.stringify(event)}`;
   }
+}
+function eventStream(event: any, default_stream: string): string {
+  if(event.detail?.stoppedReason) {
+    return 'Container restarts';
+  } else if(event.Sns?.Subject == "Virus found") {
+    return 'Resource virus infections';
+  }
+  return default_stream;
 }
 
 export const handler: Handler = async (event: any) => {
@@ -49,13 +52,15 @@ export const handler: Handler = async (event: any) => {
   if(event.Records === undefined) {
     // Single event message, handle as is
     const message = eventMessage(event);
-    return await sendZulipMessage(message, zulipApiKey);
+    const stream = eventStream(event, ZULIP_STREAM);
+    return await sendZulipMessage(message, stream, zulipApiKey);
   } else {
     // Message contains multiple events, handle each separately
     let ok = true;
     for(const e of event.Records) {
       const message = eventMessage(e);
-      const response = await sendZulipMessage(message, zulipApiKey);
+      const stream = eventStream(event, ZULIP_STREAM);
+      const response = await sendZulipMessage(message, stream, zulipApiKey);
       ok = ok && response.statusCode == 200;
     }
     if(ok) {
@@ -66,10 +71,10 @@ export const handler: Handler = async (event: any) => {
   }
 };
 
-async function sendZulipMessage(message: string, zulipApiKey: string) {
+async function sendZulipMessage(message: string, stream: string, zulipApiKey: string) {
   const data = new FormData();
   data.append('type', 'stream');
-  data.append('to', ZULIP_STREAM);
+  data.append('to', stream);
   data.append('topic', ZULIP_TOPIC);
   data.append('content', message);
 
