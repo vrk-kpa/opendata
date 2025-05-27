@@ -1,4 +1,4 @@
-FROM clamav/clamav:1.3
+FROM clamav/clamav:1.4
 
 RUN apk add --no-cache python3 py3-pip
 RUN python -m venv /venv
