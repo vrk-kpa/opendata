@@ -17,13 +17,13 @@ function eventMessage(event: any) {
     return `Unknown message type: ${JSON.stringify(event)}`;
   }
 }
-function eventStream(event: any, default_stream: string): string {
+function eventTopic(event: any, defaultTopic: string): string {
   if(event.detail?.stoppedReason) {
     return 'Container restarts';
   } else if(event.Sns?.Subject == "Virus found") {
     return 'Resource virus infections';
   }
-  return default_stream;
+  return defaultTopic;
 }
 
 export const handler: Handler = async (event: any) => {
@@ -52,15 +52,15 @@ export const handler: Handler = async (event: any) => {
   if(event.Records === undefined) {
     // Single event message, handle as is
     const message = eventMessage(event);
-    const stream = eventStream(event, ZULIP_STREAM);
-    return await sendZulipMessage(message, stream, zulipApiKey);
+    const topic = eventTopic(event, ZULIP_TOPIC);
+    return await sendZulipMessage(message, topic, zulipApiKey);
   } else {
     // Message contains multiple events, handle each separately
     let ok = true;
     for(const e of event.Records) {
       const message = eventMessage(e);
-      const stream = eventStream(event, ZULIP_STREAM);
-      const response = await sendZulipMessage(message, stream, zulipApiKey);
+      const topic = eventTopic(event, ZULIP_TOPIC);
+      const response = await sendZulipMessage(message, topic, zulipApiKey);
       ok = ok && response.statusCode == 200;
     }
     if(ok) {
@@ -71,11 +71,11 @@ export const handler: Handler = async (event: any) => {
   }
 };
 
-async function sendZulipMessage(message: string, stream: string, zulipApiKey: string) {
+async function sendZulipMessage(message: string, topic: string, zulipApiKey: string) {
   const data = new FormData();
   data.append('type', 'stream');
-  data.append('to', stream);
-  data.append('topic', ZULIP_TOPIC);
+  data.append('to', ZULIP_STREAM);
+  data.append('topic', topic);
   data.append('content', message);
 
   const options: https.RequestOptions = {
