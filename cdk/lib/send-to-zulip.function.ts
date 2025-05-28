@@ -6,9 +6,9 @@ import FormData = require('form-data');
 const { ZULIP_API_URL, ZULIP_API_USER, ZULIP_API_KEY_SECRET, ZULIP_STREAM, ZULIP_TOPIC } = process.env;
 
 function eventMessage(event: any) {
-  if(event.Sns?.detail?.stoppedReason) {
+  if(event.Sns?.Message?.detail?.stoppedReason) {
     // Container stopped event
-    const {taskArn, group, stoppedReason} = event.Sns.detail;
+    const {taskArn, group, stoppedReason} = event.Sns.Message.detail;
     return `${taskArn} (${group}): ${stoppedReason}`;
   } else if(event.Sns !== undefined) {
     // Generic SNS message
@@ -18,7 +18,7 @@ function eventMessage(event: any) {
   }
 }
 function eventTopic(event: any, defaultTopic: string): string {
-  if(event.detail?.stoppedReason) {
+  if(event.Sns?.Message?.detail?.stoppedReason) {
     return 'Container restarts';
   } else if(event.Sns?.Subject == "Virus found") {
     return 'Resource virus infections';
@@ -49,25 +49,18 @@ export const handler: Handler = async (event: any) => {
     };
   }
 
-  if(event.Records === undefined) {
-    // Single event message, handle as is
-    const message = eventMessage(event);
+  const events = event.Records || [event];
+  let ok = true;
+  for(const e of events) {
+    const message = eventMessage(e);
     const topic = eventTopic(event, ZULIP_TOPIC);
-    return await sendZulipMessage(message, topic, zulipApiKey);
+    const response = await sendZulipMessage(message, topic, zulipApiKey);
+    ok = ok && response.statusCode == 200;
+  }
+  if(ok) {
+    return {statusCode: 200, message: 'Message(s) sent to Zulip'};
   } else {
-    // Message contains multiple events, handle each separately
-    let ok = true;
-    for(const e of event.Records) {
-      const message = eventMessage(e);
-      const topic = eventTopic(event, ZULIP_TOPIC);
-      const response = await sendZulipMessage(message, topic, zulipApiKey);
-      ok = ok && response.statusCode == 200;
-    }
-    if(ok) {
-      return {statusCode: 200, message: 'Message(s) sent to Zulip'};
-    } else {
-      return {statusCode: 500, message: 'Error sending message(s) to Zulip'};
-    }
+    return {statusCode: 500, message: 'Error sending message(s) to Zulip'};
   }
 };
 

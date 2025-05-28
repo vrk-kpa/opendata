@@ -82,13 +82,16 @@ def get_sha256(filename):
 def set_object_tags(client, bucket, key, **new_tags):
 
     try:
-        client.put_object_tagging(
+        logger.info(f"Setting tags for object {key}: {new_tags}")
+        response = client.put_object_tagging(
             Bucket=bucket,
             Key=key,
             Tagging={
-                'TagSet': [{'Key': str(k)[:128], 'Value': str(v)[:256]} for k, v in new_tags.items()]
+                'TagSet': [{'Key': str(k)[:128], 'Value': str(v)[:256]}
+                           for k, v in new_tags.items()]
             }
         )
+        logger.info(f"Response from setting tags: {response}")
     except Exception as e:
         logger.error(
             f'Tagging object {key} failed: \n{e}')
