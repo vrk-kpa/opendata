@@ -28,7 +28,6 @@ def main() -> None:
         return
 
     s3 = boto3.client('s3')
-    set_object_tags(s3, s3_bucket, object_key, updated=utcnow_isoformat())
     sns = boto3.client('sns')
     processed_file = tempfile.NamedTemporaryFile(delete=False)
 
