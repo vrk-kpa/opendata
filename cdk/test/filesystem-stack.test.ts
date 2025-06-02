@@ -26,8 +26,7 @@ test('verify filesystem stack resources', () => {
     environment: 'mock-env',
     vpc: clusterStack.vpc,
     backups: true,
-    backupPlan: backupStack.backupPlan,
-    importMigrationFs: true,
+    backupPlan: backupStack.backupPlan
   });
   // THEN
   const template = Template.fromStack(stack);

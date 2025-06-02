@@ -20,7 +20,6 @@ export class CkanStack extends Stack {
   readonly ckanFsDataAccessPoint: efs.IAccessPoint;
   readonly solrFsDataAccessPoint: efs.IAccessPoint;
   readonly fusekiFsDataAccessPoint: efs.IAccessPoint;
-  readonly migrationFsAccessPoint?: efs.IAccessPoint;
   readonly ckanService: ecs.FargateService;
   readonly ckanCronService?: ecs.FargateService;
 
@@ -493,41 +492,6 @@ export class CkanStack extends Stack {
       scaleInCooldown: Duration.seconds(60),
       scaleOutCooldown: Duration.seconds(60),
     });
-
-    // mount migration filesystem if given
-    if (props.migrationFileSystemProps != null) {
-      this.migrationFsAccessPoint = new efs.AccessPoint(this, 'migrationFsAccessPoint', {
-        fileSystem: props.migrationFileSystemProps.fileSystem,
-        path: '/ytp_files',
-        posixUser: {
-          gid: '0',
-          uid: '0',
-        },
-      });
-
-      props.migrationFileSystemProps.fileSystem.grant(ckanTaskDef.taskRole, 'elasticfilesystem:ClientRootAccess');
-
-      ckanTaskDef.addVolume({
-        name: 'ytp_files',
-        efsVolumeConfiguration: {
-          fileSystemId: props.migrationFileSystemProps.fileSystem.fileSystemId,
-          authorizationConfig: {
-            accessPointId: this.migrationFsAccessPoint.accessPointId,
-          },
-          transitEncryption: 'ENABLED',
-        },
-      });
-
-      // NOTE: ckan storage path will be in: /mnt/ytp_files/ckan
-      ckanContainer.addMountPoints({
-        containerPath: '/mnt/ytp_files',
-        readOnly: true,
-        sourceVolume: 'ytp_files',
-      });
-
-      this.ckanService.connections.allowFrom(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (ckan migrate)');
-      this.ckanService.connections.allowTo(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (ckan migrate)');
-    }
 
     // ckan cron service
     if (props.ckanCronEnabled) {
