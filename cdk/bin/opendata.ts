@@ -174,7 +174,8 @@ const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
   snsTopicArn: shieldParameterStackBeta.snsTopicArn,
   wafAutomationArn: shieldParameterStackBeta.wafAutomationArn,
   evaluationPeriod: shieldParameterStackBeta.evaluationPeriod,
-  loadBalancer: loadBalancerStackBeta.loadBalancer
+  loadBalancer: loadBalancerStackBeta.loadBalancer,
+  blockedUserAgentsParameterName: shieldParameterStackBeta.blockedUserAgentsParameterName
 })
 
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
@@ -484,7 +485,8 @@ const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
   snsTopicArn: shieldParameterStackProd.snsTopicArn,
   wafAutomationArn: shieldParameterStackProd.wafAutomationArn,
   evaluationPeriod: shieldParameterStackProd.evaluationPeriod,
-  loadBalancer: loadBalancerStackProd.loadBalancer
+  loadBalancer: loadBalancerStackProd.loadBalancer,
+  blockedUserAgentsParameterName: shieldParameterStackProd.blockedUserAgentsParameterName
 })
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {

@@ -15,5 +15,6 @@ export interface ShieldStackProps extends EnvStackProps{
   wafAutomationArn: aws_ssm.IStringParameter,
   snsTopicArn: aws_ssm.IStringParameter,
   evaluationPeriod: aws_ssm.IStringParameter,
-  loadBalancer: aws_elasticloadbalancingv2.ApplicationLoadBalancer
+  loadBalancer: aws_elasticloadbalancingv2.ApplicationLoadBalancer,
+  blockedUserAgentsParameterName: string
 }
