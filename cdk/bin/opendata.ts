@@ -88,8 +88,7 @@ const fileSystemStackBeta = new FileSystemStack(app, 'FileSystemStack-beta', {
   environment: betaProps.environment,
   vpc: clusterStackBeta.vpc,
   backups: true,
-  backupPlan: backupStackBeta.backupPlan,
-  importMigrationFs: true,
+  backupPlan: backupStackBeta.backupPlan
 });
 
 const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
@@ -209,10 +208,6 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     'solr': fileSystemStackBeta.solrFs,
     'fuseki': fileSystemStackBeta.fusekiFs,
   },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackBeta.migrationFsSg!,
-    fileSystem: fileSystemStackBeta.migrationFs!,
-  },
   databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
   databaseInstance: databaseStackBeta.databaseInstance,
   datastoreInstance: databaseStackBeta.datastoreInstance,
@@ -285,10 +280,6 @@ const drupalStackBeta = new DrupalStack(app, 'DrupalStack-beta', {
   namespace: clusterStackBeta.namespace,
   fileSystems: {
     'drupal': fileSystemStackBeta.drupalFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackBeta.migrationFsSg!,
-    fileSystem: fileSystemStackBeta.migrationFs!,
   },
   databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
   databaseInstance: databaseStackBeta.databaseInstance,
@@ -410,8 +401,7 @@ const fileSystemStackProd = new FileSystemStack(app, 'FileSystemStack-prod', {
   environment: prodProps.environment,
   vpc: clusterStackProd.vpc,
   backups: true,
-  backupPlan: backupStackProd.backupPlan,
-  importMigrationFs: true,
+  backupPlan: backupStackProd.backupPlan
 });
 
 const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
@@ -528,10 +518,6 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     'solr': fileSystemStackProd.solrFs,
     'fuseki': fileSystemStackProd.fusekiFs,
   },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackProd.migrationFsSg!,
-    fileSystem: fileSystemStackProd.migrationFs!,
-  },
   databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
   databaseInstance: databaseStackProd.databaseInstance,
   datastoreInstance: databaseStackProd.datastoreInstance,
@@ -604,10 +590,6 @@ const drupalStackProd = new DrupalStack(app, 'DrupalStack-prod', {
   namespace: clusterStackProd.namespace,
   fileSystems: {
     'drupal': fileSystemStackProd.drupalFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackProd.migrationFsSg!,
-    fileSystem: fileSystemStackProd.migrationFs!,
   },
   databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
   databaseInstance: databaseStackProd.databaseInstance,

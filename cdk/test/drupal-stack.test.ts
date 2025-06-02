@@ -29,8 +29,7 @@ test('verify drupal stack resources', () => {
     environment: 'mock-env',
     vpc: clusterStack.vpc,
     backups: true,
-    backupPlan: backupStack.backupPlan,
-    importMigrationFs: true,
+    backupPlan: backupStack.backupPlan
   });
 
   const databaseStack = new DatabaseStack(app, 'DatabaseStack-test', {
@@ -63,10 +62,6 @@ test('verify drupal stack resources', () => {
     namespace: clusterStack.namespace,
     fileSystems: {
       'drupal': fileSystemStack.drupalFs,
-    },
-    migrationFileSystemProps: {
-      securityGroup: fileSystemStack.migrationFsSg!,
-      fileSystem: fileSystemStack.migrationFs!,
     },
     databaseSecurityGroup: databaseStack.databaseSecurityGroup,
     databaseInstance: databaseStack.databaseInstance,
@@ -121,8 +116,7 @@ test('create a drupal stack without analytics', () => {
     environment: 'mock-env',
     vpc: clusterStack.vpc,
     backups: true,
-    backupPlan: backupStack.backupPlan,
-    importMigrationFs: true,
+    backupPlan: backupStack.backupPlan
   });
 
   const databaseStack = new DatabaseStack(app, 'DatabaseStack-test', {
@@ -155,10 +149,6 @@ test('create a drupal stack without analytics', () => {
     namespace: clusterStack.namespace,
     fileSystems: {
       'drupal': fileSystemStack.drupalFs,
-    },
-    migrationFileSystemProps: {
-      securityGroup: fileSystemStack.migrationFsSg!,
-      fileSystem: fileSystemStack.migrationFs!,
     },
     databaseSecurityGroup: databaseStack.databaseSecurityGroup,
     databaseInstance: databaseStack.databaseInstance,
@@ -207,8 +197,7 @@ test('create a drupal stack without captcha', () => {
     environment: 'mock-env',
     vpc: clusterStack.vpc,
     backups: true,
-    backupPlan: backupStack.backupPlan,
-    importMigrationFs: true,
+    backupPlan: backupStack.backupPlan
   });
 
   const databaseStack = new DatabaseStack(app, 'DatabaseStack-test', {
@@ -241,10 +230,6 @@ test('create a drupal stack without captcha', () => {
     namespace: clusterStack.namespace,
     fileSystems: {
       'drupal': fileSystemStack.drupalFs,
-    },
-    migrationFileSystemProps: {
-      securityGroup: fileSystemStack.migrationFsSg!,
-      fileSystem: fileSystemStack.migrationFs!,
     },
     databaseSecurityGroup: databaseStack.databaseSecurityGroup,
     databaseInstance: databaseStack.databaseInstance,
