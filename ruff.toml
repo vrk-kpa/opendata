@@ -1,5 +1,3 @@
-select = ["E", "F"]
-
 extend-exclude = [
   "ckanext-spatial",
   "ckanext-prh_tools",
@@ -12,3 +10,5 @@ extend-exclude = [
 
 line-length = 127
 
+[lint]
+select = ["E", "F"]
