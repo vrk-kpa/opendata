@@ -66,7 +66,7 @@ def resource_status(context: dict, data_dict: dict) -> dict:
                                  'set_resource_status': True}
                 logic.get_action('resource_patch')(patch_context, patch)
             log.warning(f'Resource status updated successfully for resource {resource["id"]}.')
-        except ResourceStatusUnavailableError as e:
+        except ResourceStatusUnavailableError:
             log.warning(f'Resource status not available for resource {resource["id"]}. Possibly an incomplete upload.')
 
     return {'finished': finished,
