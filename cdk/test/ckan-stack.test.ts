@@ -31,8 +31,7 @@ test('verify ckan stack resources', () => {
     environment: 'mock-env',
     vpc: clusterStack.vpc,
     backups: true,
-    backupPlan: backupStack.backupPlan,
-    importMigrationFs: true,
+    backupPlan: backupStack.backupPlan
   });
 
   const databaseStack = new DatabaseStack(app, 'DatabaseStack-test', {
@@ -76,10 +75,6 @@ test('verify ckan stack resources', () => {
       'ckan': fileSystemStack.ckanFs,
       'solr': fileSystemStack.solrFs,
       'fuseki': fileSystemStack.fusekiFs,
-    },
-    migrationFileSystemProps: {
-      securityGroup: fileSystemStack.migrationFsSg!,
-      fileSystem: fileSystemStack.migrationFs!,
     },
     databaseSecurityGroup: databaseStack.databaseSecurityGroup,
     databaseInstance: databaseStack.databaseInstance,
@@ -173,8 +168,7 @@ test('create ckan stack without analytics', () => {
     environment: 'mock-env',
     vpc: clusterStack.vpc,
     backups: true,
-    backupPlan: backupStack.backupPlan,
-    importMigrationFs: true,
+    backupPlan: backupStack.backupPlan
   });
 
   const databaseStack = new DatabaseStack(app, 'DatabaseStack-test', {
@@ -218,10 +212,6 @@ test('create ckan stack without analytics', () => {
       'ckan': fileSystemStack.ckanFs,
       'solr': fileSystemStack.solrFs,
       'fuseki': fileSystemStack.fusekiFs,
-    },
-    migrationFileSystemProps: {
-      securityGroup: fileSystemStack.migrationFsSg!,
-      fileSystem: fileSystemStack.migrationFs!,
     },
     databaseSecurityGroup: databaseStack.databaseSecurityGroup,
     databaseInstance: databaseStack.databaseInstance,
@@ -314,8 +304,7 @@ test('create ckan stack without captcha', () => {
     environment: 'mock-env',
     vpc: clusterStack.vpc,
     backups: true,
-    backupPlan: backupStack.backupPlan,
-    importMigrationFs: true,
+    backupPlan: backupStack.backupPlan
   });
 
   const databaseStack = new DatabaseStack(app, 'DatabaseStack-test', {
@@ -359,10 +348,6 @@ test('create ckan stack without captcha', () => {
       'ckan': fileSystemStack.ckanFs,
       'solr': fileSystemStack.solrFs,
       'fuseki': fileSystemStack.fusekiFs,
-    },
-    migrationFileSystemProps: {
-      securityGroup: fileSystemStack.migrationFsSg!,
-      fileSystem: fileSystemStack.migrationFs!,
     },
     databaseSecurityGroup: databaseStack.databaseSecurityGroup,
     databaseInstance: databaseStack.databaseInstance,

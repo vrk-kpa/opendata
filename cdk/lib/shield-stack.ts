@@ -280,6 +280,50 @@ export class ShieldStack extends Stack {
     }
 
 
+    const blockedUserAgentsParameter = aws_ssm.StringParameter.valueFromLookup(this, props.blockedUserAgentsParameterName, '[]')
+    const blockedUserAgentsJson = JSON.parse(blockedUserAgentsParameter)
+
+    const BlockedUserAgentsSchema = z.array(z.string())
+
+    let blockedUserAgentRules: any[] = []
+    const validatedUserAgents = BlockedUserAgentsSchema.parse(blockedUserAgentsJson)
+    validatedUserAgents.forEach((useragent, index: number) => {
+      let blockedUserAgentRule: aws_wafv2.CfnWebACL.RuleProperty = {
+        name: "blocked-useragent-" + useragent,
+        priority: rules.length + index,
+        action: {
+          block: {}
+        },
+        statement: {
+          byteMatchStatement: {
+            fieldToMatch: {
+              singleHeader: {
+                name: "User-Agent"
+              }
+            },
+            positionalConstraint: "CONTAINS",
+            searchString: useragent,
+            textTransformations: [
+              {
+                type: "NONE",
+                priority: 0
+              }
+            ]
+          }
+        },
+        visibilityConfig: {
+          cloudWatchMetricsEnabled: true,
+          metricName: "blocked-useragent-" + useragent,
+          sampledRequestsEnabled: false
+        }
+      }
+
+      blockedUserAgentRules.push(blockedUserAgentRule)
+    })
+
+    rules = rules.concat(blockedUserAgentRules)
+
+
     const cfnWebAcl = new aws_wafv2.CfnWebACL(this, 'WAFWebACL', {
       scope: "REGIONAL",
       defaultAction: {

@@ -88,8 +88,7 @@ const fileSystemStackBeta = new FileSystemStack(app, 'FileSystemStack-beta', {
   environment: betaProps.environment,
   vpc: clusterStackBeta.vpc,
   backups: true,
-  backupPlan: backupStackBeta.backupPlan,
-  importMigrationFs: true,
+  backupPlan: backupStackBeta.backupPlan
 });
 
 const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
@@ -175,7 +174,8 @@ const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
   snsTopicArn: shieldParameterStackBeta.snsTopicArn,
   wafAutomationArn: shieldParameterStackBeta.wafAutomationArn,
   evaluationPeriod: shieldParameterStackBeta.evaluationPeriod,
-  loadBalancer: loadBalancerStackBeta.loadBalancer
+  loadBalancer: loadBalancerStackBeta.loadBalancer,
+  blockedUserAgentsParameterName: shieldParameterStackBeta.blockedUserAgentsParameterName
 })
 
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
@@ -208,10 +208,6 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     'ckan': fileSystemStackBeta.ckanFs,
     'solr': fileSystemStackBeta.solrFs,
     'fuseki': fileSystemStackBeta.fusekiFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackBeta.migrationFsSg!,
-    fileSystem: fileSystemStackBeta.migrationFs!,
   },
   databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
   databaseInstance: databaseStackBeta.databaseInstance,
@@ -285,10 +281,6 @@ const drupalStackBeta = new DrupalStack(app, 'DrupalStack-beta', {
   namespace: clusterStackBeta.namespace,
   fileSystems: {
     'drupal': fileSystemStackBeta.drupalFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackBeta.migrationFsSg!,
-    fileSystem: fileSystemStackBeta.migrationFs!,
   },
   databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
   databaseInstance: databaseStackBeta.databaseInstance,
@@ -410,8 +402,7 @@ const fileSystemStackProd = new FileSystemStack(app, 'FileSystemStack-prod', {
   environment: prodProps.environment,
   vpc: clusterStackProd.vpc,
   backups: true,
-  backupPlan: backupStackProd.backupPlan,
-  importMigrationFs: true,
+  backupPlan: backupStackProd.backupPlan
 });
 
 const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
@@ -494,7 +485,8 @@ const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
   snsTopicArn: shieldParameterStackProd.snsTopicArn,
   wafAutomationArn: shieldParameterStackProd.wafAutomationArn,
   evaluationPeriod: shieldParameterStackProd.evaluationPeriod,
-  loadBalancer: loadBalancerStackProd.loadBalancer
+  loadBalancer: loadBalancerStackProd.loadBalancer,
+  blockedUserAgentsParameterName: shieldParameterStackProd.blockedUserAgentsParameterName
 })
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {
@@ -527,10 +519,6 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     'ckan': fileSystemStackProd.ckanFs,
     'solr': fileSystemStackProd.solrFs,
     'fuseki': fileSystemStackProd.fusekiFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackProd.migrationFsSg!,
-    fileSystem: fileSystemStackProd.migrationFs!,
   },
   databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
   databaseInstance: databaseStackProd.databaseInstance,
@@ -604,10 +592,6 @@ const drupalStackProd = new DrupalStack(app, 'DrupalStack-prod', {
   namespace: clusterStackProd.namespace,
   fileSystems: {
     'drupal': fileSystemStackProd.drupalFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackProd.migrationFsSg!,
-    fileSystem: fileSystemStackProd.migrationFs!,
   },
   databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
   databaseInstance: databaseStackProd.databaseInstance,

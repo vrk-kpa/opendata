@@ -7,5 +7,4 @@ export interface EfsStackProps extends EnvStackProps {
   backupPlan: aws_backup.BackupPlan;
   vpc: ec2.IVpc;
   backups: boolean;
-  importMigrationFs: boolean;
 }
