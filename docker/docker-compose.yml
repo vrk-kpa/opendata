@@ -1,5 +1,3 @@
-version: "3.8"
-
 x-env-ckan: &env-ckan
   CKAN_IMAGE_TAG: ${CKAN_IMAGE_TAG}
   CKAN_HOST: ${CKAN_HOST}
