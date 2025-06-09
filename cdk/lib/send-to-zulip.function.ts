@@ -6,19 +6,26 @@ import FormData = require('form-data');
 const { ZULIP_API_URL, ZULIP_API_USER, ZULIP_API_KEY_SECRET, ZULIP_STREAM, ZULIP_TOPIC } = process.env;
 
 function eventMessage(event: any) {
-  const {detail} = event;
-  if(detail?.eventName) {
-    // Generic event
-    const {resources} = event;
-    return `${detail?.eventName}: ${resources?.join(', ')}`;
-  } else if(detail?.stoppedReason) {
+  if(event.Sns?.Message?.detail?.stoppedReason) {
     // Container stopped event
-    const {taskArn, group, stoppedReason} = detail;
+    const {taskArn, group, stoppedReason} = event.Sns.Message.detail;
     return `${taskArn} (${group}): ${stoppedReason}`;
+  } else if(event.Sns !== undefined) {
+    // Generic SNS message
+    return `${event.Sns.Subject} [${event.Sns.Timestamp}]:\n${event.Sns.Message}`
   } else {
-    return 'Unknown message type';
+    return `Unknown message type: ${JSON.stringify(event)}`;
   }
 }
+function eventTopic(event: any, defaultTopic: string): string {
+  if(event.Sns?.Message?.detail?.stoppedReason) {
+    return 'Container restarts';
+  } else if(event.Sns?.Subject == "Virus found") {
+    return 'Resource virus infections';
+  }
+  return defaultTopic;
+}
+
 export const handler: Handler = async (event: any) => {
   if(!ZULIP_API_URL || !ZULIP_API_USER || !ZULIP_API_KEY_SECRET ||
      !ZULIP_STREAM || !ZULIP_TOPIC) {
@@ -35,12 +42,33 @@ export const handler: Handler = async (event: any) => {
   const response = await secretsManagerClient.send(command);
   const zulipApiKey = response.SecretString;
 
-  const message = eventMessage(event);
-  
+  if(zulipApiKey === undefined) {
+    return {
+      statusCode: 500,
+      body: 'Error retrieving Zulip API key',
+    };
+  }
+
+  const events = event.Records || [event];
+  let ok = true;
+  for(const e of events) {
+    const message = eventMessage(e);
+    const topic = eventTopic(event, ZULIP_TOPIC);
+    const response = await sendZulipMessage(message, topic, zulipApiKey);
+    ok = ok && response.statusCode == 200;
+  }
+  if(ok) {
+    return {statusCode: 200, message: 'Message(s) sent to Zulip'};
+  } else {
+    return {statusCode: 500, message: 'Error sending message(s) to Zulip'};
+  }
+};
+
+async function sendZulipMessage(message: string, topic: string, zulipApiKey: string) {
   const data = new FormData();
   data.append('type', 'stream');
   data.append('to', ZULIP_STREAM);
-  data.append('topic', ZULIP_TOPIC);
+  data.append('topic', topic);
   data.append('content', message);
 
   const options: https.RequestOptions = {
@@ -76,4 +104,4 @@ export const handler: Handler = async (event: any) => {
     statusCode: 200,
     body: 'Message sent to Zulip',
   };
-};
+}

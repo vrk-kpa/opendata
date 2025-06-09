@@ -13,15 +13,12 @@ import { CkanStack } from '../lib/ckan-stack';
 import { WebStack } from '../lib/web-stack';
 import { BackupStack } from "../lib/backup-stack"
 import {CertificateStack} from "../lib/certificate-stack";
-import {BypassCdnStack} from "../lib/bypass-cdn-stack";
 import {MonitoringStack} from "../lib/monitoring-stack";
 import {LambdaStack} from "../lib/lambda-stack";
 import {DomainStack} from "../lib/domain-stack";
 import {CiTestStack} from "../lib/ci-test-stack";
 import {SubDomainStack} from "../lib/sub-domain-stack";
 import {ShieldStack} from "../lib/shield-stack";
-import {CloudfrontParameterStack} from "../lib/cloudfront-parameter-stack";
-import {undefined} from "zod";
 import {ShieldParameterStack} from "../lib/shield-parameter-stack";
 import { ClamavScannerStack } from '../lib/clamav-scanner-stack';
 
@@ -92,8 +89,7 @@ const fileSystemStackBeta = new FileSystemStack(app, 'FileSystemStack-beta', {
   environment: betaProps.environment,
   vpc: clusterStackBeta.vpc,
   backups: true,
-  backupPlan: backupStackBeta.backupPlan,
-  importMigrationFs: true,
+  backupPlan: backupStackBeta.backupPlan
 });
 
 const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
@@ -119,31 +115,7 @@ const lambdaStackBeta = new LambdaStack(app, 'LambdaStack-beta', {
   vpc: clusterStackBeta.vpc
 })
 
-const certificateStackBeta = new CertificateStack(app, 'CertificateStack-beta', {
-  envProps: envProps,
-  env: {
-    account: betaProps.account,
-    region: betaProps.region,
-  },
-  environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName
-})
 
-const certificateStackForCloudfrontBeta = new CertificateStack(app, 'CertificateStackForCloudfront-beta', {
-  envProps: envProps,
-  env: {
-    account: betaProps.account,
-    region: 'us-east-1',
-  },
-  environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName
-})
 
 
 const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta', {
@@ -152,31 +124,29 @@ const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta
     region: betaProps.region,
   },
   environment: betaProps.environment,
-  vpc: clusterStackBeta.vpc
+  vpc: clusterStackBeta.vpc,
+  domainName: betaProps.domainName,
+  fqdn: betaProps.fqdn,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  secondaryFqdn: betaProps.secondaryFqdn
 });
 
 
-const bypassCdnStackBeta = new BypassCdnStack(app, 'BypassCdnStack-beta', {
-  envProps: envProps,
+const certificateStackBeta = new CertificateStack(app, 'CertificateStack-beta', {
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
   environment: betaProps.environment,
+  vpc: clusterStackBeta.vpc,
   fqdn: betaProps.fqdn,
   secondaryFqdn: betaProps.secondaryFqdn,
   domainName: betaProps.domainName,
   secondaryDomainName: betaProps.secondaryDomainName,
-  loadbalancer: loadBalancerStackBeta.loadBalancer
+  zone: loadBalancerStackBeta.zone,
+  alternativeZone: loadBalancerStackBeta.alternativeZone
 })
 
-const cloudfrontParameterStackBeta = new CloudfrontParameterStack(app, 'CloudfrontParameterStack-beta', {
-  env: {
-    account: betaProps.account,
-    region: 'us-east-1',
-  },
-  environment: betaProps.environment,
-})
 
 const shieldParameterStackBeta = new ShieldParameterStack(app, 'ShieldParameterStack-beta', {
   env: {
@@ -205,7 +175,8 @@ const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
   snsTopicArn: shieldParameterStackBeta.snsTopicArn,
   wafAutomationArn: shieldParameterStackBeta.wafAutomationArn,
   evaluationPeriod: shieldParameterStackBeta.evaluationPeriod,
-  loadBalancer: loadBalancerStackBeta.loadBalancer
+  loadBalancer: loadBalancerStackBeta.loadBalancer,
+  blockedUserAgentsParameterName: shieldParameterStackBeta.blockedUserAgentsParameterName
 })
 
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
@@ -238,10 +209,6 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     'ckan': fileSystemStackBeta.ckanFs,
     'solr': fileSystemStackBeta.solrFs,
     'fuseki': fileSystemStackBeta.fusekiFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackBeta.migrationFsSg!,
-    fileSystem: fileSystemStackBeta.migrationFs!,
   },
   databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
   databaseInstance: databaseStackBeta.databaseInstance,
@@ -316,10 +283,6 @@ const drupalStackBeta = new DrupalStack(app, 'DrupalStack-beta', {
   fileSystems: {
     'drupal': fileSystemStackBeta.drupalFs,
   },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackBeta.migrationFsSg!,
-    fileSystem: fileSystemStackBeta.migrationFs!,
-  },
   databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
   databaseInstance: databaseStackBeta.databaseInstance,
   cachePort: cacheStackBeta.cachePort,
@@ -388,13 +351,14 @@ const clamavScannerStackBeta = new ClamavScannerStack(app, 'ClamavScannerStack-b
   },
   clamavTaskDef: {
     taskCpu: 512,
-    taskMem: 1024,
+    taskMem: 3072,
     taskMinCapacity: 0,
     taskMaxCapacity: 1,
   },
   cluster: clusterStackBeta.cluster,
   topic: lambdaStackBeta.sendToZulipTopic,
   datasetBucketName: 'avoindata-beta-datasets',
+  clamavFileSystem: fileSystemStackBeta.clamavFs,
 });
 
 //
@@ -440,8 +404,7 @@ const fileSystemStackProd = new FileSystemStack(app, 'FileSystemStack-prod', {
   environment: prodProps.environment,
   vpc: clusterStackProd.vpc,
   backups: true,
-  backupPlan: backupStackProd.backupPlan,
-  importMigrationFs: true,
+  backupPlan: backupStackProd.backupPlan
 });
 
 const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
@@ -468,62 +431,33 @@ const lambdaStackProd = new LambdaStack(app, 'LambdaStack-prod', {
 })
 
 
-
-const certificateStackProd = new CertificateStack(app, 'CertificateStack-prod', {
-  envProps: envProps,
-  env: {
-    account: prodProps.account,
-    region: prodProps.region
-  },
-  environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName
-})
-
-const certificateStackForCloudfrontProd = new CertificateStack(app, 'CertificateStackForCloudfront-prod', {
-  envProps: envProps,
-  env: {
-    account: prodProps.account,
-    region: 'us-east-1'
-  },
-  environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName
-})
-
 const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod', {
   env: {
     account: prodProps.account,
     region: prodProps.region,
   },
   environment: prodProps.environment,
-  vpc: clusterStackProd.vpc
+  vpc: clusterStackProd.vpc,
+  domainName: prodProps.domainName,
+  fqdn: prodProps.fqdn,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  secondaryFqdn: prodProps.secondaryFqdn
 });
 
-const bypassCdnStackProd = new BypassCdnStack(app, 'BypassCdnStack-prod', {
-  envProps: envProps,
+
+const certificateStackProd = new CertificateStack(app, 'CertificateStack-prod', {
   env: {
     account: prodProps.account,
-    region: prodProps.region,
+    region: prodProps.region
   },
   environment: prodProps.environment,
+  vpc: clusterStackProd.vpc,
   fqdn: prodProps.fqdn,
   secondaryFqdn: prodProps.secondaryFqdn,
   domainName: prodProps.domainName,
   secondaryDomainName: prodProps.secondaryDomainName,
-  loadbalancer: loadBalancerStackProd.loadBalancer
-})
-
-const cloudfrontParameterStackProd = new CloudfrontParameterStack(app, 'CloudfrontParameterStack-prod', {
-  env: {
-    account: prodProps.account,
-    region: 'us-east-1'
-  },
-  environment: prodProps.environment,
+  zone: loadBalancerStackProd.zone,
+  alternativeZone: loadBalancerStackProd.alternativeZone
 })
 
 const shieldParameterStackProd = new ShieldParameterStack(app, 'ShieldParameterStack-prod', {
@@ -553,7 +487,8 @@ const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
   snsTopicArn: shieldParameterStackProd.snsTopicArn,
   wafAutomationArn: shieldParameterStackProd.wafAutomationArn,
   evaluationPeriod: shieldParameterStackProd.evaluationPeriod,
-  loadBalancer: loadBalancerStackProd.loadBalancer
+  loadBalancer: loadBalancerStackProd.loadBalancer,
+  blockedUserAgentsParameterName: shieldParameterStackProd.blockedUserAgentsParameterName
 })
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {
@@ -586,10 +521,6 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     'ckan': fileSystemStackProd.ckanFs,
     'solr': fileSystemStackProd.solrFs,
     'fuseki': fileSystemStackProd.fusekiFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackProd.migrationFsSg!,
-    fileSystem: fileSystemStackProd.migrationFs!,
   },
   databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
   databaseInstance: databaseStackProd.databaseInstance,
@@ -663,10 +594,6 @@ const drupalStackProd = new DrupalStack(app, 'DrupalStack-prod', {
   namespace: clusterStackProd.namespace,
   fileSystems: {
     'drupal': fileSystemStackProd.drupalFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackProd.migrationFsSg!,
-    fileSystem: fileSystemStackProd.migrationFs!,
   },
   databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
   databaseInstance: databaseStackProd.databaseInstance,
@@ -777,4 +704,5 @@ const clamavScannerStackProd = new ClamavScannerStack(app, 'ClamavScannerStack-p
   cluster: clusterStackProd.cluster,
   topic: lambdaStackProd.sendToZulipTopic,
   datasetBucketName: 'avoindata-prod-datasets',
+  clamavFileSystem: fileSystemStackProd.clamavFs,
 });

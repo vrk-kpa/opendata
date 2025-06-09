@@ -70,6 +70,31 @@ jobs:
         run: |
           npx cdk deploy *-prod --require-approval=never >/dev/null 2>&1
 
+      - name: Configure AWS credentials for re-tagging prod images
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_BUILD_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+
+      - name: Add prod-tag to used images
+        run: |
+          add_tag() {
+            aws ecr describe-images --filter tagStatus=TAGGED --repository-name ${{ secrets.REPOSITORY }}/$1 | jq -c ".imageDetails[] | select( .imageTags[] | contains(\"prod-$2\"))" -e || \
+            aws ecr put-image \
+              --repository-name ${{ secrets.REPOSITORY }}/$1 \
+              --image-tag prod-$2 \
+              --image-manifest "$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/$1 --image-ids imageTag=$2 --output text --query 'images[].imageManifest')"
+          }
+          
+          source docker/.env
+          add_tag ckan $CKAN_IMAGE_TAG
+          add_tag drupal $DRUPAL_IMAGE_TAG
+          add_tag solr $SOLR_IMAGE_TAG
+          add_tag datapusher $DATAPUSHER_IMAGE_TAG
+          add_tag nginx $NGINX_IMAGE_TAG
+          add_tag clamav $CLAMAV_IMAGE_TAG
+
       - name: Notify Zulip
         uses: zulip/github-actions-zulip/send-message@v1
         with:

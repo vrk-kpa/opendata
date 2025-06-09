@@ -1,9 +1,8 @@
 import { Fn, Stack,
          aws_ecr as ecr,
          aws_ecs as ecs,
-         aws_iam as iam,
-         aws_ssm as ssm,
          aws_s3 as s3,
+         aws_logs as logs,
          aws_s3_notifications as s3n,
          aws_lambda_nodejs as lambdaNodejs
        } from 'aws-cdk-lib';
@@ -11,6 +10,7 @@ import { Construct } from 'constructs';
 import { ClamavScannerStackProps } from './clamav-scanner-stack-props';
 import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 import { ClamavScan } from './clamav-scan';
+import { Port, SecurityGroup } from 'aws-cdk-lib/aws-ec2';
 
 export class ClamavScannerStack extends Stack {
 
@@ -26,10 +26,49 @@ export class ClamavScannerStack extends Stack {
       memoryLimitMiB: props.clamavTaskDef.taskMem,
     });
 
+    const clamavLogGroup = new logs.LogGroup(this, 'clamavLogGroup', {
+      logGroupName: `/${props.environment}/opendata/clamav`,
+    });
     const clamavContainer = clamavTaskDef.addContainer('clamav', {
       image: ecs.ContainerImage.fromEcrRepository(clamavRepo, props.envProps.CLAMAV_IMAGE_TAG),
+      containerName: "clamav-scanner",
+      logging: ecs.LogDrivers.awsLogs({
+        logGroup: clamavLogGroup,
+        streamPrefix: "clamav"
+      }),
     });
 
+
+    const clamavFileSystemAccessPoint = props.clamavFileSystem.addAccessPoint('clamavFileSystemAccessPoint', {
+      path: '/clamav',
+      createAcl: {
+        ownerGid: '101',
+        ownerUid: '100',
+        permissions: '0755',
+      },
+    })
+    clamavTaskDef.addVolume({
+      name: 'clamav_files',
+      efsVolumeConfiguration: {
+        fileSystemId: props.clamavFileSystem.fileSystemId,
+        authorizationConfig: {
+          accessPointId: clamavFileSystemAccessPoint.accessPointId,
+        },
+        transitEncryption: 'ENABLED',
+      },
+    });
+
+    clamavContainer.addMountPoints({
+      containerPath: '/var/lib/clamav',
+      readOnly: false,
+      sourceVolume: 'clamav_files',
+    });
+
+    const clamavSecurityGroup = new SecurityGroup(this, 'clamav-security-group', {
+      vpc: props.cluster.vpc,
+      description: "clamav container security group"
+    });
+    clamavSecurityGroup.connections.allowTo(props.clamavFileSystem, Port.tcp(2049), 'EFS connection (clamav)')
     const privateSubnetA = Fn.importValue('vpc-SubnetPrivateA')
     const privateSubnetB = Fn.importValue('vpc-SubnetPrivateB')
 
@@ -38,8 +77,15 @@ export class ClamavScannerStack extends Stack {
       cluster: props.cluster,
       task: clamavTaskDef,
       snsTopic: props.topic,
-      subnetIds: [privateSubnetA, privateSubnetB]
+      subnetIds: [privateSubnetA, privateSubnetB],
+      securityGroup: clamavSecurityGroup,
     })
+
+    // Allow clamavScan lambda to run the ecs task
+    clamavTaskDef.grantRun(clamavScan.lambda);
+
+    // Allow clamavScan to publish on the SNS topic
+    props.topic.grantPublish(clamavTaskDef.taskRole)
 
     // Allow clamavScan to manage S3 files
     const bucket = s3.Bucket.fromBucketName(this, 'DatasetBucket', props.datasetBucketName);

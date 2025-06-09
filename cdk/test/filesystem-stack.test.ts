@@ -26,12 +26,11 @@ test('verify filesystem stack resources', () => {
     environment: 'mock-env',
     vpc: clusterStack.vpc,
     backups: true,
-    backupPlan: backupStack.backupPlan,
-    importMigrationFs: true,
+    backupPlan: backupStack.backupPlan
   });
   // THEN
   const template = Template.fromStack(stack);
-  template.resourceCountIs('AWS::EC2::SecurityGroup', 4);
-  template.resourceCountIs('AWS::EFS::MountTarget', 8);
-  template.resourceCountIs('AWS::EFS::FileSystem', 4);
+  template.resourceCountIs('AWS::EC2::SecurityGroup', 5);
+  template.resourceCountIs('AWS::EFS::MountTarget', 10);
+  template.resourceCountIs('AWS::EFS::FileSystem', 5);
 });

@@ -13,8 +13,7 @@ export class FileSystemStack extends Stack {
   readonly ckanFs: efs.FileSystem;
   readonly solrFs: efs.FileSystem;
   readonly fusekiFs: efs.FileSystem;
-  readonly migrationFsSg?: ec2.ISecurityGroup;
-  readonly migrationFs?: efs.IFileSystem;
+  readonly clamavFs: efs.FileSystem;
 
   constructor(scope: Construct, id: string, props: EfsStackProps) {
     super(scope, id, props);
@@ -58,6 +57,17 @@ export class FileSystemStack extends Stack {
       },
       encrypted: true,
     });
+
+    this.clamavFs = new efs.FileSystem(this, 'clamavFs', {
+      vpc: props.vpc,
+      performanceMode: efs.PerformanceMode.GENERAL_PURPOSE,
+      throughputMode: efs.ThroughputMode.BURSTING,
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+      },
+      encrypted: true,
+    });
+
     if (props.backups && props.backupPlan ) {
       props.backupPlan.addSelection('backupPlanFilesystemSelection', {
         resources: [
@@ -65,26 +75,6 @@ export class FileSystemStack extends Stack {
           bak.BackupResource.fromEfsFileSystem(this.ckanFs),
           // NOTE: we probably don't want to backup fusekiFs!
         ]
-      });
-    }
-
-    if (props.importMigrationFs) {
-      // get params
-      const pMigrationFsSgId = ssm.StringParameter.fromStringParameterAttributes(this, 'pMigrationFsSgId', {
-        parameterName: `/${props.environment}/opendata/cdk/migration_fs_sg_id`,
-      });
-      const pMigrationFsId = ssm.StringParameter.fromStringParameterAttributes(this, 'pMigrationFsId', {
-        parameterName: `/${props.environment}/opendata/cdk/migration_fs_id`,
-      });
-
-      this.migrationFsSg = ec2.SecurityGroup.fromSecurityGroupId(this, 'migrationFsSg', pMigrationFsSgId.stringValue, {
-        allowAllOutbound: true,
-        mutable: true,
-      });
-
-      this.migrationFs = efs.FileSystem.fromFileSystemAttributes(this, 'migrationFs', {
-        fileSystemId: pMigrationFsId.stringValue,
-        securityGroup: this.migrationFsSg,
       });
     }
   }
