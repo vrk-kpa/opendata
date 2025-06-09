@@ -637,13 +637,13 @@ export class CkanStack extends Stack {
         logGroup: datapusherLogGroup,
         streamPrefix: 'datapusher-service',
       }),
-      //healthCheck: {
-      //  command: ['CMD-SHELL', 'curl --fail http://localhost:8800/status || exit 1'],
-      //  interval: Duration.seconds(15),
-      //  timeout: Duration.seconds(5),
-      //  retries: 5,
-      //  startPeriod: Duration.seconds(15),
-      //},
+      healthCheck: {
+        command: ['CMD-SHELL', 'curl --fail http://localhost:8800/status || exit 1'],
+        interval: Duration.seconds(15),
+        timeout: Duration.seconds(5),
+        retries: 5,
+        startPeriod: Duration.seconds(15),
+      },
     });
 
 
