@@ -122,12 +122,6 @@ services:
       - backend
     volumes:
       - solr_data:/var/solr/data/ckan/data
-    healthcheck:
-      test: ["CMD-SHELL", "curl --fail -s http://localhost:8983/solr/ckan/admin/ping?wt=json | grep -o 'OK'"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
-      start_period: 15s
 
   ckan:
     image: ${REGISTRY}/${REPOSITORY}/ckan:${CKAN_IMAGE_TAG}

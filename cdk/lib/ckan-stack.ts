@@ -742,13 +742,6 @@ export class CkanStack extends Stack {
         logGroup: solrLogGroup,
         streamPrefix: 'solr-service',
       }),
-      healthCheck: {
-        command: ['CMD-SHELL', 'curl --fail -s http://localhost:8983/solr/ckan/admin/ping?wt=json | grep -o "OK"'],
-        interval: Duration.seconds(15),
-        timeout: Duration.seconds(5),
-        retries: 5,
-        startPeriod: Duration.seconds(15),
-      },
     });
 
     solrContainer.addPortMappings({
