@@ -156,30 +156,6 @@ Resources:
             AllowedOrigins:
               - "*"
 
-  EFSFileSystem:
-    Type: AWS::EFS::FileSystem
-
-  EFSMountTarget1:
-    Type: AWS::EFS::MountTarget
-    Properties:
-      FileSystemId: !Ref EFSFileSystem
-      SecurityGroups:
-        - !GetAtt EFSSecurityGroup.GroupId
-      SubnetId: !Select [0, !Ref DatabaseSubnets]
-
-  EFSMountTarget2:
-    Type: AWS::EFS::MountTarget
-    Properties:
-      FileSystemId: !Ref EFSFileSystem
-      SecurityGroups:
-        - !GetAtt EFSSecurityGroup.GroupId
-      SubnetId: !Select [1, !Ref DatabaseSubnets]
-
-  EFSSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Enable EFS access
-      VpcId: !Ref Vpc
 
 Outputs:
   DatabaseSecurityGroup:
