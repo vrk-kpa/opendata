@@ -526,7 +526,7 @@ export class CkanStack extends Stack {
           streamPrefix: 'ckan_cron-service',
         }),
         healthCheck: {
-          command: ['CMD-SHELL', 'ps aux | grep -o "[s]upercronic" && ps aux | grep -o "[s]upervisord --configuration"'],
+          command: ['CMD-SHELL', 'ps | grep -o "[s]upercronic" && ps | grep -o "[s]upervisord --configuration"'],
           interval: Duration.seconds(15),
           timeout: Duration.seconds(5),
           retries: 5,
@@ -637,13 +637,13 @@ export class CkanStack extends Stack {
         logGroup: datapusherLogGroup,
         streamPrefix: 'datapusher-service',
       }),
-      //healthCheck: {
-      //  command: ['CMD-SHELL', 'curl --fail http://localhost:8800/status || exit 1'],
-      //  interval: Duration.seconds(15),
-      //  timeout: Duration.seconds(5),
-      //  retries: 5,
-      //  startPeriod: Duration.seconds(15),
-      //},
+      healthCheck: {
+        command: ['CMD-SHELL', 'curl --fail http://localhost:8800/status || exit 1'],
+        interval: Duration.seconds(15),
+        timeout: Duration.seconds(5),
+        retries: 5,
+        startPeriod: Duration.seconds(15),
+      },
     });
 
 
@@ -742,13 +742,6 @@ export class CkanStack extends Stack {
         logGroup: solrLogGroup,
         streamPrefix: 'solr-service',
       }),
-      healthCheck: {
-        command: ['CMD-SHELL', 'curl --fail -s http://localhost:8983/solr/ckan/admin/ping?wt=json | grep -o "OK"'],
-        interval: Duration.seconds(15),
-        timeout: Duration.seconds(5),
-        retries: 5,
-        startPeriod: Duration.seconds(15),
-      },
     });
 
     solrContainer.addPortMappings({
@@ -838,7 +831,7 @@ export class CkanStack extends Stack {
         streamPrefix: 'fuseki-service',
       }),
       healthCheck: {
-        command: ['CMD-SHELL', 'curl --fail -s http://localhost:3030/$/ping'],
+        command: ['CMD-SHELL', 'curl --fail -s http://localhost:3030/$/ping || exit 1' ],
         interval: Duration.seconds(15),
         timeout: Duration.seconds(5),
         retries: 5,
