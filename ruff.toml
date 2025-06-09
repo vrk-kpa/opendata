@@ -12,3 +12,6 @@ line-length = 127
 
 [lint]
 select = ["E", "F"]
+
+[lint.per-file-ignores]
+"**/tests/*.py" = ["S101"]

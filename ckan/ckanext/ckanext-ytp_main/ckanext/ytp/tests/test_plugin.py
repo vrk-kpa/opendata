@@ -281,4 +281,52 @@ class TestYtpDatasetPlugin():
         }
 
 
+@pytest.mark.usefixtures('clean_db', 'clean_index')
+class TestResourceStatusPlugin:
+    def test_clear_sha256_and_malware_on_update(self) -> None:
+        user = User()
+        dataset_dict = minimal_dataset_with_one_resource_fields(user)
 
+        dataset_dict['resources'][0]['malware'] = 'malware dummy content'
+        dataset_dict['resources'][0]['sha256'] = 'sha256 dummy content'
+        dataset = Dataset(**dataset_dict)
+        resource = dataset['resources'][0]
+        assert resource['malware'] == 'malware dummy content'
+        assert resource['sha256'] == 'sha256 dummy content'
+
+        call_action('resource_patch', id=resource['id'], position_info='modified')
+        modified_resource = call_action('resource_show', id=resource['id'])
+
+        assert modified_resource.get('malware') is None
+        assert modified_resource.get('sha256') is None
+
+    def test_keep_sha256_and_malware_when_uploading_or_setting_them(self) -> None:
+        user = User()
+        dataset_dict = minimal_dataset_with_one_resource_fields(user)
+
+        dataset_dict['resources'][0]['malware'] = 'malware dummy content'
+        dataset_dict['resources'][0]['sha256'] = 'sha256 dummy content'
+        dataset = Dataset(**dataset_dict)
+        resource = dataset['resources'][0]
+        assert resource['malware'] == 'malware dummy content'
+        assert resource['sha256'] == 'sha256 dummy content'
+
+        context = {'upload_in_progress': True}
+        call_action('resource_patch', id=resource['id'], position_info='modified', context=context)
+        modified_resource = call_action('resource_show', id=resource['id'])
+
+        assert modified_resource.get('malware') == 'malware dummy content'
+        assert modified_resource.get('sha256') == 'sha256 dummy content'
+
+        context = {'set_resource_status': True}
+        call_action('resource_patch', id=resource['id'], position_info='modified', context=context)
+        modified_resource = call_action('resource_show', id=resource['id'])
+
+        assert modified_resource.get('malware') == 'malware dummy content'
+        assert modified_resource.get('sha256') == 'sha256 dummy content'
+
+        call_action('resource_patch', id=resource['id'], position_info='modified')
+        modified_resource = call_action('resource_show', id=resource['id'])
+
+        assert modified_resource.get('malware') is None
+        assert modified_resource.get('sha256') is None

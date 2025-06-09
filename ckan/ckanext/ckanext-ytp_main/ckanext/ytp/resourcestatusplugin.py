@@ -19,7 +19,7 @@ class ResourceStatusPlugin(p.SingletonPlugin, DefaultTranslation):
         return {'resource_status': resource_status}
 
     def before_resource_update(self, context: dict, current: dict, resource: dict) -> None:
-        if not (resource.get('upload_in_progress') or context.get('set_resource_status')):
+        if not (context.get('upload_in_progress') or context.get('set_resource_status')):
             resource.pop('sha256', None)
             resource.pop('malware', None)
 
