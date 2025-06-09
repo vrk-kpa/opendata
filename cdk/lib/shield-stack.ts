@@ -18,7 +18,7 @@ export class ShieldStack extends Stack {
     super(scope, id, props);
 
     const nginxHealthCheck = new aws_route53.HealthCheck(this, 'nginxHealthCheck', {
-      type: aws_route53.HealthCheckType.HTTPS,
+      type: HealthCheckType.HTTPS,
       fqdn: props.fqdn,
       port: 443,
       resourcePath: '/health',
@@ -27,16 +27,16 @@ export class ShieldStack extends Stack {
     })
 
     const ckanHealthCheck = new aws_route53.HealthCheck(this, 'ckanHealthCheck', {
-      type: aws_route53.HealthCheckType.HTTPS,
+      type: HealthCheckType.HTTPS,
       fqdn: props.fqdn,
       port: 443,
-      resourcePath: '/data/dataset',
+      resourcePath: '/data/api/action/status_show',
       failureThreshold: 3,
       requestInterval: Duration.seconds(30)
     })
 
     const drupalHealthCheck = new aws_route53.HealthCheck(this, 'drupalHealthCheck', {
-      type: aws_route53.HealthCheckType.HTTPS,
+      type: HealthCheckType.HTTPS,
       fqdn: props.fqdn,
       port: 443,
       resourcePath: '/fi',
