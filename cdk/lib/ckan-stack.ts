@@ -838,7 +838,7 @@ export class CkanStack extends Stack {
         streamPrefix: 'fuseki-service',
       }),
       healthCheck: {
-        command: ['CMD-SHELL', 'curl --fail -s http://localhost:3030/$/ping'],
+        command: ['CMD-SHELL', 'curl --fail -s http://localhost:3030/$/ping || exit 1' ],
         interval: Duration.seconds(15),
         timeout: Duration.seconds(5),
         retries: 5,
