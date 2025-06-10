@@ -4,62 +4,21 @@ import {
   aws_sns,
   aws_ssm,
   aws_wafv2,
-  Stack, Token, CfnParameter, aws_sns_subscriptions, aws_route53, Duration, Arn
+  Stack, Token, CfnParameter, aws_sns_subscriptions
 } from "aws-cdk-lib";
 import {Construct} from "constructs";
 
 import {ShieldStackProps} from "./shield-stack-props";
 
 import { z } from "zod";
-import { HealthCheckType } from "aws-cdk-lib/aws-route53";
 
 export class ShieldStack extends Stack {
   constructor(scope: Construct, id: string, props: ShieldStackProps) {
     super(scope, id, props);
 
-    const nginxHealthCheck = new aws_route53.HealthCheck(this, 'nginxHealthCheck', {
-      type: HealthCheckType.HTTPS,
-      fqdn: props.fqdn,
-      port: 443,
-      resourcePath: '/health',
-      failureThreshold: 3,
-      requestInterval: Duration.seconds(30)
-    })
-
-    const ckanHealthCheck = new aws_route53.HealthCheck(this, 'ckanHealthCheck', {
-      type: HealthCheckType.HTTPS,
-      fqdn: props.fqdn,
-      port: 443,
-      resourcePath: '/data/api/action/status_show',
-      failureThreshold: 3,
-      requestInterval: Duration.seconds(30)
-    })
-
-    const drupalHealthCheck = new aws_route53.HealthCheck(this, 'drupalHealthCheck', {
-      type: HealthCheckType.HTTPS,
-      fqdn: props.fqdn,
-      port: 443,
-      resourcePath: '/fi',
-      failureThreshold: 3,
-      requestInterval: Duration.seconds(30)
-    })
-
-    const generateHealthCheckArn = ((healthCheckId: string, stack: Stack) => {
-      return Arn.format({
-        resource: 'healthCheck',
-        service: 'route53',
-        resourceName: healthCheckId
-      }, stack)
-    })
-
     const cfnProtection = new aws_shield.CfnProtection(this, 'ShieldProtection', {
       name: 'Application Load Balancers',
-      resourceArn: props.loadBalancer.loadBalancerArn,
-      healthCheckArns: [
-        generateHealthCheckArn(nginxHealthCheck.healthCheckId, this),
-        generateHealthCheckArn(ckanHealthCheck.healthCheckId, this),
-        generateHealthCheckArn(drupalHealthCheck.healthCheckId, this)
-      ]
+      resourceArn: props.loadBalancer.loadBalancerArn
     })
     
 
