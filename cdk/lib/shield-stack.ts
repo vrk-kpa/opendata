@@ -56,7 +56,9 @@ export class ShieldStack extends Stack {
       name: 'Application Load Balancers',
       resourceArn: props.loadBalancer.loadBalancerArn,
       healthCheckArns: [
-        generateHealthCheckArn(ckanHealthCheck.healthCheckId, this)
+        generateHealthCheckArn(nginxHealthCheck.healthCheckId, this),
+        generateHealthCheckArn(ckanHealthCheck.healthCheckId, this),
+        generateHealthCheckArn(drupalHealthCheck.healthCheckId, this)
       ]
     })
     
