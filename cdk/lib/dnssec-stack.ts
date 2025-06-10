@@ -43,7 +43,7 @@ export class DnssecStack extends cdk.Stack {
       const zoneKeySigningKey = new aws_route53.CfnKeySigningKey(this, `KeySigningKey-${mungedName}`, {
         hostedZoneId: zone.hostedZoneId,
         keyManagementServiceArn: dnssecKey.keyArn,
-        name: `zone-${mungedName}-dnssec-key`,
+        name: `zone_${mungedName}_dnssec_key`,
         status: 'ACTIVE'
       });
       const zoneDnssec = new aws_route53.CfnDNSSEC(this, `DnsSec-${mungedName}`, {
