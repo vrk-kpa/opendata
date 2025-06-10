@@ -21,6 +21,7 @@ import {SubDomainStack} from "../lib/sub-domain-stack";
 import {ShieldStack} from "../lib/shield-stack";
 import {ShieldParameterStack} from "../lib/shield-parameter-stack";
 import { ClamavScannerStack } from '../lib/clamav-scanner-stack';
+import { DnssecStack } from '../lib/dnssec-stack';
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -667,6 +668,14 @@ const domainStackProd = new DomainStack(app, 'DomainStack-prod', {
   crossAccountId: betaProps.account
 })
 
+const dnssecStackProd = new DnssecStack(app, 'DnssecStack-prod', {
+  env: {
+    account: prodProps.account,
+    region: prodProps.region
+  },
+  zones: domainStackProd.zones
+})
+
 const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
   env: {
     account: betaProps.account,
@@ -674,7 +683,14 @@ const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
   },
   prodAccountId: prodProps.account,
   subDomainName: betaProps.environment,
-  dnssecKey: domainStackProd.dnssecKey
+})
+
+const dnssecStackBeta = new DnssecStack(app, 'DnssecStack-beta', {
+  env: {
+    account: betaProps.account,
+    region: betaProps.region
+  },
+  zones: subDomainStackBeta.zones
 })
 
 const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {

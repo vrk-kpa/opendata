@@ -1,15 +1,17 @@
-import {aws_iam, aws_route53, aws_route53_targets, Stack} from "aws-cdk-lib";
+import {aws_iam, aws_route53, Stack} from "aws-cdk-lib";
 import {Construct} from "constructs";
 import {SubDomainStackProps} from "./sub-domain-stack-props";
+import { IHostedZone } from "aws-cdk-lib/aws-route53";
 
 export class SubDomainStack extends Stack {
     readonly subZone: aws_route53.PublicHostedZone;
-    readonly newSubZone: aws_route53.PublicHostedZone;
+    readonly zones: IHostedZone[];
+
     constructor(scope: Construct, id: string, props: SubDomainStackProps) {
         super(scope, id, props);
 
         this.subZone = new aws_route53.PublicHostedZone(this, 'SubZone', {
-            zoneName: props.subDomainName + ".avoindata.suomi.fi"
+            zoneName: `${props.subDomainName}.avoindata.suomi.fi`
         })
 
         const delegationRoleArn = Stack.of(this).formatArn({
@@ -28,18 +30,7 @@ export class SubDomainStack extends Stack {
             parentHostedZoneName: "avoindata.suomi.fi"
         })
 
-        // DNSSEC
-        const subZoneKeySigningKey = new aws_route53.CfnKeySigningKey(this, 'SubZoneKeySigningKey', {
-          hostedZoneId: this.subZone.hostedZoneId,
-          keyManagementServiceArn: props.dnssecKey.keyArn,
-          name: 'sub-zone-dnssec-key',
-          status: 'ACTIVE'
-        });
-
-        const subZoneDnssec = new aws_route53.CfnDNSSEC(this, 'SubZoneDNSSEC', {
-          hostedZoneId: this.subZone.hostedZoneId
-        });
-        subZoneDnssec.node.addDependency(subZoneKeySigningKey);
+        this.zones = [this.subZone];
     }
 
 }
