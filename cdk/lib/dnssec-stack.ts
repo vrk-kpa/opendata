@@ -39,13 +39,14 @@ export class DnssecStack extends cdk.Stack {
     }));
 
     for(const zone of props.zones) {
-      const zoneKeySigningKey = new aws_route53.CfnKeySigningKey(this, `KeySigningKey-${zone.zoneName}`, {
+      let mungedName = zone.zoneName.replace(new RegExp('[^a-zA-Z0-9]', 'g'), '')
+      const zoneKeySigningKey = new aws_route53.CfnKeySigningKey(this, `KeySigningKey-${mungedName}`, {
         hostedZoneId: zone.hostedZoneId,
         keyManagementServiceArn: dnssecKey.keyArn,
-        name: `zone-${zone.zoneName}-dnssec-key`,
+        name: `zone-${mungedName}-dnssec-key`,
         status: 'ACTIVE'
       });
-      const zoneDnssec = new aws_route53.CfnDNSSEC(this, `DnsSec-${zone.zoneName}`, {
+      const zoneDnssec = new aws_route53.CfnDNSSEC(this, `DnsSec-${mungedName}`, {
         hostedZoneId: zone.hostedZoneId
       });
       zoneDnssec.node.addDependency(zoneKeySigningKey);

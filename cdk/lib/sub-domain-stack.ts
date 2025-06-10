@@ -30,7 +30,14 @@ export class SubDomainStack extends Stack {
             parentHostedZoneName: "avoindata.suomi.fi"
         })
 
-        this.zones = [this.subZone];
+        const opendataZone = aws_route53.HostedZone.fromLookup(this, 'OpendataZone', {
+          domainName: props.fqdn
+        })
+        const secondaryOpendataZone = aws_route53.HostedZone.fromLookup(this, 'SecondaryOpendataZone', {
+          domainName: props.secondaryFqdn
+        })
+
+        this.zones = [this.subZone, opendataZone, secondaryOpendataZone];
     }
 
 }
