@@ -22,6 +22,7 @@ import {ShieldStack} from "../lib/shield-stack";
 import {ShieldParameterStack} from "../lib/shield-parameter-stack";
 import { ClamavScannerStack } from '../lib/clamav-scanner-stack';
 import { DnssecStack } from '../lib/dnssec-stack';
+import { DnssecKeyStack } from '../lib/dnssec-key-stack';
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -60,6 +61,7 @@ const betaProps = {
   tertiaryFqdn: null,
   domainName: 'www.betaavoindata.fi',
   secondaryDomainName: 'www.betaopendata.fi',
+  dnssecKeyAlias: 'dnssec-key-beta',
 };
 
 const clusterStackBeta = new ClusterStack(app, 'ClusterStack-beta', {
@@ -376,6 +378,7 @@ const prodProps = {
   domainName: 'www.avoindata.fi',
   secondaryDomainName: 'www.opendata.fi',
   newDomainName: "avoindata.suomi.fi",
+  dnssecKeyAlias: 'dnssec-key-prod',
 };
 
 const clusterStackProd = new ClusterStack(app, 'ClusterStack-prod', {
@@ -668,12 +671,21 @@ const domainStackProd = new DomainStack(app, 'DomainStack-prod', {
   crossAccountId: betaProps.account
 })
 
+const dnssecKeyStackProd = new DnssecKeyStack(app, 'DnssecKeyStack-prod', {
+  env: {
+    account: prodProps.account,
+    region: 'us-east-1'
+  },
+  keyAlias: prodProps.dnssecKeyAlias
+})
+
 const dnssecStackProd = new DnssecStack(app, 'DnssecStack-prod', {
   env: {
     account: prodProps.account,
     region: prodProps.region
   },
-  zones: domainStackProd.zones
+  zones: domainStackProd.zones,
+  keyAlias: prodProps.dnssecKeyAlias
 })
 
 const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
@@ -687,12 +699,21 @@ const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
   secondaryFqdn: betaProps.secondaryFqdn,
 })
 
+const dnssecKeyStackBeta = new DnssecKeyStack(app, 'DnssecKeyStack-beta', {
+  env: {
+    account: betaProps.account,
+    region: 'us-east-1'
+  },
+  keyAlias: betaProps.dnssecKeyAlias
+})
+
 const dnssecStackBeta = new DnssecStack(app, 'DnssecStack-beta', {
   env: {
     account: betaProps.account,
     region: betaProps.region
   },
-  zones: subDomainStackBeta.zones
+  zones: subDomainStackBeta.zones,
+  keyAlias: betaProps.dnssecKeyAlias
 })
 
 const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
