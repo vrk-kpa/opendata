@@ -18,6 +18,9 @@ RUN chmod +x /docker-entrypoint.d/*.sh
 COPY www /var/www/
 
 
+HEALTHCHECK --interval=15s --timeout=5s \
+  CMD curl -f http://localhost/health || exit 1
+
 #
 # Production image
 #

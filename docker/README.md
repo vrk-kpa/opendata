@@ -111,7 +111,6 @@ This file is automatically detected by docker-compose so you don't need to pass 
 # NOTE: This example assumes you have cloned opendata-ckan and opendata-drupal repos to ../../ path.
 # NOTE: We don't want node_modules in our bind-mount, thus we mask it with empty volume!
 # NOTE: Remember to build the `opendata-assets` frontend project on the host machine!
-version: "3.8"
 services:
   ckan:
     image: opendata/ckan:latest
