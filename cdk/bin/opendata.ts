@@ -21,6 +21,7 @@ import {SubDomainStack} from "../lib/sub-domain-stack";
 import {ShieldStack} from "../lib/shield-stack";
 import {ShieldParameterStack} from "../lib/shield-parameter-stack";
 import { ClamavScannerStack } from '../lib/clamav-scanner-stack';
+import { DnssecStack } from '../lib/dnssec-stack';
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -56,6 +57,7 @@ const betaProps = {
   environment: 'beta',
   fqdn: 'betaavoindata.fi',
   secondaryFqdn: 'betaopendata.fi',
+  tertiaryFqdn: null,
   domainName: 'www.betaavoindata.fi',
   secondaryDomainName: 'www.betaopendata.fi',
 };
@@ -370,9 +372,10 @@ const prodProps = {
   environment: 'prod',
   fqdn: 'avoindata.fi',
   secondaryFqdn: 'opendata.fi',
+  tertiaryFqdn: "yhteentoimivuus.fi",
   domainName: 'www.avoindata.fi',
   secondaryDomainName: 'www.opendata.fi',
-  newDomainName: "avoindata.suomi.fi"
+  newDomainName: "avoindata.suomi.fi",
 };
 
 const clusterStackProd = new ClusterStack(app, 'ClusterStack-prod', {
@@ -658,8 +661,19 @@ const domainStackProd = new DomainStack(app, 'DomainStack-prod', {
     account: prodProps.account,
     region: prodProps.region,
   },
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  tertiaryFqdn: prodProps.tertiaryFqdn,
   zoneName: prodProps.newDomainName,
   crossAccountId: betaProps.account
+})
+
+const dnssecStackProd = new DnssecStack(app, 'DnssecStack-prod', {
+  env: {
+    account: prodProps.account,
+    region: prodProps.region
+  },
+  zones: domainStackProd.zones
 })
 
 const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
@@ -668,7 +682,15 @@ const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
     region: betaProps.region
   },
   prodAccountId: prodProps.account,
-  subDomainName: betaProps.environment
+  subDomainName: betaProps.environment,
+})
+
+const dnssecStackBeta = new DnssecStack(app, 'DnssecStack-beta', {
+  env: {
+    account: betaProps.account,
+    region: betaProps.region
+  },
+  zones: subDomainStackBeta.zones
 })
 
 const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
