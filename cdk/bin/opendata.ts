@@ -683,6 +683,8 @@ const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
   },
   prodAccountId: prodProps.account,
   subDomainName: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
 })
 
 const dnssecStackBeta = new DnssecStack(app, 'DnssecStack-beta', {
