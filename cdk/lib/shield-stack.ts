@@ -4,7 +4,7 @@ import {
   aws_sns,
   aws_ssm,
   aws_wafv2,
-  Stack, Token, CfnParameter, aws_sns_subscriptions
+  Stack, Token, CfnParameter, aws_sns_subscriptions, aws_cloudwatch, aws_route53
 } from "aws-cdk-lib";
 import {Construct} from "constructs";
 
@@ -16,9 +16,31 @@ export class ShieldStack extends Stack {
   constructor(scope: Construct, id: string, props: ShieldStackProps) {
     super(scope, id, props);
 
+    const targetResponseTimeAlarm = new aws_cloudwatch.Alarm(this, 'targetResponseTimeAlarm', {
+      metric: props.loadBalancer.metrics.targetResponseTime({
+        statistic: aws_cloudwatch.Stats.AVERAGE
+      }),
+      evaluationPeriods: 1,
+      threshold: 10,
+      alarmName: "TargetResponseTimeAlarm"
+    })
+
+
+    const healthCheck = new aws_route53.HealthCheck(this, 'healthCheck', {
+      type: aws_route53.HealthCheckType.CLOUDWATCH_METRIC,
+      alarmIdentifier: {
+        name: targetResponseTimeAlarm.alarmName,
+        region: "eu-west-1"
+      },
+      
+    })
+
     const cfnProtection = new aws_shield.CfnProtection(this, 'ShieldProtection', {
       name: 'Application Load Balancers',
-      resourceArn: props.loadBalancer.loadBalancerArn
+      resourceArn: props.loadBalancer.loadBalancerArn,
+      healthCheckArns: [
+        `arn:aws:route53:::healthcheck/${healthCheck.healthCheckId}`
+      ]
     })
     
 
