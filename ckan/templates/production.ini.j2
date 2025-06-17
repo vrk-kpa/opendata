@@ -171,8 +171,6 @@ ckanext.ytp.harvester_status_zulip_topic = Harvester status
 ckanext.ytp.fault_recipients = {% if environ('CKAN_HARVESTER_FAULT_RECIPIENTS') != 'null' %} {{ environ('CKAN_HARVESTER_FAULT_RECIPIENTS') }} {% else %} '' {% endif %}
 ckanext.ytp.harvester_instruction_url = {% if environ('CKAN_HARVESTER_INSTRUCTION_URL') != 'null' %} {{ environ('CKAN_HARVESTER_INSTRUCTION_URL') }} {% else %} '' {% endif %}
 
-ckanext.prh_tools.mail_recipients = {% if environ('CKAN_HARVESTER_STATUS_RECIPIENTS') != 'null' %} {{ environ('CKAN_HARVESTER_STATUS_RECIPIENTS') }} {% else %} '' {% endif %}
-
 ckanext.forcetranslation.module = ckanext.ytp
 ckanext.forcetranslation.path = i18n
 ckanext.forcetranslation.domain = ckanext-ytp_main
