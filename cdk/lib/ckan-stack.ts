@@ -201,10 +201,6 @@ export class CkanStack extends Stack {
       'sitesearch',
     ];
 
-    if (props.prhToolsInUse) {
-      ckanPlugins.push('prh_tools')
-    }
-
     const ckanContainerEnv: { [key: string]: string; } = {
       // .env.ckan
       CKAN_IMAGE_TAG: props.envProps.CKAN_IMAGE_TAG,
