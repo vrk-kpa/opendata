@@ -12,7 +12,6 @@ export interface CkanStackProps extends EcsStackProps {
   fusekiTaskDef: EcsStackPropsTaskDef,
   ckanUwsgiProps: CkanUwsgiProps,
   ckanCronEnabled: boolean;
-  prhToolsInUse: boolean;
   archiverSendNotificationEmailsToMaintainers: boolean;
   archiverExemptDomainsFromBrokenLinkNotifications: string[];
   cloudstorageEnabled: boolean;

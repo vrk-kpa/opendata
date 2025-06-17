@@ -1,6 +1,5 @@
 extend-exclude = [
   "ckanext-spatial",
-  "ckanext-prh_tools",
   "ckanext-dcat",
   "ckanext-fluent",
   "ckanext-sitesearch",
