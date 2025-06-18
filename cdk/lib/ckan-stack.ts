@@ -375,7 +375,7 @@ export class CkanStack extends Stack {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_ENABLED'] = 'true';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = pCkanCloudstorageDriver.stringValue;
       ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = pCkanCloudstorageContainerName.stringValue;
-      ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = true
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = 'true'
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER_OPTIONS'] = '';
 
       ckanTaskPolicyAllowCloudstorage = new iam.PolicyStatement({
@@ -392,7 +392,7 @@ export class CkanStack extends Stack {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_ENABLED'] = 'false';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = '';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = '';
-      ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = false;
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = 'false';
     }
 
     const ckanLogGroup = new logs.LogGroup(this, 'ckanLogGroup', {
