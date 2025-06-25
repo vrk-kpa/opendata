@@ -314,7 +314,7 @@ RUN \
   # install extensions
   ${SCRIPT_DIR}/install_extensions.sh && \
   # Copy project directory so it can be replaced with a writable tmpfs mount
-  cp -aR ${APP_DIR}/* ${APP_DIR}_readonly && \
+  cp -aR ${APP_DIR} ${APP_DIR}_readonly && \
   # make entrypoint script executable
   chmod a+x ${APP_DIR}_readonly/scripts/*
 
