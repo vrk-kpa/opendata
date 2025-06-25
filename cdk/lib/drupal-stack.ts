@@ -110,7 +110,42 @@ export class DrupalStack extends Stack {
             },
             transitEncryption: 'ENABLED',
           },
-        }
+        },
+        {
+          name: 'drupal_tmp_tmpfs',
+          dockerVolumeConfiguration: {
+            scope: ecs.Scope.TASK,
+            driver: "tmpfs",
+            driverOpts: {
+              'type': 'tmpfs',
+              'device': 'tmpfs',
+              'o': 'exec,mode=1777'
+            }
+          }
+        },
+        {
+          name: 'drupal_var_run_apache2_tmpfs',
+          dockerVolumeConfiguration: {
+            scope: ecs.Scope.TASK,
+            driver: "tmpfs",
+            driverOpts: {
+              'type': 'tmpfs',
+              'device': 'tmpfs',
+            }
+          }
+        },
+        {
+          name: 'drupal_opt_drupal_tmpfs',
+          dockerVolumeConfiguration: {
+            scope: ecs.Scope.TASK,
+            driver: "tmpfs",
+            driverOpts: {
+              'type': 'tmpfs',
+              'device': 'tmpfs',
+              'o': 'exec,uid=33,gid=33,mode=0755'
+            }
+          }
+        },
       ],
     });
 
@@ -224,6 +259,7 @@ export class DrupalStack extends Stack {
       linuxParameters: new ecs.LinuxParameters(this, 'drupalContainerLinuxParams', {
         initProcessEnabled: true,
       }),
+      readonlyRootFilesystem: true
     });
 
     drupalContainer.addPortMappings({
@@ -232,10 +268,26 @@ export class DrupalStack extends Stack {
     });
 
     drupalContainer.addMountPoints({
-      containerPath: '/opt/drupal/web/sites/default/files',
-      readOnly: false,
-      sourceVolume: 'drupal_sites',
-    });
+        containerPath: '/opt/drupal/web/sites/default/files',
+        readOnly: false,
+        sourceVolume: 'drupal_sites',
+      },
+      {
+        containerPath: '/tmp',
+        readOnly: false,
+        sourceVolume: 'drupal_tmp_tmpfs',
+      },
+      {
+        containerPath: '/var/run/apache2',
+        readOnly: false,
+        sourceVolume: 'drupal_var_run_apache2_tmpfs',
+      },
+      {
+        containerPath: '/opt/drupal',
+        readOnly: false,
+        sourceVolume: 'drupal_opt_drupal_tmpfs',
+      },
+    );
 
     const drupalTaskPolicyAllowExec = new iam.PolicyStatement({
       actions: [

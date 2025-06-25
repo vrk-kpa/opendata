@@ -131,6 +131,30 @@ export class CkanStack extends Stack {
             transitEncryption: 'ENABLED',
           },
         },
+        {
+          name: 'ckan_tmp_tmpfs',
+          dockerVolumeConfiguration: {
+            scope: ecs.Scope.TASK,
+            driver: "tmpfs",
+            driverOpts: {
+              'type': 'tmpfs',
+              'device': 'tmpfs',
+              'o': 'exec,mode=1777'
+            }
+          }
+        },
+        {
+          name: 'ckan_srv_app_tmpfs',
+          dockerVolumeConfiguration: {
+            scope: ecs.Scope.TASK,
+            driver: "tmpfs",
+            driverOpts: {
+              'type': 'tmpfs',
+              'device': 'tmpfs',
+              'o': 'exec,uid=92,gid=92,mode=0755'
+            }
+          }
+        },
       ],
     });
 
@@ -419,6 +443,7 @@ export class CkanStack extends Stack {
       linuxParameters: new ecs.LinuxParameters(this, 'ckanContainerLinuxParams', {
         initProcessEnabled: true,
       }),
+      readonlyRootFilesystem: true,
     });
 
 
@@ -433,6 +458,16 @@ export class CkanStack extends Stack {
       containerPath: '/srv/app/data',
       readOnly: false,
       sourceVolume: 'ckan_data',
+      },
+      {
+        containerPath: '/srv/app',
+        readOnly: false,
+        sourceVolume: 'ckan_srv_app_tmpfs',
+      },
+      {
+        containerPath: '/tmp',
+        readOnly: false,
+        sourceVolume: 'ckan_tmp_tmpfs',
     });
 
     const ckanTaskPolicyAllowExec = new iam.PolicyStatement({
@@ -504,7 +539,31 @@ export class CkanStack extends Stack {
               },
               transitEncryption: 'ENABLED',
             },
-          }
+          },
+          {
+            name: 'ckan_cron_tmp_tmpfs',
+            dockerVolumeConfiguration: {
+              scope: ecs.Scope.TASK,
+              driver: "tmpfs",
+              driverOpts: {
+                'type': 'tmpfs',
+                'device': 'tmpfs',
+                'o': 'exec,mode=1777'
+              }
+            }
+          },
+          {
+            name: 'ckan_cron_srv_app_tmpfs',
+            dockerVolumeConfiguration: {
+              scope: ecs.Scope.TASK,
+              driver: "tmpfs",
+              driverOpts: {
+                'type': 'tmpfs',
+                'device': 'tmpfs',
+                'o': 'exec,uid=92,gid=92,mode=0755'
+              }
+            }
+          },
         ],
       });
 
@@ -528,13 +587,24 @@ export class CkanStack extends Stack {
           retries: 5,
           startPeriod: Duration.seconds(60),
         },
+        readonlyRootFilesystem: true,
       });
 
       ckanCronContainer.addMountPoints({
-        containerPath: '/srv/app/data',
-        readOnly: false,
-        sourceVolume: 'ckan_data',
-      });
+          containerPath: '/srv/app/data',
+          readOnly: false,
+          sourceVolume: 'ckan_data',
+        },
+        {
+          containerPath: '/srv/app',
+          readOnly: false,
+          sourceVolume: 'ckan_cron_srv_app_tmpfs',
+        },
+        {
+          containerPath: '/tmp',
+          readOnly: false,
+          sourceVolume: 'ckan_cron_tmp_tmpfs',
+        });
 
       ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
       if (props.cloudstorageEnabled) {
@@ -585,6 +655,20 @@ export class CkanStack extends Stack {
     const datapusherTaskDef = new ecs.FargateTaskDefinition(this, 'datapusherTaskDef', {
       cpu: props.datapusherTaskDef.taskCpu,
       memoryLimitMiB: props.datapusherTaskDef.taskMem,
+      volumes: [
+        {
+          name: 'datapusher_tmp_tmpfs',
+          dockerVolumeConfiguration: {
+            scope: ecs.Scope.TASK,
+            driver: "tmpfs",
+            driverOpts: {
+              'type': 'tmpfs',
+              'device': 'tmpfs',
+              'o': 'exec,mode=1777'
+            }
+          }
+        },
+      ]
     });
 
 
@@ -640,6 +724,7 @@ export class CkanStack extends Stack {
         retries: 5,
         startPeriod: Duration.seconds(15),
       },
+      readonlyRootFilesystem: true
     });
 
 
@@ -648,6 +733,11 @@ export class CkanStack extends Stack {
       protocol: ecs.Protocol.TCP,
     });
 
+    datapusherContainer.addMountPoints({
+      containerPath: '/tmp',
+      readOnly: false,
+      sourceVolume: 'datapusher_tmp_tmpfs',
+    });
 
     datapusherTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
 
@@ -710,7 +800,19 @@ export class CkanStack extends Stack {
             },
             transitEncryption: 'ENABLED',
           },
-        }
+        },
+        {
+          name: 'solr_tmp_tmpfs',
+          dockerVolumeConfiguration: {
+            scope: ecs.Scope.TASK,
+            driver: "tmpfs",
+            driverOpts: {
+              'type': 'tmpfs',
+              'device': 'tmpfs',
+              'o': 'exec,mode=1777'
+            }
+          }
+        },
       ],
     });
 
@@ -738,6 +840,7 @@ export class CkanStack extends Stack {
         logGroup: solrLogGroup,
         streamPrefix: 'solr-service',
       }),
+      readonlyRootFilesystem: true
     });
 
     solrContainer.addPortMappings({
@@ -745,11 +848,18 @@ export class CkanStack extends Stack {
       protocol: ecs.Protocol.TCP,
     });
 
+
     solrContainer.addMountPoints({
-      containerPath: '/var/solr/data/ckan/data',
-      readOnly: false,
-      sourceVolume: 'solr_data',
-    });
+        containerPath: '/var/solr/data/ckan/data',
+        readOnly: false,
+        sourceVolume: 'solr_data',
+      },
+      {
+        containerPath: '/tmp',
+        readOnly: false,
+        sourceVolume: 'solr_tmp_tmpfs',
+      }
+    );
 
     const solrService = new ecs.FargateService(this, 'solrService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
@@ -807,7 +917,19 @@ export class CkanStack extends Stack {
             },
             transitEncryption: 'ENABLED',
           },
-        }
+        },
+        {
+          name: 'fuseki_tmp_tmpfs',
+          dockerVolumeConfiguration: {
+            scope: ecs.Scope.TASK,
+            driver: "tmpfs",
+            driverOpts: {
+              'type': 'tmpfs',
+              'device': 'tmpfs',
+              'o': 'exec,mode=1777'
+            }
+          }
+        },
       ],
     });
 
@@ -844,10 +966,15 @@ export class CkanStack extends Stack {
     });
 
     fusekiContainer.addMountPoints({
-      containerPath: '/fuseki',
-      readOnly: false,
-      sourceVolume: 'fuseki_data',
-    });
+        containerPath: '/fuseki',
+        readOnly: false,
+        sourceVolume: 'fuseki_data',
+      },
+      {
+        containerPath: '/tmp',
+        readOnly: false,
+        sourceVolume: 'fuseki_tmp_tmpfs',
+      });
 
     const fusekiService = new ecs.FargateService(this, 'fusekiService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,

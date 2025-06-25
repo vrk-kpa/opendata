@@ -279,7 +279,7 @@ services:
     tmpfs:
         - /tmp:mode=1777
         - /var/run/apache2
-        - /opt/drupal:exec,uid=92,gid=92,mode=0755
+        - /opt/drupal:exec,uid=33,gid=33,mode=0755
     volumes:
       - drupal_data:/opt/drupal/web/sites/default/files
     healthcheck:
