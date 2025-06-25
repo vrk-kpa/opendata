@@ -3,6 +3,9 @@ set -e
 
 echo "entrypoint_cron ..."
 
+# Copy app from readonly copy to tmpfs mount
+cp -Rn ${APP_DIR}_readonly/* ${APP_DIR}
+
 # wait for ckan to initialize properly
 while [[ "$(cat ${DATA_DIR}/.init-done)" != "$CKAN_IMAGE_TAG" ]]; do
   echo "entrypoint_cron - waiting for .init-done flag to be set ..."

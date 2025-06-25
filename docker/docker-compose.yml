@@ -67,6 +67,7 @@ services:
     build:
       context: ./postgres
     restart: on-failure
+    read_only: true
     ports:
       - "5432:5432"
     networks:
@@ -90,6 +91,8 @@ services:
       - DB_CKAN_TEST=${DB_CKAN_TEST}
       - DB_CKAN_TEST_USER=${DB_CKAN_TEST_USER}
       - DB_CKAN_TEST_PASS=${DB_CKAN_TEST_PASS}
+    tmpfs:
+        - /var/run/postgresql:uid=999,gid=999
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -102,6 +105,7 @@ services:
   redis:
     image: redis:${REDIS_IMAGE_TAG}
     restart: on-failure
+    read_only: true
     expose:
       - 6379
     networks:
@@ -116,16 +120,20 @@ services:
   solr:
     image: ${REGISTRY}/${REPOSITORY}/solr:${SOLR_IMAGE_TAG}
     restart: always
+    read_only: true
     expose:
       - 8983
     networks:
       - backend
+    tmpfs:
+        - /tmp:mode=1777
     volumes:
       - solr_data:/var/solr/data/ckan/data
 
   ckan:
     image: ${REGISTRY}/${REPOSITORY}/ckan:${CKAN_IMAGE_TAG}
     restart: always
+    read_only: true
     networks:
       - frontend
       - backend
@@ -139,8 +147,15 @@ services:
       - ./.env.ckan.local
     environment:
       <<: *env-ckan
+    tmpfs:
+        # exec required for some pip packages that use executable build dependencies like pyproj->Cython
+        - /tmp:exec,mode=1777
+        # Image's /srv/app is copied here in init script
+        - /srv/app:exec,uid=92,gid=92,mode=0755
     volumes:
       - ckan_data:/srv/app/data
+      # Needed for packages installed by extensions in init scripts
+      - /usr/local
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:5000/api/3/action/status_show --user-agent 'docker-healthcheck' || exit 1"]
       interval: 15s
@@ -151,7 +166,8 @@ services:
   ckan_cron:
     image: ${REGISTRY}/${REPOSITORY}/ckan:${CKAN_IMAGE_TAG}
     restart: always
-    entrypoint: /srv/app/scripts/entrypoint_cron.sh
+    read_only: true
+    entrypoint: /srv/app_readonly/scripts/entrypoint_cron.sh
     networks:
       - frontend
       - backend
@@ -161,8 +177,15 @@ services:
       - ./.env.ckan.local
     environment:
       <<: *env-ckan
+    tmpfs:
+        # exec required for some pip packages that use executable build dependencies like pyproj->Cython
+        - /tmp:exec,mode=1777
+        # Image's /srv/app is copied here in init script
+        - /srv/app:exec,uid=92,gid=92,mode=0755
     volumes:
       - ckan_data:/srv/app/data
+      # Needed for packages installed by extensions in init scripts
+      - /usr/local
     healthcheck:
       test: ["CMD-SHELL", "ps | grep -o '[s]upercronic' && ps | grep -o '[s]upervisord --configuration'"]
       interval: 15s
@@ -173,6 +196,7 @@ services:
   datapusher:
     image: ${REGISTRY}/${REPOSITORY}/datapusher:${DATAPUSHER_IMAGE_TAG}
     restart: always
+    read_only: true
     networks:
       - frontend
       - backend
@@ -181,6 +205,11 @@ services:
         condition: service_healthy
       ckan:
         condition: service_healthy
+    tmpfs:
+        - /tmp:mode=1777
+    volumes:
+      # Needed to render .env, anonymous so it doesn't persist
+      - /srv/app/src/datapusher-plus/datapusher
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:${DATAPUSHER_PORT}/status || exit 1"]
       interval: 15s
@@ -204,6 +233,7 @@ services:
   drupal:
     image: ${REGISTRY}/${REPOSITORY}/drupal:${DRUPAL_IMAGE_TAG}
     restart: always
+    read_only: true
     networks:
       - frontend
       - backend
@@ -246,6 +276,10 @@ services:
       - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY}
       - SENTRY_DSN=${SENTRY_DSN}
       - SENTRY_ENV=${SENTRY_ENV}
+    tmpfs:
+        - /tmp:mode=1777
+        - /var/run/apache2
+        - /opt/drupal:exec,uid=92,gid=92,mode=0755
     volumes:
       - drupal_data:/opt/drupal/web/sites/default/files
     healthcheck:
@@ -258,6 +292,7 @@ services:
   nginx:
     image: ${REGISTRY}/${REPOSITORY}/nginx:${NGINX_IMAGE_TAG}
     restart: always
+    read_only: true
     networks:
       - frontend
     depends_on:
@@ -267,6 +302,12 @@ services:
       - "80:80"
     env_file:
       - ./.env.nginx.local
+    tmpfs:
+        - /tmp:mode=1777
+        - /var/cache/nginx:uid=101,gid=101
+        - /etc/nginx/conf.d
+    volumes:
+      - /var/www
     environment:
       - NGINX_PORT=${NGINX_PORT}
       - DOMAIN_NAME=${DOMAIN_NAME}
@@ -280,6 +321,7 @@ services:
   fuseki:
     image: stain/jena-fuseki:${FUSEKI_IMAGE_TAG}
     restart: on-failure
+    read_only: true
     networks:
       - frontend
       - backend
@@ -288,6 +330,8 @@ services:
     environment:
       ADMIN_PASSWORD: "${FUSEKI_ADMIN_PASS}"
       FUSEKI_DATASET_1: "${FUSEKI_OPENDATA_DATASET}"
+    tmpfs:
+        - /tmp:mode=1777
     volumes:
       - fuseki_data:/fuseki
     healthcheck:
@@ -302,6 +346,7 @@ services:
   mailhog:
     image: mailhog/mailhog:latest
     restart: on-failure
+    read_only: true
     networks:
       - frontend
       - backend
@@ -313,6 +358,8 @@ services:
       - MH_HOSTNAME=${SMTP_HOST}
       - MH_STORAGE=memory
       - MH_AUTH_FILE=/mailhog/auth
+    tmpfs:
+        - /tmp:mode=1777
     volumes:
       - ./.mh-auth:/mailhog/auth
 
@@ -320,7 +367,9 @@ volumes:
   postgres_data:
   solr_data:
   ckan_data:
+  ckan_src:
   drupal_data:
+  drupal_site:
   fuseki_data:
 
 networks:

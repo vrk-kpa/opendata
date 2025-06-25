@@ -10,6 +10,9 @@ export CKAN_SYSADMIN_NAME="${SYSADMIN_USER}"
 export CKAN_SYSADMIN_PASSWORD="${SYSADMIN_PASS}"
 export CKAN_SYSADMIN_EMAIL="${SYSADMIN_EMAIL}"
 
+# Copy app from readonly copy to tmpfs mount
+cp -Rn ${APP_DIR}_readonly/* ${APP_DIR}
+
 # install extensions (DEV_MODE)
 if [[ "${DEV_MODE}" == "true" ]]; then
     echo "entrypoint_ckan - installing extensions because DEV_MODE = 'true' ..."
