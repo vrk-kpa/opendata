@@ -6,14 +6,22 @@ import FormData = require('form-data');
 const { ZULIP_API_URL, ZULIP_API_USER, ZULIP_API_KEY_SECRET, ZULIP_STREAM, ZULIP_TOPIC } = process.env;
 
 function eventMessage(event: any) {
-  if(event.Sns?.Message?.detail?.stoppedReason) {
-    // Container stopped event
-    const {taskArn, group, stoppedReason} = event.Sns.Message.detail;
-    return `${taskArn} (${group}): ${stoppedReason}`;
-  } else if(event.Sns !== undefined) {
-    // Generic SNS message
-    return `${event.Sns.Subject} [${event.Sns.Timestamp}]:\n${event.Sns.Message}`
+  if(event.Sns !== undefined) {
+    // SNS message
+    const timestamp = event.Sns.Timestamp;
+    const subject = event.Sns.Subject;
+    const message = JSON.parse(event.Sns.Message);
+
+    if(message.detail?.stoppedReason) {
+      // Container stopped event
+      const {taskArn, group, stoppedReason} = message.detail;
+      return `[${timestamp}] ${taskArn} (${group}): ${stoppedReason}`;
+    } else {
+      // Generic SNS message
+      return `${subject} [${timestamp}]:\n${JSON.stringify(message)}`
+    }
   } else {
+    // Other message type
     return `Unknown message type: ${JSON.stringify(event)}`;
   }
 }
