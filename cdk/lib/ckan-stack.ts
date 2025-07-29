@@ -431,8 +431,7 @@ export class CkanStack extends Stack {
       containerPath: '/srv/app/data',
       readOnly: false,
       sourceVolume: 'ckan_data',
-      },
-    );
+    });
 
     const ckanTaskPolicyAllowExec = new iam.PolicyStatement({
       actions: [
