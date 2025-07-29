@@ -646,7 +646,6 @@ export class CkanStack extends Stack {
       protocol: ecs.Protocol.TCP,
     });
 
-
     datapusherTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
 
     const datapusherService = new ecs.FargateService(this, 'datapusherService', {
@@ -708,7 +707,19 @@ export class CkanStack extends Stack {
             },
             transitEncryption: 'ENABLED',
           },
-        }
+        },
+        {
+          name: 'solr_tmp_tmpfs',
+          dockerVolumeConfiguration: {
+            scope: ecs.Scope.TASK,
+            driver: "tmpfs",
+            driverOpts: {
+              'type': 'tmpfs',
+              'device': 'tmpfs',
+              'o': 'exec,mode=1777'
+            }
+          }
+        },
       ],
     });
 
@@ -736,6 +747,7 @@ export class CkanStack extends Stack {
         logGroup: solrLogGroup,
         streamPrefix: 'solr-service',
       }),
+      readonlyRootFilesystem: true
     });
 
     solrContainer.addPortMappings({
@@ -743,11 +755,18 @@ export class CkanStack extends Stack {
       protocol: ecs.Protocol.TCP,
     });
 
+
     solrContainer.addMountPoints({
-      containerPath: '/var/solr/data/ckan/data',
-      readOnly: false,
-      sourceVolume: 'solr_data',
-    });
+        containerPath: '/var/solr/data/ckan/data',
+        readOnly: false,
+        sourceVolume: 'solr_data',
+      },
+      {
+        containerPath: '/tmp',
+        readOnly: false,
+        sourceVolume: 'solr_tmp_tmpfs',
+      }
+    );
 
     const solrService = new ecs.FargateService(this, 'solrService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
@@ -805,7 +824,19 @@ export class CkanStack extends Stack {
             },
             transitEncryption: 'ENABLED',
           },
-        }
+        },
+        {
+          name: 'fuseki_tmp_tmpfs',
+          dockerVolumeConfiguration: {
+            scope: ecs.Scope.TASK,
+            driver: "tmpfs",
+            driverOpts: {
+              'type': 'tmpfs',
+              'device': 'tmpfs',
+              'o': 'exec,mode=1777'
+            }
+          }
+        },
       ],
     });
 
@@ -842,10 +873,15 @@ export class CkanStack extends Stack {
     });
 
     fusekiContainer.addMountPoints({
-      containerPath: '/fuseki',
-      readOnly: false,
-      sourceVolume: 'fuseki_data',
-    });
+        containerPath: '/fuseki',
+        readOnly: false,
+        sourceVolume: 'fuseki_data',
+      },
+      {
+        containerPath: '/tmp',
+        readOnly: false,
+        sourceVolume: 'fuseki_tmp_tmpfs',
+      });
 
     const fusekiService = new ecs.FargateService(this, 'fusekiService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,

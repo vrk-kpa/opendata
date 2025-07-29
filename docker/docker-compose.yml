@@ -67,6 +67,7 @@ services:
     build:
       context: ./postgres
     restart: on-failure
+    read_only: true
     ports:
       - "5432:5432"
     networks:
@@ -90,6 +91,8 @@ services:
       - DB_CKAN_TEST=${DB_CKAN_TEST}
       - DB_CKAN_TEST_USER=${DB_CKAN_TEST_USER}
       - DB_CKAN_TEST_PASS=${DB_CKAN_TEST_PASS}
+    tmpfs:
+        - /var/run/postgresql:uid=999,gid=999
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -102,6 +105,7 @@ services:
   redis:
     image: redis:${REDIS_IMAGE_TAG}
     restart: on-failure
+    read_only: true
     expose:
       - 6379
     networks:
@@ -116,10 +120,13 @@ services:
   solr:
     image: ${REGISTRY}/${REPOSITORY}/solr:${SOLR_IMAGE_TAG}
     restart: always
+    read_only: true
     expose:
       - 8983
     networks:
       - backend
+    tmpfs:
+        - /tmp:mode=1777
     volumes:
       - solr_data:/var/solr/data/ckan/data
 
@@ -258,6 +265,7 @@ services:
   nginx:
     image: ${REGISTRY}/${REPOSITORY}/nginx:${NGINX_IMAGE_TAG}
     restart: always
+    read_only: true
     networks:
       - frontend
     depends_on:
@@ -267,6 +275,12 @@ services:
       - "80:80"
     env_file:
       - ./.env.nginx.local
+    tmpfs:
+        - /tmp:mode=1777
+        - /var/cache/nginx:uid=101,gid=101
+        - /etc/nginx/conf.d
+    volumes:
+      - /var/www
     environment:
       - NGINX_PORT=${NGINX_PORT}
       - DOMAIN_NAME=${DOMAIN_NAME}
@@ -280,6 +294,7 @@ services:
   fuseki:
     image: stain/jena-fuseki:${FUSEKI_IMAGE_TAG}
     restart: on-failure
+    read_only: true
     networks:
       - frontend
       - backend
@@ -288,6 +303,8 @@ services:
     environment:
       ADMIN_PASSWORD: "${FUSEKI_ADMIN_PASS}"
       FUSEKI_DATASET_1: "${FUSEKI_OPENDATA_DATASET}"
+    tmpfs:
+        - /tmp:mode=1777
     volumes:
       - fuseki_data:/fuseki
     healthcheck:
@@ -302,6 +319,7 @@ services:
   mailhog:
     image: mailhog/mailhog:latest
     restart: on-failure
+    read_only: true
     networks:
       - frontend
       - backend
@@ -313,6 +331,8 @@ services:
       - MH_HOSTNAME=${SMTP_HOST}
       - MH_STORAGE=memory
       - MH_AUTH_FILE=/mailhog/auth
+    tmpfs:
+        - /tmp:mode=1777
     volumes:
       - ./.mh-auth:/mailhog/auth
 

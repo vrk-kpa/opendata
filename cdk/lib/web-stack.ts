@@ -28,6 +28,20 @@ export class WebStack extends Stack {
     const nginxTaskDef = new ecs.FargateTaskDefinition(this, 'nginxTaskDef', {
       cpu: props.nginxTaskDef.taskCpu,
       memoryLimitMiB: props.nginxTaskDef.taskMem,
+      volumes: [
+        {
+          name: 'nginx_tmp_tmpfs',
+          dockerVolumeConfiguration: {
+            scope: ecs.Scope.TASK,
+            driver: "tmpfs",
+            driverOpts: {
+              'type': 'tmpfs',
+              'device': 'tmpfs',
+              'o': 'exec,mode=1777'
+            }
+          }
+        },
+      ]
     });
 
     // define nginx content security policies
@@ -99,11 +113,18 @@ export class WebStack extends Stack {
         logGroup: nginxLogGroup,
         streamPrefix: 'nginx-service',
       }),
+      readonlyRootFilesystem: true
     });
 
     nginxContainer.addPortMappings({
       containerPort: 80,
       protocol: ecs.Protocol.TCP,
+    });
+
+    nginxContainer.addMountPoints({
+      containerPath: '/tmp',
+      readOnly: false,
+      sourceVolume: 'nginx_tmp_tmpfs',
     });
 
     const nginxServiceHostedZone = r53.HostedZone.fromLookup(this, 'nginxServiceHostedZone', {
