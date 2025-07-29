@@ -584,20 +584,6 @@ export class CkanStack extends Stack {
     const datapusherTaskDef = new ecs.FargateTaskDefinition(this, 'datapusherTaskDef', {
       cpu: props.datapusherTaskDef.taskCpu,
       memoryLimitMiB: props.datapusherTaskDef.taskMem,
-      volumes: [
-        {
-          name: 'datapusher_tmp_tmpfs',
-          dockerVolumeConfiguration: {
-            scope: ecs.Scope.TASK,
-            driver: "tmpfs",
-            driverOpts: {
-              'type': 'tmpfs',
-              'device': 'tmpfs',
-              'o': 'exec,mode=1777'
-            }
-          }
-        },
-      ]
     });
 
 
@@ -653,19 +639,12 @@ export class CkanStack extends Stack {
         retries: 5,
         startPeriod: Duration.seconds(15),
       },
-      readonlyRootFilesystem: true
     });
 
 
     datapusherContainer.addPortMappings({
       containerPort: 8800,
       protocol: ecs.Protocol.TCP,
-    });
-
-    datapusherContainer.addMountPoints({
-      containerPath: '/tmp',
-      readOnly: false,
-      sourceVolume: 'datapusher_tmp_tmpfs',
     });
 
     datapusherTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
