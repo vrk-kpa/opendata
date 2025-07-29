@@ -131,30 +131,6 @@ export class CkanStack extends Stack {
             transitEncryption: 'ENABLED',
           },
         },
-        {
-          name: 'ckan_tmp_tmpfs',
-          dockerVolumeConfiguration: {
-            scope: ecs.Scope.TASK,
-            driver: "tmpfs",
-            driverOpts: {
-              'type': 'tmpfs',
-              'device': 'tmpfs',
-              'o': 'exec,mode=1777'
-            }
-          }
-        },
-        {
-          name: 'ckan_srv_app_tmpfs',
-          dockerVolumeConfiguration: {
-            scope: ecs.Scope.TASK,
-            driver: "tmpfs",
-            driverOpts: {
-              'type': 'tmpfs',
-              'device': 'tmpfs',
-              'o': 'exec,uid=92,gid=92,mode=0755'
-            }
-          }
-        },
       ],
     });
 
@@ -441,7 +417,6 @@ export class CkanStack extends Stack {
       linuxParameters: new ecs.LinuxParameters(this, 'ckanContainerLinuxParams', {
         initProcessEnabled: true,
       }),
-      readonlyRootFilesystem: true,
     });
 
 
@@ -457,16 +432,7 @@ export class CkanStack extends Stack {
       readOnly: false,
       sourceVolume: 'ckan_data',
       },
-      {
-        containerPath: '/srv/app',
-        readOnly: false,
-        sourceVolume: 'ckan_srv_app_tmpfs',
-      },
-      {
-        containerPath: '/tmp',
-        readOnly: false,
-        sourceVolume: 'ckan_tmp_tmpfs',
-    });
+    );
 
     const ckanTaskPolicyAllowExec = new iam.PolicyStatement({
       actions: [
@@ -537,31 +503,7 @@ export class CkanStack extends Stack {
               },
               transitEncryption: 'ENABLED',
             },
-          },
-          {
-            name: 'ckan_cron_tmp_tmpfs',
-            dockerVolumeConfiguration: {
-              scope: ecs.Scope.TASK,
-              driver: "tmpfs",
-              driverOpts: {
-                'type': 'tmpfs',
-                'device': 'tmpfs',
-                'o': 'exec,mode=1777'
-              }
-            }
-          },
-          {
-            name: 'ckan_cron_srv_app_tmpfs',
-            dockerVolumeConfiguration: {
-              scope: ecs.Scope.TASK,
-              driver: "tmpfs",
-              driverOpts: {
-                'type': 'tmpfs',
-                'device': 'tmpfs',
-                'o': 'exec,uid=92,gid=92,mode=0755'
-              }
-            }
-          },
+          }
         ],
       });
 
@@ -585,24 +527,13 @@ export class CkanStack extends Stack {
           retries: 5,
           startPeriod: Duration.seconds(60),
         },
-        readonlyRootFilesystem: true,
       });
 
       ckanCronContainer.addMountPoints({
-          containerPath: '/srv/app/data',
-          readOnly: false,
-          sourceVolume: 'ckan_data',
-        },
-        {
-          containerPath: '/srv/app',
-          readOnly: false,
-          sourceVolume: 'ckan_cron_srv_app_tmpfs',
-        },
-        {
-          containerPath: '/tmp',
-          readOnly: false,
-          sourceVolume: 'ckan_cron_tmp_tmpfs',
-        });
+        containerPath: '/srv/app/data',
+        readOnly: false,
+        sourceVolume: 'ckan_data',
+      });
 
       ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
       if (props.cloudstorageEnabled) {

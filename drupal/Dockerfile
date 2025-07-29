@@ -65,11 +65,7 @@ ENV DEV_MODE=true
 # install drupal dev requirements
 RUN composer install --no-cache --dev
 
-# Make a copy of the app so a tmpfs can be mounted on top of it
-# The readonly copy will be copied onto the tmpfs in entrypoint
-RUN cp -aR ${APP_DIR} ${APP_DIR}_readonly
-
-ENTRYPOINT ["/opt/drupal_readonly/scripts/entrypoint.sh"]
+ENTRYPOINT ["/opt/drupal/scripts/entrypoint.sh"]
 
 #
 # Modules build (for production)
@@ -108,8 +104,4 @@ FROM drupal_build AS production
 COPY --from=modules_build ${MOD_DIR} ${MOD_DIR}
 RUN mv ${MOD_DIR}/avoindata-theme ${THEME_DIR}/avoindata/
 
-# Make a copy of the app so a tmpfs can be mounted on top of it
-# The readonly copy will be copied onto the tmpfs in entrypoint
-RUN cp -aR ${APP_DIR} ${APP_DIR}_readonly
-
-ENTRYPOINT ["/opt/drupal_readonly/scripts/entrypoint.sh"]
+ENTRYPOINT ["/opt/drupal/scripts/entrypoint.sh"]

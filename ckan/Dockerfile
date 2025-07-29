@@ -244,16 +244,13 @@ RUN \
   adduser ckan sudo && \
   echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
   # fix permissions
-  chown -R ckan:ckan ${APP_DIR} && \
-  # Copy project directory so it can be replaced with a writable tmpfs mount
-  cp -aR ${APP_DIR} ${APP_DIR}_readonly && \
-  chmod a+x ${APP_DIR}_readonly/scripts/*
+  chown -R ckan:ckan ${APP_DIR}
 
 
 # switch from root to ckan user
 USER ckan
 
-ENTRYPOINT ["/srv/app_readonly/scripts/entrypoint_ckan.sh"]
+ENTRYPOINT ["/srv/app/scripts/entrypoint_ckan.sh"]
 
 #
 # Modules build (for production)
@@ -309,16 +306,12 @@ RUN ${SCRIPT_DIR}/install_extension_requirements.sh
 COPY --from=modules_build ${EXT_DIR} ${EXT_DIR}
 
 RUN \
-  # fix permissions
-  chown -R ckan:ckan ${APP_DIR} && \
   # install extensions
   ${SCRIPT_DIR}/install_extensions.sh && \
-  # Copy project directory so it can be replaced with a writable tmpfs mount
-  cp -aR ${APP_DIR} ${APP_DIR}_readonly && \
-  # make entrypoint script executable
-  chmod a+x ${APP_DIR}_readonly/scripts/*
+  # fix permissions
+  chown -R ckan:ckan ${APP_DIR}
 
 # switch from root to ckan user
 USER ckan
 
-ENTRYPOINT ["/srv/app_readonly/scripts/entrypoint_ckan.sh"]
+ENTRYPOINT ["/srv/app/scripts/entrypoint_ckan.sh"]

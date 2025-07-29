@@ -133,7 +133,6 @@ services:
   ckan:
     image: ${REGISTRY}/${REPOSITORY}/ckan:${CKAN_IMAGE_TAG}
     restart: always
-    read_only: true
     networks:
       - frontend
       - backend
@@ -147,15 +146,8 @@ services:
       - ./.env.ckan.local
     environment:
       <<: *env-ckan
-    tmpfs:
-        # exec required for some pip packages that use executable build dependencies like pyproj->Cython
-        - /tmp:exec,mode=1777
-        # Image's /srv/app is copied here in init script
-        - /srv/app:exec,uid=92,gid=92,mode=0755
     volumes:
       - ckan_data:/srv/app/data
-      # Needed for packages installed by extensions in init scripts
-      - /usr/local
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:5000/api/3/action/status_show --user-agent 'docker-healthcheck' || exit 1"]
       interval: 15s
@@ -166,8 +158,7 @@ services:
   ckan_cron:
     image: ${REGISTRY}/${REPOSITORY}/ckan:${CKAN_IMAGE_TAG}
     restart: always
-    read_only: true
-    entrypoint: /srv/app_readonly/scripts/entrypoint_cron.sh
+    entrypoint: /srv/app/scripts/entrypoint_cron.sh
     networks:
       - frontend
       - backend
@@ -177,15 +168,8 @@ services:
       - ./.env.ckan.local
     environment:
       <<: *env-ckan
-    tmpfs:
-        # exec required for some pip packages that use executable build dependencies like pyproj->Cython
-        - /tmp:exec,mode=1777
-        # Image's /srv/app is copied here in init script
-        - /srv/app:exec,uid=92,gid=92,mode=0755
     volumes:
       - ckan_data:/srv/app/data
-      # Needed for packages installed by extensions in init scripts
-      - /usr/local
     healthcheck:
       test: ["CMD-SHELL", "ps | grep -o '[s]upercronic' && ps | grep -o '[s]upervisord --configuration'"]
       interval: 15s
@@ -233,7 +217,6 @@ services:
   drupal:
     image: ${REGISTRY}/${REPOSITORY}/drupal:${DRUPAL_IMAGE_TAG}
     restart: always
-    read_only: true
     networks:
       - frontend
       - backend
@@ -276,10 +259,6 @@ services:
       - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY}
       - SENTRY_DSN=${SENTRY_DSN}
       - SENTRY_ENV=${SENTRY_ENV}
-    tmpfs:
-        - /tmp:mode=1777
-        - /var/run/apache2
-        - /opt/drupal:exec,uid=33,gid=33,mode=0755
     volumes:
       - drupal_data:/opt/drupal/web/sites/default/files
     healthcheck:
@@ -367,9 +346,7 @@ volumes:
   postgres_data:
   solr_data:
   ckan_data:
-  ckan_src:
   drupal_data:
-  drupal_site:
   fuseki_data:
 
 networks:
