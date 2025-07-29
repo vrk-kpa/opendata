@@ -71,7 +71,8 @@ describe('SPARQL tests', () => {
         cy.visit('/data/sparql')
     });
 
-    it('SPARQL dataset title query', function(){
+    // The change sometimes takes a while to propagate to fuseki, so try three times 
+    it('SPARQL dataset title query', { retries: 3 }, function(){
         const query = 'PREFIX dcat: <http://www.w3.org/ns/dcat#> PREFIX dct: <http://purl.org/dc/terms/> SELECT ?s ?title WHERE { ?s dct:title ?title; a dcat:Dataset . } LIMIT 10'
 
         // CodeMirror requires special clearing

@@ -246,6 +246,7 @@ RUN \
   # fix permissions
   chown -R ckan:ckan ${APP_DIR}
 
+
 # switch from root to ckan user
 USER ckan
 
@@ -267,7 +268,6 @@ RUN apk add --no-cache curl nodejs libjpeg
 COPY ckanext/ ${EXT_DIR}/
 
 # Add module configuration here
-
 
 #
 # Production image
