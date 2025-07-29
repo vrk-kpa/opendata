@@ -709,16 +709,7 @@ export class CkanStack extends Stack {
           },
         },
         {
-          name: 'solr_tmp_tmpfs',
-          dockerVolumeConfiguration: {
-            scope: ecs.Scope.TASK,
-            driver: "tmpfs",
-            driverOpts: {
-              'type': 'tmpfs',
-              'device': 'tmpfs',
-              'o': 'exec,mode=1777'
-            }
-          }
+          name: 'solr_tmp_tmpfs'
         },
       ],
     });
@@ -827,15 +818,6 @@ export class CkanStack extends Stack {
         },
         {
           name: 'fuseki_tmp_tmpfs',
-          dockerVolumeConfiguration: {
-            scope: ecs.Scope.TASK,
-            driver: "tmpfs",
-            driverOpts: {
-              'type': 'tmpfs',
-              'device': 'tmpfs',
-              'o': 'exec,mode=1777'
-            }
-          }
         },
       ],
     });
