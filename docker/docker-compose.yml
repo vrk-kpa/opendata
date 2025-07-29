@@ -180,7 +180,6 @@ services:
   datapusher:
     image: ${REGISTRY}/${REPOSITORY}/datapusher:${DATAPUSHER_IMAGE_TAG}
     restart: always
-    read_only: true
     networks:
       - frontend
       - backend
@@ -189,11 +188,6 @@ services:
         condition: service_healthy
       ckan:
         condition: service_healthy
-    tmpfs:
-        - /tmp:mode=1777
-    volumes:
-      # Needed to render .env, anonymous so it doesn't persist
-      - /srv/app/src/datapusher-plus/datapusher
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:${DATAPUSHER_PORT}/status || exit 1"]
       interval: 15s
