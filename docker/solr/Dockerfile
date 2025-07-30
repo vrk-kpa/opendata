@@ -33,6 +33,7 @@ RUN chown -R "$SOLR_USER:$SOLR_USER" $SOLR_CORE_PATH/$SOLR_CORE
 # switch from root to solr user
 USER $SOLR_USER:$SOLR_USER
 
+# allow solr user to write to tmp in ecs fargate
 VOLUME /tmp
 
 HEALTHCHECK --interval=15s --timeout=5s \
