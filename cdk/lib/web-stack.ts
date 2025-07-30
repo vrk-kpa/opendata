@@ -32,6 +32,9 @@ export class WebStack extends Stack {
         {
           name: 'nginx_tmp_tmpfs',
         },
+        {
+          name: 'nginx_etc_confd'
+        }
       ]
     });
 
@@ -103,11 +106,18 @@ export class WebStack extends Stack {
       protocol: ecs.Protocol.TCP,
     });
 
+
     nginxContainer.addMountPoints({
       containerPath: '/tmp',
       readOnly: false,
       sourceVolume: 'nginx_tmp_tmpfs',
+    }, {
+      containerPath: '/etc/nginx/conf.d',
+      readOnly: false,
+      sourceVolume: 'nginx_etc_confd',
     });
+
+
 
     const nginxServiceHostedZone = r53.HostedZone.fromLookup(this, 'nginxServiceHostedZone', {
       domainName: props.fqdn,
