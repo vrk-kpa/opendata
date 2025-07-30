@@ -34,6 +34,15 @@ export class WebStack extends Stack {
         },
         {
           name: 'nginx_etc_confd'
+        },
+        {
+          name: 'nginx_var_cache'
+        },
+        {
+          name: 'nginx_var_run'
+        },
+        {
+          name: 'nginx_var_www'
         }
       ]
     });
@@ -115,6 +124,21 @@ export class WebStack extends Stack {
       containerPath: '/etc/nginx/conf.d',
       readOnly: false,
       sourceVolume: 'nginx_etc_confd',
+    },
+    {
+      containerPath: '/var/cache/nginx',
+      readOnly: false,
+      sourceVolume: 'nginx_var_cache',
+    },
+    {
+      containerPath: '/var/run',
+      readOnly: false,
+      sourceVolume: 'nginx_var_run',
+    },
+    {
+      containerPath: '/var/www',
+      readOnly: false,
+      sourceVolume: 'nginx_var_www'
     });
 
 
