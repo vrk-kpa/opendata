@@ -33,5 +33,7 @@ RUN chown -R "$SOLR_USER:$SOLR_USER" $SOLR_CORE_PATH/$SOLR_CORE
 # switch from root to solr user
 USER $SOLR_USER:$SOLR_USER
 
+VOLUME /tmp
+
 HEALTHCHECK --interval=15s --timeout=5s \
   CMD curl --fail -s http://localhost:8983/solr/ckan/admin/ping?wt=json | grep -o 'OK'
