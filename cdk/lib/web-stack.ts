@@ -31,15 +31,6 @@ export class WebStack extends Stack {
       volumes: [
         {
           name: 'nginx_tmp_tmpfs',
-          dockerVolumeConfiguration: {
-            scope: ecs.Scope.TASK,
-            driver: "tmpfs",
-            driverOpts: {
-              'type': 'tmpfs',
-              'device': 'tmpfs',
-              'o': 'exec,mode=1777'
-            }
-          }
         },
       ]
     });
