@@ -56,13 +56,15 @@ export class WebStack extends Stack {
       'cdn.matomo.cloud',
       'suomi.matomo.cloud',
       'https://js-de.sentry-cdn.com',
-      'https://browser.sentry-cdn.com'
+      'https://browser.sentry-cdn.com',
+      'cdn.jsdelivr.net'
     ];
     const nginxCspStyleSrc: string[] = [
       'https://fonts.googleapis.com',
       'https://www.google.com',
       'https://ajax.googleapis.com',
       'https://www.gstatic.com',
+      'cdn.jsdelivr.net'
     ];
     const nginxCspFrameSrc: string[] = [
       'https://www.google.com/recaptcha/',
@@ -72,6 +74,12 @@ export class WebStack extends Stack {
     const nginxCspConnectSrc: string[] = [
       "suomi.matomo.cloud",
       "*.sentry.io"
+    ]
+
+    const nginxCspFontSrc: string[] = [
+      "https://themes.googleusercontent.com",
+      "https://fonts.gstatic.com",
+      "cdn.jsdelivr.net"
     ]
 
     const nginxLogGroup = new logs.LogGroup(this, 'nginxLogGroup', {
@@ -90,6 +98,7 @@ export class WebStack extends Stack {
         NGINX_CSP_STYLE_SRC: nginxCspStyleSrc.join(' '),
         NGINX_CSP_FRAME_SRC: nginxCspFrameSrc.join(' '),
         NGINX_CSP_CONNECT_SRC: nginxCspConnectSrc.join(' '),
+        NGINX_CSP_FONT_SRC: nginxCspFontSrc.join(' '),
         // .env
         NGINX_PORT: '80',
         DOMAIN_NAME: props.domainName,
