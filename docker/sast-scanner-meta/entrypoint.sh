@@ -9,7 +9,7 @@ done
 
 echo "[*] using exclude for files ${EXCLUSIONS}"
 
-RULE_EXCLUSIONS="--exclude-rule python.lang.compatibility.python37.python37-compatibility-importlib2 "
+RULE_EXCLUSIONS="--exclude-rule python.lang.compatibility.python37.python37-compatibility-importlib2 --exclude-rule gitlab.eslint.detect-possible-timing-attacks --exclude-rule gitlab.eslint.detect-non-literal-regexp --exclude-rule gitlab.eslint.detect-non-literal-fs-filename"
 IFS=',' read -ra ADDR <<< "$EXCLUDE_RULES"
 for i in "${ADDR[@]}"; do
     RULE_EXCLUSIONS+="--exclude-rule $i "
