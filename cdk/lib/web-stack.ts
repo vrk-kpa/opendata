@@ -42,7 +42,7 @@ export class WebStack extends Stack {
           name: 'nginx_var_run'
         },
         {
-          name: 'nginx_var_www'
+          name: 'nginx_var_www_static'
         }
       ]
     });
@@ -136,9 +136,9 @@ export class WebStack extends Stack {
       sourceVolume: 'nginx_var_run',
     },
     {
-      containerPath: '/var/www',
+      containerPath: '/var/www/static',
       readOnly: false,
-      sourceVolume: 'nginx_var_www'
+      sourceVolume: 'nginx_var_www_static'
     });
 
 
