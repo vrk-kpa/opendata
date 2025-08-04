@@ -25,12 +25,18 @@ Parameters:
     Type: String
     Default: false
     AllowedValues: [true, false]
+  CreateScanRole:
+    Description: Is the scan role required for this aws account
+    Type: String
+    Default: false
+    AllowedValues: [ true, false ]
 
 Conditions:
   CreateOIDCProvider: !Equals 
     - !Ref OIDCProviderArn
     - ""
   ShouldCreateBuildRole: !Equals ['true', !Ref CreateBuildRole]
+  ShouldCreateScanRole: !Equals [ 'true', !Ref CreateScanRole ]
 
 Resources:
   Role:
