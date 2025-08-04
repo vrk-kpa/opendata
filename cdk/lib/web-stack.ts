@@ -31,16 +31,19 @@ export class WebStack extends Stack {
       volumes: [
         {
           name: 'nginx_tmp_tmpfs',
-          dockerVolumeConfiguration: {
-            scope: ecs.Scope.TASK,
-            driver: "tmpfs",
-            driverOpts: {
-              'type': 'tmpfs',
-              'device': 'tmpfs',
-              'o': 'exec,mode=1777'
-            }
-          }
         },
+        {
+          name: 'nginx_etc_confd'
+        },
+        {
+          name: 'nginx_var_cache'
+        },
+        {
+          name: 'nginx_var_run'
+        },
+        {
+          name: 'nginx_var_www_static'
+        }
       ]
     });
 
@@ -121,11 +124,33 @@ export class WebStack extends Stack {
       protocol: ecs.Protocol.TCP,
     });
 
+
     nginxContainer.addMountPoints({
       containerPath: '/tmp',
       readOnly: false,
       sourceVolume: 'nginx_tmp_tmpfs',
+    }, {
+      containerPath: '/etc/nginx/conf.d',
+      readOnly: false,
+      sourceVolume: 'nginx_etc_confd',
+    },
+    {
+      containerPath: '/var/cache/nginx',
+      readOnly: false,
+      sourceVolume: 'nginx_var_cache',
+    },
+    {
+      containerPath: '/var/run',
+      readOnly: false,
+      sourceVolume: 'nginx_var_run',
+    },
+    {
+      containerPath: '/var/www/static',
+      readOnly: false,
+      sourceVolume: 'nginx_var_www_static'
     });
+
+
 
     const nginxServiceHostedZone = r53.HostedZone.fromLookup(this, 'nginxServiceHostedZone', {
       domainName: props.fqdn,
