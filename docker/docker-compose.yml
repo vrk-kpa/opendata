@@ -280,8 +280,7 @@ services:
         - /var/cache/nginx:uid=101,gid=101
         - /var/run:uid=101,gid=101
         - /etc/nginx/conf.d
-    volumes:
-      - /var/www
+        - /var/www/static
     environment:
       - NGINX_PORT=${NGINX_PORT}
       - DOMAIN_NAME=${DOMAIN_NAME}
