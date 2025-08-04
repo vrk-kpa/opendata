@@ -17,6 +17,10 @@ Parameters:
     Description: Arn for the GitHub OIDC Provider.
     Default: ""
     Type: String
+  OIDCAudience:
+    Description: Audience supplied to configure-aws-credentials.
+    Default: "sts.amazonaws.com"
+    Type: String
   ECRRepositoryArn:
     Description: Arn for the ECR repositories.
     Type: String
@@ -30,6 +34,9 @@ Parameters:
     Type: String
     Default: false
     AllowedValues: [ true, false ]
+  ToolsRepositoryArn:
+    Description:  Arn for tools repository (Optional)
+    Type: String
 
 Conditions:
   CreateOIDCProvider: !Equals 
@@ -162,13 +169,13 @@ Resources:
             Principal:
               Federated: !If
                 - CreateOIDCProvider
-                - !Ref GithubOidc
+                - !Ref GitHubOIDC
                 - !Ref OIDCProviderArn
             Condition:
               StringEquals:
                 token.actions.githubusercontent.com:aud: !Ref OIDCAudience
               StringLike:
-                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrg}/${RepositoryName}:*
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrgName}/${GitHubRepositoryName}:*
       Policies:
         - PolicyName: ecr-tools-login
           PolicyDocument:
