@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EXCLUSIONS="*.md,web/coverage,web/node,web/node_properties,application.properties"
+EXCLUSIONS="README.md,LICENSE.md,web/coverage,web/node,web/node_properties,application.properties"
 EXCLUDES=""
 IFS=',' read -ra ADDR <<< "$EXCLUSIONS"
 for i in "${ADDR[@]}"; do
