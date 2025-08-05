@@ -17,6 +17,10 @@ Parameters:
     Description: Arn for the GitHub OIDC Provider.
     Default: ""
     Type: String
+  OIDCAudience:
+    Description: Audience supplied to configure-aws-credentials.
+    Default: "sts.amazonaws.com"
+    Type: String
   ECRRepositoryArn:
     Description: Arn for the ECR repositories.
     Type: String
@@ -25,12 +29,21 @@ Parameters:
     Type: String
     Default: false
     AllowedValues: [true, false]
+  CreateScanRole:
+    Description: Is the scan role required for this aws account
+    Type: String
+    Default: false
+    AllowedValues: [ true, false ]
+  ToolsRepositoryArn:
+    Description:  Arn for tools repository (Optional)
+    Type: String
 
 Conditions:
   CreateOIDCProvider: !Equals 
     - !Ref OIDCProviderArn
     - ""
   ShouldCreateBuildRole: !Equals ['true', !Ref CreateBuildRole]
+  ShouldCreateScanRole: !Equals [ 'true', !Ref CreateScanRole ]
 
 Resources:
   Role:
@@ -144,6 +157,42 @@ Resources:
               - Effect: Allow
                 Action: "ecr:*"
                 Resource: !Ref ECRRepositoryArn
+
+  ScanRole:
+    Type: AWS::IAM::Role
+    Condition: ShouldCreateScanRole
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRoleWithWebIdentity
+            Principal:
+              Federated: !If
+                - CreateOIDCProvider
+                - !Ref GitHubOIDC
+                - !Ref OIDCProviderArn
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: !Ref OIDCAudience
+              StringLike:
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrgName}/${GitHubRepositoryName}:*
+      Policies:
+        - PolicyName: ecr-tools-login
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "ecr:GetAuthorizationToken"
+                Resource: "*"
+        - PolicyName: ecr-tools-pull
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "ecr:BatchGetImage"
+                  - "ecr:GetDownloadUrlForLayer"
+                Resource: !Ref ToolsRepositoryArn
 
   GitHubOIDC:
     Type: AWS::IAM::OIDCProvider
