@@ -24,7 +24,7 @@ class ArticlesController extends ControllerBase {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
     $searchterm = $request->query->get('search');
-    $categoryfilter = $request->query->get('category');
+    $categoryfilter = $request->query->all('category');
 
     $articleNodeIdsTitleQuery = \Drupal::entityQuery('node')
       ->condition('type', 'avoindata_article')

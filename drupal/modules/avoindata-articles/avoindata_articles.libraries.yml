@@ -1,4 +1,4 @@
 avoindata_articles:
   version: 1.x
   js:
-    resources/main.js: {}
+    src/js/avoindata_articles.js: {}
