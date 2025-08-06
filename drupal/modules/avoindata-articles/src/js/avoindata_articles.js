@@ -2,17 +2,16 @@
  * @file
  */
 
-import queryString from 'query-string';
 document.addEventListener('readystatechange', event => {
   if (event.target.readyState === 'interactive') {
     addArticleSearchClickListeners();
     addArticleCategoryClickListeners();
 
-    const queryParams = queryString.parse(location.search);
-    const categories = [].concat(queryParams.category);
+    const queryParams = new URLSearchParams(location.search);
+    const categories = queryParams.getAll('category');
 
     if (categories) {
-      Array.from(categories).forEach(categoryParam => {
+      categories.forEach(categoryParam => {
         const relatedCategoryElem = document.querySelector(`.avoindata - article - category - filter[data - tagid = "${categoryParam}"]`);
         if (relatedCategoryElem) {
           relatedCategoryElem.classList.add('active');
@@ -69,10 +68,10 @@ function searchArticlesSubmit() {
     }
   })
 
-  const queryParams = queryString.stringify({
-    'search': searchInput.value,
-    'category[]': categoryFilterIds
-  });
+  const searchParams = new URLSearchParams();
+  searchParams.append('search', searchInput.value);
+  categoryFilterIds.forEach(c => searchParams.append('category[]', c));
+  const queryParams = searchParams.toString();
 
   if (queryParams.length > 0) {
     window.location.replace(window.location.origin + '/' + searchInput.dataset.searchLanguage + '/articles?' + queryParams);
