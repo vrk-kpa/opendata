@@ -22,7 +22,7 @@ var paths = {
     less: "src/less",
     ckan: "src/less/ckan",
     drupal: "src/less/drupal/style.less",
-    drupal_avoindata_header: "../drupal/modules/avoindata-header/resources/avoindata_header.js",
+    drupal_avoindata_header: "../drupal/modules/avoindata-header/src/js/avoindata_header.js",
     drupal_ckeditor_plugins: "src/less/drupal/custom-elements.less",
     drupal_ckeditor5_plugins: ["src/less/drupal/custom-elements.less", "src/less/drupal/editor.less"],
     templates: "src/templates/**/*",
