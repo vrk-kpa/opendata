@@ -68,20 +68,6 @@ updates:
   registries:
   - npm-registry-npm-fontawesome-com
 
-- package-ecosystem: npm
-  directory: "/drupal/modules/avoindata-header/"
-  schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
-
-- package-ecosystem: npm
-  directory: "/drupal/modules/avoindata-articles/"
-  schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
-
 - package-ecosystem: "composer"
   directory: "/drupal/"
   schedule:
