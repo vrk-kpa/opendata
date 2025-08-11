@@ -13,6 +13,7 @@ export class ShieldParameterStack extends Stack {
   readonly wafAutomationArn: aws_ssm.IStringParameter;
   readonly snsTopicArn: aws_ssm.IStringParameter;
   readonly evaluationPeriod: aws_ssm.IStringParameter;
+  readonly blockedUserAgentsParameterName: string;
 
   constructor(scope: Construct, id: string, props: EnvStackProps ) {
     super(scope, id, props);
@@ -73,6 +74,13 @@ export class ShieldParameterStack extends Stack {
       stringValue: '0',
       description: 'Evaluation period for rate limits',
       parameterName: `/${props.environment}/waf/evaluation_period`
+    })
+
+    this.blockedUserAgentsParameterName = `/${props.environment}/waf/blocked_user_agents`
+    new aws_ssm.StringParameter(this, 'blockedUserAgents', {
+      stringValue: "Some bogus user agent",
+      description: 'User Agents to be blocked in JSON',
+      parameterName: this.blockedUserAgentsParameterName
     })
   }
 }

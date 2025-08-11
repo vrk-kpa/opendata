@@ -20,7 +20,6 @@ export class CkanStack extends Stack {
   readonly ckanFsDataAccessPoint: efs.IAccessPoint;
   readonly solrFsDataAccessPoint: efs.IAccessPoint;
   readonly fusekiFsDataAccessPoint: efs.IAccessPoint;
-  readonly migrationFsAccessPoint?: efs.IAccessPoint;
   readonly ckanService: ecs.FargateService;
   readonly ckanCronService?: ecs.FargateService;
 
@@ -202,10 +201,6 @@ export class CkanStack extends Stack {
       'sitesearch',
     ];
 
-    if (props.prhToolsInUse) {
-      ckanPlugins.push('prh_tools')
-    }
-
     const ckanContainerEnv: { [key: string]: string; } = {
       // .env.ckan
       CKAN_IMAGE_TAG: props.envProps.CKAN_IMAGE_TAG,
@@ -380,8 +375,7 @@ export class CkanStack extends Stack {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_ENABLED'] = 'true';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = pCkanCloudstorageDriver.stringValue;
       ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = pCkanCloudstorageContainerName.stringValue;
-      ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = pCkanCloudstorageUseSecureUrls.stringValue;
-      ckanContainerEnv['CKAN_CLOUDSTORAGE_AWS_USE_BOTO3_SESSIONS'] = '1';
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = 'true'
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER_OPTIONS'] = '';
 
       ckanTaskPolicyAllowCloudstorage = new iam.PolicyStatement({
@@ -398,8 +392,7 @@ export class CkanStack extends Stack {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_ENABLED'] = 'false';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = '';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = '';
-      ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = '';
-      ckanContainerEnv['CKAN_CLOUDSTORAGE_AWS_USE_BOTO3_SESSIONS'] = '0';
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = 'false';
     }
 
     const ckanLogGroup = new logs.LogGroup(this, 'ckanLogGroup', {
@@ -494,41 +487,6 @@ export class CkanStack extends Stack {
       scaleOutCooldown: Duration.seconds(60),
     });
 
-    // mount migration filesystem if given
-    if (props.migrationFileSystemProps != null) {
-      this.migrationFsAccessPoint = new efs.AccessPoint(this, 'migrationFsAccessPoint', {
-        fileSystem: props.migrationFileSystemProps.fileSystem,
-        path: '/ytp_files',
-        posixUser: {
-          gid: '0',
-          uid: '0',
-        },
-      });
-
-      props.migrationFileSystemProps.fileSystem.grant(ckanTaskDef.taskRole, 'elasticfilesystem:ClientRootAccess');
-
-      ckanTaskDef.addVolume({
-        name: 'ytp_files',
-        efsVolumeConfiguration: {
-          fileSystemId: props.migrationFileSystemProps.fileSystem.fileSystemId,
-          authorizationConfig: {
-            accessPointId: this.migrationFsAccessPoint.accessPointId,
-          },
-          transitEncryption: 'ENABLED',
-        },
-      });
-
-      // NOTE: ckan storage path will be in: /mnt/ytp_files/ckan
-      ckanContainer.addMountPoints({
-        containerPath: '/mnt/ytp_files',
-        readOnly: true,
-        sourceVolume: 'ytp_files',
-      });
-
-      this.ckanService.connections.allowFrom(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (ckan migrate)');
-      this.ckanService.connections.allowTo(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (ckan migrate)');
-    }
-
     // ckan cron service
     if (props.ckanCronEnabled) {
       const ckanCronTaskDef = new ecs.FargateTaskDefinition(this, 'ckanCronTaskDef', {
@@ -562,7 +520,7 @@ export class CkanStack extends Stack {
           streamPrefix: 'ckan_cron-service',
         }),
         healthCheck: {
-          command: ['CMD-SHELL', 'ps aux | grep -o "[s]upercronic" && ps aux | grep -o "[s]upervisord --configuration"'],
+          command: ['CMD-SHELL', 'ps | grep -o "[s]upercronic" && ps | grep -o "[s]upervisord --configuration"'],
           interval: Duration.seconds(15),
           timeout: Duration.seconds(5),
           retries: 5,
@@ -673,13 +631,13 @@ export class CkanStack extends Stack {
         logGroup: datapusherLogGroup,
         streamPrefix: 'datapusher-service',
       }),
-      //healthCheck: {
-      //  command: ['CMD-SHELL', 'curl --fail http://localhost:8800/status || exit 1'],
-      //  interval: Duration.seconds(15),
-      //  timeout: Duration.seconds(5),
-      //  retries: 5,
-      //  startPeriod: Duration.seconds(15),
-      //},
+      healthCheck: {
+        command: ['CMD-SHELL', 'curl --fail http://localhost:8800/status || exit 1'],
+        interval: Duration.seconds(15),
+        timeout: Duration.seconds(5),
+        retries: 5,
+        startPeriod: Duration.seconds(15),
+      },
     });
 
 
@@ -687,7 +645,6 @@ export class CkanStack extends Stack {
       containerPort: 8800,
       protocol: ecs.Protocol.TCP,
     });
-
 
     datapusherTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
 
@@ -750,7 +707,10 @@ export class CkanStack extends Stack {
             },
             transitEncryption: 'ENABLED',
           },
-        }
+        },
+        {
+          name: 'solr_tmp_tmpfs'
+        },
       ],
     });
 
@@ -778,13 +738,7 @@ export class CkanStack extends Stack {
         logGroup: solrLogGroup,
         streamPrefix: 'solr-service',
       }),
-      healthCheck: {
-        command: ['CMD-SHELL', 'curl --fail -s http://localhost:8983/solr/ckan/admin/ping?wt=json | grep -o "OK"'],
-        interval: Duration.seconds(15),
-        timeout: Duration.seconds(5),
-        retries: 5,
-        startPeriod: Duration.seconds(15),
-      },
+      readonlyRootFilesystem: true
     });
 
     solrContainer.addPortMappings({
@@ -792,11 +746,18 @@ export class CkanStack extends Stack {
       protocol: ecs.Protocol.TCP,
     });
 
+
     solrContainer.addMountPoints({
-      containerPath: '/var/solr/data/ckan/data',
-      readOnly: false,
-      sourceVolume: 'solr_data',
-    });
+        containerPath: '/var/solr/data/ckan/data',
+        readOnly: false,
+        sourceVolume: 'solr_data',
+      },
+      {
+        containerPath: '/tmp',
+        readOnly: false,
+        sourceVolume: 'solr_tmp_tmpfs',
+      }
+    );
 
     const solrService = new ecs.FargateService(this, 'solrService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
@@ -854,7 +815,10 @@ export class CkanStack extends Stack {
             },
             transitEncryption: 'ENABLED',
           },
-        }
+        },
+        {
+          name: 'fuseki_tmp_tmpfs',
+        },
       ],
     });
 
@@ -874,7 +838,7 @@ export class CkanStack extends Stack {
         streamPrefix: 'fuseki-service',
       }),
       healthCheck: {
-        command: ['CMD-SHELL', 'curl --fail -s http://localhost:3030/$/ping'],
+        command: ['CMD-SHELL', 'curl --fail -s http://localhost:3030/$/ping || exit 1' ],
         interval: Duration.seconds(15),
         timeout: Duration.seconds(5),
         retries: 5,
@@ -891,10 +855,15 @@ export class CkanStack extends Stack {
     });
 
     fusekiContainer.addMountPoints({
-      containerPath: '/fuseki',
-      readOnly: false,
-      sourceVolume: 'fuseki_data',
-    });
+        containerPath: '/fuseki',
+        readOnly: false,
+        sourceVolume: 'fuseki_data',
+      },
+      {
+        containerPath: '/tmp',
+        readOnly: false,
+        sourceVolume: 'fuseki_tmp_tmpfs',
+      });
 
     const fusekiService = new ecs.FargateService(this, 'fusekiService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,

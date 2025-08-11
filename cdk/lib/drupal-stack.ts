@@ -16,7 +16,6 @@ import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 
 export class DrupalStack extends Stack {
   readonly drupalFsDataAccessPoint: efs.IAccessPoint;
-  readonly migrationFsAccessPoint?: efs.IAccessPoint;
   readonly drupalService: ecs.FargateService;
 
   constructor(scope: Construct, id: string, props: DrupalStackProps) {
@@ -290,39 +289,5 @@ export class DrupalStack extends Stack {
       scaleOutCooldown: Duration.seconds(60),
     });
 
-    // mount migration filesystem if given
-    if (props.migrationFileSystemProps != null) {
-      this.migrationFsAccessPoint = new efs.AccessPoint(this, 'migrationFsAccessPoint', {
-        fileSystem: props.migrationFileSystemProps.fileSystem,
-        path: '/ytp_files',
-        posixUser: {
-          gid: '0',
-          uid: '0',
-        },
-      });
-
-      props.migrationFileSystemProps.fileSystem.grant(drupalTaskDef.taskRole, 'elasticfilesystem:ClientRootAccess');
-
-      drupalTaskDef.addVolume({
-        name: 'ytp_files',
-        efsVolumeConfiguration: {
-          fileSystemId: props.migrationFileSystemProps.fileSystem.fileSystemId,
-          authorizationConfig: {
-            accessPointId: this.migrationFsAccessPoint.accessPointId,
-          },
-          transitEncryption: 'ENABLED',
-        },
-      });
-
-      // NOTE: drupal storage path will be in: /mnt/ytp_files/drupal
-      drupalContainer.addMountPoints({
-        containerPath: '/mnt/ytp_files',
-        readOnly: true,
-        sourceVolume: 'ytp_files',
-      });
-
-      this.drupalService.connections.allowFrom(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (drupal migrate)');
-      this.drupalService.connections.allowTo(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (drupal migrate)');
-    }
   }
 }

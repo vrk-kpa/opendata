@@ -27,7 +27,6 @@ pip install -e ${EXT_DIR}/ckanext-drupal8 \
     -e ${EXT_DIR}/ckanext-advancedsearch \
     -e ${EXT_DIR}/ckanext-forcetranslation \
     -e ${EXT_DIR}/ckanext-apis \
-    -e ${EXT_DIR}/ckanext-prh_tools \
     -e ${EXT_DIR}/ckanext-openapiviewer \
     -e ${EXT_DIR}/ckanext-statistics \
     -e ${EXT_DIR}/ckanext-sentry \

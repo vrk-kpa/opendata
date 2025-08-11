@@ -47,7 +47,7 @@ location = /favicon.ico {
 }
 
 location = /robots.txt {
-  root /var/www;
+  root /var/www/static;
   allow all;
   log_not_found off;
   access_log off;

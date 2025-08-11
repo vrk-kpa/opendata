@@ -362,7 +362,7 @@ def index(group_type, is_organization):
         context['user_is_admin'] = g.userobj.sysadmin
 
     # Check if to display all organizations or only those that have datasets
-    only_with_datasets_param = request.args.get('only_with_datasets', "True").lower() in ['true', True, 1, ]
+    only_with_datasets_param = request.args.get('only_with_datasets', "False").lower() in ['true', True, 1, ]
     extra_vars['only_with_datasets'] = only_with_datasets_param
     with_datasets = only_with_datasets_param
 

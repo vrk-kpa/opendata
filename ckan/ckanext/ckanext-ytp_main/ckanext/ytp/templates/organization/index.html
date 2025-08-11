@@ -20,6 +20,7 @@
   <div>
     {% block organizations_search_form %}
         <form class="search-form list-head-search-form" method="get" data-module="select-switch">
+          <input type="hidden" name="only_with_datasets" value="{{ only_with_datasets }}" >
           <div class="search-input control-group">
             <input data-organization-filter type="text" class="search form-control" name="q" value="{{ q }}" autocomplete="off" placeholder="{{ _('Search organizations...') }}">
             <button type="submit">

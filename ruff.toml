@@ -1,8 +1,5 @@
-select = ["E", "F"]
-
 extend-exclude = [
   "ckanext-spatial",
-  "ckanext-prh_tools",
   "ckanext-dcat",
   "ckanext-fluent",
   "ckanext-sitesearch",
@@ -13,3 +10,8 @@ extend-exclude = [
 
 line-length = 127
 
+[lint]
+select = ["E", "F"]
+
+[lint.per-file-ignores]
+"**/tests/*.py" = ["S101"]

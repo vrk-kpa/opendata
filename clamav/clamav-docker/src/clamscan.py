@@ -23,8 +23,8 @@ class ClamScanner:
 
     def __init__(self, file_name):
         self.file = file_name
-        self.start_clam_daemon()
         self.update_clamav_definitions()
+        self.start_clam_daemon()
 
 
     @staticmethod
@@ -66,7 +66,7 @@ class ClamScanner:
                 logger.info('Clamd is up')
                 self.clamd_up = True
             except Exception:
-                if clamd_retry_count == 12:
+                if clamd_retry_count >= clamd_max_retry_count:
                     raise Exception(
                         f'Clamd failed to respond within {clamd_max_retry_count} retries')
                 logger.warning('Clamd is not up yet, retrying in 10 seconds')

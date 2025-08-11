@@ -3,9 +3,24 @@ global-styling:
     theme:
       css/style.css: {}
       'vendor/@fortawesome/fontawesome/css/v4-shims.css': {preprocess: false}
-bootstrap-scripts:
+bootstrap:
+  css:
+    theme:
+      'https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css':
+        type: external
+        minified: true
+        attributes:
+          crossorigin: anonymous
+          integrity: 'sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu'
   js:
-    'vendor/bootstrap/dist/js/bootstrap.js': {preprocess: false}
+    'https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js':
+      type: external
+      minified: true
+      attributes:
+        crossorigin: anonymous
+        integrity: 'sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd'
+
+
 avoindata-custom-elements:
   js:
     'js/avoindata_custom_elements.js': {}

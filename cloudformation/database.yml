@@ -64,10 +64,6 @@ Parameters:
     Type: String
     Default: false
     AllowedValues: [true, false]
-  ClamAvLambdaArn:
-    Type: 'AWS::SSM::Parameter::Value<String>'
-  ClamAvRoleArn:
-    Type: 'AWS::SSM::Parameter::Value<String>'
   Vpc:
     Description: Select an existing Vpc
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>'
@@ -151,10 +147,6 @@ Resources:
         BlockPublicPolicy: True
         IgnorePublicAcls: True
         RestrictPublicBuckets: True
-      NotificationConfiguration:
-        LambdaConfigurations:
-          - Event: s3:ObjectCreated:*
-            Function: !Ref ClamAvLambdaArn
       VersioningConfiguration:
         Status: Enabled
       CorsConfiguration:
@@ -164,46 +156,6 @@ Resources:
             AllowedOrigins:
               - "*"
 
-  DatasetBucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref DatasetBucket
-      PolicyDocument:
-        Statement:
-          - Effect: Allow
-            Principal:
-              AWS: !Ref ClamAvRoleArn
-            Action:
-            - s3:DeleteObject
-            - s3:DeleteObjectTagging
-            - s3:GetObjectTagging
-            - s3:PutObjectTagging
-            Resource: !Sub "arn:aws:s3:::${DatasetBucket}/*"
-
-  EFSFileSystem:
-    Type: AWS::EFS::FileSystem
-
-  EFSMountTarget1:
-    Type: AWS::EFS::MountTarget
-    Properties:
-      FileSystemId: !Ref EFSFileSystem
-      SecurityGroups:
-        - !GetAtt EFSSecurityGroup.GroupId
-      SubnetId: !Select [0, !Ref DatabaseSubnets]
-
-  EFSMountTarget2:
-    Type: AWS::EFS::MountTarget
-    Properties:
-      FileSystemId: !Ref EFSFileSystem
-      SecurityGroups:
-        - !GetAtt EFSSecurityGroup.GroupId
-      SubnetId: !Select [1, !Ref DatabaseSubnets]
-
-  EFSSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Enable EFS access
-      VpcId: !Ref Vpc
 
 Outputs:
   DatabaseSecurityGroup:

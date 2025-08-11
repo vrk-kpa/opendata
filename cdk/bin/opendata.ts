@@ -13,16 +13,16 @@ import { CkanStack } from '../lib/ckan-stack';
 import { WebStack } from '../lib/web-stack';
 import { BackupStack } from "../lib/backup-stack"
 import {CertificateStack} from "../lib/certificate-stack";
-import {BypassCdnStack} from "../lib/bypass-cdn-stack";
 import {MonitoringStack} from "../lib/monitoring-stack";
 import {LambdaStack} from "../lib/lambda-stack";
 import {DomainStack} from "../lib/domain-stack";
 import {CiTestStack} from "../lib/ci-test-stack";
 import {SubDomainStack} from "../lib/sub-domain-stack";
 import {ShieldStack} from "../lib/shield-stack";
-import {CloudfrontParameterStack} from "../lib/cloudfront-parameter-stack";
-import {undefined} from "zod";
 import {ShieldParameterStack} from "../lib/shield-parameter-stack";
+import { ClamavScannerStack } from '../lib/clamav-scanner-stack';
+import { DnssecStack } from '../lib/dnssec-stack';
+import { DnssecKeyStack } from '../lib/dnssec-key-stack';
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -42,6 +42,7 @@ const envProps: EnvProps = {
   SOLR_IMAGE_TAG: parseEnv('SOLR_IMAGE_TAG'),
   DATAPUSHER_IMAGE_TAG: parseEnv('DATAPUSHER_IMAGE_TAG'),
   NGINX_IMAGE_TAG: parseEnv('NGINX_IMAGE_TAG'),
+  CLAMAV_IMAGE_TAG: parseEnv('CLAMAV_IMAGE_TAG'),
   // 3rd party images
   FUSEKI_IMAGE_TAG: parseEnv('FUSEKI_IMAGE_TAG'),
 };
@@ -57,8 +58,10 @@ const betaProps = {
   environment: 'beta',
   fqdn: 'betaavoindata.fi',
   secondaryFqdn: 'betaopendata.fi',
+  tertiaryFqdn: null,
   domainName: 'www.betaavoindata.fi',
   secondaryDomainName: 'www.betaopendata.fi',
+  dnssecKeyAlias: 'dnssec-key-beta',
 };
 
 const clusterStackBeta = new ClusterStack(app, 'ClusterStack-beta', {
@@ -89,8 +92,7 @@ const fileSystemStackBeta = new FileSystemStack(app, 'FileSystemStack-beta', {
   environment: betaProps.environment,
   vpc: clusterStackBeta.vpc,
   backups: true,
-  backupPlan: backupStackBeta.backupPlan,
-  importMigrationFs: true,
+  backupPlan: backupStackBeta.backupPlan
 });
 
 const databaseStackBeta = new DatabaseStack(app, 'DatabaseStack-beta', {
@@ -116,31 +118,7 @@ const lambdaStackBeta = new LambdaStack(app, 'LambdaStack-beta', {
   vpc: clusterStackBeta.vpc
 })
 
-const certificateStackBeta = new CertificateStack(app, 'CertificateStack-beta', {
-  envProps: envProps,
-  env: {
-    account: betaProps.account,
-    region: betaProps.region,
-  },
-  environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName
-})
 
-const certificateStackForCloudfrontBeta = new CertificateStack(app, 'CertificateStackForCloudfront-beta', {
-  envProps: envProps,
-  env: {
-    account: betaProps.account,
-    region: 'us-east-1',
-  },
-  environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName
-})
 
 
 const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta', {
@@ -149,31 +127,29 @@ const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta
     region: betaProps.region,
   },
   environment: betaProps.environment,
-  vpc: clusterStackBeta.vpc
+  vpc: clusterStackBeta.vpc,
+  domainName: betaProps.domainName,
+  fqdn: betaProps.fqdn,
+  secondaryDomainName: betaProps.secondaryDomainName,
+  secondaryFqdn: betaProps.secondaryFqdn
 });
 
 
-const bypassCdnStackBeta = new BypassCdnStack(app, 'BypassCdnStack-beta', {
-  envProps: envProps,
+const certificateStackBeta = new CertificateStack(app, 'CertificateStack-beta', {
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
   environment: betaProps.environment,
+  vpc: clusterStackBeta.vpc,
   fqdn: betaProps.fqdn,
   secondaryFqdn: betaProps.secondaryFqdn,
   domainName: betaProps.domainName,
   secondaryDomainName: betaProps.secondaryDomainName,
-  loadbalancer: loadBalancerStackBeta.loadBalancer
+  zone: loadBalancerStackBeta.zone,
+  alternativeZone: loadBalancerStackBeta.alternativeZone
 })
 
-const cloudfrontParameterStackBeta = new CloudfrontParameterStack(app, 'CloudfrontParameterStack-beta', {
-  env: {
-    account: betaProps.account,
-    region: 'us-east-1',
-  },
-  environment: betaProps.environment,
-})
 
 const shieldParameterStackBeta = new ShieldParameterStack(app, 'ShieldParameterStack-beta', {
   env: {
@@ -202,7 +178,8 @@ const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
   snsTopicArn: shieldParameterStackBeta.snsTopicArn,
   wafAutomationArn: shieldParameterStackBeta.wafAutomationArn,
   evaluationPeriod: shieldParameterStackBeta.evaluationPeriod,
-  loadBalancer: loadBalancerStackBeta.loadBalancer
+  loadBalancer: loadBalancerStackBeta.loadBalancer,
+  blockedUserAgentsParameterName: shieldParameterStackBeta.blockedUserAgentsParameterName
 })
 
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
@@ -235,10 +212,6 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     'ckan': fileSystemStackBeta.ckanFs,
     'solr': fileSystemStackBeta.solrFs,
     'fuseki': fileSystemStackBeta.fusekiFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackBeta.migrationFsSg!,
-    fileSystem: fileSystemStackBeta.migrationFs!,
   },
   databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
   databaseInstance: databaseStackBeta.databaseInstance,
@@ -288,7 +261,6 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     threads: 2
   },
   ckanCronEnabled: true,
-  prhToolsInUse: false,
   archiverSendNotificationEmailsToMaintainers: false,
   archiverExemptDomainsFromBrokenLinkNotifications: [],
   cloudstorageEnabled: true,
@@ -312,10 +284,6 @@ const drupalStackBeta = new DrupalStack(app, 'DrupalStack-beta', {
   namespace: clusterStackBeta.namespace,
   fileSystems: {
     'drupal': fileSystemStackBeta.drupalFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackBeta.migrationFsSg!,
-    fileSystem: fileSystemStackBeta.migrationFs!,
   },
   databaseSecurityGroup: databaseStackBeta.databaseSecurityGroup,
   databaseInstance: databaseStackBeta.databaseInstance,
@@ -369,12 +337,30 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
 });
 
 const monitoringStackBeta = new MonitoringStack(app, 'MonitoringStack-beta', {
-  sendToZulipLambda: lambdaStackBeta.sendToZulipLambda,
+  sendToZulipTopic: lambdaStackBeta.sendToZulipTopic,
   env: {
     account: betaProps.account,
     region: betaProps.region,
   },
   environment: betaProps.environment,
+});
+const clamavScannerStackBeta = new ClamavScannerStack(app, 'ClamavScannerStack-beta', {
+  environment: betaProps.environment,
+  envProps: envProps,
+  env: {
+    account: betaProps.account,
+    region: betaProps.region,
+  },
+  clamavTaskDef: {
+    taskCpu: 512,
+    taskMem: 3072,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  cluster: clusterStackBeta.cluster,
+  topic: lambdaStackBeta.sendToZulipTopic,
+  datasetBucketName: 'avoindata-beta-datasets',
+  clamavFileSystem: fileSystemStackBeta.clamavFs,
 });
 
 //
@@ -387,9 +373,11 @@ const prodProps = {
   environment: 'prod',
   fqdn: 'avoindata.fi',
   secondaryFqdn: 'opendata.fi',
+  tertiaryFqdn: "yhteentoimivuus.fi",
   domainName: 'www.avoindata.fi',
   secondaryDomainName: 'www.opendata.fi',
-  newDomainName: "avoindata.suomi.fi"
+  newDomainName: "avoindata.suomi.fi",
+  dnssecKeyAlias: 'dnssec-key-prod',
 };
 
 const clusterStackProd = new ClusterStack(app, 'ClusterStack-prod', {
@@ -419,8 +407,7 @@ const fileSystemStackProd = new FileSystemStack(app, 'FileSystemStack-prod', {
   environment: prodProps.environment,
   vpc: clusterStackProd.vpc,
   backups: true,
-  backupPlan: backupStackProd.backupPlan,
-  importMigrationFs: true,
+  backupPlan: backupStackProd.backupPlan
 });
 
 const databaseStackProd = new DatabaseStack(app, 'DatabaseStack-prod', {
@@ -447,62 +434,33 @@ const lambdaStackProd = new LambdaStack(app, 'LambdaStack-prod', {
 })
 
 
-
-const certificateStackProd = new CertificateStack(app, 'CertificateStack-prod', {
-  envProps: envProps,
-  env: {
-    account: prodProps.account,
-    region: prodProps.region
-  },
-  environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName
-})
-
-const certificateStackForCloudfrontProd = new CertificateStack(app, 'CertificateStackForCloudfront-prod', {
-  envProps: envProps,
-  env: {
-    account: prodProps.account,
-    region: 'us-east-1'
-  },
-  environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName
-})
-
 const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod', {
   env: {
     account: prodProps.account,
     region: prodProps.region,
   },
   environment: prodProps.environment,
-  vpc: clusterStackProd.vpc
+  vpc: clusterStackProd.vpc,
+  domainName: prodProps.domainName,
+  fqdn: prodProps.fqdn,
+  secondaryDomainName: prodProps.secondaryDomainName,
+  secondaryFqdn: prodProps.secondaryFqdn
 });
 
-const bypassCdnStackProd = new BypassCdnStack(app, 'BypassCdnStack-prod', {
-  envProps: envProps,
+
+const certificateStackProd = new CertificateStack(app, 'CertificateStack-prod', {
   env: {
     account: prodProps.account,
-    region: prodProps.region,
+    region: prodProps.region
   },
   environment: prodProps.environment,
+  vpc: clusterStackProd.vpc,
   fqdn: prodProps.fqdn,
   secondaryFqdn: prodProps.secondaryFqdn,
   domainName: prodProps.domainName,
   secondaryDomainName: prodProps.secondaryDomainName,
-  loadbalancer: loadBalancerStackProd.loadBalancer
-})
-
-const cloudfrontParameterStackProd = new CloudfrontParameterStack(app, 'CloudfrontParameterStack-prod', {
-  env: {
-    account: prodProps.account,
-    region: 'us-east-1'
-  },
-  environment: prodProps.environment,
+  zone: loadBalancerStackProd.zone,
+  alternativeZone: loadBalancerStackProd.alternativeZone
 })
 
 const shieldParameterStackProd = new ShieldParameterStack(app, 'ShieldParameterStack-prod', {
@@ -532,7 +490,8 @@ const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
   snsTopicArn: shieldParameterStackProd.snsTopicArn,
   wafAutomationArn: shieldParameterStackProd.wafAutomationArn,
   evaluationPeriod: shieldParameterStackProd.evaluationPeriod,
-  loadBalancer: loadBalancerStackProd.loadBalancer
+  loadBalancer: loadBalancerStackProd.loadBalancer,
+  blockedUserAgentsParameterName: shieldParameterStackProd.blockedUserAgentsParameterName
 })
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {
@@ -565,10 +524,6 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     'ckan': fileSystemStackProd.ckanFs,
     'solr': fileSystemStackProd.solrFs,
     'fuseki': fileSystemStackProd.fusekiFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackProd.migrationFsSg!,
-    fileSystem: fileSystemStackProd.migrationFs!,
   },
   databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
   databaseInstance: databaseStackProd.databaseInstance,
@@ -618,7 +573,6 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     threads: 2
   },
   ckanCronEnabled: true,
-  prhToolsInUse: true,
   archiverSendNotificationEmailsToMaintainers: true,
   archiverExemptDomainsFromBrokenLinkNotifications: ['fmi.fi'],
   cloudstorageEnabled: true,
@@ -642,10 +596,6 @@ const drupalStackProd = new DrupalStack(app, 'DrupalStack-prod', {
   namespace: clusterStackProd.namespace,
   fileSystems: {
     'drupal': fileSystemStackProd.drupalFs,
-  },
-  migrationFileSystemProps: {
-    securityGroup: fileSystemStackProd.migrationFsSg!,
-    fileSystem: fileSystemStackProd.migrationFs!,
   },
   databaseSecurityGroup: databaseStackProd.databaseSecurityGroup,
   databaseInstance: databaseStackProd.databaseInstance,
@@ -699,7 +649,7 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
 });
 
 const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
-  sendToZulipLambda: lambdaStackProd.sendToZulipLambda,
+  sendToZulipTopic: lambdaStackProd.sendToZulipTopic,
   env: {
     account: prodProps.account,
     region: prodProps.region,
@@ -712,8 +662,28 @@ const domainStackProd = new DomainStack(app, 'DomainStack-prod', {
     account: prodProps.account,
     region: prodProps.region,
   },
+  fqdn: prodProps.fqdn,
+  secondaryFqdn: prodProps.secondaryFqdn,
+  tertiaryFqdn: prodProps.tertiaryFqdn,
   zoneName: prodProps.newDomainName,
   crossAccountId: betaProps.account
+})
+
+const dnssecKeyStackProd = new DnssecKeyStack(app, 'DnssecKeyStack-prod', {
+  env: {
+    account: prodProps.account,
+    region: 'us-east-1'
+  },
+  keyAlias: prodProps.dnssecKeyAlias
+})
+
+const dnssecStackProd = new DnssecStack(app, 'DnssecStack-prod', {
+  env: {
+    account: prodProps.account,
+    region: prodProps.region
+  },
+  zones: domainStackProd.zones,
+  keyAlias: prodProps.dnssecKeyAlias
 })
 
 const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
@@ -722,7 +692,26 @@ const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
     region: betaProps.region
   },
   prodAccountId: prodProps.account,
-  subDomainName: betaProps.environment
+  subDomainName: betaProps.environment,
+  fqdn: betaProps.fqdn,
+  secondaryFqdn: betaProps.secondaryFqdn,
+})
+
+const dnssecKeyStackBeta = new DnssecKeyStack(app, 'DnssecKeyStack-beta', {
+  env: {
+    account: betaProps.account,
+    region: 'us-east-1'
+  },
+  keyAlias: betaProps.dnssecKeyAlias
+})
+
+const dnssecStackBeta = new DnssecStack(app, 'DnssecStack-beta', {
+  env: {
+    account: betaProps.account,
+    region: betaProps.region
+  },
+  zones: subDomainStackBeta.zones,
+  keyAlias: betaProps.dnssecKeyAlias
 })
 
 const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
@@ -735,3 +724,22 @@ const ciTestStackBeta = new CiTestStack(app, 'CiTestStack-beta', {
   githubRepo2: "ckanext-cloudstorage",
   testBucketName: "avoindata-ci-test-bucket"
 })
+
+const clamavScannerStackProd = new ClamavScannerStack(app, 'ClamavScannerStack-prod', {
+  environment: prodProps.environment,
+  envProps: envProps,
+  env: {
+    account: prodProps.account,
+    region: prodProps.region,
+  },
+  clamavTaskDef: {
+    taskCpu: 512,
+    taskMem: 1024,
+    taskMinCapacity: 0,
+    taskMaxCapacity: 1,
+  },
+  cluster: clusterStackProd.cluster,
+  topic: lambdaStackProd.sendToZulipTopic,
+  datasetBucketName: 'avoindata-prod-datasets',
+  clamavFileSystem: fileSystemStackProd.clamavFs,
+});

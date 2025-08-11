@@ -28,6 +28,23 @@ export class WebStack extends Stack {
     const nginxTaskDef = new ecs.FargateTaskDefinition(this, 'nginxTaskDef', {
       cpu: props.nginxTaskDef.taskCpu,
       memoryLimitMiB: props.nginxTaskDef.taskMem,
+      volumes: [
+        {
+          name: 'nginx_tmp_tmpfs',
+        },
+        {
+          name: 'nginx_etc_confd'
+        },
+        {
+          name: 'nginx_var_cache'
+        },
+        {
+          name: 'nginx_var_run'
+        },
+        {
+          name: 'nginx_var_www_static'
+        }
+      ]
     });
 
     // define nginx content security policies
@@ -39,13 +56,15 @@ export class WebStack extends Stack {
       'cdn.matomo.cloud',
       'suomi.matomo.cloud',
       'https://js-de.sentry-cdn.com',
-      'https://browser.sentry-cdn.com'
+      'https://browser.sentry-cdn.com',
+      'cdn.jsdelivr.net'
     ];
     const nginxCspStyleSrc: string[] = [
       'https://fonts.googleapis.com',
       'https://www.google.com',
       'https://ajax.googleapis.com',
       'https://www.gstatic.com',
+      'cdn.jsdelivr.net'
     ];
     const nginxCspFrameSrc: string[] = [
       'https://www.google.com/recaptcha/',
@@ -55,6 +74,12 @@ export class WebStack extends Stack {
     const nginxCspConnectSrc: string[] = [
       "suomi.matomo.cloud",
       "*.sentry.io"
+    ]
+
+    const nginxCspFontSrc: string[] = [
+      "https://themes.googleusercontent.com",
+      "https://fonts.gstatic.com",
+      "cdn.jsdelivr.net"
     ]
 
     const nginxLogGroup = new logs.LogGroup(this, 'nginxLogGroup', {
@@ -73,6 +98,7 @@ export class WebStack extends Stack {
         NGINX_CSP_STYLE_SRC: nginxCspStyleSrc.join(' '),
         NGINX_CSP_FRAME_SRC: nginxCspFrameSrc.join(' '),
         NGINX_CSP_CONNECT_SRC: nginxCspConnectSrc.join(' '),
+        NGINX_CSP_FONT_SRC: nginxCspFontSrc.join(' '),
         // .env
         NGINX_PORT: '80',
         DOMAIN_NAME: props.domainName,
@@ -90,12 +116,41 @@ export class WebStack extends Stack {
         logGroup: nginxLogGroup,
         streamPrefix: 'nginx-service',
       }),
+      readonlyRootFilesystem: true
     });
 
     nginxContainer.addPortMappings({
       containerPort: 80,
       protocol: ecs.Protocol.TCP,
     });
+
+
+    nginxContainer.addMountPoints({
+      containerPath: '/tmp',
+      readOnly: false,
+      sourceVolume: 'nginx_tmp_tmpfs',
+    }, {
+      containerPath: '/etc/nginx/conf.d',
+      readOnly: false,
+      sourceVolume: 'nginx_etc_confd',
+    },
+    {
+      containerPath: '/var/cache/nginx',
+      readOnly: false,
+      sourceVolume: 'nginx_var_cache',
+    },
+    {
+      containerPath: '/var/run',
+      readOnly: false,
+      sourceVolume: 'nginx_var_run',
+    },
+    {
+      containerPath: '/var/www/static',
+      readOnly: false,
+      sourceVolume: 'nginx_var_www_static'
+    });
+
+
 
     const nginxServiceHostedZone = r53.HostedZone.fromLookup(this, 'nginxServiceHostedZone', {
       domainName: props.fqdn,

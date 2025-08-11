@@ -22,7 +22,7 @@ var paths = {
     scss: "src/scss",
     ckan: "src/scss/ckan",
     drupal: "src/scss/drupal/style.scss",
-    drupal_avoindata_header: "../drupal/modules/avoindata-header/resources/avoindata_header.js",
+    drupal_avoindata_header: "../drupal/modules/avoindata-header/src/js/avoindata_header.js",
     drupal_ckeditor_plugins: "src/scss/drupal/custom-elements.scss",
     drupal_ckeditor5_plugins: ["src/scss/drupal/custom-elements.scss", "src/scss/drupal/editor.scss"],
     templates: "src/templates/**/*",

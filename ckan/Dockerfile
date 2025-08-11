@@ -1,11 +1,10 @@
 # build args
 ARG SECRET_NPMRC
-ARG BASE_IMAGE=public.ecr.aws/docker/library/python:3.10.17-alpine3.21
 
 #
 # Add common configuration to base image
 #
-FROM ${BASE_IMAGE} AS configured_base
+FROM public.ecr.aws/docker/library/python:3.9.23-alpine3.22 AS configured_base
 
 ENV APP_DIR=/srv/app
 ENV SRC_DIR=${APP_DIR}/src
@@ -246,6 +245,7 @@ RUN \
   # fix permissions
   chown -R ckan:ckan ${APP_DIR}
 
+
 # switch from root to ckan user
 USER ckan
 
@@ -268,7 +268,6 @@ COPY ckanext/ ${EXT_DIR}/
 
 # Add module configuration here
 
-
 #
 # Production image
 #
@@ -283,7 +282,6 @@ COPY ckanext/ckanext-archiver/requirements.txt ${EXT_DIR}/ckanext-archiver/requi
 COPY ckanext/ckanext-dcat/requirements.txt ${EXT_DIR}/ckanext-dcat/requirements.txt
 COPY ckanext/ckanext-drupal8/requirements.txt ${EXT_DIR}/ckanext-drupal8/requirements.txt
 COPY ckanext/ckanext-hierarchy/requirements.txt ${EXT_DIR}/ckanext-hierarchy/requirements.txt
-COPY ckanext/ckanext-prh_tools/requirements.txt ${EXT_DIR}/ckanext-prh_tools/requirements.txt
 COPY ckanext/ckanext-spatial/requirements.txt ${EXT_DIR}/ckanext-spatial/requirements.txt
 COPY ckanext/ckanext-statistics/requirements.txt ${EXT_DIR}/ckanext-statistics/requirements.txt
 COPY ckanext/ckanext-matomo/requirements.txt ${EXT_DIR}/ckanext-matomo/requirements.txt
