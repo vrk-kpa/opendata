@@ -1,0 +1,101 @@
+name: Run security scans
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  sast-scanner:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      security-events: write
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_SCAN_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registries: ${{ secrets.TOOLS_REGISTRY }}
+
+      - name: setup docker buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build sast scanner
+        uses: docker/build-push-action@v6
+        with:
+          context: ./docker/sast-scanner-meta
+          file: ./docker/sast-scanner-meta/Dockerfile
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: ${{ env.REPOSITORY }}/sast-scanner-meta:latest
+          load: true
+        env:
+          DOCKER_BUILD_RECORD_UPLOAD: false
+          REPOSITORY: ${{ secrets.TOOLS_REPOSITORY }}
+
+
+      - name: Run sast scanner
+        run: |
+          docker run --rm -v "${{ github.workspace }}:/src" -e LEVEL=HIGH -e TARGET=APP -e FORMAT=sarif $REPOSITORY/sast-scanner-meta:latest
+        env:
+          REPOSITORY: ${{ secrets.TOOLS_REPOSITORY }}
+
+
+      - name: upload results to advanced security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: semgrep-app-report.sarif
+          category: semgrep
+
+  dependency-check:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      security-events: write
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_SCAN_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registries: ${{ secrets.TOOLS_REGISTRY }}
+
+
+      - name: Run dependency check
+        run: |
+          docker run --rm -v "${{ github.workspace }}:${{ github.workspace }}" -e SCAN_DIR=${{ github.workspace }}  -e FORMAT=SARIF -e OUTDIR=${{ github.workspace }} $REGISTRY/$REPOSITORY/dependency-check:v1.0.0
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ secrets.TOOLS_REPOSITORY }}
+
+
+      - name: upload results to advanced security
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: dependency-check-report.sarif
+          category: dependency-check
