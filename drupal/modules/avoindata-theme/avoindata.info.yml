@@ -26,7 +26,7 @@ regions:
 
 libraries:
   - 'avoindata/global-styling'
-  - 'avoindata/bootstrap-scripts'
+  - 'avoindata/bootstrap'
   - 'avoindata/fonts'
   - 'avoindata/avoindata-custom-elements'
   - 'avoindata/webfonts'
