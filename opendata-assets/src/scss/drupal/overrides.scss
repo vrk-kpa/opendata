@@ -22,13 +22,13 @@
 // jQuery UI style overrides.
 @import 'jquery-ui/autocomplete';
 
+$fa-font-path: '../fonts';
 // FontAwesome
 @import '../../vendor/@fortawesome/fontawesome/scss/fontawesome';
 @import '../../vendor/@fortawesome/fontawesome/scss/solid';
 @import '../../vendor/@fortawesome/fontawesome/scss/regular';
 @import '../../vendor/@fortawesome/fontawesome/scss/brands';
 
-$fa-font-path: '../fonts';
 
 // Avoindata common variables
 @import '../utility';
