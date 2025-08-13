@@ -4,7 +4,7 @@ set -e
 echo "entrypoint_cron ..."
 
 # wait for ckan to initialize properly
-while [[ "$(cat ${DATA_DIR}/.init-done)" != "$CKAN_IMAGE_TAG" ]]; do
+while [[ -f ${DATA_DIR}/.init-done && "$(cat ${DATA_DIR}/.init-done)" != "$CKAN_IMAGE_TAG" ]]; do
   echo "entrypoint_cron - waiting for .init-done flag to be set ..."
   sleep 1s
 done

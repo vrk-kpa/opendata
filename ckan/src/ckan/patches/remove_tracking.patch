@@ -1,22 +1,22 @@
 diff --git a/ckan/views/dataset.py b/ckan/views/dataset.py
-index 5f32faa22..27864f59a 100644
+index f4b9de584..68f871adb 100644
 --- a/ckan/views/dataset.py
 +++ b/ckan/views/dataset.py
-@@ -385,7 +385,7 @@ def resources(package_type, id):
+@@ -403,7 +403,7 @@ def resources(package_type: str, id: str) -> Union[Response, str]:
          u'for_view': True,
-         u'auth_user_obj': g.userobj
-     }
--    data_dict = {u'id': id, u'include_tracking': True}
-+    data_dict = {u'id': id, u'include_tracking': False}
+         u'auth_user_obj': current_user
+     })
+-    data_dict: dict[str, Any] = {u'id': id, u'include_tracking': True}
++    data_dict: dict[str, Any] = {u'id': id, u'include_tracking': False}
 
      try:
          check_access(u'package_update', context, data_dict)
-@@ -427,7 +427,7 @@ def read(package_type, id):
+@@ -445,7 +445,7 @@ def read(package_type: str, id: str) -> Union[Response, str]:
          u'for_view': True,
-         u'auth_user_obj': g.userobj
-     }
+         u'auth_user_obj': current_user
+     })
 -    data_dict = {u'id': id, u'include_tracking': True}
 +    data_dict = {u'id': id, u'include_tracking': False}
-     activity_id = request.params.get(u'activity_id')
 
      # check if package exists
+     try:

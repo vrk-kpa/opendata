@@ -15,18 +15,21 @@ if [[ "${DEV_MODE}" == "true" ]]; then
     echo "entrypoint_ckan - installing extensions because DEV_MODE = 'true' ..."
     sudo -E ${SCRIPT_DIR}/install_extension_requirements.sh
     sudo -E ${SCRIPT_DIR}/install_extensions.sh
+    echo "entrypoint_ckan - extensions installed"
 fi
-
-echo "locking file for init.."
 
 # init ckan if not done or version updated, otherwise run re-init
 flock -x ${DATA_DIR}/.init-lock -c 'echo "waiting for .init-lock to be released ..."'
+echo "entrypoint_ckan - initializing CKAN"
 if [[ "$(cat ${DATA_DIR}/.init-done)" != "$CKAN_IMAGE_TAG" ]]; then
+  echo "entrypoint_ckan - running init_ckan.sh"
   flock -x ${DATA_DIR}/.init-lock -c '${SCRIPT_DIR}/init_ckan.sh'
 else
+  echo "entrypoint_ckan - running reinit_ckan.sh"
   flock -x ${DATA_DIR}/.init-lock -c '${SCRIPT_DIR}/reinit_ckan.sh'
 fi
 
+echo "entrypoint_ckan - running CKAN"
 # run uwsgi or ckan run
 if [[ "${DEV_MODE}" != "true" ]]; then
   echo "entrypoint_ckan - running in PRODUCTION mode via uwsgi ..."
@@ -35,3 +38,4 @@ else
   echo "entrypoint_ckan - running in DEVELOPMENT mode via ckan ..."
   ckan -c /srv/app/production.ini run --host 0.0.0.0 --prefix /data
 fi
+echo "entrypoint_ckan - exiting"

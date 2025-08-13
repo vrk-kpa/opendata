@@ -1,0 +1,94 @@
+@import 'variables';
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: inherit;
+  text-rendering: optimizelegibility;
+}
+
+h1 {
+  font-family: $font-family-sans-serif-light;
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: $font-weight-light;
+}
+
+h2 {
+  font-family: $font-family-sans-serif-semibold;
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: $font-weight-heavier;
+}
+
+h3 {
+  font-family: $font-family-sans-serif-semibold;
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: $font-weight-heavier;
+}
+
+h4 {
+  font-family: $font-family-sans-serif-semibold;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: $font-weight-heavier;
+}
+
+h5 {
+  font-family: $font-family-sans-serif-semibold;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: $font-weight-heavier;
+}
+
+a {
+  color: $link-color;
+
+  @media print {
+    color: $link-color !important;
+  }
+
+  &:hover,
+  &:focus {
+    color: $link-color;
+  }
+}
+
+.form-control,
+textarea {
+  color: $input-color;
+}
+
+.form-control[readonly] {
+  color: $input-readonly;
+}
+
+@-webkit-viewport {
+  width: device-width;
+}
+
+@-moz-viewport {
+  width: device-width;
+}
+
+@viewport {
+  width: device-width;
+}
+
+@viewport {
+  width: device-width;
+}
+
+@viewport {
+  width: device-width;
+}
+
+::selection {
+  background: $suomi-brandBase;
+  color: $suomi-whiteBase;
+  text-shadow: none;
+}

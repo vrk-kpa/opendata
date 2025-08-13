@@ -9,6 +9,7 @@
 {% asset "ytp_resources/slug_preview_ex" %}
 
 <form class="group-form form-horizontal col-xs-7" method="post" data-module="basic-form" enctype="multipart/form-data">
+    {{ h.csrf_input() }} 
     {% block error_summary %}
       {{ form.errors(error_summary) }}
     {% endblock %}
