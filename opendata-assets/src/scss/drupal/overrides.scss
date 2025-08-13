@@ -1,5 +1,4 @@
 @import '../variables';
-
 @import 'bootstrap/labels';
 
 // $todo these should be their own CSS files and only included when
@@ -23,6 +22,7 @@
 @import 'jquery-ui/autocomplete';
 
 $fa-font-path: '../fonts';
+
 // FontAwesome
 @import '../../vendor/@fortawesome/fontawesome/scss/fontawesome';
 @import '../../vendor/@fortawesome/fontawesome/scss/solid';
