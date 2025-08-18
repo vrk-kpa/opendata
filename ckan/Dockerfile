@@ -86,7 +86,7 @@ RUN \
   mkdir -p ${DATA_DIR} && \
   # Install CKAN and requirements
   pip install --find-links=/srv/app/wheels -r ${SRC_DIR}/ckan-requirements.txt && \
-  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.10.7#egg=ckan && \
+  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.10.8#egg=ckan && \
   # Configure environment
   addgroup -g 92 ckan && \
   adduser -u 92 -h ${APP_DIR} -H -D -G ckan ckan && \
