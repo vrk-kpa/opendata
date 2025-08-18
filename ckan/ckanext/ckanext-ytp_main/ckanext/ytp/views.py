@@ -14,6 +14,11 @@ from ckan.views.feed import (_package_search, _parse_url_params, _navigation_url
 
 import math
 import json
+import urllib
+import re
+import logging
+
+log = logging.getLogger(__name__)
 
 
 SITE_TITLE = config.get(u'ckan.site_title', u'CKAN')
@@ -307,6 +312,37 @@ def params_to_dict(params):
     return new_dict
 
 
+def health():
+    SITE_URL_FAILURE_LOGMESSAGE = "Site URL '%s' failed to respond during health check."
+    FAILURE_MESSAGE = "An error has occurred, check the server log for details"
+    SUCCESS_MESSAGE = "OK"
+
+    def check_url(host, url):
+        try:
+            req = urllib.request.Request('http://localhost%s' % url)
+            req.add_header('Host', host)
+            response = urllib.request.urlopen(req, timeout=30)
+            return response.getcode() == 200
+        except urllib.error.URLError:
+            return False
+
+
+    check_site_urls = ['/fi', '/data/fi/dataset']
+    result = True
+    site_url = config.get('ckan.site_url')
+    host = re.sub(r'https?:\/\/', '', site_url)
+
+    for url in check_site_urls:
+        if not check_url(host, url):
+            log.warn(SITE_URL_FAILURE_LOGMESSAGE % url)
+            result = False
+
+    if result:
+        base.abort(200, SUCCESS_MESSAGE)
+    else:
+        base.abort(503, FAILURE_MESSAGE)
+
+
 ytp_main = Blueprint('ytp_main', __name__)
 ytp_main_dataset = Blueprint('ytp_main_dataset', __name__,
                              url_prefix='/dataset',
@@ -319,6 +355,7 @@ ytp_main.add_url_rule('/api/2/util/tag/autocomplete', view_func=tag_autocomplete
 ytp_main.add_url_rule('/api/util/dataset/locations', view_func=get_all_locations)
 ytp_main.add_url_rule('/feeds/recent-datasets.atom', methods=[u'GET'], view_func=recent_datasets_feed)
 ytp_main.add_url_rule('/search',  methods=[u'GET', 'POST'], view_func=general_search)
+ytp_main.add_url_rule('/health', view_func=health)
 
 
 def get_blueprint():

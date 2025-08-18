@@ -1,35 +1,30 @@
-diff --git a/ckan/controllers/group.py b/ckan/controllers/group.py
-index 3e9e99d55..a013472b6 100644
---- a/ckan/controllers/group.py
-+++ b/ckan/controllers/group.py
-@@ -335,6 +335,7 @@ class GroupController(base.BaseController):
-                 'q': q,
-                 'fq': fq,
-                 'include_private': True,
-+                'include_drafts': True,
-                 'facet.field': facets.keys(),
-                 'rows': limit,
-                 'sort': sort_by,
-diff --git a/ckan/controllers/package.py b/ckan/controllers/package.py
-index ebfe82c70..23a2eaf3c 100644
---- a/ckan/controllers/package.py
-+++ b/ckan/controllers/package.py
-@@ -282,6 +282,8 @@ class PackageController(base.BaseController):
-                 'extras': search_extras,
-                 'include_private': asbool(config.get(
-                     'ckan.search.default_include_private', True)),
-+                'include_drafts': asbool(config.get(
-+                    'ckan.search_default_include_drafts', True)),
-             }
+diff --git a/ckan/config/config_declaration.yaml b/ckan/config/config_declaration.yaml
+index 7fae5489e..bcbc63508 100644
+--- a/ckan/config/config_declaration.yaml
++++ b/ckan/config/config_declaration.yaml
+@@ -886,6 +886,15 @@ groups:
+           Controls whether the default search page (``/dataset``) should different
+           sorting parameter by default when the request does not specify sort.
  
-             query = get_action('package_search')(context, data_dict)
++      - key: ckan.search.default_include_drafts
++        type: bool
++        default: true
++        example: false
++        description: |
++          Controls whether the default search page (``/dataset``) should include
++          draft datasets visible to the current user or only public datasets
++          visible to everyone.
++
+       - key: search.facets
+         type: list
+         default:
 diff --git a/ckan/tests/controllers/test_package.py b/ckan/tests/controllers/test_package.py
-index f2872c22c..dbd30a0eb 100644
+index b1991e320..42980cdc2 100644
 --- a/ckan/tests/controllers/test_package.py
 +++ b/ckan/tests/controllers/test_package.py
-@@ -778,6 +778,109 @@ class TestPackageDelete(object):
-         )
-         assert 404 == response.status_code
+@@ -866,6 +866,109 @@ class TestPackageDelete(object):
+         assert plugin.calls["delete"] == 2
+         assert plugin.calls["after_dataset_delete"] == 2
  
 +    def test_search_page_results_draft(self):
 +        '''Draft datasets don't show up in dataset search results.'''
@@ -50,10 +45,10 @@ index f2872c22c..dbd30a0eb 100644
 +                                                '.dataset-heading a')
 +        ds_titles = [n.string for n in ds_titles]
 +
-+        assert_equal(len(ds_titles), 2)
-+        assert_true('Dataset One' not in ds_titles)
-+        assert_true('Dataset Two' in ds_titles)
-+        assert_true('Dataset Three' in ds_titles)
++        assert len(ds_titles) == 2
++        assert 'Dataset One' not in ds_titles
++        assert 'Dataset Two' in ds_titles
++        assert 'Dataset Three' in ds_titles
 +
 +    def test_user_not_in_organization_cannot_search_draft_datasets(self):
 +        app = helpers._get_test_app()
@@ -71,7 +66,7 @@ index f2872c22c..dbd30a0eb 100644
 +        ds_titles = search_response_html.select('.dataset-list '
 +                                                '.dataset-item '
 +                                                '.dataset-heading a')
-+        assert_equal([n.string for n in ds_titles], [])
++        assert [n.string for n in ds_titles] == []
 +
 +    def test_user_in_organization_can_search_draft_datasets(self):
 +        app = helpers._get_test_app()
@@ -91,7 +86,7 @@ index f2872c22c..dbd30a0eb 100644
 +        ds_titles = search_response_html.select('.dataset-list '
 +                                                '.dataset-item '
 +                                                '.dataset-heading a')
-+        assert_equal([n.string for n in ds_titles], ['A private dataset'])
++        assert [n.string for n in ds_titles] == ['A private dataset']
 +
 +    def test_user_in_different_organization_cannot_search_draft_datasets(self):
 +        app = helpers._get_test_app()
@@ -112,7 +107,7 @@ index f2872c22c..dbd30a0eb 100644
 +        ds_titles = search_response_html.select('.dataset-list '
 +                                                '.dataset-item '
 +                                                '.dataset-heading a')
-+        assert_equal([n.string for n in ds_titles], [])
++        assert [n.string for n in ds_titles] == []
 +
 +    @helpers.change_config('ckan.search.default_include_drafts', 'false')
 +    def test_search_default_include_drafts_false(self):
@@ -132,34 +127,33 @@ index f2872c22c..dbd30a0eb 100644
 +        ds_titles = search_response_html.select('.dataset-list '
 +                                                '.dataset-item '
 +                                                '.dataset-heading a')
-+        assert_equal([n.string for n in ds_titles], [])
++        assert [n.string for n in ds_titles] == []
 +
-     def test_sysadmin_can_delete_any_dataset(self, app):
-         owner_org = factories.Organization()
-         dataset = factories.Dataset(owner_org=owner_org["id"])
-diff --git a/doc/maintaining/configuration.rst b/doc/maintaining/configuration.rst
-index 192077f7f..f0bee8537 100644
---- a/doc/maintaining/configuration.rst
-+++ b/doc/maintaining/configuration.rst
-@@ -1092,6 +1092,21 @@ Controls whether the default search page (``/dataset``) should different
- sorting parameter by default when the request does not specify sort.
  
- 
-+.. _ckan.search.default_include_drafts:
-+
-+ckan.search.default_include_drafts
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Example::
-+
-+ ckan.search.default_include_drafts = false
-+
-+Default value:  ``true``
-+
-+Controls whether the default search page (``/dataset``) should include
-+draft datasets visible to the current user or only public datasets
-+visible to everyone.
-+
- .. _search.facets.limit:
- 
- search.facets.limit
+ @pytest.mark.usefixtures("non_clean_db", "with_request_context")
+ class TestResourceNew(object):
+diff --git a/ckan/views/dataset.py b/ckan/views/dataset.py
+index 854cdb890..37feda94e 100644
+--- a/ckan/views/dataset.py
++++ b/ckan/views/dataset.py
+@@ -322,6 +322,8 @@ def search(package_type: str) -> str:
+         u'extras': search_extras,
+         u'include_private': config.get(
+             u'ckan.search.default_include_private'),
++        u'include_drafts': asbool(config.get(
++            'ckan.search_default_include_drafts', True)),
+     }
+     try:
+         query = get_action(u'package_search')(context, data_dict)
+diff --git a/ckan/views/group.py b/ckan/views/group.py
+index 3d901d162..89b3a2af3 100644
+--- a/ckan/views/group.py
++++ b/ckan/views/group.py
+@@ -325,6 +325,7 @@ def _read(id: Optional[str], limit: int, group_type: str) -> dict[str, Any]:
+         u'q': q,
+         u'fq': fq,
+         u'include_private': True,
++        u'include_drafts': True,
+         u'facet.field': list(facets.keys()),
+         u'rows': limit,
+         u'sort': sort_by,

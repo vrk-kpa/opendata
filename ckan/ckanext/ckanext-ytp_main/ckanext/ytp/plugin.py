@@ -203,7 +203,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
     plugins.implements(plugins.IConfigurer, inherit=True)
-    plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IActions)
@@ -236,40 +235,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def i18n_domain(self):
         return "ckanext-ytp_main"
-
-    # IRoutes #
-
-    def before_map(self, m):
-        health_controller = 'ckanext.ytp.health:HealthController'
-        m.connect('/health', action='check', controller=health_controller)
-        """ Override ckan api for autocomplete """
-        controller = 'ckanext.ytp.controller:YtpDatasetController'
-        m.connect('/api/2/util/tag/autocomplete', action='ytp_tag_autocomplete',
-                  controller=controller,
-                  conditions=dict(method=['GET']))
-        m.connect('/api/util/dataset/autocomplete', action='dataset_autocomplete',
-                  controller=controller,
-                  conditions=dict(method=['GET']))
-        m.connect('/dataset/new_metadata/{id}', action='new_metadata',
-                  controller=controller)  # override metadata step at new package
-        # m.connect('dataset_edit', '/dataset/edit/{id}',
-        # action='edit', controller=controller, ckan_icon='edit')
-        # m.connect('new_resource', '/dataset/new_resource/{id}',
-        # action='new_resource', controller=controller, ckan_icon='new')
-        m.connect('resource_edit', '/dataset/{id}/resource_edit/{resource_id}', action='resource_edit',
-                  controller=controller, ckan_icon='edit')
-
-        # Mapping of new dataset is needed since, remapping on read overwrites it
-        m.connect('add dataset', '/dataset/new', controller='package', action='new')
-        m.connect('/dataset/{id}.{format}', action='read', controller=controller)
-        m.connect('related_new', '/dataset/{id}/related/new', action='new_related', controller=controller)
-        m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
-                  action='edit_related', controller=controller)
-        # m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
-        m.connect('dataset_groups', '/dataset/groups/{id}', action="groups", controller=controller)
-        m.connect('/api/util/dataset/autocomplete_by_collection_type', action='autocomplete_packages_by_collection_type',
-                  controller=controller)
-        return m
 
     # IConfigurer #
 
@@ -387,7 +352,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         return False
 
     def _is_loggedinuser(self):
-        return authz.auth_is_loggedin_user()
+        return toolkit.g.userobj and not toolkit.g.userobj.is_anonymous
 
     def get_helpers(self):
         return {'current_user': self._current_user,
@@ -453,7 +418,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
         # IPackageController #
 
-    def after_show(self, context, pkg_dict):
+    def after_dataset_show(self, context, pkg_dict):
         if 'resources' in pkg_dict and pkg_dict['resources']:
             for resource in pkg_dict['resources']:
                 if 'url_type' in resource and isinstance(resource['url_type'], Missing):
@@ -474,7 +439,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
             pkg_dict['groups'] = get_action('group_list')(group_context, translation_dict)
 
-    def before_index(self, pkg_dict):
+    def before_dataset_index(self, pkg_dict):
+        pkg_dict = pkg_dict.copy()
+        log.info("ytp.before_dataset_index")
         if 'tags' in pkg_dict:
             tags = pkg_dict['tags']
             if tags:
@@ -547,7 +514,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
         return pkg_dict
 
-    def after_search(self, search_results, search_params):
+    def after_dataset_search(self, search_results, search_params):
         # Modify facet display name to be human-readable
         # TODO: handle translations for groups and highvalue categories
         if search_results.get('search_facets'):
@@ -1120,7 +1087,6 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
 
 class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
-    plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurer)
@@ -1138,16 +1104,6 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                         ],
                         menu.UserMenu,
                         menu.MyInformationMenu
-                    ),
-                    (
-                        [
-                            '/dashboard',
-                            '/dashboard/',
-                            '/%(language)s/dashboard',
-                            '/%(language)s/dashboard/'
-                        ],
-                        menu.UserMenu,
-                        menu.MyDashboardMenu
                     ),
                     (
                         [
@@ -1248,18 +1204,6 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                         menu.PostitNewMenu
                     )
                 ]
-
-    # IRoutes #
-
-    def before_map(self, m):
-        """ Redirect data-path in stand-alone environment directly to CKAN. """
-        m.redirect('/data/*(url)', '/{url}', _redirect_code='301 Moved Permanently')
-
-        controller = 'ckanext.ytp.controller:YtpThemeController'
-        m.connect('/postit/new', controller=controller, action='new_template')
-        m.connect('/postit/return', controller=controller, action='return_template')
-
-        return m
 
     # IConfigurer #
 
@@ -1413,7 +1357,6 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IAuthFunctions)
-    plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITranslation)
 
     default_domain = None
@@ -1472,7 +1415,7 @@ class YtpIPermissionLabelsPlugin(
         # Default labels
         labels = super(YtpIPermissionLabelsPlugin, self).get_user_dataset_labels(user_obj)
 
-        if user_obj and ShowcaseAdmin.is_user_showcase_admin(user_obj):
+        if user_obj and not user_obj.is_anonymous and ShowcaseAdmin.is_user_showcase_admin(user_obj):
             labels.append('showcase-admin')
 
         return labels

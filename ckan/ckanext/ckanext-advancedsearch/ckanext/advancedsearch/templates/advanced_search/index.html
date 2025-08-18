@@ -20,14 +20,13 @@
   <div id="content" class="container advanced-search-container">
     {% block main_content %}
       {% block flash %}
+        {% set flash_messages = h.get_flashed_messages(with_categories=true) %}
         <div class="flash-messages">
-          {% block flash_inner %}
-            {% for message in h.flash.pop_messages() | list %}
-              <div class="alert alert-warning fade in {{ message.category }}">
-                {{ h.literal(message) }}
-              </div>
-            {% endfor %}
-          {% endblock %}
+          {% for category, message in flash_messages %}
+            <div class="m-0 alert alert-warning fade in {{ message.category }}">
+              {{ h.literal(message) }}
+            </div>
+          {% endfor %}
         </div>
       {% endblock %}
 

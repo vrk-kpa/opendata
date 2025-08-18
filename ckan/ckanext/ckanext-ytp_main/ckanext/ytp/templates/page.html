@@ -33,9 +33,6 @@
 
 {%- block footer %}
     {{ h.drupal_footer()|safe }}
-    {% if g.debug %}
-        {% include 'snippets/debug.html' %}
-    {% endif %}
 {% endblock -%}
 
 {% block header %}

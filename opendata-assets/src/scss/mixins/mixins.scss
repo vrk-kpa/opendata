@@ -1,0 +1,68 @@
+.active-sidebar-menu-item {
+  color: $menu-link-active-color;
+  background-color: $menu-active-color;
+  border-color: $menu-link-active-color;
+}
+
+/* stylelint-disable selector-no-vendor-prefix */
+@mixin placeholder($color) {
+  &::-webkit-input-placeholder { color: $color; }
+  &::-moz-placeholder { color: $color; }
+  &:-ms-input-placeholder { color: $color; }
+}
+
+// Flex mixins for less from https://gist.github.com/jayj/4012969
+@mixin flex-display($display: flex) {
+  display: unquote("-webkit-#{$display}");
+  display: unquote("-ms-#{$display}box"); // IE10 uses -ms-flexbox
+  display: unquote("-ms-#{$display}"); // IE11
+  display: $display;
+}
+
+@mixin flex($columns: initial) {
+  flex: $columns;
+}
+
+@mixin flex-direction($direction: row) {
+  flex-direction: $direction;
+}
+
+@mixin flex-wrap($wrap: nowrap) {
+  flex-wrap: $wrap;
+}
+
+@mixin flex-flow($flow) {
+  flex-flow: $flow;
+}
+
+@mixin flex-order($order: 0) {
+  order: $order;
+}
+
+@mixin flex-grow($grow: 0) {
+  flex-grow: $grow;
+}
+
+@mixin flex-shrink($shrink: 1) {
+  flex-shrink: $shrink;
+}
+
+@mixin flex-basis($width: auto) {
+  flex-basis: $width;
+}
+
+@mixin justify-content($justify: flex-start) {
+  justify-content: $justify;
+}
+
+@mixin align-content($align: stretch) {
+  align-content: $align;
+}
+
+@mixin align-items($align: stretch) {
+  align-items: $align;
+}
+
+@mixin align-self($align: auto) {
+  align-self: $align;
+}

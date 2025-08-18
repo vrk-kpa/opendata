@@ -91,7 +91,7 @@
     {
       "field_name": "homepage",
       "display_snippet": "link.html",
-      "validators": "ignore_missing unicode",
+      "validators": "ignore_missing unicode_safe",
       "label": "Website",
       "form_attrs": {
         "class": "form-control"

@@ -113,15 +113,15 @@
     {% if facet.startswith('vocab_content_type_')  %}
       {% for item in items or h.get_facet_items_dict('collection_type') %}
         {% if (item.name == 'Interoperability Tools' and item.active == True) %}
-          {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}
+          {{ h.snippet('snippets/facet_list.html', title=title, name=facet, search_facets=search_facets) }}
         {% endif %}
       {% endfor %}
     {% elif facet == 'vocab_international_benchmarks' %}
       {% if h.check_access('sysadmin') %}
-        {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}
+        {{ h.snippet('snippets/facet_list.html', title=title, name=facet, search_facets=search_facets) }}
       {% endif %}   
     {% else %}
-      {{ h.snippet('snippets/facet_list.html', title=title, name=facet) }}    
+      {{ h.snippet('snippets/facet_list.html', title=title, name=facet, search_facets=search_facets) }}    
     {% endif %}
   {% endfor %}
 {% endblock %}

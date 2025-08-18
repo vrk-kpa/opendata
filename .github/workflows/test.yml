@@ -478,12 +478,13 @@ jobs:
       - detect-changes
     if: ${{ needs.detect-changes.outputs.ckan == 'true' }}
     container:
-      image: ckan/ckan-dev:2.9.9
+      image: ckan/ckan-dev:2.10-py3.10
+      options: --user root
     services:
       solr:
-        image: ckan/ckan-solr:2.9
+        image: ckan/ckan-solr:2.10-solr9
       postgres:
-        image: postgres:12
+        image: ckan/ckan-postgres-dev:2.10
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -497,22 +498,13 @@ jobs:
       CKAN_DATASTORE_READ_URL: postgresql://datastore_read:pass@postgres/datastore_test
       CKAN_SOLR_URL: http://solr:8983/solr/ckan
       CKAN_REDIS_URL: redis://redis:6379/1
-      PGPASSWORD: postgres
 
     steps:
     - uses: actions/checkout@v5
       with:
         submodules: true
-    - name: Create Database
-      run: |
-        psql --host=postgres --username=postgres --command="CREATE USER ckan_default WITH PASSWORD 'pass' NOSUPERUSER NOCREATEDB NOCREATEROLE;"
-        createdb --encoding=utf-8 --host=postgres --username=postgres --owner=ckan_default ckan_test
-        psql --host=postgres --username=postgres --command="CREATE USER datastore_write WITH PASSWORD 'pass' NOSUPERUSER NOCREATEDB NOCREATEROLE;"
-        psql --host=postgres --username=postgres --command="CREATE USER datastore_read WITH PASSWORD 'pass' NOSUPERUSER NOCREATEDB NOCREATEROLE;"
-        createdb --encoding=utf-8 --host=postgres --username=postgres --owner=datastore_write datastore_test
     - name: Install requirements
       run: |
-        apk add proj proj-dev proj-util geos
         cd ckan/ckanext/ckanext-ytp_main
         pip install -r dev-requirements.txt
         pip install -r requirements.txt
@@ -564,11 +556,11 @@ jobs:
 
     - name: install codecov requirements
       run: |
-        apk add gpg gpg-agent
+        apt-get update
+        apt-get install -y curl gpg
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v5
       with:
         flags: ckan
-        os: alpine
         token: ${{ secrets.CODECOV_TOKEN }}

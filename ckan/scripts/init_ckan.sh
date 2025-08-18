@@ -18,10 +18,6 @@ python prerun.py || { echo '[CKAN prerun] FAILED. Exiting...' ; exit 1; }
 echo "Upgrade CKAN database ..."
 ckan -c ${APP_DIR}/production.ini db upgrade
 
-# minify JS files
-echo "Minify javascript files ..."
-ckan -c ${APP_DIR}/production.ini minify ${SRC_DIR}/ckan/public/base/javascript
-
 # execute SQL scripts
 echo "Modify datastore permissions ..."
 cat ${SCRIPT_DIR}/datastore_permissions.sql | PGPASSWORD="${DB_DATASTORE_ADMIN_PASS}" psql -d ${DB_DATASTORE} -h ${DB_DATASTORE_HOST} -U ${DB_DATASTORE_ADMIN} --set ON_ERROR_STOP=1

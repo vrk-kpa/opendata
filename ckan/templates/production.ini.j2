@@ -20,13 +20,16 @@ use = egg:ckan
 full_stack = true
 cache_dir = /tmp/%(ckan.site_id)s/
 
-beaker.session.key = ckan
+# beaker.session.key = ckan
 beaker.session.secret = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
 # Secure session does not currently work in our environments as ssl is terminated on Load balancer
 #beaker.session.secure = True
 beaker.session.httponly = True
-beaker.session.type = ext:database
+beaker.session.type = cookie
+beaker.session.validate_key = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
 beaker.session.url = postgresql://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_CKAN_HOST') }}/{{ environ('DB_CKAN') }}
+
+ckan.csrf_protection.ignore_extensions = true
 
 app_instance_uuid = {{ environ('CKAN_APP_INSTANCE_UUID') }}
 
@@ -79,6 +82,10 @@ ckan.site_title = {{ environ('CKAN_SITE_NAME') }}
 ckan.site_logo =
 ckan.site_description =
 
+# Bootstrap 3 support
+ckan.base_public_folder = public-bs3
+ckan.base_templates_folder = templates-bs3
+
 ckan.favicon = /data/images/logo/favicon.ico
 ckan.gravatar_default = identicon
 
@@ -101,7 +108,10 @@ ckan.cache_expires = 90
 ckan.upload.group.mimetypes = image/png image/gif image/jpeg image/svg+xml
 
 
-email_to = {{ environ('SMTP_TO') }}
+apitoken_header_name = Authorization
+
+# Disable error emails because they cause a crash in ckan db init
+# email_to = {{ environ('SMTP_TO') }}
 error_email_from = {{ environ('SMTP_FROM_ERROR') }}
 
 smtp.server = {{ environ('SMTP_HOST') }}:{{ environ('SMTP_PORT') }}
@@ -116,7 +126,7 @@ smtp.mail_from = {{ environ('SMTP_FROM') }}
 
 ckan.views.default_views = recline_grid_view geo_view
 
-ckanext.ytp.drupal.connection = postgres://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_DRUPAL_HOST') }}/{{ environ('DB_DRUPAL') }}
+ckanext.ytp.drupal.connection = postgresql://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_DRUPAL_HOST') }}/{{ environ('DB_DRUPAL') }}
 
 ckan.harvest.mq.type = redis
 ckan.harvest.mq.hostname = {{ environ('REDIS_HOST') }}
@@ -150,7 +160,7 @@ ckanext.drupal8.site_url = {{ environ('CKAN_DRUPAL_SITE_URL') }}
 ckanext.drupal8.site_url_internal = {{ environ('CKAN_DRUPAL_SITE_URL_INTERNAL') }}
 ckanext.drupal8.domain = {{ environ('DOMAIN_NAME') }},{{ environ('SECONDARY_DOMAIN_NAME') }}
 ckanext.drupal8.sysadmin_role = {{ environ('ROLES_CKAN_ADMIN') }}
-ckanext.drupal8.connection = postgres://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_DRUPAL_HOST') }}/{{ environ('DB_DRUPAL') }}
+ckanext.drupal8.connection = postgresql://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_DRUPAL_HOST') }}/{{ environ('DB_DRUPAL') }}
 ckanext.drupal8.allow_edit = true
 
 licenses_group_url = file://{{ environ('CKAN_STORAGE_PATH') }}/license.json
@@ -257,6 +267,7 @@ ckanext.ytp.theme.show_postit_demo = {{ environ('CKAN_SHOW_POSTIT_DEMO') }}
 
 ckan.datapusher.url = http://{{ environ('DATAPUSHER_HOST') }}:{{ environ('DATAPUSHER_PORT') }}/
 ckan.datapusher.callback_url_base = http://{{ environ('CKAN_HOST') }}:{{ environ('CKAN_PORT') }}/
+ckan.datapusher.api_token = ''
 
 {% if environ('CKAN_PROFILING_ENABLED') == 'true' %}
 filter-with = linesman

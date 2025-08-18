@@ -4,7 +4,7 @@ ARG SECRET_NPMRC
 #
 # Add common configuration to base image
 #
-FROM public.ecr.aws/docker/library/python:3.9.23-alpine3.22 AS configured_base
+FROM public.ecr.aws/docker/library/python:3.10.18-alpine3.22 AS configured_base
 
 ENV APP_DIR=/srv/app
 ENV SRC_DIR=${APP_DIR}/src
@@ -13,6 +13,7 @@ ENV CKAN_DIR=${SRC_DIR}/ckan \
 WORKDIR ${APP_DIR}
 COPY pip.conf /etc/pip.conf
 RUN pip install --upgrade pip
+
 
 
 #
@@ -46,8 +47,6 @@ RUN \
 COPY ckan-requirements.txt .
 
 RUN \
-  # Downgrade setuptools so that CKAN requirements can be built
-  pip install setuptools==44.1.0 && \
   # Create the src and pip cache directory
   mkdir -p ${SRC_DIR} && \
   # Fetch and build CKAN and requirements
@@ -73,6 +72,7 @@ RUN \
       tzdata \
       file
 
+
 # Get artifacts from build stages
 COPY --from=base_ckan_build /wheels /srv/app/wheels
 
@@ -84,11 +84,9 @@ RUN \
   # Create SRC_DIR and DATA_DIR
   mkdir -p ${SRC_DIR} && \
   mkdir -p ${DATA_DIR} && \
-  # Downgrade setuptools so that CKAN requirements can be built
-  pip install setuptools==44.1.0 && \
   # Install CKAN and requirements
   pip install --find-links=/srv/app/wheels -r ${SRC_DIR}/ckan-requirements.txt && \
-  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.9.11#egg=ckan && \
+  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.10.8#egg=ckan && \
   # Configure environment
   addgroup -g 92 ckan && \
   adduser -u 92 -h ${APP_DIR} -H -D -G ckan ckan && \
@@ -115,7 +113,6 @@ HEALTHCHECK --interval=10s --timeout=5s --retries=5 CMD curl --fail http://local
 USER ckan
 
 CMD ["/srv/app/start_ckan.sh"]
-
 
 #
 # CKAN build
@@ -182,10 +179,12 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/json_serializable_lazyjsonobject.patch && \
     patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
     patch --strip=1 --input=patches/add_drafts_to_search.patch && \
-    patch --strip=1 --input=patches/add_prefix_to_werkzeug.patch && \
+#    patch --strip=1 --input=patches/fix_license_dictization.patch && \
+    patch --strip=1 --input=patches/fix_truncate_helper_annotations.patch && \
     patch --strip=1 --input=patches/fix_use_default_schema_parameter.patch && \
     patch --strip=1 --input=patches/remove_tracking.patch && \
-    patch --strip=1 --input=patches/remove_tracking_summary_from_solr_index.patch
+    patch --strip=1 --input=patches/remove_tracking_summary_from_solr_index.patch && \
+    patch --strip=1 --input=patches/iauthenticator_fix.patch
 
 RUN \
   # Make scripts executable

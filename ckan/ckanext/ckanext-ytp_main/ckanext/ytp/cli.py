@@ -19,6 +19,7 @@ import requests
 from .tools import check_package_deprecation
 from .logic import send_package_deprecation_emails
 from .model import ytp_main_init_tables, MunicipalityBoundingBox
+from sqlalchemy import inspect
 
 from ckan.plugins.toolkit import config as c
 
@@ -99,7 +100,7 @@ def populate_municipality_bounding_box():
     engine = model.meta.engine
     path = '{}/data/bbox_data.json'.format(os.path.dirname(__file__))
 
-    if not engine.dialect.has_table(engine, MunicipalityBoundingBox.__tablename__):
+    if not inspect(engine).has_table(MunicipalityBoundingBox.__tablename__):
         raise ValidationError('Check database: Table MunicipalityBoundingBox does not exist.')
     if not os.path.exists(path):
         raise ValidationError('Check path: JSON file bbox_data.json does not exist.')

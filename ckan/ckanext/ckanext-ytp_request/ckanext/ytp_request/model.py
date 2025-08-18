@@ -5,7 +5,7 @@ from sqlalchemy import Column, MetaData, ForeignKey
 from sqlalchemy import types
 from sqlalchemy.ext.declarative import declarative_base
 
-from ckan.lib.base import model
+from ckan import model
 
 log = __import__('logging').getLogger(__name__)
 Base = declarative_base()

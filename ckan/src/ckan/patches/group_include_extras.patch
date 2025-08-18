@@ -1,13 +1,14 @@
 diff --git a/ckan/model/group.py b/ckan/model/group.py
-index 18fe6a16c..c5f3975cd 100644
+index c95afe5ff..98304d8c7 100644
 --- a/ckan/model/group.py
 +++ b/ckan/model/group.py
-@@ -142,11 +142,15 @@ class Group(vdm.sqlalchemy.RevisionedObjectMixin,
-     # Todo: Make sure group names can't be changed to look like group IDs?
+@@ -180,11 +180,16 @@ class Group(core.StatefulObjectMixin,
  
      @classmethod
--    def all(cls, group_type=None, state=('active',)):
-+    def all(cls, group_type=None, state=('active',), include_extras=False):
+     def all(cls, group_type: Optional[str] = None,
+-            state: tuple[str]=('active',)) -> Query[Self]:
++            state: tuple[str]=('active',),
++            include_extras: bool=False) -> Query[Self]:
          """
          Returns all groups.
          """
@@ -17,23 +18,24 @@ index 18fe6a16c..c5f3975cd 100644
 +            q = q.options(orm.joinedload(cls._extras))
 +
          if state:
-             q = q.filter(cls.state.in_(state))
+             # type_ignore_reason: incomplete SQLAlchemy types
+             q = q.filter(cls.state.in_(state))  # type: ignore
+@@ -283,7 +288,8 @@ class Group(core.StatefulObjectMixin,
+         return result
  
-@@ -239,7 +243,7 @@ class Group(vdm.sqlalchemy.RevisionedObjectMixin,
-             filter(Group.state == 'active').\
-             order_by(Group.title).all()
- 
--    def groups_allowed_to_be_its_parent(self, type='group'):
-+    def groups_allowed_to_be_its_parent(self, type='group', include_extras=False):
+     def groups_allowed_to_be_its_parent(
+-            self, type: str='group') -> list[Self]:
++            self, type: str='group',
++            include_extras: bool=False) -> list[Self]:
          '''Returns a list of the groups (of the specified type) which are
          allowed to be this group's parent. It excludes ones which would
          create a loop in the hierarchy, causing the recursive CTE to
-@@ -248,7 +252,7 @@ class Group(vdm.sqlalchemy.RevisionedObjectMixin,
+@@ -292,7 +298,7 @@ class Group(core.StatefulObjectMixin,
          :returns: A list of group objects ordered by group title
  
          '''
 -        all_groups = self.all(group_type=type)
 +        all_groups = self.all(group_type=type, include_extras=include_extras)
          excluded_groups = set(group_name
-                               for group_id, group_name, group_title, parent in
-                               self.get_children_group_hierarchy(type=type))
+                               for _group_id, group_name, _group_title, _parent
+                               in self.get_children_group_hierarchy(type=type))
