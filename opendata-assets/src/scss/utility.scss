@@ -249,7 +249,7 @@ $display-properties: none,
   @if $size < 128 {
     @include make-margins-and-paddings($size * $increment, $index + 1);
 
-    $size-px: '#{$size}px';
+    $size-px: unquote('#{$size}px');
 
     @include make-margin-padding-css($index, $size-px);
   }
