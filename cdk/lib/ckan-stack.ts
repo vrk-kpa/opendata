@@ -832,6 +832,7 @@ export class CkanStack extends Stack {
 
     const fusekiContainer = fusekiTaskDef.addContainer('fuseki', {
       image: ecs.ContainerImage.fromRegistry(`stain/jena-fuseki:${props.envProps.FUSEKI_IMAGE_TAG}`),
+      readonlyRootFilesystem: true,
       secrets: fusekiContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
         logGroup: fusekiLogGroup,
