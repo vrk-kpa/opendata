@@ -32,7 +32,6 @@ var paths = {
     scripts: "src/scripts/**/*",
     bootstrap_styles: "./node_modules/bootstrap-sass/assets/stylesheets",
     bootstrap_scripts: "./node_modules/bootstrap-sass/assets/javascripts/*",
-    bootstrap_fonts: "./node_modules/bootstrap-sass/assets/fonts/*",
     moment_path: "./node_modules/moment",
     root: "src",
     fontawesome: "./node_modules/@fortawesome/fontawesome-pro"
@@ -336,13 +335,6 @@ gulp.task("bootstrap_styles", (done) => {
   ], done)
 });
 
-gulp.task("bootstrap_fonts", (done) => {
-  pump([
-    gulp.src(paths.src.bootstrap_fonts, {encoding: false}),
-    gulp.dest(paths.drupalTheme + '/fonts')
-  ], done)
-})
-
 gulp.task('copy:libs', (done) => {
   pump([
     gulp.src(npmDist({
@@ -369,8 +361,7 @@ gulp.task("vendor",
     "copy:moment",
     "copy:libs",
     "bootstrap_scripts",
-    "bootstrap_styles",
-    "bootstrap_fonts", (done) => {
+    "bootstrap_styles", (done) => {
       pump([
         gulp.src(paths.src.root + "/vendor/**/*", {encoding: false}),
         gulp.dest(paths.drupalTheme + "/vendor"),
