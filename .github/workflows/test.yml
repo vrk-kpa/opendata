@@ -442,12 +442,12 @@ jobs:
           node-version: 22
           cache: 'npm'
           cache-dependency-path: 'cdk/package-lock.json'
-      
+
       - name: install cdk npm packages and verify installation
         working-directory: cdk
         run: |
-          npm install
-          $(npm bin)/cdk doctor
+          npm ci
+          npx cdk doctor
 
       - name: build cdk project
         working-directory: cdk
