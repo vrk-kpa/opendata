@@ -115,11 +115,11 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: install nodejs v20
+      - name: install nodejs v22
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: opendata-assets/package-lock.json
 
@@ -188,10 +188,10 @@ jobs:
       - name: setup docker buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: install nodejs v20
-        uses: actions/setup-node@v4
+      - name: install nodejs v22
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
@@ -240,7 +240,7 @@ jobs:
           })
           EOT
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -436,24 +436,18 @@ jobs:
       - name: checkout
         uses: actions/checkout@v5
 
-      - name: install nodejs v16
-        uses: actions/setup-node@v4
+      - name: install nodejs v22
+        uses: actions/setup-node@v5
         with:
-          node-version: 16
-
-      - name: cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_cdk_v16-
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: 'cdk/package-lock.json'
 
       - name: install cdk npm packages and verify installation
         working-directory: cdk
         run: |
-          npm install
-          $(npm bin)/cdk doctor
+          npm ci
+          npx cdk doctor
 
       - name: build cdk project
         working-directory: cdk
@@ -503,6 +497,10 @@ jobs:
     - uses: actions/checkout@v5
       with:
         submodules: true
+    - name: Install required patches
+      run: |
+        cd ${SRC_DIR}/ckan
+        patch --strip=1 --input=$GITHUB_WORKSPACE/ckan/src/ckan/patches/fix_templatehelpers_plugin_order.patch
     - name: Install requirements
       run: |
         cd ckan/ckanext/ckanext-ytp_main

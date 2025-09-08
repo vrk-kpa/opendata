@@ -24,10 +24,10 @@ jobs:
       - name: checkout
         uses: actions/checkout@v5
 
-      - name: install nodejs v20
-        uses: actions/setup-node@v4
+      - name: install nodejs v22
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: 'cdk/package-lock.json'
 
