@@ -397,7 +397,7 @@ fieldset.checkboxes {
   }
 }
 
-%ytp-input-element {
+.ytp-input-element {
   width: 100%;
   border: solid $input-border-width $input-border-color;
   padding: 8px 10px;
@@ -424,7 +424,7 @@ fieldset.checkboxes {
 
 // Frontpage search bar input.
 .ytp-input-element-frontpage {
-  @extend %ytp-input-element;
+  @extend .ytp-input-element;
 
   &::placeholder {
     color: rgb(109 120 126);
@@ -498,7 +498,7 @@ fieldset.checkboxes {
   }
 }
 
-%ytp-input-with-icon {
+.ytp-input-with-icon {
   position: relative;
   display: flex;
   align-items: center;
@@ -529,7 +529,7 @@ fieldset.checkboxes {
 
 // Frontpage search bar.
 .ytp-input-with-icon-frontpage {
-  @extend %ytp-input-with-icon;
+  @extend .ytp-input-with-icon;
 
   height: 40px;
   margin-right: 10px;
