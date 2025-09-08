@@ -115,11 +115,11 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: install nodejs v20
+      - name: install nodejs v22
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: opendata-assets/package-lock.json
 
@@ -188,10 +188,10 @@ jobs:
       - name: setup docker buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: install nodejs v20
+      - name: install nodejs v22
         uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
@@ -436,19 +436,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v5
 
-      - name: install nodejs v16
+      - name: install nodejs v22
         uses: actions/setup-node@v5
         with:
-          node-version: 16
-
-      - name: cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_cdk_v16-
-
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: 'cdk/package-lock.json'
+      
       - name: install cdk npm packages and verify installation
         working-directory: cdk
         run: |

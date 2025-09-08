@@ -92,11 +92,11 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: install nodejs v20
+      - name: install nodejs v22
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: opendata-assets/package-lock.json
 
@@ -210,10 +210,10 @@ jobs:
         with:
           ref: ${{ needs.commit-new-images.outputs.sha }}
 
-      - name: install nodejs v20
+      - name: install nodejs v22
         uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: 'cdk/package-lock.json'
 
