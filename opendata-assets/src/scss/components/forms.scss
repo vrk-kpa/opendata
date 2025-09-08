@@ -424,6 +424,7 @@ fieldset.checkboxes {
 
 // Frontpage search bar input.
 .ytp-input-element-frontpage {
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
   @extend .ytp-input-element;
 
   &::placeholder {
@@ -529,6 +530,7 @@ fieldset.checkboxes {
 
 // Frontpage search bar.
 .ytp-input-with-icon-frontpage {
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
   @extend .ytp-input-with-icon;
 
   height: 40px;
