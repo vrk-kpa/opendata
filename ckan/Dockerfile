@@ -184,7 +184,8 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/fix_use_default_schema_parameter.patch && \
     patch --strip=1 --input=patches/remove_tracking.patch && \
     patch --strip=1 --input=patches/remove_tracking_summary_from_solr_index.patch && \
-    patch --strip=1 --input=patches/iauthenticator_fix.patch
+    patch --strip=1 --input=patches/iauthenticator_fix.patch && \
+    patch --strip=1 --input=patches/fix_templatehelpers_plugin_order.patch
 
 RUN \
   # Make scripts executable
