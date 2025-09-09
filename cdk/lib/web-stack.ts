@@ -82,6 +82,8 @@ export class WebStack extends Stack {
       "cdn.jsdelivr.net"
     ]
 
+    const nginxCspWorkerSrc: string[] = [];
+
     const nginxLogGroup = new logs.LogGroup(this, 'nginxLogGroup', {
       logGroupName: `/${props.environment}/opendata/nginx`,
     });
@@ -99,6 +101,7 @@ export class WebStack extends Stack {
         NGINX_CSP_FRAME_SRC: nginxCspFrameSrc.join(' '),
         NGINX_CSP_CONNECT_SRC: nginxCspConnectSrc.join(' '),
         NGINX_CSP_FONT_SRC: nginxCspFontSrc.join(' '),
+        NGINX_CSP_WORKER_SRC: nginxCspWorkerSrc.join(' '),
         // .env
         NGINX_PORT: '80',
         DOMAIN_NAME: props.domainName,

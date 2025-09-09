@@ -10,8 +10,9 @@ set $FONT "font-src 'self' ${NGINX_CSP_FONT_SRC}";
 set $FRAME "frame-src 'self' *.${DOMAIN_NAME} *.${SECONDARY_DOMAIN_NAME} ${NGINX_CSP_FRAME_SRC}";
 set $OBJECT "object-src 'self'";
 set $CONNECT "connect-src 'self' ${NGINX_CSP_CONNECT_SRC}";
+set $WORKER "worker-src 'self' blob: ${NGINX_CSP_WORKER_SRC}";
 
-add_header Content-Security-Policy "${DEFAULT}; ${SCRIPT};  ${IMG}; ${STYLE}; ${FONT}; ${FRAME}; ${OBJECT}; ${CONNECT};";
+add_header Content-Security-Policy "${DEFAULT}; ${SCRIPT}; ${IMG}; ${STYLE}; ${FONT}; ${FRAME}; ${OBJECT}; ${CONNECT}; ${WORKER};";
 
 # Strict Transport Security (use only https)
 add_header Strict-Transport-Security "max-age=31536000; preload";
