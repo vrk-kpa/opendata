@@ -60,12 +60,12 @@ drush language:default -y "fi"
 # enable base theme
 
 # Remove jquery_ui (can be removed after all environments are bootstrap 5)
-drush pm:uninstall -y jquery_ui_resizable
-drush config:delete core.extension module.jquery_ui_resizable
-drush pm:uninstall -y jquery_ui_draggable
-drush config:delete core.extension module.jquery_ui_draggable
-drush pm:uninstall -y jquery_ui
-drush config:delete core.extension module.jquery_ui
+drush pm:uninstall -y jquery_ui_resizable || true
+drush config:delete core.extension module.jquery_ui_resizable || true
+drush pm:uninstall -y jquery_ui_draggable || true
+drush config:delete core.extension module.jquery_ui_draggable || true
+drush pm:uninstall -y jquery_ui || true
+drush config:delete core.extension module.jquery_ui || true
  
 # jquery ui module enable required here https://www.drupal.org/project/bootstrap/releases/8.x-3.32
 drush theme:enable -y bootstrap

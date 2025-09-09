@@ -5,7 +5,7 @@
 {% endblock %}
 
 {# Header #}
-<nav id="first-navbar" class="navbar first-navbar navbar-default">
+<nav id="first-navbar" class="navbar first-navbar navbar-default navbar-expand-lg">
 {% block header %}
   {{ drupal_region('top_bar') }}
 {% endblock %}
@@ -21,7 +21,7 @@
     'second-navbar',
   ]
 %}
-<nav class="navbar navbar-default" id="second-navbar">
+<nav class="navbar navbar-default navbar-expand-lg" id="second-navbar">
   <div class="second-navbar-container">
     <div class="navbar-header">
       {{ drupal_region('navigation') }}
