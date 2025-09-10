@@ -509,6 +509,26 @@ jobs:
         pip install -e .
         # Replace default path to CKAN core config file with the one on the container
         sed -i -e 's/use = config:.*/use = config:\/srv\/app\/src\/ckan\/test-core.ini/' test.ini
+        
+        # create placeholder files for webassets
+        mkfile() { 
+          mkdir -p -- "$1" && touch -- "$1"/"$2" 
+        }
+        
+        mkfile ckanext/ytp/resources/vendor/bootstrap/dist/css bootstrap.css
+        mkfile ckanext/ytp/resources/vendor/eonasdan-bootstrap-datetimepicker/build/css bootstrap-datetimepicker.css
+        mkfile ckanext/ytp/resources/vendor/jstree/dist/themes/default style.css
+        mkfile ckanext/ytp/resources/vendor/select2-bootstrap-css select2-bootstrap.css
+        mkfile ckanext/ytp/resources/styles ckan.css
+        mkfile ckanext/ytp/resources/templates head-styles-ckan.html
+        mkfile ckanext/ytp/resources/scripts offcanvas.js
+        mkfile ckanext/ytp/resources/scripts avoindata_header.js
+        mkfile ckanext/ytp/resources/scripts inject_responsive_tables.js
+        mkfile ckanext/ytp/resources/vendor/moment/dist/min/ moment-with-locales.js
+        mkfile ckanext/ytp/resources/vendor/eonasdan-bootstrap-datetimepicker/build/js bootstrap-datetimepicker.js
+        mkfile ckanext/ytp/resources/vendor/jstree/dist jstree.js
+    
+        
         cd ../ckanext-scheming
         pip install -e .
         cd ../ckanext-fluent
