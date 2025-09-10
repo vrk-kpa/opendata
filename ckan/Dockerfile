@@ -191,7 +191,6 @@ RUN \
   # Make scripts executable
   chmod +x ${SCRIPT_DIR}/*.sh && \
   # Remove unused configuration
-  rm -f ${APP_DIR}/production.ini && \
   rm -f ${APP_DIR}/ckan.ini && \
   rm -f ${APP_DIR}/who.ini && \
   # Add directory for static content
