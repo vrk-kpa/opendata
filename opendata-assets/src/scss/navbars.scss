@@ -249,6 +249,7 @@ End of dropdown CSS
 
 // First (upper) navbar
 .first-navbar {
+  display: block;
   margin-bottom: 0;
 }
 
@@ -361,6 +362,7 @@ End of dropdown CSS
 
 // Second navbar
 #second-navbar {
+  display: block;
   background-color: $navbar-background;
   min-height: auto;
   border-top: $navbar-border;
@@ -452,6 +454,7 @@ End of dropdown CSS
 
   li {
     a {
+      text-decoration: none;
       margin: 0;
       padding-top: $padding-x__navigation;
 
