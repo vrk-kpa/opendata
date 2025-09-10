@@ -7,4 +7,4 @@ set -e
 echo "job started: qa-update"
 
 # run commands
-[[ "${CKAN_PLUGINS}" == *" qa "* ]] && ckan -c ${APP_DIR}/production.ini qa update
+[[ "${CKAN_PLUGINS}" == *" qa "* ]] && ckan -c ${APP_DIR}/ckan.ini qa update

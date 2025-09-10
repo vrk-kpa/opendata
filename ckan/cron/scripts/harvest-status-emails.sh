@@ -7,4 +7,4 @@ set -e
 echo "job started: harvest-status-emails"
 
 # run commands
-ckan -c ${APP_DIR}/production.ini opendata-harvest send-status-emails
+ckan -c ${APP_DIR}/ckan.ini opendata-harvest send-status-emails

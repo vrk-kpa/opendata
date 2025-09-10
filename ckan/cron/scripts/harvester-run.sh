@@ -7,4 +7,4 @@ set -e
 echo "job started: harvester-run"
 
 # run commands
-[[ "${CKAN_PLUGINS}" == *" harvest "* ]] && ckan -c ${APP_DIR}/production.ini harvester run
+[[ "${CKAN_PLUGINS}" == *" harvest "* ]] && ckan -c ${APP_DIR}/ckan.ini harvester run

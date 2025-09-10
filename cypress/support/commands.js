@@ -398,10 +398,10 @@ Cypress.Commands.add('reset_db', () => {
         });
 
         //const containerName = Cypress.env('test_container_name') || 'opendata_ckan_1';
-        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini api action sparql_clear"`);
-        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini search-index clear"`);
+        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/ckan.ini api action sparql_clear"`);
+        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/ckan.ini search-index clear"`);
         // Init vocaularies
-        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini sixodp-showcase create_platform_vocabulary"`);
+        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/ckan.ini sixodp-showcase create_platform_vocabulary"`);
       }
 });
 

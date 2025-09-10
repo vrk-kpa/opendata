@@ -7,4 +7,4 @@ set -e
 echo "job started: archiver-notifications"
 
 # run commands
-[[ "${CKAN_PLUGINS}" == *" archiver "* ]] && ckan -c ${APP_DIR}/production.ini archiver send_broken_link_notification
+[[ "${CKAN_PLUGINS}" == *" archiver "* ]] && ckan -c ${APP_DIR}/ckan.ini archiver send_broken_link_notification

@@ -7,7 +7,7 @@ echo "init_ckan ..."
 rsync -au ${DATA_DIR}_base/. ${DATA_DIR}
 
 # apply templates
-jinja2 ${TEMPLATE_DIR}/production.ini.j2 -o ${APP_DIR}/production.ini
+jinja2 ${TEMPLATE_DIR}/ckan.ini.j2 -o ${APP_DIR}/ckan.ini
 jinja2 ${TEMPLATE_DIR}/who.ini.j2 -o ${APP_DIR}/who.ini
 jinja2 ${TEMPLATE_DIR}/ckan-uwsgi.ini.j2 -o ${APP_DIR}/ckan-uwsgi.ini
 jinja2 ${TEMPLATE_DIR}/datastore_permissions.sql.j2 -o ${SCRIPT_DIR}/datastore_permissions.sql
@@ -16,10 +16,10 @@ jinja2 ${TEMPLATE_DIR}/datastore_permissions.sql.j2 -o ${SCRIPT_DIR}/datastore_p
 python connection_check.py || { echo '[CKAN connection check] FAILED. Exiting...' ; exit 1; }
 
 echo "Init CKAN database ..."
-ckan -c ${APP_DIR}/production.ini db init
+ckan -c ${APP_DIR}/ckan.ini db init
 
 echo "Upgrade CKAN database ..."
-ckan -c ${APP_DIR}/production.ini db upgrade
+ckan -c ${APP_DIR}/ckan.ini db upgrade
 
 # execute SQL scripts
 echo "Modify datastore permissions ..."
@@ -27,25 +27,25 @@ cat ${SCRIPT_DIR}/datastore_permissions.sql | PGPASSWORD="${DB_DATASTORE_ADMIN_P
 
 # init ckan extensions
 echo "init ckan extensions ..."
-#ckan -c ${APP_DIR}/production.ini opendata add-facet-translations ${EXT_DIR}/ckanext-ytp_main/ckanext/ytp/i18n
-ckan -c ${APP_DIR}/production.ini sixodp-showcase create_platform_vocabulary
+#ckan -c ${APP_DIR}/ckan.ini opendata add-facet-translations ${EXT_DIR}/ckanext-ytp_main/ckanext/ytp/i18n
+ckan -c ${APP_DIR}/ckan.ini sixodp-showcase create_platform_vocabulary
 
 # init ckan extension databases
 echo "init ckan extension databases ..."
-ckan -c ${APP_DIR}/production.ini opendata-model initdb
-ckan -c ${APP_DIR}/production.ini opendata-request init-db
-ckan -c ${APP_DIR}/production.ini db upgrade -p harvest
-[[ "${CKAN_PLUGINS}" == *" archiver "* ]]     && ckan -c ${APP_DIR}/production.ini archiver init
-[[ "${CKAN_PLUGINS}" == *" qa "* ]]           && ckan -c ${APP_DIR}/production.ini qa init
-ckan -c ${APP_DIR}/production.ini report initdb
-[[ "${MATOMO_ENABLED}" == "true" ]]           && ckan -c ${APP_DIR}/production.ini matomo init_db && ckan -c ${APP_DIR}/production.ini db upgrade -p matomo
-[[ "${CKAN_CLOUDSTORAGE_ENABLED}" == "true" ]]           && ckan -c ${APP_DIR}/production.ini cloudstorage initdb
-[[ "${CKAN_PLUGINS}" == *" rating "* ]]       && ckan -c ${APP_DIR}/production.ini rating init
-ckan -c ${APP_DIR}/production.ini reminder initdb
-ckan -c ${APP_DIR}/production.ini recommendations init
+ckan -c ${APP_DIR}/ckan.ini opendata-model initdb
+ckan -c ${APP_DIR}/ckan.ini opendata-request init-db
+ckan -c ${APP_DIR}/ckan.ini db upgrade -p harvest
+[[ "${CKAN_PLUGINS}" == *" archiver "* ]]     && ckan -c ${APP_DIR}/ckan.ini archiver init
+[[ "${CKAN_PLUGINS}" == *" qa "* ]]           && ckan -c ${APP_DIR}/ckan.ini qa init
+ckan -c ${APP_DIR}/ckan.ini report initdb
+[[ "${MATOMO_ENABLED}" == "true" ]]           && ckan -c ${APP_DIR}/ckan.ini matomo init_db && ckan -c ${APP_DIR}/ckan.ini db upgrade -p matomo
+[[ "${CKAN_CLOUDSTORAGE_ENABLED}" == "true" ]]           && ckan -c ${APP_DIR}/ckan.ini cloudstorage initdb
+[[ "${CKAN_PLUGINS}" == *" rating "* ]]       && ckan -c ${APP_DIR}/ckan.ini rating init
+ckan -c ${APP_DIR}/ckan.ini reminder initdb
+ckan -c ${APP_DIR}/ckan.ini recommendations init
 
 # Import municipality data
-ckan -c ${APP_DIR}/production.ini opendata-model populate-municipality-bounding-box
+ckan -c ${APP_DIR}/ckan.ini opendata-model populate-municipality-bounding-box
 
 # set init flag to done
 echo "$CKAN_IMAGE_TAG" > ${DATA_DIR}/.init-done

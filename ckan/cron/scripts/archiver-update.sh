@@ -7,4 +7,4 @@ set -e
 echo "job started: archiver-update"
 
 # run commands
-[[ "${CKAN_PLUGINS}" == *" archiver "* ]] && ckan -c ${APP_DIR}/production.ini archiver update
+[[ "${CKAN_PLUGINS}" == *" archiver "* ]] && ckan -c ${APP_DIR}/ckan.ini archiver update
