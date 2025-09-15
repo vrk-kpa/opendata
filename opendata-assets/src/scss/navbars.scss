@@ -8,6 +8,11 @@ Modified based on the CSS at http://avoin.webflow.io
 Differences in the smaller screen size are together with other @media definitions
 */
 
+.navbar {
+  --bs-navbar-padding-y: 0;
+  line-height: 20px;
+}
+
 .region-service-message,
 .navbar {
   font-family: $font-family-sans-serif;
@@ -362,7 +367,6 @@ End of dropdown CSS
 
 // Second navbar
 #second-navbar {
-  display: block;
   background-color: $navbar-background;
   min-height: auto;
   border-top: $navbar-border;
@@ -454,6 +458,7 @@ End of dropdown CSS
 
   li {
     a {
+      --bs-navbar-nav-link-padding-x: #{$padding-x__navigation};
       text-decoration: none;
       margin: 0;
       padding-top: $padding-x__navigation;
@@ -494,7 +499,10 @@ End of dropdown CSS
 
   .dropdown {
     .dropdown-menu {
+      --bs-dropdown-border-radius: 0 0 4px 4px;
       li {
+        --bs-dropdown-item-padding-x: 0;
+        --bs-dropdown-item-padding-y: 0;
         a {
           border-bottom: none;
         }
@@ -537,7 +545,7 @@ End of dropdown CSS
       padding: 0;
     }
 
-    .dropdown.open > .dropdown-menu > li > a {
+    .dropdown > .dropdown-menu.show > li > a {
       margin: 0;
       border: none;
       font-size: 18px;

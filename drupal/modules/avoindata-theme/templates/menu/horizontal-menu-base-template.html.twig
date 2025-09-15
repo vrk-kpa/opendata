@@ -20,8 +20,9 @@ Copied from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-boo
 
     {% macro menu_links(items, attributes, menu_level) %}
       {% import _self as menus %}
+      {% set topLevel = menu_level == 0 %}
       {% if items %}
-        {% if menu_level == 0 %}
+        {% if topLevel %}
             <ul class="nav navbar-nav" role="menu" aria-labelledby="dropdownMenu">
         {% else %}
           <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -30,18 +31,20 @@ Copied from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-boo
           {%
             set item_classes = [
               item.in_active_trail ? 'active',
+              topLevel ? 'nav-item' : 'dropdown-item',
             ]
           %}
 
           {%
             set anchor_classes = [
               item.is_active ? 'is-active',
+              'nav-link'
             ]
           %}
           {% if item.below %}
-            {% if menu_level == 0 %}
-              <li class="dropdown">
-                <a href="{{ item.url }}" class="dropdown-toggle" data-toggle="dropdown">{{ item.title }} <span class="caret"></span></a>
+            {% if topLevel %}
+              <li class="nav-item dropdown">
+                <a href="{{ item.url }}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ item.title }} <span class="caret"></span></a>
                 {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
               </li>
             {% else %}
