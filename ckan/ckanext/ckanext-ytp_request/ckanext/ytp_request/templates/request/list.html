@@ -1,7 +1,7 @@
 {% extends "request/page.html" %}
 
 {% block breadcrumb_content %}
-  <li>{{ h.nav_link(_('Organizations'), named_route='organizations_index') }}</li>
+  <li>{{ h.nav_link(_('Organizations'), named_route='organizations.index') }}</li>
   <li class="active">{{ h.nav_link(_('Received membership requests'), named_route='member_request.member_requests_list') }}</li>
 {% endblock %}
 

@@ -12,7 +12,7 @@ import ckan.plugins as p
 from ckan import authz as authz
 
 from ckan import plugins, model, logic
-from ckan.common import _, c, request, is_flask_request
+from ckan.common import _, c, request
 
 from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
@@ -1312,7 +1312,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def _drupal_header(self):
         # Path variable depends on request type
-        path = request.full_path if is_flask_request() else request.path_qs
+        path = request.full_path
         result = self._drupal_snippet('api/header?activePath=%s' % path)
         if result:
             # Language switcher links will point to /api/header, fix them based on currently requested page
