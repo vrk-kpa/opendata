@@ -7,4 +7,4 @@ set -e
 echo "job started: dataset-deprecations"
 
 # run commands
-ckan -c ${APP_DIR}/production.ini opendata-dataset update_package_deprecation
+ckan -c ${APP_DIR}/ckan.ini opendata-dataset update_package_deprecation

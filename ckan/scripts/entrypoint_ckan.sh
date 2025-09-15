@@ -36,6 +36,6 @@ if [[ "${DEV_MODE}" != "true" ]]; then
   uwsgi -i /srv/app/ckan-uwsgi.ini
 else
   echo "entrypoint_ckan - running in DEVELOPMENT mode via ckan ..."
-  ckan -c /srv/app/production.ini run --host 0.0.0.0 --prefix /data
+  ckan -c /srv/app/ckan.ini run --host 0.0.0.0 --prefix /data
 fi
 echo "entrypoint_ckan - exiting"

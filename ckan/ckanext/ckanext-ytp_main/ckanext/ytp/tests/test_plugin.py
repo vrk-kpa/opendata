@@ -5,6 +5,7 @@ from ckan.tests.factories import Dataset, Group, Sysadmin, User, Organization
 from ckan.tests.helpers import call_action
 from ckan.plugins import toolkit
 from ckan import model
+from ckan.lib.helpers import url_for
 
 from .utils import minimal_dataset_with_one_resource_fields
 
@@ -376,3 +377,16 @@ class TestOrganizationHierarchy:
 
         assert helper_result['children'][0]['id'] == first_child['id']
         assert len(helper_result['children']) == 1
+
+@pytest.mark.usefixtures('clean_db', 'clean_index')
+class TestOrganizationView:
+    def test_deleted_organization_showing_error_message(self, app):
+        org = Organization()
+
+        org_url = url_for("organization.read", id=org['id'], locale='en')
+
+        call_action('organization_delete', id=org['id'])
+
+        result = app.get(org_url)
+
+        assert "Organization does not exist" in result
