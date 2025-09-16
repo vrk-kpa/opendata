@@ -2,21 +2,21 @@
 
 {% block prelude %}
   {{ super() }}
-   {% if h.check_access('member_request_create', {'organization_id': c.group_dict.id}) and not h.is_sysadmin() %}
-      <a class="btn" href="{{ h.url_for('member_request.new', selected_organization=c.group_dict.name) }}">
+   {% if h.check_access('member_request_create', {'organization_id': group_dict.id}) and not h.is_sysadmin() %}
+      <a class="btn" href="{{ h.url_for('member_request.new', selected_organization=group_dict.name) }}">
           <i class="fa fa-arrow-circle-right"></i>
           {% trans %}Request membership{% endtrans %}
       </a>
   {% endif %}
-  {% if h.check_access('member_request_membership_cancel', {'organization_id': c.group_dict.id}) and not h.is_sysadmin() %}
+  {% if h.check_access('member_request_membership_cancel', {'organization_id': group_dict.id}) and not h.is_sysadmin() %}
       {% set locale = h.dump_json({'content': _('Are you sure you want to end the membership?')}) %}
-      <a class="btn" href="{{ h.url_for('member_request.membership_cancel', organization_id=c.group_dict.id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+      <a class="btn" href="{{ h.url_for('member_request.membership_cancel', organization_id=group_dict.id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
           <i class="fal fa-times"></i>
           {% trans %}Cancel membership{% endtrans %}
       </a>
-  {% elif h.check_access('member_request_cancel', {'organization_id': c.group_dict.id}) and not h.is_sysadmin() %}
+  {% elif h.check_access('member_request_cancel', {'organization_id': group_dict.id}) and not h.is_sysadmin() %}
       {% set locale = h.dump_json({'content': _('Are you sure you want to cancel this pending request?')}) %}
-      <a class="btn" href="{{ h.url_for('member_request.cancel', organization_id=c.group_dict.id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
+      <a class="btn" href="{{ h.url_for('member_request.cancel', organization_id=group_dict.id) }}" data-module="confirm-action" data-module-i18n="{{ locale }}">
           <i class="fal fa-times"></i>
           {% trans %}Cancel request{% endtrans %}
       </a>
