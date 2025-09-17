@@ -9,6 +9,9 @@ Removed the navbar-nav class to make this a vertical menu
 {# All menu and submenu items #}
 <div class="navbar navbar-expand-md">
   <div class="container-fluid">
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#{{ menu_id }}">
+      <span class="fa fa-bars"></span>
+    </button>
     <div class="opendata-menu-container collapse navbar-collapse" id="{{ menu_id }}">
 
       {% import _self as menus %}
@@ -76,8 +79,5 @@ Removed the navbar-nav class to make this a vertical menu
       {% endmacro %}
 
     </div>
-    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#{{ menu_id }}">
-      <span class="fa fa-bars"></span>
-    </button>
   </div>
 </div>
