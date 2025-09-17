@@ -15,14 +15,22 @@ $toolbar-width: 240px;
   }
 
   // Horizontal.
-  &.toolbar-horizontal.toolbar-tray-open .navbar-fixed-top {
-    top: 79px;
-  }
+  &.toolbar-horizontal.toolbar-tray-open {
+    .navbar-fixed-top {
+      top: 79px;
+    }
+    .toolbar-lining .navbar-nav {
+      flex-wrap: wrap;
+    }
+ }
 
   // Vertical Open.
   &.toolbar-vertical.toolbar-tray-open {
     .navbar-fixed-top {
       left: $toolbar-width;
+    }
+    .toolbar-lining .navbar-nav {
+      flex-direction: column;
     }
 
     &.toolbar-fixed {

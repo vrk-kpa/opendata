@@ -19,6 +19,7 @@ logo:
   use_default: false
 bootstrap_fluid_container: 1
 bootstrap_region_class_top_bar: 'drupal-region'
+bootstrap_region_class_footer: 'drupal-region'
 breadcrumb_home: 1  # Breadcrumb shows link to homepage
 breadcrumb_title: 0 # Title is actually shown in breadcrumb, but it is defined in easy_breadcrumb settings
 favicon:

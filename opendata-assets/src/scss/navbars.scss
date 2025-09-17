@@ -13,6 +13,10 @@ Differences in the smaller screen size are together with other @media definition
   line-height: 20px;
 }
 
+.navbar-toggler {
+  margin: 8px 25px 8px auto;
+}
+
 .region-service-message,
 .navbar {
   font-family: $font-family-sans-serif;
@@ -374,10 +378,10 @@ End of dropdown CSS
 
   .navbar {
     min-height: auto;
-  }
 
-  .navbar-header {
-    float: left;
+    .container-fluid {
+      align-items: flex-start;
+    }
   }
 
   .navbar-nav > li > a {
@@ -426,13 +430,14 @@ End of dropdown CSS
 
   .navbar-collapse {
     border: 0;
+    flex-basis: auto;
   }
 
   .navbar-nav:hover {
     color: $navbar-color-links;
   }
 
-  .navbar-toggle:hover {
+  .navbar-toggler:hover {
     background-color: transparent; // hovering the bootstrap toggle button
   }
 
@@ -514,8 +519,25 @@ End of dropdown CSS
     }
   }
 
+  .second-navbar-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    // Suojattudata link
+    & > .link-button {
+      margin-left: auto;
+    }
+  }
   // nav collapsed
   @media (max-width: $grid-float-breakpoint) {
+    .second-navbar-container {
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
     .navbar-header {
       width: 100%;
       float: right;
@@ -536,6 +558,7 @@ End of dropdown CSS
   // nav uncollapsed
   @media (min-width: $grid-float-breakpoint) {
     .second-navbar-container {
+      width: 100%;
       max-width: $header-width;
       margin-left: auto;
       margin-right: auto;
@@ -624,6 +647,7 @@ End of dropdown CSS
 .site-logo {
   height: 20px;
 }
+
 
 // Footer
 .footer {

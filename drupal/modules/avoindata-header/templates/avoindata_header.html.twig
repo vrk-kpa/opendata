@@ -21,8 +21,8 @@
     'second-navbar',
   ]
 %}
-<nav class="navbar navbar-default navbar-expand-lg" id="second-navbar">
-  <div class="second-navbar-container clearfix">
+<nav class="navbar navbar-default" id="second-navbar">
+  <div class="second-navbar-container">
     <div class="navbar-header">
       {{ drupal_region('navigation') }}
     </div>
@@ -33,12 +33,6 @@
       Suomi.fi Restricted Data
       {% endtrans %}
     </a>
-
-
-    {# Navigation (collapsible) #}
-    <div id="navbar-collapse" class="navbar-collapse collapse">
-      {{ drupal_region('navigation_collapsible') }}
-    </div>
   </div>
 </nav>
 {% endblock %}
