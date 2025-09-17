@@ -382,6 +382,7 @@ End of dropdown CSS
   .navbar-nav > li > a {
     color: $navbar-color-links;
     font-size: 18px;
+    line-height: 20px;
   }
 
   .navbar-toggler {
@@ -489,6 +490,13 @@ End of dropdown CSS
     }
   }
 
+  .dropdown > .dropdown-toggle::after {
+    // Smaller caret
+    border-top: 4px dashed;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    vertical-align: middle;
+  }
   .dropdown.open > .dropdown-toggle {
     color: $navbar-color-links;
     background-color: $navbar-background;

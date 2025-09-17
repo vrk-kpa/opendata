@@ -42,7 +42,7 @@ Copied from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-boo
             {% if item.below %}
               {% if topLevel %}
                 <li class="nav-item dropdown">
-                  <a href="{{ item.url }}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ item.title }} <span class="caret"></span></a>
+                  <a href="{{ item.url }}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ item.title }}</a>
                   {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
                 </li>
               {% else %}

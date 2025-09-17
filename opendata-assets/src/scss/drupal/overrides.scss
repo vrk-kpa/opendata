@@ -137,6 +137,10 @@ p:last-child,
   background-color: $btn-dark-bg;
 }
 
+.page-view-frontpage h1, .page-view-frontpage h2 {
+  margin: 20px 0 10px 0;
+}
+
 // Drupal Hero Module
 .avoindata-hero {
   // TODO: use suomi.fi colors
@@ -171,6 +175,7 @@ p:last-child,
 
   a {
     color: $popularTextColor;
+    text-decoration: none;
   }
 
   .avoindata-hero-search-container {
@@ -1802,6 +1807,7 @@ p:last-child,
   border: none;
   height: 40px;
   width: 64px;
+  color: white;
 }
 
 .search-button-submit {
