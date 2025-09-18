@@ -267,7 +267,7 @@ ckanext.ytp.theme.show_postit_demo = {{ environ('CKAN_SHOW_POSTIT_DEMO') }}
 
 ckan.datapusher.url = http://{{ environ('DATAPUSHER_HOST') }}:{{ environ('DATAPUSHER_PORT') }}/
 ckan.datapusher.callback_url_base = http://{{ environ('CKAN_HOST') }}:{{ environ('CKAN_PORT') }}/
-ckan.datapusher.api_token = ''
+ckan.datapusher.api_token = {{ environ('DATAPUSHER_API_TOKEN') }}
 
 {% if environ('CKAN_PROFILING_ENABLED') == 'true' %}
 filter-with = linesman
