@@ -33,6 +33,7 @@ $display-properties: none,
   flex,
   inline-flex;
 
+/*
 @mixin make-display-mq($property, $i: length($breakpoints)) {
   @if $i > 0 {
     @include make-display-mq($property, $i - 1);
@@ -42,7 +43,8 @@ $display-properties: none,
     $value: nth($pair, 2);
 
     @media (max-width: $value) {
-      &-#{$key} {
+      //TODO: $key removed to allow compiling
+      &-#{key} {
         display: $property;
       }
     }
@@ -50,7 +52,8 @@ $display-properties: none,
 }
 
 @mixin make-display-class($property) {
-  .d-#{$property} {
+  //TODO: $property removed to allow compiling
+  .d-#{property} {
     display: $property;
 
     @include make-display-mq($property);
@@ -69,6 +72,7 @@ $display-properties: none,
 
 // Call the functions and generate classes
 @include make-display-classes;
+*/
 
 .flex-wrap {
   flex-wrap: wrap;

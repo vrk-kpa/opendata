@@ -318,14 +318,14 @@ End of dropdown CSS
   @include flex-direction(row);
   @include align-items(center);
   @include justify-content(flex-start);
-  @include transition(width 0.2s ease);
+  //@include transition(width 0.2s ease);
 
   .header-search-input-container {
     width: 100%;
     visibility: visible;
 
     @include align-self(flex-end);
-    @include transition(width 0.5s ease);
+    //@include transition(width 0.5s ease);
 
     margin-right: 5px;
     margin-left: auto;
@@ -335,7 +335,7 @@ End of dropdown CSS
     width: 0;
     visibility: hidden;
 
-    @include transition(width 0.3s ease);
+    //@include transition(width 0.3s ease);
 
     margin-right: auto;
     margin-left: auto;
@@ -736,7 +736,7 @@ End of dropdown CSS
   font-size: $font-size-base;
 
   .alert-info {
-    @include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
+    //@include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
 
     a,
     a:hover,
