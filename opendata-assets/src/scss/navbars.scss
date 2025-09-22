@@ -8,8 +8,13 @@ Modified based on the CSS at http://avoin.webflow.io
 Differences in the smaller screen size are together with other @media definitions
 */
 
+// Navbar class covers both first and second navbar
 .navbar {
   --bs-navbar-padding-y: 0;
+
+  border: 0;
+  border-radius: 0;
+  margin-bottom: 0;
   line-height: 20px;
 }
 
@@ -121,6 +126,7 @@ End of dropdown CSS
     
     a {
       text-decoration: none;
+
       &:hover {
         text-decoration: underline;
       }
@@ -134,6 +140,7 @@ End of dropdown CSS
       color: #fff;
     }
   }
+
   .header-profile-link a {
     display: block;
   }
@@ -464,6 +471,7 @@ End of dropdown CSS
   li {
     a {
       --bs-navbar-nav-link-padding-x: #{$padding-x__navigation};
+
       text-decoration: none;
       margin: 0;
       padding-top: $padding-x__navigation;
@@ -497,6 +505,7 @@ End of dropdown CSS
     border-left: 4px solid transparent;
     vertical-align: middle;
   }
+
   .dropdown.open > .dropdown-toggle {
     color: $navbar-color-links;
     background-color: $navbar-background;
@@ -512,9 +521,11 @@ End of dropdown CSS
   .dropdown {
     .dropdown-menu {
       --bs-dropdown-border-radius: 0 0 4px 4px;
+
       li {
         --bs-dropdown-item-padding-x: 0;
         --bs-dropdown-item-padding-y: 0;
+
         a {
           border-bottom: none;
         }
@@ -530,14 +541,14 @@ End of dropdown CSS
     width: 100%;
     display: flex;
     justify-content: space-between;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
 
     // Suojattudata link
     & > .link-button {
       margin-left: auto;
     }
   }
+
   // nav collapsed
   @media (max-width: $grid-float-breakpoint) {
     .second-navbar-container {
@@ -598,13 +609,6 @@ End of dropdown CSS
   .navbar-header {
     float: none;
   }
-}
-
-// Navbar class covers both first and second navbar
-.navbar {
-  border: 0;
-  border-radius: 0;
-  margin-bottom: 0;
 }
 
 .navbar-brand {

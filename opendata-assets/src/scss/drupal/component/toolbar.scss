@@ -19,6 +19,7 @@ $toolbar-width: 240px;
     .navbar-fixed-top {
       top: 79px;
     }
+
     .toolbar-lining .navbar-nav {
       flex-wrap: wrap;
     }
@@ -29,6 +30,7 @@ $toolbar-width: 240px;
     .navbar-fixed-top {
       left: $toolbar-width;
     }
+
     .toolbar-lining .navbar-nav {
       flex-direction: column;
     }
