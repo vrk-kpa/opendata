@@ -1,3 +1,5 @@
+@use "suomifi-design-tokens/dist/tokens";
+
 @import "./variables/fonts";
 @import "./variables/palette";
 @import "./variables/spacing";
@@ -179,3 +181,7 @@ $dropdown-link-hover-color: #fff;
 $dropdown-link-active-bg: #fff;
 $dropdown-link-active-color: #fff;
 $breakpoints: 1, 2, 3;
+
+
+// NEW 2025 colors
+$color-primary: tokens.$fi-color-brand-base;
