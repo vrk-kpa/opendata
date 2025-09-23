@@ -265,7 +265,8 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
   archiverExemptDomainsFromBrokenLinkNotifications: [],
   cloudstorageEnabled: true,
   sentryTracesSampleRate: "1.0",
-  sentryProfilesSampleRate: "1.0"
+  sentryProfilesSampleRate: "1.0",
+  datasetBucketName: "avoindata-beta-datasets"
 });
 
 const drupalStackBeta = new DrupalStack(app, 'DrupalStack-beta', {
@@ -577,7 +578,8 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
   archiverExemptDomainsFromBrokenLinkNotifications: ['fmi.fi'],
   cloudstorageEnabled: true,
   sentryTracesSampleRate: "0.1",
-  sentryProfilesSampleRate: "0.1"
+  sentryProfilesSampleRate: "0.1",
+  datasetBucketName: "avoindata-prod-datasets"
 });
 
 const drupalStackProd = new DrupalStack(app, 'DrupalStack-prod', {
