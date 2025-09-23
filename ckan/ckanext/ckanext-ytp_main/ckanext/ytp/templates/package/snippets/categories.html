@@ -12,11 +12,11 @@
       <img class="categories__list__item__icon" src="{{ category.get('image_display_url') }}" />
       {% if category.get('title_translated', {}).get(lang) %}
       <h5 class="categories__list__item__title">
-        {% link_for category.get('title_translated', {}).get(lang), named_route='group_read', id=category.get('name') %}
+        {% link_for category.get('title_translated', {}).get(lang), named_route='group.read', id=category.get('name') %}
       </h5>
       {% else %}
       <h5 class="categories__list__item__title">
-        {% link_for category.get('display_name'), named_route='group_read', id=category.get('name') %}
+        {% link_for category.get('display_name'), named_route='group.read', id=category.get('name') %}
       </h5>
       {% endif %}
     </li>

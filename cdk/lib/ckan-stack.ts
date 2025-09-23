@@ -97,6 +97,7 @@ export class CkanStack extends Stack {
     const sCkanSecrets = sm.Secret.fromSecretNameV2(this, 'sCkanSecrets', `/${props.environment}/opendata/ckan`);
     const sCommonSecrets = sm.Secret.fromSecretNameV2(this, 'sCommonSecrets', `/${props.environment}/opendata/common`);
     const sZulipApiKey = sm.Secret.fromSecretNameV2(this, 'sZulipApiKey', `/${props.environment}/zulip_api_key`);
+    const sDatapusherApiToken = sm.Secret.fromSecretNameV2(this, 'sDatapusherApiToken', `/${props.environment}/opendata/ckan/datapusher_api_token`);
 
     // get repositories
     const ckanRepo = ecr.Repository.fromRepositoryArn(this, 'ckanRepo', `arn:aws:ecr:${parseEcrRegion(props.envProps.REGISTRY)}:${parseEcrAccountId(props.envProps.REGISTRY)}:repository/${props.envProps.REPOSITORY}/ckan`);
@@ -157,19 +158,21 @@ export class CkanStack extends Stack {
       'drupal8',
       'ytp_organizations',
       'ytp_request',
-      'hierarchy_display',
+      'apis',
       'ytp_theme',
       'harvest',
+      'archiver',
       'report',
+      'qa',
       'ytp_report',
       'ytp_drupal',
       'ytp_tasks',
       'ytp_dataset',
-      'apis',
       'ytp_spatial',
       'spatial_metadata',
       'spatial_query',
       'ytp_user',
+      'hierarchy_display',
       'datastore',
       'sixodp_showcase',
       'sixodp_showcasesubmit',
@@ -185,8 +188,6 @@ export class CkanStack extends Stack {
       'sixodp_harvester',
       'reminder',
       'ytp_restrict_category_creation_and_updating',
-      'archiver',
-      'qa',
       'ytp_ipermission_labels',
       'organizationapproval',
       'ytp_resourcestatus',
@@ -198,6 +199,7 @@ export class CkanStack extends Stack {
       'opendata_cli',
       'ytp_recommendation',
       'dcat_sparql',
+      'activity',
       'sitesearch',
     ];
 
@@ -294,6 +296,7 @@ export class CkanStack extends Stack {
       SENTRY_LOADER_SCRIPT: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_loader_script'),
       FUSEKI_ADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'fuseki_admin_pass'),
       ZULIP_API_KEY: ecs.Secret.fromSecretsManager(sZulipApiKey),
+      DATAPUSHER_API_TOKEN: ecs.Secret.fromSecretsManager(sDatapusherApiToken)
     };
 
     ckanTaskDef.addToExecutionRolePolicy(new PolicyStatement({

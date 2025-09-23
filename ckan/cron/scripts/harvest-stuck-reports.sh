@@ -7,4 +7,4 @@ set -e
 echo "job started: harvest-stuck-reports"
 
 # run commands
-ckan -c ${APP_DIR}/production.ini opendata-harvest send-stuck-runs-report
+ckan -c ${APP_DIR}/ckan.ini opendata-harvest send-stuck-runs-report

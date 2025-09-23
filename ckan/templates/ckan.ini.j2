@@ -253,7 +253,7 @@ ckan.search.solr_allowed_query_parsers = frange
 ckanext.spatial.harvest.continue_on_validation_errors = true
 ckanext.spatial.search_backend = solr-bbox
 ckanext.spatial.common_map.type = custom
-ckanext.spatial.common_map.custom.url = https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+ckanext.spatial.common_map.custom.url = https://tile.openstreetmap.org/{z}/{x}/{y}.png
 ckanext.spatial.common_map.attribution = &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
 ckanext.spatial.harvest.highvalue_categories = meteorological companies-and-company-ownership geospatial mobility earth-observation-and-environment statistics
 
@@ -267,7 +267,7 @@ ckanext.ytp.theme.show_postit_demo = {{ environ('CKAN_SHOW_POSTIT_DEMO') }}
 
 ckan.datapusher.url = http://{{ environ('DATAPUSHER_HOST') }}:{{ environ('DATAPUSHER_PORT') }}/
 ckan.datapusher.callback_url_base = http://{{ environ('CKAN_HOST') }}:{{ environ('CKAN_PORT') }}/
-ckan.datapusher.api_token = ''
+ckan.datapusher.api_token = {{ environ('DATAPUSHER_API_TOKEN') }}
 
 {% if environ('CKAN_PROFILING_ENABLED') == 'true' %}
 filter-with = linesman

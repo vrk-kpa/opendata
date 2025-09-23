@@ -4,6 +4,9 @@ import pytest
 from ckan.tests.factories import Dataset, Group, Sysadmin, User, Organization
 from ckan.tests.helpers import call_action
 from ckan.plugins import toolkit
+from ckan import model
+from ckan.lib.helpers import url_for
+
 from .utils import minimal_dataset_with_one_resource_fields
 
 def create_minimal_dataset():
@@ -330,3 +333,60 @@ class TestResourceStatusPlugin:
 
         assert modified_resource.get('malware') is None
         assert modified_resource.get('sha256') is None
+
+
+@pytest.mark.usefixtures('clean_db', 'clean_index')
+class TestOrganizationHierarchy:
+    def test_suborganization_is_under_parent(self):
+        parent = Organization()
+        child = Organization()
+
+        member = model.Member(
+            group=model.Group.get(child['id']),
+            table_id=parent['id'], table_name='group', capacity='parent')
+
+        model.Session.add(member)
+        model.Session.commit()
+
+        result = call_action('group_tree_section', id=parent['id'], type='organization')
+        assert result['children'][0]['id'] == child['id']
+
+    def test_tree_section_has_only_approved_organizations(self):
+
+        parent = Organization()
+        first_child = Organization(approval_status="approved")
+        second_child = Organization(approval_status="pending")
+
+        member = model.Member(
+            group=model.Group.get(first_child['id']),
+            table_id=parent['id'], table_name='group', capacity='parent')
+
+        model.Session.add(member)
+        member = model.Member(
+            group=model.Group.get(second_child['id']),
+            table_id=parent['id'], table_name='group', capacity='parent')
+        model.Session.add(member)
+        model.Session.commit()
+
+        result = call_action('group_tree_section', id=parent['id'], type='organization', only_approved=True)
+
+        assert result['children'][0]['id'] == first_child['id']
+        assert len(result['children']) == 1
+
+        helper_result = toolkit.h.group_tree_section(id_=parent['id'], type_='organization', only_approved=True)
+
+        assert helper_result['children'][0]['id'] == first_child['id']
+        assert len(helper_result['children']) == 1
+
+@pytest.mark.usefixtures('clean_db', 'clean_index')
+class TestOrganizationView:
+    def test_deleted_organization_showing_error_message(self, app):
+        org = Organization()
+
+        org_url = url_for("organization.read", id=org['id'], locale='en')
+
+        call_action('organization_delete', id=org['id'])
+
+        result = app.get(org_url)
+
+        assert "Organization does not exist" in result

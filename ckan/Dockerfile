@@ -184,13 +184,15 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/fix_use_default_schema_parameter.patch && \
     patch --strip=1 --input=patches/remove_tracking.patch && \
     patch --strip=1 --input=patches/remove_tracking_summary_from_solr_index.patch && \
-    patch --strip=1 --input=patches/iauthenticator_fix.patch
+    patch --strip=1 --input=patches/iauthenticator_fix.patch && \
+    patch --strip=1 --input=patches/fix_templatehelpers_plugin_order.patch && \
+    patch --strip=1 --input=patches/fix_server_error_on_group_pages.patch && \
+    patch --strip=1 --input=patches/add_check_if_old_api_keys_are_used.patch
 
 RUN \
   # Make scripts executable
   chmod +x ${SCRIPT_DIR}/*.sh && \
   # Remove unused configuration
-  rm -f ${APP_DIR}/production.ini && \
   rm -f ${APP_DIR}/ckan.ini && \
   rm -f ${APP_DIR}/who.ini && \
   # Add directory for static content
