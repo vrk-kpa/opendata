@@ -1,5 +1,4 @@
 @import '../variables';
-@import 'bootstrap/labels';
 
 // $todo these should be their own CSS files and only included when
 // specific Drupal libraries are used.
@@ -39,6 +38,8 @@ $fa-font-path: '../fonts';
 
 // TODO: This could only import the needed styles for drupal and not all
 //@import '../components/all';
+@import '../components/forms';
+@import '../components/navigation';
 
 // New layout menu styles
 @import 'menu';
@@ -130,10 +131,7 @@ p:last-child,
   color: $sidebar-block-color-header;
 }
 
-/* stylelint-disable scss/at-extend-no-missing-placeholder */
 .avoindata-label-primary {
-  @extend .label-primary;
-
   background-color: $btn-dark-bg;
 }
 

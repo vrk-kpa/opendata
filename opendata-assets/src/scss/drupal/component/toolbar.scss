@@ -55,6 +55,6 @@ $toolbar-width: 240px;
   margin-top: 0;
 
   &.toolbar {
-    margin-bottom: ($grid-gutter-width / 2);
+    margin-bottom: calc($grid-gutter-width / 2);
   }
 }

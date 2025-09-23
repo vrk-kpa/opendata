@@ -1,5 +1,3 @@
-@import 'bootstrap/mixins';
-
 /**
  * Form styles.
  */
@@ -32,11 +30,13 @@
 
     // Reset rounded corners
     &:first-child .form-control:first-child {
-      @include border-left-radius($border-radius-base);
+      border-top-left-radius: $border-radius-base;
+      border-bottom-left-radius: $border-radius-base;
     }
 
     &:last-child .form-control:first-child {
-      @include border-right-radius($border-radius-base);
+      border-top-right-radius: $border-radius-base;
+      border-bottom-right-radius: $border-radius-base;
     }
   }
 
