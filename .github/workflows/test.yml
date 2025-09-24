@@ -517,7 +517,6 @@ jobs:
         
         mkfile ckanext/ytp/resources/vendor/bootstrap/dist/css bootstrap.css
         mkfile ckanext/ytp/resources/vendor/eonasdan-bootstrap-datetimepicker/build/css bootstrap-datetimepicker.css
-        mkfile ckanext/ytp/resources/vendor/jstree/dist/themes/default style.css
         mkfile ckanext/ytp/resources/vendor/select2-bootstrap-css select2-bootstrap.css
         mkfile ckanext/ytp/resources/styles ckan.css
         mkfile ckanext/ytp/resources/templates head-styles-ckan.html
@@ -526,7 +525,6 @@ jobs:
         mkfile ckanext/ytp/resources/scripts inject_responsive_tables.js
         mkfile ckanext/ytp/resources/vendor/moment/dist/min/ moment-with-locales.js
         mkfile ckanext/ytp/resources/vendor/eonasdan-bootstrap-datetimepicker/build/js bootstrap-datetimepicker.js
-        mkfile ckanext/ytp/resources/vendor/jstree/dist jstree.js
     
         
         cd ../ckanext-scheming
