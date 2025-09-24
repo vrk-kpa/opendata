@@ -1,3 +1,3 @@
-FROM cypress/included:14.3.2
+FROM cypress/included:15.3.0
 
 RUN git config --global --add safe.directory /e2e
