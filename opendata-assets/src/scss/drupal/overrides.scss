@@ -478,7 +478,7 @@ p:last-child,
 }
 
 .avoindata-block-card {
-  display: block;
+  display: flex;
   position: relative;
   background-color: $background-color__content;
   box-shadow: 0 2px 4px 1px rgb(41 41 41 / 20%);
@@ -524,7 +524,6 @@ p:last-child,
 .avoindata-block-card-icon {
   height: 100%;
   width: 35%;
-  float: left;
   border-radius: 4px 30px 30px 4px / 4px 40px 40px 4px;
   display: flex;
   justify-content: center;
@@ -539,7 +538,6 @@ p:last-child,
 .avoindata-block-card-content {
   height: 100%;
   width: 65%;
-  float: left;
   padding-left: 20px;
 }
 
