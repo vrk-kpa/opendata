@@ -5,7 +5,7 @@ $mobile: unquote("screen and (max-width: #{$screen-xs-max})");
 $tablet: unquote("screen and (min-width: #{$screen-sm-min})");
 $normal: unquote("screen and (min-width: #{$screen-md-min})");
 $wide: unquote("screen and (min-width: #{$screen-lg-min})");
-$grid-breakpoint: unquote("screen and (min-width: #{$grid-float-breakpoint})");
+$grid-breakpoint: unquote("screen and (min-width: #{$navbar-collapse-width})");
 
 body {
   // Fix horizontal scrolling on iOS devices.
