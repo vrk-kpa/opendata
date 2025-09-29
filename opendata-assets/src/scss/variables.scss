@@ -1,5 +1,4 @@
 @use "suomifi-design-tokens/dist/tokens";
-
 @import "./ckan/upstream_ckan/bootstrap-variables";
 @import "./variables/fonts";
 @import "./variables/palette";
@@ -175,7 +174,7 @@ $zindex-navbar-fixed: 1;
 $dropdown-bg: #fff;
 $dropdown-fallback-border: #fff;
 $dropdown-border: #fff;
-$font-family-base: Arial, Helvetica, sans-serif;
+$font-family-base: arial, helvetica, sans-serif;
 $zindex-dropdown: 1;
 $dropdown-link-color: #fff;
 $dropdown-link-hover-bg: #fff;
