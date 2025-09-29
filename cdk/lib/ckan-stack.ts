@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import {aws_s3 as s3, Duration, Stack, StackProps} from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
@@ -360,37 +360,22 @@ export class CkanStack extends Stack {
       ckanContainerEnv['RECAPTCHA_PRIVATE_KEY'] = '';
     }
 
-    // implemented on following if-block and used later in another if block
-    let ckanTaskPolicyAllowCloudstorage;
+    const datasetBucket = s3.Bucket.fromBucketName(this, 'DatasetBucket', props.datasetBucketName);
 
     if (props.cloudstorageEnabled) {
       // get params
       const pCkanCloudstorageDriver = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanCloudstorageDriver', {
         parameterName: `/${props.environment}/opendata/ckan/cloudstorage_driver`,
       });
-      const pCkanCloudstorageContainerName = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanCloudstorageContainerName', {
-        parameterName: `/${props.environment}/opendata/ckan/cloudstorage_container_name`,
-      });
-      const pCkanCloudstorageUseSecureUrls = ssm.StringParameter.fromStringParameterAttributes(this, 'pCkanCloudstorageUseSecureUrls', {
-        parameterName: `/${props.environment}/opendata/ckan/cloudstorage_use_secure_urls`,
-      });
 
       ckanContainerEnv['CKAN_CLOUDSTORAGE_ENABLED'] = 'true';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = pCkanCloudstorageDriver.stringValue;
-      ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = pCkanCloudstorageContainerName.stringValue;
+      ckanContainerEnv['CKAN_CLOUDSTORAGE_CONTAINER_NAME'] = props.datasetBucketName;
       ckanContainerEnv['CKAN_CLOUDSTORAGE_USE_SECURE_URLS'] = 'true'
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER_OPTIONS'] = '';
 
-      ckanTaskPolicyAllowCloudstorage = new iam.PolicyStatement({
-        actions: ['*'],
-        resources: [
-          `arn:aws:s3:::${pCkanCloudstorageContainerName.stringValue}`,
-          `arn:aws:s3:::${pCkanCloudstorageContainerName.stringValue}/*`,
-        ],
-        effect: iam.Effect.ALLOW,
-      });
+      datasetBucket.grantReadWrite(ckanTaskDef.taskRole);
 
-      ckanTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowCloudstorage);
     } else {
       ckanContainerEnv['CKAN_CLOUDSTORAGE_ENABLED'] = 'false';
       ckanContainerEnv['CKAN_CLOUDSTORAGE_DRIVER'] = '';
@@ -539,7 +524,7 @@ export class CkanStack extends Stack {
 
       ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowExec);
       if (props.cloudstorageEnabled) {
-        ckanCronTaskDef.addToTaskRolePolicy(ckanTaskPolicyAllowCloudstorage!)
+        datasetBucket.grantRead(ckanCronTaskDef.taskRole);
       }
 
       ckanCronTaskDef.addToExecutionRolePolicy(new PolicyStatement({

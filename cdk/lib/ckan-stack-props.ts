@@ -22,5 +22,6 @@ export interface CkanStackProps extends EcsStackProps {
   datastoreUserCredentials: rds.Credentials,
   datastoreReadCredentials: rds.Credentials,
   sentryTracesSampleRate: string,
-  sentryProfilesSampleRate: string
+  sentryProfilesSampleRate: string,
+  datasetBucketName: string
 }
