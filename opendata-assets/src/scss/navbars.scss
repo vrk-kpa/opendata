@@ -779,9 +779,13 @@ End of dropdown CSS
   font-size: $font-size-base;
 
   .alert-info {
+<<<<<<< HEAD
     background: $alert-info-bg;
     border-color: $alert-info-border;
     color: $alert-info-text;
+=======
+    //@include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
+>>>>>>> AV-2324_ckan_bootstrap_upgrade
 
     a,
     a:hover,
