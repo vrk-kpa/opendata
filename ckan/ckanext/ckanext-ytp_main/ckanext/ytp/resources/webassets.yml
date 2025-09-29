@@ -3,7 +3,6 @@ main_css:
   contents:
     - vendor/bootstrap/dist/css/bootstrap.css
     - vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css
-    - vendor/jstree/dist/themes/default/style.css
     - vendor/select2-bootstrap-css/select2-bootstrap.css
     - styles/ckan.css
     - opendata/styles/ab-datepicker.css
@@ -20,7 +19,6 @@ main_js:
     - scripts/inject_responsive_tables.js
     - vendor/moment/dist/min/moment-with-locales.js
     - vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.js
-    - vendor/jstree/dist/jstree.js
     - opendata/scripts/drag-n-drop-uploader.js
 
 openapi_view_css:
