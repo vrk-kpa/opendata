@@ -9,7 +9,7 @@
 
 // NOTE: these should be used with @media (max-width: $breakpoints.xs)
 // not min-width.
-//$breakpoints: xs $screen-xs-max, sm $screen-sm-max, md $screen-md-max,
+// $breakpoints: xs $screen-xs-max, sm $screen-sm-max, md $screen-md-max,
 //  lg 10000px;
 $brand-primary: $opendata-brand-primary;
 $brand-info: $opendata-brand-decorative;
@@ -102,11 +102,7 @@ $footer-border: $section-border-color;
 // Responsive layout widths
 $secondary-width: 280px;
 $container-horizontal-padding: 40px;
-<<<<<<< HEAD
 $navbar-collapse-width: 768px;
-=======
-//$grid-float-breakpoint: $screen-sm-min;
->>>>>>> AV-2324_ckan_bootstrap_upgrade
 $border-radius-large: 0;
 
 // Media grid
