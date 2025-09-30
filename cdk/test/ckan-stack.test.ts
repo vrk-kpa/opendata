@@ -128,7 +128,8 @@ test('verify ckan stack resources', () => {
     archiverExemptDomainsFromBrokenLinkNotifications: [],
     cloudstorageEnabled: true,
     sentryTracesSampleRate: "1.0",
-    sentryProfilesSampleRate: "1.0"
+    sentryProfilesSampleRate: "1.0",
+    datasetBucketName: "example",
   });
   // THEN
   const template = Template.fromStack(stack);
@@ -264,7 +265,8 @@ test('create ckan stack without analytics', () => {
     archiverExemptDomainsFromBrokenLinkNotifications: [],
     cloudstorageEnabled: true,
     sentryTracesSampleRate: "1.0",
-    sentryProfilesSampleRate: "1.0"
+    sentryProfilesSampleRate: "1.0",
+    datasetBucketName: "example"
   });
   // THEN
   const template = Template.fromStack(stack);
@@ -399,7 +401,8 @@ test('create ckan stack without captcha', () => {
     archiverExemptDomainsFromBrokenLinkNotifications: [],
     cloudstorageEnabled: true,
     sentryTracesSampleRate: "1.0",
-    sentryProfilesSampleRate: "1.0"
+    sentryProfilesSampleRate: "1.0",
+    datasetBucketName: "example"
   });
   // THEN
   const template = Template.fromStack(stack);
