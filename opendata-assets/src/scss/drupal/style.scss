@@ -31,6 +31,7 @@
 // @import '../components/all';
 @import '../components/forms';
 @import '../components/navigation';
+@import '../components/breadcrumbs.scss';
 
 // New layout menu styles
 @import 'menu';
@@ -84,7 +85,7 @@ p:last-child,
 // Help region.
 .region-help {
   >.glyphicon {
-    font-size: $font-size-large;
+    font-size: $font-size-base;
     float: left;
     margin: -0.05em 0.5em 0 0;
   }
@@ -1489,7 +1490,7 @@ p:last-child,
   line-height: 0.8;
 
   li {
-    color: $opendata-brand-gray;
+    color: $color__breadcrumb-current;
     font-size: 14px;
     line-height: 20px;
   }
@@ -1571,10 +1572,9 @@ p:last-child,
 }
 
 .breadcrumb {
-  padding: $breadcrumb-padding-vertical $breadcrumb-padding-horizontal;
-  margin-bottom: $line-height-computed;
+  padding: var(--bs-breadcrumb-padding-y) var(--bs-breadcrumb-padding-x);
+  margin-bottom: var(--bs-body-line-height);
   list-style: none;
-  background-color: $breadcrumb-bg;
   border-radius: $border-radius-base;
 
   >li {
@@ -1586,14 +1586,13 @@ p:last-child,
     }
 
     +li::before {
-      content: '#{$breadcrumb-separator}\00a0';
       padding: 0 5px;
       color: $color__breadcrumb-link;
     }
   }
 
   >.active {
-    color: $breadcrumb-active-color;
+    color: $color__breadcrumb-current;
   }
 }
 
