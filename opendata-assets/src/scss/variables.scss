@@ -1,5 +1,16 @@
 @use "suomifi-design-tokens/dist/tokens";
 
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+@import "bootstrap/scss/mixins";
+
 @import "./variables/fonts";
 @import "./variables/palette";
 @import "./variables/spacing";
@@ -8,11 +19,6 @@
 @import "./variables/components/menu";
 @import "./variables/components/showcase";
 
-// NOTE: these should be used with @media (max-width: $breakpoints.xs)
-// not min-width.
-// $breakpoints: xs $screen-xs-max, sm $screen-sm-max, md $screen-md-max,
-
-//  lg 10000px;
 $brand-primary: $opendata-brand-primary;
 $brand-info: $opendata-brand-decorative;
 $opendata-container-max-width: 1110px;
@@ -104,7 +110,6 @@ $footer-border: $section-border-color;
 // Responsive layout widths
 $secondary-width: 280px;
 $container-horizontal-padding: 40px;
-$navbar-collapse-width: 768px;
 $border-radius-large: 0;
 
 // Media grid

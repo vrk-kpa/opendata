@@ -548,7 +548,7 @@ End of dropdown CSS
   }
 
   // nav collapsed
-  @media (max-width: $navbar-collapse-width) {
+  @include media-breakpoint-down(md) {
     .second-navbar-container {
       flex-direction: column;
       align-items: flex-end;
@@ -572,7 +572,7 @@ End of dropdown CSS
   }
 
   // nav uncollapsed
-  @media (min-width: $navbar-collapse-width) {
+  @include media-breakpoint-up(md) {
     .second-navbar-container {
       width: 100%;
       max-width: $header-width;

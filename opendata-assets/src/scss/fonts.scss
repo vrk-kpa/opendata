@@ -3,10 +3,10 @@
 $fa-font-path: '../fonts';
 
 // FontAwesome
-@import '../../vendor/@fortawesome/fontawesome/scss/fontawesome';
-@import '../../vendor/@fortawesome/fontawesome/scss/solid';
-@import '../../vendor/@fortawesome/fontawesome/scss/regular';
-@import '../../vendor/@fortawesome/fontawesome/scss/brands';
+@import '../vendor/@fortawesome/fontawesome/scss/fontawesome';
+@import '../vendor/@fortawesome/fontawesome/scss/solid';
+@import '../vendor/@fortawesome/fontawesome/scss/regular';
+@import '../vendor/@fortawesome/fontawesome/scss/brands';
 
 /* source-sans-pro-300 - latin */
 @font-face {

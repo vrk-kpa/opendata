@@ -316,7 +316,7 @@ p:last-child,
     display: block;
     margin: 0 auto;
 
-    @media (width <= 768px) {
+    @include media-breakpoint-down(md) {
       .equal-height-row {
         @include flex-display(flex);
         @include flex-wrap(wrap);
@@ -324,7 +324,7 @@ p:last-child,
     }
 
     .avoindata-infobox-wrapper {
-      @media (width <= 768px) {
+      @include media-breakpoint-down(md) {
         padding-top: 15px;
       }
 
@@ -362,7 +362,7 @@ p:last-child,
             font-size: 50px;
             margin-left: 20px;
 
-            @media (width >= 768px) and (width <= 940px) {
+            @include media-breakpoint-between(md, lg) {
               display: none;
             }
           }
@@ -652,7 +652,7 @@ p:last-child,
     .avoindata-datasetlist-wrapper {
       display: flex;
 
-      @media (width <= 786px) {
+      @include media-breakpoint-down(md) {
         flex-direction: column;
       }
 
@@ -733,7 +733,7 @@ p:last-child,
   & + & {
     padding-left: 40px;
 
-    @media (width <= 768px) {
+    @include media-breakpoint-down(md) {
       padding-left: 0;
     }
   }
@@ -897,7 +897,7 @@ p:last-child,
     .avoindata-appfeed-applist-wrapper {
       display: flex;
 
-      @media (width <= 768px) {
+      @include media-breakpoint-down(md) {
         flex-direction: column;
       }
     }
@@ -979,7 +979,7 @@ p:last-child,
   & + & {
     margin-left: 32px;
 
-    @media (width <= 768px) {
+    @include media-breakpoint-down(md) {
       margin-left: 0;
       margin-top: 10px;
     }
@@ -1415,7 +1415,7 @@ p:last-child,
   height: 125px;
   text-align: center;
 
-  @media (min-width: $screen-md-min) {
+  @include media-breakpoint-up(md) {
     margin-bottom: 40px;
   }
 
@@ -1436,7 +1436,7 @@ p:last-child,
 
 }
 
-@media (min-width: $screen-md-min) {
+@include media-breakpoint-up(md) {
   .arrow-box::after {
     top: 100%;
     left: 50%;
@@ -1555,7 +1555,7 @@ p:last-child,
 }
 
 // Overrides navbar-collapse padding
-@media (width >= 768px) {
+@include media-breakpoint-up(md) {
   .opendata-menu-container {
     padding-left: 0;
     padding-right: 0;
@@ -1770,7 +1770,7 @@ p:last-child,
   }
 }
 
-@media (min-width: $screen-lg) {
+@include media-breakpoint-up(lg) {
   .messages__wrapper {
     .alert {
       padding-left: 15%;
@@ -1779,7 +1779,7 @@ p:last-child,
   }
 }
 
-@media (max-width: $screen-md-max) {
+@include media-breakpoint-down(md) {
   .messages__wrapper {
     .alert {
       padding-left: 10%;
