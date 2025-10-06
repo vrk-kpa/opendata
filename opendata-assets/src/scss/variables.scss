@@ -1,5 +1,4 @@
 @use "suomifi-design-tokens/dist/tokens";
-
 @import "./variables/fonts";
 @import "./variables/palette";
 @import "./variables/spacing";
@@ -8,10 +7,19 @@
 @import "./variables/components/menu";
 @import "./variables/components/showcase";
 
-// NOTE: these should be used with @media (max-width: $breakpoints.xs)
-// not min-width.
-//$breakpoints: xs $screen-xs-max, sm $screen-sm-max, md $screen-md-max,
-//  lg 10000px;
+
+// Bootstrap: Grid
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+// Bootstrap: Border mixins
+$enable-rounded: true;
 $brand-primary: $opendata-brand-primary;
 $brand-info: $opendata-brand-decorative;
 $opendata-container-max-width: 1110px;
@@ -103,7 +111,6 @@ $footer-border: $section-border-color;
 // Responsive layout widths
 $secondary-width: 280px;
 $container-horizontal-padding: 40px;
-//$grid-float-breakpoint: $screen-sm-min;
 $border-radius-large: 0;
 
 // Media grid
@@ -136,7 +143,8 @@ $search-view-link-color: #000;
 $nav-link-selected-color: #eeeeee;
 
 
-//TODO: BS3 variables to allow building, variables are wrong on purpose
+// TODO: BS3 variables to allow building, variables are wrong on purpose
+
 $label-color: #fff;
 $label-link-hover-color: #fff;
 $label-success-bg: #fff;
@@ -173,7 +181,7 @@ $zindex-navbar-fixed: 1;
 $dropdown-bg: #fff;
 $dropdown-fallback-border: #fff;
 $dropdown-border: #fff;
-$font-family-base: Arial, Helvetica, sans-serif;
+$font-family-base: arial, helvetica, sans-serif;
 $zindex-dropdown: 1;
 $dropdown-link-color: #fff;
 $dropdown-link-hover-bg: #fff;

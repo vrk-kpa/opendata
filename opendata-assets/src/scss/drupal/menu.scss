@@ -6,7 +6,7 @@
     display: none;
   }
 
-  @media screen and (min-width: $screen-md-min) {
+  @include media-breakpoint-up(md) {
     top: 0;
     position: sticky;
     z-index: 255;
@@ -20,7 +20,7 @@
     margin: 10px;
   }
 
-  @media screen and (min-width: $screen-md-min) {
+  @include media-breakpoint-up(md) {
     .avoindata-guide-menu-toggle {
       display: none;
     }
@@ -52,7 +52,7 @@
     border-bottom: 1px solid $suomi-depthSecondary;
     border-top: 1px solid $suomi-depthSecondary;
 
-    @media (min-width: $screen-md-min) {
+    @include media-breakpoint-up(md) {
       margin-top: 25px;
       border-top: none;
     }

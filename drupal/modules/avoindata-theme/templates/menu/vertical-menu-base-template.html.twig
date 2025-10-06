@@ -7,79 +7,77 @@ Removed the navbar-nav class to make this a vertical menu
 {% set menu_id = 'navbar'|clean_unique_id %}
 
 {# All menu and submenu items #}
-<div class="navbar">
-  <div class="navbar-header pull-right">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#{{ menu_id }}">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
+<div class="navbar navbar-expand-md">
+  <div class="container-fluid">
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#{{ menu_id }}">
+      <span class="fa fa-bars"></span>
     </button>
-  </div>
-  <div class="opendata-menu-container" id="{{ menu_id }}">
+    <div class="opendata-menu-container collapse navbar-collapse" id="{{ menu_id }}">
 
-    {% import _self as menus %}
-    {#
-      We call a macro which calls itself to render the full tree.
-      @see http://twig.sensiolabs.org/doc/tags/macro.html
-    #}
-    {{ menus.menu_links(items, attributes, 0) }}
-
-    {% macro menu_links(items, attributes, menu_level) %}
       {% import _self as menus %}
-      {% if items %}
-        {% if menu_level == 0 %}
-          <ol class="nav" role="menu">
-        {% else %}
-          <ul class="subnav">
-        {% endif %}
-        {% for item in items %}
-          {%
-            set item_classes = [
-              item.in_active_trail ? 'active',
-            ]
-          %}
-          {% if item.below %}
-            {% if menu_level == 0 %}
-              {# To be able to highlight the parent as selected (and not also the parent when child is selected);
-                 for items in active trail check if any child is also in active trail and only give active class to the parent if no child is active #}
-              {% if item.in_active_trail %}
-                {% set child_selected = false %}
-                {% for child in item.below %}
-                  {% if child.in_active_trail %}
-                    {% set child_selected = true %}
-                  {% endif %}
-                {% endfor %}
+      {#
+        We call a macro which calls itself to render the full tree.
+        @see http://twig.sensiolabs.org/doc/tags/macro.html
+      #}
+      {{ menus.menu_links(items, attributes, 0) }}
+
+      {% macro menu_links(items, attributes, menu_level) %}
+        {% import _self as menus %}
+        {% if items %}
+          {% if menu_level == 0 %}
+            <ol class="navbar-nav" role="menu">
+          {% else %}
+            <ul class="subnav">
+          {% endif %}
+          {% for item in items %}
+            {%
+              set item_classes = [
+                item.in_active_trail ? 'active',
+              ]
+            %}
+            {% if item.below %}
+              {% if menu_level == 0 %}
+                {# To be able to highlight the parent as selected (and not also the parent when child is selected);
+                   for items in active trail check if any child is also in active trail and only give active class to the parent if no child is active #}
+                {% if item.in_active_trail %}
+                  {% set child_selected = false %}
+                  {% for child in item.below %}
+                    {% if child.in_active_trail %}
+                      {% set child_selected = true %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                <li class="nav__item {{ item.in_active_trail ? 'open' }}" >
+                  <a href="{{ item.url }}" class="nav__item__link {{ item.in_active_trail and not child_selected ? 'active' }}">
+                    <span class="nav__item__link__content">{{ item.title }}</span>
+                  </a>
+                  {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+                </li>
+              {% else %}
+                <li class="nav__item">
+                  <a class="nav__item__link" href="{{ item.url }}">
+                    <span class="nav__item__link__content">{{ item.title }}</span>
+                  </a>
+                  {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+                </li>
               {% endif %}
-              <li class="nav__item {{ item.in_active_trail ? 'open' }}" >
-                <a href="{{ item.url }}" class="nav__item__link {{ item.in_active_trail and not child_selected ? 'active' }}">
-                  <span class="nav__item__link__content">{{ item.title }}</span>
-                </a>
-                {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
-              </li>
             {% else %}
-              <li class="nav__item">
-                <a class="nav__item__link" href="{{ item.url }}">
+              <li class="nav__item" {{ item.attributes.addClass(item_classes) }}>
+                <a class="nav__item__link  {{ item.in_active_trail and not child_selected ? 'active' }}" href="{{ item.url }}" {{ item.attributes.addClass(item_classes) }} {{ item.link_attributes }} >
                   <span class="nav__item__link__content">{{ item.title }}</span>
                 </a>
-                {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
               </li>
             {% endif %}
+          {% endfor %}
+
+          {% if menu_level == 0 %}
+            </ol>
           {% else %}
-            <li class="nav__item" {{ item.attributes.addClass(item_classes) }}>
-              <a class="nav__item__link  {{ item.in_active_trail and not child_selected ? 'active' }}" href="{{ item.url }}" {{ item.attributes.addClass(item_classes) }} {{ item.link_attributes }} >
-                <span class="nav__item__link__content">{{ item.title }}</span>
-              </a>
-            </li>
+            </ul>
           {% endif %}
-        {% endfor %}
-
-        {% if menu_level == 0 %}
-          </ol>
-        {% else %}
-          </ul>
         {% endif %}
-      {% endif %}
-    {% endmacro %}
+      {% endmacro %}
 
+    </div>
   </div>
 </div>

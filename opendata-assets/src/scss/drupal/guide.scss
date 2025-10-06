@@ -35,7 +35,7 @@
 }
 
 // Fix guide content centering on wide displays
-@media screen and (min-width: $screen-md-min) {
+@include media-breakpoint-up(md) {
   #guide-page > .row {
     display: flex;
     justify-content: center;
@@ -47,7 +47,7 @@
   }
 }
 
-@media (max-width: $screen-sm-max) {
+@include media-breakpoint-down(sm) {
   #guide-page {
     padding-left: 0;
     padding-right: 0;
@@ -104,7 +104,7 @@
   background: none;
   border: none;
 
-  @media screen and (min-width: $screen-md-min) {
+  @include media-breakpoint-up(md) {
     .col--guide-left {
       padding-right: 40px;
     }
@@ -124,7 +124,7 @@
   line-height: $line-height__module-title;
   padding: 0 15px;
   
-  @media screen and (min-width: $screen-md-min) {
+  @include media-breakpoint-up(md) {
     padding: unset;
   }
 }

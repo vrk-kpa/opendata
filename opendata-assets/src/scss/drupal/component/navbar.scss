@@ -1,12 +1,6 @@
 /**
  * Navbar styling.
  */
-$mobile: unquote("screen and (max-width: #{$screen-xs-max})");
-$tablet: unquote("screen and (min-width: #{$screen-sm-min})");
-$normal: unquote("screen and (min-width: #{$screen-md-min})");
-$wide: unquote("screen and (min-width: #{$screen-lg-min})");
-$grid-breakpoint: unquote("screen and (min-width: #{$grid-float-breakpoint})");
-
 body {
   // Fix horizontal scrolling on iOS devices.
   // https://www.drupal.org/node/1870076
@@ -24,11 +18,11 @@ body {
     padding-bottom: calc($navbar-height + ($grid-gutter-width / 2));
   }
 
-  @media #{$tablet} {
+  @include media-breakpoint-up(sm) {
     margin-top: calc($grid-gutter-width / 2);
   }
 
-  @media #{$mobile} {
+  @include media-breakpoint-down(xs) {
     &.toolbar-vertical {
       &.navbar-is-fixed-top,
       &.navbar-is-fixed-bottom {
@@ -51,26 +45,26 @@ body {
 }
 
 .navbar.container {
-  @media #{$tablet} {
+  @include media-breakpoint-up(sm) {
     max-width: calc(($container-sm - $grid-gutter-width));
   }
 
-  @media #{$normal} {
+  @include media-breakpoint-up(md) {
     max-width: calc(($container-md - $grid-gutter-width));
   }
 
-  @media #{$wide} {
+  @include media-breakpoint-up(lg) {
     max-width: calc(($container-lg - $grid-gutter-width));
   }
 }
 
 // Branding.
 .navbar .logo {
-  margin-right: -calc($grid-gutter-width / 2);
+  margin-right: calc($grid-gutter-width / -2);
   padding-left: calc($grid-gutter-width / 2);
   padding-right: calc($grid-gutter-width / 2);
 
-  @media #{$grid-breakpoint} {
+  @include media-breakpoint-up(md) {
     margin-right: 0;
     padding-left: 0;
   }
