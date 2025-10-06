@@ -1,3 +1,5 @@
+@import '../variables';
+
 /**
  * Form styles.
  */
@@ -30,13 +32,11 @@
 
     // Reset rounded corners
     &:first-child .form-control:first-child {
-      border-top-left-radius: $border-radius-base;
-      border-bottom-left-radius: $border-radius-base;
+      @include border-start-radius($border-radius-base);
     }
 
     &:last-child .form-control:first-child {
-      border-top-right-radius: $border-radius-base;
-      border-bottom-right-radius: $border-radius-base;
+      @include border-end-radius($border-radius-base);
     }
   }
 

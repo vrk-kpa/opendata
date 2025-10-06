@@ -1,3 +1,5 @@
+@import '../variables';
+
 /**
  * Filter styles.
  */
@@ -14,7 +16,7 @@
   padding: 10px;
   height: 51px;
 
-  // FIXME: @include clearfix;
+  @include clearfix;
 }
 
 .filter-help {
