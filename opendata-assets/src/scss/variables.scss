@@ -1,5 +1,4 @@
 @use "suomifi-design-tokens/dist/tokens";
-
 @import "./variables/fonts";
 @import "./variables/palette";
 @import "./variables/spacing";
@@ -21,7 +20,6 @@ $grid-breakpoints: (
 
 // Bootstrap: Border mixins
 $enable-rounded: true;
-
 $brand-primary: $opendata-brand-primary;
 $brand-info: $opendata-brand-decorative;
 $opendata-container-max-width: 1110px;
