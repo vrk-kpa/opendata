@@ -1,6 +1,15 @@
 @use "suomifi-design-tokens/dist/tokens";
 
-// Variables for bootstrap mixins
+@import "./variables/fonts";
+@import "./variables/palette";
+@import "./variables/spacing";
+@import "./variables/transition";
+@import "./variables/components/form";
+@import "./variables/components/menu";
+@import "./variables/components/showcase";
+
+
+// Bootstrap: Grid
 $grid-breakpoints: (
   xs: 0,
   sm: 576px,
@@ -9,17 +18,9 @@ $grid-breakpoints: (
   xl: 1200px,
   xxl: 1400px
 );
+
+// Bootstrap: Border mixins
 $enable-rounded: true;
-
-@import "bootstrap/scss/mixins";
-
-@import "./variables/fonts";
-@import "./variables/palette";
-@import "./variables/spacing";
-@import "./variables/transition";
-@import "./variables/components/form";
-@import "./variables/components/menu";
-@import "./variables/components/showcase";
 
 $brand-primary: $opendata-brand-primary;
 $brand-info: $opendata-brand-decorative;
