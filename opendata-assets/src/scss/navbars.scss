@@ -10,7 +10,7 @@ Differences in the smaller screen size are together with other @media definition
 
 // Navbar class covers both first and second navbar
 .navbar {
-  --bs-navbar-padding-y: 0;
+  padding: 0;
 
   border: 0;
   border-radius: 0;
@@ -468,14 +468,10 @@ End of dropdown CSS
 
   li {
     a {
-      --bs-navbar-nav-link-padding-x: #{$padding-x__navigation};
-
       text-decoration: none;
       margin: 0;
-      padding-top: $padding-x__navigation;
-
       // Because border-bottom adds "padding" to bottom, subtract border-width from bottom padding
-      padding-bottom: $padding-x__navigation - $border-width__navigation;
+      padding: $padding-x__navigation $padding-y__navigation + $border-width__navigation $padding-x__navigation - $border-width__navigation;
       border-bottom: $border-width__navigation solid transparent;
 
       &.is-active {
@@ -518,11 +514,12 @@ End of dropdown CSS
 
   .dropdown {
     .dropdown-menu {
-      --bs-dropdown-border-radius: 0 0 4px 4px;
+      @include border-bottom-radius(4px);
+      @include border-top-radius(0);
+      //--bs-dropdown-border-radius: 0 0 4px 4px;
 
       li {
-        --bs-dropdown-item-padding-x: 0;
-        --bs-dropdown-item-padding-y: 0;
+        padding: 0;
 
         a {
           border-bottom: none;
