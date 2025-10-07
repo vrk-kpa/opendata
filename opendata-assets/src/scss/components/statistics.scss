@@ -1,5 +1,4 @@
 @use "suomifi-design-tokens/dist/tokens" as sd;
-
 @import "../variables";
 @import "bootstrap/scss/mixins";
 
@@ -90,6 +89,7 @@
 
 .statistics-loading-text {
   margin-top: 10px;
+
   @include sd.fi-text-body-text
 }
 
