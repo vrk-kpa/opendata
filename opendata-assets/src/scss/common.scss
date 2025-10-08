@@ -47,6 +47,7 @@ h5 {
 
 a {
   color: $link-color;
+  text-decoration: none;
 
   @media print {
     color: $link-color !important;
