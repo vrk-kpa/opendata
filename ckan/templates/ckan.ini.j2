@@ -124,7 +124,7 @@ smtp_server = {{ environ('SMTP_HOST') }}:{{ environ('SMTP_PORT') }}
 
 smtp.mail_from = {{ environ('SMTP_FROM') }}
 
-ckan.views.default_views = recline_grid_view geo_view
+ckan.views.default_views = datatables_view geo_view
 
 ckanext.ytp.drupal.connection = postgresql://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_DRUPAL_HOST') }}/{{ environ('DB_DRUPAL') }}
 
