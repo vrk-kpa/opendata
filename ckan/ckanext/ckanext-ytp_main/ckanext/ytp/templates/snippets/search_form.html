@@ -39,7 +39,7 @@
     {% endblock %}
 
     {% block search_input %}        
-        <div class="search-input control-group {{ search_class }} m-0">
+        <div class="search-input control-group {{ search_class }}">
             <input type="text" class="search search-dataset form-control" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
             {% for param in query_params %}
                 {% for value in query_params[param] %}
