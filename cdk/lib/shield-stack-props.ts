@@ -9,12 +9,12 @@ export interface ShieldStackProps extends EnvStackProps{
   bannedIpListParameterName: string,
   whitelistedIpListParameterName: string,
   highPriorityCountryCodeListParameterName: string,
-  highPriorityRateLimit: aws_ssm.IStringParameter,
-  rateLimit: aws_ssm.IStringParameter,
+  highPriorityRateLimitParameterName: string
+  rateLimitParameterName: string
   managedRulesParameterName: string,
-  wafAutomationArn: aws_ssm.IStringParameter,
-  snsTopicArn: aws_ssm.IStringParameter,
-  evaluationPeriod: aws_ssm.IStringParameter,
+  wafAutomationArnParameterName: string
+  snsTopicArnParameterName: string
+  evaluationPeriodParameterName: string,
   loadBalancer: aws_elasticloadbalancingv2.ApplicationLoadBalancer,
   blockedUserAgentsParameterName: string
 }

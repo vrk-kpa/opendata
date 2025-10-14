@@ -7,12 +7,12 @@ export class ShieldParameterStack extends Stack {
   readonly bannedIpListParameterName: string;
   readonly whitelistedIpListParameterName: string;
   readonly highPriorityCountryCodeListParameterName: string;
-  readonly highPriorityRateLimit: aws_ssm.IStringParameter;
-  readonly rateLimit: aws_ssm.IStringParameter;
+  readonly highPriorityRateLimitParameterName: string;
+  readonly rateLimitParameterName: string;
   readonly managedRulesParameterName: string;
-  readonly wafAutomationArn: aws_ssm.IStringParameter;
-  readonly snsTopicArn: aws_ssm.IStringParameter;
-  readonly evaluationPeriod: aws_ssm.IStringParameter;
+  readonly wafAutomationArnParameterName: string;
+  readonly snsTopicArnParameterName: string;
+  readonly evaluationPeriodParameterName: string;
   readonly blockedUserAgentsParameterName: string;
 
   constructor(scope: Construct, id: string, props: EnvStackProps ) {
@@ -39,16 +39,18 @@ export class ShieldParameterStack extends Stack {
       parameterName: this.highPriorityCountryCodeListParameterName
     })
 
-    this.highPriorityRateLimit = new aws_ssm.StringParameter(this, 'highPriorityRateLimit', {
+    this.highPriorityRateLimitParameterName = `/${props.environment}/waf/high_priority_rate_limit`
+    new aws_ssm.StringParameter(this, 'highPriorityRateLimit', {
       stringValue: '0',
       description: 'Rate limit for high priority country codes',
-      parameterName: `/${props.environment}/waf/high_priority_rate_limit`
+      parameterName: this.highPriorityRateLimitParameterName
     })
 
-    this.rateLimit = new aws_ssm.StringParameter(this, 'rateLimit', {
+    this.rateLimitParameterName = `/${props.environment}/waf/rate_limit`
+    new aws_ssm.StringParameter(this, 'rateLimit', {
       stringValue: '0',
       description: 'Rate limit for others',
-      parameterName: `/${props.environment}/waf/rate_limit`
+      parameterName: this.rateLimitParameterName
     })
 
     this.managedRulesParameterName = `/${props.environment}/waf/managed_rules`
@@ -58,22 +60,25 @@ export class ShieldParameterStack extends Stack {
       parameterName: this.managedRulesParameterName
     })
 
-    this.wafAutomationArn = new aws_ssm.StringParameter(this, 'wafAutomationArn', {
+    this.wafAutomationArnParameterName =`/${props.environment}/waf/waf_automation_arn`
+    new aws_ssm.StringParameter(this, 'wafAutomationArn', {
       stringValue: 'some placeholder',
       description: 'Arn of waf automation lambda',
-      parameterName: `/${props.environment}/waf/waf_automation_arn`,
+      parameterName: this.wafAutomationArnParameterName,
     })
 
-    this.snsTopicArn = new aws_ssm.StringParameter(this, 'snsTopicArn', {
+    this.snsTopicArnParameterName =`/${props.environment}/waf/sns_topic_arn`
+    new aws_ssm.StringParameter(this, 'snsTopicArn', {
       stringValue: 'some placeholder',
       description: 'Arn of sns topic',
-      parameterName: `/${props.environment}/waf/sns_topic_arn`,
+      parameterName: this.snsTopicArnParameterName,
     })
 
-    this.evaluationPeriod = new aws_ssm.StringParameter(this, 'evaluationPeriod', {
+    this.evaluationPeriodParameterName =`/${props.environment}/waf/evaluation_period`
+    new aws_ssm.StringParameter(this, 'evaluationPeriod', {
       stringValue: '0',
       description: 'Evaluation period for rate limits',
-      parameterName: `/${props.environment}/waf/evaluation_period`
+      parameterName: this.evaluationPeriodParameterName
     })
 
     this.blockedUserAgentsParameterName = `/${props.environment}/waf/blocked_user_agents`
