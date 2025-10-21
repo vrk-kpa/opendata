@@ -5,14 +5,14 @@
 {%- if menu -%}
     <div class="module module-narrow module-shallow">
         <div class="module-content">
-            <ul class="menu nav">
+            <ul class="nav flex-column">
                 {%- for _item, attribs in menu.tree.items() recursive -%}
-                    <li class="ytp-menulink">
-                        <a href="{{ attribs['link']['href'] }}" {% if attribs['selected'] -%}class="selected nav-link-selected"{%- endif -%}>
+                    <li class="nav-item">
+                        <a href="{{ attribs['link']['href'] }}" {% if attribs['selected'] -%}class="nav-link nav-link-selected"{%- endif -%}>
                             {{ attribs['link']['title'] }}
                         </a>
                         {%- if attribs['children'] -%}
-                            <ul class="menu nav">{{ loop(attribs['children'].items()) }}</ul>
+                            <ul class="nav flex-column">{{ loop(attribs['children'].items()) }}</ul>
                         {%- endif -%}
                     </li>
                 {%- endfor -%}
