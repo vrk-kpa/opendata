@@ -75,6 +75,32 @@ export class ShieldStack extends Stack {
     });
 
 
+    const highPriorityRateLimitParameter = aws_ssm.StringParameter.fromStringParameterAttributes(this, 'highPriorityRateLimitParameter', {
+      parameterName: props.highPriorityRateLimitParameterName,
+      simpleName: false
+    });
+  
+    const rateLimitParameter = aws_ssm.StringParameter.fromStringParameterAttributes(this, 'rateLimitParameter', {
+      parameterName: props.rateLimitParameterName,
+      simpleName: false
+    });
+  
+    const wafAutomationArnParameter = aws_ssm.StringParameter.fromStringParameterAttributes(this, 'wafAutomationArnParameter', {
+      parameterName: props.wafAutomationArnParameterName,
+      simpleName: false
+    });
+  
+    const snsTopicArnParameter = aws_ssm.StringParameter.fromStringParameterAttributes(this, 'snsTopicArnParameter', {
+      parameterName: props.snsTopicArnParameterName,
+      simpleName: false
+    });
+  
+    const evaluationPeriodParameter = aws_ssm.StringParameter.fromStringParameterAttributes(this, 'evaluationPeriodParameter', {
+      parameterName: props.evaluationPeriodParameterName,
+      simpleName: false
+    });
+  
+
     let rules = [
       {
         name: "block-banned_ips",
@@ -143,9 +169,9 @@ export class ShieldStack extends Stack {
         },
         statement: {
           rateBasedStatement: {
-            limit: Token.asNumber(props.highPriorityRateLimit.stringValue),
+            limit: Token.asNumber(highPriorityRateLimitParameter.stringValue),
             aggregateKeyType: "IP",
-            evaluationWindowSec: Token.asNumber(props.evaluationPeriod.stringValue),
+            evaluationWindowSec: Token.asNumber(evaluationPeriodParameter.stringValue),
             scopeDownStatement: {
               geoMatchStatement: {
                 countryCodes: highPriorityCountryCodesParameter.valueAsList
@@ -168,9 +194,9 @@ export class ShieldStack extends Stack {
         },
         statement: {
           rateBasedStatement: {
-            limit: Token.asNumber(props.rateLimit.stringValue),
+            limit: Token.asNumber(rateLimitParameter.stringValue),
             aggregateKeyType: "IP",
-            evaluationWindowSec: Token.asNumber(props.evaluationPeriod.stringValue),
+            evaluationWindowSec: Token.asNumber(evaluationPeriodParameter.stringValue),
             scopeDownStatement: {
               notStatement: {
                 statement: {
@@ -364,9 +390,9 @@ export class ShieldStack extends Stack {
       webAclArn: cfnWebAcl.attrArn
     })
 
-    const WafAutomationLambdaFunction = aws_lambda.Function.fromFunctionArn(this, "WafAutomation", props.wafAutomationArn.stringValue)
+    const WafAutomationLambdaFunction = aws_lambda.Function.fromFunctionArn(this, "WafAutomation", wafAutomationArnParameter.stringValue)
     
-    const topic =  aws_sns.Topic.fromTopicArn(this, "SNSTopic", props.snsTopicArn.stringValue)
+    const topic =  aws_sns.Topic.fromTopicArn(this, "SNSTopic", snsTopicArnParameter.stringValue)
 
     topic.addSubscription(new aws_sns_subscriptions.LambdaSubscription(WafAutomationLambdaFunction))
 
