@@ -2,61 +2,66 @@
 Copied from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-bootstrap-menu-drupal-8
 #}
 {# All menu and submenu items #}
-<div class="navbar">
-  <div class="pull-right">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-  </div>
-  <div class="opendata-menu-container collapse navbar-collapse">
-    {% import _self as menus %}
-    {#
-      We call a macro which calls itself to render the full tree.
-      @see http://twig.sensiolabs.org/doc/tags/macro.html
-    #}
-    {{ menus.menu_links(items, attributes, 0) }}
 
-    {% macro menu_links(items, attributes, menu_level) %}
+{# Generate a unique id for the menu #}
+{% set menu_id = 'navbar'|clean_unique_id %}
+
+<div class="navbar navbar-expand-md">
+  <div class="container-fluid">
+    <div class="opendata-menu-container collapse navbar-collapse" id="{{ menu_id }}">
       {% import _self as menus %}
-      {% if items %}
-        {% if menu_level == 0 %}
-            <ul class="nav navbar-nav" role="menu" aria-labelledby="dropdownMenu">
-        {% else %}
-          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        {% endif %}
-        {% for item in items %}
-          {%
-            set item_classes = [
-              item.in_active_trail ? 'active',
-            ]
-          %}
+      {#
+        We call a macro which calls itself to render the full tree.
+        @see http://twig.sensiolabs.org/doc/tags/macro.html
+      #}
+      {{ menus.menu_links(items, attributes, 0) }}
 
-          {%
-            set anchor_classes = [
-              item.is_active ? 'is-active',
-            ]
-          %}
-          {% if item.below %}
-            {% if menu_level == 0 %}
-              <li class="dropdown">
-                <a href="{{ item.url }}" class="dropdown-toggle" data-toggle="dropdown">{{ item.title }} <span class="caret"></span></a>
-                {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
-              </li>
-            {% else %}
-              <li class="dropdown-submenu">
-                <a href="{{ item.url }}">{{ item.title }}</a>
-                {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
-              </li>
-            {% endif %}
+      {% macro menu_links(items, attributes, menu_level) %}
+        {% import _self as menus %}
+        {% set topLevel = menu_level == 0 %}
+        {% if items %}
+          {% if topLevel %}
+              <ul class="navbar-nav" role="menu" aria-labelledby="dropdownMenu">
           {% else %}
-            <li {{ item.attributes.addClass(item_classes) }}>{{ link(item.title, item.url, {class: anchor_classes}) }}</li>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
           {% endif %}
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endmacro %}
+          {% for item in items %}
+            {%
+              set item_classes = [
+                item.in_active_trail ? 'active',
+                topLevel ? 'nav-item' : 'dropdown-item',
+              ]
+            %}
 
+            {%
+              set anchor_classes = [
+                item.is_active ? 'is-active',
+                'nav-link'
+              ]
+            %}
+            {% if item.below %}
+              {% if topLevel %}
+                <li class="nav-item dropdown">
+                  <a href="{{ item.url }}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ item.title }}</a>
+                  {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+                </li>
+              {% else %}
+                <li class="dropdown-submenu">
+                  <a href="{{ item.url }}">{{ item.title }}</a>
+                  {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+                </li>
+              {% endif %}
+            {% else %}
+              <li {{ item.attributes.addClass(item_classes) }}>{{ link(item.title, item.url, {class: anchor_classes}) }}</li>
+            {% endif %}
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endmacro %}
+
+    </div>
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#{{ menu_id }}">
+      <span class="fa fa-bars"></span>
+    </button>
   </div>
 </div>

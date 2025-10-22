@@ -1,7 +1,7 @@
-diff --git a/ckan/public-bs3/base/vendor/webassets.yml b/ckan/public-bs3/base/vendor/webassets.yml
+diff --git a/ckan/public/base/vendor/webassets.yml b/ckan/public/base/vendor/webassets.yml
 index 40e09173a..d15e62244 100644
---- a/ckan/public-bs3/base/vendor/webassets.yml
-+++ b/ckan/public-bs3/base/vendor/webassets.yml
+--- a/ckan/public/base/vendor/webassets.yml
++++ b/ckan/public/base/vendor/webassets.yml
 @@ -39,7 +39,6 @@ bootstrap:
    output: vendor/%(version)s_bootstrap.js
    extra:

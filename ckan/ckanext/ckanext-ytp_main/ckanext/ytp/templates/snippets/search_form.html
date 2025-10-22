@@ -39,7 +39,7 @@
     {% endblock %}
 
     {% block search_input %}        
-        <div class="search-input control-group {{ search_class }} m-0">
+        <div class="search-input control-group {{ search_class }}">
             <input type="text" class="search search-dataset form-control" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
             {% for param in query_params %}
                 {% for value in query_params[param] %}
@@ -86,10 +86,10 @@
 
         {% block search_sortby %}
             {% if disableable_sorting %}
-                <div class="form-select control-group control-order-by m-0">
+                <div class="form-group control-order-by m-0">
                     <div id="field-order-by-container" class="field-order-by-container">
                         <label for="field-order-by">{{ _('Sorting') }}</label>
-                        <select id="field-order-by" class="form-control" name="sort">
+                        <select id="field-order-by" class="form-control form-select" name="sort">
                             {% for label, value in disableable_sorting %}
                                 {% if label and value %}
                                 <option value="{{ value }}"{% if sorting_selected == value  %} selected="selected"{% endif %}>{{ label }}</option>

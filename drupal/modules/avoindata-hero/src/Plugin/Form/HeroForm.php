@@ -30,7 +30,7 @@ class HeroForm extends FormBase {
     $form['searchfilter'] = [
       '#type' => 'textfield',
       '#default_value' => '1',
-      '#attributes' => ['class' => ['input-hero-search-filter', 'hidden']],
+      '#attributes' => ['class' => ['input-hero-search-filter', 'd-none']],
     ];
 
     $form['#theme'] = ['avoindata_hero'];

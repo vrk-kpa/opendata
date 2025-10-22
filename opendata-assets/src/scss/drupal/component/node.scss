@@ -7,7 +7,7 @@
 }
 
 .node-preview-container {
-  margin-top: -calc($grid-gutter-width / 2);
+  margin-top: calc($grid-gutter-width / -2);
 }
 
 .node-preview-form-select {

@@ -1,12 +1,21 @@
-@import "bootstrap/variables";
 @import "variables";
 @import "mixins/mixins";
+@import "bootstrap/scss/mixins";
 
 /*
 Dropdown CSS Originally from: https://knackforge.com/blog/pathirakaliappan/create-multi-level-bootstrap-menu-drupal-8
 Modified based on the CSS at http://avoin.webflow.io
 Differences in the smaller screen size are together with other @media definitions
 */
+
+// Navbar class covers both first and second navbar
+.navbar {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+  line-height: 20px;
+}
 
 .region-service-message,
 .navbar {
@@ -110,28 +119,29 @@ End of dropdown CSS
   justify-content: flex-end;
   margin-right: 15px;
 
-  .header-login-link {
-    background: #2a6ebb;
+  .header-login-link, .header-register-link, .header-profile-link {
     line-height: 20px;
     padding: 9px 19px;
+    
+    a {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .header-login-link {
+    background: #2a6ebb;
 
     a {
       color: #fff;
     }
   }
 
-  .header-register-link {
-    line-height: 20px;
-    padding: 9px 19px;
-  }
-
-  .header-profile-link {
-    line-height: 20px;
-    padding: 9px 19px;
-
-    a {
-      display: block;
-    }
+  .header-profile-link a {
+    display: block;
   }
 }
 
@@ -249,6 +259,7 @@ End of dropdown CSS
 
 // First (upper) navbar
 .first-navbar {
+  display: block;
   margin-bottom: 0;
 }
 
@@ -318,15 +329,16 @@ End of dropdown CSS
   @include flex-direction(row);
   @include align-items(center);
   @include justify-content(flex-start);
-  @include transition(width 0.2s ease);
+
+  transition: width 0.2s ease;
 
   .header-search-input-container {
     width: 100%;
     visibility: visible;
 
     @include align-self(flex-end);
-    @include transition(width 0.5s ease);
 
+    transition: width 0.5s ease;
     margin-right: 5px;
     margin-left: auto;
   }
@@ -334,9 +346,7 @@ End of dropdown CSS
   .header-search-input-container.is-hidden {
     width: 0;
     visibility: hidden;
-
-    @include transition(width 0.3s ease);
-
+    transition: width 0.3s ease;
     margin-right: auto;
     margin-left: auto;
   }
@@ -368,22 +378,26 @@ End of dropdown CSS
 
   .navbar {
     min-height: auto;
-  }
 
-  .navbar-header {
-    float: left;
+    .container-fluid {
+      align-items: flex-start;
+    }
   }
 
   .navbar-nav > li > a {
     color: $navbar-color-links;
     font-size: 18px;
+    line-height: 20px;
+  }
+
+  .navbar-toggler {
+    margin: 8px 0 8px auto;
   }
 
   .link-button {
     color: $link-default-color;
     border: 1px solid $link-default-color;
     background: transparent;
-    padding: 0 20px;
     margin: 10px;
     border-radius: 2px;
     box-shadow: none;
@@ -420,13 +434,14 @@ End of dropdown CSS
 
   .navbar-collapse {
     border: 0;
+    flex-basis: auto;
   }
 
   .navbar-nav:hover {
     color: $navbar-color-links;
   }
 
-  .navbar-toggle:hover {
+  .navbar-toggler:hover {
     background-color: transparent; // hovering the bootstrap toggle button
   }
 
@@ -452,11 +467,11 @@ End of dropdown CSS
 
   li {
     a {
+      text-decoration: none;
       margin: 0;
-      padding-top: $padding-x__navigation;
 
       // Because border-bottom adds "padding" to bottom, subtract border-width from bottom padding
-      padding-bottom: $padding-x__navigation - $border-width__navigation;
+      padding: $padding-x__navigation $padding-y__navigation + $border-width__navigation $padding-x__navigation - $border-width__navigation;
       border-bottom: $border-width__navigation solid transparent;
 
       &.is-active {
@@ -477,6 +492,14 @@ End of dropdown CSS
     }
   }
 
+  .dropdown > .dropdown-toggle::after {
+    // Smaller caret
+    border-top: 4px dashed;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    vertical-align: middle;
+  }
+
   .dropdown.open > .dropdown-toggle {
     color: $navbar-color-links;
     background-color: $navbar-background;
@@ -491,7 +514,12 @@ End of dropdown CSS
 
   .dropdown {
     .dropdown-menu {
+      @include border-bottom-radius(4px);
+      @include border-top-radius(0);
+
       li {
+        padding: 0;
+
         a {
           border-bottom: none;
         }
@@ -503,8 +531,25 @@ End of dropdown CSS
     }
   }
 
+  .second-navbar-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row wrap;
+
+    // Suojattudata link
+    & > .link-button {
+      margin-left: auto;
+    }
+  }
+
   // nav collapsed
-  @media (max-width: $grid-float-breakpoint) {
+  @include media-breakpoint-down(md) {
+    .second-navbar-container {
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
     .navbar-header {
       width: 100%;
       float: right;
@@ -523,8 +568,9 @@ End of dropdown CSS
   }
 
   // nav uncollapsed
-  @media (min-width: $grid-float-breakpoint) {
+  @include media-breakpoint-up(md) {
     .second-navbar-container {
+      width: 100%;
       max-width: $header-width;
       margin-left: auto;
       margin-right: auto;
@@ -534,7 +580,7 @@ End of dropdown CSS
       padding: 0;
     }
 
-    .dropdown.open > .dropdown-menu > li > a {
+    .dropdown > .dropdown-menu.show > li > a {
       margin: 0;
       border: none;
       font-size: 18px;
@@ -557,13 +603,6 @@ End of dropdown CSS
   .navbar-header {
     float: none;
   }
-}
-
-// Navbar class covers both first and second navbar
-.navbar {
-  border: 0;
-  border-radius: 0;
-  margin-bottom: 0;
 }
 
 .navbar-brand {
@@ -613,6 +652,7 @@ End of dropdown CSS
 .site-logo {
   height: 20px;
 }
+
 
 // Footer
 .footer {
@@ -736,7 +776,9 @@ End of dropdown CSS
   font-size: $font-size-base;
 
   .alert-info {
-    @include alert-variant($alert-info-bg, $alert-info-border, $alert-info-text);
+    background: $alert-info-bg;
+    border-color: $alert-info-border;
+    color: $alert-info-text;
 
     a,
     a:hover,
