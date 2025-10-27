@@ -47,8 +47,6 @@ from .helpers import extra_translation, render_date, service_database_enabled, g
     get_organization_filters_count, package_count_for_source_customized, group_tree_section, \
     get_highvalue_category_label, scheming_highvalue_category_list
 
-from .tools import create_system_context
-
 from ckan.logic.validators import tag_length_validator, tag_name_validator
 
 try:
@@ -832,13 +830,13 @@ def action_user_create(original_action, context, data_dict):
     result = original_action(context, data_dict)
 
     if result:
-        context = create_system_context()
+        admin_context = {'ignore_auth': True}
 
-        groups = plugins.toolkit.get_action('group_list')(context, {})
+        groups = plugins.toolkit.get_action('group_list')(admin_context, {})
 
         for group in groups:
             member_data = {'id': group, 'username': result['name'], 'role': 'editor'}
-            plugins.toolkit.get_action('group_member_create')(context, member_data)
+            plugins.toolkit.get_action('group_member_create')(admin_context, member_data)
 
     return result
 
@@ -849,13 +847,13 @@ def action_group_create(original_action, context, data_dict):
     result = original_action(context, data_dict)
 
     if result and data_dict.get('type', 'group') == 'group':
-        context = create_system_context()
+        admin_context = {'ignore_auth': True}
 
-        users = plugins.toolkit.get_action('user_list')(context, {})
+        users = plugins.toolkit.get_action('user_list')(admin_context, {})
 
         for user in users:
             member_data = {'id': result['id'], 'username': user['name'], 'role': 'editor'}
-            plugins.toolkit.get_action('group_member_create')(context, member_data)
+            plugins.toolkit.get_action('group_member_create')(admin_context, member_data)
 
     return result
 
