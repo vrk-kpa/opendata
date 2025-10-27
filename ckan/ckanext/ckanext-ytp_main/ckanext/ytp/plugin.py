@@ -1459,13 +1459,17 @@ def _reset(context, data_dict):
     from ckan import model
     model.repo.delete_all()
 
-
+    log.debug("Table data deleted")
     # clear search index
     from ckan.lib.search import clear_all
     clear_all()
 
+    log.debug("Solr index cleared")
+
     # sparql clear
     get_action('sparql_clear')(context, {})
+
+    log.debug("Sparql index cleared")
 
     # Create platform vocabulary
 
@@ -1497,4 +1501,5 @@ def _reset(context, data_dict):
             tags_to_create.append({'name': tag})
             toolkit.get_action('tag_create')(context, data)
 
+    log.debug("Initial vocabularies and tags created")
     return "Cleared"
