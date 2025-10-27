@@ -9,14 +9,6 @@ from datetime import datetime
 import pytz
 
 
-def create_system_context():
-    """ Helper method to create system context for CKAN actions. """
-    context = {'model': model, 'session': model.Session, 'ignore_auth': True}
-    admin_user = plugins.toolkit.get_action('get_site_user')(context, None)
-    context['user'] = admin_user['name']
-    return context
-
-
 def get_locales():
     """ Return all available locales strings. """
     return [locale.language for locale in helpers.i18n.get_available_locales()]
