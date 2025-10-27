@@ -1,6 +1,5 @@
 import iso8601
 import six
-from ckan import model, plugins
 from ckan.plugins import toolkit
 from ckanext.ytp.converters import to_list_json, from_json_list
 from ckan.lib import helpers
