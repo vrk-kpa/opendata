@@ -25,7 +25,7 @@ Removed the navbar-nav class to make this a vertical menu
         {% import _self as menus %}
         {% if items %}
           {% if menu_level == 0 %}
-            <ol class="navbar-nav" role="menu">
+            <ol class="navbar-nav nav flex-column" role="menu">
           {% else %}
             <ul class="subnav">
           {% endif %}

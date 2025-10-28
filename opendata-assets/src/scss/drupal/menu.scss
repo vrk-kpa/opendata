@@ -100,6 +100,11 @@
     }
   }
 
+  /* Guide menu has a separate toggler button */
+  .navbar .navbar-toggler {
+    display: none;
+  }
+
   .nav {
     list-style: none;
     padding: 0;
