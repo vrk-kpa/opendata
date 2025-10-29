@@ -175,6 +175,40 @@ function avoindata_preprocess_links__language_block(&$variables) {
 function avoindata_preprocess_html(array &$variables){
   global $base_url;
   $variables['base_url'] = $base_url;
+
+  $theme_images_path = base_path() . 'themes/avoindata/images/logo';
+  $favicons = [
+    [
+      'rel' => 'icon',
+      'href' => $theme_images_path . '/favicon.ico',
+      'sizes' => '32x32',
+      'type' => 'image/x-icon',
+    ],
+    [
+      'rel' => 'icon',
+      'href' => $theme_images_path . '/favicon.svg',
+      'type' => 'image/svg+xml',
+    ],
+    [
+      'rel' => 'apple-touch-icon',
+      'href' => $theme_images_path . '/apple-touch-icon.png',
+      'sizes' => '180x180',
+    ],
+    [
+      'rel' => 'manifest',
+      'href' => $theme_images_path . '/avoindata.webmanifest',
+    ],
+  ];
+
+  foreach ($favicons as $favicon) {
+    $variables['#attached']['html_head'][] = [
+      [
+        '#tag' => 'link',
+        '#attributes' => $favicon,
+      ],
+      'favicon_' . md5(json_encode($favicon))
+    ];
+  }
 }
 
 function get_language_code($hook) {
