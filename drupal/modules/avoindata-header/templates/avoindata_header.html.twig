@@ -5,7 +5,7 @@
 {% endblock %}
 
 {# Header #}
-<nav id="first-navbar" class="navbar first-navbar navbar-default">
+<nav id="first-navbar" class="navbar first-navbar navbar-default navbar-expand-lg">
 {% block header %}
   {{ drupal_region('top_bar') }}
 {% endblock %}
@@ -33,12 +33,6 @@
       Suomi.fi Restricted Data
       {% endtrans %}
     </a>
-
-
-    {# Navigation (collapsible) #}
-    <div id="navbar-collapse" class="navbar-collapse collapse">
-      {{ drupal_region('navigation_collapsible') }}
-    </div>
   </div>
 </nav>
 {% endblock %}

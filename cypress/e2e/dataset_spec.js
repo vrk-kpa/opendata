@@ -16,7 +16,7 @@ describe('Dataset tests',
   describe('Navigation', function(){
     it('Navigate to the dataset page', function(){
       // open dataset page manually
-      cy.get('.opendata-menu-container > .nav > :nth-child(2) > a').click();
+      cy.get('.opendata-menu-container > .navbar-nav > :nth-child(2) > a').click();
       // wait for page to load (note the path containing /fi/)
       cy.location('pathname').should('contain', `data/fi/dataset`)
     });

@@ -45,6 +45,10 @@
   p {
     margin: 0;
   }
+
+  .btn {
+    flex-shrink: 0;
+  }
 }
 
 .showcase-list {

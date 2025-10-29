@@ -1,4 +1,4 @@
-@import "./ckan/upstream_ckan/bootstrap-variables";
+@use "suomifi-design-tokens/dist/tokens";
 @import "./variables/fonts";
 @import "./variables/palette";
 @import "./variables/spacing";
@@ -7,10 +7,19 @@
 @import "./variables/components/menu";
 @import "./variables/components/showcase";
 
-// NOTE: these should be used with @media (max-width: $breakpoints.xs)
-// not min-width.
-$breakpoints: xs $screen-xs-max, sm $screen-sm-max, md $screen-md-max,
-  lg 10000px;
+
+// Bootstrap: Grid
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+// Bootstrap: Border mixins
+$enable-rounded: true;
 $brand-primary: $opendata-brand-primary;
 $brand-info: $opendata-brand-decorative;
 $opendata-container-max-width: 1110px;
@@ -102,7 +111,6 @@ $footer-border: $section-border-color;
 // Responsive layout widths
 $secondary-width: 280px;
 $container-horizontal-padding: 40px;
-$grid-float-breakpoint: $screen-sm-min;
 $border-radius-large: 0;
 
 // Media grid
@@ -133,3 +141,55 @@ $facet-link-text-color: #020202;
 $search-view-bg-hero-bg-color: #004f74;
 $search-view-link-color: #000;
 $nav-link-selected-color: #eeeeee;
+
+
+// TODO: BS3 variables to allow building, variables are wrong on purpose
+
+$label-color: #fff;
+$label-link-hover-color: #fff;
+$label-success-bg: #fff;
+$label-info-bg: #fff;
+$label-warning-bg: #fff;
+$label-danger-bg: #fff;
+$alert-warning-text: #fff;
+$alert-danger-text: #fff;
+$alert-success-text: #fff;
+$gray-light: #fff;
+$input-border: #fff;
+$alert-warning-border: #fff;
+$alert-warning-bg: #fff;
+$panel-bg: #fff;
+$panel-default-border: #fff;
+$panel-border-radius: 1px;
+$border-radius-base: 1px;
+$state-danger-text: #fff;
+$state-success-text: #fff;
+$state-warning-text: #fff;
+$screen-xs-max: 100px;
+$screen-sm-min: 100px;
+$screen-md-min: 100px;
+$screen-lg-min: 100px;
+$grid-float-breakpoint: 100px;
+$container-sm: 100px;
+$container-md: 100px;
+$container-lg: 100px;
+$form-group-margin-bottom: 100px;
+$nav-disabled-link-color: #fff;
+$nav-tabs-border-color: #fff;
+$nav-tabs-link-hover-border-color: #fff;
+$zindex-navbar-fixed: 1;
+$dropdown-bg: #fff;
+$dropdown-fallback-border: #fff;
+$dropdown-border: #fff;
+$font-family-base: arial, helvetica, sans-serif;
+$zindex-dropdown: 1;
+$dropdown-link-color: #fff;
+$dropdown-link-hover-bg: #fff;
+$dropdown-link-hover-color: #fff;
+$dropdown-link-active-bg: #fff;
+$dropdown-link-active-color: #fff;
+$breakpoints: 1, 2, 3;
+
+
+// NEW 2025 colors
+$color-primary: tokens.$fi-color-brand-base;

@@ -347,6 +347,8 @@ body {
         font-family: $font-family-sans-serif;
         font-weight: normal;
         font-size: 18px;
+        padding: 10px 15px;
+        display: block;
       }
 
       &.active,
@@ -355,6 +357,7 @@ body {
           border: none;
           background-color: inherit;
           border-bottom: 5px solid $border-bottom-color__main-nav--active;
+          text-decoration: none;
         }
       }
     }

@@ -4,7 +4,7 @@
 {%- set field_options = c.advanced_search.field_options -%}
 
 <aside id="advanced-search-options" class="secondary sidebar-offcanvas col-sm-4">
-  <div id="search-options-header" class="d-flex flex-wrap justify-content-between align-items-center mt-3 search-form__result-summary">
+  <div id="search-options-header" class="d-flex flex-wrap justify-content-between align-items-center search-form__result-summary">
     <h3 class="advanced-search__title">{{_("Filter search")}}</h3>
   </div>
   <div id="search-options-content">
@@ -22,7 +22,7 @@
       <div class="md-12">
         <label class="ytp-input-label" id="release-interval-label">{{_("Release interval")|capitalize}}</label>
       </div>
-      <div class="clearfix mb-3 released-picker-div">
+      <div class="row clearfix released-picker-div">
         {% snippet 'advanced_search/display_field.html', field=input_fields.released, prev_query=prev_query, options=field_options['released'] %}
       </div>
     </div>
@@ -31,16 +31,16 @@
       <div class="md-12">
         <label class="ytp-input-label" id="update-interval-label">{{_("Update interval")|capitalize}}</label>
       </div>
-      <div class="clearfix mb-3 updated-picker-div">
+      <div class="row clearfix updated-picker-div">
         {% snippet 'advanced_search/display_field.html', field=input_fields.updated, prev_query=prev_query, options=field_options['updated'] %}
       </div>
     </div>
     
     <hr class="avoindata-divider">
-    <a class="more-options-link" data-expanded="true" data-target="#search-options-extras" data-module="avoindata-utils"><span id="more-options-link-text">{{_("Show less options")}}</span>
+    <a class="more-options-link" data-bs-toggle="collapse" data-bs-target="#search-options-extras" data-module="avoindata-utils"><span id="more-options-link-text">{{_("Show less options")}}</span>
     &nbsp;&nbsp;
     <i class="fas fa-angle-up"></i></a>
-    <div id="search-options-extras" class="collapse in">
+    <div id="search-options-extras" class="collapse show">
       <div>
         {% snippet 'advanced_search/display_field.html', field=input_fields.license, prev_query=prev_query, options=field_options['license'] %}
       </div>

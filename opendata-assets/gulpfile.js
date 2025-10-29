@@ -30,8 +30,8 @@ var paths = {
     fonts: "src/fonts/**/*",
     fontsCss: "src/scss/fonts.scss",
     scripts: "src/scripts/**/*",
-    bootstrap_styles: "./node_modules/bootstrap-sass/assets/stylesheets",
-    bootstrap_scripts: "./node_modules/bootstrap-sass/assets/javascripts/*",
+    bootstrap_styles: "./node_modules/bootstrap/scss/",
+    bootstrap_scripts: "./node_modules/bootstrap/js/dist/*",
     moment_path: "./node_modules/moment",
     root: "src",
     fontawesome: "./node_modules/@fortawesome/fontawesome-pro"
@@ -107,7 +107,7 @@ gulp.task("ckan", (done) => {
   pump([
     gulp.src(paths.src.ckan + "/*.scss"),
     sourcemaps.init(),
-    sass({ paths: [paths.src.ckan], includePaths: [paths.src.bootstrap_styles] }),
+    sass({ paths: [paths.src.ckan], includePaths: ["node_modules", paths.src.bootstrap_styles] }),
     prefixer(),
     cleancss({ keepBreaks: false }),
     concat("ckan.css"),
@@ -121,7 +121,7 @@ gulp.task("openapi_view", (done) => {
   pump([
     gulp.src(paths.src.scss + "/openapi_view.scss"),
     sourcemaps.init(),
-    sass({includePaths: [paths.src.bootstrap_styles]}),
+    sass({includePaths: ["node_modules", paths.src.bootstrap_styles]}),
     prefixer(),
     cleancss({ keepBreaks: false }),
     concat("openapi_view.css"),
@@ -138,7 +138,7 @@ gulp.task("drupal", (done) => {
   pump([
     gulp.src(paths.src.drupal),
     sourcemaps.init(),
-    sass({ paths: [paths.src.drupal], includePaths: [paths.src.bootstrap_styles] }),
+    sass({ paths: [paths.src.drupal], includePaths: ["node_modules", paths.src.bootstrap_styles]}),
     prefixer(),
     template({ timestamp: timestamp }),
     cleancss({ keepBreaks: false }),
@@ -154,7 +154,7 @@ gulp.task("drupal_copy_custom_element_styles_to_plugin", (done) => {
   pump([
     gulp.src(paths.src.drupal_ckeditor_plugins),
     sourcemaps.init(),
-    sass({ paths: [paths.src.drupal_ckeditor_plugins], includePaths: [paths.src.bootstrap_styles] }),
+    sass({ paths: [paths.src.drupal_ckeditor_plugins], includePaths: ["node_modules", paths.src.bootstrap_styles] }),
     prefixer(),
     template({ timestamp: timestamp }),
     cleancss({ keepBreaks: false }),
@@ -199,7 +199,7 @@ gulp.task("drupal_copy_custom_ckeditor_styles_to_plugin",
       (done) => {
         pump([
           gulp.src(paths.src.drupal_ckeditor5_plugins),
-          sass({ paths: paths.src.drupal_ckeditor5_plugins, includePaths: [paths.src.bootstrap_styles] }),
+          sass({ paths: paths.src.drupal_ckeditor5_plugins, includePaths: ["node_modules", paths.src.bootstrap_styles] }),
           cleancss({
             format: {
               semicolonAfterLastProperty: true,
@@ -324,7 +324,7 @@ gulp.task("bootstrap_scripts", (done) => {
 gulp.task("bootstrap_styles", (done) => {
   pump([
     gulp.src(paths.src.scss + "/bootstrap_build.scss"),
-    sass({ includePaths: [paths.src.bootstrap_styles] }),
+    sass({ includePaths: ["node_modules", paths.src.bootstrap_styles] }),
     concat("bootstrap.css"),
     gulp.dest(paths.dist + "/vendor/bootstrap/dist/css"),
     gulp.dest(paths.ckanResources + "/vendor/bootstrap/dist/css"),
