@@ -10,6 +10,7 @@
 use Drupal\views\ViewExecutable;
 use Drupal\Core\Url;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Theme\ActiveTheme;
 
 /**
  * Implements hook_preprocess_region().
@@ -176,7 +177,8 @@ function avoindata_preprocess_html(array &$variables){
   global $base_url;
   $variables['base_url'] = $base_url;
 
-  $theme_images_path = base_path() . 'themes/avoindata/images/logo';
+  $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
+  $theme_images_path = base_path() . $theme_path . '/images/logo';
   $favicons = [
     [
       'rel' => 'icon',
@@ -253,4 +255,22 @@ function avoindata_preprocess_node(&$variables){
   ];
   $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
   $variables['date_format'] = $dateFormats[$language];
+}
+
+function avoindata_preprocess_block__avoindata_sitebranding(&$variables) {
+  $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $environment = theme_get_setting('environment');
+  
+  if ($environment == 'prod') {
+    $logo = '/images/logo/logo_prod';
+  } else {
+    $logo = '/images/logo/logo_dev';
+  }
+
+  if ($language == 'fi' || $language == 'sv' || $language == 'en') {
+    $logo = $logo . '_' . $language;
+  }
+
+  $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
+  $variables['site_logo'] = base_path() . $theme_path . $logo . '.svg';
 }
