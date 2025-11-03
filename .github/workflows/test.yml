@@ -500,7 +500,6 @@ jobs:
     - name: Install required patches
       run: |
         cd ${SRC_DIR}/ckan
-        patch --strip=1 --input=$GITHUB_WORKSPACE/ckan/src/ckan/patches/fix_templatehelpers_plugin_order.patch
     - name: Install requirements
       run: |
         cd ckan/ckanext/ckanext-ytp_main
