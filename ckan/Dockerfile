@@ -86,7 +86,7 @@ RUN \
   mkdir -p ${DATA_DIR} && \
   # Install CKAN and requirements
   pip install --find-links=/srv/app/wheels -r ${SRC_DIR}/ckan-requirements.txt && \
-  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.10.8#egg=ckan && \
+  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.10.9#egg=ckan && \
   # Configure environment
   addgroup -g 92 ckan && \
   adduser -u 92 -h ${APP_DIR} -H -D -G ckan ckan && \
@@ -185,8 +185,6 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/remove_tracking.patch && \
     patch --strip=1 --input=patches/remove_tracking_summary_from_solr_index.patch && \
     patch --strip=1 --input=patches/iauthenticator_fix.patch && \
-    patch --strip=1 --input=patches/fix_templatehelpers_plugin_order.patch && \
-    patch --strip=1 --input=patches/fix_server_error_on_group_pages.patch && \
     patch --strip=1 --input=patches/add_check_if_old_api_keys_are_used.patch
 
 RUN \
