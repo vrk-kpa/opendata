@@ -1,4 +1,6 @@
-@import 'bootstrap/mixins';
+@import '../variables';
+@import "bootstrap/scss/mixins";
+
 
 /**
  * Form styles.
@@ -32,11 +34,11 @@
 
     // Reset rounded corners
     &:first-child .form-control:first-child {
-      @include border-left-radius($border-radius-base);
+      @include border-start-radius($border-radius-base);
     }
 
     &:last-child .form-control:first-child {
-      @include border-right-radius($border-radius-base);
+      @include border-end-radius($border-radius-base);
     }
   }
 

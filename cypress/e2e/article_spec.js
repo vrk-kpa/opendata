@@ -8,8 +8,8 @@ describe('Articles page', function() {
       return false;
     });
 
-    cy.get('.nav > :nth-child(7) > a.dropdown-toggle').click();
-    cy.get('.nav > :nth-child(7) > .dropdown-menu > :nth-child(1) > a').click();
+    cy.get('.navbar-nav > :nth-child(7) > a.dropdown-toggle').click();
+    cy.get('.navbar-nav > :nth-child(7) > .dropdown-menu > :nth-child(1) > a').click();
     cy.location('pathname', {timeout: 60000}).should('contain', `/artikkelit`);
   });
 

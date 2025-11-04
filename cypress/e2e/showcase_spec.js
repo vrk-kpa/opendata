@@ -119,7 +119,7 @@ describe('Showcase tests', function() {
       cy.visit('/data/fi/dataset')
       cy.logout()
   
-      cy.get('ul.nav a[href="/data/fi/showcase"]').click()
+      cy.get('ul.navbar-nav a[href="/data/fi/showcase"]').click()
       cy.get('a[href="/data/fi/submit-showcase"]').click()
       cy.get('button[name=save]').click()
   
@@ -139,7 +139,7 @@ describe('Showcase tests', function() {
       cy.visit('/data/fi/dataset')
       cy.logout()
   
-      cy.get('ul.nav a[href="/data/fi/showcase"]').click()
+      cy.get('ul.navbar-nav a[href="/data/fi/showcase"]').click()
   
       const showcase_data = {
         "#field-title": "nonexisting_dataset",
