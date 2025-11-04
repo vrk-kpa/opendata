@@ -139,7 +139,7 @@ describe('Advanced search tests', () => {
             cy.get('#date-picker-updated-after');
             cy.get('#date-picker-updated-before');
     
-            cy.get('[data-target="#search-options-extras"]').find('span').contains('Näytä vähemmän hakuehtoja');
+            cy.get('[data-bs-target="#search-options-extras"]').find('span').contains('Näytä vähemmän hakuehtoja');
     
             cy.get('[data-module-name="license"]').find('label[for="advanced-search-dropdown-toggle-license"]').contains('Lisenssi');
             cy.get('[data-module-name="license"]').find('button[for="advanced-search-dropdown-toggle-license"]');
@@ -176,7 +176,7 @@ describe('Advanced search tests', () => {
             cy.get('#date-picker-updated-after');
             cy.get('#date-picker-updated-before');
     
-            cy.get('[data-target="#search-options-extras"]').find('span').contains('Show less options');
+            cy.get('[data-bs-target="#search-options-extras"]').find('span').contains('Show less options');
     
             cy.get('[data-module-name="license"]').find('label[for="advanced-search-dropdown-toggle-license"]').contains('License');
             cy.get('[data-module-name="license"]').find('button[for="advanced-search-dropdown-toggle-license"]');
@@ -212,7 +212,7 @@ describe('Advanced search tests', () => {
             cy.get('#date-picker-updated-after');
             cy.get('#date-picker-updated-before');
     
-            cy.get('[data-target="#search-options-extras"]').find('span').contains('Visa färre sökvillkor');
+            cy.get('[data-bs-target="#search-options-extras"]').find('span').contains('Visa färre sökvillkor');
     
             cy.get('[data-module-name="license"]').find('label[for="advanced-search-dropdown-toggle-license"]').contains('Licens');
             cy.get('[data-module-name="license"]').find('button[for="advanced-search-dropdown-toggle-license"]');

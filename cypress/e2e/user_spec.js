@@ -38,19 +38,19 @@ function() {
 
                 cy.get('#edit-pass-pass1').type(weakpassword);
                 cy.get('#edit-pass-pass2').type(weakpassword);
-                cy.get('.input-group-addon').should('not.exist'); //waits for password policy module to compare the passwords
+                cy.get('.ajax-progress').should('not.exist'); //waits for password policy module to compare the passwords
                 cy.get('#edit-submit').click();
 
                 // setting the password should fail
-                cy.get('.alert');
+                cy.get('.alert-wrapper');
             
                 cy.get('#edit-pass-pass1').type(strongpassword);
                 cy.get('#edit-pass-pass2').type(strongpassword);
-                cy.get('.input-group-addon').should('not.exist'); //waits for password policy module to compare the passwords
+                cy.get('.ajax-progress').should('not.exist'); //waits for password policy module to compare the passwords
                 cy.get('#edit-submit').click();
 
                 cy.get('.alert').should('contain.text', 'Muutokset tallennettiin.');
-                cy.get('.form-item-current-pass > .control-label').should('contain.text', 'Nykyinen salasanasi');
+                cy.get('.form-item-current-pass > label').should('contain.text', 'Nykyinen salasanasi');
                 cy.get('#edit-current-pass').should('exist');
             }
             else{
@@ -69,7 +69,7 @@ function() {
 
         cy.get('#edit-pass-pass1').type(newpassword);
         cy.get('#edit-pass-pass2').type(newpassword);
-        cy.get('.input-group-addon').should('not.exist'); //waits for password policy module to compare the passwords
+        cy.get('.ajax-progress').should('not.exist'); //waits for password policy module to compare the passwords
         cy.get('#edit-submit').click();
         cy.get('.alert').should('contain.text', 'Muutokset tallennettiin.');
     })
@@ -91,7 +91,7 @@ function() {
         cy.get('.header-login-link').click();
         cy.get('#edit-name').type(username);
         cy.get('#edit-pass').type(newpassword);
-        cy.get('.input-group-addon').should('not.exist'); //waits for password policy module to compare the passwords
+        cy.get('.ajax-progress').should('not.exist'); //waits for password policy module to compare the passwords
         cy.get('#edit-submit').click();
       
     })

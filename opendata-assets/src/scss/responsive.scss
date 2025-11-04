@@ -1,5 +1,5 @@
-@import 'bootstrap/mixins';
 @import 'variables';
+@import 'bootstrap/scss/mixins';
 
 /* Extra small devices */
 @media (max-width: $screen-xs-max) {
@@ -27,7 +27,7 @@
   }
 
   .alert {
-    margin-bottom: ($line-height-computed / 2);
+    margin-bottom: 10px;
   }
 
   .dl-horizontal {
@@ -40,7 +40,7 @@
 
     dd {
       display: block;
-      margin: 0 0 ($line-height-computed / 2) 0 !important;
+      margin: 0 0 10px !important;
     }
   }
 
@@ -59,7 +59,7 @@
 }
 
 /* Extra small, small, and medium devices */
-@media (min-width: $screen-xs-min) and (max-width: $screen-md-max) {
+@include media-breakpoint-down(xl) {
   .page_wrapper {
     margin-left: 0 !important;
     margin-right: 0 !important;
@@ -72,7 +72,7 @@
 }
 
 /* Extra small, and small devices */
-@media (max-width: $screen-sm-max) {
+@include media-breakpoint-down(md) {
   .navbar-top {
     margin-bottom: 0;
     padding-top: 2px;
@@ -89,15 +89,15 @@
       display: block;
       float: none;
       margin: 0;
-      margin-bottom: ($line-height-computed / 2);
+      margin-bottom: 10px;
       border-bottom: 0;
     }
   }
 
   .navbar-top .lang-select {
-    margin-top: ($line-height-computed / 4);
+    margin-top: 5px;
     border-top: 1px solid transparent;
-    padding-top: ($line-height-computed / 4);
+    padding-top: 5px;
   }
 
   .article-list {
@@ -112,7 +112,7 @@
 }
 
 /* Medium devices */
-@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+@include media-breakpoint-between(md, lg) {
   // Adjust navbar to available screen width
   .navbar.navbar-main .navbar-nav li > a {
     padding: 13px 8px;
@@ -141,7 +141,7 @@
 }
 
 /* Large devices */
-@media (min-width: $screen-lg) {
+@include media-breakpoint-up(lg) {
   .page_wrapper,
   .navbar-main {
     max-width: 100%;
@@ -153,7 +153,7 @@
 }
 
 /* Extra small, small and medium devices */
-@media (max-width: $screen-md-min) {
+@include media-breakpoint-down(lg) {
   .page_wrapper {
     width: auto;
   }
@@ -212,7 +212,7 @@
 }
 
 /* Responsive pull classes */
-@media (max-width: $screen-xs-max) {
+@include media-breakpoint-down(sm) {
   .pull-xs-left {
     float: left !important;
   }
@@ -222,7 +222,7 @@
   }
 }
 
-@media (max-width: $screen-sm-max) {
+@include media-breakpoint-down(md) {
   .pull-sm-left {
     float: left !important;
   }

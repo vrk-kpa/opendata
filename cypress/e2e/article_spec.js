@@ -11,7 +11,7 @@ describe('Articles page', function() {
     // Make sure bootstrap dropdown functionality has loaded
     cy.window().should(win =>  win.jQuery.fn.dropdown !== undefined);
     
-    cy.get('.nav > :nth-child(7)').within(() => {
+    cy.get('.navbar-nav > :nth-child(7)').within(() => {
       cy.get('a.dropdown-toggle').click();
       cy.get('.dropdown-menu > :nth-child(1) > a').click();
     });

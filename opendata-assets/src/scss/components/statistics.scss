@@ -1,4 +1,6 @@
+@use "suomifi-design-tokens/dist/tokens" as sd;
 @import "../variables";
+@import "bootstrap/scss/mixins";
 
 .statistics-page {
   h1,
@@ -33,7 +35,7 @@
     font-family: $font-family-sans-serif;
   }
 
-  @media (min-width: $grid-float-breakpoint) {
+  @include media-breakpoint-up(md) {
     padding: 30% 10px;
   }
 }
@@ -58,15 +60,15 @@
   text-align: left;
   width: 100%;
 
-  @media (max-width: $screen-sm-max) {
+  @include media-breakpoint-down(md) {
     width: 960px;
   }
 
-  @media (max-width: $screen-md-max) {
+  @include media-breakpoint-down(lg) {
     width: 1180px;
   }
 
-  @media (min-width: $screen-lg-desktop) {
+  @include media-breakpoint-up(xl) {
     width: 1380px;
   }
 }
@@ -87,8 +89,8 @@
 
 .statistics-loading-text {
   margin-top: 10px;
-  font-size: $font-size-large;
-  font-family: $font-family-sans-serif;
+
+  @include sd.fi-text-body-text
 }
 
 .statistics-nav {
@@ -192,7 +194,7 @@
   padding: 0 5px;
   position: relative;
 
-  @media (max-width: $screen-md-max) {
+  @include media-breakpoint-down(lg) {
     padding: 12px;
   }
 }
@@ -204,20 +206,20 @@
   padding: 0;
   width: 100%;
 
-  @media (max-width: $screen-xs-max) {
+  @include media-breakpoint-down(sm){
     padding-left: 3px;
     padding-right: 3px;
   }
 
-  @media (max-width: $screen-sm-max) {
+  @include media-breakpoint-down(md) {
     width: 960px;
   }
 
-  @media (max-width: $screen-md-max) {
+  @include media-breakpoint-down(lg) {
     width: 1180px;
   }
 
-  @media (max-width: $screen-lg-desktop) {
+  @include media-breakpoint-down(xl) {
     width: 1380px;
   }
 }
@@ -369,7 +371,7 @@
   padding: 8px;
   width: 32%;
 
-  @media (max-width: $screen-sm-max) {
+  @include media-breakpoint-down(md) {
     width: 24%;
   }
 }
@@ -435,7 +437,7 @@
 .statistics-tooltip {
   background: $suomi-whiteBase;
   color: $text-color;
-  padding: $padding-xs-vertical $padding-small-horizontal;
+  padding: 1px 10px;
   position: absolute;
   border-radius: 10px;
   font-size: 10px;
@@ -448,8 +450,8 @@
 }
 
 .col-statistics-condensed {
-  @media (max-width: $screen-xs-max) {
-    padding-left: $padding-xs-horizontal;
-    padding-right: $padding-xs-horizontal;
+  @include media-breakpoint-down(sm) {
+    padding-left: 5px;
+    padding-right: 5px;
   }
 }
