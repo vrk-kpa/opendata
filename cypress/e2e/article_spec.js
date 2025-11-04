@@ -8,8 +8,14 @@ describe('Articles page', function() {
       return false;
     });
 
-    cy.get('.nav > :nth-child(7) > a.dropdown-toggle').click();
-    cy.get('.nav > :nth-child(7) > .dropdown-menu > :nth-child(1) > a').click();
+    // Make sure bootstrap dropdown functionality has loaded
+    cy.window().should(win =>  win.jQuery.fn.dropdown !== undefined);
+    
+    cy.get('.nav > :nth-child(7)').within(() => {
+      cy.get('a.dropdown-toggle').click();
+      cy.get('.dropdown-menu > :nth-child(1) > a').click();
+    });
+
     cy.location('pathname', {timeout: 60000}).should('contain', `/artikkelit`);
   });
 
