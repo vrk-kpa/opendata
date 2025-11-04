@@ -58,15 +58,10 @@ LANG_INFO=$(drush language-info --field=language)
 drush language:default -y "fi"
 
 # enable base theme
-
-# Remove jquery_ui (can be removed after all environments are bootstrap 5)
-drush pm:uninstall -y jquery_ui_resizable || true
-drush config:delete core.extension module.jquery_ui_resizable || true
-drush pm:uninstall -y jquery_ui_draggable || true
-drush config:delete core.extension module.jquery_ui_draggable || true
-drush pm:uninstall -y jquery_ui || true
-drush config:delete core.extension module.jquery_ui || true
- 
+# jquery ui module enable required here https://www.drupal.org/project/bootstrap/releases/8.x-3.32
+[[ "$MODULE_INFO" != *"jquery_ui"* ]]           && drush pm:enable -y jquery_ui
+[[ "$MODULE_INFO" != *"jquery_ui_draggable"* ]] && drush pm:enable -y jquery_ui_draggable
+[[ "$MODULE_INFO" != *"jquery_ui_resizable"* ]] && drush pm:enable -y jquery_ui_resizable
 drush theme:enable -y bootstrap
 
 # remove some configurations
@@ -197,6 +192,7 @@ drush config:import -y --partial --source ${MOD_DIR}/avoindata-events/config/ins
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-guide/config/install            || true
 
 # apply jinja2 templates
+jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/avoindata.settings.yml.j2    -o ${APP_DIR}/site_config/avoindata.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/matomo.settings.yml.j2    -o ${APP_DIR}/site_config/matomo.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/recaptcha.settings.yml.j2 -o ${APP_DIR}/site_config/recaptcha.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/smtp.settings.yml.j2      -o ${APP_DIR}/site_config/smtp.settings.yml
