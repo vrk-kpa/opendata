@@ -67,6 +67,8 @@ drush config:delete core.extension module.jquery_ui_draggable || true
 drush pm:uninstall -y jquery_ui || true
 drush config:delete core.extension module.jquery_ui || true
 
+drush theme:enable -y bootstrap
+
 # remove some configurations
 # NOTE: ansible role skips errors with this condition:
 #       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
