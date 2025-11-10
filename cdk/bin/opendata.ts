@@ -17,7 +17,6 @@ import {MonitoringStack} from "../lib/monitoring-stack";
 import {LambdaStack} from "../lib/lambda-stack";
 import {DomainStack} from "../lib/domain-stack";
 import {CiTestStack} from "../lib/ci-test-stack";
-import {SubDomainStack} from "../lib/sub-domain-stack";
 import {ShieldStack} from "../lib/shield-stack";
 import {ShieldParameterStack} from "../lib/shield-parameter-stack";
 import { ClamavScannerStack } from '../lib/clamav-scanner-stack';
