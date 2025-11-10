@@ -21,6 +21,10 @@
       <link rel="alternate" hreflang="{{ locale.short_name }}" href="{% url_for h.current_url(), locale=locale.short_name %}" />
     {% endfor %}
 
+    <link rel="icon" href="/themes/avoindata/images/logo/favicon.ico" sizes="32x32">
+    <link rel="icon" href="/themes/avoindata/images/logo/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/themes/avoindata/images/logo/apple-touch-icon.png">
+    <link rel="manifest" href="/themes/avoindata/images/logo/avoindata.webmanifest">
 {%- endblock -%}
 
 {%- block title -%}
