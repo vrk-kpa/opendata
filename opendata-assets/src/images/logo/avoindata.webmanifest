@@ -1,0 +1,7 @@
+{
+  "name": "Suomi.fi Avoindata",
+  "icons": [
+    { "src": "/themes/avoindata/images/logo/favicon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/themes/avoindata/images/logo/favicon-512.png", "type": "image/png", "sizes": "512x512" }
+  ]
+}

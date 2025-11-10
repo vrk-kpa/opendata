@@ -217,7 +217,7 @@ ckan.datapusher.formats = nonexistingformat
 
 {% if environ('SENTRY_DSN') %}
 sentry.dsn = {{ environ('SENTRY_DSN') }}
-sentry.environment = {{ environ('SENTRY_ENV') }}
+sentry.environment = {{ environ('SITE_ENV') }}
 sentry.traces_sample_rate = {{ environ('SENTRY_TRACES_SAMPLE_RATE') }}
 sentry.profiles_sample_rate = {{ environ('SENTRY_PROFILES_SAMPLE_RATE') }}
 sentry.loader_script = {{ environ('SENTRY_LOADER_SCRIPT') }}

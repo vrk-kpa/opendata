@@ -24,6 +24,7 @@ if [[ "${DEV_MODE}" == "true" ]]; then
 fi
 
 # apply jinja2 templates
+jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/avoindata.settings.yml.j2    -o ${APP_DIR}/site_config/avoindata.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/matomo.settings.yml.j2    -o ${APP_DIR}/site_config/matomo.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/recaptcha.settings.yml.j2 -o ${APP_DIR}/site_config/recaptcha.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/smtp.settings.yml.j2      -o ${APP_DIR}/site_config/smtp.settings.yml
