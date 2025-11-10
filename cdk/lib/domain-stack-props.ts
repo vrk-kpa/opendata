@@ -1,9 +1,7 @@
 import {StackProps} from "aws-cdk-lib";
 
 export interface DomainStackProps extends StackProps{
-  fqdn: string,
-  secondaryFqdn: string,
-  tertiaryFqdn?: string,
+  prodAccountId?: string,
   crossAccountId?: string,
   zoneName: string
 }

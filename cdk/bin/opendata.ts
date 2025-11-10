@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as dotenv from 'dotenv';
-import { EnvProps, parseEnv } from '../lib/env-props';
+import { EnvProps, parseEnv, OldDomain } from '../lib/env-props';
 import * as cdk from 'aws-cdk-lib';
 import { DatabaseStack } from '../lib/database-stack';
 import { CacheStack } from '../lib/cache-stack';
@@ -23,6 +23,7 @@ import {ShieldParameterStack} from "../lib/shield-parameter-stack";
 import { ClamavScannerStack } from '../lib/clamav-scanner-stack';
 import { DnssecStack } from '../lib/dnssec-stack';
 import { DnssecKeyStack } from '../lib/dnssec-key-stack';
+import {string} from "zod";
 
 // load .env file, shared with docker setup
 // mainly for ECR repo and image tag information
@@ -56,12 +57,18 @@ const betaProps = {
   account: '156418131626',
   region: 'eu-west-1',
   environment: 'beta',
-  fqdn: 'betaavoindata.fi',
-  secondaryFqdn: 'betaopendata.fi',
-  tertiaryFqdn: null,
-  domainName: 'www.betaavoindata.fi',
-  secondaryDomainName: 'www.betaopendata.fi',
+  rootFqdn: 'dev.avoindata.suomi.fi',
+  webFqdn: 'dev.avoindata.suomi.fi.',
   dnssecKeyAlias: 'dnssec-key-beta',
+  oldDomains: [
+    {
+      rootFqdn: 'betaavoindata.fi',
+      webFqdn: 'www.betaavoindata.fi',
+    },
+    {
+      rootFqdn: 'betaopendata.fi',
+      webFqdn: 'www.betaopendadata.fi',
+    }],
 };
 
 const clusterStackBeta = new ClusterStack(app, 'ClusterStack-beta', {
@@ -128,10 +135,8 @@ const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta
   },
   environment: betaProps.environment,
   vpc: clusterStackBeta.vpc,
-  domainName: betaProps.domainName,
-  fqdn: betaProps.fqdn,
-  secondaryDomainName: betaProps.secondaryDomainName,
-  secondaryFqdn: betaProps.secondaryFqdn
+  rootFqdn: betaProps.rootFqdn,
+  webFqdn: betaProps.webFqdn
 });
 
 
@@ -142,12 +147,10 @@ const certificateStackBeta = new CertificateStack(app, 'CertificateStack-beta', 
   },
   environment: betaProps.environment,
   vpc: clusterStackBeta.vpc,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName,
+  rootFqdn: betaProps.rootFqdn,
+  webFqdn: betaProps.webFqdn,
   zone: loadBalancerStackBeta.zone,
-  alternativeZone: loadBalancerStackBeta.alternativeZone
+  oldDomains: betaProps.oldDomains
 })
 
 
@@ -201,10 +204,7 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     region: betaProps.region,
   },
   environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName,
+  webFqdn: betaProps.webFqdn,
   vpc: clusterStackBeta.vpc,
   cluster: clusterStackBeta.cluster,
   namespace: clusterStackBeta.namespace,
@@ -276,10 +276,7 @@ const drupalStackBeta = new DrupalStack(app, 'DrupalStack-beta', {
     region: betaProps.region,
   },
   environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName,
+  webFqdn: betaProps.webFqdn,
   vpc: clusterStackBeta.vpc,
   cluster: clusterStackBeta.cluster,
   namespace: clusterStackBeta.namespace,
@@ -309,10 +306,7 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
     region: betaProps.region,
   },
   environment: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
-  domainName: betaProps.domainName,
-  secondaryDomainName: betaProps.secondaryDomainName,
+  webFqdn: betaProps.webFqdn,
   vpc: clusterStackBeta.vpc,
   cluster: clusterStackBeta.cluster,
   namespace: clusterStackBeta.namespace,
@@ -335,6 +329,7 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
   drupalService: drupalStackBeta.drupalService,
   ckanService: ckanStackBeta.ckanService,
   allowRobots: 'false',
+  oldDomains: betaProps.oldDomains,
 });
 
 const monitoringStackBeta = new MonitoringStack(app, 'MonitoringStack-beta', {
@@ -372,13 +367,22 @@ const prodProps = {
   account: '903124270034',
   region: 'eu-west-1',
   environment: 'prod',
-  fqdn: 'avoindata.fi',
-  secondaryFqdn: 'opendata.fi',
-  tertiaryFqdn: "yhteentoimivuus.fi",
-  domainName: 'www.avoindata.fi',
-  secondaryDomainName: 'www.opendata.fi',
-  newDomainName: "avoindata.suomi.fi",
+  rootFqdn: "avoindata.suomi.fi",
+  webFqdn: "avoindata.suomi.fi",
   dnssecKeyAlias: 'dnssec-key-prod',
+  oldDomains: [
+    {
+      rootFqdn: 'avoindata.fi',
+      webFqdn: 'www.avoindata.fi',
+    },
+    {
+      rootFqdn: 'opendata.fi',
+      webFqdn: 'www.opendata.fi',
+    },
+    {
+      rootFqdn: 'yhteentoimivuus.fi',
+      webFqdn: 'www.yhteentoimivuus.fi',
+    }]
 };
 
 const clusterStackProd = new ClusterStack(app, 'ClusterStack-prod', {
@@ -442,26 +446,23 @@ const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod
   },
   environment: prodProps.environment,
   vpc: clusterStackProd.vpc,
-  domainName: prodProps.domainName,
-  fqdn: prodProps.fqdn,
-  secondaryDomainName: prodProps.secondaryDomainName,
-  secondaryFqdn: prodProps.secondaryFqdn
+  rootFqdn: prodProps.rootFqdn,
+  webFqdn: prodProps.webFqdn
 });
 
 
 const certificateStackProd = new CertificateStack(app, 'CertificateStack-prod', {
+
   env: {
     account: prodProps.account,
     region: prodProps.region
   },
   environment: prodProps.environment,
   vpc: clusterStackProd.vpc,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName,
   zone: loadBalancerStackProd.zone,
-  alternativeZone: loadBalancerStackProd.alternativeZone
+  rootFqdn: prodProps.rootFqdn,
+  webFqdn: prodProps.webFqdn,
+  oldDomains: prodProps.oldDomains
 })
 
 const shieldParameterStackProd = new ShieldParameterStack(app, 'ShieldParameterStack-prod', {
@@ -514,10 +515,7 @@ const ckanStackProd = new CkanStack(app, 'CkanStack-prod', {
     region: prodProps.region,
   },
   environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName,
+  webFqdn: prodProps.webFqdn,
   vpc: clusterStackProd.vpc,
   cluster: clusterStackProd.cluster,
   namespace: clusterStackProd.namespace,
@@ -589,10 +587,7 @@ const drupalStackProd = new DrupalStack(app, 'DrupalStack-prod', {
     region: prodProps.region,
   },
   environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName,
+  webFqdn: prodProps.webFqdn,
   vpc: clusterStackProd.vpc,
   cluster: clusterStackProd.cluster,
   namespace: clusterStackProd.namespace,
@@ -622,10 +617,7 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
     region: prodProps.region,
   },
   environment: prodProps.environment,
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  domainName: prodProps.domainName,
-  secondaryDomainName: prodProps.secondaryDomainName,
+  webFqdn: prodProps.webFqdn,
   vpc: clusterStackProd.vpc,
   cluster: clusterStackProd.cluster,
   namespace: clusterStackProd.namespace,
@@ -648,6 +640,7 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
   drupalService: drupalStackProd.drupalService,
   ckanService: ckanStackProd.ckanService,
   allowRobots: 'true',
+  oldDomains: prodProps.oldDomains
 });
 
 const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {
@@ -664,10 +657,7 @@ const domainStackProd = new DomainStack(app, 'DomainStack-prod', {
     account: prodProps.account,
     region: prodProps.region,
   },
-  fqdn: prodProps.fqdn,
-  secondaryFqdn: prodProps.secondaryFqdn,
-  tertiaryFqdn: prodProps.tertiaryFqdn,
-  zoneName: prodProps.newDomainName,
+  zoneName: prodProps.rootFqdn,
   crossAccountId: betaProps.account
 })
 
@@ -684,19 +674,18 @@ const dnssecStackProd = new DnssecStack(app, 'DnssecStack-prod', {
     account: prodProps.account,
     region: prodProps.region
   },
-  zones: domainStackProd.zones,
+  oldDomains: prodProps.oldDomains,
+  zone: domainStackProd.publicZone,
   keyAlias: prodProps.dnssecKeyAlias
 })
 
-const subDomainStackBeta = new SubDomainStack(app, 'SubDomainStack-beta', {
+const domainStackBeta = new DomainStack(app, 'DomainStack-beta', {
   env: {
     account: betaProps.account,
     region: betaProps.region
   },
   prodAccountId: prodProps.account,
-  subDomainName: betaProps.environment,
-  fqdn: betaProps.fqdn,
-  secondaryFqdn: betaProps.secondaryFqdn,
+  zoneName: betaProps.rootFqdn
 })
 
 const dnssecKeyStackBeta = new DnssecKeyStack(app, 'DnssecKeyStack-beta', {
@@ -712,7 +701,8 @@ const dnssecStackBeta = new DnssecStack(app, 'DnssecStack-beta', {
     account: betaProps.account,
     region: betaProps.region
   },
-  zones: subDomainStackBeta.zones,
+  oldDomains: betaProps.oldDomains,
+  zone: domainStackBeta.publicZone,
   keyAlias: betaProps.dnssecKeyAlias
 })
 

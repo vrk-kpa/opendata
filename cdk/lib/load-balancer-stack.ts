@@ -72,32 +72,12 @@ export class LoadBalancerStack extends Stack {
     this.loadBalancer.logAccessLogs(logBucket, this.stackName)
 
     this.zone = route53.HostedZone.fromLookup(this, 'OpendataZone', {
-      domainName: props.fqdn
-    })
-
-    this.alternativeZone = route53.HostedZone.fromLookup(this, 'AlternativeOpendataZone', {
-      domainName: props.secondaryFqdn
-    })
-
-    let root_record = new route53.ARecord(this, "rootRecord", {
-      zone: this.zone,
-      target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
+      domainName: props.rootFqdn,
     })
 
     new route53.ARecord(this, 'wwwRecord', {
       zone: this.zone,
-      recordName: 'www',
-      target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
-    })
-
-    let alternate_root_record = new route53.ARecord(this, "alternativeRootRecord", {
-      zone: this.alternativeZone,
-      target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
-    })
-
-    new route53.ARecord(this, "alternativeWwwRecord", {
-      zone: this.alternativeZone,
-      recordName: 'www',
+      recordName: props.webFqdn,
       target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
     })
 

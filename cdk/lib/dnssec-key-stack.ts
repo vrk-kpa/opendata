@@ -10,33 +10,33 @@ export class DnssecKeyStack extends cdk.Stack {
 
     const dnssecKey = new aws_kms.Key(this, 'DNSSECKey', {
       alias: props.keyAlias,
-      enableKeyRotation: false,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      keySpec: aws_kms.KeySpec.ECC_NIST_P256,
-      keyUsage: aws_kms.KeyUsage.SIGN_VERIFY,
+      enableKeyRotation: false,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      keySpec: aws_kms.KeySpec.ECC_NIST_P256,
+      keyUsage: aws_kms.KeyUsage.SIGN_VERIFY,
     });
 
     dnssecKey.addToResourcePolicy(new aws_iam.PolicyStatement({
-      sid: "AllowRoute53DNSSECService",
-      effect: aws_iam.Effect.ALLOW,
-      principals: [new aws_iam.ServicePrincipal("dnssec-route53.amazonaws.com")],
-      actions: ["kms:DescribeKey", "kms:GetPublicKey", "kms:Sign"],
-      resources: ["*"],
-      conditions: {
-        "StringEquals": { "aws:SourceAccount": cdk.Aws.ACCOUNT_ID }
+      sid: "AllowRoute53DNSSECService",
+      effect: aws_iam.Effect.ALLOW,
+      principals: [new aws_iam.ServicePrincipal("dnssec-route53.amazonaws.com")],
+      actions: ["kms:DescribeKey", "kms:GetPublicKey", "kms:Sign"],
+      resources: ["*"],
+      conditions: {
+        "StringEquals": { "aws:SourceAccount": cdk.Aws.ACCOUNT_ID }
       }
     }));
 
     dnssecKey.addToResourcePolicy(new aws_iam.PolicyStatement({
-      sid: "AllowRoute53DNSSECToCreateGrant",
-      effect: aws_iam.Effect.ALLOW,
-      principals: [new aws_iam.ServicePrincipal("dnssec-route53.amazonaws.com")],
-      actions: ["kms:CreateGrant"],
-      resources: ["*"],
-      conditions: {
-        "StringEquals": { "aws:SourceAccount": cdk.Aws.ACCOUNT_ID },
-        "Bool": { "kms:GrantIsForAWSResource": true }
-      }
+      sid: "AllowRoute53DNSSECToCreateGrant",
+      effect: aws_iam.Effect.ALLOW,
+      principals: [new aws_iam.ServicePrincipal("dnssec-route53.amazonaws.com")],
+      actions: ["kms:CreateGrant"],
+      resources: ["*"],
+      conditions: {
+        "StringEquals": { "aws:SourceAccount": cdk.Aws.ACCOUNT_ID },
+        "Bool": { "kms:GrantIsForAWSResource": true }
+      }
     }));
   }
 }

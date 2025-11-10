@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import {aws_elasticloadbalancingv2, Duration, Stack, StackProps} from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
@@ -104,10 +104,7 @@ export class WebStack extends Stack {
         NGINX_CSP_WORKER_SRC: nginxCspWorkerSrc.join(' '),
         // .env
         NGINX_PORT: '80',
-        DOMAIN_NAME: props.domainName,
-        SECONDARY_DOMAIN_NAME: props.secondaryDomainName,
-        BASE_DOMAIN_NAME: props.fqdn,
-        SECONDARY_BASE_DOMAIN_NAME: props.secondaryFqdn,
+        DOMAIN_NAME: props.webFqdn,
         NAMESERVER: pNameserver.stringValue,
         CKAN_HOST: `ckan.${props.namespace.namespaceName}`,
         CKAN_PORT: '5000',
@@ -154,18 +151,6 @@ export class WebStack extends Stack {
     });
 
 
-
-    const nginxServiceHostedZone = r53.HostedZone.fromLookup(this, 'nginxServiceHostedZone', {
-      domainName: props.fqdn,
-      privateZone: false,
-    });
-
-    const nginxServiceSecondaryHostedZone = r53.HostedZone.fromLookup(this, 'nginxServiceSecondaryHostedZone', {
-      domainName: props.secondaryFqdn,
-      privateZone: false,
-    });
-
-
     let nginxService: ecsp.ApplicationLoadBalancedFargateService | null = null;
 
     nginxService = new ecsp.ApplicationLoadBalancedFargateService(this, 'nginxService', {
@@ -207,6 +192,22 @@ export class WebStack extends Stack {
 
     props.ckanService.connections.allowTo(props.drupalService, ec2.Port.tcp(80), 'ckan - drupal connection')
     props.ckanService.connections.allowFrom(props.drupalService, ec2.Port.tcp(5000), 'drupal - ckan connection')
+
+    const oldFqdns: string[] = [];
+    props.oldDomains.forEach(domain => {
+      oldFqdns.push(domain.webFqdn)
+    })
+
+    nginxService.listener.addAction("Redirect", {
+      action: aws_elasticloadbalancingv2.ListenerAction.redirect({
+        host: props.webFqdn,
+        permanent: true
+      }),
+      conditions: [
+        aws_elasticloadbalancingv2.ListenerCondition.hostHeaders(oldFqdns)
+      ],
+      priority: 10
+    })
 
 
     const nginxServiceAsg = nginxService.service.autoScaleTaskCount({
