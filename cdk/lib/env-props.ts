@@ -20,3 +20,8 @@ export function parseEnv(key: string): string {
   }
   return val;
 }
+
+export interface OldDomain {
+  rootFqdn: string,
+  webFqdn: string
+}
