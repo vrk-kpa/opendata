@@ -767,6 +767,12 @@ End of dropdown CSS
       text-decoration: underline;
     }
   }
+
+  .navbar-nav {
+    .nav-link {
+      color: $suomi-highlightBase;
+    }
+  }
 }
 
 .service-messages {
