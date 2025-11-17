@@ -10,11 +10,11 @@
   border-radius: 0;
   border: none;
 
-  > li {
+  > li.page-item,
+  > li.disabled {
     position: relative;
     border: 1px solid $suomi-depthLight1;
     border-radius: 0;
-    margin-left: -1px;
 
     a,
     button {
@@ -59,6 +59,16 @@
       a {
         border-radius: 0;
       }
+    }
+  }
+
+  li.disabled {
+    a {
+      color: $suomi-highlightBase;
+      background-color: $background-color__content;
+      border-color: $suomi-depthLight1;
+      pointer-events: none;
+      margin-left: -1px;
     }
   }
 }
