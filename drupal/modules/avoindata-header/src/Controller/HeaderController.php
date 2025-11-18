@@ -35,7 +35,6 @@ class HeaderController extends ControllerBase {
     }
 
     $response = new Response(\Drupal::service('renderer')->renderRoot($build));
-    $response->setCache(['public' => TRUE, 'max_age' => 3600]);
     // Only render this part, not the whole page.
     return $response;
   }
