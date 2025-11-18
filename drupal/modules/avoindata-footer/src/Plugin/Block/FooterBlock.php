@@ -21,6 +21,7 @@ class FooterBlock extends BlockBase {
   public function build() {
     return [
       '#theme' => 'avoindata_footer',
+      '#site_logo' => avoindata_site_logo_path(),
     ];
   }
 

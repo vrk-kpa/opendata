@@ -257,7 +257,7 @@ function avoindata_preprocess_node(&$variables){
   $variables['date_format'] = $dateFormats[$language];
 }
 
-function avoindata_preprocess_block__avoindata_sitebranding(&$variables) {
+function avoindata_site_logo_path() {
   $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
   $environment = theme_get_setting('environment');
   
@@ -272,5 +272,9 @@ function avoindata_preprocess_block__avoindata_sitebranding(&$variables) {
   }
 
   $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
-  $variables['site_logo'] = base_path() . $theme_path . $logo . '.svg';
+  return base_path() . $theme_path . $logo . '.svg';
+}
+
+function avoindata_preprocess_block__avoindata_sitebranding(&$variables) {
+  $variables['site_logo'] = avoindata_site_logo_path();
 }
