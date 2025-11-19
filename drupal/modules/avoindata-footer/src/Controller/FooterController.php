@@ -31,9 +31,17 @@ class FooterController extends ControllerBase {
     // Only render this part, not the whole page.
     return $response;
   }
+
 }
 
 function avoindata_site_logo_path() {
+  /**
+   * Pick the correct logo
+   *
+   * @return string
+   *   Return logo path
+   */
+
   $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
   $environment = theme_get_setting('environment');
 
@@ -50,4 +58,3 @@ function avoindata_site_logo_path() {
   $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
   return base_path() . $theme_path . $logo . '.svg';
 }
-
