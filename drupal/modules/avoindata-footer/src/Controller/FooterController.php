@@ -34,20 +34,21 @@ class FooterController extends ControllerBase {
 
 }
 
+/**
+ * Pick the correct logo
+ *
+ * @return string
+ *   Return logo path
+ */
 function avoindata_site_logo_path() {
-  /**
-   * Pick the correct logo
-   *
-   * @return string
-   *   Return logo path
-   */
 
   $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
   $environment = theme_get_setting('environment');
 
   if ($environment == 'prod') {
     $logo = '/images/logo/logo_prod';
-  } else {
+  }
+  else {
     $logo = '/images/logo/logo_dev';
   }
 
