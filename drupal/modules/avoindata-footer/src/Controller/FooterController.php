@@ -24,11 +24,30 @@ class FooterController extends ControllerBase {
   public function footer() {
     $build = [
       '#theme' => 'avoindata_footer',
+      '#site_logo' => avoindata_site_logo_path(),
     ];
-
-    $response = new Response(\Drupal::service('renderer')->renderRoot($build));
+    $render = \Drupal::service('renderer')->renderRoot($build);
+    $response = new Response($render);
     // Only render this part, not the whole page.
     return $response;
   }
-
 }
+
+function avoindata_site_logo_path() {
+  $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $environment = theme_get_setting('environment');
+
+  if ($environment == 'prod') {
+    $logo = '/images/logo/logo_prod';
+  } else {
+    $logo = '/images/logo/logo_dev';
+  }
+
+  if ($language == 'fi' || $language == 'sv' || $language == 'en') {
+    $logo = $logo . '_' . $language;
+  }
+
+  $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
+  return base_path() . $theme_path . $logo . '.svg';
+}
+
