@@ -35,7 +35,7 @@ class FooterController extends ControllerBase {
 }
 
 /**
- * Pick the correct logo
+ * Pick the correct logo.
  *
  * @return string
  *   Return logo path
