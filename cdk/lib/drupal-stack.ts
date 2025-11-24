@@ -125,8 +125,7 @@ export class DrupalStack extends Stack {
       DB_DRUPAL_HOST: host.hostname,
       DB_DRUPAL: pDbDrupal.stringValue,
       DB_DRUPAL_USER: pDbDrupalUser.stringValue,
-      DOMAIN_NAME: props.domainName,
-      SECONDARY_DOMAIN_NAME: props.secondaryDomainName,
+      DOMAIN_NAME: props.webFqdn,
       SITE_NAME: pSiteName.stringValue,
       ROLES_CKAN_ADMIN: pRolesCkanAdmin.stringValue,
       ROLES_EDITOR: pRolesEditor.stringValue,
@@ -141,7 +140,6 @@ export class DrupalStack extends Stack {
       SMTP_PORT: pSmtpPort.stringValue,
       SITE_ENV: props.environment,
       SENTRY_TRACES_SAMPLE_RATE: props.sentryTracesSampleRate,
-      BYPASS_CDN_DOMAIN: `vip.${props.fqdn}`
     };
 
     let drupalContainerSecrets: { [key: string]: ecs.Secret; } = {
