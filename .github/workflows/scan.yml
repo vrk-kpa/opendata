@@ -16,7 +16,7 @@ jobs:
       security-events: write
     steps:
       - name: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -70,7 +70,7 @@ jobs:
       security-events: write
     steps:
       - name: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4

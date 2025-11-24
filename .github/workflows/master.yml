@@ -64,7 +64,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: ${{ matrix.submodules }}
 
@@ -138,7 +138,7 @@ jobs:
       sha: ${{ steps.envtemplate.outputs.commit_sha || github.sha }}
     steps:
       - name: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: ${{ matrix.submodules }}
           token: ${{ secrets.BOT_TOKEN }}
@@ -206,7 +206,7 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ needs.commit-new-images.outputs.sha }}
 
