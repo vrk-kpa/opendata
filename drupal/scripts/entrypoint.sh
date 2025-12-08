@@ -12,4 +12,4 @@ else
 fi
 
 # run php-fpm
-docker-php-entrypoint apache2-foreground
+docker-php-entrypoint php-fpm

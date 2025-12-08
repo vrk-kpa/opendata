@@ -52,10 +52,18 @@ RUN chmod +x ${SCRIPT_DIR}/*.sh && \
 RUN composer install --no-cache --no-dev
 
 
+FROM drupal_build AS nginx_build
+
+# Install nginx and serve php-fpm via that
+RUN apk add  --no-cache nginx
+
+COPY configurations/nginx_http.d /etc/nginx/http.d/
+
+
 #
 # Development image (For local development)
 #
-FROM drupal_build AS drupal_development
+FROM nginx_build AS drupal_development
 
 ENV DEV_MODE=true
 
@@ -67,7 +75,7 @@ ENTRYPOINT ["/opt/drupal/scripts/entrypoint.sh"]
 #
 # Modules build (for production)
 #
-FROM drupal_build AS modules_build
+FROM nginx_build AS modules_build
 
 # setup env vars:
 ENV APP_DIR=/opt/drupal
@@ -95,7 +103,7 @@ COPY modules/avoindata-ckeditor5-plugins    ${MOD_DIR}/avoindata-ckeditor5-plugi
 #
 # Production image
 #
-FROM drupal_build AS production
+FROM nginx_build AS production
 
 # copy modules and themes
 COPY --from=modules_build ${MOD_DIR} ${MOD_DIR}

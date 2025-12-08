@@ -122,8 +122,20 @@ location ~ ^/data/(.*)$ {
 set $drupal_target "${DRUPAL_HOST}:${DRUPAL_PORT}";
 
 # drupal at /
-location ~ ^/(.*)$ {
-  proxy_pass http://$drupal_target/$1$is_args$args;
+location ~ '\.php$|^/update.php' {
+  #proxy_pass http://$drupal_target/$1$is_args$args;
+
+
+  #try_files $uri =404;
+  #fastcgi_split_path_info ^(.+\.php)(/.+)$;
+  fastcgi_pass drupal_backend;
+  fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+  fastcgi_param PATH_INFO $fastcgi_path_info;
+  fastcgi_param QUERY_STRING $query_string;
+  fastcgi_intercept_errors on;
+  #fastcgi_index index.php;
+  include fastcgi_params;
+
 
   # common security headers
   include /etc/nginx/conf.d/security_headers.conf;
@@ -132,17 +144,17 @@ location ~ ^/(.*)$ {
   # content type options https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
   add_header X-Content-Type-Options "nosniff" always;
 
-  proxy_set_header Host $host;
-  proxy_set_header X-Real-IP $remote_addr;
-  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-  proxy_set_header X-Url-Scheme $scheme;
-  proxy_cache cache;
-  proxy_cache_bypass $no_cache;
-  proxy_no_cache $no_cache;
-  proxy_cache_valid 30m;
-  proxy_cache_key $host$scheme$proxy_host$request_uri;
-  proxy_intercept_errors on;
-  proxy_read_timeout 120s;
+  #proxy_set_header Host $host;
+  #proxy_set_header X-Real-IP $remote_addr;
+  #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  #proxy_set_header X-Url-Scheme $scheme;
+  #proxy_cache cache;
+  #proxy_cache_bypass $no_cache;
+  #proxy_no_cache $no_cache;
+  #proxy_cache_valid 30m;
+  #proxy_cache_key $host$scheme$proxy_host$request_uri;
+  #proxy_intercept_errors on;
+  #proxy_read_timeout 120s;
 
   location ~ /(fi/|en/|sv/)?(api/)(.*) {
     proxy_pass http://$drupal_target/$1$2$3$is_args$args;

@@ -22,11 +22,11 @@ resolver ${NAMESERVER} valid=60s;
 #
 #  server ${CKAN_HOST}:${CKAN_PORT} max_fails=3 resolve;
 #}
-#upstream drupal_backend {
-#  ip_hash;
-#
-#  server ${DRUPAL_HOST}:${DRUPAL_PORT} max_fails=3 resolve;
-#}
+upstream drupal_backend {
+  #ip_hash;
+
+  server ${DRUPAL_HOST}:${DRUPAL_PORT};
+}
 
 # listeners
 server {
