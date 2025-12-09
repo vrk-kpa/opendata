@@ -22,7 +22,7 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: install nodejs v22
         uses: actions/setup-node@v5
