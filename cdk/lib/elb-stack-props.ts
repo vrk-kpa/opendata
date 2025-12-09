@@ -5,8 +5,6 @@ import {EnvStackProps} from "./env-stack-props";
 
 export interface ElbStackProps extends EnvStackProps {
   vpc: ec2.IVpc;
-  fqdn: string;
-  secondaryFqdn: string;
-  domainName: string;
-  secondaryDomainName: string;
+  rootFqdn: string;
+  webFqdn: string;
 }

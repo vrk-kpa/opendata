@@ -7,37 +7,23 @@ export class CertificateStack extends Stack {
   constructor(scope: Construct, id: string, props: CertificateStackProps) {
     super(scope, id, props);
 
-    // TODO: Remove once we move to suomi.fi domain, cannot be updated without rebuilding few stacks
-    const alternativeNamePrefixes: string[] = [
-      "www",
-      "vip"
-    ]
+    const validationZones: {[key: string]:  route53.IHostedZone } = {}
 
-    const alternativeNames: string[] = alternativeNamePrefixes.map((name) => {
-      return name + "." + props.zone.zoneName
+    validationZones[props.zone.zoneName] = props.zone
+
+    const subjectAlternativeNames: string[] = []
+
+    props.oldDomains.forEach((domain, index) => {
+      subjectAlternativeNames.push(domain.webFqdn)
+
+      validationZones[props.webFqdn] = route53.HostedZone.fromLookup(this, `Zone-${index}`, {
+        domainName: domain.rootFqdn,
+      })
     })
-
-    const secondaryAlternativeNames: string[] = alternativeNamePrefixes.map((name) => {
-      return name + "." + props.alternativeZone.zoneName
-    })
-
-    secondaryAlternativeNames.push(props.alternativeZone.zoneName)
-
-    const validationZones: {[key: string]:  route53.IHostedZone }= {
-      "avoindata.fi": props.zone
-    }
-    alternativeNames.forEach((name) => {
-      validationZones[name] = props.zone
-    })
-
-    secondaryAlternativeNames.forEach((name) => {
-      validationZones[name] = props.alternativeZone
-    })
-
 
     this.certificate = new acm.Certificate(this, 'Certificate', {
       domainName: props.zone.zoneName,
-      subjectAlternativeNames: alternativeNames.concat(secondaryAlternativeNames),
+      subjectAlternativeNames: subjectAlternativeNames,
       validation: acm.CertificateValidation.fromDnsMultiZone(validationZones)
     })
   }

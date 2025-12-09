@@ -3,6 +3,7 @@ import * as elb from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 
 import { EcsStackProps, EcsStackPropsTaskDef } from './ecs-stack-props';
+import {OldDomain} from "./env-props";
 
 export interface WebStackProps extends EcsStackProps {
   certificate: acm.ICertificate;
@@ -10,5 +11,6 @@ export interface WebStackProps extends EcsStackProps {
   nginxTaskDef: EcsStackPropsTaskDef,
   drupalService: ecs.FargateService;
   ckanService: ecs.FargateService;
-  allowRobots: string
+  allowRobots: string,
+  oldDomains: OldDomain[]
 }
