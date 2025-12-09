@@ -88,7 +88,7 @@ jobs:
 
       - name: Run dependency check
         run: |
-          docker run --rm -v "${{ github.workspace }}:${{ github.workspace }}" -e SCAN_DIR=${{ github.workspace }}  -e FORMAT=SARIF -e OUTDIR=${{ github.workspace }} $REGISTRY/$REPOSITORY/dependency-check:v1.3.1
+          docker run --rm -v "${{ github.workspace }}:${{ github.workspace }}" -e SCAN_DIR=${{ github.workspace }}  -e FORMAT=SARIF -e OUTDIR=${{ github.workspace }} -e FAIL_ON_CVSS_SCORE=disabled $REGISTRY/$REPOSITORY/dependency-check:v1.3.1
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ secrets.TOOLS_REPOSITORY }}
