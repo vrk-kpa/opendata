@@ -16,7 +16,7 @@ export class CertificateStack extends Stack {
     props.oldDomains.forEach((domain, index) => {
       subjectAlternativeNames.push(domain.webFqdn)
 
-      validationZones[props.webFqdn] = route53.HostedZone.fromLookup(this, `Zone-${index}`, {
+      validationZones[domain.webFqdn] = route53.HostedZone.fromLookup(this, `Zone-${index}`, {
         domainName: domain.rootFqdn,
       })
     })
