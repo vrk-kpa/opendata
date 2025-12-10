@@ -57,7 +57,7 @@ const betaProps = {
   region: 'eu-west-1',
   environment: 'beta',
   rootFqdn: 'dev.avoindata.suomi.fi',
-  webFqdn: 'dev.avoindata.suomi.fi.',
+  webFqdn: 'dev.avoindata.suomi.fi',
   dnssecKeyAlias: 'dnssec-key-beta',
   oldDomains: [
     {
