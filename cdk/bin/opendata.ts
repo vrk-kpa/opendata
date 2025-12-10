@@ -66,7 +66,7 @@ const betaProps = {
     },
     {
       rootFqdn: 'betaopendata.fi',
-      webFqdn: 'www.betaopendadata.fi',
+      webFqdn: 'www.betaopendata.fi',
     }],
 };
 
