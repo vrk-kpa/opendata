@@ -15,10 +15,14 @@ export class CertificateStack extends Stack {
 
     props.oldDomains.forEach((domain, index) => {
       subjectAlternativeNames.push(domain.webFqdn)
+      subjectAlternativeNames.push(domain.rootFqdn)
 
-      validationZones[domain.webFqdn] = route53.HostedZone.fromLookup(this, `Zone-${index}`, {
+      let zone = route53.HostedZone.fromLookup(this, `Zone-${index}`, {
         domainName: domain.rootFqdn,
       })
+      
+      validationZones[domain.webFqdn] = zone
+      validationZones[domain.rootFqdn] = zone
     })
 
     this.certificate = new acm.Certificate(this, 'Certificate', {
