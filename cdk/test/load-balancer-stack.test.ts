@@ -20,7 +20,8 @@ test('verify load balancer stack resources', () => {
     environment: 'mock-env',
     vpc: clusterStack.vpc,
     webFqdn: 'localhost',
-    rootFqdn: 'localhost'
+    rootFqdn: 'localhost',
+    oldDomains: []
   });
   // THEN
   // no actual resources to verify
