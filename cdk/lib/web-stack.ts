@@ -196,6 +196,7 @@ export class WebStack extends Stack {
     const oldFqdns: string[] = [];
     props.oldDomains.forEach(domain => {
       oldFqdns.push(domain.webFqdn)
+      oldFqdns.push(domain.rootFqdn)
     })
 
     nginxService.listener.addAction("Redirect", {
