@@ -82,5 +82,23 @@ export class LoadBalancerStack extends Stack {
     })
 
 
+    props.oldDomains.forEach((domain,index) => {
+      let zone = aws_route53.HostedZone.fromLookup(this, `OpendataZone-${index}`, {
+        domainName: domain.rootFqdn
+      })
+
+      new route53.ARecord(this, `OldWWWRecords-${index}`, {
+        zone: zone,
+        recordName: domain.webFqdn,
+        target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
+      })
+
+      new route53.ARecord(this, `OldRootRecords-${index}`, {
+        zone: zone,
+        target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
+      })
+
+    })
+
   }
 }

@@ -135,7 +135,8 @@ const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta
   environment: betaProps.environment,
   vpc: clusterStackBeta.vpc,
   rootFqdn: betaProps.rootFqdn,
-  webFqdn: betaProps.webFqdn
+  webFqdn: betaProps.webFqdn,
+  oldDomains: betaProps.oldDomains
 });
 
 
@@ -446,7 +447,8 @@ const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod
   environment: prodProps.environment,
   vpc: clusterStackProd.vpc,
   rootFqdn: prodProps.rootFqdn,
-  webFqdn: prodProps.webFqdn
+  webFqdn: prodProps.webFqdn,
+  oldDomains: prodProps.oldDomains
 });
 
 
