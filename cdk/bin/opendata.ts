@@ -12,7 +12,6 @@ import { DrupalStack } from '../lib/drupal-stack';
 import { CkanStack } from '../lib/ckan-stack';
 import { WebStack } from '../lib/web-stack';
 import { BackupStack } from "../lib/backup-stack"
-import {CertificateStack} from "../lib/certificate-stack";
 import {MonitoringStack} from "../lib/monitoring-stack";
 import {LambdaStack} from "../lib/lambda-stack";
 import {DomainStack} from "../lib/domain-stack";
@@ -138,21 +137,6 @@ const loadBalancerStackBeta = new LoadBalancerStack(app, 'LoadBalancerStack-beta
   webFqdn: betaProps.webFqdn,
   oldDomains: betaProps.oldDomains
 });
-
-
-const certificateStackBeta = new CertificateStack(app, 'CertificateStack-beta', {
-  env: {
-    account: betaProps.account,
-    region: betaProps.region,
-  },
-  environment: betaProps.environment,
-  vpc: clusterStackBeta.vpc,
-  rootFqdn: betaProps.rootFqdn,
-  webFqdn: betaProps.webFqdn,
-  zone: loadBalancerStackBeta.zone,
-  oldDomains: betaProps.oldDomains
-})
-
 
 const shieldParameterStackBeta = new ShieldParameterStack(app, 'ShieldParameterStack-beta', {
   env: {
@@ -318,8 +302,7 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
   cachePort: cacheStackBeta.cachePort,
   cacheSecurityGroup: cacheStackBeta.cacheSecurityGroup,
   cacheCluster: cacheStackBeta.cacheCluster,
-  certificate: certificateStackBeta.certificate,
-  loadBalancer: loadBalancerStackBeta.loadBalancer,
+  listener: loadBalancerStackBeta.listener,
   nginxTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
@@ -329,7 +312,6 @@ const webStackBeta = new WebStack(app, 'WebStack-beta', {
   drupalService: drupalStackBeta.drupalService,
   ckanService: ckanStackBeta.ckanService,
   allowRobots: 'false',
-  oldDomains: betaProps.oldDomains,
 });
 
 const monitoringStackBeta = new MonitoringStack(app, 'MonitoringStack-beta', {
@@ -450,21 +432,6 @@ const loadBalancerStackProd = new LoadBalancerStack(app, 'LoadBalancerStack-prod
   webFqdn: prodProps.webFqdn,
   oldDomains: prodProps.oldDomains
 });
-
-
-const certificateStackProd = new CertificateStack(app, 'CertificateStack-prod', {
-
-  env: {
-    account: prodProps.account,
-    region: prodProps.region
-  },
-  environment: prodProps.environment,
-  vpc: clusterStackProd.vpc,
-  zone: loadBalancerStackProd.zone,
-  rootFqdn: prodProps.rootFqdn,
-  webFqdn: prodProps.webFqdn,
-  oldDomains: prodProps.oldDomains
-})
 
 const shieldParameterStackProd = new ShieldParameterStack(app, 'ShieldParameterStack-prod', {
   env: {
@@ -630,8 +597,7 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
   cachePort: cacheStackProd.cachePort,
   cacheSecurityGroup: cacheStackProd.cacheSecurityGroup,
   cacheCluster: cacheStackProd.cacheCluster,
-  certificate: certificateStackProd.certificate,
-  loadBalancer: loadBalancerStackProd.loadBalancer,
+  listener: loadBalancerStackProd.listener,
   nginxTaskDef: {
     taskCpu: 512,
     taskMem: 1024,
@@ -641,7 +607,6 @@ const webStackProd = new WebStack(app, 'WebStack-prod', {
   drupalService: drupalStackProd.drupalService,
   ckanService: ckanStackProd.ckanService,
   allowRobots: 'true',
-  oldDomains: prodProps.oldDomains
 });
 
 const monitoringStackProd = new MonitoringStack(app, 'MonitoringStack-prod', {

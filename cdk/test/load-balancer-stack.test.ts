@@ -4,7 +4,6 @@ import { Template, Match } from 'aws-cdk-lib/assertions';
 import { ClusterStack } from '../lib/cluster-stack';
 import { LoadBalancerStack } from '../lib/load-balancer-stack';
 import { mockEnv, mockEnvProps } from './mock-constructs';
-import {CertificateStack} from "../lib/certificate-stack";
 
 test('verify load balancer stack resources', () => {
   const app = new cdk.App();

@@ -1,4 +1,4 @@
-import {aws_ec2 as ec2, aws_certificatemanager as acm} from 'aws-cdk-lib';
+import {aws_ec2 as ec2, aws_certificatemanager as acm, aws_route53} from 'aws-cdk-lib';
 
 
 import {EnvStackProps} from "./env-stack-props";
