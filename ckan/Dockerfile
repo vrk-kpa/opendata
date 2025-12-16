@@ -86,11 +86,11 @@ RUN \
   mkdir -p ${DATA_DIR} && \
   # Install CKAN and requirements
   pip install --find-links=/srv/app/wheels -r ${SRC_DIR}/ckan-requirements.txt && \
-  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.10.9#egg=ckan && \
+  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.11.4#egg=ckan && \
   # Configure environment
   addgroup -g 92 ckan && \
   adduser -u 92 -h ${APP_DIR} -H -D -G ckan ckan && \
-  cp ${CKAN_DIR}/who.ini ${APP_DIR} && \
+  # cp ${CKAN_DIR}/who.ini ${APP_DIR} && \
   # Set timezone
   echo "UTC" >  /etc/timezone && \
   # Change ownership to app user
@@ -169,30 +169,30 @@ COPY cron ${CRON_DIR}
 COPY src/ckan/patches ${SRC_DIR}/ckan/patches
 
 # apply patches
-RUN cd ${SRC_DIR}/ckan && \
-    patch --strip=1 --input=patches/enable_multiple_image_uploads.patch && \
-    patch --strip=1 --input=patches/remove-ckan-fontawesome.patch && \
-    patch --strip=1 --input=patches/optimize_group_show.patch && \
-    patch --strip=1 --input=patches/optimize_template_loading.patch && \
-    patch --strip=1 --input=patches/group_include_extras.patch && \
-    patch --strip=1 --input=patches/remove_gravatar.patch && \
-    patch --strip=1 --input=patches/json_serializable_lazyjsonobject.patch && \
-    patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
-    patch --strip=1 --input=patches/add_drafts_to_search.patch && \
-#    patch --strip=1 --input=patches/fix_license_dictization.patch && \
-    patch --strip=1 --input=patches/fix_truncate_helper_annotations.patch && \
-    patch --strip=1 --input=patches/fix_use_default_schema_parameter.patch && \
-    patch --strip=1 --input=patches/remove_tracking.patch && \
-    patch --strip=1 --input=patches/remove_tracking_summary_from_solr_index.patch && \
-    patch --strip=1 --input=patches/iauthenticator_fix.patch && \
-    patch --strip=1 --input=patches/add_check_if_old_api_keys_are_used.patch
+# RUN cd ${SRC_DIR}/ckan && \
+#     patch --strip=1 --input=patches/enable_multiple_image_uploads.patch && \
+#     patch --strip=1 --input=patches/remove-ckan-fontawesome.patch && \
+#     patch --strip=1 --input=patches/optimize_group_show.patch && \
+#     patch --strip=1 --input=patches/optimize_template_loading.patch && \
+#     patch --strip=1 --input=patches/group_include_extras.patch && \
+#     patch --strip=1 --input=patches/remove_gravatar.patch && \
+#     patch --strip=1 --input=patches/json_serializable_lazyjsonobject.patch && \
+#     patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
+#     patch --strip=1 --input=patches/add_drafts_to_search.patch && \
+# #    patch --strip=1 --input=patches/fix_license_dictization.patch && \
+#     patch --strip=1 --input=patches/fix_truncate_helper_annotations.patch && \
+#     patch --strip=1 --input=patches/fix_use_default_schema_parameter.patch && \
+#     patch --strip=1 --input=patches/remove_tracking.patch && \
+#     patch --strip=1 --input=patches/remove_tracking_summary_from_solr_index.patch && \
+#     patch --strip=1 --input=patches/iauthenticator_fix.patch && \
+#     patch --strip=1 --input=patches/add_check_if_old_api_keys_are_used.patch
 
 RUN \
   # Make scripts executable
   chmod +x ${SCRIPT_DIR}/*.sh && \
   # Remove unused configuration
   rm -f ${APP_DIR}/ckan.ini && \
-  rm -f ${APP_DIR}/who.ini && \
+  # rm -f ${APP_DIR}/who.ini && \
   # Add directory for static content
   mkdir -p ${WWW_DIR} && \
   # install crontab

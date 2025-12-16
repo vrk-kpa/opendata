@@ -20,14 +20,12 @@ use = egg:ckan
 full_stack = true
 cache_dir = /tmp/%(ckan.site_id)s/
 
-# beaker.session.key = ckan
-beaker.session.secret = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
-# Secure session does not currently work in our environments as ssl is terminated on Load balancer
-#beaker.session.secure = True
-beaker.session.httponly = True
-beaker.session.type = cookie
-beaker.session.validate_key = {{ environ('CKAN_BEAKER_SESSION_SECRET') }}
-beaker.session.url = postgresql://{{ environ('DB_CKAN_USER') }}:{{ environ('DB_CKAN_PASS') }}@{{ environ('DB_CKAN_HOST') }}/{{ environ('DB_CKAN') }}
+SECRET_KEY = {{ environ('CKAN_SESSION_SECRET') }}
+SESSION_COOKIE_NAME = ckan
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = Strict
+SESSION_TYPE = cookie
 
 ckan.csrf_protection.ignore_extensions = true
 
@@ -101,6 +99,7 @@ ckan.activity_streams_email_notifications = True
 ckan.cache_enabled = True
 ckan.cache_expires = 90
 
+ckan.datasets_per_page = 20
 ckan.upload.group.mimetypes = image/png image/gif image/jpeg image/svg+xml
 
 

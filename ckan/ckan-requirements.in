@@ -1,7 +1,7 @@
 # This file defines the used CKAN version and any overrides
 # Compile with pip-compile to produce the ckan-requirements.txt used in build
 
-ckan[requirements] @ git+https://github.com/ckan/ckan.git@ckan-2.10.9
+ckan[requirements] @ git+https://github.com/ckan/ckan.git@ckan-2.11.4
 
 # Runtime requirements
 uWSGI==2.0.26

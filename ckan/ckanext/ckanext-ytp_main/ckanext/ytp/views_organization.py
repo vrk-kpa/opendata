@@ -1,21 +1,37 @@
 # encoding: utf-8
 
 import logging
-import ckan.lib.base as base
-import ckan.logic as logic
-import ckan.lib.helpers as h
-import ckan.model as model
-import ckan.lib.navl.dictization_functions as dict_fns
-from ckan.plugins import toolkit
-from ckan.views.group import BulkProcessView, CreateGroupView,\
-                            EditGroupView, DeleteGroupView, MembersGroupView, \
-                            about, set_org, _action, _check_access, \
-                            _db_to_form_schema, _read, _get_group_template, _setup_template_variables, \
-                            member_delete, followers, follow, unfollow, admins, _replace_group_org
-from ckanext.organizationapproval.logic import send_new_organization_email_to_admin
-from typing import Any
+from typing import Any, Optional, Union, cast
 
+import ckan.lib.base as base
+import ckan.lib.helpers as h
+import ckan.lib.navl.dictization_functions as dict_fns
+import ckan.logic as logic
+import ckan.model as model
+from ckan.plugins import toolkit
+from ckan.types import Context
+from ckan.lib.helpers import Page
+from ckan.views.group import (
+    BulkProcessView,
+    CreateGroupView,
+    DeleteGroupView,
+    EditGroupView,
+    MembersGroupView,
+    _db_to_form_schema,
+    _get_group_template,
+    _read,
+    _setup_template_variables,
+    about,
+    admins,
+    follow,
+    followers,
+    member_delete,
+    unfollow,
+)
 from flask import Blueprint
+from flask.wrappers import Response
+
+from ckanext.organizationapproval.logic import send_new_organization_email_to_admin
 
 log = logging.getLogger(__name__)
 
@@ -39,29 +55,31 @@ parse_params = logic.parse_params
 class CreateOrganizationView(CreateGroupView):
     '''Create organization view '''
 
-    def _prepare(self, data=None):
+    def _prepare(self, data: Optional[dict[str, Any]] = None) -> Context:
         group_type = 'organization'
         if data:
             data['type'] = group_type
 
-        context = {
+        context = cast(Context, {
             'model': model,
             'session': model.Session,
-            'user': g.user,
+            'user': toolkit.current_user.name,
             'save': 'save' in request.args,
             'parent': request.args.get('parent', None),
             'group_type': group_type
-        }
+        })
 
         try:
-            _check_access('group_create', context)
+            toolkit.check_access('organization_create', context)
         except NotAuthorized:
             base.abort(403, _('Unauthorized to create a group'))
 
         return context
 
-    def post(self, group_type, is_organization):
-        set_org(is_organization)
+    def post(self, group_type: str, is_organization: bool) -> Union[Response, str]:
+        if not is_organization:
+            return base.abort(400, 'Not an organization')
+
         context = self._prepare()
         try:
             data_dict = clean_dict(
@@ -69,24 +87,26 @@ class CreateOrganizationView(CreateGroupView):
             data_dict.update(clean_dict(
                 dict_fns.unflatten(tuplize_dict(parse_params(request.files)))
             ))
-            data_dict['type'] = group_type or 'group'
-            context['message'] = data_dict.get('log_message', '')
-            data_dict['users'] = [{'name': g.user, 'capacity': 'admin'}]
-            data_dict['approval_status'] = 'pending'
-
-            group = _action('group_create')(context, data_dict)
+        except dict_fns.DataError:
+            return base.abort(400, _('Integrity Error'))
+        user = toolkit.current_user.name
+        data_dict['type'] = group_type or 'group'
+        context['message'] = data_dict.get('log_message', '')
+        data_dict['users'] = [{'name': user, 'capacity': 'admin'}]
+        data_dict['approval_status'] = 'pending'
+        try:
+            group = get_action('organization_create')(context, data_dict)
             send_new_organization_email_to_admin()
         except (NotFound, NotAuthorized):
-            base.abort(404, _('Group not found'))
-        except dict_fns.DataError:
-            base.abort(400, _('Integrity Error'))
+            return base.abort(404, _('Group not found'))
         except ValidationError as e:
             errors = e.error_dict
             error_summary = e.error_summary
-            return self.get(group_type, is_organization,
+            return self.get(group_type, True,
                             data_dict, errors, error_summary)
 
-        return h.redirect_to(group['type'] + '.read', id=group['name'])
+        return h.redirect_to(
+            group['type'] + '.read', id=group['name'])
 
 
 class EditOrganizationView(EditGroupView):
@@ -96,17 +116,22 @@ class EditOrganizationView(EditGroupView):
             id: str,
             group_type: str,
             is_organization: bool,
-            data=None,
-            errors=None,
-            error_summary=None) -> str:
-        extra_vars = {}
-        set_org(is_organization)
-        context = self._prepare(id)
-        data_dict: dict[str, Any] = {u'id': id, u'include_datasets': False}
+            data: Optional[dict[str, Any]] = None,
+            errors: Optional[dict[str, Any]] = None,
+            error_summary: Optional[dict[str, Any]] = None) -> str:
+
+        if not is_organization:
+            return base.abort(400, 'Not an organization')
+
+        context = self._prepare(is_organization, id=id)
+        data_dict: dict[str, Any] = {'id': id, 'include_datasets': False}
         try:
-            group_dict = _action(u'group_show')(context, data_dict)
+            action_name = (
+                'organization_show' if is_organization else 'group_show'
+            )
+            group_dict = get_action(action_name)(context, data_dict)
         except (NotFound, NotAuthorized):
-            base.abort(404, _(u'Group not found'))
+            return base.abort(404, _('Group not found'))
         data = data or group_dict
         assert data is not None
 
@@ -120,23 +145,23 @@ class EditOrganizationView(EditGroupView):
 
         errors = errors or {}
         extra_vars: dict[str, Any] = {
-            u'data': data,
-            u"group_dict": group_dict,
-            u'errors': errors,
-            u'error_summary': error_summary,
-            u'action': u'edit',
-            u'group_type': group_type
+            'data': data,
+            "group_dict": group_dict,
+            'errors': errors,
+            'error_summary': error_summary,
+            'action': 'edit',
+            'group_type': group_type
         }
 
         _setup_template_variables(context, data, group_type=group_type)
         form = base.render(
-            _get_group_template(u'group_form', group_type), extra_vars)
+            _get_group_template('group_form', group_type), extra_vars)
 
         # TODO: Remove
         # ckan 2.9: Adding variables that were removed from c object for
         # compatibility with templates in existing extensions
-        g.grouptitle = group_dict.get(u'title')
-        g.groupname = group_dict.get(u'name')
+        g.grouptitle = group_dict.get('title')
+        g.groupname = group_dict.get('name')
         g.data = data
         g.group_dict = group_dict
 
@@ -145,22 +170,24 @@ class EditOrganizationView(EditGroupView):
             _get_group_template(u'edit_template', group_type), extra_vars)
 
 
-def read(group_type, is_organization, id=None, limit=20):
+def read(group_type: str, is_organization: bool, id: Optional[str] = None, limit: Optional[int] = None) -> Union[str, Response]:
+    if not is_organization:
+        return base.abort(400, 'Not an organization')
+
     extra_vars = {}
-    set_org(is_organization)
-    context = {
-        'model': model,
-        'session': model.Session,
-        'user': g.user,
+    context: Context = {
+        'user': toolkit.current_user.name,
         'schema': _db_to_form_schema(group_type=group_type),
         'for_view': True
     }
-    data_dict = {'id': id, 'type': group_type}
+    data_dict: dict[str, Any] = {'id': id, 'type': group_type}
 
     # unicode format (decoded from utf8)
     q = request.args.get('q', '')
 
     extra_vars["q"] = q
+
+    limit = limit or config.get('ckan.datasets_per_page')
 
     try:
         # Do not query for the group datasets when dictizing, as they will
@@ -170,15 +197,17 @@ def read(group_type, is_organization, id=None, limit=20):
         # Do not query group members as they aren't used in the view
         data_dict['include_users'] = False
 
-        group_dict = _action('group_show')(context, data_dict)
+        group_dict = get_action('organization_show')(context, data_dict)
         group = context['group']
     except NotFound:
-        base.abort(404, _('Group not found'))
+        return base.abort(404, _('Group not found'))
+    # TODO: Is this actually necessary or should both exceptions just cause 404?
     except NotAuthorized:
         group = model.Session.query(model.Group).filter(model.Group.name == id).first()
         if group is None or group.state != 'active':
-            extra_vars["group_type"] = group_type
-            return base.render(_replace_group_org('group/organization_not_found.html'), extra_vars)
+            extra_vars['group_type'] = group_type
+            return base.render('organization/organization_not_found.html', extra_vars)
+        raise
 
     # if the user specified a group id, redirect to the group name
     if data_dict['id'] == group_dict['id'] and \
@@ -190,48 +219,68 @@ def read(group_type, is_organization, id=None, limit=20):
         return h.redirect_to(
             h.add_url_param(alternative_url=url_with_name))
 
-    # Needed by ckan/views/group::_read
+    # TODO: Remove
+    # ckan 2.9: Adding variables that were removed from c object for
+    # compatibility with templates in existing extensions
     g.q = q
     g.group_dict = group_dict
-    g.group = group
 
     extra_vars = _read(id, limit, group_type)
-    
+    try:
+        am_following = logic.get_action('am_following_group')(
+            {'user': toolkit.current_user.name}, {'id': id}
+        )
+    except NotAuthorized:
+        # AnonymousUser
+        am_following = False
+
+    extra_vars["group_type"] = group_type
     extra_vars["group_dict"] = group_dict
+    extra_vars["am_following"] = am_following
 
     return base.render(
-        _get_group_template('read_template', g.group_dict['type']),
+        _get_group_template(u'read_template', g.group_dict['type']),
         extra_vars)
 
 
-def members(id, group_type, is_organization):
-    extra_vars = {}
-    set_org(is_organization)
-    context = {'model': model, 'session': model.Session, 'user': g.user}
+def members(id: str, group_type: str, is_organization: bool) -> str:
+    if not is_organization:
+        return base.abort(400, 'Not an organization')
+
+    context: Context = {'user': toolkit.current_user.name}
 
     try:
-        data_dict = {'id': id}
+        data_dict: dict[str, Any] = {'id': id}
         check_access('group_edit_permissions', context, data_dict)
-
+        members = get_action('member_list')(context, {
+            'id': id,
+            'object_type': 'user'
+        })
         data_dict['include_datasets'] = False
         data_dict['include_users'] = True
         context['keep_email'] = True
         context['auth_user_obj'] = g.userobj
-        group_dict = _action('group_show')(context, data_dict)
-        members = group_dict['users']
+        group_dict = get_action('organization_show')(context, data_dict)
     except NotFound:
-        base.abort(404, _('Group not found'))
+        return base.abort(404, _('Group not found'))
     except NotAuthorized:
-        base.abort(403,
+        return base.abort(403,
                    _('User %r not authorized to edit members of %s') %
-                   (g.user, id))
+                   (toolkit.current_user.name, id))
 
-    extra_vars = {
+    # TODO: Remove
+    # ckan 2.9: Adding variables that were removed from c object for
+    # compatibility with templates in existing extensions
+    g.members = members
+    g.group_dict = group_dict
+
+    extra_vars: dict[str, Any] = {
         "members": members,
         "group_dict": group_dict,
-        "group_type": group_type
+        "group_type": group_type,
     }
-    return base.render(_replace_group_org(u'group/members.html'), extra_vars)
+
+    return base.render('organization/members.html', extra_vars)
 
 
 # kwargs needed because of blueprint default parameters
@@ -329,37 +378,43 @@ def admin_list(**kwargs):
         abort(403, _('Only system administrators are allowed to view user list.'))
 
 
-def index(group_type, is_organization):
-    extra_vars = {}
-    set_org(is_organization)
-    page = h.get_page_number(request.args) or 1
-    items_per_page = int(config.get('ckan.datasets_per_page', 20))
+def index(group_type: str, is_organization: bool) -> str:
+    if not is_organization:
+        return base.abort(400, 'Not an organization')
 
-    context = {
-        'model': model,
-        'session': model.Session,
-        'user': g.user,
-        'for_view': True,
-        'with_private': False
+    extra_vars: dict[str, Any] = {}
+    page = h.get_page_number(request.args) or 1
+    items_per_page = config.get('ckan.datasets_per_page')
+
+    context: Context = {
+        u'user': toolkit.current_user.name,
+        u'for_view': True,
+        u'with_private': False,
     }
 
     try:
-        _check_access('site_read', context)
-        _check_access('group_list', context)
+        action_name = 'organization_list' if is_organization else 'group_list'
+        check_access(action_name, context)
     except NotAuthorized:
-        base.abort(403, _('Not authorized to see this page'))
+        base.abort(403, _(u'Not authorized to see this page'))
 
-    q = request.args.get('q', '')
-    sort_by = request.args.get('sort')
+    q = request.args.get(u'q', u'')
+    sort_by = request.args.get(u'sort')
+
+    # TODO: Remove
+    # ckan 2.9: Adding variables that were removed from c object for
+    # compatibility with templates in existing extensions
+    g.q = q
+    g.sort_by_selected = sort_by
 
     extra_vars["q"] = q
     extra_vars["sort_by_selected"] = sort_by
 
     # pass user info to context as needed to view private datasets of
     # orgs correctly
-    if g.userobj:
-        context['user_id'] = g.userobj.id
-        context['user_is_admin'] = g.userobj.sysadmin
+    if toolkit.current_user.is_authenticated:
+        context['user_id'] = toolkit.current_user.id
+        context['user_is_admin'] = toolkit.current_user.sysadmin  # type: ignore
 
     # Check if to display all organizations or only those that have datasets
     only_with_datasets_param = request.args.get('only_with_datasets', "False").lower() in ['true', True, 1, ]
@@ -369,22 +424,26 @@ def index(group_type, is_organization):
     tree_list_params = {
                     'q': q, 'sort_by': sort_by, 'with_datasets': with_datasets,
                     'page': page, 'items_per_page': items_per_page}
-    page_results = _action('organization_tree_list')(context, tree_list_params)
+    page_results = toolkit.get_action('organization_tree_list')(context, tree_list_params)
 
-    extra_vars["page"] = h.Page(
+    extra_vars["page"] = Page(
         collection=page_results['global_results'],
         page=page,
         url=h.pager_url,
         items_per_page=items_per_page, )
 
-    extra_vars["page"].items = page_results['page_results']
+    extra_vars["page"].items = page_results
     extra_vars["group_type"] = group_type
 
+    # TODO: Remove
+    # ckan 2.9: Adding variables that were removed from c object for
+    # compatibility with templates in existing extensions
+    g.page = extra_vars["page"]
     return base.render(
         _get_group_template('index_template', group_type), extra_vars)
 
 
-def embed(id, group_type, is_organization, limit=5):
+def embed(id: str, group_type: str, is_organization: bool, limit: int = 5) -> str:
     """
         Fetch given organization's packages and show them in an embeddable list view.
         See Nginx config for X-Frame-Options SAMEORIGIN header modifications.
@@ -405,21 +464,23 @@ def embed(id, group_type, is_organization, limit=5):
         }
         check_access('group_show', context, {'id': id})
     except NotFound:
-        abort(404, _('Group not found'))
+        return abort(404, _('Group not found'))
+    # TODO: Is this necessary?
     except NotAuthorized:
         g = model.Session.query(model.Group).filter(model.Group.name == id).first()
         if g is None or g.state != 'active':
             return base.render('group/organization_not_found.html')
+        raise
 
     page = h.get_page_number(request.args) or 1
 
-    group_dict = {'id': id}
+    group_dict: dict[str, Any] = {'id': id}
     group_dict['include_datasets'] = False
-    g.group_dict = _action('group_show')(context, group_dict)
-    g.group = context['group']
+    extra_vars['group_dict'] = toolkit.get_action('group_show')(context, group_dict)
+    extra_vars['group'] = context['group']
 
-    q = g.q = request.args.get('q', '')
-    q += ' owner_org:"%s"' % g.group_dict.get('id')
+    q = toolkit.g.q = request.args.get('q', '')
+    q += ' owner_org:"{}"'.format(extra_vars['group_dict'].get('id'))
 
     data_dict = {
         'q': q,
@@ -430,7 +491,7 @@ def embed(id, group_type, is_organization, limit=5):
 
     query = get_action('package_search')(context, data_dict)
 
-    g.page = h.Page(
+    extra_vars['page'] = h.Page(
         collection=query['results'],
         page=page,
         url=make_pager_url,
@@ -438,7 +499,7 @@ def embed(id, group_type, is_organization, limit=5):
         items_per_page=limit
     )
 
-    g.page.items = query['results']
+    extra_vars['page'].items = query['results']
 
     return base.render("organization/embed.html", extra_vars)
 
@@ -446,20 +507,21 @@ def suborganizations(id, group_type, is_organization):
     try:
 
         context = {
-            u'model': model,
-            u'session': model.Session,
-            u'user': g.user,
-            u'for_view': True
+            'model': model,
+            'session': model.Session,
+            'user': g.user,
+            'for_view': True
         }
-        
+
         group_dict = get_action('organization_show')(context, {'id': id, 'include_datasets': False})
 
-        g.group_dict = group_dict
-        g.group_type = group_type
-
-        return render("organization/suborganizations.html", extra_vars={"group_dict": group_dict, 'group_type': group_type })
+        extra_vars = {
+            'group_dict': group_dict,
+            'group_type': group_type
+        }
+        return render("organization/suborganizations.html", extra_vars=extra_vars)
     except (NotFound, NotAuthorized):
-        abort(_('Organization not found'))
+        abort(404, _('Organization not found'))
 
     
 
