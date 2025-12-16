@@ -85,21 +85,21 @@ export class LoadBalancerStack extends Stack {
 
     props.oldDomains.forEach((domain, index) => {
 
+      let zone = aws_route53.HostedZone.fromLookup(this, `OpendataZone-${index}`, {
+        domainName: domain.rootFqdn
+      })
+
       // For certificate
       subjectAlternativeNames.push(domain.webFqdn)
       subjectAlternativeNames.push(domain.rootFqdn)
-      validationZones[domain.webFqdn] = this.zone
-      validationZones[domain.rootFqdn] = this.zone
+      validationZones[domain.webFqdn] = zone
+      validationZones[domain.rootFqdn] = zone
 
       // For redirects
       oldFqdns.push(domain.webFqdn)
       oldFqdns.push(domain.rootFqdn)
 
       // For A Records
-      let zone = aws_route53.HostedZone.fromLookup(this, `OpendataZone-${index}`, {
-        domainName: domain.rootFqdn
-      })
-
       new route53.ARecord(this, `OldWWWRecords-${index}`, {
         zone: zone,
         recordName: domain.webFqdn,
