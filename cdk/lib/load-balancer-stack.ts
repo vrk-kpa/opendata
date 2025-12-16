@@ -1,5 +1,6 @@
 import {
-  aws_ec2,
+  aws_certificatemanager,
+  aws_ec2, aws_elasticloadbalancingv2,
   aws_route53 as route53,
   aws_route53,
   aws_route53_targets,
@@ -21,7 +22,7 @@ import {BucketEncryption} from "aws-cdk-lib/aws-s3";
 export class LoadBalancerStack extends Stack {
   readonly loadBalancer: elb.ApplicationLoadBalancer;
   readonly zone: route53.IHostedZone;
-  readonly alternativeZone: route53.IHostedZone;
+  readonly listener: elb.ApplicationListener;
 
   constructor(scope: Construct, id: string, props: ElbStackProps) {
     super(scope, id, props);
@@ -75,14 +76,26 @@ export class LoadBalancerStack extends Stack {
       domainName: props.rootFqdn,
     })
 
-    new route53.ARecord(this, 'wwwRecord', {
-      zone: this.zone,
-      recordName: props.webFqdn,
-      target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
-    })
+    const validationZones: {[key: string]:  route53.IHostedZone } = {}
 
+    validationZones[this.zone.zoneName] = this.zone
 
-    props.oldDomains.forEach((domain,index) => {
+    const subjectAlternativeNames: string[] = []
+    const oldFqdns: string[] = [];
+
+    props.oldDomains.forEach((domain, index) => {
+
+      // For certificate
+      subjectAlternativeNames.push(domain.webFqdn)
+      subjectAlternativeNames.push(domain.rootFqdn)
+      validationZones[domain.webFqdn] = this.zone
+      validationZones[domain.rootFqdn] = this.zone
+
+      // For redirects
+      oldFqdns.push(domain.webFqdn)
+      oldFqdns.push(domain.rootFqdn)
+
+      // For A Records
       let zone = aws_route53.HostedZone.fromLookup(this, `OpendataZone-${index}`, {
         domainName: domain.rootFqdn
       })
@@ -98,6 +111,37 @@ export class LoadBalancerStack extends Stack {
         target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
       })
 
+    })
+
+    const certificate = new aws_certificatemanager.Certificate(this, 'Certificate', {
+      domainName: this.zone.zoneName,
+      subjectAlternativeNames: subjectAlternativeNames,
+      validation: aws_certificatemanager.CertificateValidation.fromDnsMultiZone(validationZones)
+    })
+
+    this.listener = this.loadBalancer.addListener('Listener', {
+      port: 443,
+      open: true,
+      certificates: [certificate],
+    })
+
+
+    this.listener.addAction("Redirect", {
+      action: aws_elasticloadbalancingv2.ListenerAction.redirect({
+        host: props.webFqdn,
+        permanent: true
+      }),
+      conditions: [
+        aws_elasticloadbalancingv2.ListenerCondition.hostHeaders(oldFqdns)
+      ],
+      priority: 10
+    })
+
+
+    new route53.ARecord(this, 'wwwRecord', {
+      zone: this.zone,
+      recordName: props.webFqdn,
+      target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
     })
 
   }
