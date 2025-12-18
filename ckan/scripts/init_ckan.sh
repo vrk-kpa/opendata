@@ -34,6 +34,7 @@ ckan -c ${APP_DIR}/ckan.ini sixodp-showcase create_platform_vocabulary
 echo "init ckan extension databases ..."
 ckan -c ${APP_DIR}/ckan.ini opendata-model initdb
 ckan -c ${APP_DIR}/ckan.ini opendata-request init-db
+ckan -c ${APP_DIR}/ckan.ini db upgrade -p apis
 ckan -c ${APP_DIR}/ckan.ini db upgrade -p harvest
 [[ "${CKAN_PLUGINS}" == *" archiver "* ]]     && ckan -c ${APP_DIR}/ckan.ini archiver init
 [[ "${CKAN_PLUGINS}" == *" qa "* ]]           && ckan -c ${APP_DIR}/ckan.ini qa init

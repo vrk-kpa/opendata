@@ -291,7 +291,6 @@ COPY ckanext/ckanext-showcase/requirements.txt ${EXT_DIR}/ckanext-showcase/requi
 COPY ckanext/ckanext-report/requirements.txt ${EXT_DIR}/ckanext-report/requirements.txt
 COPY ckanext/ckanext-sixodp_showcase/requirements.txt ${EXT_DIR}/ckanext-sixodp_showcase/requirements.txt
 COPY ckanext/ckanext-sixodp_showcasesubmit/requirements.txt ${EXT_DIR}/ckanext-sixodp_showcasesubmit/requirements.txt
-COPY ckanext/ckanext-ytp_recommendation/requirements.txt ${EXT_DIR}/ckanext-ytp_recommendation/requirements.txt
 COPY ckanext/ckanext-ytp_tasks/requirements.txt ${EXT_DIR}/ckanext-ytp_tasks/requirements.txt
 COPY ckanext/ckanext-harvest/requirements.txt ${EXT_DIR}/ckanext-harvest/requirements.txt
 COPY ckanext/ckanext-cloudstorage/requirements.txt ${EXT_DIR}/ckanext-cloudstorage/requirements.txt

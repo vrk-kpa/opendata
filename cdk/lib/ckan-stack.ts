@@ -195,7 +195,6 @@ export class CkanStack extends Stack {
       'openapi_view',
       'statistics',
       'opendata_cli',
-      'ytp_recommendation',
       'dcat_sparql',
       'activity',
       'sitesearch',

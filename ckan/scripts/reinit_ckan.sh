@@ -17,3 +17,5 @@ ckan -c ${APP_DIR}/ckan.ini db init
 
 echo "Upgrade CKAN database ..."
 ckan -c ${APP_DIR}/ckan.ini db upgrade
+ckan -c ${APP_DIR}/ckan.ini db upgrade -p apis
+ckan -c ${APP_DIR}/ckan.ini db upgrade -p harvest
