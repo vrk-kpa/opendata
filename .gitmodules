@@ -50,9 +50,6 @@
 [submodule "modules/ckanext-organizationapproval"]
 	path = ckan/ckanext/ckanext-organizationapproval
 	url = https://github.com/vrk-kpa/ckanext-organizationapproval.git
-[submodule "modules/ckanext-rating"]
-	path = ckan/ckanext/ckanext-rating
-	url = https://github.com/6aika/ckanext-rating
 [submodule "modules/ckanext-forcetranslation"]
 	path = ckan/ckanext/ckanext-forcetranslation
 	url = https://github.com/vrk-kpa/ckanext-forcetranslation
