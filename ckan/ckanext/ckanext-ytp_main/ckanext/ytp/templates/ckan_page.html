@@ -19,7 +19,7 @@
             {% set flash_messages = h.get_flashed_messages(with_categories=true) %}
             <div class="flash-messages">
               {% for category, message in flash_messages %}
-                <div class="m-0 alert fade in {{ category }}">
+                <div class="m-0 alert alert-dismissible fade show {{ category }}">
                   {{ h.literal(message) }}
                 </div>
               {% endfor %}

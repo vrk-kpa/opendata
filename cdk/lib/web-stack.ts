@@ -1,4 +1,11 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import {
+  aws_certificatemanager as acm,
+  aws_elasticloadbalancingv2,
+  aws_route53 as route53,
+  Duration,
+  Stack,
+  StackProps
+} from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
@@ -104,10 +111,7 @@ export class WebStack extends Stack {
         NGINX_CSP_WORKER_SRC: nginxCspWorkerSrc.join(' '),
         // .env
         NGINX_PORT: '80',
-        DOMAIN_NAME: props.domainName,
-        SECONDARY_DOMAIN_NAME: props.secondaryDomainName,
-        BASE_DOMAIN_NAME: props.fqdn,
-        SECONDARY_BASE_DOMAIN_NAME: props.secondaryFqdn,
+        DOMAIN_NAME: props.webFqdn,
         NAMESERVER: pNameserver.stringValue,
         CKAN_HOST: `ckan.${props.namespace.namespaceName}`,
         CKAN_PORT: '5000',
@@ -153,22 +157,7 @@ export class WebStack extends Stack {
       sourceVolume: 'nginx_var_www_static'
     });
 
-
-
-    const nginxServiceHostedZone = r53.HostedZone.fromLookup(this, 'nginxServiceHostedZone', {
-      domainName: props.fqdn,
-      privateZone: false,
-    });
-
-    const nginxServiceSecondaryHostedZone = r53.HostedZone.fromLookup(this, 'nginxServiceSecondaryHostedZone', {
-      domainName: props.secondaryFqdn,
-      privateZone: false,
-    });
-
-
-    let nginxService: ecsp.ApplicationLoadBalancedFargateService | null = null;
-
-    nginxService = new ecsp.ApplicationLoadBalancedFargateService(this, 'nginxService', {
+    const nginxService = new ecs.FargateService(this, 'nginxService', {
       cluster: props.cluster,
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
@@ -178,38 +167,35 @@ export class WebStack extends Stack {
         container: nginxContainer,
         containerPort: 80,
       },
-      publicLoadBalancer: true,
-      protocol: elb.ApplicationProtocol.HTTPS,
-      certificate: props.certificate,
-      redirectHTTP: false,
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       taskDefinition: nginxTaskDef,
       minHealthyPercent: 50,
       maxHealthyPercent: 200,
-      loadBalancer: props.loadBalancer,
-      openListener: false
     });
 
 
-    nginxService.targetGroup.configureHealthCheck({
-      path: '/health',
-      healthyHttpCodes: '200',
-    });
+    props.listener.addTargets('NginxTarget', {
+      port: 80,
+      targets: [nginxService],
+      healthCheck: {
+        path: '/health',
+        healthyHttpCodes: '200',
+      },
+      deregistrationDelay: Duration.seconds(60)
+    })
 
-    nginxService.targetGroup.setAttribute('deregistration_delay.timeout_seconds', '60');
 
-    nginxService.service.connections.allowFrom(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
-    nginxService.service.connections.allowTo(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
-    nginxService.service.connections.allowFrom(props.drupalService, ec2.Port.tcp(80), 'drupal - nginx connection');
-    nginxService.service.connections.allowTo(props.drupalService, ec2.Port.tcp(80), 'nginx - drupal connection');
-    nginxService.service.connections.allowFrom(props.ckanService, ec2.Port.tcp(80), 'ckan - nginx connection');
-    nginxService.service.connections.allowTo(props.ckanService, ec2.Port.tcp(5000), 'nginx - ckan connection');
+    nginxService.connections.allowFrom(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
+    nginxService.connections.allowTo(props.fileSystems['drupal'], ec2.Port.tcp(2049), 'EFS connection (nginx)');
+    nginxService.connections.allowFrom(props.drupalService, ec2.Port.tcp(80), 'drupal - nginx connection');
+    nginxService.connections.allowTo(props.drupalService, ec2.Port.tcp(80), 'nginx - drupal connection');
+    nginxService.connections.allowFrom(props.ckanService, ec2.Port.tcp(80), 'ckan - nginx connection');
+    nginxService.connections.allowTo(props.ckanService, ec2.Port.tcp(5000), 'nginx - ckan connection');
 
     props.ckanService.connections.allowTo(props.drupalService, ec2.Port.tcp(80), 'ckan - drupal connection')
     props.ckanService.connections.allowFrom(props.drupalService, ec2.Port.tcp(5000), 'drupal - ckan connection')
 
-
-    const nginxServiceAsg = nginxService.service.autoScaleTaskCount({
+    const nginxServiceAsg = nginxService.autoScaleTaskCount({
       minCapacity: props.nginxTaskDef.taskMinCapacity,
       maxCapacity: props.nginxTaskDef.taskMaxCapacity,
     });

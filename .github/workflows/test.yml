@@ -97,7 +97,7 @@ jobs:
     steps:
       - name: checkout
         if: ${{ matrix.build-container == true }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           submodules: ${{ matrix.submodules }}
 
@@ -183,7 +183,7 @@ jobs:
         containers: [1, 2, 3, 4, 5]
     steps:
       - name: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: setup docker buildx
         uses: docker/setup-buildx-action@v3
@@ -434,7 +434,7 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: install nodejs v22
         uses: actions/setup-node@v5
@@ -494,7 +494,7 @@ jobs:
       CKAN_REDIS_URL: redis://redis:6379/1
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         submodules: true
     - name: Install required patches

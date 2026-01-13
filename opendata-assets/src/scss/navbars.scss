@@ -680,7 +680,7 @@ End of dropdown CSS
       align-self: center;
 
       #footer-logo {
-        max-width: 150px;
+        height: 60px;
       }
     }
 
@@ -765,6 +765,12 @@ End of dropdown CSS
     &:focus {
       background-color: transparent;
       text-decoration: underline;
+    }
+  }
+
+  .navbar-nav {
+    .nav-link {
+      color: $suomi-highlightBase;
     }
   }
 }

@@ -41,28 +41,3 @@ server {
 
   include /etc/nginx/conf.d/server.conf;
 }
-
-server {
-  listen ${NGINX_PORT};
-  server_name ${BASE_DOMAIN_NAME};
-  return 301 $real_scheme://${DOMAIN_NAME}$request_uri;
-}
-
-server {
-  listen ${NGINX_PORT};
-  server_name ${SECONDARY_DOMAIN_NAME};
-
-  location ^~ /health {
-    access_log off;
-    default_type text/plain;
-    return 200 "health ok";
-  }
-
-  include /etc/nginx/conf.d/server.conf;
-}
-
-server {
-  listen ${NGINX_PORT};
-  server_name ${SECONDARY_BASE_DOMAIN_NAME};
-  return 301 $real_scheme://${SECONDARY_DOMAIN_NAME}$request_uri;
-}

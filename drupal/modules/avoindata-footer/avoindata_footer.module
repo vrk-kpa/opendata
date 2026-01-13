@@ -26,7 +26,7 @@ function avoindata_footer_theme($existing, $type, $theme, $path) {
   return [
     'avoindata_footer' => [
       'template' => 'avoindata_footer_block',
-      'variables' => [],
+      'variables' => ['site_logo' => NULL],
     ],
   ];
 }
