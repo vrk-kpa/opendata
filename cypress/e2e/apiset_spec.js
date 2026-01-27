@@ -398,15 +398,16 @@ describe('Apiset tests',
 
       // add a dataset to the apiset
       // select correct dataset
-      cy.get(':nth-child(3) > :nth-child(1) > [method="POST"] > .table > tbody > tr > td').contains(dataset_name_1)
+      cy.get('.ckanext-apis-edit-wrapper article section form:nth-child(2) > .table > tbody > tr > td').contains(dataset_name_1)
         .parent()
         .within($tr => {
-          cy.get('span').click()
+          cy.get('span.check').click()
         })
       cy.get('.action-button-group > button').click();
 
       // Wait for the dataset to get added
-      cy.get('.apiset-datasets-block > :nth-child(1) > form > .table > tbody > tr > .selectable-row').should('exist');
+      cy.get('.ckanext-apis-edit-wrapper .apiset-datasets-block form').scrollIntoView().should('be.visible')
+      cy.get('.ckanext-apis-edit-wrapper .apiset-datasets-block form > .table > tbody > tr > .selectable-row').should('exist');
 
 
       // // Check if the dataset has been added to the apiset
@@ -420,22 +421,23 @@ describe('Apiset tests',
       cy.visit(`data/fi/apiset/manage_datasets/${apiset_name}`);
 
       // select dataset to add to the apiset
-      cy.get(':nth-child(3) > :nth-child(1) > [method="POST"] > .table > tbody > tr > td').contains(dataset_name_2)
+      cy.get('.ckanext-apis-edit-wrapper article section form:nth-child(2) > .table > tbody > tr > td').contains(dataset_name_2)
         .parent()
         .within($tr => {
-          cy.get('span').click()
+          cy.get('span.check').click()
         })
       cy.get('.action-button-group > button').click();
 
       // Wait for dataset to be added
-      cy.get('.apiset-datasets-block > :nth-child(1) > form > .table > tbody > tr > .selectable-row').contains(dataset_name_2)
+      cy.get('.ckanext-apis-edit-wrapper .apiset-datasets-block form').scrollIntoView().should('be.visible')
+      cy.get('.ckanext-apis-edit-wrapper .apiset-datasets-block form > .table > tbody > tr > .selectable-row').contains(dataset_name_2);
       // Check that the dataset is added on the apiset page
       cy.visit(`data/fi/apiset/${apiset_name}`)
       cy.get('.showcase-package > a').contains(dataset_name_2);
 
       // Remove dataset from apiset
       cy.visit(`data/fi/apiset/manage_datasets/${apiset_name}`);
-      cy.get(`.apiset-datasets-block > :nth-child(1) > [method="POST"] > .table > tbody > tr > td`).contains(dataset_name_2)
+      cy.get(`.apiset-datasets-block [method="POST"] > .table > tbody > tr > td`).contains(dataset_name_2)
         .parent()
         .within($tr => {
           cy.get('span').click()
@@ -443,13 +445,10 @@ describe('Apiset tests',
       cy.get('.btn-group > .btn').click();
 
       // Check that datasets doesn't contain the removed dataset
-      cy.get('.apiset-datasets-block > :nth-child(1) > form > .table > tbody > tr ').contains(dataset_name_2).should('not.exist');
+      cy.get('.ckanext-apis-edit-wrapper .apiset-datasets-block').contains(dataset_name_2).should('not.exist');
       cy.visit(`data/fi/apiset/${apiset_name}`)
       cy.get('.showcase-package > a').contains(dataset_name_2).should('not.exist');
     })
 
   });
 })
-
-
-

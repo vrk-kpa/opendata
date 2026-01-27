@@ -169,23 +169,23 @@ COPY cron ${CRON_DIR}
 COPY src/ckan/patches ${SRC_DIR}/ckan/patches
 
 # apply patches
-# RUN cd ${SRC_DIR}/ckan && \
-#     patch --strip=1 --input=patches/enable_multiple_image_uploads.patch && \
-#     patch --strip=1 --input=patches/remove-ckan-fontawesome.patch && \
-#     patch --strip=1 --input=patches/optimize_group_show.patch && \
-#     patch --strip=1 --input=patches/optimize_template_loading.patch && \
-#     patch --strip=1 --input=patches/group_include_extras.patch && \
-#     patch --strip=1 --input=patches/remove_gravatar.patch && \
-#     patch --strip=1 --input=patches/json_serializable_lazyjsonobject.patch && \
-#     patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
-#     patch --strip=1 --input=patches/add_drafts_to_search.patch && \
-# #    patch --strip=1 --input=patches/fix_license_dictization.patch && \
-#     patch --strip=1 --input=patches/fix_truncate_helper_annotations.patch && \
-#     patch --strip=1 --input=patches/fix_use_default_schema_parameter.patch && \
-#     patch --strip=1 --input=patches/remove_tracking.patch && \
-#     patch --strip=1 --input=patches/remove_tracking_summary_from_solr_index.patch && \
-#     patch --strip=1 --input=patches/iauthenticator_fix.patch && \
-#     patch --strip=1 --input=patches/add_check_if_old_api_keys_are_used.patch
+RUN cd ${SRC_DIR}/ckan && \
+    patch --strip=1 --input=patches/enable_multiple_image_uploads.patch && \
+    patch --strip=1 --input=patches/remove-ckan-fontawesome.patch && \
+    # patch --strip=1 --input=patches/optimize_group_show.patch && \
+    # patch --strip=1 --input=patches/optimize_template_loading.patch && \
+    patch --strip=1 --input=patches/group_include_extras.patch && \
+    patch --strip=1 --input=patches/remove_gravatar.patch && \
+    # patch --strip=1 --input=patches/json_serializable_lazyjsonobject.patch && \
+    patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
+    patch --strip=1 --input=patches/add_drafts_to_search.patch && \
+#    patch --strip=1 --input=patches/fix_license_dictization.patch && \
+    patch --strip=1 --input=patches/fix_truncate_helper_annotations.patch && \
+    # patch --strip=1 --input=patches/fix_use_default_schema_parameter.patch && \
+    # patch --strip=1 --input=patches/remove_tracking.patch && \
+    # patch --strip=1 --input=patches/remove_tracking_summary_from_solr_index.patch && \
+    patch --strip=1 --input=patches/iauthenticator_fix.patch && \
+    patch --strip=1 --input=patches/add_check_if_old_api_keys_are_used.patch
 
 RUN \
   # Make scripts executable

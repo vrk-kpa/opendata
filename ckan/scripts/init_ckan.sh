@@ -18,8 +18,7 @@ python connection_check.py || { echo '[CKAN connection check] FAILED. Exiting...
 echo "Init CKAN database ..."
 ckan -c ${APP_DIR}/ckan.ini db init
 
-echo "Upgrade CKAN database ..."
-ckan -c ${APP_DIR}/ckan.ini db upgrade
+bash ${SCRIPT_DIR}/upgrade_ckan_database.sh
 
 # execute SQL scripts
 echo "Modify datastore permissions ..."
@@ -30,20 +29,8 @@ echo "init ckan extensions ..."
 #ckan -c ${APP_DIR}/ckan.ini opendata add-facet-translations ${EXT_DIR}/ckanext-ytp_main/ckanext/ytp/i18n
 ckan -c ${APP_DIR}/ckan.ini sixodp-showcase create_platform_vocabulary
 
-# init ckan extension databases
-echo "init ckan extension databases ..."
-ckan -c ${APP_DIR}/ckan.ini opendata-model initdb
-ckan -c ${APP_DIR}/ckan.ini opendata-request init-db
-ckan -c ${APP_DIR}/ckan.ini db upgrade -p apis
-ckan -c ${APP_DIR}/ckan.ini db upgrade -p harvest
-[[ "${CKAN_PLUGINS}" == *" archiver "* ]]     && ckan -c ${APP_DIR}/ckan.ini archiver init
-[[ "${CKAN_PLUGINS}" == *" qa "* ]]           && ckan -c ${APP_DIR}/ckan.ini qa init
-ckan -c ${APP_DIR}/ckan.ini report initdb
-[[ "${MATOMO_ENABLED}" == "true" ]]           && ckan -c ${APP_DIR}/ckan.ini matomo init_db && ckan -c ${APP_DIR}/ckan.ini db upgrade -p matomo
-[[ "${CKAN_CLOUDSTORAGE_ENABLED}" == "true" ]]           && ckan -c ${APP_DIR}/ckan.ini cloudstorage initdb
-[[ "${CKAN_PLUGINS}" == *" rating "* ]]       && ckan -c ${APP_DIR}/ckan.ini rating init
-ckan -c ${APP_DIR}/ckan.ini reminder initdb
-ckan -c ${APP_DIR}/ckan.ini recommendations init
+echo "Generate JavaScript translations"
+ckan -c ${APP_DIR}/ckan.ini translation js
 
 # Import municipality data
 ckan -c ${APP_DIR}/ckan.ini opendata-model populate-municipality-bounding-box

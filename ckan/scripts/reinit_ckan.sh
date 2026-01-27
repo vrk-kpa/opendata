@@ -15,7 +15,8 @@ python connection_check.py || { echo '[CKAN connection check] FAILED. Exiting...
 echo "Init CKAN database ..."
 ckan -c ${APP_DIR}/ckan.ini db init
 
-echo "Upgrade CKAN database ..."
-ckan -c ${APP_DIR}/ckan.ini db upgrade
-ckan -c ${APP_DIR}/ckan.ini db upgrade -p apis
-ckan -c ${APP_DIR}/ckan.ini db upgrade -p harvest
+bash ${SCRIPT_DIR}/upgrade_ckan_database.sh
+
+echo "Generate JavaScript translations"
+ckan -c ${APP_DIR}/ckan.ini translation js
+

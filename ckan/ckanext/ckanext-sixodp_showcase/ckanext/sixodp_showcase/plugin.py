@@ -16,8 +16,6 @@ import json
 import ckan.lib.helpers as h
 
 from ckanext.sixodp_showcase.logic import auth
-from ckanext.showcase.model import setup as model_setup
-from ckanext.sixodp_showcase.model import setup as sixodp_model_setup
 
 try:
     from collections import OrderedDict  # 2.7
@@ -29,7 +27,6 @@ log = logging.getLogger(__name__)
 
 
 class Sixodp_ShowcasePlugin(ShowcasePlugin):
-    plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IDatasetForm)
     plugins.implements(plugins.IActions)
@@ -45,11 +42,6 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
         toolkit.add_resource('fanstatic', 'sixodp_showcase')
-
-    # IConfigurable
-    def configure(self, config):
-        model_setup()
-        sixodp_model_setup()
 
     # IDatasetForm
 
