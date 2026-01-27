@@ -54,10 +54,10 @@ RUN composer install --no-cache --no-dev
 
 FROM drupal_build AS nginx_build
 
-# Install nginx and serve php-fpm via that
-RUN apk add  --no-cache nginx
+# Install nginx and supervisor
+RUN apk add  --no-cache nginx supervisor
 
-COPY configurations/nginx_http.d /etc/nginx/http.d/
+COPY configurations/nginx_http.d /etc/nginx/http.d/default.conf
 
 
 #

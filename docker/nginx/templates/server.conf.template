@@ -121,20 +121,25 @@ location ~ ^/data/(.*)$ {
 # drupal upstream target, re-evaluates DNS properly
 set $drupal_target "${DRUPAL_HOST}:${DRUPAL_PORT}";
 
+location ~ ^/(.*)$ {
+  proxy_pass http://$drupal_target/$1$is_args$args;
+  proxy_set_header Host            $host;
+}
+
 # drupal at /
 location ~ '\.php$|^/update.php' {
-  #proxy_pass http://$drupal_target/$1$is_args$args;
+  proxy_pass http://$drupal_target/$1$is_args$args;
 
 
   #try_files $uri =404;
   #fastcgi_split_path_info ^(.+\.php)(/.+)$;
-  fastcgi_pass drupal_backend;
-  fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-  fastcgi_param PATH_INFO $fastcgi_path_info;
-  fastcgi_param QUERY_STRING $query_string;
-  fastcgi_intercept_errors on;
+  #fastcgi_pass drupal_backend;
+  #fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+  #fastcgi_param PATH_INFO $fastcgi_path_info;
+  #fastcgi_param QUERY_STRING $query_string;
+  #fastcgi_intercept_errors on;
   #fastcgi_index index.php;
-  include fastcgi_params;
+  #include fastcgi_params;
 
 
   # common security headers
