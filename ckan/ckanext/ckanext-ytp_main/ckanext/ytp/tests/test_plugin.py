@@ -16,7 +16,7 @@ def create_minimal_dataset():
             'collection_type': 'Open Data', 'copyright_notice_translated': {'fi': 'test_notice'},
             'maintainer': 'test_maintainer', 'maintainer_email': 'test@maintainer.org'}
 
-@pytest.mark.usefixtures('clean_db', 'clean_index')
+@pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
 class TestYtpDatasetPlugin():
     """ Test YtpDatsetPlugin class """
 
@@ -284,7 +284,7 @@ class TestYtpDatasetPlugin():
         }
 
 
-@pytest.mark.usefixtures('clean_db', 'clean_index')
+@pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
 class TestResourceStatusPlugin:
     def test_clear_sha256_and_malware_on_update(self) -> None:
         user = User()
@@ -335,7 +335,7 @@ class TestResourceStatusPlugin:
         assert modified_resource.get('sha256') is None
 
 
-@pytest.mark.usefixtures('clean_db', 'clean_index')
+@pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
 class TestOrganizationHierarchy:
     def test_suborganization_is_under_parent(self):
         parent = Organization()
@@ -378,7 +378,7 @@ class TestOrganizationHierarchy:
         assert helper_result['children'][0]['id'] == first_child['id']
         assert len(helper_result['children']) == 1
 
-@pytest.mark.usefixtures('clean_db', 'clean_index')
+@pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
 class TestOrganizationView:
     def test_deleted_organization_showing_error_message(self, app):
         org = Organization()
