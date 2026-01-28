@@ -362,8 +362,7 @@ const prodProps = {
       webFqdn: 'www.opendata.fi',
     },
     {
-      rootFqdn: 'yhteentoimivuus.fi',
-      webFqdn: 'www.yhteentoimivuus.fi',
+      rootFqdn: 'yhteentoimivuus.fi'
     }]
 };
 
