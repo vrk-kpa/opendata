@@ -13,15 +13,17 @@ location @not_found {
   rewrite ^(.*)$ $not_found;
 }
 
-error_page 500 @internal_error;
-location @internal_error {
+{% if ENV.DEV_MODE != 'true' %}
+  error_page 500 @internal_error;
+  location @internal_error {
   set $internal_error /themes/avoindata/static/500.fi.html;
   if ( $request_uri ~* "/(fi|en|sv)/" ){
-      set $internal_error /themes/avoindata/static/500.$1.html;
+  set $internal_error /themes/avoindata/static/500.$1.html;
   }
 
   rewrite ^(.*)$ $internal_error;
-}
+  }
+{% endif %}
 
 
 
