@@ -1,32 +1,6 @@
-# auth token mapping, prevents caching
-map $http_cookie $no_cache {
-  default $cookie_auth_tkt;
-  ~SESS 1;
-}
-
-# http scheme mapping
-map "$http_cloudfront_forwarded_proto:$http_x_forwarded_proto" $real_scheme {
-  default "http";
-  "~https" "https";
-}
-
 # resolvers
 resolver_timeout 5s;
 resolver ${NAMESERVER} valid=60s;
-
-# upstream servers
-# NOTE: doesn't work without NGINX Plus
-#       left here as an example...
-#upstream ckan_backend {
-#  ip_hash;
-#
-#  server ${CKAN_HOST}:${CKAN_PORT} max_fails=3 resolve;
-#}
-upstream drupal_backend {
-  #ip_hash;
-
-  server ${DRUPAL_HOST}:${DRUPAL_PORT};
-}
 
 # listeners
 server {
@@ -38,6 +12,13 @@ server {
     default_type text/plain;
     return 200 "health ok";
   }
+
+  # common security headers
+  include /etc/nginx/conf.d/security_headers.conf;
+  # always enforce same origin policy
+  add_header X-Frame-Options SAMEORIGIN;
+  # content type options https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+  add_header X-Content-Type-Options "nosniff" always;
 
   include /etc/nginx/conf.d/server.conf;
 }

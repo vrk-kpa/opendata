@@ -23,22 +23,21 @@ location @internal_error {
   rewrite ^(.*)$ $internal_error;
 }
 
-# fix old ckan file upload paths
-rewrite ^/dataset/(.*)$ $real_scheme://$http_host/data/dataset/$1 permanent;
+
 
 # disable ckan index, redirect to drupal
-rewrite ^/data/?$ $real_scheme://$http_host/fi permanent;
-rewrite ^/data/(fi|en|en_GB|sv)/?$ $real_scheme://$http_host/$1 permanent;
+rewrite ^/data/?$ https://$http_host/fi permanent;
+rewrite ^/data/(fi|en|en_GB|sv)/?$ https://$http_host/$1 permanent;
 
 # disable ckan login/register/logout, redirect to drupal
 location ^~ /data/user/login {
-  rewrite ^/.* $real_scheme://$http_host/user/login permanent;
+  rewrite ^/.* https://$http_host/user/login permanent;
 }
 location ^~ /data/user/register {
-  rewrite ^/.* $real_scheme://$http_host/user/register permanent;
+  rewrite ^/.* https://$http_host/user/register permanent;
 }
 location ^~ /data/user/_logout {
-  rewrite ^/.* $real_scheme://$http_host/user/logout permanent;
+  rewrite ^/.* https://$http_host/user/logout permanent;
 }
 
 location = /favicon.ico {
@@ -64,33 +63,14 @@ set $ckan_target "${CKAN_HOST}:${CKAN_PORT}";
 location ~ ^/data/(.*)$ {
   proxy_pass http://$ckan_target/data/$1$is_args$args;
 
-  # common security headers
-  include /etc/nginx/conf.d/security_headers.conf;
-  # always enforce same origin policy
-  add_header X-Frame-Options SAMEORIGIN;
-  # content type options https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-  add_header X-Content-Type-Options "nosniff" always;
-
   proxy_set_header Host $host;
   proxy_set_header X-Real-IP $remote_addr;
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   proxy_set_header X-Url-Scheme $scheme;
-  proxy_cache cache;
-  proxy_cache_bypass $no_cache;
-  proxy_no_cache $no_cache;
-  proxy_cache_valid 30m;
-  proxy_cache_key $host$scheme$proxy_host$request_uri;
   proxy_intercept_errors on;
-  proxy_read_timeout 120s;
 
   location ~ ^/data/en($|/.*) {
     return 301 /data/en_GB$1;
-  }
-
-  location ~ /data/(fi|en_GB|sv)/organization/(.*)/embed {
-    proxy_pass http://$ckan_target/data/$1/organization/$2/embed$is_args$args;
-
-    add_header Bypass-Sameorigin-Policy 1;
   }
 
   location ~ /data(/fi|/en_GB|/sv)?/group/talous-ja-rahoitus(.*) {
@@ -112,8 +92,6 @@ location ~ ^/data/(.*)$ {
   location ~ /data/(fi/|en_GB/|sv/)?(api/)(.*) {
     proxy_pass http://$ckan_target/data/$1$2$3$is_args$args;
 
-    proxy_no_cache 1;
-    proxy_cache_bypass 1;
     proxy_intercept_errors off;
   }
 }
@@ -121,45 +99,21 @@ location ~ ^/data/(.*)$ {
 # drupal upstream target, re-evaluates DNS properly
 set $drupal_target "${DRUPAL_HOST}:${DRUPAL_PORT}";
 
+
+# Block update.php, we won't be doing updates through the web UI
+location ~ ^/update.php {
+  return 404;
+}
+
 location ~ ^/(.*)$ {
   proxy_pass http://$drupal_target/$1$is_args$args;
   proxy_set_header Host            $host;
+  proxy_intercept_errors on;
 }
 
 # drupal at /
-location ~ '\.php$|^/update.php' {
+location ~ '\.php$' {
   proxy_pass http://$drupal_target/$1$is_args$args;
-
-
-  #try_files $uri =404;
-  #fastcgi_split_path_info ^(.+\.php)(/.+)$;
-  #fastcgi_pass drupal_backend;
-  #fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-  #fastcgi_param PATH_INFO $fastcgi_path_info;
-  #fastcgi_param QUERY_STRING $query_string;
-  #fastcgi_intercept_errors on;
-  #fastcgi_index index.php;
-  #include fastcgi_params;
-
-
-  # common security headers
-  include /etc/nginx/conf.d/security_headers.conf;
-  # always enforce same origin policy
-  add_header X-Frame-Options SAMEORIGIN;
-  # content type options https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-  add_header X-Content-Type-Options "nosniff" always;
-
-  #proxy_set_header Host $host;
-  #proxy_set_header X-Real-IP $remote_addr;
-  #proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-  #proxy_set_header X-Url-Scheme $scheme;
-  #proxy_cache cache;
-  #proxy_cache_bypass $no_cache;
-  #proxy_no_cache $no_cache;
-  #proxy_cache_valid 30m;
-  #proxy_cache_key $host$scheme$proxy_host$request_uri;
-  #proxy_intercept_errors on;
-  #proxy_read_timeout 120s;
 
   location ~ /(fi/|en/|sv/)?(api/)(.*) {
     proxy_pass http://$drupal_target/$1$2$3$is_args$args;
