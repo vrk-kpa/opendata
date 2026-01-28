@@ -2,6 +2,9 @@ server {
   listen 80 default_server;
   listen [::]:80 default_server;
 
+  access_log /dev/stdout;
+  error_log stderr;
+
   root /var/www/html;
   index index.php index.html;
 
