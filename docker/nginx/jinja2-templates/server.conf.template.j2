@@ -91,9 +91,9 @@ location ~ ^/data/(.*)$ {
     return 301 /data$1/group/koulutus-kulttuuri-ja-urheilu$3$is_args$args;
   }
 
+  # CKAN api errors should not be caught by nginx
   location ~ /data/(fi/|en_GB/|sv/)?(api/)(.*) {
     proxy_pass http://$ckan_target/data/$1$2$3$is_args$args;
-
     proxy_intercept_errors off;
   }
 }
@@ -101,27 +101,15 @@ location ~ ^/data/(.*)$ {
 # drupal upstream target, re-evaluates DNS properly
 set $drupal_target "${DRUPAL_HOST}:${DRUPAL_PORT}";
 
-
 # Block update.php, we won't be doing updates through the web UI
 location ~ ^/update.php {
   return 404;
 }
 
+# drupal at /
 location ~ ^/(.*)$ {
   proxy_pass http://$drupal_target/$1$is_args$args;
   proxy_set_header Host            $host;
   proxy_intercept_errors on;
 }
 
-# drupal at /
-location ~ '\.php$' {
-  proxy_pass http://$drupal_target/$1$is_args$args;
-
-  location ~ /(fi/|en/|sv/)?(api/)(.*) {
-    proxy_pass http://$drupal_target/$1$2$3$is_args$args;
-
-    proxy_no_cache 1;
-    proxy_cache_bypass 1;
-    proxy_intercept_errors off;
-  }
-}
