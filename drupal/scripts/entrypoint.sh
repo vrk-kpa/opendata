@@ -11,5 +11,5 @@ else
   flock -x ${DATA_DIR}/.init-lock -c '${SCRIPT_DIR}/reinit_drupal.sh'
 fi
 
-# run php-fpm
-docker-php-entrypoint php-fpm
+# run supervisord which runs php-fpm and nginx
+docker-php-entrypoint supervisord -n -c /etc/supervisord.conf
