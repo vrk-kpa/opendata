@@ -90,22 +90,29 @@ export class LoadBalancerStack extends Stack {
       })
 
       // For certificate
-      subjectAlternativeNames.push(domain.webFqdn)
+      if (domain.webFqdn) {
+        subjectAlternativeNames.push(domain.webFqdn)
+      }
       subjectAlternativeNames.push(domain.rootFqdn)
-      validationZones[domain.webFqdn] = zone
+      if (domain.webFqdn) {
+        validationZones[domain.webFqdn] = zone
+      }
       validationZones[domain.rootFqdn] = zone
 
       // For redirects
-      oldFqdns.push(domain.webFqdn)
+      if (domain.webFqdn) {
+        oldFqdns.push(domain.webFqdn)
+      }
       oldFqdns.push(domain.rootFqdn)
 
       // For A Records
-      new route53.ARecord(this, `OldWWWRecords-${index}`, {
-        zone: zone,
-        recordName: domain.webFqdn,
-        target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
-      })
-
+      if (domain.webFqdn) {
+        new route53.ARecord(this, `OldWWWRecords-${index}`, {
+          zone: zone,
+          recordName: domain.webFqdn,
+          target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
+        })
+      }
       new route53.ARecord(this, `OldRootRecords-${index}`, {
         zone: zone,
         target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
