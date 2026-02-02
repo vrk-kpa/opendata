@@ -28,18 +28,18 @@ location @not_found {
 
 
 # disable ckan index, redirect to drupal
-rewrite ^/data/?$ https://$http_host/fi permanent;
-rewrite ^/data/(fi|en|en_GB|sv)/?$ https://$http_host/$1 permanent;
+rewrite ^/data/?$ $scheme://$http_host/fi permanent;
+rewrite ^/data/(fi|en|en_GB|sv)/?$ $scheme://$http_host/$1 permanent;
 
 # disable ckan login/register/logout, redirect to drupal
 location ^~ /data/user/login {
-  rewrite ^/.* https://$http_host/user/login permanent;
+  rewrite ^/.* $scheme://$http_host/user/login permanent;
 }
 location ^~ /data/user/register {
-  rewrite ^/.* https://$http_host/user/register permanent;
+  rewrite ^/.* $scheme://$http_host/user/register permanent;
 }
 location ^~ /data/user/_logout {
-  rewrite ^/.* https://$http_host/user/logout permanent;
+  rewrite ^/.* $scheme://$http_host/user/logout permanent;
 }
 
 location = /favicon.ico {
