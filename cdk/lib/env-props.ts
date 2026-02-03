@@ -23,5 +23,5 @@ export function parseEnv(key: string): string {
 
 export interface OldDomain {
   rootFqdn: string,
-  webFqdn: string
+  webFqdn?: string
 }
