@@ -390,3 +390,23 @@ class TestOrganizationView:
         result = app.get(org_url)
 
         assert "Organization does not exist" in result
+
+@pytest.mark.usefixtures('clean_db', 'clean_index')
+class TestSchema:
+    def test_collection_type_filtering(self):
+        opendata_dataset = create_minimal_dataset()
+        Dataset(**opendata_dataset)
+
+        interoperability_dataset = create_minimal_dataset()
+        interoperability_dataset['name'] = 'test_dataset_2'
+        interoperability_dataset['collection_type'] = 'Interoperability Tools'
+        Dataset(**interoperability_dataset)
+
+        test_search_result = call_action('package_search')
+        assert test_search_result['count'] == 2
+
+        filter_opendata_results = call_action('package_search', fq='collection_type:"Open Data"')
+        assert filter_opendata_results['count'] == 1
+
+        filter_interoperability_results = call_action('package_search', fq='collection_type:"Interoperability Tools"')
+        assert filter_interoperability_results['count'] == 1
