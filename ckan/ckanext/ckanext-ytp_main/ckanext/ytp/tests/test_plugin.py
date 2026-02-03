@@ -440,7 +440,8 @@ class TestSchema:
         opendata_result = opendata_datasets[0]
         assert opendata_result['title'] == opendata_dataset['title']
 
-        interoperability_content = call_action('dcat_catalog_show', _format='xml', fq='collection_type:"Interoperability Tools"')
+        interoperability_content = call_action('dcat_catalog_show', _format='xml',
+        fq='collection_type:"Interoperability Tools"')
         interoperability_parser= RDFParser()
         interoperability_parser.parse(interoperability_content, _format='xml')
         interoperability_datasets = [d for d in interoperability_parser.datasets()]
