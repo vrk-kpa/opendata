@@ -391,8 +391,8 @@ class TestOrganizationView:
 
         assert "Organization does not exist" in result
 
-@pytest.mark.usefixtures('clean_db', 'clean_index')
 class TestSchema:
+    @pytest.mark.usefixtures('clean_db', 'clean_index')
     def test_collection_type_filtering(self):
         opendata_dataset = create_minimal_dataset()
         Dataset(**opendata_dataset)
@@ -410,3 +410,41 @@ class TestSchema:
 
         filter_interoperability_results = call_action('package_search', fq='collection_type:"Interoperability Tools"')
         assert filter_interoperability_results['count'] == 1
+
+    @pytest.mark.usefixtures('clean_db', 'clean_index', 'with_request_context')
+    def test_dcat_catalog_filtering_with_collection_type(self):
+        opendata_dict = create_minimal_dataset()
+        opendata_dataset = Dataset(**opendata_dict)
+
+        interoperability_dict = create_minimal_dataset()
+        interoperability_dict['name'] = 'test_dataset_2'
+        interoperability_dict['title'] = 'test_title_2'
+        interoperability_dict['collection_type'] = 'Interoperability Tools'
+        interoperability_dataset = Dataset(**interoperability_dict)
+
+        content = call_action('dcat_catalog_show', _format='xml')
+
+        # Parse the contents to check it's an actual serialization
+        from ckanext.dcat.processors import RDFParser
+        p = RDFParser()
+        p.parse(content, _format='xml')
+        dcat_datasets = [d for d in p.datasets()]
+        assert len(dcat_datasets) == 2
+
+        opendata_content = call_action('dcat_catalog_show', _format='xml', fq='collection_type:"Open Data"')
+        opendata_parser= RDFParser()
+        opendata_parser.parse(opendata_content, _format='xml')
+        opendata_datasets = [d for d in opendata_parser.datasets()]
+        assert len(opendata_datasets) == 1
+
+        opendata_result = opendata_datasets[0]
+        assert opendata_result['title'] == opendata_dataset['title']
+
+        interoperability_content = call_action('dcat_catalog_show', _format='xml', fq='collection_type:"Interoperability Tools"')
+        interoperability_parser= RDFParser()
+        interoperability_parser.parse(interoperability_content, _format='xml')
+        interoperability_datasets = [d for d in interoperability_parser.datasets()]
+        assert len(interoperability_datasets) == 1
+
+        interoperability_result = interoperability_datasets[0]
+        assert interoperability_result['title'] == interoperability_dataset['title']
