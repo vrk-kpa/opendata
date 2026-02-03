@@ -1,14 +1,10 @@
-from sqlalchemy import Table
-from sqlalchemy import Column
-from sqlalchemy import ForeignKey
-from sqlalchemy import types
-
-from ckan.plugins import toolkit as tk
-from ckan.model.meta import metadata, mapper, Session
-from ckan import model
-from ckanext.showcase.model import ShowcaseBaseModel, BaseModel
-
 import logging
+
+from ckan.model.meta import Session
+from sqlalchemy import Column, ForeignKey, types
+
+from ckanext.showcase.model import BaseModel, ShowcaseBaseModel
+
 log = logging.getLogger(__name__)
 
 

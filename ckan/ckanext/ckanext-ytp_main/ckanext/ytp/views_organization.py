@@ -8,9 +8,9 @@ import ckan.lib.helpers as h
 import ckan.lib.navl.dictization_functions as dict_fns
 import ckan.logic as logic
 import ckan.model as model
+from ckan.lib.helpers import Page
 from ckan.plugins import toolkit
 from ckan.types import Context
-from ckan.lib.helpers import Page
 from ckan.views.group import (
     BulkProcessView,
     CreateGroupView,
@@ -170,7 +170,10 @@ class EditOrganizationView(EditGroupView):
             _get_group_template(u'edit_template', group_type), extra_vars)
 
 
-def read(group_type: str, is_organization: bool, id: Optional[str] = None, limit: Optional[int] = None) -> Union[str, Response]:
+def read(group_type: str,
+         is_organization: bool,
+         id: Optional[str] = None,
+         limit: Optional[int] = None) -> Union[str, Response]:
     if not is_organization:
         return base.abort(400, 'Not an organization')
 
