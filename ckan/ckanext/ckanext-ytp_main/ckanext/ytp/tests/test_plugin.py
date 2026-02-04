@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import pytest
 
-from ckan.tests.factories import Dataset, Group, Sysadmin, User, Organization
+from ckan.tests.factories import Dataset, Group, Sysadmin, User, APIToken
 from ckan.tests.helpers import call_action
 from ckan.plugins import toolkit
 from ckan import model
 from ckan.lib.helpers import url_for
 
 from .utils import minimal_dataset_with_one_resource_fields
+from .factories import OpendataOrganization
 
 def create_minimal_dataset():
     return {'name': 'test_dataset_1', 'title': 'test_title', 'title_translated': {'fi': "otsikko"},
@@ -116,7 +117,7 @@ class TestYtpDatasetPlugin():
 
     def test_dataset_with_highvalue_category_as_normal_user(self):
         user = User()
-        organization = Organization(user=user)
+        organization = OpendataOrganization(user=user)
         dataset_fields = minimal_dataset_with_one_resource_fields(user)
         dataset_fields['owner_org'] = organization['id']
         d = Dataset(**dataset_fields)
@@ -225,7 +226,7 @@ class TestYtpDatasetPlugin():
 
     def test_user_can_add_datasets_to_newly_created_groups(self, app):
         user = User()
-        organization = Organization(user=user)
+        organization = OpendataOrganization(user=user)
         dataset_fields = minimal_dataset_with_one_resource_fields(user)
         dataset = Dataset(owner_org=organization['id'], **dataset_fields)
 
@@ -252,7 +253,7 @@ class TestYtpDatasetPlugin():
         }
 
         user = User()
-        Organization(user=user)
+        OpendataOrganization(user=user)
 
         one_organization = call_action('statistics')
         assert one_organization == {
@@ -262,7 +263,7 @@ class TestYtpDatasetPlugin():
             'showcases': 0
         }
 
-        Organization(user=user)
+        OpendataOrganization(user=user)
 
         two_organizations = call_action('statistics')
         assert two_organizations == {
@@ -338,8 +339,8 @@ class TestResourceStatusPlugin:
 @pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
 class TestOrganizationHierarchy:
     def test_suborganization_is_under_parent(self):
-        parent = Organization()
-        child = Organization()
+        parent = OpendataOrganization()
+        child = OpendataOrganization()
 
         member = model.Member(
             group=model.Group.get(child['id']),
@@ -353,9 +354,9 @@ class TestOrganizationHierarchy:
 
     def test_tree_section_has_only_approved_organizations(self):
 
-        parent = Organization()
-        first_child = Organization(approval_status="approved")
-        second_child = Organization(approval_status="pending")
+        parent = OpendataOrganization()
+        first_child = OpendataOrganization(approval_status="approved")
+        second_child = OpendataOrganization(approval_status="pending")
 
         member = model.Member(
             group=model.Group.get(first_child['id']),
@@ -380,8 +381,46 @@ class TestOrganizationHierarchy:
 
 @pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
 class TestOrganizationView:
+    def test_organization_create_view_renders(self, app):
+        user = User()
+        org_url = url_for("organization.new", locale='en')
+
+        # Unauthenticated user cannot view organization create form
+        result = app.get(org_url)
+        assert result.status_code == 403
+
+        headers = {"Authorization": APIToken(user=user['name'])["token"]}
+        result = app.get(org_url, headers=headers)
+        assert b"Create an Organization" in result.data
+
+    def test_organization_edit_view_renders(self, app):
+        user = User()
+        org = OpendataOrganization(user=user)
+        org_url = url_for("organization.edit", id=org['id'], locale='en')
+
+        # Unauthenticated user cannot view organization edit form
+        result = app.get(org_url)
+        assert result.status_code == 403
+
+        headers = {"Authorization": APIToken(user=user['name'])["token"]}
+        result = app.get(org_url, headers=headers)
+        assert b"Edit information" in result.data
+
+    def test_organization_members_view_renders(self, app):
+        user = User()
+        org = OpendataOrganization()
+        org_url = url_for("organization.members", id=org['id'], locale='en')
+
+        # Unauthenticated user cannot view organization create form
+        result = app.get(org_url)
+        assert result.status_code == 403
+
+        headers = {"Authorization": APIToken(user=user['name'])["token"]}
+        result = app.get(org_url, headers=headers)
+        assert user['name'].encode() in result.data
+
     def test_deleted_organization_showing_error_message(self, app):
-        org = Organization()
+        org = OpendataOrganization()
 
         org_url = url_for("organization.read", id=org['id'], locale='en')
 
