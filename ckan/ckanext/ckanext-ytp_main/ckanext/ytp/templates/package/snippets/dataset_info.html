@@ -93,6 +93,7 @@
         {% endblock %}
     #}
 
+    {#
     {% block recommendations %}
         {% if pkg.get('type') == 'apiset' %}
             {{ layout.moduleBoxHead(_('Recommend apiset')) }}
@@ -108,7 +109,7 @@
             {{ layout.moduleBoxFoot() }}
         {% endif %}
     {% endblock %}
-
+    #}
     {% block follow %}
         {# FIXME: Pending ckanext-reminder CKAN 2.9 migration
         {{ layout.moduleBoxHead(_('Follow dataset')) }}

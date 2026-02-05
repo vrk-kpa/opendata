@@ -23,11 +23,6 @@ git:
     - filter_type: file
       file_format: PO
       source_language: en
-      source_file: 'ckan/ckanext/ckanext-ytp_recommendation/ckanext/ytp_recommendation/i18n/ckanext-ytp_recommendation.pot'
-      translation_files_expression: 'ckan/ckanext/ckanext-ytp_recommendation/ckanext/ytp_recommendation/i18n/<lang>/LC_MESSAGES/ckanext-ytp_recommendation.po'
-    - filter_type: file
-      file_format: PO
-      source_language: en
       source_file: 'ckan/ckanext/ckanext-ytp_request/ckanext/ytp_request/i18n/ckanext-ytp_request.pot'
       translation_files_expression: 'ckan/ckanext/ckanext-ytp_request/ckanext/ytp_request/i18n/<lang>/LC_MESSAGES/ckanext-ytp_request.po'
 
