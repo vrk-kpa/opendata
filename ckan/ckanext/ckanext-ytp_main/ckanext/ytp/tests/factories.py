@@ -1,5 +1,3 @@
-import factory
-
 from ckan.tests.factories import Organization
 
 from faker import Faker
