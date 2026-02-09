@@ -32,8 +32,7 @@ pip install -e ${EXT_DIR}/ckanext-drupal8 \
     -e ${EXT_DIR}/ckanext-sentry \
     -e ${EXT_DIR}/ckanext-sitesearch \
     -e ${EXT_DIR}/ckanext-archiver \
-    -e ${EXT_DIR}/ckanext-qa \
-    -e ${EXT_DIR}/ckanext-ytp_recommendation
+    -e ${EXT_DIR}/ckanext-qa
 
 
 # compile translations
@@ -47,6 +46,5 @@ pip install -e ${EXT_DIR}/ckanext-drupal8 \
 (cd ${EXT_DIR}/ckanext-scheming; python setup.py compile_catalog -f) &
 (cd ${EXT_DIR}/ckanext-statistics; python setup.py compile_catalog -f) &
 (cd ${EXT_DIR}/ckanext-matomo; python setup.py compile_catalog -f) &
-(cd ${EXT_DIR}/ckanext-ytp_recommendation; python setup.py compile_catalog -f) &
 (cd ${EXT_DIR}/ckanext-apis; python setup.py compile_catalog -f) &
 wait

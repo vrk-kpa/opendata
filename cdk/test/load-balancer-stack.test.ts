@@ -20,7 +20,16 @@ test('verify load balancer stack resources', () => {
     vpc: clusterStack.vpc,
     webFqdn: 'localhost',
     rootFqdn: 'localhost',
-    oldDomains: []
+    oldDomains: [
+      {
+        rootFqdn: 'example.com',
+        webFqdn: 'www.example.com',
+      },
+      {
+        rootFqdn: 'another.example.com',
+        webFqdn: 'www.another.example.com',
+      }
+    ]
   });
   // THEN
   // no actual resources to verify

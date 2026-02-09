@@ -59,9 +59,11 @@ def _add_apiset_search(showcase_id, showcase_name):
     from ckan.lib.search import SearchError
 
     package_type = 'apiset'
+    extra_vars = {}
+
     # unicode format (decoded from utf8)
-    q = c.q = toolkit.request.params.get('q', u'')
-    c.query_error = False
+    q = extra_vars['q'] = toolkit.request.params.get('q', u'')
+    extra_vars['query_error'] = False
     page = h.get_page_number(toolkit.request.params)
 
     limit = int(toolkit.config.get('ckan.datasets_per_page', 20))
@@ -77,7 +79,7 @@ def _add_apiset_search(showcase_id, showcase_name):
                                action='search',
                                new_params=by)
 
-    c.drill_down_url = drill_down_url
+    extra_vars['drill_down_url'] = drill_down_url
 
     def remove_field(key, value=None, replace=None):
         return h.remove_url_param(key,
@@ -86,7 +88,7 @@ def _add_apiset_search(showcase_id, showcase_name):
                                   controller=package_type,
                                   action='search')
 
-    c.remove_field = remove_field
+    extra_vars['remove_field'] = remove_field
 
     sort_by = toolkit.request.params.get('sort', None)
     params_nosort = [(k, v) for k, v in params_nopage if k != 'sort']
@@ -116,45 +118,45 @@ def _add_apiset_search(showcase_id, showcase_name):
             params.append(('sort', sort_string))
         return _search_url(params, showcase_name)
 
-    c.sort_by = _sort_by
+    extra_vars['sort_by'] = _sort_by
     if sort_by is None:
-        c.sort_by_fields = []
+        extra_vars['sort_by_fields'] = []
     else:
-        c.sort_by_fields = [field.split()[0] for field in sort_by.split(',')]
+        extra_vars['sort_by_fields'] = [field.split()[0] for field in sort_by.split(',')]
 
     def pager_url(q=None, page=None):
         params = list(params_nopage)
         params.append(('page', page))
         return _search_url(params, showcase_name)
 
-    c.search_url_params = urlencode(_encode_params(params_nopage))
+    extra_vars['search_url_params'] = urlencode(_encode_params(params_nopage))
 
     try:
-        c.fields = []
+        extra_vars['fields'] = []
         # c.fields_grouped will contain a dict of params containing
         # a list of values eg {'tags':['tag1', 'tag2']}
-        c.fields_grouped = {}
+        extra_vars['fields_grouped'] = {}
         search_extras = {}
         fq = ''
         for (param, value) in toolkit.request.params.items():
             if param not in ['q', 'page', 'sort'] \
                     and len(value) and not param.startswith('_'):
                 if not param.startswith('ext_'):
-                    c.fields.append((param, value))
+                    extra_vars['fields'].append((param, value))
                     fq += ' %s:"%s"' % (param, value)
-                    if param not in c.fields_grouped:
-                        c.fields_grouped[param] = [value]
+                    if param not in extra_vars['fields_grouped']: 
+                        extra_vars['fields_grouped'][param] = [value]
                     else:
-                        c.fields_grouped[param].append(value)
+                        extra_vars['fields_grouped'][param].append(value) 
                 else:
                     search_extras[param] = value
 
         context = {
             'model': model,
             'session': model.Session,
-            'user': c.user or c.author,
+            'user': toolkit.g.user or toolkit.g.author,
             'for_view': True,
-            'auth_user_obj': c.userobj
+            'auth_user_obj': toolkit.g.userobj
         }
 
         if package_type and package_type != 'dataset':
@@ -205,7 +207,7 @@ def _add_apiset_search(showcase_id, showcase_name):
         for plugin in plugins.PluginImplementations(plugins.IFacets):
             facets = plugin.dataset_facets(facets, package_type)
 
-        c.facet_titles = facets
+        extra_vars['facet_titles'] = facets
 
         data_dict = {
             'q': q,
@@ -218,24 +220,24 @@ def _add_apiset_search(showcase_id, showcase_name):
         }
 
         query = toolkit.get_action('package_search')(context, data_dict)
-        c.sort_by_selected = query['sort']
+        extra_vars['sort_by_selected'] = query['sort']
 
-        c.page = h.Page(collection=query['results'],
+        extra_vars['page'] = h.Page(collection=query['results'],
                         page=page,
                         url=pager_url,
                         item_count=query['count'],
                         items_per_page=limit)
-        c.facets = query['facets']
-        c.search_facets = query['search_facets']
-        c.page.items = query['results']
+        extra_vars['facets'] = query['facets']
+        extra_vars['search_facets'] = query['search_facets']
+        extra_vars['page.items'] = query['results']
     except SearchError as se:
         log.error('Dataset search error: %r', se.args)
-        c.query_error = True
-        c.facets = {}
-        c.search_facets = {}
-        c.page = h.Page(collection=[])
-    c.search_facets_limits = {}
-    for facet in c.search_facets.keys():
+        extra_vars['query_error'] = True
+        extra_vars['facets'] = {}
+        extra_vars['search_facets'] = {}
+        extra_vars['page'] = h.Page(collection=[])
+    extra_vars['search_facets_limits'] = {}
+    for facet in extra_vars['search_facets'].keys(): 
         try:
             limit = int(
                 toolkit.request.params.get(
@@ -246,21 +248,19 @@ def _add_apiset_search(showcase_id, showcase_name):
                 400,
                 _("Parameter '{parameter_name}' is not an integer").format(
                     parameter_name='_%s_limit' % facet))
-        c.search_facets_limits[facet] = limit
+        extra_vars['search_facets_limits[facet]'] = limit
+
+    return extra_vars
 
 
 def index(package_type):
     extra_vars = {}
 
-    try:
-        context = {
-            u'model': model,
-            u'user': g.user,
-            u'auth_user_obj': g.userobj
-        }
-        check_access(u'site_read', context)
-    except NotAuthorized:
-        toolkit.abort(403, _(u'Not authorized to see this page'))
+    context = {
+        u'model': model,
+        u'user': g.user,
+        u'auth_user_obj': g.userobj
+    }
 
     # unicode format (decoded from utf8)
     extra_vars[u'q'] = q = request.args.get(u'q', u'')
@@ -504,7 +504,7 @@ def manage_apisets_view(id):
 
     # check if showcase exists
     try:
-        toolkit.c.pkg_dict = toolkit.get_action('package_show')(context, data_dict)
+        pkg_dict = toolkit.get_action('package_show')(context, data_dict)
     except toolkit.ObjectNotFound:
         return toolkit.abort(404, _('Showcase not found'))
     except toolkit.NotAuthorized:
@@ -570,14 +570,16 @@ def manage_apisets_view(id):
             url = h.url_for(manage_route, id=id)
             return h.redirect_to(url)
 
-    _add_apiset_search(toolkit.c.pkg_dict['id'], toolkit.c.pkg_dict['name'])
+    extra_vars = _add_apiset_search(pkg_dict['id'], pkg_dict['name'])
 
     # get showcase packages
-    toolkit.c.showcase_pkgs = toolkit.get_action('ckanext_sixodp_showcase_apiset_list')(
+    showcase_pkgs = toolkit.get_action('ckanext_sixodp_showcase_apiset_list')(
         context, {
-            'showcase_id': toolkit.c.pkg_dict['id']
+            'showcase_id': pkg_dict['id']
         })
 
-    return toolkit.render('showcase/manage_apisets.html', extra_vars={
-        'view_type': 'manage_apisets',
-    })
+    extra_vars['pkg_dict'] = pkg_dict
+    extra_vars['showcase_pkgs'] = showcase_pkgs
+    extra_vars['view_type'] = 'manage_apisets'
+
+    return toolkit.render('showcase/manage_apisets.html', extra_vars=extra_vars)

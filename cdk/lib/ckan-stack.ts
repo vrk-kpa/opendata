@@ -184,7 +184,6 @@ export class CkanStack extends Stack {
       'geo_view',
       'geojson_view',
       'sixodp_harvester',
-      'reminder',
       'ytp_restrict_category_creation_and_updating',
       'ytp_ipermission_labels',
       'organizationapproval',
@@ -195,7 +194,6 @@ export class CkanStack extends Stack {
       'openapi_view',
       'statistics',
       'opendata_cli',
-      'ytp_recommendation',
       'dcat_sparql',
       'activity',
       'sitesearch',
@@ -276,7 +274,7 @@ export class CkanStack extends Stack {
 
     const ckanContainerSecrets: { [key: string]: ecs.Secret; } = {
       // .env.ckan
-      CKAN_BEAKER_SESSION_SECRET: ecs.Secret.fromSecretsManager(sCkanSecrets, 'ckan_beaker_session_secret'),
+      CKAN_SESSION_SECRET: ecs.Secret.fromSecretsManager(sCkanSecrets, 'ckan_beaker_session_secret'),
       CKAN_APP_INSTANCE_UUID: ecs.Secret.fromSecretsManager(sCkanSecrets, 'ckan_app_instance_uuid'),
       // .env
       DB_CKAN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_ckan_pass'),
