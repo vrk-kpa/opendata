@@ -13,32 +13,33 @@ location @not_found {
   rewrite ^(.*)$ $not_found;
 }
 
-error_page 500 @internal_error;
-location @internal_error {
+{% if ENV.DEV_MODE != 'true' %}
+  error_page 500 @internal_error;
+  location @internal_error {
   set $internal_error /themes/avoindata/static/500.fi.html;
   if ( $request_uri ~* "/(fi|en|sv)/" ){
-      set $internal_error /themes/avoindata/static/500.$1.html;
+  set $internal_error /themes/avoindata/static/500.$1.html;
   }
 
   rewrite ^(.*)$ $internal_error;
-}
+  }
+{% endif %}
 
-# fix old ckan file upload paths
-rewrite ^/dataset/(.*)$ $real_scheme://$http_host/data/dataset/$1 permanent;
+
 
 # disable ckan index, redirect to drupal
-rewrite ^/data/?$ $real_scheme://$http_host/fi permanent;
-rewrite ^/data/(fi|en|en_GB|sv)/?$ $real_scheme://$http_host/$1 permanent;
+rewrite ^/data/?$ $scheme://$http_host/fi permanent;
+rewrite ^/data/(fi|en|en_GB|sv)/?$ $scheme://$http_host/$1 permanent;
 
 # disable ckan login/register/logout, redirect to drupal
 location ^~ /data/user/login {
-  rewrite ^/.* $real_scheme://$http_host/user/login permanent;
+  rewrite ^/.* $scheme://$http_host/user/login permanent;
 }
 location ^~ /data/user/register {
-  rewrite ^/.* $real_scheme://$http_host/user/register permanent;
+  rewrite ^/.* $scheme://$http_host/user/register permanent;
 }
 location ^~ /data/user/_logout {
-  rewrite ^/.* $real_scheme://$http_host/user/logout permanent;
+  rewrite ^/.* $scheme://$http_host/user/logout permanent;
 }
 
 location = /favicon.ico {
@@ -64,33 +65,14 @@ set $ckan_target "${CKAN_HOST}:${CKAN_PORT}";
 location ~ ^/data/(.*)$ {
   proxy_pass http://$ckan_target/data/$1$is_args$args;
 
-  # common security headers
-  include /etc/nginx/conf.d/security_headers.conf;
-  # always enforce same origin policy
-  add_header X-Frame-Options SAMEORIGIN;
-  # content type options https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-  add_header X-Content-Type-Options "nosniff" always;
-
   proxy_set_header Host $host;
   proxy_set_header X-Real-IP $remote_addr;
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   proxy_set_header X-Url-Scheme $scheme;
-  proxy_cache cache;
-  proxy_cache_bypass $no_cache;
-  proxy_no_cache $no_cache;
-  proxy_cache_valid 30m;
-  proxy_cache_key $host$scheme$proxy_host$request_uri;
   proxy_intercept_errors on;
-  proxy_read_timeout 120s;
 
   location ~ ^/data/en($|/.*) {
     return 301 /data/en_GB$1;
-  }
-
-  location ~ /data/(fi|en_GB|sv)/organization/(.*)/embed {
-    proxy_pass http://$ckan_target/data/$1/organization/$2/embed$is_args$args;
-
-    add_header Bypass-Sameorigin-Policy 1;
   }
 
   location ~ /data(/fi|/en_GB|/sv)?/group/talous-ja-rahoitus(.*) {
@@ -109,11 +91,9 @@ location ~ ^/data/(.*)$ {
     return 301 /data$1/group/koulutus-kulttuuri-ja-urheilu$3$is_args$args;
   }
 
+  # CKAN api errors should not be caught by nginx
   location ~ /data/(fi/|en_GB/|sv/)?(api/)(.*) {
     proxy_pass http://$ckan_target/data/$1$2$3$is_args$args;
-
-    proxy_no_cache 1;
-    proxy_cache_bypass 1;
     proxy_intercept_errors off;
   }
 }
@@ -121,34 +101,15 @@ location ~ ^/data/(.*)$ {
 # drupal upstream target, re-evaluates DNS properly
 set $drupal_target "${DRUPAL_HOST}:${DRUPAL_PORT}";
 
+# Block update.php, we won't be doing updates through the web UI
+location ~ ^/update.php {
+  return 404;
+}
+
 # drupal at /
 location ~ ^/(.*)$ {
   proxy_pass http://$drupal_target/$1$is_args$args;
-
-  # common security headers
-  include /etc/nginx/conf.d/security_headers.conf;
-  # always enforce same origin policy
-  add_header X-Frame-Options SAMEORIGIN;
-  # content type options https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-  add_header X-Content-Type-Options "nosniff" always;
-
-  proxy_set_header Host $host;
-  proxy_set_header X-Real-IP $remote_addr;
-  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-  proxy_set_header X-Url-Scheme $scheme;
-  proxy_cache cache;
-  proxy_cache_bypass $no_cache;
-  proxy_no_cache $no_cache;
-  proxy_cache_valid 30m;
-  proxy_cache_key $host$scheme$proxy_host$request_uri;
+  proxy_set_header Host            $host;
   proxy_intercept_errors on;
-  proxy_read_timeout 120s;
-
-  location ~ /(fi/|en/|sv/)?(api/)(.*) {
-    proxy_pass http://$drupal_target/$1$2$3$is_args$args;
-
-    proxy_no_cache 1;
-    proxy_cache_bypass 1;
-    proxy_intercept_errors off;
-  }
 }
+
