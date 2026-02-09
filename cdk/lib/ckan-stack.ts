@@ -184,7 +184,6 @@ export class CkanStack extends Stack {
       'geo_view',
       'geojson_view',
       'sixodp_harvester',
-      'reminder',
       'ytp_restrict_category_creation_and_updating',
       'ytp_ipermission_labels',
       'organizationapproval',
