@@ -49,7 +49,7 @@ jobs:
           REPOSITORY: ${{ secrets.REPOSITORY }}
 
       - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           role-session-name: github-actions
@@ -71,7 +71,7 @@ jobs:
           npx cdk deploy *-prod --require-approval=never >/dev/null 2>&1
 
       - name: Configure AWS credentials for re-tagging prod images
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.AWS_BUILD_ROLE }}
           role-session-name: github-actions
