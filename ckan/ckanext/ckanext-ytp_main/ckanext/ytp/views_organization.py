@@ -263,12 +263,6 @@ def members(id: str, group_type: str, is_organization: bool) -> str:
                    _('User %r not authorized to edit members of %s') %
                    (toolkit.current_user.name, id))
 
-    # TODO: Remove
-    # ckan 2.9: Adding variables that were removed from c object for
-    # compatibility with templates in existing extensions
-    g.members = members
-    g.group_dict = group_dict
-
     extra_vars: dict[str, Any] = {
         "members": members,
         "group_dict": group_dict,
