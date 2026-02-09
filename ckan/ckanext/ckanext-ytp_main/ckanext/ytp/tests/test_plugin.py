@@ -428,4 +428,4 @@ class TestOrganizationView:
 
         result = app.get(org_url)
 
-        assert "Organization does not exist" in result
+        assert result.status_code == 404
