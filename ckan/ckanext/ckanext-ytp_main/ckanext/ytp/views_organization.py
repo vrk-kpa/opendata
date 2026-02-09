@@ -432,66 +432,6 @@ def index(group_type: str, is_organization: bool) -> str:
         _get_group_template('index_template', group_type), extra_vars)
 
 
-def embed(id: str, group_type: str, is_organization: bool, limit: int = 5) -> str:
-    """
-        Fetch given organization's packages and show them in an embeddable list view.
-        See Nginx config for X-Frame-Options SAMEORIGIN header modifications.
-    """
-
-    def make_pager_url(q=None, page=None):
-        ctrlr = 'ckanext.ytp.controller:YtpOrganizationController'
-        url = h.url_for(controller=ctrlr, action='embed', id=id)
-        return url + '?page=' + str(page)
-
-    extra_vars = {}
-
-    try:
-        context = {
-            'model': model,
-            'session': model.Session,
-            'user': toolkit.g.user or toolkit.g.author
-        }
-        check_access('group_show', context, {'id': id})
-    except NotFound:
-        return abort(404, _('Group not found'))
-    # TODO: Is this necessary?
-    except NotAuthorized:
-        g = model.Session.query(model.Group).filter(model.Group.name == id).first()
-        if g is None or g.state != 'active':
-            return base.render('group/organization_not_found.html')
-        raise
-
-    page = h.get_page_number(request.args) or 1
-
-    group_dict: dict[str, Any] = {'id': id}
-    group_dict['include_datasets'] = False
-    extra_vars['group_dict'] = toolkit.get_action('group_show')(context, group_dict)
-    extra_vars['group'] = context['group']
-
-    q = toolkit.g.q = request.args.get('q', '')
-    q += ' owner_org:"{}"'.format(extra_vars['group_dict'].get('id'))
-
-    data_dict = {
-        'q': q,
-        'rows': limit,
-        'start': (page - 1) * limit,
-        'extras': {}
-    }
-
-    query = get_action('package_search')(context, data_dict)
-
-    extra_vars['page'] = h.Page(
-        collection=query['results'],
-        page=page,
-        url=make_pager_url,
-        item_count=query['count'],
-        items_per_page=limit
-    )
-
-    extra_vars['page'].items = query['results']
-
-    return base.render("organization/embed.html", extra_vars)
-
 def suborganizations(id, group_type, is_organization):
     try:
 
@@ -525,7 +465,6 @@ organization.add_url_rule(
     methods=['GET', 'POST'],
     view_func=CreateOrganizationView.as_view(str('new')))
 organization.add_url_rule('/organization/<id>', methods=['GET'], view_func=read)
-organization.add_url_rule('/organization/<id>/embed', methods=['GET'], view_func=embed)
 organization.add_url_rule(
     '/organization/edit/<id>', view_func=EditOrganizationView.as_view(str('edit')))
 organization.add_url_rule('/organization/about/<id>', methods=['GET'], view_func=about)
