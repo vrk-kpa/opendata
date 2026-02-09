@@ -201,16 +201,8 @@ def read(group_type: str,
         data_dict['include_users'] = False
 
         group_dict = get_action('organization_show')(context, data_dict)
-        group = context['group']
-    except NotFound:
+    except (NotFound, NotAuthorized):
         return base.abort(404, _('Group not found'))
-    # TODO: Is this actually necessary or should both exceptions just cause 404?
-    except NotAuthorized:
-        group = model.Session.query(model.Group).filter(model.Group.name == id).first()
-        if group is None or group.state != 'active':
-            extra_vars['group_type'] = group_type
-            return base.render('organization/organization_not_found.html', extra_vars)
-        raise
 
     # if the user specified a group id, redirect to the group name
     if data_dict['id'] == group_dict['id'] and \
