@@ -14,6 +14,7 @@ RUN apk add --no-cache \
     git \
     bash \
     util-linux \
+    nfs-utils \
     postgresql17-client \
     jinja2-cli && \
     pecl install apcu uploadprogress
