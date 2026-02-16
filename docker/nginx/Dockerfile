@@ -1,6 +1,6 @@
 # build args
 
-FROM nginx:1.29.3-alpine AS nginx_build
+FROM nginx:1.29.5-alpine AS nginx_build
 
 # install pkgs
 RUN apk add --update-cache minijinja-cli
