@@ -432,7 +432,7 @@ class TestOrganizationView:
 
 
 class TestSchema:
-    @pytest.mark.usefixtures('clean_db', 'clean_index')
+    @pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
     def test_collection_type_filtering(self):
         opendata_dataset = create_minimal_dataset()
         Dataset(**opendata_dataset)
@@ -451,7 +451,7 @@ class TestSchema:
         filter_interoperability_results = call_action('package_search', fq='collection_type:"Interoperability Tools"')
         assert filter_interoperability_results['count'] == 1
 
-    @pytest.mark.usefixtures('clean_db', 'clean_index', 'with_request_context')
+    @pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index', 'with_request_context')
     def test_dcat_catalog_filtering_with_collection_type(self):
         opendata_dict = create_minimal_dataset()
         opendata_dataset = Dataset(**opendata_dict)
