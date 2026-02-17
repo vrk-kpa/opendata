@@ -301,11 +301,15 @@ volumes:
   solr_test_data:
 ```
 
+The developer needs to create symlink once to allow ckan test files to be located, run within container:
+```bash
+ln -s /srv/app/src/ckan /srv/app/ckanext/ckan
+```
+
 Running the tests within the container can be done by running following commands:
 
 ```bash
 cd ckanext/ckanext-ytp_main/
-ckan -c test.ini db init
 pytest --ckan-ini test.ini --disable-warning ckanext/ytp/tests/
 ```
 

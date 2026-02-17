@@ -6,7 +6,7 @@ import urllib
 import string
 from rdflib import URIRef, BNode, Literal, Namespace
 from rdflib.namespace import RDF, XSD
-from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX, LOCN, GSP, SCHEMA
+from ckanext.dcat.profiles import RDFProfile, VCARD, DCAT, DCT, FOAF, SKOS, ADMS, SPDX, LOCN, GSP, SCHEMA, URIRefOrLiteral
 from ckanext.dcat.processors import RDFSerializer
 from ckanext.dcat.utils import resource_uri, url_quote, url_to_rdflib_format, catalog_uri
 from ckan.plugins import toolkit as p
@@ -367,13 +367,30 @@ class AvoindataDCATAPProfile(RDFProfile):
                 g.add((distribution, DCT.license, license_ref))
 
             # dct:format
-            file_format = resource_dict.get('format')
+            mimetype = resource_dict.get('mimetype')
+            fmt = resource_dict.get('format')
 
-            if file_format:
-                media_type = BNode()
-                g.add((media_type, RDF.type, DCT.MediaTypeOrExtent))
-                g.add((media_type, RDF.value, Literal(file_format)))
-                g.add((distribution, DCT['format'], media_type))
+            # IANA media types (either URI or Literal) should be mapped as mediaType.
+            # In case format is available and mimetype is not set or identical to format,
+            # check which type is appropriate.
+            if fmt and (not mimetype or mimetype == fmt):
+                if ('iana.org/assignments/media-types' in fmt
+                    or not fmt.startswith('http') and '/' in fmt):
+                    # output format value as dcat:mediaType instead of dct:format
+                    mimetype = fmt
+                    fmt = None
+                else:
+                    # Use dct:format
+                    mimetype = None
+
+            if mimetype:
+                g.add((distribution, DCAT.mediaType,
+                       URIRefOrLiteral(mimetype)))
+
+            if fmt:
+                g.add((distribution, DCT['format'],
+                       URIRefOrLiteral(fmt)))
+
 
             # dct:conformsTo
             position_info = resource_dict.get('position_info')

@@ -213,7 +213,7 @@ export class DrupalStack extends Stack {
         streamPrefix: 'drupal-service',
       }),
       healthCheck: {
-        command: ['CMD-SHELL', 'ps -aux | grep -o "[a]pache2 -DFOREGROUND"'],
+        command: ['CMD-SHELL', "ps | pgrep -l 'php-fpm' && ps | pgrep -l 'nginx'"],
         interval: Duration.seconds(15),
         timeout: Duration.seconds(5),
         retries: 5,

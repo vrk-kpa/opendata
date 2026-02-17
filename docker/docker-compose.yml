@@ -218,7 +218,7 @@ services:
       postgres:
         condition: service_healthy
     expose:
-      - 80
+      - 9000
     env_file:
       - ./.env.drupal.local
     environment:
@@ -255,7 +255,7 @@ services:
     volumes:
       - drupal_data:/opt/drupal/web/sites/default/files
     healthcheck:
-      test: ["CMD-SHELL", "ps -aux | grep -o '[a]pache2 -DFOREGROUND'"]
+      test: ["CMD-SHELL", "ps | pgrep -l 'php-fpm' && ps | pgrep -l 'nginx'"]
       interval: 15s
       timeout: 5s
       retries: 5

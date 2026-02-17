@@ -2,24 +2,23 @@
 ARG SECRET_NPMRC
 
 #
-# Drupal build
+# Drupal build, minor tagged as composers handles specific version
 #
-FROM drupal:10.4.8-php8.3-apache-bullseye AS drupal_build
+FROM drupal:10.5-php8.4-fpm-alpine3.23 AS drupal_build
 
-# upgrade system + install required packages
-RUN apt-get update -yq && \
-    apt-get upgrade -yq && \
-    apt-get install -yq \
-      unzip \
-      git \
-      rsync \
-      postgresql-client \
-      python3 \
-      python3-pip \
-      procps && \
-    pip3 install \
-      jinja2-cli && \
+# install required packages
+RUN apk add --no-cache \
+    autoconf \
+    g++ \
+    make \
+    git \
+    bash \
+    util-linux \
+    nfs-utils \
+    postgresql17-client \
+    jinja2-cli && \
     pecl install apcu uploadprogress
+
 
 # setup env vars
 ENV APP_DIR=/opt/drupal
@@ -55,10 +54,18 @@ RUN chmod +x ${SCRIPT_DIR}/*.sh && \
 RUN composer install --no-cache --no-dev
 
 
+FROM drupal_build AS nginx_build
+
+# Install nginx and supervisor
+RUN apk add  --no-cache nginx supervisor
+
+COPY configurations/nginx_http.d /etc/nginx/http.d/default.conf
+COPY configurations/supervisord.conf /etc/supervisord.conf
+
 #
 # Development image (For local development)
 #
-FROM drupal_build AS drupal_development
+FROM nginx_build AS drupal_development
 
 ENV DEV_MODE=true
 
@@ -70,7 +77,7 @@ ENTRYPOINT ["/opt/drupal/scripts/entrypoint.sh"]
 #
 # Modules build (for production)
 #
-FROM ubuntu:focal AS modules_build
+FROM nginx_build AS modules_build
 
 # setup env vars:
 ENV APP_DIR=/opt/drupal
@@ -98,7 +105,7 @@ COPY modules/avoindata-ckeditor5-plugins    ${MOD_DIR}/avoindata-ckeditor5-plugi
 #
 # Production image
 #
-FROM drupal_build AS production
+FROM nginx_build AS production
 
 # copy modules and themes
 COPY --from=modules_build ${MOD_DIR} ${MOD_DIR}

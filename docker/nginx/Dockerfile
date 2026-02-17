@@ -3,7 +3,7 @@
 FROM nginx:1.29.3-alpine AS nginx_build
 
 # install pkgs
-RUN apk add --update-cache python3 py3-pip jinja2-cli
+RUN apk add --update-cache minijinja-cli
 
 # copy config, nginx templated configs & jinja2 templates
 COPY nginx.conf /etc/nginx/nginx.conf
@@ -21,7 +21,14 @@ COPY www /var/www/
 HEALTHCHECK --interval=15s --timeout=5s \
   CMD curl -f http://localhost/health || exit 1
 
+# Development image
+FROM nginx_build as nginx_development
+
+ENV DEV_MODE=true
+RUN minijinja-cli /etc/nginx/jinja2-templates/server.conf.template.j2 -o /etc/nginx/templates/server.conf.template --env
+
 #
 # Production image
 #
 FROM nginx_build AS production
+RUN minijinja-cli /etc/nginx/jinja2-templates/server.conf.template.j2 -o /etc/nginx/templates/server.conf.template --env
