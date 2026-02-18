@@ -472,13 +472,13 @@ jobs:
       - detect-changes
     if: ${{ needs.detect-changes.outputs.ckan == 'true' }}
     container:
-      image: ckan/ckan-dev:2.10-py3.10
+      image: ckan/ckan-dev:2.11-py3.10
       options: --user root
     services:
       solr:
-        image: ckan/ckan-solr:2.10-solr9
+        image: ckan/ckan-solr:2.11-solr9
       postgres:
-        image: ckan/ckan-postgres-dev:2.10
+        image: ckan/ckan-postgres-dev:2.11
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -524,6 +524,7 @@ jobs:
         mkfile ckanext/ytp/resources/scripts inject_responsive_tables.js
         mkfile ckanext/ytp/resources/vendor/moment/dist/min/ moment-with-locales.js
         mkfile ckanext/ytp/resources/vendor/eonasdan-bootstrap-datetimepicker/build/js bootstrap-datetimepicker.js
+        mkfile ckanext/ytp/resources/vendor/ab-datepicker/js datepicker.js
     
         
         cd ../ckanext-scheming

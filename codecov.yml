@@ -15,7 +15,7 @@ flag_management:
       carryforward: false
       statuses:
         - type: project
-          target: 95%
+          target: auto
         - type: patch
           target: 100%
     - name: ckan

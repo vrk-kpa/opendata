@@ -860,7 +860,6 @@ def action_group_create(original_action, context, data_dict):
 
 @logic.side_effect_free
 def action_organization_tree_list(context, data_dict):
-    check_access('site_read', context)
     check_access('group_list', context)
 
     q = data_dict.get('q', '')

@@ -172,7 +172,7 @@ class EditView(views.EditView):
         resources_json = h.json.dumps(data.get(u'resources', []))
 
         try:
-            check_access(u'package_update', context)
+            check_access(u'package_update', context, {'id': id})
         except NotAuthorized:
             return base.abort(
                 403,
