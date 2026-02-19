@@ -382,10 +382,10 @@ class TestOrganizationHierarchy:
 @pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
 class TestOrganizationView:
     def test_organization_index_view_renders(self, app):
-        org_without_datasets = OpendataOrganization()
+        _org_without_datasets = OpendataOrganization()
         org_with_datasets = OpendataOrganization()
         dataset_fields = create_minimal_dataset()
-        dataset = Dataset(owner_org=org_with_datasets["name"], **dataset_fields)
+        _dataset = Dataset(owner_org=org_with_datasets["name"], **dataset_fields)
 
         # Get both organizations
         orgs_url = url_for("organization.index", locale='en')
