@@ -381,6 +381,22 @@ class TestOrganizationHierarchy:
 
 @pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
 class TestOrganizationView:
+    def test_organization_index_view_renders(self, app):
+        org_without_datasets = OpendataOrganization()
+        org_with_datasets = OpendataOrganization()
+        dataset_fields = create_minimal_dataset()
+        dataset = Dataset(owner_org=org_with_datasets["name"], **dataset_fields)
+
+        # Get both organizations
+        orgs_url = url_for("organization.index", locale='en')
+        result = app.get(orgs_url)
+        assert b"2 organizations found" in result.data
+
+        # Get only the organization with the dataset
+        orgs_url = url_for("organization.index", locale='en', only_with_datasets=True)
+        result = app.get(orgs_url)
+        assert b"1 organization found" in result.data
+
     def test_organization_create_view_renders(self, app):
         user = User()
         org_url = url_for("organization.new", locale='en')
