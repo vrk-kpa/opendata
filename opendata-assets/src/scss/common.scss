@@ -1,4 +1,10 @@
+@use "./variables/suomifidesign" as tokens;
 @import 'variables';
+
+
+body {
+  color: tokens.$fi-color-black-base;
+}
 
 h1,
 h2,
@@ -6,7 +12,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: inherit;
+  color: tokens.$fi-color-black-base;
   text-rendering: optimizelegibility;
 }
 
@@ -46,16 +52,16 @@ h5 {
 }
 
 a {
-  color: $link-color;
+  color: tokens.$fi-color-highlight-base;
   text-decoration: none;
 
   @media print {
-    color: $link-color !important;
+    color: tokens.$fi-color-highlight-base !important;
   }
 
   &:hover,
   &:focus {
-    color: $link-color;
+    color: tokens.$fi-color-highlight-base;
   }
 }
 
