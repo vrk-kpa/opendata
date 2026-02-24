@@ -147,7 +147,6 @@ End of dropdown CSS
 }
 
 #block-avoindata-language-switcher {
-
   ul {
     margin: 0;
 
@@ -202,7 +201,7 @@ End of dropdown CSS
       display: none;
       background: #fff;
       border: 1px solid tokens.$fi-color-depth-base;
-      box-shadow: rgba(tokens.$fi-color-black-base, 0.14) 0px 4px 8px 0px;
+      box-shadow: rgba(tokens.$fi-color-black-base, 0.14) 0 4px 8px 0;
       border-radius: 2px;
       right: 0;
       top: 58px;
