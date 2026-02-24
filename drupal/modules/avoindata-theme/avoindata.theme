@@ -161,13 +161,33 @@ function avoindata_user_login_form_submit($form, FormStateInterface &$form_state
 }
 
 /**
+ * Provide configured language label regardless of overrides
+ *
+ * In avoindata_preprocess_links__language_block(&$variables) 
+ * \Drupal\language\Entity\ConfigurableLanguage.label() is for some reason
+ * overridden with a default localized language name. The source for
+ * this override is unknown and this is the only known way of retrieving
+ * the correct label from active configuration.
+ *
+ * The issue can be reproduced by setting this function to use
+ * ->get('label') instead of ->getRawData()['label']. The former
+ * contains the unknown override while the latter does not.
+ */
+function raw_language_label($language_id) {
+  return \Drupal::config("language.entity.$language_id")->getRawData()['label'];
+}
+
+/**
  * Implements hook_preprocess_links__language_block().
  */
 function avoindata_preprocess_links__language_block(&$variables) {
-  $variables['language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
   foreach ($variables['links'] as $key => $value) {
-    $variables['links'][$key]['link']['#title'] .= ' (' . strtoupper($key) . ')';
+    $language_label = raw_language_label($key);
+    $variables['links'][$key]['link']['#title'] = $language_label . ' (' . strtoupper($key) . ')';
   }
+
+  $language_id = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $variables['language'] = $variables['links'][$language_id]['link']['#title'];
 }
 
 /**
