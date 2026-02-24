@@ -1,4 +1,4 @@
-@use "suomifi-design-tokens/dist/tokens";
+@use "./variables/suomifidesign" as tokens;
 @import "./variables/fonts";
 @import "./variables/palette";
 @import "./variables/spacing";
