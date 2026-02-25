@@ -22,7 +22,7 @@ HEALTHCHECK --interval=15s --timeout=5s \
   CMD curl -f http://localhost/health || exit 1
 
 # Development image
-FROM nginx_build as nginx_development
+FROM nginx_build AS nginx_development
 
 ENV DEV_MODE=true
 RUN minijinja-cli /etc/nginx/jinja2-templates/server.conf.template.j2 -o /etc/nginx/templates/server.conf.template --env
