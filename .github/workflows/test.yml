@@ -355,6 +355,7 @@ jobs:
 
 
       - name: run cypress e2e tests
+        timeout-minutes: 20
         run: >
           docker run 
           --network host 
