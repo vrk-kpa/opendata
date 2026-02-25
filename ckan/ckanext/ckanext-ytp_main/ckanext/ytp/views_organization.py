@@ -233,15 +233,12 @@ def members(id: str, group_type: str, is_organization: bool) -> str:
     try:
         data_dict: dict[str, Any] = {'id': id}
         toolkit.check_access('group_edit_permissions', context, data_dict)
-        members = toolkit.get_action('member_list')(context, {
-            'id': id,
-            'object_type': 'user'
-        })
         data_dict['include_datasets'] = False
         data_dict['include_users'] = True
         context['keep_email'] = True
         context['auth_user_obj'] = toolkit.g.userobj
         group_dict = toolkit.get_action('organization_show')(context, data_dict)
+        members = group_dict['users']
     except NotFound:
         return toolkit.abort(404, toolkit._('Group not found'))
     except NotAuthorized:
