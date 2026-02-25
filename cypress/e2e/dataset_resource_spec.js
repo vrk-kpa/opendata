@@ -12,9 +12,7 @@ describe('Dataset resource tests', function(){
 
     beforeEach(function () {
         cy.login_post_request('test-user', 'test-user')
-        cy.visit('/');
-        cy.get('nav a[href="/data/fi/dataset"]').click();
-        // const dataset_name = 'test_dataset';
+        cy.visit('/data/fi/dataset');
         cy.get(`a[href="/data/fi/dataset/${dataset_name}"]`).click();
         cy.get('.resource-item__info__title').click();
       })
