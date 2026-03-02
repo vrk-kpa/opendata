@@ -1,3 +1,4 @@
+@use "./variables/suomifidesign" as tokens;
 @import "variables";
 @import "mixins/mixins";
 @import "bootstrap/scss/mixins";
@@ -158,7 +159,6 @@ End of dropdown CSS
       border: 1px solid transparent;
       margin-top: 9px;
       margin-bottom: 6px;
-      font-weight: 600;
       color: #222;
     }
 
@@ -177,23 +177,22 @@ End of dropdown CSS
 
     .dropdown-button {
       background: none;
-      border: 1px solid #a5acb0;
+      border: 1px solid transparent;
       color: #282828;
-      font-size: 14px;
-      text-transform: uppercase;
+      font-size: 16px;
+      font-weight: 600;
       text-align: center;
       position: relative;
       line-height: 28px;
-      width: 44px;
-      padding: 0;
+      white-space: nowrap;
+      width: auto;
+      padding: 9px 10px;
 
       &.dropdown-open {
-        border-color: #ea7125;
-        color: #ea7125;
+        border-color: tokens.$fi-color-depth-light1;
 
         i {
           transform: rotate(180deg);
-          color: #ea7125;
         }
       }
     }
@@ -201,8 +200,8 @@ End of dropdown CSS
     .dropdown-content {
       display: none;
       background: #fff;
-      border: 1px solid #a5acb0;
-      box-shadow: 0 2px 3px 0 rgb(0 0 0 / 20%);
+      border: 1px solid tokens.$fi-color-depth-base;
+      box-shadow: rgba(tokens.$fi-color-black-base, 0.14) 0 4px 8px 0;
       border-radius: 2px;
       right: 0;
       top: 58px;
@@ -223,6 +222,10 @@ End of dropdown CSS
         text-decoration: none;
         display: block;
         color: #333;
+
+        &.is-active {
+          font-weight: 700;
+        }
 
         &.is-active,
         &:focus,
