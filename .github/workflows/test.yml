@@ -290,31 +290,32 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           path: /tmp
+          merge-multiple: true
 
       - name: load built ckan image
         if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true')}}
         run: |
-          docker load --input /tmp/ckan/ckan.tar
+          docker load --input /tmp/ckan.tar
 
       - name: load built drupal image
         if: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
         run: |
-          docker load --input /tmp/drupal/drupal.tar
+          docker load --input /tmp/drupal.tar
 
       - name: load built datapusher image
         if: ${{ needs.detect-changes.outputs.datapusher == 'true' }}
         run: |
-          docker load --input /tmp/datapusher/datapusher.tar
+          docker load --input /tmp/datapusher.tar
 
       - name: load built solr image
         if: ${{ needs.detect-changes.outputs.solr == 'true' }}
         run: |
-          docker load --input /tmp/solr/solr.tar
+          docker load --input /tmp/solr.tar
 
       - name: load built nginx image
         if: ${{ needs.detect-changes.outputs.nginx == 'true' }}
         run: |
-          docker load --input /tmp/nginx/nginx.tar
+          docker load --input /tmp/nginx.tar
 
       - name: bring services up
         working-directory: docker
