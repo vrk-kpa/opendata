@@ -169,3 +169,16 @@
   // To match right border with form
   padding-right: 15px;
 }
+
+// fix sidebar resource list dropdown button placement
+.module.resources {
+  .nav-item {
+    align-items: center;
+  }
+  .dropdown {
+    .btn-sm {
+      padding: 5px 10px;
+    }
+  }
+}
+
