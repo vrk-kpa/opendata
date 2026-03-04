@@ -231,7 +231,7 @@ End of dropdown CSS
         &.is-active,
         &:focus,
         &:hover {
-          border-left: 4px solid tokens.$fi-color-brand-base;
+          border-left: 4px solid tokens.$fi-color-highlight-base;
         }
       }
 
