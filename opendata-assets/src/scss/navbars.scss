@@ -178,7 +178,7 @@ End of dropdown CSS
     .dropdown-button {
       background: none;
       border: 1px solid transparent;
-      color: #282828;
+      color: tokens.$fi-color-black-base;
       font-size: 16px;
       font-weight: 600;
       text-align: center;
@@ -199,12 +199,12 @@ End of dropdown CSS
 
     .dropdown-content {
       display: none;
-      background: #fff;
-      border: 1px solid tokens.$fi-color-depth-base;
+      background: tokens.$fi-color-white-base;
+      border: 1px solid tokens.$fi-color-depth-dark1;
       box-shadow: rgba(tokens.$fi-color-black-base, 0.14) 0 4px 8px 0;
       border-radius: 2px;
       right: 0;
-      top: 58px;
+      top: 57px;
       position: absolute;
       z-index: 1000;
 
@@ -215,13 +215,14 @@ End of dropdown CSS
 
       .language-link {
         font-size: 16px;
-        line-height: 26px;
-        padding-left: 20px;
-        padding-right: 20px;
+        line-height: 1.5;
+        padding: 0 20px 0 5px;
+        margin: 5px 0;
         white-space: nowrap;
         text-decoration: none;
         display: block;
         color: #333;
+        border-left: 4px solid transparent;
 
         &.is-active {
           font-weight: 700;
@@ -230,8 +231,7 @@ End of dropdown CSS
         &.is-active,
         &:focus,
         &:hover {
-          border-left: 6px solid #2a6ebb;
-          padding-left: 14px;
+          border-left: 4px solid tokens.$fi-color-brand-base;
         }
       }
 
@@ -248,9 +248,14 @@ End of dropdown CSS
       }
 
       &::before {
-        border-bottom-color: #a5acb0;
+        border-bottom-color: tokens.$fi-color-depth-dark1;
+        border-width: 9px;
+        margin-right: calc(25% + 6px);
+      }
+      &::after {
+        border-bottom-color: tokens.$fi-color-white-base;
         border-width: 8px;
-        margin-right: -8px;
+        margin-right: calc(25% + 7px);
       }
 
       &.dropdown-open {
