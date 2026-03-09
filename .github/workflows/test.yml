@@ -117,7 +117,7 @@ jobs:
 
       - name: install nodejs v22
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: 'npm'
@@ -151,7 +151,7 @@ jobs:
 
       - name: upload images
         if: ${{ matrix.build-container == true }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.name }}
           path: /tmp/${{ matrix.name }}.tar
@@ -189,7 +189,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: install nodejs v22
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: 'npm'
@@ -287,34 +287,35 @@ jobs:
 
 
       - name: download built images
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: /tmp
+          merge-multiple: true
 
       - name: load built ckan image
         if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true')}}
         run: |
-          docker load --input /tmp/ckan/ckan.tar
+          docker load --input /tmp/ckan.tar
 
       - name: load built drupal image
         if: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
         run: |
-          docker load --input /tmp/drupal/drupal.tar
+          docker load --input /tmp/drupal.tar
 
       - name: load built datapusher image
         if: ${{ needs.detect-changes.outputs.datapusher == 'true' }}
         run: |
-          docker load --input /tmp/datapusher/datapusher.tar
+          docker load --input /tmp/datapusher.tar
 
       - name: load built solr image
         if: ${{ needs.detect-changes.outputs.solr == 'true' }}
         run: |
-          docker load --input /tmp/solr/solr.tar
+          docker load --input /tmp/solr.tar
 
       - name: load built nginx image
         if: ${{ needs.detect-changes.outputs.nginx == 'true' }}
         run: |
-          docker load --input /tmp/nginx/nginx.tar
+          docker load --input /tmp/nginx.tar
 
       - name: bring services up
         working-directory: docker
@@ -355,6 +356,7 @@ jobs:
 
 
       - name: run cypress e2e tests
+        timeout-minutes: 20
         run: >
           docker run 
           --network host 
@@ -390,20 +392,20 @@ jobs:
 
       - name: upload log artifacts
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: docker-logs
           path: /tmp/opendata-*.log
 
       - name: upload cypress screenshot artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: screenshots
           path: cypress/screenshots
 
       - name: upload cypress video artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: videos
@@ -437,7 +439,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: install nodejs v22
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: 'npm'

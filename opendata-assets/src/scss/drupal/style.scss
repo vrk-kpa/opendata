@@ -1,3 +1,4 @@
+@use '../variables/suomifidesign' as tokens;
 @import '../variables';
 @import "bootstrap/scss/mixins";
 
@@ -756,7 +757,7 @@ p:last-child,
     float: none;
     display: block;
     margin: 0 auto;
-    max-width: 1500px;
+    max-width: $opendata-container-max-width;
 
     .avoindata-newsfeed-header-row {
       text-align: center;
@@ -844,10 +845,20 @@ p:last-child,
   font-size: $font-size-slightly-smaller-base;
   font-weight: $font-weight-normal;
   width: 223px;
+  position: relative;
+
+  &:not(:last-child)::after {
+    content: "";
+    border-left: 1px solid tokens.$fi-color-depth-base;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    right: -1rem;
+  }
 }
 
 .avoindata-newsfeed-item a {
-  font-family: $font-family-sans-serif;
+  font-family: $font-family-sans-serif-semibold;
   font-size: $font-size-base;
   font-weight: $font-weight-heavier;
 }
@@ -859,11 +870,11 @@ p:last-child,
 }
 
 .avoindata-newsfeed-tag {
-  background-color: $color--black;
-  color: $suomi-whiteBase;
+  background-color: tokens.$fi-color-highlight-light3;
+  color: tokens.$fi-color-depth-dark1;
   padding: 5px 10px;
   border-radius: $border-radius__newsfeed_tag;
-  font-family: $font-family-sans-serif-semibold;
+  font-family: $font-family-sans-serif;
   font-size: $font-size-slightly-smaller-base;
   text-align: center;
   display: inline-block;
