@@ -135,7 +135,7 @@ jobs:
 
       - name: build images
         if: ${{ matrix.build-container == true }}
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
@@ -342,7 +342,7 @@ jobs:
           docker logs opendata-fuseki-1
 
       - name: Build cypress container
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: ./cypress
           file: ./cypress/Dockerfile
