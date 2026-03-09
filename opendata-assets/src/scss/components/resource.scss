@@ -182,3 +182,14 @@
   }
 }
 
+// Decrease font-size for resource form in sidebar, Also affects other components that use the same template,
+// not needed when using new midnight blue ckan templates
+.context-info {
+  .nums {
+    dl {
+      dd {
+        font-size: 20px;
+      }
+    }
+  }
+}
