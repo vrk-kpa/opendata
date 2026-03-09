@@ -458,7 +458,7 @@ describe('Dataset tests',
       cy.get(':nth-child(6) > :nth-child(2)').should('contain.text', verbose_current_date);
       cy.get(':nth-child(7) > :nth-child(2)').should('contain.text', verbose_current_date);
 
-      cy.get('.secondary > :nth-child(2)').should('contain.text', licence_text)
+      cy.get('.secondary').contains('Lisenssi').siblings().should('contain.text', licence_text)
     });
   });
 
