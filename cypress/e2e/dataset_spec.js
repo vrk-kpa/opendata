@@ -214,6 +214,22 @@ describe('Dataset tests',
         .should('contain.text', '4123652');
     });
 
+    it('Create a dataset and add new resource to it after creation', function() {
+        const dataset_name = 'test_dataset';
+        cy.create_new_dataset(dataset_name);
+
+        cy.get(`a[href='/data/fi/dataset/edit/${dataset_name}']`).click();
+        cy.get(`.secondary a[href="/data/fi/dataset/${dataset_name}/resource/new"]`).click();
+
+        const resource_form_data = {
+          "#field-name_translated-fi": 'test data',
+          "#field-image-url": 'http://example.com'
+        };
+
+        cy.fill_form_fields(resource_form_data);
+        cy.get('button[name=save]').contains('Lisää').click();
+    })
+
     it('Create a dataset with all fields', function() {
       const dataset_name = 'test_dataset_with_all_fields';
       const dataset_form_data = {
