@@ -226,6 +226,8 @@ describe('Dataset tests',
           "#field-image-url": 'http://example.com'
         };
 
+        // open resource upload as link componen
+        cy.contains('a', 'Linkki').click();
         cy.fill_form_fields(resource_form_data);
         cy.get('button[name=save]').contains('Lisää').click();
     })
