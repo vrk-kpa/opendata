@@ -32,7 +32,7 @@ jobs:
           registries: ${{ secrets.TOOLS_REGISTRY }}
 
       - name: setup docker buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Build sast scanner
         uses: docker/build-push-action@v6
