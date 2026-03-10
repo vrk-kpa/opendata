@@ -123,6 +123,7 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"fontawesome_menu_icons"* ]] && drush pm:uninstall -y fontawesome_menu_icons
 [[ "$MODULE_INFO" == *"tour"* ]] && drush pm:uninstall -y tour
 [[ "$MODULE_INFO" == *"transliterate_filenames"* ]] && drush pm:uninstall -y transliterate_filenames
+[[ "$MODULE_INFO" == *"menu_item_role_access"* ]] && drush pm:uninstall -y menu_item_role_access
 
 # enable modules
 echo "enable modules.."
@@ -144,7 +145,6 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"protected_forms"* ]]               && drush pm:enable -y protected_forms
 [[ "$MODULE_INFO" != *"recaptcha"* ]]                     && drush pm:enable -y recaptcha
 [[ "$MODULE_INFO" != *"unpublished_node_permissions"* ]]  && drush pm:enable -y unpublished_node_permissions
-[[ "$MODULE_INFO" != *"menu_item_role_access"* ]]         && drush pm:enable -y menu_item_role_access
 [[ "$MODULE_INFO" != *"matomo"* ]]                        && drush pm:enable -y matomo
 [[ "$MODULE_INFO" != *"upgrade_status"* ]]                && drush pm:enable -y upgrade_status
 [[ "$MODULE_INFO" != *"imce"* ]]                          && drush pm:enable -y imce
