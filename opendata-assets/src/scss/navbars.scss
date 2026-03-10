@@ -134,14 +134,18 @@ End of dropdown CSS
   }
 
   .header-login-link {
-    background: #2a6ebb;
+    background: tokens.$fi-color-brand-base;
+    border: 1px solid tokens.$fi-color-white-base;
 
     a {
-      color: #fff;
+      color: tokens.$fi-color-white-base;
+      white-space: nowrap;
     }
   }
 
-  .header-profile-link a {
+  .header-profile-link a, .header-register-link a {
+    color: tokens.$fi-color-white-base;
+    text-decoration: underline;
     display: block;
   }
 }
@@ -178,7 +182,7 @@ End of dropdown CSS
     .dropdown-button {
       background: none;
       border: 1px solid transparent;
-      color: tokens.$fi-color-black-base;
+      color: tokens.$fi-color-white-base;
       font-size: 16px;
       font-weight: 600;
       text-align: center;
