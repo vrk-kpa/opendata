@@ -35,7 +35,7 @@ describe('Dataset resource tests', function(){
         cy.go('back');
 
         cy.get('.data-viewer-info').find('a').click();
-        cy.get('.nav--resource-list').find('.active').click();
+        cy.get('.nav-simple').find('.active').click();
 
         //breadcrumbs
         cy.get('.breadcrumb').find('li').eq(0).click();
