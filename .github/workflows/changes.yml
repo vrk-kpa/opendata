@@ -64,7 +64,7 @@ jobs:
             drupal: drupal/**
             solr: docker/solr/**
             datapusher: docker/datapusher-plus/**
-            postgres: docker/posgtres/*
+            postgres: docker/postgres/**
             clamav: clamav/clamav-docker/**
             nginx: docker/nginx/**
             assets: opendata-assets/**
