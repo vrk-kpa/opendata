@@ -167,6 +167,7 @@ jobs:
             (needs.detect-changes.outputs.solr == 'true') ||
             (needs.detect-changes.outputs.datapusher == 'true') ||
             (needs.detect-changes.outputs.assets == 'true') ||
+            (needs.detect-changes.outputs.postgres == 'true') ||
             (needs.detect-changes.outputs.environment == 'true')
       }}
     runs-on: ubuntu-latest
