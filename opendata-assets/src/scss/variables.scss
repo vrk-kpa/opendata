@@ -11,12 +11,20 @@
 // Bootstrap: Grid
 $grid-breakpoints: (
   xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1400px
+  sm: tokens.$fi-breakpoint-s,
+  md: tokens.$fi-breakpoint-m,
+  lg: tokens.$fi-breakpoint-l,
+  xl: tokens.$fi-breakpoint-xl,
+
 );
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+);
+
 
 // Bootstrap: Border mixins
 $enable-rounded: true;

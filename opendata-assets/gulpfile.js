@@ -36,7 +36,6 @@ var paths = {
     root: "src",
     fontawesome: "./node_modules/@fortawesome/fontawesome-pro"
   },
-  dist: "resources",
   ckanResources: "../ckan/ckanext/ckanext-ytp_main/ckanext/ytp/resources",
   ckanPublic: "../ckan/ckanext/ckanext-ytp_main/ckanext/ytp/public",
   drupalTheme: "../drupal/modules/avoindata-theme"
@@ -50,13 +49,11 @@ var timestamp = new Date().getTime();
 
 gulp.task("clean", done => {
   del.sync([
-    paths.dist,
-    paths.root + '/vendor/**',
+    paths.src.root + '/vendor',
     paths.ckanResources + '/styles',
     paths.ckanResources + '/scripts',
     paths.ckanResources + '/templates',
     paths.ckanResources + '/vendor',
-    paths.ckanPublic + '/vendor',
     paths.drupalTheme + '/css',
     paths.drupalTheme + '/fonts',
     paths.drupalTheme + '/vendor',
@@ -85,8 +82,7 @@ gulp.task('copy:fontawesomeFonts', (done) => {
 gulp.task('copy:fontawesome', (done) => {
   pump([
     gulp.src(paths.src.fontawesome + "/**/**.*", {encoding: false}),
-    gulp.dest(paths.ckanPublic + "/vendor/@fortawesome/fontawesome"),
-    gulp.dest(paths.drupalTheme + "/vendor/@fortawesome/fontawesome")
+    gulp.dest(paths.src.root + "/vendor/@fortawesome/fontawesome"),
   ], done)
 })
 
@@ -112,7 +108,6 @@ gulp.task("ckan", (done) => {
     cleancss({ keepBreaks: false }),
     concat("ckan.css"),
     sourcemaps.write("."),
-    gulp.dest(paths.dist + "/styles"),
     gulp.dest(paths.ckanResources + "/styles"),
   ], done)
 });
@@ -125,7 +120,6 @@ gulp.task("openapi_view", (done) => {
     prefixer(),
     cleancss({ keepBreaks: false }),
     concat("openapi_view.css"),
-    gulp.dest(paths.dist + "/styles"),
     gulp.dest(paths.ckanResources + "/styles"),
   ], done)
 });
@@ -173,22 +167,17 @@ gulp.task("toolbarIcons",
         imagemin([
           imagemin.svgo()
         ]),
-        gulp.dest(paths.dist + "/toolbar-icons/"),
+        gulp.dest("../drupal/modules/avoindata-ckeditor5-plugins/icons"),
       ], done)
     },
     (done) => {
       pump([
         gulp.src('src/toolbar-icons/toolbar-icons.css'),
-        base64("/../../" + paths.dist + "/toolbar-icons/"),
+        base64("/../../src/toolbar-icons/"),
         gulp.dest("../drupal/modules/avoindata-ckeditor5-plugins/css"),
       ], done)
     },
-    (done) => {
-      pump([
-        gulp.src(paths.dist + "/toolbar-icons/*.svg"),
-        gulp.dest("../drupal/modules/avoindata-ckeditor5-plugins/icons"),
-      ], done)
-    }))
+    ))
 
 // // Compiles scss files in Drupal theme directory
 // // Output destination is also in Drupal theme directory
@@ -272,7 +261,6 @@ gulp.task("templates", (done) => {
   pump([
     gulp.src(paths.src.templates),
     template({ timestamp: timestamp }),
-    gulp.dest(paths.dist + "/templates"),
     gulp.dest(paths.ckanResources + "/templates"),
   ], done)
 });
@@ -308,16 +296,14 @@ gulp.task("fonts", (done) => {
 gulp.task("scripts", (done) => {
   pump([
     gulp.src([paths.src.scripts, paths.src.drupal_avoindata_header]),
-    gulp.dest(paths.dist + "/scripts"),
     gulp.dest(paths.ckanResources + "/scripts"),
-    gulp.dest(paths.drupalTheme + "/scripts")
   ], done)
 });
 
 gulp.task("bootstrap_scripts", (done) => {
   pump([
     gulp.src([paths.src.bootstrap_scripts]),
-    gulp.dest(paths.dist + "/vendor/bootstrap/js")
+    gulp.dest(paths.src.root + "/vendor/bootstrap/js")
   ], done)
 });
 
@@ -326,12 +312,10 @@ gulp.task("bootstrap_styles", (done) => {
     gulp.src(paths.src.scss + "/bootstrap_build.scss"),
     sass({ includePaths: ["node_modules", paths.src.bootstrap_styles] }),
     concat("bootstrap.css"),
-    gulp.dest(paths.dist + "/vendor/bootstrap/dist/css"),
-    gulp.dest(paths.ckanResources + "/vendor/bootstrap/dist/css"),
+    gulp.dest(paths.src.root + "/vendor/bootstrap/dist/css"),
     cleancss({ keepBreaks: false }),
     concat("bootstrap.min.css"),
-    gulp.dest(paths.dist + "/vendor/bootstrap/dist/css"),
-    gulp.dest(paths.ckanResources + "/vendor/bootstrap/dist/css")
+    gulp.dest(paths.src.root + "/vendor/bootstrap/dist/css"),
   ], done)
 });
 
@@ -349,16 +333,9 @@ gulp.task('copy:libs', (done) => {
   ], done)
 });
 
-gulp.task("copy:moment", (done) => {
-  pump([
-    gulp.src(paths.src.moment_path + "/min/**/*"),
-    gulp.dest(paths.src.moment_path + "/dist/min")
-  ], done)
-})
 
 gulp.task("vendor",
   gulp.series(
-    "copy:moment",
     "copy:libs",
     "bootstrap_scripts",
     "bootstrap_styles", (done) => {
@@ -371,33 +348,13 @@ gulp.task("vendor",
 );
 
 gulp.task(
-  "minify-vendor-javascript",
-  gulp.series("vendor", (done) => {
-    pump([
-      gulp.src(paths.dist + "/vendor/**/*.js"),
-      terser(),
-      gulp.dest(paths.dist + "/vendor")
-    ], done)
-  })
-);
-
-gulp.task("config", (done) => {
-  pump([
-    gulp.src(paths.src.root + "/resource.config"),
-    gulp.dest(paths.dist)
-  ], done)
-});
-
-gulp.task(
   "default",
   gulp.series(
     "clean",
-    "config",
     "copy:fontawesomeScss",
     "copy:fontawesomeFonts",
     "copy:fontawesome",
     gulp.parallel(
-      "minify-vendor-javascript",
       "templates",
       "static_pages",
       "ckan",
@@ -407,7 +364,8 @@ gulp.task(
       "drupal_copy_custom_ckeditor_styles_to_plugin",
       "fonts",
       "fontsCss",
-      "scripts")
+      "scripts",
+      "vendor")
   )
 );
 

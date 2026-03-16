@@ -1,1 +1,8 @@
+@use "variables" as opendata;
+
+$grid-breakpoints: opendata.$grid-breakpoints;
+$container-max-widths: opendata.$container-max-widths;
+
 @import 'bootstrap';
+
+
