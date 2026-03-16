@@ -73,7 +73,6 @@ services:
     networks:
       - backend
     environment:
-      - PGDATA=/var/lib/postgresql/data/db
       - POSTGRES_DB=${DB_CKAN}
       - POSTGRES_USER=${DB_CKAN_USER}
       - POSTGRES_PASSWORD=${DB_CKAN_PASS}
@@ -94,7 +93,7 @@ services:
     tmpfs:
         - /var/run/postgresql:uid=999,gid=999
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${DB_CKAN_USER}"]
       interval: 15s

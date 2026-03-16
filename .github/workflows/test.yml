@@ -103,7 +103,7 @@ jobs:
 
       - name: setup docker buildx
         if: ${{ matrix.build-container == true }}
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: configure NPM credentials
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
@@ -135,7 +135,7 @@ jobs:
 
       - name: build images
         if: ${{ matrix.build-container == true }}
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
@@ -167,6 +167,7 @@ jobs:
             (needs.detect-changes.outputs.solr == 'true') ||
             (needs.detect-changes.outputs.datapusher == 'true') ||
             (needs.detect-changes.outputs.assets == 'true') ||
+            (needs.detect-changes.outputs.postgres == 'true') ||
             (needs.detect-changes.outputs.environment == 'true')
       }}
     runs-on: ubuntu-latest
@@ -186,7 +187,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: setup docker buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: install nodejs v22
         uses: actions/setup-node@v6
@@ -342,7 +343,7 @@ jobs:
           docker logs opendata-fuseki-1
 
       - name: Build cypress container
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: ./cypress
           file: ./cypress/Dockerfile
