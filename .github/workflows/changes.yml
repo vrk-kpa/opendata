@@ -54,7 +54,7 @@ jobs:
         with:
           main-branch-name: 'master'
           workflow-id: 'master.yml'
-      - uses: dorny/paths-filter@v3
+      - uses: dorny/paths-filter@v4
         id: filter
         with:
           initial-fetch-depth: '10'
