@@ -177,7 +177,8 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/add_drafts_to_search.patch && \
     patch --strip=1 --input=patches/fix_truncate_helper_annotations.patch && \
     patch --strip=1 --input=patches/iauthenticator_fix.patch && \
-    patch --strip=1 --input=patches/add_check_if_old_api_keys_are_used.patch
+    patch --strip=1 --input=patches/add_check_if_old_api_keys_are_used.patch && \
+    patch --strip=1 --input=patches/fix_smtp_connection.patch
 
 RUN \
   # Make scripts executable
