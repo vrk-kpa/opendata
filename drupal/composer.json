@@ -16,7 +16,7 @@
     ],
     "require": {
         "composer/installers": "^2.3",
-        "cweagans/composer-patches": "^1.7",
+        "cweagans/composer-patches": "^2.0",
         "drupal/ape": "^1.4",
         "drupal/bootstrap": "^5.0",
         "drupal/captcha": "^2.0",
