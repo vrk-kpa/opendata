@@ -23,7 +23,11 @@
     <div class="header-search-group">
         <input class="header-search-input" type="search" class="form-control" name="search" placeholder="{{ placeholder }}">
         <button class="header-search-button" type="submit">
-            <span class="fa fa-search" aria-hidden="true">
+            <span class="far fa-search" aria-hidden="true">
+            </span>
+            {% trans with {'context': 'verb'} -%}
+            Search
+            {%- endtrans -%}
         </button>
         
     </div>
