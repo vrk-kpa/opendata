@@ -25,7 +25,9 @@
         <button class="header-search-button" type="submit">
             <span class="far fa-search" aria-hidden="true">
             </span>
-            Hae
+            {% trans with {'context': 'verb'} -%}
+            Search
+            {%- endtrans -%}
         </button>
         
     </div>
