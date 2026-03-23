@@ -791,7 +791,6 @@ End of dropdown CSS
   font-size: $font-size-base;
 
   li {
-
     margin: 0;
     padding: 0.5em 2em 0.5em 1em;
     border-radius: 0 !important;
@@ -805,10 +804,12 @@ End of dropdown CSS
     .btn-close:hover{
       color: tokens.$fi-color-black-base;
       width: auto;
-      padding: 0 7px 10px 7px;
+      padding: 0 7px 10px;
       border-radius: 0;
+
       // override bootstrap opacity
       opacity: 1;
+      
       // remove bootstrap icon
       background: none;
 
