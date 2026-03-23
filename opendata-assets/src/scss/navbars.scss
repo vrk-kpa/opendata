@@ -786,20 +786,91 @@ End of dropdown CSS
 
 .service-messages {
   list-style: none;
-  margin: 0;
+  margin-bottom: 10px;
   padding: 0;
   font-size: $font-size-base;
 
-  .alert-info {
-    background: $alert-info-bg;
-    border-color: $alert-info-border;
-    color: $alert-info-text;
+  li {
 
-    a,
-    a:hover,
-    a:focus {
-      color: darken($alert-info-text, 10%);
+    margin: 0;
+    padding: 0.5em 2em 0.5em 1em;
+    border-radius: 0 !important;
+    min-height: 46px;
+
+    span {
+      margin-left: 20px;
     }
+
+    .btn-close,
+    .btn-close:hover{
+      color: tokens.$fi-color-black-base;
+      width: auto;
+      padding: 0 7px 10px 7px;
+      border-radius: 0;
+      // override bootstrap opacity
+      opacity: 1;
+      // remove bootstrap icon
+      background: none;
+
+      // icon placement
+      i {
+        padding-left: 5px;
+        vertical-align: middle;
+      }
+
+    }
+
+    .btn-close:hover {
+      border: 1px solid tokens.$fi-color-black-base;
+    }
+
+    &.alert-info {
+      background: tokens.$fi-color-info-light1;
+      border-bottom: 1px solid tokens.$fi-color-info-base;
+      color: tokens.$fi-color-black-base;
+
+      a,
+      a:hover,
+      a:focus {
+        color: darken(tokens.$fi-color-black-base, 10%);
+      }
+    }
+
+    &.alert-danger {
+      background: tokens.$fi-color-alert-base;
+      color: tokens.$fi-color-white-base;
+      border-bottom: 1px solid tokens.$fi-color-white-base;
+
+      a,
+      a:hover,
+      a:focus {
+        color: darken(tokens.$fi-color-white-base, 10%);
+      }
+
+      .btn-close,
+      .btn-close:hover {
+        color: tokens.$fi-color-white-base;
+      }
+    }
+
+    &.alert-warning {
+      background: tokens.$fi-color-warning-base;
+      color: tokens.$fi-color-black-base;
+      border-bottom: 1px solid tokens.$fi-color-black-base;
+
+      a,
+      a:hover,
+      a:focus {
+        color: darken(tokens.$fi-color-black-base, 10%);
+      }
+    }
+  }
+
+
+
+
+  .container{
+    position: relative;
   }
 
   // Treat all links inside alert as .alert-link
@@ -812,33 +883,6 @@ End of dropdown CSS
     a:hover,
     a:focus {
       color: darken($alert-success-text, 10%);
-    }
-  }
-
-  .alert-warning {
-    a,
-    a:hover,
-    a:focus {
-      color: darken($alert-warning-text, 10%);
-    }
-  }
-
-  .alert-danger {
-    a,
-    a:hover,
-    a:focus {
-      color: darken($alert-danger-text, 10%);
-    }
-  }
-
-  li {
-    margin: 0;
-    padding: 0.5em 2em 0.5em 1em;
-    border-radius: 0 !important;
-    min-height: 46px;
-
-    .btn-close {
-      padding: 0.8rem 1rem;
     }
   }
 }
