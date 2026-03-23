@@ -2,10 +2,8 @@ main_css:
   output: ytp_resources/%(version)s_main.css
   contents:
     - vendor/bootstrap/dist/css/bootstrap.css
-    - vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css
     - vendor/select2-bootstrap-css/select2-bootstrap.css
     - styles/ckan.css
-    - opendata/styles/ab-datepicker.css
 
 main_js:
   output: ytp_resources/%(version)s_main.js
@@ -17,8 +15,6 @@ main_js:
     - scripts/offcanvas.js
     - scripts/avoindata_header.js
     - scripts/inject_responsive_tables.js
-    - vendor/moment/dist/min/moment-with-locales.js
-    - vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.js
     - opendata/scripts/drag-n-drop-uploader.js
 
 openapi_view_css:
@@ -26,15 +22,6 @@ openapi_view_css:
   contents:
     - styles/openapi_view.css
 
-ab_datepicker_js:
-  output: ytp_resources/%(version)s_ab_datepicker.js
-  filters: rjsmin
-  extra:
-    preload:
-      - ytp_resources/main_js
-  contents: 
-    - vendor/ab-datepicker/js/datepicker.js
-    - opendata/scripts/ab-datepicker_after_load.js
 
 bootstrap_table_css:
   output: ytp_resources/%(version)s_bootstrap_table.css
