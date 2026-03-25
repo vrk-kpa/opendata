@@ -169,3 +169,28 @@
   // To match right border with form
   padding-right: 15px;
 }
+
+// fix sidebar resource list dropdown button placement
+.module.resources {
+  .nav-item {
+    align-items: center;
+  }
+
+  .dropdown {
+    .btn-sm {
+      padding: 5px 10px;
+    }
+  }
+}
+
+// Decrease font-size for resource form in sidebar, Also affects other components that use the same template,
+// not needed when using new midnight blue ckan templates
+.context-info {
+  .nums {
+    dl {
+      dd {
+        font-size: 20px;
+      }
+    }
+  }
+}

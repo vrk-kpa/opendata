@@ -1,0 +1,214 @@
+From a0dcd88ef5ab2a208ff5ff006d8e1136cd87ed9e Mon Sep 17 00:00:00 2001
+From: cirun <cirun@live.com>
+Date: Tue, 16 Dec 2025 15:48:29 +0100
+Subject: [PATCH 1/4] Fix SMTP TLS handshake failure when port is embedded in
+ hostname
+
+(cherry picked from commit 25dafcbd94bfb0f3a6fe188731cc27a2d7cea3ee)
+---
+ ckan/lib/mailer.py | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/ckan/lib/mailer.py b/ckan/lib/mailer.py
+index 7c8f314ba28..de4e4f49a4c 100644
+--- a/ckan/lib/mailer.py
++++ b/ckan/lib/mailer.py
+@@ -7,6 +7,7 @@
+ import socket
+ import logging
+ import mimetypes
++from urllib.parse import urlparse
+ from time import time
+ from typing import Any, Iterable, Optional, Tuple, Union, IO
+
+@@ -96,8 +97,10 @@ def _mail_recipient(
+     smtp_user = config.get('smtp.user')
+     smtp_password = config.get('smtp.password')
+
++    host, port = parse_smtp_server(smtp_server)
++
+     try:
+-        smtp_connection = smtplib.SMTP(smtp_server)
++        smtp_connection = smtplib.SMTP(host, port)
+     except (socket.error, smtplib.SMTPConnectError) as e:
+         log.exception(e)
+         raise MailerException('SMTP server could not be connected to: "%s" %s'
+@@ -296,3 +299,26 @@ def verify_reset_link(user: model.User, key: Optional[str]) -> bool:
+     if not user.reset_key or len(user.reset_key) < 5:
+         return False
+     return key.strip() == user.reset_key
++
++
++def parse_smtp_server(smtp_server: str) -> tuple[str, int]:
++    """Parse SMTP server that may include port.
++
++    Examples:
++        'smtp.example.com' -> ('smtp.example.com', 25)
++        'smtp.example.com:587' -> ('smtp.example.com', 587)
++        '[::1]:587' -> ('::1', 587)
++    """
++    default_port = 0
++
++    if "://" not in smtp_server:
++        smtp_server = f"smtp://{smtp_server}"
++
++    parsed = urlparse(smtp_server)
++    host = parsed.hostname
++    port = parsed.port or default_port
++
++    if not host:
++        raise ValueError(f"Invalid SMTP server: {smtp_server}")
++
++    return host, port
+
+From 2b89c70429158961c65fe854028b9cccaa84a20e Mon Sep 17 00:00:00 2001
+From: cirun <cirun@live.com>
+Date: Wed, 24 Dec 2025 12:52:19 +0100
+Subject: [PATCH 2/4] add tests, changelog
+
+(cherry picked from commit 73fac5f2f53445fbf2866ce2da836816579c2f9c)
+---
+ ckan/lib/mailer.py            | 12 +++++-----
+ ckan/tests/lib/test_mailer.py | 45 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+), 6 deletions(-)
+
+diff --git a/ckan/lib/mailer.py b/ckan/lib/mailer.py
+index de4e4f49a4c..bcf67a7c427 100644
+--- a/ckan/lib/mailer.py
++++ b/ckan/lib/mailer.py
+@@ -21,6 +21,7 @@
+ import ckan.model as model
+ import ckan.lib.helpers as h
+ from ckan.lib.base import render
++from ckan.types import Validator
+
+ log = logging.getLogger(__name__)
+ AttachmentWithType = Union[
+@@ -97,7 +98,9 @@ def _mail_recipient(
+     smtp_user = config.get('smtp.user')
+     smtp_password = config.get('smtp.password')
+
+-    host, port = parse_smtp_server(smtp_server)
++    host, port = _parse_smtp_server(smtp_server)
++    if not host:
++        raise MailerException('SMTP server hostname is not configured')
+
+     try:
+         smtp_connection = smtplib.SMTP(host, port)
+@@ -301,11 +304,11 @@ def verify_reset_link(user: model.User, key: Optional[str]) -> bool:
+     return key.strip() == user.reset_key
+
+
+-def parse_smtp_server(smtp_server: str) -> tuple[str, int]:
++def _parse_smtp_server(smtp_server: str) -> tuple[str | None, int]:
+     """Parse SMTP server that may include port.
+
+     Examples:
+-        'smtp.example.com' -> ('smtp.example.com', 25)
++        'smtp.example.com' -> ('smtp.example.com', 0)
+         'smtp.example.com:587' -> ('smtp.example.com', 587)
+         '[::1]:587' -> ('::1', 587)
+     """
+@@ -318,7 +321,4 @@ def parse_smtp_server(smtp_server: str) -> tuple[str, int]:
+     host = parsed.hostname
+     port = parsed.port or default_port
+
+-    if not host:
+-        raise ValueError(f"Invalid SMTP server: {smtp_server}")
+-
+     return host, port
+diff --git a/ckan/tests/lib/test_mailer.py b/ckan/tests/lib/test_mailer.py
+index 505f5affc6b..704e814fcbf 100644
+--- a/ckan/tests/lib/test_mailer.py
++++ b/ckan/tests/lib/test_mailer.py
+@@ -413,3 +413,48 @@ def test_mail_user_with_attachments_no_media_type_provided(self, mail_server):
+             "goals.png", "image/png",
+         ]:
+             assert item in msg[3]
++
++    @pytest.mark.ckan_config("smtp.server", ":")
++    def test_invalid_smtp_server_colon_only(self):
++        test_email = {
++            "recipient_name": "Bob",
++            "recipient_email": "b@example.com",
++            "subject": "Meeting",
++            "body": "Test",
++            "headers": {},
++        }
++
++        with pytest.raises(mailer.MailerException) as exc:
++            mailer.mail_recipient(**test_email)
++
++        assert "SMTP server hostname is not configured" in str(exc.value)
++
++    @pytest.mark.ckan_config("smtp.server", "localhost:1025")
++    def test_smtp_server_with_port(self, mail_server):
++        test_email = {
++            "recipient_name": "Bob",
++            "recipient_email": "b@example.com",
++            "subject": "Meeting",
++            "body": "Test",
++            "headers": {},
++        }
++
++        mailer.mail_recipient(**test_email)
++
++        msgs = mail_server.get_smtp_messages()
++        assert len(msgs) == 1
++
++    @pytest.mark.ckan_config("smtp.server", "[::1]:1025")
++    def test_smtp_server_ipv6_with_port(self, mail_server):
++        test_email = {
++            "recipient_name": "Bob",
++            "recipient_email": "b@example.com",
++            "subject": "Meeting",
++            "body": "Test",
++            "headers": {},
++        }
++
++        mailer.mail_recipient(**test_email)
++
++        msgs = mail_server.get_smtp_messages()
++        assert len(msgs) == 1
+
+From 5dc82c1a9b87bc85689a00651fcadb91d6b17493 Mon Sep 17 00:00:00 2001
+From: cirun <cirun@live.com>
+Date: Wed, 24 Dec 2025 12:53:21 +0100
+Subject: [PATCH 3/4] remove unused import
+
+(cherry picked from commit 6e5b2700c31a1232b698727eaad87c32b1106d9d)
+---
+ ckan/lib/mailer.py | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/ckan/lib/mailer.py b/ckan/lib/mailer.py
+index bcf67a7c427..62ef9337e1a 100644
+--- a/ckan/lib/mailer.py
++++ b/ckan/lib/mailer.py
+@@ -21,7 +21,6 @@
+ import ckan.model as model
+ import ckan.lib.helpers as h
+ from ckan.lib.base import render
+-from ckan.types import Validator
+
+ log = logging.getLogger(__name__)
+ AttachmentWithType = Union[
+
+From 93bec6a8eefd8c3739650cf26bce6693eb1a4c4e Mon Sep 17 00:00:00 2001
+From: cirun <cirun@live.com>
+Date: Wed, 24 Dec 2025 12:55:10 +0100
+Subject: [PATCH 4/4] add changelog
+
+(cherry picked from commit 05e90cabb6694b85cfbdb6c075be00d027576087)
+---
+ changes/9186.bugfix | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 changes/9186.bugfix
+
+diff --git a/changes/9186.bugfix b/changes/9186.bugfix
+new file mode 100644
+index 00000000000..6a10e8a3509
+--- /dev/null
++++ b/changes/9186.bugfix
+@@ -0,0 +1 @@
++Fix SMTP TLS error with embedded port

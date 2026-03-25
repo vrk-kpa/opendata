@@ -3,7 +3,7 @@ registries:
   npm-registry-npm-fontawesome-com:
     type: npm-registry
     url: https://npm.fontawesome.com
-    token: "${{secrets.NPM_REGISTRY_NPM_FONTAWESOME_COM_TOKEN}}"
+    token: "${{secrets.NPM_TOKEN}}"
 
 updates:
 - package-ecosystem: pip

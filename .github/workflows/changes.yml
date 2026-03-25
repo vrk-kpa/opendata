@@ -24,6 +24,9 @@ on:
       assets:
         description: "Change in assets"
         value: ${{ jobs.changes_in_containers.outputs.assets }}
+      postgres:
+        description: "Change in postgres container"
+        value: ${{ jobs.changes_in_containers.outputs.postgres }}
       environment:
         description: "Changes in docker environment"
         value: ${{ jobs.changes_in_containers.outputs.environment }}
@@ -39,6 +42,7 @@ jobs:
       datapusher: ${{ steps.filter.outputs.datapusher }}
       clamav: ${{ steps.filter.outputs.clamav }}
       assets: ${{ steps.filter.outputs.assets }}
+      postgres: ${{ steps.filter.outputs.postgres }}
       environment: ${{ steps.filter.outputs.environment }}
     steps:
       - uses: actions/checkout@v6
@@ -50,7 +54,7 @@ jobs:
         with:
           main-branch-name: 'master'
           workflow-id: 'master.yml'
-      - uses: dorny/paths-filter@v3
+      - uses: dorny/paths-filter@v4
         id: filter
         with:
           initial-fetch-depth: '10'
@@ -60,6 +64,7 @@ jobs:
             drupal: drupal/**
             solr: docker/solr/**
             datapusher: docker/datapusher-plus/**
+            postgres: docker/postgres/**
             clamav: clamav/clamav-docker/**
             nginx: docker/nginx/**
             assets: opendata-assets/**
