@@ -69,6 +69,9 @@ FROM nginx_build AS drupal_development
 
 ENV DEV_MODE=true
 
+# install gettext for msguniq needed to export translations
+RUN apk add --no-cache gettext
+
 # install drupal dev requirements
 RUN composer install --no-cache --dev
 
