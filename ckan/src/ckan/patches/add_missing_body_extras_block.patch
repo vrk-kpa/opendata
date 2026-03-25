@@ -1,0 +1,23 @@
+From 9d89051fe7524d795b7f30ff2507d8d15bb25a4c Mon Sep 17 00:00:00 2001
+From: amercader <amercadero@gmail.com>
+Date: Mon, 19 Aug 2024 12:59:45 +0200
+Subject: [PATCH] Add the body_extra block back
+
+---
+ ckan/templates/base.html | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/ckan/templates/base.html b/ckan/templates/base.html
+index 54627e321e8..3573f679917 100644
+--- a/ckan/templates/base.html
++++ b/ckan/templates/base.html
+@@ -114,6 +114,9 @@
+     {%- block scripts %}
+     {% endblock -%}
+
++    {% block body_extras -%}
++    {%- endblock %}
++
+     {# render all assets included in scripts block and everywhere else #}
+     {# make sure there are no calls to `asset` tag after this point #}
+     {{ h.render_assets('style') }}
