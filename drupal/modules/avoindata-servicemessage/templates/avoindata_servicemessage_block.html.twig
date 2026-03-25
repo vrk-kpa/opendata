@@ -9,17 +9,24 @@
 <ul class="service-messages">
 {% for message in messages %}
   {% set alert_type = "secondary" %}
+  {% set alert_icon = "" %}
   {% if message.severity == "critical" %}
     {% set alert_type = "danger" %}
+    {% set alert_icon = "fa-exclamation-circle" %}
   {% elseif message.severity == "warning" %}
     {% set alert_type = "warning" %}
+    {% set alert_icon = " fa-exclamation-triangle" %}
   {% elseif message.severity == "info" %}
     {% set alert_type = "info" %}
+    {% set alert_icon = "fa-info-circle" %}
   {% endif %}
 
   <li class="alert alert-{{ alert_type }} alert-dismissible">
-    <span>{{ message.body|raw }}</span>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="container">
+      <i class="far {{ alert_icon }}"></i>
+      <span>{{ message.body|raw }}</span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{% trans %}Close{% endtrans %}">{% trans %}Close{% endtrans %}<i class="fal fa-times"></i></button>
+    </div>
   </li>
 {% endfor %}
 </ul>
