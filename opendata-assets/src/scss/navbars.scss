@@ -100,7 +100,7 @@ End of dropdown CSS
   margin-left: auto;
   padding-right: 15px;
   padding-left: 15px;
-  height: 67px;
+  height: 60px;
 }
 
 @media only screen and (width <= 500px) {
@@ -178,7 +178,7 @@ End of dropdown CSS
     .dropdown-button {
       background: none;
       border: 1px solid transparent;
-      color: tokens.$fi-color-black-base;
+      color: tokens.$fi-color-white-base;
       font-size: 16px;
       font-weight: 600;
       text-align: center;
@@ -267,9 +267,10 @@ End of dropdown CSS
 }
 
 // First (upper) navbar
-.first-navbar {
+#first-navbar {
   display: block;
   margin-bottom: 0;
+  background-color: tokens.$fi-color-brand-base;
 }
 
 .search-bar-wrapper {
@@ -380,23 +381,16 @@ End of dropdown CSS
 
 // Second navbar
 #second-navbar {
-  background-color: $navbar-background;
-  min-height: auto;
-  border-top: $navbar-border;
-  border-bottom: $navbar-border;
+  background-color: tokens.$fi-color-developer-second-bar;
 
-  .navbar {
-    min-height: auto;
-
-    .container-fluid {
-      align-items: flex-start;
-    }
+  .navbar-header {
+    flex-grow: 1;
+    max-width: 900px;
   }
 
-  .navbar-nav > li > a {
-    color: $navbar-color-links;
-    font-size: 18px;
-    line-height: 20px;
+  .navbar {
+    min-height: 50px;
+    align-items: end;
   }
 
   .navbar-toggler {
@@ -404,10 +398,9 @@ End of dropdown CSS
   }
 
   .link-button {
-    color: $link-default-color;
-    border: 1px solid $link-default-color;
+    color: tokens.$fi-color-white-base;
+    padding: 0 10px;
     background: transparent;
-    margin: 10px;
     border-radius: 2px;
     box-shadow: none;
     display: flex;
@@ -419,6 +412,7 @@ End of dropdown CSS
     align-items: center;
     gap: 8px;
     float: right;
+    border: 1px solid transparent tokens.$fi-color-white-base;
 
     &.borderless {
       border: 1px solid transparent;
@@ -434,9 +428,7 @@ End of dropdown CSS
     }
 
     &:hover {
-      color: $link-default-color;
-      border: 1px solid $suomi-depthBase;
-      background: linear-gradient(to top, transparent 0%, rgb(255 255 255 / 8.5%) 100%);
+      border-color: tokens.$fi-color-white-base;
       text-decoration: none;
     }
   }
@@ -454,59 +446,33 @@ End of dropdown CSS
     background-color: transparent; // hovering the bootstrap toggle button
   }
 
-  a:hover {
-    color: $navbar-color-links;
-    background-color: $navbar-background;
-    border-bottom: $border-width__navigation solid $border-bottom-color__main-nav--active;
+  .navbar-nav {
+    flex-grow: 1;
+    justify-content: space-between;
+  }
+
+  .navbar-nav li > a {
+    color: tokens.$fi-color-white-base;
+    font-size: 18px;
+    line-height: 20px;
+    box-sizing: border-box;
+    padding: 5px 5px 11px;
+    border-bottom: $border-width__navigation solid transparent;
+
+    &:hover, &.is-active {
+      border-color: tokens.$fi-color-developer-turquoise;
+    }
+
     text-decoration: none;
-
-    &.is-active {
-      background-color: #e7e7e7;
-    }
   }
 
-  li.active {
-    background-color: $navbar-background;
-
-    a {
-      background-color: $navbar-background;
-      color: $navbar-color-links;
-    }
+  .dropdown-toggle::after {
+    /* Disable bootstrap's dropdown caret */
+    display: none;
   }
 
-  li {
-    a {
-      text-decoration: none;
-      margin: 0;
-
-      // Because border-bottom adds "padding" to bottom, subtract border-width from bottom padding
-      padding: $padding-x__navigation $padding-y__navigation + $border-width__navigation $padding-x__navigation - $border-width__navigation;
-      border-bottom: $border-width__navigation solid transparent;
-
-      &.is-active {
-        position: relative;
-        border-bottom: $border-width__navigation solid $border-bottom-color__main-nav--active;
-
-        &::after {
-          position: absolute;
-          border-bottom: $border-width__navigation solid $border-bottom-color__main-nav--active;
-        }
-      }
-
-      // Bit of a hack to not make the nav go crazy on resize.
-      @media (width <= 1155px) {
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-    }
-  }
-
-  .dropdown > .dropdown-toggle::after {
-    // Smaller caret
-    border-top: 4px dashed;
-    border-right: 4px solid transparent;
-    border-left: 4px solid transparent;
-    vertical-align: middle;
+  .dropdown > .dropdown-toggle.show i {
+    transform: rotate(180deg);
   }
 
   .dropdown.open > .dropdown-toggle {
@@ -600,7 +566,7 @@ End of dropdown CSS
       color: $link-dark-color;
 
       &:hover {
-        border-left: 10px solid $menu-hover-border-color;
+        border-color: tokens.$fi-color-highlight-base;
         border-bottom: none;
         text-decoration: none;
       }
