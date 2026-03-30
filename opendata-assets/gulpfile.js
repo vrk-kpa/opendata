@@ -25,7 +25,6 @@ var paths = {
     drupal_avoindata_header: "../drupal/modules/avoindata-header/src/js/avoindata_header.js",
     drupal_ckeditor_plugins: "src/scss/drupal/custom-elements.scss",
     drupal_ckeditor5_plugins: ["src/scss/drupal/custom-elements.scss", "src/scss/drupal/editor.scss"],
-    templates: "src/templates/**/*",
     static_pages: "src/static_pages",
     fonts: "src/fonts/**/*",
     fontsCss: "src/scss/fonts.scss",
@@ -52,7 +51,6 @@ gulp.task("clean", done => {
     paths.src.root + '/vendor',
     paths.ckanResources + '/styles',
     paths.ckanResources + '/scripts',
-    paths.ckanResources + '/templates',
     paths.ckanResources + '/vendor',
     paths.drupalTheme + '/css',
     paths.drupalTheme + '/fonts',
@@ -257,13 +255,6 @@ gulp.task("images", (done) => {
   ], done)
 });
 
-gulp.task("templates", (done) => {
-  pump([
-    gulp.src(paths.src.templates),
-    template({ timestamp: timestamp }),
-    gulp.dest(paths.ckanResources + "/templates"),
-  ], done)
-});
 
 gulp.task("static_css",
   gulp.series('images', (done) => {
@@ -321,13 +312,15 @@ gulp.task("bootstrap_styles", (done) => {
 
 gulp.task('copy:libs', (done) => {
   pump([
-    gulp.src(npmDist({
-      excludes: ['/@fortawesome/**/*']
-    }), { base: './node_modules' }),
+    gulp.src(npmDist(), { base: './node_modules', encoding: false}),
     rename((path) => {
       if (path.extname === '.js' || path.extname === '.css') {
         path.basename = path.basename.replace(".min", "");
       }
+      if (path.dirname.includes("fontawesome-pro")) {
+        path.dirname = path.dirname.replace('fontawesome-pro', 'fontawesome');
+      }
+
     }),
     gulp.dest(paths.src.root + '/vendor')
   ], done)
@@ -352,10 +345,7 @@ gulp.task(
   gulp.series(
     "clean",
     "copy:fontawesomeScss",
-    "copy:fontawesomeFonts",
-    "copy:fontawesome",
     gulp.parallel(
-      "templates",
       "static_pages",
       "ckan",
       "openapi_view",
@@ -371,7 +361,7 @@ gulp.task(
 
 gulp.task("watch", () => {
   var watcher = gulp.watch(
-    ["./src/scss/**/*.scss", "./src/scss/*.scss", paths.src.templates],
+    ["./src/scss/**/*.scss", "./src/scss/*.scss"],
     gulp.series("default")
   );
 
@@ -384,7 +374,7 @@ gulp.task("watch", () => {
 
 gulp.task("watch_styles", () => {
   var watcher = gulp.watch(
-    ["./src/scss/**/*.scss", "./src/scss/*.scss", paths.src.templates],
+    ["./src/scss/**/*.scss", "./src/scss/*.scss"],
     gulp.parallel(
       "bootstrap_styles",
       "bootstrap_scripts",
