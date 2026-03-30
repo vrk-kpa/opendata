@@ -100,7 +100,7 @@ End of dropdown CSS
   margin-left: auto;
   padding-right: 15px;
   padding-left: 15px;
-  height: 67px;
+  height: 60px;
 }
 
 @media only screen and (width <= 500px) {
@@ -123,6 +123,7 @@ End of dropdown CSS
   .header-login-link, .header-register-link, .header-profile-link {
     line-height: 20px;
     padding: 9px 19px;
+    white-space: nowrap;
     
     a {
       text-decoration: none;
@@ -134,14 +135,18 @@ End of dropdown CSS
   }
 
   .header-login-link {
-    background: #2a6ebb;
+    background: tokens.$fi-color-brand-base;
+    border: 1px solid tokens.$fi-color-white-base;
 
     a {
-      color: #fff;
+      color: tokens.$fi-color-white-base;
+      white-space: nowrap;
     }
   }
 
-  .header-profile-link a {
+  .header-profile-link a, .header-register-link a {
+    color: tokens.$fi-color-white-base;
+    text-decoration: underline;
     display: block;
   }
 }
@@ -178,7 +183,7 @@ End of dropdown CSS
     .dropdown-button {
       background: none;
       border: 1px solid transparent;
-      color: tokens.$fi-color-black-base;
+      color: tokens.$fi-color-white-base;
       font-size: 16px;
       font-weight: 600;
       text-align: center;
@@ -267,9 +272,10 @@ End of dropdown CSS
 }
 
 // First (upper) navbar
-.first-navbar {
+#first-navbar {
   display: block;
   margin-bottom: 0;
+  background-color: tokens.$fi-color-brand-base;
 }
 
 .search-bar-wrapper {
@@ -292,12 +298,30 @@ End of dropdown CSS
 }
 
 .header-search-input {
-  width: 360px;
-  border: solid 1px #c8cdd0;
-  padding: 8px 10px;
-  box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
+  &::selection {
+    color: tokens.$fi-color-brand-base;
+    background: tokens.$fi-color-white-base;
+  }
+
+  &::placeholder {
+    font-style: italic;
+    color: tokens.$fi-color-white-base;
+  }
+
+  /* Ensures input and button stay the same height */
+  &:focus {
+    outline-offset: 2px;
+    outline: none;
+  }
+
+  background: tokens.$fi-color-brand-base;
+  color: tokens.$fi-color-white-base;
+  text-decoration-color: tokens.$fi-color-white-base;
+  flex-grow: 1;
+  border: solid 1px tokens.$fi-color-white-base;
+  padding: 6px 16px;
   height: 40px;
-  border-radius: 1px;
+  border-radius: 2px 0 0 2px;
   margin-right: 0;
 }
 
@@ -308,24 +332,54 @@ End of dropdown CSS
 
 .header-search-group {
   height: 40px;
+  width: 400px;
+  display: flex;
+  position: relative;
+
+  &:has(input:focus)::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    border-radius: 2px;
+    background-color: transparent;
+    border: 0 solid tokens.$fi-color-white-base;
+    box-sizing: border-box;
+    box-shadow: tokens.$fi-color-accent-secondary 0 0 0 2px;
+    z-index: 9999;
+    inset: -3px;
+  }
 }
 
 .header-search-group input,
 .header-search-group button {
-  float: left;
   box-sizing: border-box;
   height: 40px;
 }
 
 .header-search-button {
-  background-color: $suomi-highlightBase;
-  border-color: $suomi-highlightBase;
-  color: #fff;
+  background-color: tokens.$fi-color-brand-base;
+  color: tokens.$fi-color-white-base;
+  border: solid 1px tokens.$fi-color-white-base;
+  border-radius: 0 2px 2px 0;
+  padding: 9px 20px;
+  font-size: 14px;
   margin-left: 0;
-  border-radius: 2px;
-  width: 40px;
   background-image: none;
-  border: 1px solid transparent;
+  white-space: nowrap;
+  position: relative;
+
+  &:focus::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    border-radius: 2px;
+    background-color: transparent;
+    border: 0 solid tokens.$fi-color-white-base;
+    box-sizing: border-box;
+    box-shadow: tokens.$fi-color-accent-secondary 0 0 0 2px;
+    z-index: 9999;
+    inset: -2px;
+  }
 }
 
 #avoindata-search-id {
@@ -380,23 +434,16 @@ End of dropdown CSS
 
 // Second navbar
 #second-navbar {
-  background-color: $navbar-background;
-  min-height: auto;
-  border-top: $navbar-border;
-  border-bottom: $navbar-border;
+  background-color: tokens.$fi-color-developer-second-bar;
 
-  .navbar {
-    min-height: auto;
-
-    .container-fluid {
-      align-items: flex-start;
-    }
+  .navbar-header {
+    flex-grow: 1;
+    max-width: 900px;
   }
 
-  .navbar-nav > li > a {
-    color: $navbar-color-links;
-    font-size: 18px;
-    line-height: 20px;
+  .navbar {
+    min-height: 50px;
+    align-items: end;
   }
 
   .navbar-toggler {
@@ -404,10 +451,9 @@ End of dropdown CSS
   }
 
   .link-button {
-    color: $link-default-color;
-    border: 1px solid $link-default-color;
+    color: tokens.$fi-color-white-base;
+    padding: 0 10px;
     background: transparent;
-    margin: 10px;
     border-radius: 2px;
     box-shadow: none;
     display: flex;
@@ -419,6 +465,7 @@ End of dropdown CSS
     align-items: center;
     gap: 8px;
     float: right;
+    border: 1px solid transparent tokens.$fi-color-white-base;
 
     &.borderless {
       border: 1px solid transparent;
@@ -434,9 +481,7 @@ End of dropdown CSS
     }
 
     &:hover {
-      color: $link-default-color;
-      border: 1px solid $suomi-depthBase;
-      background: linear-gradient(to top, transparent 0%, rgb(255 255 255 / 8.5%) 100%);
+      border-color: tokens.$fi-color-white-base;
       text-decoration: none;
     }
   }
@@ -454,59 +499,33 @@ End of dropdown CSS
     background-color: transparent; // hovering the bootstrap toggle button
   }
 
-  a:hover {
-    color: $navbar-color-links;
-    background-color: $navbar-background;
-    border-bottom: $border-width__navigation solid $border-bottom-color__main-nav--active;
+  .navbar-nav {
+    flex-grow: 1;
+    justify-content: space-between;
+  }
+
+  .navbar-nav li > a {
+    color: tokens.$fi-color-white-base;
+    font-size: 18px;
+    line-height: 20px;
+    box-sizing: border-box;
+    padding: 5px 5px 11px;
+    border-bottom: $border-width__navigation solid transparent;
+
+    &:hover, &.is-active {
+      border-color: tokens.$fi-color-developer-turquoise;
+    }
+
     text-decoration: none;
-
-    &.is-active {
-      background-color: #e7e7e7;
-    }
   }
 
-  li.active {
-    background-color: $navbar-background;
-
-    a {
-      background-color: $navbar-background;
-      color: $navbar-color-links;
-    }
+  .dropdown-toggle::after {
+    /* Disable bootstrap's dropdown caret */
+    display: none;
   }
 
-  li {
-    a {
-      text-decoration: none;
-      margin: 0;
-
-      // Because border-bottom adds "padding" to bottom, subtract border-width from bottom padding
-      padding: $padding-x__navigation $padding-y__navigation + $border-width__navigation $padding-x__navigation - $border-width__navigation;
-      border-bottom: $border-width__navigation solid transparent;
-
-      &.is-active {
-        position: relative;
-        border-bottom: $border-width__navigation solid $border-bottom-color__main-nav--active;
-
-        &::after {
-          position: absolute;
-          border-bottom: $border-width__navigation solid $border-bottom-color__main-nav--active;
-        }
-      }
-
-      // Bit of a hack to not make the nav go crazy on resize.
-      @media (width <= 1155px) {
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-    }
-  }
-
-  .dropdown > .dropdown-toggle::after {
-    // Smaller caret
-    border-top: 4px dashed;
-    border-right: 4px solid transparent;
-    border-left: 4px solid transparent;
-    vertical-align: middle;
+  .dropdown > .dropdown-toggle.show i {
+    transform: rotate(180deg);
   }
 
   .dropdown.open > .dropdown-toggle {
@@ -600,7 +619,7 @@ End of dropdown CSS
       color: $link-dark-color;
 
       &:hover {
-        border-left: 10px solid $menu-hover-border-color;
+        border-color: tokens.$fi-color-highlight-base;
         border-bottom: none;
         text-decoration: none;
       }
@@ -786,20 +805,92 @@ End of dropdown CSS
 
 .service-messages {
   list-style: none;
-  margin: 0;
+  margin-bottom: 10px;
   padding: 0;
   font-size: $font-size-base;
 
-  .alert-info {
-    background: $alert-info-bg;
-    border-color: $alert-info-border;
-    color: $alert-info-text;
+  li {
+    margin: 0;
+    padding: 0.5em 2em 0.5em 1em;
+    border-radius: 0 !important;
+    min-height: 46px;
 
-    a,
-    a:hover,
-    a:focus {
-      color: darken($alert-info-text, 10%);
+    span {
+      margin-left: 20px;
     }
+
+    .btn-close,
+    .btn-close:hover{
+      color: tokens.$fi-color-black-base;
+      width: auto;
+      padding: 0 7px 10px;
+      border-radius: 0;
+
+      // override bootstrap opacity
+      opacity: 1;
+      
+      // remove bootstrap icon
+      background: none;
+
+      // icon placement
+      i {
+        padding-left: 5px;
+        vertical-align: middle;
+      }
+
+    }
+
+    .btn-close:hover {
+      border: 1px solid tokens.$fi-color-black-base;
+    }
+
+    &.alert-info {
+      background: tokens.$fi-color-info-light1;
+      border-bottom: 1px solid tokens.$fi-color-info-base;
+      color: tokens.$fi-color-black-base;
+
+      a,
+      a:hover,
+      a:focus {
+        color: darken(tokens.$fi-color-black-base, 10%);
+      }
+    }
+
+    &.alert-danger {
+      background: tokens.$fi-color-alert-base;
+      color: tokens.$fi-color-white-base;
+      border-bottom: 1px solid tokens.$fi-color-white-base;
+
+      a,
+      a:hover,
+      a:focus {
+        color: darken(tokens.$fi-color-white-base, 10%);
+      }
+
+      .btn-close,
+      .btn-close:hover {
+        color: tokens.$fi-color-white-base;
+      }
+    }
+
+    &.alert-warning {
+      background: tokens.$fi-color-warning-base;
+      color: tokens.$fi-color-black-base;
+      border-bottom: 1px solid tokens.$fi-color-black-base;
+
+      a,
+      a:hover,
+      a:focus {
+        color: darken(tokens.$fi-color-black-base, 10%);
+      }
+    }
+  }
+
+
+
+
+  .container{
+    position: relative;
   }
 
   // Treat all links inside alert as .alert-link
@@ -812,33 +903,6 @@ End of dropdown CSS
     a:hover,
     a:focus {
       color: darken($alert-success-text, 10%);
-    }
-  }
-
-  .alert-warning {
-    a,
-    a:hover,
-    a:focus {
-      color: darken($alert-warning-text, 10%);
-    }
-  }
-
-  .alert-danger {
-    a,
-    a:hover,
-    a:focus {
-      color: darken($alert-danger-text, 10%);
-    }
-  }
-
-  li {
-    margin: 0;
-    padding: 0.5em 2em 0.5em 1em;
-    border-radius: 0 !important;
-    min-height: 46px;
-
-    .btn-close {
-      padding: 0.8rem 1rem;
     }
   }
 }

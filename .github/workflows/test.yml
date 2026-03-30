@@ -463,7 +463,7 @@ jobs:
           npm run test
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           flags: cdk
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -576,7 +576,7 @@ jobs:
         apt-get install -y curl gpg
 
     - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v5
+      uses: codecov/codecov-action@v6
       with:
         flags: ckan
         token: ${{ secrets.CODECOV_TOKEN }}
