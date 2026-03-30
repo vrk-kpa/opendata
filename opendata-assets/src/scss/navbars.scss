@@ -692,7 +692,6 @@ End of dropdown CSS
   font-size: $font-size-base;
   font-weight: $font-weight-normal;
   line-height: 23px;
-
   color: tokens.$fi-color-white-base;
   background: tokens.$fi-color-brand-base;
   border-top: 4px solid tokens.$fi-color-developer-turquoise;
@@ -757,7 +756,6 @@ End of dropdown CSS
     max-width: $opendata-container-max-width;
     margin: 0 auto;
     padding: $padding-y__section 0;
-
     justify-content: center;
 
     &:not(:first-child) {
@@ -802,8 +800,10 @@ End of dropdown CSS
     .container-fluid {
       padding: 0;
     }
+
     .navbar-nav {
       margin: -.5rem;
+
       .nav-link {
         color: tokens.$fi-color-white-base;
         text-decoration: underline;
