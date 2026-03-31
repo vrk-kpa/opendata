@@ -17,10 +17,6 @@ avoindata-custom-elements:
     - core/drupal
     - core/jquery
     - core/once
-webfonts:
-  css:
-    base:
-      'css/fonts.css': {preprocess: false}
 
 cycle-guide-menu-items:
   js:

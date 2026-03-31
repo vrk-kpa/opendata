@@ -1,9 +1,18 @@
 main_css:
   output: ytp_resources/%(version)s_main.css
+  extra:
+    preload:
+      - ytp_resources/fontawesome
   contents:
     - vendor/bootstrap/dist/css/bootstrap.css
     - vendor/select2-bootstrap-css/select2-bootstrap.css
     - styles/ckan.css
+
+fontawesome:
+  output: ytp_resources/%(version)s_fontawesome.css
+  filters: cssrewrite
+  contents:
+    - vendor/@fortawesome/fontawesome/css/all.css
 
 main_js:
   output: ytp_resources/%(version)s_main.js

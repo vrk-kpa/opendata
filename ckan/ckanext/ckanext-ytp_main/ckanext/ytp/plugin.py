@@ -1208,6 +1208,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         toolkit.add_template_directory(config, 'templates')
         toolkit.add_template_directory(config, 'resources/templates')
         toolkit.add_resource('resources', 'ytp_resources')
+        toolkit.add_public_directory(config, 'resources')
         toolkit.add_public_directory(config, 'public')
         toolkit.add_template_directory(config, 'postit')
 
