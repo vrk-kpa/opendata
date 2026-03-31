@@ -3,6 +3,7 @@ main_css:
   extra:
     preload:
       - ytp_resources/fontawesome
+      - ytp_resources/fonts
   contents:
     - vendor/bootstrap/dist/css/bootstrap.css
     - vendor/select2-bootstrap-css/select2-bootstrap.css
@@ -13,6 +14,12 @@ fontawesome:
   filters: cssrewrite
   contents:
     - vendor/@fortawesome/fontawesome/css/all.css
+
+fonts:
+  output: ytp_resources/%(version)s_fonts.css
+  filters: cssrewrite
+  contents:
+    - styles/fonts.css
 
 main_js:
   output: ytp_resources/%(version)s_main.js
