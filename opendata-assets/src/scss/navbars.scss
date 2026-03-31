@@ -276,6 +276,7 @@ End of dropdown CSS
   display: block;
   margin-bottom: 0;
   background-color: tokens.$fi-color-brand-base;
+  border-top: 4px solid tokens.$fi-color-developer-turquoise;
 }
 
 .search-bar-wrapper {
@@ -686,20 +687,16 @@ End of dropdown CSS
 .footer {
   margin: 0;
   margin-top: auto;
-  padding-top: 0;
-  padding-bottom: 0;
+  padding: 0 $padding-x--common;
   width: 100%;
-  font-size: $font-size-slightly-smaller-base;
+  font-size: $font-size-base;
   font-weight: $font-weight-normal;
   line-height: 23px;
-  border-top: 4px solid $opendata-brand-blue;
+  color: tokens.$fi-color-white-base;
+  background: tokens.$fi-color-brand-base;
+  border-top: 4px solid tokens.$fi-color-developer-turquoise;
 
   .footer__top {
-    background-color: $suomi-whiteBase;
-    color: $color--black;
-    padding-top: $padding-y__section;
-    padding-bottom: 0;
-
     .footer__brand-box {
       margin-bottom: 10px;
     }
@@ -709,6 +706,7 @@ End of dropdown CSS
 
       #footer-logo {
         height: 60px;
+        margin-left: -15px; /* negate logo padding to align with content */
       }
     }
 
@@ -729,11 +727,6 @@ End of dropdown CSS
   }
 
   .footer__bottom {
-    background-color: $opendata-brand-blue;
-    color: $footer-text-color;
-    padding-top: $padding-y__section;
-    padding-bottom: $padding-y__section;
-
     .footer-socicons {
       font-size: $font-size-slightly-smaller-base;
       margin: 0 $padding-x--common;
@@ -762,7 +755,12 @@ End of dropdown CSS
     width: 100%;
     max-width: $opendata-container-max-width;
     margin: 0 auto;
+    padding: $padding-y__section 0;
     justify-content: center;
+
+    &:not(:first-child) {
+      border-top: 1px solid tokens.$fi-color-white-base;
+    }
 
     .footer-col {
       display: flex;
@@ -796,9 +794,20 @@ End of dropdown CSS
     }
   }
 
-  .navbar-nav {
-    .nav-link {
-      color: $suomi-highlightBase;
+  .footer-nav {
+    padding: 0;
+
+    .container-fluid {
+      padding: 0;
+    }
+
+    .navbar-nav {
+      margin: -.5rem;
+
+      .nav-link {
+        color: tokens.$fi-color-white-base;
+        text-decoration: underline;
+      }
     }
   }
 }
