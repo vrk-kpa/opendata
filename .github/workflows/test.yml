@@ -522,6 +522,7 @@ jobs:
         mkfile ckanext/ytp/resources/vendor/select2-bootstrap-css select2-bootstrap.css
         mkfile ckanext/ytp/resources/vendor/@fortawesome/fontawesome/css all.css
         mkfile ckanext/ytp/resources/styles ckan.css
+        mkfile ckanext/ytp/resources/styles fonts.css
         mkfile ckanext/ytp/resources/templates head-styles-ckan.html
         mkfile ckanext/ytp/resources/scripts offcanvas.js
         mkfile ckanext/ytp/resources/scripts avoindata_header.js
