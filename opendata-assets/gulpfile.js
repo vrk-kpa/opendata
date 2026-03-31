@@ -230,7 +230,7 @@ gulp.task("fontsCss", (done) => {
     concat("fonts.css"),
     sourcemaps.write("./maps"),
     gulp.dest(paths.drupalTheme + "/css"),
-    gulp.dest(paths.ckanPublic + "/vendor/styles"),
+    gulp.dest(paths.ckanResources + "/styles"),
   ], done)
 });
 
@@ -280,7 +280,7 @@ gulp.task("fonts", (done) => {
   pump([
     gulp.src(paths.src.fonts, {encoding: false}),
     gulp.dest(paths.drupalTheme + "/fonts"),
-    gulp.dest(paths.ckanPublic + "/vendor/fonts")
+    gulp.dest(paths.ckanResources + "/fonts")
   ], done)
 });
 
