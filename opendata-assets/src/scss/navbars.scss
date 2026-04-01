@@ -121,6 +121,7 @@ End of dropdown CSS
   margin-right: 15px;
 
   .header-login-link, .header-register-link, .header-profile-link {
+    font-size: $font-size-smaller-base;
     line-height: 20px;
     padding: 9px 19px;
     white-space: nowrap;
@@ -363,7 +364,7 @@ End of dropdown CSS
   border: solid 1px tokens.$fi-color-white-base;
   border-radius: 0 2px 2px 0;
   padding: 9px 20px;
-  font-size: 14px;
+  font-size: $font-size-smaller-base;
   margin-left: 0;
   background-image: none;
   white-space: nowrap;
@@ -525,8 +526,15 @@ End of dropdown CSS
     display: none;
   }
 
-  .dropdown > .dropdown-toggle.show i {
-    transform: rotate(180deg);
+  .dropdown > .dropdown-toggle {
+    i {
+      transform: rotate(0deg);
+      margin-left: 4px;
+    }
+
+    &.show i {
+      transform: rotate(180deg);
+    }
   }
 
   .dropdown.open > .dropdown-toggle {
@@ -609,20 +617,23 @@ End of dropdown CSS
       padding: 0;
     }
 
-    .dropdown > .dropdown-menu.show > li > a {
-      margin: 0;
-      border: none;
-      font-size: 18px;
-      padding: 15px 22px 15px 16px;
-      border-left: 10px solid transparent;
-      background-color: $btn-default-bg;
-      display: block;
-      color: $link-dark-color;
+    .dropdown > .dropdown-menu.show {
+      padding: 25px 20px;
 
-      &:hover {
-        border-color: tokens.$fi-color-highlight-base;
-        border-bottom: none;
-        text-decoration: none;
+      li > a {
+        margin: 0;
+        padding: 0;
+        border: none;
+        font-size: 18px;
+        line-height: 2em;
+        background-color: $btn-default-bg;
+        display: block;
+        color: tokens.$fi-color-highlight-base;
+        text-decoration: underline;
+
+        &:visited {
+          color: tokens.$fi-color-accent-tertiary-dark1;
+        }
       }
     }
   }
