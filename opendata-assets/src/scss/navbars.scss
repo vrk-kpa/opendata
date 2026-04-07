@@ -725,8 +725,14 @@ End of dropdown CSS
       font-size: $font-size-base;
       display: flex;
 
-      span {
-        display: block;
+      div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        span {
+          display: block;
+        }
       }
 
       &::before {
