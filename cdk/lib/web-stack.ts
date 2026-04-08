@@ -80,7 +80,8 @@ export class WebStack extends Stack {
 
     const nginxCspConnectSrc: string[] = [
       "suomi.matomo.cloud",
-      "*.sentry.io"
+      "*.sentry.io",
+      "browser.sentry-cdn.com"
     ]
 
     const nginxCspFontSrc: string[] = [
