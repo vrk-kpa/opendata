@@ -170,6 +170,14 @@ p:last-child,
     text-decoration: none;
   }
 
+  .hero-count {
+    @include tokens.fi-text-heading2
+  }
+
+  .hero-text {
+    @include tokens.fi-text-heading4;
+  }
+
   .avoindata-hero-search-container {
     max-width: $opendata-container-max-width;
     float: none;
