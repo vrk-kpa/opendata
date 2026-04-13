@@ -11,52 +11,48 @@
     {{ form.form_build_id }}
     {{ form.form_token }}
     {{ form.form_id }}
-    <div class="avoindata-hero-search-container">
-        <div>
-            <div class="d-inline-block avoindata-frontpage-header-text-container">
-                <h1>
-                    {% trans %}
-                        All Finnish open data from one place
-                    {% endtrans %}
-                </h1>
-            </div>
+    <div class="avoindata-hero-search-container container">
+        <div class="d-inline-block avoindata-frontpage-header-text-container">
+            <h1>
+                {% trans %}
+                    All Finnish open data from one place
+                {% endtrans %}
+            </h1>
         </div>
         <!-- TODO: Change justify "evenly" to "between" -->
         <div class="d-flex flex-wrap justify-content-evenly mt-2">
           {{ form.statistics }}
         </div>
-        <div class="ytp-bg-highlight-base d-flex p-3 mt-4">
-            <div class="flex-1">
+        <div class="hero-search-form">
+          <div class="ytp-bg-highlight-base d-flex p-1 mt-4">
+              <div class="flex-1">
                 <div class="ytp-input-with-icon-frontpage">
-                    {% set placeholder %}
-                        {%- trans -%}
-                        Type what are you searching for
-                        {%- endtrans -%}
-                    {% endset %}
-                    <input
-                        id="edit-search"
-                        name="search"
-                        type="text"
-                        class="ytp-input-element-frontpage color-depth-dark27"
-                        placeholder="{{ placeholder }}"
-                    >
+                  {% set placeholder %}
+                      {%- trans -%}
+                      Type what are you searching for
+                      {%- endtrans -%}
+                  {% endset %}
+                  <input
+                      id="edit-search"
+                      name="search"
+                      type="text"
+                      class="ytp-input-element-frontpage color-depth-dark27"
+                      placeholder="{{ placeholder }}"
+                  >
+                  <button type="submit" class="hero-button-submit" aria-label="{% trans %}Search{% endtrans %}">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </button>
                 </div>
-            </div>
-            <div class="position-relative">
-                <button type="submit" class="hero-button-submit">
-                    {% trans %}
-                        Search
-                    {% endtrans %}
-                </button>
-            </div>
-        </div>
-        {{ form.searchfilter }}
-        <div class="d-flex mt-3 justify-content-end">
-            <a href="/data/{{ form['#language'] }}/advanced_search">
-                {% trans %}
-                    Use advanced search
-                {% endtrans %}
-            </a>
+              </div>
+          </div>
+          {{ form.searchfilter }}
+          <div class="d-flex mt-3 justify-content-end">
+              <a href="/data/{{ form['#language'] }}/advanced_search">
+                  {% trans %}
+                      Use advanced search
+                  {% endtrans %}
+              </a>
+          </div>
         </div>
     </div>
 </div>
