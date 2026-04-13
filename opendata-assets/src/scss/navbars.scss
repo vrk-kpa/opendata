@@ -831,7 +831,7 @@ End of dropdown CSS
 
 .service-messages {
   list-style: none;
-  margin-bottom: 10px;
+  margin-bottom: 0;
   padding: 0;
   font-size: $font-size-base;
 
@@ -841,8 +841,8 @@ End of dropdown CSS
     border-radius: 0 !important;
     min-height: 46px;
 
-    span {
-      margin-left: 20px;
+    div {
+      padding: 0 25px;
     }
 
     .btn-close,
@@ -912,11 +912,9 @@ End of dropdown CSS
     }
   }
 
-
-
-
   .container{
     position: relative;
+    display: flex;
   }
 
   // Treat all links inside alert as .alert-link
