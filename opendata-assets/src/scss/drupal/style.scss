@@ -135,7 +135,7 @@ p:last-child,
 
 // Drupal Hero Module
 .avoindata-hero {
-  background: linear-gradient(0deg,rgba(0,0,0,.19),rgba(0,0,0,.19)),$background-hero-image 50%/cover no-repeat;
+  background: $background-hero-image 50%/cover no-repeat;
   padding: 60px 50px;
   position: relative;
   color: tokens.$fi-color-white-base;
@@ -176,8 +176,6 @@ p:last-child,
   }
 
   .avoindata-hero-search-container {
-    //float: none;
-    //display: block;
     margin: 0 auto;
 
     // NOTE: Without this you can't click the content inside.
@@ -234,11 +232,11 @@ p:last-child,
       border-radius: 0 4px 4px 0;
     }
   }
+
   .hero-search-form {
     max-width: map-get($container-max-widths, md);
     margin: auto;
   }
-
 }
 
 // Avoindata Categories
