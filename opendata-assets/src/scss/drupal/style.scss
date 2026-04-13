@@ -139,6 +139,7 @@ p:last-child,
   padding: 60px 50px;
   position: relative;
   color: tokens.$fi-color-white-base;
+  border-bottom: tokens.$fi-color-developer-turquoise 10px solid;
 
   &::before {
     content: '';
