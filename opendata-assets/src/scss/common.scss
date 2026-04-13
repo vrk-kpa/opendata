@@ -1,9 +1,8 @@
 @use "./variables/suomifidesign" as tokens;
 @import 'variables';
 
-
-body {
-  color: tokens.$fi-color-black-base;
+:root {
+  --bs-body-color: #{tokens.$fi-color-black-base};
 }
 
 h1,
@@ -12,7 +11,6 @@ h3,
 h4,
 h5,
 h6 {
-  color: tokens.$fi-color-black-base;
   text-rendering: optimizelegibility;
 }
 

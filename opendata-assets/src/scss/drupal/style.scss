@@ -135,11 +135,11 @@ p:last-child,
 
 // Drupal Hero Module
 .avoindata-hero {
-  // TODO: use suomi.fi colors
-  background-color: $suomi-brandBase;
+  background: $background-hero-image 50%/cover no-repeat;
   padding: 60px 50px;
   position: relative;
-  color: $popularTextColor;
+  color: tokens.$fi-color-white-base;
+  border-bottom: tokens.$fi-color-developer-turquoise 10px solid;
 
   &::before {
     content: '';
@@ -156,9 +156,7 @@ p:last-child,
   }
 
   h1 {
-    font-size: $font-size__module-large-h1;
-    font-weight: $font-weight-heavier;
-    font-family: $font-family-sans-serif-semibold;
+    @include tokens.fi-text-heading1-hero;
   }
 
   p {
@@ -166,14 +164,19 @@ p:last-child,
   }
 
   a {
-    color: $popularTextColor;
+    color: tokens.$fi-color-white-base;
     text-decoration: none;
   }
 
+  .hero-count {
+    @include tokens.fi-text-heading2
+  }
+
+  .hero-text {
+    @include tokens.fi-text-heading4;
+  }
+
   .avoindata-hero-search-container {
-    max-width: $opendata-container-max-width;
-    float: none;
-    display: block;
     margin: 0 auto;
 
     // NOTE: Without this you can't click the content inside.
@@ -229,6 +232,11 @@ p:last-child,
       height: 50px;
       border-radius: 0 4px 4px 0;
     }
+  }
+
+  .hero-search-form {
+    max-width: map-get($container-max-widths, md);
+    margin: auto;
   }
 }
 
@@ -1806,6 +1814,5 @@ p:last-child,
   border-radius: 2px;
   border: none;
   height: 40px;
-  width: 64px;
-  color: white;
+  color: tokens.$fi-color-depth-dark1;
 }

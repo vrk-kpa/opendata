@@ -42,3 +42,68 @@
     url('../fonts/source-sans-pro-v21-latin-600.ttf') format('truetype'), /* Safari, Android, iOS */
     url('../fonts/source-sans-pro-v21-latin-600.svg#SourceSansPro') format('svg'); /* Legacy iOS */
 }
+
+/* source-sans-pro fonts from suomifi for using with tokens */
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 200;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('../fonts/SourceSansPro-ExtraLight.ttf.woff2') format('woff2')
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 200;
+  font-style: italic;
+  font-stretch: normal;
+  src: url('../fonts/SourceSansPro-ExtraLightIt.ttf.woff2') format('woff2')
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('../fonts/SourceSansPro-Light.ttf.woff2') format('woff2')
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 300;
+  font-style: italic;
+  font-stretch: normal;
+  src: url('../fonts/SourceSansPro-LightIt.ttf.woff2') format('woff2')
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('../fonts/SourceSansPro-Regular.ttf.woff2') format('woff2')
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 400;
+  font-style: italic;
+  font-stretch: normal;
+  src: url('../fonts/SourceSansPro-It.ttf.woff2') format('woff2')
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('../fonts/SourceSansPro-Semibold.ttf.woff2') format('woff2')
+}
+
+@font-face{
+  font-family: 'Source Sans Pro';
+  font-weight: 600;
+  font-style: italic;
+  font-stretch: normal;
+  src: url('../fonts/SourceSansPro-SemiboldIt.ttf.woff2') format('woff2')
+}
