@@ -177,6 +177,10 @@ p:last-child,
   }
 
   .avoindata-hero-search-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
     margin: 0 auto;
 
     // NOTE: Without this you can't click the content inside.
@@ -235,6 +239,7 @@ p:last-child,
   }
 
   .hero-search-form {
+    width: 100%;
     max-width: map-get($container-max-widths, md);
     margin: auto;
   }
@@ -1736,6 +1741,7 @@ p:last-child,
 .avoindata-frontpage-header-text-container {
   text-align: center;
   width: 100%;
+  margin-bottom: 4px;
 }
 
 .messages__wrapper {
