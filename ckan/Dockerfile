@@ -180,8 +180,7 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/add_check_if_old_api_keys_are_used.patch && \
     patch --strip=1 --input=patches/fix_smtp_connection.patch && \
     patch --strip=1 --input=patches/fix_duplicate_root_path_in_public_webassets.patch && \
-    patch --strip=1 --input=patches/add_missing_body_extras_block.patch && \
-    patch --strip=1 --input=patches/user_list_dictize_keep_email.patch # https://github.com/ckan/ckan/pull/9318
+    patch --strip=1 --input=patches/add_missing_body_extras_block.patch
 
 RUN \
   # Make scripts executable
