@@ -484,7 +484,7 @@ index a472b88025..7b1cb5be3b 100644
 -    if not apitoken:
 -        return None
 -    apitoken = str(apitoken)
--    log.debug(f'Received API Token: {apitoken[:10]}[...]')
+-    log.debug('Received API Token: %s[...]', apitoken[:10])
 +    if current_user.is_authenticated:
 +        current_user.set_user_last_active()  # type: ignore
 
