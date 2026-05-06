@@ -67,12 +67,14 @@ describe('SPARQL tests', () => {
             cy.create_new_dataset(dataset.name, dataset.data, dataset.resource_data);
         }
 
-        // Navigate to SPARQL query view
-        cy.visit('/data/sparql')
+
     });
 
     // The change sometimes takes a while to propagate to fuseki, so try three times 
     it('SPARQL dataset title query', { retries: 3 }, function(){
+        // Navigate to SPARQL query view
+        cy.visit('/data/sparql')
+
         const query = 'PREFIX dcat: <http://www.w3.org/ns/dcat#> PREFIX dct: <http://purl.org/dc/terms/> SELECT ?s ?title WHERE { ?s dct:title ?title; a dcat:Dataset . } LIMIT 10'
 
         // CodeMirror requires special clearing
