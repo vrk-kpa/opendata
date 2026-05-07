@@ -50,6 +50,7 @@
         <ul class="nav nav-tabs">
             {{ h.build_nav_icon('ytp_organization.read', _('Datasets'), id=group_dict.name) }}
             {{ h.build_nav_icon('ytp_organization.about', _('About'), id=group_dict.name) }}
+            {{ h.build_nav_icon('ytp_organization.suborganizations', _('Suborganizations'), id=group_dict.name) }}
             {% if h.check_access('organization_update', {'id': group_dict.id}) %}
                 {{ h.build_nav_icon('ytp_organization.members', _('Members'), id=group_dict.name) }}
             {% endif %}
