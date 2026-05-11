@@ -1464,6 +1464,11 @@ def _reset(context, data_dict):
 
     log.debug("Solr index cleared")
 
+    # jobs clear
+    get_action('job_clear')(context, {})
+
+    log.debug("job queues cleared")
+
     # sparql clear
     get_action('sparql_clear')(context, {})
 
