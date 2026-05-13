@@ -8,10 +8,12 @@ registries:
 updates:
 - package-ecosystem: pip
   directory: "/ckan/"
+  patterns: ['*']
   multi-ecosystem-group: "ckan"
 
 - package-ecosystem: "docker"
   directory: "/ckan/"
+  patterns: ['*']
   multi-ecosystem-group: "ckan"
 
 
