@@ -12,50 +12,58 @@ updates:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
+
 - package-ecosystem: "docker"
   directory: "/ckan/"
   schedule:
     interval: daily
     time: "03:00"
+
 - package-ecosystem: "docker"
   directory: "/drupal/"
   schedule:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
+
 - package-ecosystem: "docker"
   directory: "/docker/solr/"
   schedule:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
+
 - package-ecosystem: "docker"
   directory: "/docker/nginx/"
   schedule:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
+
 - package-ecosystem: "docker"
   directory: "/docker/postgres/"
   schedule:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
+
 - package-ecosystem: "docker"
   directory: "/docker/datapusher-plus/"
   schedule:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
+
 - package-ecosystem: "docker"
   directory: "/cypress/"
-  open-pull-requests-limit: 10
-  multi-ecosystem-group: cypress
+  patterns: ['*']
+  multi-ecosystem-group: "cypress"
+
 - package-ecosystem: npm
   directory: "/"
-  open-pull-requests-limit: 10
   patterns: ['cypress']
-  multi-ecosystem-group: cypress
+  multi-ecosystem-group: "cypress"
+
 - package-ecosystem: npm
   directory: "/opendata-assets/"
   schedule:
@@ -78,7 +86,6 @@ updates:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
-
 
 - package-ecosystem: "github-actions"
   directory: "/"
