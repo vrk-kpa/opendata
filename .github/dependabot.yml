@@ -49,16 +49,13 @@ updates:
   open-pull-requests-limit: 10
 - package-ecosystem: "docker"
   directory: "/cypress/"
-  schedule:
-    interval: daily
-    time: "03:00"
   open-pull-requests-limit: 10
+  multi-ecosystem-group: cypress
 - package-ecosystem: npm
   directory: "/"
-  schedule:
-    interval: daily
-    time: "03:00"
   open-pull-requests-limit: 10
+  patterns: ['cypress']
+  multi-ecosystem-group: cypress
 - package-ecosystem: npm
   directory: "/opendata-assets/"
   schedule:
@@ -88,3 +85,8 @@ updates:
   schedule:
     # Check for updates to GitHub Actions every week
     interval: "weekly"
+
+
+- multi-ecosystem-groups:
+    cypress:
+      interval: "weekly"
