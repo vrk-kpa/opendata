@@ -8,16 +8,12 @@ registries:
 updates:
 - package-ecosystem: pip
   directory: "/ckan/"
-  schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
+  multi-ecosystem-group: "ckan"
 
 - package-ecosystem: "docker"
   directory: "/ckan/"
-  schedule:
-    interval: daily
-    time: "03:00"
+  multi-ecosystem-group: "ckan"
+
 
 - package-ecosystem: "docker"
   directory: "/drupal/"
@@ -102,3 +98,6 @@ multi-ecosystem-groups:
   cypress:
     schedule:
       interval: "weekly"
+  ckan:
+    schedule:
+      interval: "daily"
