@@ -76,6 +76,9 @@ updates:
   schedule:
     interval: daily
     time: "03:00"
+  groups:
+    drupal:
+      applies-to: security-updates
   open-pull-requests-limit: 10
 
 - package-ecosystem: npm
