@@ -94,6 +94,6 @@ updates:
     interval: "weekly"
 
 
-- multi-ecosystem-groups:
-    cypress:
-      interval: "weekly"
+multi-ecosystem-groups:
+  cypress:
+    interval: "weekly"
