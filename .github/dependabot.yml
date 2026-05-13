@@ -79,6 +79,8 @@ updates:
   groups:
     drupal:
       applies-to: security-updates
+      patterns: ['*']
+
   open-pull-requests-limit: 10
 
 - package-ecosystem: npm
