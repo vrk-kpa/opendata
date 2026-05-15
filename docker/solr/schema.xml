@@ -71,7 +71,6 @@ attribute with the form `ckan-X.Y` -->
         </analyzer>
     </fieldType>
 
-
     <!-- A general unstemmed text field - good if one does not know the language of the field -->
     <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
         <analyzer type="index">
