@@ -32864,7 +32864,7 @@ msgid ""
 "-_"
 msgstr ""
 
-msgid "Query must be at least three characters long"
+msgid "Query must be at least two characters long"
 msgstr ""
 
 msgid ""
