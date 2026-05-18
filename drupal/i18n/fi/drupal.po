@@ -33052,8 +33052,8 @@ msgstr ""
 "Ei saa sisältää skandinaavisia merkkejä. Käytä ainoastaan pieniä kirjaimia, "
 "numeroita ja erikoismerkkejä  - _ "
 
-msgid "Query must be at least three characters long"
-msgstr "Haussa on oltava vähintään kolme merkkiä"
+msgid "Query must be at least two characters long"
+msgstr ""
 
 msgid ""
 "Central Open Data distribution platform for datasets released by finnish "
