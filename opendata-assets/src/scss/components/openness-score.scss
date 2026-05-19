@@ -1,5 +1,7 @@
+@use "../variables/suomifidesign" as tokens;
+
 .openness-score {
   i {
-    color: $color--light-grey;
+    color: tokens.$fi-color-depth-dark2;
   }
 }

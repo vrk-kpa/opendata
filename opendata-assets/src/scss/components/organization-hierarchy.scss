@@ -1,10 +1,11 @@
+@use "../variables/suomifidesign" as tokens;
 @import '../variables';
 
 #organization-tree,
 #publisher-tree {
   .hierarchy-tree-top {
     padding: 0;
-    border-bottom: $suomi-depthLight1 solid 1px;
+    border-bottom: tokens.$fi-color-depth-light1 solid 1px;
   }
 
   ul {
@@ -16,7 +17,7 @@
 
     li {
       padding: 0 0 0 12px;
-      border-top: $suomi-depthLight1 solid 1px;
+      border-top: tokens.$fi-color-depth-light1 solid 1px;
       border-bottom: none;
 
       &:last-child {
@@ -39,7 +40,7 @@
 
   .btn {
     padding: 0;
-    background-color: $background-body-color;
+    background-color: tokens.$fi-color-white-base;
     border: none;
 
     &:active {
@@ -51,7 +52,7 @@
     }
 
     &:active:focus {
-      background-color: $background-body-color;
+      background-color: tokens.$fi-color-white-base;
     }
 
     .fa-plus,
@@ -73,17 +74,17 @@
     display: flex;
     flex-flow: row wrap;
     align-items: baseline;
-    border: 1px solid $suomi-depthLight1;
+    border: 1px solid tokens.$fi-color-depth-light1;
     border-bottom: none;
     padding: 20px;
 
     &:last-child {
-      border-bottom: 1px solid $suomi-depthLight1;
+      border-bottom: 1px solid tokens.$fi-color-depth-light1;
     }
   }
 
   a {
-    color: $suomi-highlightBase;
+    color: tokens.$fi-color-highlight-base;
   }
 
   h3 {
@@ -99,12 +100,12 @@
   }
 
   .package-count {
-    color: $suomi-blackBase;
+    color: tokens.$fi-color-black-base;
     font-size: 16px;
   }
 
   .child-count {
-    color: $suomi-depthDark1;
+    color: tokens.$fi-color-depth-dark1;
     width: 100%;
   }
 }

@@ -27,20 +27,17 @@ $container-max-widths: (
 
 // Bootstrap: Border mixins
 $enable-rounded: true;
-$brand-primary: $opendata-brand-primary;
-$brand-info: $opendata-brand-decorative;
+$brand-primary: tokens.$fi-color-highlight-base;
+$brand-info: lighten(tokens.$fi-color-highlight-base, 30%);
 $opendata-container-max-width: 1110px;
 $opendata-categories-container-max-width: 1500px;
 $background-hero-image: url("/themes/avoindata/images/developer_frontpage_hero.webp");
 
 // Bootstrap: Alerts
 $alert-padding: 8px;
-$alert-info-bg: $opendata-brand-decorative; // lighten($opendata-brand-primary, 30%);
-$alert-info-border: $opendata-brand-decorative;
-$alert-info-text: lighten(
-  $opendata-brand-decorative,
-  54%
-); // $opendata-brand-primary;
+$alert-info-bg: lighten(tokens.$fi-color-highlight-base, 30%);
+$alert-info-border: lighten(tokens.$fi-color-highlight-base, 30%);
+$alert-info-text: lighten(tokens.$fi-color-highlight-base, 100%);
 $alert-link-font-weight: 500;
 
 // Color and background for FAVORITE datasets
@@ -54,20 +51,20 @@ $section-border-color: lighten($opendata-brand-gray, 60%);
 $content-border: lighten($opendata-brand-gray, 25%);
 
 // Search box, carousel etc.
-$block-color-background: $opendata-brand-primary;
+$block-color-background: tokens.$fi-color-highlight-base;
 $block-color: $button-inverse-text-color;
-$block-color-hilight: lighten($opendata-brand-primary, 0%);
+$block-color-hilight: lighten(tokens.$fi-color-highlight-base, 0%);
 $block-color-light: #fff;
-$sidebar-block-color-header: $opendata-brand-primary--highlight;
+$sidebar-block-color-header: tokens.$fi-color-highlight-dark1;
 $sidebar-block-color-background: #eee;
 $sidebar-block-color-text: #000;
 
 // Tweak Bootstrap brand colors (label, button etc.)
 $label-default-bg: $opendata-brand-gray;
-$label-primary-bg: lighten($opendata-brand-primary, 0%);
-$link-color: $suomi-highlightBase;
-$link-color-focus: $suomi-accentBase;
-$link-hilight: $suomi-highlightDark1;
+$label-primary-bg: lighten(tokens.$fi-color-highlight-base, 0%);
+$link-color: tokens.$fi-color-highlight-base;
+$link-color-focus: tokens.$fi-color-accent-base;
+$link-hilight: tokens.$fi-color-highlight-dark1;
 
 // Name label for input fields and for showing the key/value-pairs
 $field-label-color: darken($opendata-brand-gray, 30%);
@@ -79,11 +76,11 @@ $input-readonly: #555;
 
 // Vertical side menu and horizontal main menu
 $menu-active-color: #fff;
-$menu-link-active-color: $opendata-brand-complementary;
+$menu-link-active-color: tokens.$fi-color-accent-base;
 $menu-link-color: #eee;
-$menu-link-background: $opendata-brand-primary;
+$menu-link-background: tokens.$fi-color-highlight-base;
 $menu-link-hover-color: #fff;
-$menu-hover-color: $opendata-brand-decorative;
+$menu-hover-color: lighten(tokens.$fi-color-highlight-base, 30%);
 $body-color-background: #fff;
 
 // Footer colors
@@ -101,9 +98,9 @@ $navbar-background: #fff;
 $navbar-default-bg: #fff;
 $navbar-border: 1px solid #c8cdd0;
 $navbar-color: #123f52;
-$navbar-inverse-link-color: $opendata-brand-decorative;
-$navbar-color-background: $opendata-brand-primary;
-$navbar-color-links: $color--black;
+$navbar-inverse-link-color: lighten(tokens.$fi-color-highlight-base, 30%);
+$navbar-color-background: tokens.$fi-color-highlight-base;
+$navbar-color-links: tokens.$fi-color-black-base;
 $navbar-height: 67px;
 $navbar-responsive-toggle-background: #000;
 $infowell-color-dark: #175971;
@@ -140,7 +137,7 @@ $inactive-tab-color: #b3bacf;
 
 // Dropdown menu hover color that comes to the left border
 // used at least on Frontpage dropdown and guide page dropdown menu
-$menu-hover-border-color: $opendata-brand-primary;
+$menu-hover-border-color: tokens.$fi-color-highlight-base;
 $dataset-count-text-color: #c6c6c6;
 $organization-count-header-color: #c6c6c6;
 $facet-link-text-color: #020202;

@@ -1,5 +1,7 @@
+@use "../variables/suomifidesign" as tokens;
+
 .pill {
-  background-color: $opendata-brand-primary;
+  background-color: tokens.$fi-color-highlight-base;
   border: none;
   font-size: $font-size-slightly-smaller-base;
   font-weight: $font-weight-heavier;
@@ -9,7 +11,7 @@
   .pill__icon {
     font-size: $font-size-smaller-base;
     line-height: $font-size-smaller-base;
-    color: $color--white;
+    color: tokens.$fi-color-white-base;
     margin-left: $padding-x--small;
   }
 }

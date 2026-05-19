@@ -121,7 +121,7 @@
 
 #guide-header {
   margin: 0 0 20px 20px;
-  color: $new-layout-primary-text-color;
+  color: tokens.$fi-color-black-base;
   font-family: $font-family-sans-serif-light;
   font-size: $font-size__module-large-h1;
   font-weight: $font-weight-light;
@@ -134,7 +134,7 @@
 }
 
 .guide-content {
-  color: $new-layout-primary-text-color;
+  color: tokens.$fi-color-black-base;
   font-family: $font-family-sans-serif;
   font-size: 18px;
   font-weight: normal;
@@ -190,6 +190,6 @@
 }
 
 .post-date {
-  color: $suomi-depthDark1;
+  color: tokens.$fi-color-depth-dark1;
   font-size: $font-size-slightly-smaller-base;
 }

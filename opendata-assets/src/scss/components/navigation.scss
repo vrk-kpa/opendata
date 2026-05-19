@@ -1,3 +1,5 @@
+@use "../variables/suomifidesign" as tokens;
+
 .navbar-header .navbar-toggler {
   margin-right: 25px;
 }
@@ -14,7 +16,7 @@
   .nav-aside > li,
   .nav-simple > li {
     border: none;
-    border-bottom: 1px solid $suomi-depthSecondary;
+    border-bottom: 1px solid tokens.$fi-color-depth-secondary;
     width: 100%;
     margin-top: 0;
     margin-bottom: 0;
@@ -23,7 +25,7 @@
 
     > a,
     .module-narrow & > a {
-      color: $opendata-brand-primary;
+      color: tokens.$fi-color-highlight-base;
       text-decoration: none;
       margin: 0;
       padding: $padding-y__navigation $padding-x__navigation $padding-y__navigation $padding-x__navigation;
@@ -41,13 +43,13 @@
     &.active {
       > a {
         background-color: transparent;
-        color: $opendata-brand-primary;
+        color: tokens.$fi-color-highlight-base;
         border-left: $border-width__navigation solid $sidebar-block-color-header;
         padding-left: $padding-x__navigation - $border-width__navigation;
 
         &:hover {
           background-color: transparent;
-          color: $opendata-brand-primary;
+          color: tokens.$fi-color-highlight-base;
         }
       }
 

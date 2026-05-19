@@ -1,9 +1,11 @@
+@use "../variables/suomifidesign" as tokens;
+
 .producer-type {
-  border: 1px solid $opendata-brand-border-gray;
+  border: 1px solid tokens.$fi-color-depth-light1;
   border-radius: $border-radius__button;
   padding: $padding__tag;
   background-color: transparent;
-  color: $suomi-depthDark1;
+  color: tokens.$fi-color-depth-dark1;
   text-transform: uppercase;
   font: $font-family-sans-serif-semibold;
   font-weight: $font-weight-heavier;

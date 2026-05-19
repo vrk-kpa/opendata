@@ -1,3 +1,5 @@
+@use "../variables/suomifidesign" as tokens;
+
 .advanced-search-container {
   background-color: #fafafa;
   font-size: 16px;
@@ -13,8 +15,8 @@
 }
 
 #search-options-header {
-  color: $color--white;
-  background-color: $new-layout-secondary-text-color;
+  color: tokens.$fi-color-white-base;
+  background-color: tokens.$fi-color-highlight-base;
   margin: 0 (-$padding-x__navigation);
   margin-bottom: $padding-y__navigation;
   padding: $padding-y--common $padding-x--common;
@@ -30,7 +32,7 @@
 
   hr {
     margin: $padding-y__navigation 0;
-    border-top: 1px solid $color--extra-light-grey;
+    border-top: 1px solid tokens.$fi-color-depth-light1;
   }
 }
 
@@ -40,18 +42,18 @@
   font-weight: 600;
   line-height: 20px;
   letter-spacing: 0.4px;
-  color: $new-layout-secondary-text-color;
+  color: tokens.$fi-color-highlight-base;
   text-decoration: none;
   cursor: pointer;
 }
 
 .more-options-link:hover {
-  color: $new-layout-secondary-text-color;
+  color: tokens.$fi-color-highlight-base;
   text-decoration: none;
 }
 
 .more-options-link:focus {
-  color: $new-layout-secondary-text-color;
+  color: tokens.$fi-color-highlight-base;
   text-decoration: none;
 }
 
@@ -60,14 +62,14 @@
 }
 
 #search-results-header {
-  color: $new-layout-primary-text-color;
+  color: tokens.$fi-color-black-base;
   font-family: $font-family-sans-serif;
   font-size: $font-size-h3-alt;
   line-height: $line-height-h3-alt;
   background-color: $background-color__content;
   padding: $padding-y--common $padding-x--common;
   margin: 0;
-  border: 1px solid $opendata-brand-border-gray;
+  border: 1px solid tokens.$fi-color-depth-light1;
   border-bottom: none;
 
   label,
@@ -89,7 +91,7 @@
 }
 
 .ytp-input-label-light {
-  color: $color--black;
+  color: tokens.$fi-color-black-base;
   font-family: $font-family-sans-serif;
   font-size: $font-size-slightly-smaller-base;
   font-weight: $font-weight-normal;
@@ -125,7 +127,7 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 28px;
-  color: $new-layout-primary-text-color;
+  color: tokens.$fi-color-black-base;
 
   span.avoindata-pill:last-of-type {
     margin-right: 10px;
@@ -139,14 +141,14 @@
 }
 
 .avoindata-filter-group-title {
-  color: $new-layout-nonimportant-text-color;
+  color: tokens.$fi-color-depth-dark1;
   margin-left: 4px;
   margin-right: 4px;
   vertical-align: super;
 }
 
 .avoindata-filter-group-and {
-  color: $new-layout-primary-text-color;
+  color: tokens.$fi-color-black-base;
   font-family: $font-family-sans-serif;
   font-weight: normal;
   display: inline-block;
@@ -156,7 +158,7 @@
 }
 
 .avoindata-filter-group-or {
-  color: $new-layout-primary-text-color;
+  color: tokens.$fi-color-black-base;
   font-family: $font-family-sans-serif;
   font-weight: normal;
   display: inline-block;
@@ -169,7 +171,7 @@
   font-size: $font-size-slightly-smaller-base;
   font-weight: $font-weight-heavier;
   line-height: 28px;
-  background-color: $suomi-highlightBase;
+  background-color: tokens.$fi-color-highlight-base;
   margin-bottom: 15px;
   cursor: pointer;
   border-radius: 14px;
@@ -221,11 +223,11 @@
   cursor: pointer;
   text-decoration: none;
   vertical-align: super;
-  color: $new-layout-secondary-text-color;
+  color: tokens.$fi-color-highlight-base;
   white-space: nowrap;
 
   &:hover {
-    color: $new-layout-secondary-text-color;
+    color: tokens.$fi-color-highlight-base;
   }
 }
 

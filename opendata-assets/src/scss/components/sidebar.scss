@@ -1,3 +1,4 @@
+@use "../variables/suomifidesign" as tokens;
 @import '../variables';
 
 .tertiary .control-order-by label {
@@ -27,8 +28,8 @@ aside.tertiary {
   margin-top: 0;
 
   .secondary__header {
-    background-color: $opendata-brand-primary;
-    color: $color--white;
+    background-color: tokens.$fi-color-highlight-base;
+    color: tokens.$fi-color-white-base;
     padding: $padding-y--common $padding-x--common;
 
     // -1px prefix to make header overlap with container borders
@@ -60,7 +61,7 @@ aside.tertiary {
   .module,
   .opendata-card {
     padding: 0;
-    color: $color--black;
+    color: tokens.$fi-color-black-base;
     margin: 0 (-$grid-gutter-width / 2);
 
     // $NOTE: 1 pixel difference for top- & bottom-padding to make divider between modules middle-aligned
@@ -107,7 +108,7 @@ aside.tertiary {
       a {
         display: block;
         font-size: $font-size-slightly-smaller-base;
-        color: $opendata-brand-primary;
+        color: tokens.$fi-color-highlight-base;
       }
 
       a {
@@ -167,7 +168,7 @@ aside.tertiary {
 }
 
 #content .sidebar-header-section {
-  background: $opendata-brand-primary;
+  background: tokens.$fi-color-highlight-base;
 
   p {
     padding: 26px 20px 13px;

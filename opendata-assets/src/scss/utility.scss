@@ -1,3 +1,5 @@
+@use "./variables/suomifidesign" as tokens;
+@use "sass:color";
 @import 'variables';
 @import 'mixins/mixins';
 
@@ -120,249 +122,241 @@
 // NOTE: These do not support element states such as focus, hover or active
 .color {
   &-black-base {
-    color: $suomi-blackBase;
+    color: tokens.$fi-color-black-base;
   }
 
   &-black-light1 {
-    color: $suomi-blackLight1;
+    color: tokens.$fi-color-black-light1;
   }
 
   &-brand-base {
-    color: $suomi-brandBase;
+    color: tokens.$fi-color-brand-base;
   }
 
   &-highlight {
     &-base {
-      color: $suomi-highlightBase;
+      color: tokens.$fi-color-highlight-base;
     }
 
     &-light {
       &4 {
-        color: $suomi-highlightLight4;
+        color: tokens.$fi-color-highlight-light4;
       }
 
       &3 {
-        color: $suomi-highlightLight3;
+        color: tokens.$fi-color-highlight-light3;
       }
 
       &2 {
-        color: $suomi-highlightLight2;
+        color: tokens.$fi-color-highlight-light2;
       }
 
       &1 {
-        color: $suomi-highlightLight1;
+        color: tokens.$fi-color-highlight-light1;
       }
     }
 
     &-dark1 {
-      color: $suomi-highlightDark1;
+      color: tokens.$fi-color-highlight-dark1;
     }
   }
 
   &-accent {
     &-base {
-      color: $suomi-accentBase;
+      color: tokens.$fi-color-accent-base;
     }
 
     &-secondary {
-      color: $suomi-accentSecondary;
+      color: tokens.$fi-color-accent-secondary;
 
       &-light1 {
-        color: $suomi-accentSecondaryLight1;
+        color: tokens.$fi-color-accent-secondary-light1;
       }
     }
 
     &-tertiery {
-      color: $suomi-accentTertiary;
+      color: tokens.$fi-color-accent-tertiary;
 
       &-dark1 {
-        color: $suomi-accentTertiaryDark1;
+        color: tokens.$fi-color-accent-tertiary-dark1;
       }
     }
   }
 
   &-depth {
     &-base {
-      color: $suomi-depthBase;
+      color: tokens.$fi-color-depth-base;
     }
 
     &-light {
       &3 {
-        color: $suomi-depthLight3;
+        color: tokens.$fi-color-depth-light3;
       }
 
       &2 {
-        color: $suomi-depthLight2;
+        color: tokens.$fi-color-depth-light2;
       }
 
       &1 {
-        color: $suomi-depthLight1;
+        color: tokens.$fi-color-depth-light1;
       }
     }
 
     &-dark1 {
-      color: $suomi-depthDark1;
+      color: tokens.$fi-color-depth-dark1;
     }
 
     &-secondary {
-      color: $suomi-depthSecondary;
+      color: tokens.$fi-color-depth-secondary;
 
       &-dark1 {
-        color: $suomi-depthSecondaryDark1;
+        color: tokens.$fi-color-depth-secondary-dark1;
       }
     }
   }
 
   &-success {
     &-base {
-      color: $suomi-successBase;
+      color: tokens.$fi-color-success-base;
     }
 
     &-light-transparent50 {
-      color: $suomi-successLightTransparent50;
+      color: color.adjust(tokens.$fi-color-success-base, $alpha: 0.5);
     }
   }
 
   &-warning {
     &-base {
-      color: $suomi-warningBase;
-    }
-
-    &-light47 {
-      color: $suomi-warningLight47;
+      color: tokens.$fi-color-warning-base;
     }
   }
 
   &-alert-base {
-    color: $suomi-alertBase;
+    color: tokens.$fi-color-alert-base;
   }
 
   &-white-base {
-    color: $suomi-whiteBase;
+    color: tokens.$fi-color-white-base;
   }
 }
 
 .bg {
   &-black-base {
-    background-color: $suomi-blackBase;
+    background-color: tokens.$fi-color-black-base;
   }
 
   &-black-light1 {
-    background-color: $suomi-blackLight1;
+    background-color: tokens.$fi-color-black-light1;
   }
 
   &-brand-base {
-    background-color: $suomi-brandBase;
+    background-color: tokens.$fi-color-brand-base;
   }
 
   &-highlight {
     &-base {
-      background-color: $suomi-highlightBase;
+      background-color: tokens.$fi-color-highlight-base;
     }
 
     &-light {
       &4 {
-        background-color: $suomi-highlightLight4;
+        background-color: tokens.$fi-color-highlight-light4;
       }
 
       &3 {
-        background-color: $suomi-highlightLight3;
+        background-color: tokens.$fi-color-highlight-light3;
       }
 
       &2 {
-        background-color: $suomi-highlightLight2;
+        background-color: tokens.$fi-color-highlight-light2;
       }
 
       &1 {
-        background-color: $suomi-highlightLight1;
+        background-color: tokens.$fi-color-highlight-light1;
       }
     }
 
     &-dark1 {
-      background-color: $suomi-highlightDark1;
+      background-color: tokens.$fi-color-highlight-dark1;
     }
   }
 
   &-accent {
     &-base {
-      background-color: $suomi-accentBase;
+      background-color: tokens.$fi-color-accent-base;
     }
 
     &-secondary {
-      background-color: $suomi-accentSecondary;
+      background-color: tokens.$fi-color-accent-secondary;
 
       &-light1 {
-        background-color: $suomi-accentSecondaryLight1;
+        background-color: tokens.$fi-color-accent-secondary-light1;
       }
     }
 
     &-tertiery {
-      background-color: $suomi-accentTertiary;
+      background-color: tokens.$fi-color-accent-tertiary;
 
       &-dark1 {
-        background-color: $suomi-accentTertiaryDark1;
+        background-color: tokens.$fi-color-accent-tertiary-dark1;
       }
     }
   }
 
   &-depth {
     &-base {
-      background-color: $suomi-depthBase;
+      background-color: tokens.$fi-color-depth-base;
     }
 
     &-light {
       &3 {
-        background-color: $suomi-depthLight3;
+        background-color: tokens.$fi-color-depth-light3;
       }
 
       &2 {
-        background-color: $suomi-depthLight2;
+        background-color: tokens.$fi-color-depth-light2;
       }
 
       &1 {
-        background-color: $suomi-depthLight1;
+        background-color: tokens.$fi-color-depth-light1;
       }
     }
 
     &-dark1 {
-      background-color: $suomi-depthDark1;
+      background-color: tokens.$fi-color-depth-dark1;
     }
 
     &-secondary {
-      background-color: $suomi-depthSecondary;
+      background-color: tokens.$fi-color-depth-secondary;
 
       &-dark1 {
-        background-color: $suomi-depthSecondaryDark1;
+        background-color: tokens.$fi-color-depth-secondary-dark1;
       }
     }
   }
 
   &-success {
     &-base {
-      background-color: $suomi-successBase;
+      background-color: tokens.$fi-color-success-base;
     }
 
     &-light-transparent50 {
-      background-color: $suomi-successLightTransparent50;
+      background-color: color.adjust(tokens.$fi-color-success-base, $alpha: 0.5);
     }
   }
 
   &-warning {
     &-base {
-      background-color: $suomi-warningBase;
-    }
-
-    &-light47 {
-      background-color: $suomi-warningLight47;
+      background-color: tokens.$fi-color-warning-base;
     }
   }
 
   &-alert-base {
-    background-color: $suomi-alertBase;
+    background-color: tokens.$fi-color-alert-base;
   }
 
   &-white-base {
-    background-color: $suomi-whiteBase;
+    background-color: tokens.$fi-color-white-base;
   }
 }
 

@@ -1,3 +1,5 @@
+@use "../variables/suomifidesign" as tokens;
+
 // Additional info resource list
 .resource-list {
   margin: 0;
@@ -7,14 +9,14 @@
   }
 
   .resource-item {
-    border-top: 1px solid $color--extra-light-grey;
+    border-top: 1px solid tokens.$fi-color-depth-light1;
     border-radius: 0;
     padding: $padding__resource-list-item;
     display: flex;
     align-items: center;
 
     &:first-child {
-      border-top: 1px solid $color--extra-light-grey;
+      border-top: 1px solid tokens.$fi-color-depth-light1;
     }
 
     &:hover {
@@ -47,7 +49,7 @@
     }
 
     .resource-item__info__title {
-      color: $opendata-brand-primary;
+      color: tokens.$fi-color-highlight-base;
       transition: color $transition-duration--short $transition-timing-function--default;
       font-size: $font-size__module-title;
       font-weight: $font-weight-normal;
@@ -56,7 +58,7 @@
     }
 
     a {
-      color: $opendata-brand-primary;
+      color: tokens.$fi-color-highlight-base;
       transition: color $transition-duration--short $transition-timing-function--default;
       font-size: $font-size__module-title;
       font-weight: $font-weight-heavier;
@@ -64,7 +66,7 @@
       font-family: $font-family-sans-serif;
 
       &:hover {
-        color: $opendata-brand-primary--highlight;
+        color: tokens.$fi-color-highlight-dark1;
       }
     }
   }

@@ -1,3 +1,5 @@
+@use "../variables/suomifidesign" as tokens;
+
 .tags {
   .tag-list {
     // Fallback for older browsers
@@ -16,16 +18,16 @@
 
     .tag {
       margin: calc($margin__tag / 2);
-      background: $opendata-brand-primary;
+      background: tokens.$fi-color-highlight-base;
       border: none;
       box-shadow: none;
       font-size: $font-size__tag;
       line-height: $line-height__tag;
-      color: $color--white;
+      color: tokens.$fi-color-white-base;
       transition: background $transition-duration--short $transition-timing-function--default;
 
       &:hover {
-        background: $opendata-brand-primary--highlight;
+        background: tokens.$fi-color-highlight-dark1;
       }
     }
   }

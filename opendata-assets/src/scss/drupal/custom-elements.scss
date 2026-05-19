@@ -1,4 +1,5 @@
-@import "../../../src/scss/variables";
+@use "../variables/suomifidesign" as tokens;
+@import "../variables";
 
 .external-link {
   &::after {
@@ -185,7 +186,7 @@ p {
 
 .avoindata-expander-group-toggler {
   text-decoration: none;
-  color: $new-layout-secondary-text-color;
+  color: tokens.$fi-color-highlight-base;
   cursor: pointer;
   margin-bottom: $padding-y--small;
 
@@ -203,7 +204,7 @@ table {
   }
 
   caption {
-    color: $color--dark-black;
+    color: tokens.$fi-color-black-base;
     font-weight: $font-weight-heavier;
     text-align: left;
     padding: $padding-y__table-caption $padding-x__table-caption;
@@ -222,12 +223,12 @@ table {
 
   th {
     background-color: $table-bg-accent;
-    color: $color--dark-black;
+    color: tokens.$fi-color-black-base;
     font-weight: $font-weight-heavier;
   }
 
   td {
-    color: $color--black;
+    color: tokens.$fi-color-black-base;
   }
 }
 

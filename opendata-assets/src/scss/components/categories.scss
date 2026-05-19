@@ -1,3 +1,5 @@
+@use "../variables/suomifidesign" as tokens;
+
 .categories {
   $icon-size: 40px;
 
@@ -35,11 +37,11 @@
         align-items: center;
         background: transparent;
         border: none;
-        color: $opendata-brand-primary;
+        color: tokens.$fi-color-highlight-base;
         transition: color $transition-duration--short $transition-timing-function--default;
 
         i {
-          border: 1px solid $opendata-brand-primary;
+          border: 1px solid tokens.$fi-color-highlight-base;
           height: 16px;
           width: 16px;
           display: flex;
@@ -51,10 +53,10 @@
         }
 
         &:hover {
-          color: $opendata-brand-primary--highlight;
+          color: tokens.$fi-color-highlight-dark1;
 
           i {
-            border-color: $opendata-brand-primary--highlight;
+            border-color: tokens.$fi-color-highlight-dark1;
           }
         }
       }
@@ -62,7 +64,7 @@
   }
 
   a {
-    color: $opendata-brand-primary;
+    color: tokens.$fi-color-highlight-base;
     font-size: 16px;
     font-family: $font-family-sans-serif-semibold;
     font-weight: $font-weight-heavier;

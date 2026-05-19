@@ -93,7 +93,7 @@ textarea {
 }
 
 ::selection {
-  background: $suomi-brandBase;
-  color: $suomi-whiteBase;
+  background: tokens.$fi-color-brand-base;
+  color: tokens.$fi-color-white-base;
   text-shadow: none;
 }
