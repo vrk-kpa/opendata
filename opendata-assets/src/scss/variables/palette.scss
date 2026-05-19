@@ -26,6 +26,7 @@ $background-color__content: tokens.$fi-color-white-base;
 $background-color__toolbar: transparent;
 $border-color__content: tokens.$fi-color-depth-light1;
 $background-color--highlight: tokens.$fi-color-highlight-light3;
+
 // For very 'extra' information, meant for small text on white/light backgrounds
 $nonimportant-text-color: lighten($opendata-brand-gray, 0%);
 
