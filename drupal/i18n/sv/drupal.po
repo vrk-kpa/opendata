@@ -33164,8 +33164,8 @@ msgid ""
 "-_"
 msgstr ""
 
-msgid "Query must be at least three characters long"
-msgstr "Sökfrågan måste bestå minst av tre tecken"
+msgid "Query must be at least two characters long"
+msgstr ""
 
 msgid ""
 "Central Open Data distribution platform for datasets released by finnish "
