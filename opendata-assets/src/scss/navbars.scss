@@ -285,7 +285,7 @@ End of dropdown CSS
 }
 
 .search-button-submit {
-  background: $suomi-highlightBase;
+  background: tokens.$fi-color-highlight-base;
   border: none;
   width: 40px;
   height: 40px;
@@ -737,7 +737,7 @@ End of dropdown CSS
 
       &::before {
         content: ' ';
-        border-right: 1px solid $color--grey;
+        border-right: 1px solid tokens.$fi-color-depth-base;
         margin: -5px $padding-x--common;
       }
     }

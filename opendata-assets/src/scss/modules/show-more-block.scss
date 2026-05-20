@@ -1,3 +1,5 @@
+@use "../variables/suomifidesign" as tokens;
+
 [data-module="show-more-block"] {
   &.show-less {
     position: relative;
@@ -13,15 +15,15 @@
   // To match buttons left side with content when not focused
   margin-left: -$padding-x__button;
   transition: color $transition-duration--short $transition-timing-function--default;
-  color: $opendata-brand-primary;
+  color: tokens.$fi-color-highlight-base;
 
   &:hover {
-    color: $opendata-brand-primary--highlight;
+    color: tokens.$fi-color-highlight-dark1;
     text-decoration: none;
 
     i {
-      border-color: $opendata-brand-primary--highlight;
-      color: $opendata-brand-primary--highlight;
+      border-color: tokens.$fi-color-highlight-dark1;
+      color: tokens.$fi-color-highlight-dark1;
     }
   }
 
@@ -34,8 +36,8 @@
     // $NOTE: Make font-awesome icon centered in bordered square
     height: $font-size-slightly-smaller-base + 1;
     line-height: $font-size-slightly-smaller-base;
-    border: 1px solid $opendata-brand-primary;
-    color: $opendata-brand-primary;
+    border: 1px solid tokens.$fi-color-highlight-base;
+    color: tokens.$fi-color-highlight-base;
     margin-right: $padding-x--small;
   }
 }

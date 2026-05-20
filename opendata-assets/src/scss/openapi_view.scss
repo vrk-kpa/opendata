@@ -1,3 +1,4 @@
+@use "./variables/suomifidesign" as tokens;
 @import "variables";
 
 .topbar {
@@ -23,23 +24,23 @@
 
 .swagger-container .swagger-ui {
   .btn.authorize {
-    color: $suomi-successBase;
-    border-color: $suomi-successBase;
+    color: tokens.$fi-color-success-base;
+    border-color: tokens.$fi-color-success-base;
   }
 
   .opblock.opblock-get {
-    @include opblock-colors(rgba($suomi-highlightBase, 10% / 100%), $suomi-highlightBase);
+    @include opblock-colors(rgba(tokens.$fi-color-highlight-base, 10% / 100%), tokens.$fi-color-highlight-base);
   }
 
   .opblock.opblock-post {
-    @include opblock-colors(rgba($suomi-successBase, 10% / 100%), $suomi-successBase, true);
+    @include opblock-colors(rgba(tokens.$fi-color-success-base, 10% / 100%), tokens.$fi-color-success-base, true);
   }
 
   .opblock.opblock-put {
-    @include opblock-colors(rgba($suomi-warningBase, 10% / 100%), $suomi-warningBase, true);
+    @include opblock-colors(rgba(tokens.$fi-color-warning-base, 10% / 100%), tokens.$fi-color-warning-base, true);
   }
 
   .opblock.opblock-delete {
-    @include opblock-colors(rgba($suomi-alertBase, 10% / 100%), $suomi-alertBase);
+    @include opblock-colors(rgba(tokens.$fi-color-alert-base, 10% / 100%), tokens.$fi-color-alert-base);
   }
 }

@@ -1,3 +1,4 @@
+@use "../variables/suomifidesign" as tokens;
 @import "../variables";
 
 .dataset-container {
@@ -54,13 +55,13 @@
     width: $font-size__high-value-dataset-icon;
     height: $font-size__high-value-dataset-icon;
     line-height: $font-size__high-value-dataset-icon;
-    color: $opendata-brand-complementary;
+    color: tokens.$fi-color-accent-base;
     margin-right: $padding-x--small;
   }
 }
 
 .icon-private {
-  color: $opendata-brand-danger;
+  color: tokens.$fi-color-alert-base;
   vertical-align: middle;
   height: 1.3em;
 }
@@ -72,13 +73,13 @@
   a {
     display: block;
     margin-left: auto;
-    color: $opendata-brand-primary;
+    color: tokens.$fi-color-highlight-base;
     font-size: $font-size-smaller-base;
     font-family: $font-family-sans-serif-semibold;
     font-weight: $font-weight-heavier;
     letter-spacing: 0.4px;
     line-height: 20px;
-    border: 1px solid $opendata-brand-primary;
+    border: 1px solid tokens.$fi-color-highlight-base;
     border-radius: 2px;
     padding: $padding-y--small $padding-x--common;
     text-decoration: none;
@@ -86,7 +87,7 @@
 }
 
 .private-or-draft-dataset {
-  background: $opendata-brand-blue;
+  background: tokens.$fi-color-brand-base;
 
   div {
     display: flex;
@@ -100,7 +101,7 @@
   }
 
   span {
-    color: $suomi-whiteBase;
+    color: tokens.$fi-color-white-base;
     font-family: $font-family-sans-serif;
     font-size: $font-size-slightly-smaller-base;
     font-weight: $font-weight-normal;
@@ -110,13 +111,13 @@
   }
 
   a {
-    color: $suomi-whiteBase;
-    border: 1px solid $suomi-whiteBase;
+    color: tokens.$fi-color-white-base;
+    border: 1px solid tokens.$fi-color-white-base;
   }
 }
 
 .deleted-dataset {
-  background: $suomi-alertBase;
+  background: tokens.$fi-color-alert-base;
 }
 
 .maintainer-note {
@@ -134,7 +135,7 @@
   }
 
   span {
-    color: $color--black;
+    color: tokens.$fi-color-black-base;
     font-family: $font-family-sans-serif;
     font-size: $font-size-slightly-smaller-base;
     font-weight: $font-weight-normal;
@@ -144,8 +145,8 @@
   }
 
   a {
-    color: $color--black;
-    border: 1px solid $color--black;
+    color: tokens.$fi-color-black-base;
+    border: 1px solid tokens.$fi-color-black-base;
   }
 }
 
@@ -156,7 +157,7 @@
     height: 24px;
     line-height: 21px;
     color: rgb(255 255 255);
-    background: $opendata-brand-primary;
+    background: tokens.$fi-color-highlight-base;
     border-radius: 14px;
     padding: 0 13px;
 
@@ -210,7 +211,7 @@
 .container-search-result,
 .dataset-list {
   .dataset-heading a {
-    color: $opendata-brand-primary;
+    color: tokens.$fi-color-highlight-base;
     font-family: $font-family-sans-serif-semibold;
     font-size: 22px;
     font-weight: 600;
@@ -219,7 +220,7 @@
   }
 
   .dataset-item-notes {
-    color: $color--black;
+    color: tokens.$fi-color-black-base;
     font-family: $font-family-sans-serif;
     font-size: 18px;
     font-weight: normal;
@@ -228,8 +229,8 @@
   }
 
   .search-item-tag {
-    background: $suomi-whiteBase;
-    border: 1px solid $opendata-brand-border-gray;
+    background: tokens.$fi-color-white-base;
+    border: 1px solid tokens.$fi-color-depth-light1;
     margin: 0;
     margin-right: $margin__tag;
     border-radius: 2px;
@@ -248,7 +249,7 @@
   }
 
   .search-item-tag span {
-    color: $suomi-depthDark1;
+    color: tokens.$fi-color-depth-dark1;
     font-family: $font-family-sans-serif-semibold;
     font-size: 14px;
     font-weight: 600;

@@ -1,3 +1,4 @@
+@use "../variables/suomifidesign" as tokens;
 @import "../../scss/variables";
 
 // Used for overriding default upstream ckan styles
@@ -8,7 +9,7 @@ body {
 
 .label-default {
   a {
-    color: $suomi-whiteBase;
+    color: tokens.$fi-color-white-base;
   }
 }
 
@@ -51,7 +52,7 @@ body {
 }
 
 .license-smallprint {
-  color: $suomi-depthDark1;
+  color: tokens.$fi-color-depth-dark1;
   margin-bottom: $padding-y--small;
 }
 

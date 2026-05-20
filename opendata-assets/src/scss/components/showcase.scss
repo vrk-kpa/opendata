@@ -1,3 +1,5 @@
+@use "../variables/suomifidesign" as tokens;
+
 /* ckanext-sixodp_showcase temporary styles */
 .image-slider {
   padding: 10px;
@@ -29,7 +31,7 @@
 }
 
 .showcase__info-box {
-  background-color: $suomi-highlightLight2;
+  background-color: tokens.$fi-color-highlight-light2;
   padding: $padding-y__showcase-info-box $padding-x__showcase-info-box;
   margin: 0;
   margin-bottom: $padding-y--common;
@@ -68,7 +70,7 @@
   flex-wrap: wrap;
 
   .showcase-item {
-    background-color: $color--white;
+    background-color: tokens.$fi-color-white-base;
 
     // Because margin is added on both sides, make it only half of margin
     margin: 0 ($margin-x__showcase-item / 2) $margin-y__showcase-item ($margin-x__showcase-item / 2);
@@ -181,10 +183,10 @@
 
   .showcase-package {
     padding: $padding-y__showcase-package $padding-x__showcase-package;
-    border-top: 1px solid $suomi-depthLight1;
+    border-top: 1px solid tokens.$fi-color-depth-light1;
 
     &:last-child {
-      border-bottom: 1px solid $suomi-depthLight1;
+      border-bottom: 1px solid tokens.$fi-color-depth-light1;
     }
   }
 }

@@ -1,3 +1,4 @@
+@use "../variables/suomifidesign" as tokens;
 @import '../variables';
 
 .nav-facet {
@@ -33,7 +34,7 @@
         font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
         font-weight: $font-weight-light;
         content: "\f067";
-        color: $suomi-highlightBase;
+        color: tokens.$fi-color-highlight-base;
         font-size: $font-size__facet-icon;
       }
     }
@@ -46,7 +47,7 @@
     font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
     font-weight: $font-weight-light;
     content: "\f068";
-    color: $suomi-highlightBase;
+    color: tokens.$fi-color-highlight-base;
     font-size: $font-size__facet-icon;
   }
 }

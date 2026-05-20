@@ -1,9 +1,11 @@
+@use "../variables/suomifidesign" as tokens;
+
 // Form specific overrides
 @import "../variables";
 @import "../mixins/mixins";
 
 $input-border-radius: 2px;
-$input-border-color: $suomi-depthLight1;
+$input-border-color: tokens.$fi-color-depth-light1;
 $input-border-width: 1px;
 
 // ------------------------
@@ -62,7 +64,7 @@ $input-border-width: 1px;
 .control-required-message {
   align-self: flex-start;
   font-size: $font-size-slightly-smaller-base;
-  color: $suomi-depthDark1;
+  color: tokens.$fi-color-depth-dark1;
 
   span.control-required,
   .control-required {
@@ -176,7 +178,7 @@ label.group-label {
     }
 
     button i {
-      color: $color--black;
+      color: tokens.$fi-color-black-base;
     }
   }
 
@@ -189,7 +191,7 @@ label.group-label {
     margin-top: $padding-y--common;
     padding: $padding-y--common $padding-x--common;
     background-color: $background-color__content;
-    border: 1px solid $opendata-brand-border-gray;
+    border: 1px solid tokens.$fi-color-depth-light1;
   }
 
   .search-form__result-text {
@@ -204,7 +206,7 @@ label.group-label {
   border-bottom: 0;
 
   .search-header {
-    border: 1px solid $suomi-depthLight1;
+    border: 1px solid tokens.$fi-color-depth-light1;
     border-bottom: 0;
     padding: $padding-y--common;
     display: flex;
@@ -214,12 +216,12 @@ label.group-label {
 
   .search-result-count {
     font-size: 20px;
-    color: $suomi-blackBase;
+    color: tokens.$fi-color-black-base;
     flex: auto;
   }
 
   input.search.form-control {
-    border: 1px solid $suomi-depthBase;
+    border: 1px solid tokens.$fi-color-depth-base;
     border-radius: 2px;
     box-shadow: inset 0 1px 2px 0 rgb(41 41 41 / 10%);
     font-size: 16px;
@@ -323,7 +325,7 @@ fieldset.checkboxes {
     background: white;
 
     &:focus {
-      background: $suomi-highlightLight4;
+      background: tokens.$fi-color-highlight-light4;
     }
   }
 
@@ -349,7 +351,7 @@ fieldset.checkboxes {
     padding: 8px 10px;
 
     &:hover {
-      background-color: $suomi-highlightLight4;
+      background-color: tokens.$fi-color-highlight-light4;
     }
 
     &::after {
@@ -364,13 +366,13 @@ fieldset.checkboxes {
         height: 16px;
         margin-right: 0;
         font-size: 15px;
-        color: $suomi-highlightBase;
+        color: tokens.$fi-color-highlight-base;
         min-width: 16px;
         overflow-x: hidden;
       }
 
       &:checked + .custom-checkbox {
-        border: 1px solid $suomi-highlightBase;
+        border: 1px solid tokens.$fi-color-highlight-base;
 
         &::before {
           font-size: 8px;
@@ -378,7 +380,7 @@ fieldset.checkboxes {
       }
 
       &:focus ~ .custom-checkbox {
-        box-shadow: 0 0 2px 1px $suomi-highlightBase;
+        box-shadow: 0 0 2px 1px tokens.$fi-color-highlight-base;
       }
     }
   }
@@ -405,14 +407,14 @@ fieldset.checkboxes {
   box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
 
   &::placeholder {
-    color: $suomi-depthDark1;
+    color: tokens.$fi-color-depth-dark1;
     font-style: italic;
     opacity: 1;
   }
 
   &:focus {
-    border-color: $suomi-highlightBase;
-    box-shadow: 0 0 3px 0 $suomi-highlightBase;
+    border-color: tokens.$fi-color-highlight-base;
+    box-shadow: 0 0 3px 0 tokens.$fi-color-highlight-base;
     outline: 0;
   }
 }
@@ -467,12 +469,12 @@ fieldset.checkboxes {
 
   // Checked button style
   input[type="radio"]:checked ~ .custom-radio {
-    border: 1px solid $suomi-highlightBase;
+    border: 1px solid tokens.$fi-color-highlight-base;
 
     &::after {
       content: "";
       display: block;
-      background-color: $suomi-highlightBase;
+      background-color: tokens.$fi-color-highlight-base;
       height: 8px;
       width: 8px;
       border-radius: 100%;
@@ -481,7 +483,7 @@ fieldset.checkboxes {
 
   // Focused button style
   input[type="radio"]:focus ~ .custom-radio {
-    box-shadow: 0 0 2px 1px $suomi-highlightBase;
+    box-shadow: 0 0 2px 1px tokens.$fi-color-highlight-base;
   }
 
   &::after {
@@ -583,8 +585,8 @@ fieldset.checkboxes {
 
   .editor textarea {
     border-radius: 0;
-    border-color: $suomi-depthLight1;
-    border-bottom: 1px solid $suomi-depthLight1;
+    border-color: tokens.$fi-color-depth-light1;
+    border-bottom: 1px solid tokens.$fi-color-depth-light1;
     padding: 6px 10px;
     font-size: 16px;
     font-weight: normal;
@@ -778,7 +780,7 @@ label.control-label {
 
       a {
         padding: 10px 5px;
-        color: $new-layout-primary-text-color;
+        color: tokens.$fi-color-black-base;
         font-family: $font-family-sans-serif;
         font-size: 18px;
         font-weight: normal;
@@ -793,7 +795,7 @@ label.control-label {
 
       &.active a {
         font-family: $font-family-sans-serif-semibold;
-        border-bottom: 4px solid $suomi-highlightBase;
+        border-bottom: 4px solid tokens.$fi-color-highlight-base;
         font-weight: 600;
       }
     }
@@ -839,11 +841,11 @@ td.selectable-row {
   }
 
   input[type="checkbox"].row-checkbox:checked ~ .check {
-    border-color: $suomi-highlightBase;
+    border-color: tokens.$fi-color-highlight-base;
   }
 
   input[type="checkbox"].row-checkbox:checked ~ .check::before {
-    color: $suomi-highlightBase;
+    color: tokens.$fi-color-highlight-base;
     content: "\f00c";
     font-family: "Font Awesome 5 Pro", sans-serif;
     font-weight: 600;
@@ -864,7 +866,7 @@ td.selectable-row {
 
 .custom-table-header {
   padding: 25px 20px 10px;
-  border: 1px solid $suomi-depthLight1;
+  border: 1px solid tokens.$fi-color-depth-light1;
   border-bottom: none;
 
   & ~ p.filter-list {
@@ -885,8 +887,8 @@ td.selectable-row {
 }
 
 .action-button-group {
-  border-left: 1px solid $suomi-depthLight1;
-  border-right: 1px solid $suomi-depthLight1;
+  border-left: 1px solid tokens.$fi-color-depth-light1;
+  border-right: 1px solid tokens.$fi-color-depth-light1;
 
   & button {
     margin-left: 20px;
@@ -917,7 +919,7 @@ td.selectable-row {
     position: absolute;
     top: 3px;
     left: 127px;
-    color: $suomi-highlightBase;
+    color: tokens.$fi-color-highlight-base;
     pointer-events: none;
   }
 }
@@ -941,12 +943,12 @@ td.selectable-row {
   margin-bottom: $grid-gutter-width--bootstrap / 2;
 
   .slug-preview-value {
-    background-color: $suomi-accentSecondaryLight1;
+    background-color: tokens.$fi-color-accent-secondary-light1;
   }
 }
 
 #general-search-options {
-  border: 1px solid $suomi-depthLight1;
+  border: 1px solid tokens.$fi-color-depth-light1;
   padding-bottom: $padding-bottom__module--resource;
 }
 

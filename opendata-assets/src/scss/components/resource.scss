@@ -1,3 +1,5 @@
+@use "../variables/suomifidesign" as tokens;
+
 .toolbar-secondary-wrapper {
   padding-bottom: $padding-y__resource_toolbar;
 }
@@ -11,11 +13,11 @@
     border-radius: 0;
     height: 16px;
     width: 16px;
-    color: $suomi-highlightBase;
+    color: tokens.$fi-color-highlight-base;
   }
 
   a {
-    color: $suomi-highlightBase;
+    color: tokens.$fi-color-highlight-base;
     font-family: $font-family-sans-serif;
     font-size: $font-size-smaller-base;
     font-weight: $font-weight-normal;
@@ -50,7 +52,7 @@
   }
 
   .module-small-title {
-    color: $suomi-depthDark1;
+    color: tokens.$fi-color-depth-dark1;
     font-size: $font-size-slightly-smaller-base;
     font-family: $font-family-sans-serif;
     font-weight: $font-weight-normal;
@@ -71,13 +73,13 @@
 
   .resource-module-table td,
   .resource-module-table tr {
-    border: 1px solid $suomi-depthLight1;
+    border: 1px solid tokens.$fi-color-depth-light1;
     padding: $padding__resource_table;
     border-collapse: collapse;
   }
 
   .resource-module-table tr:nth-child(odd) {
-    background-color: $suomi-depthLight3;
+    background-color: tokens.$fi-color-depth-light3;
   }
 
   .resource-module-table th:nth-child(odd) {
@@ -116,7 +118,7 @@
 }
 
 .container-module-resource {
-  border: 1px solid $color--extra-light-grey;
+  border: 1px solid tokens.$fi-color-depth-light1;
 
   .resource-block {
     padding-bottom: $padding-bottom__module--resource;
@@ -134,7 +136,7 @@
 }
 
 .apiset-title {
-  color: $color--dark-black;
+  color: tokens.$fi-color-black-base;
   font-size: $font-size__module-large-h1;
   font-weight: $font-weight-light;
   height: 48px;

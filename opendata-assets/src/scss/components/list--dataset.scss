@@ -1,3 +1,4 @@
+@use "../variables/suomifidesign" as tokens;
 @import "../variables";
 
 .dataset-list {
@@ -10,13 +11,13 @@
 
 .dataset-item {
   position: relative;
-  border: 1px solid $opendata-brand-border-gray;
+  border: 1px solid tokens.$fi-color-depth-light1;
   border-bottom: none;
   margin-bottom: 0;
   padding: $padding__content;
 
   &:last-of-type {
-    border-bottom: 1px solid $opendata-brand-border-gray;
+    border-bottom: 1px solid tokens.$fi-color-depth-light1;
 
     // $NOTE: This is needed as otherwise ckan styles overwrites it with zero bottom padding
     padding-bottom: $padding-y--common;
@@ -27,17 +28,17 @@
     font-size: 22px;
     font-weight: 600;
     line-height: 28px;
-    color: $new-layout-secondary-text-color;
+    color: tokens.$fi-color-highlight-base;
     margin-top: 0;
     margin-bottom: $margin-bottom-h3;
     word-break: break-word;
 
     a {
-      color: $new-layout-secondary-text-color;
+      color: tokens.$fi-color-highlight-base;
 
       &:hover,
       &:active {
-        color: $new-layout-secondary-text-color;
+        color: tokens.$fi-color-highlight-base;
       }
     }
   }
@@ -47,13 +48,13 @@
     font-size: 18px;
     font-weight: normal;
     line-height: 27px;
-    color: $new-layout-primary-text-color;
+    color: tokens.$fi-color-black-base;
     margin-bottom: $padding-y--common;
   }
 
   .dataset-item-organization {
     margin-bottom: 12px;
-    color: $new-layout-nonimportant-text-color;
+    color: tokens.$fi-color-depth-dark1;
     font-family: $font-family-sans-serif;
     font-size: 16px;
     font-weight: normal;
@@ -62,7 +63,7 @@
     a,
     a:hover,
     a:active {
-      color: $new-layout-nonimportant-text-color;
+      color: tokens.$fi-color-depth-dark1;
     }
   }
 }
@@ -74,19 +75,19 @@
 .collection-type {
   margin-left: auto;
   margin-right: 0;
-  color: $suomi-whiteBase;
+  color: tokens.$fi-color-white-base;
   text-transform: uppercase;
   font-size: $font-size-smaller-base;
   font-family: $font-family-sans-serif-semibold;
   font-weight: $font-weight-heavier;
   text-align: center;
-  background: $opendata-brand-blue;
-  border: 1px solid $opendata-brand-blue;
+  background: tokens.$fi-color-brand-base;
+  border: 1px solid tokens.$fi-color-brand-base;
   border-radius: $border-radius__button;
   padding: $padding__tag;
 }
 
 .deleted {
-  background: $suomi-alertBase;
-  border: 1px solid $suomi-alertBase;
+  background: tokens.$fi-color-alert-base;
+  border: 1px solid tokens.$fi-color-alert-base;
 }

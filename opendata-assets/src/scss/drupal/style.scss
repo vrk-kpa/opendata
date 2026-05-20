@@ -186,7 +186,7 @@ p:last-child,
     position: relative;
 
     .ytp-input-element-frontpage {
-      color: $color--black;
+      color: tokens.$fi-color-black-base;
     }
   }
 
@@ -246,7 +246,7 @@ p:last-child,
 
 // Avoindata Categories
 .avoindata-categories {
-  background-color: $background-body-color;
+  background-color: tokens.$fi-color-white-base;
   padding: 10px 50px 25px;
 
   h2 {
@@ -443,7 +443,7 @@ p:last-child,
 
 .avoindata-explore,
 .avoindata-support {
-  background-color: $suomi-highlightLight3;
+  background-color: tokens.$fi-color-highlight-light3;
 }
 
 
@@ -508,7 +508,7 @@ p:last-child,
 }
 
 .avoindata-external {
-  background-color: $suomi-highlightLight2;
+  background-color: tokens.$fi-color-highlight-light2;
 
   .avoindata-block-card {
     width: 470px;
@@ -563,28 +563,28 @@ p:last-child,
 
 .avoindata-explore-dataset,
 .avoindata-support-sharing {
-  background-color: $suomi-accentSecondaryLight1;
+  background-color: tokens.$fi-color-accent-secondary-light1;
 }
 
 .avoindata-explore-apiset,
 .avoindata-support-principles {
-  background-color: $suomi-depthSecondary;
+  background-color: tokens.$fi-color-depth-secondary;
 }
 
 .avoindata-explore-showcase {
-  background-color: $suomi-depthLight3;
+  background-color: tokens.$fi-color-depth-light3;
 }
 
 .avoindata-explore-sharing {
-  background-color: $suomi-accentSecondaryLight1;
+  background-color: tokens.$fi-color-accent-secondary-light1;
 }
 
 .avoindata-explore-apis {
-  background-color: $suomi-depthSecondary;
+  background-color: tokens.$fi-color-depth-secondary;
 }
 
 .avoindata-external-service{
-  background-color: $suomi-depthSecondaryDark1;
+  background-color: tokens.$fi-color-depth-secondary-dark1;
 }
 
 .avoindata-datasetlist {
@@ -735,7 +735,7 @@ p:last-child,
         font-family: $font-family-sans-serif;
         font-size: 18px;
         font-weight: normal;
-        color: $new-layout-primary-text-color;
+        color: tokens.$fi-color-black-base;
       }
     }
   }
@@ -1567,8 +1567,8 @@ p:last-child,
 
   .form-submit {
     margin-top: 15px;
-    background: $suomi-highlightBase;
-    color: $suomi-whiteBase;
+    background: tokens.$fi-color-highlight-base;
+    color: tokens.$fi-color-white-base;
   }
 }
 
@@ -1753,7 +1753,7 @@ p:last-child,
       padding-right: 22px;
       vertical-align: middle;
       font-weight: 900;
-      color: $suomi-highlightDark1;
+      color: tokens.$fi-color-highlight-dark1;
     }
 
     &.alert-warning.alert-dismissible p::before {
@@ -1764,7 +1764,7 @@ p:last-child,
       padding-right: 22px;
       vertical-align: middle;
       font-weight: 900;
-      color: $suomi-warningBase;
+      color: tokens.$fi-color-warning-base;
     }
 
     &.alert-danger.alert-dismissible p::before {
@@ -1775,12 +1775,12 @@ p:last-child,
       padding-right: 22px;
       vertical-align: middle;
       font-weight: 900;
-      color: $suomi-alertBase;
+      color: tokens.$fi-color-alert-base;
     }
 
     p,
     button {
-      color: $new-layout-primary-text-color;
+      color: tokens.$fi-color-black-base;
     }
 
     a {

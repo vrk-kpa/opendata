@@ -1,3 +1,4 @@
+@use "../variables/suomifidesign" as tokens;
 @import '../variables';
 
 .pagination-wrapper {
@@ -13,13 +14,13 @@
   > li.page-item,
   > li.disabled {
     position: relative;
-    border: 1px solid $suomi-depthLight1;
+    border: 1px solid tokens.$fi-color-depth-light1;
     border-radius: 0;
 
     a,
     button {
       background-color: $background-color__content;
-      color: $opendata-brand-primary;
+      color: tokens.$fi-color-highlight-base;
       display: block;
       float: none;
       margin: 0;
@@ -30,26 +31,26 @@
     &:hover {
       a,
       button {
-        background-color: $background-color__body;
+        background-color: tokens.$fi-color-depth-light3;
       }
     }
 
     &.active {
-      border-color: $opendata-brand-primary;
+      border-color: tokens.$fi-color-highlight-base;
       z-index: 2;
 
       a,
       button {
-        color: $color--white;
-        background-color: $opendata-brand-primary;
+        color: tokens.$fi-color-white-base;
+        background-color: tokens.$fi-color-highlight-base;
 
         &:hover {
-          background-color: $suomi-highlightLight1;
+          background-color: tokens.$fi-color-highlight-light1;
         }
 
         &:focus {
-          background-color: $suomi-highlightBase;
-          box-shadow: 0 0 10px $suomi-accentBase;
+          background-color: tokens.$fi-color-highlight-base;
+          box-shadow: 0 0 10px tokens.$fi-color-accent-base;
         }
       }
     }
@@ -64,9 +65,9 @@
 
   li.disabled {
     a {
-      color: $suomi-highlightBase;
+      color: tokens.$fi-color-highlight-base;
       background-color: $background-color__content;
-      border-color: $suomi-depthLight1;
+      border-color: tokens.$fi-color-depth-light1;
       pointer-events: none;
       margin-left: -1px;
     }

@@ -1,3 +1,4 @@
+@use "../variables/suomifidesign" as tokens;
 @import '../variables';
 
 .btn {
@@ -8,20 +9,20 @@
   &.btn-outline-primary {
     background: transparent;
     border-width: 1px;
-    border-color: $opendata-brand-primary;
-    color: $opendata-brand-primary;
+    border-color: tokens.$fi-color-highlight-base;
+    color: tokens.$fi-color-highlight-base;
 
     &:hover {
-      border-color: $opendata-brand-primary--highlight;
-      color: $opendata-brand-primary--highlight;
+      border-color: tokens.$fi-color-highlight-dark1;
+      color: tokens.$fi-color-highlight-dark1;
     }
   }
 }
 
 .btn-light {
-  background-color: $color--white;
-  border: 1px solid $suomi-highlightBase;
-  color: $suomi-highlightBase;
+  background-color: tokens.$fi-color-white-base;
+  border: 1px solid tokens.$fi-color-highlight-base;
+  color: tokens.$fi-color-highlight-base;
 }
 
 %suomi-button {
@@ -34,46 +35,46 @@
   align-items: center;
 
   &:focus {
-    box-shadow: 0 0 10px $suomi-accentBase;
+    box-shadow: 0 0 10px tokens.$fi-color-accent-base;
     outline: none;
   }
 
   &.suomi-button-primary {
-    background: linear-gradient($suomi-highlightBase, $suomi-highlightDark1);
+    background: linear-gradient(tokens.$fi-color-highlight-base, tokens.$fi-color-highlight-dark1);
     border: none;
-    color: $suomi-whiteBase;
-    text-shadow: 0 1px 1px rgba($suomi-brandBase, 0.5);
+    color: tokens.$fi-color-white-base;
+    text-shadow: 0 1px 1px rgba(tokens.$fi-color-brand-base, 0.5);
 
     &:hover {
-      background: linear-gradient($suomi-highlightLight1, $suomi-highlightBase);
+      background: linear-gradient(tokens.$fi-color-highlight-light1, tokens.$fi-color-highlight-base);
     }
 
     &:active {
-      background: $suomi-highlightDark1;
+      background: tokens.$fi-color-highlight-dark1;
     }
 
     &:disabled {
-      background: linear-gradient($suomi-depthLight1, $suomi-depthBase);
+      background: linear-gradient(tokens.$fi-color-depth-light1, tokens.$fi-color-depth-base);
     }
   }
 
   &.suomi-button-secondary {
-    background: $suomi-whiteBase;
-    border: 1px solid $suomi-highlightBase;
-    color: $suomi-highlightBase;
+    background: tokens.$fi-color-white-base;
+    border: 1px solid tokens.$fi-color-highlight-base;
+    color: tokens.$fi-color-highlight-base;
 
     &:hover {
-      background: linear-gradient($suomi-depthLight2, $suomi-whiteBase);
+      background: linear-gradient(tokens.$fi-color-depth-light2, tokens.$fi-color-white-base);
     }
 
     &:active {
-      background: $suomi-depthLight2;
+      background: tokens.$fi-color-depth-light2;
     }
 
     &:disabled {
-      background: $suomi-depthLight3;
-      border: 1px solid $suomi-depthLight1;
-      color: $suomi-depthBase;
+      background: tokens.$fi-color-depth-light3;
+      border: 1px solid tokens.$fi-color-depth-light1;
+      color: tokens.$fi-color-depth-base;
     }
   }
 
@@ -81,16 +82,16 @@
   // Used on top of blue background
   // NOTE: this is not an actual suomi.fi button
   &.suomi-button-custom {
-    background: $suomi-accentSecondary;
+    background: tokens.$fi-color-accent-secondary;
     border: none;
-    color: $suomi-whiteBase;
+    color: tokens.$fi-color-white-base;
 
     &:hover {
-      background: $suomi-highlightLight1;
+      background: tokens.$fi-color-highlight-light1;
     }
 
     &:active {
-      background: $suomi-highlightDark1;
+      background: tokens.$fi-color-highlight-dark1;
     }
 
     // NOTE: atm no disabled class, due to it never being disabled where it is used
@@ -119,12 +120,12 @@
 }
 
 .btn-warning {
-  background-color: $opendata-brand-warning;
-  border-color: $opendata-brand-warning;
+  background-color: tokens.$fi-color-warning-base;
+  border-color: tokens.$fi-color-warning-base;
 
   &:hover {
-    background-color: darken($opendata-brand-warning, 10%);
-    border-color: darken($opendata-brand-warning, 10%);
+    background-color: darken(tokens.$fi-color-warning-base, 10%);
+    border-color: darken(tokens.$fi-color-warning-base, 10%);
   }
 }
 
@@ -140,28 +141,28 @@
 }
 
 .btn-success {
-  background-color: $opendata-brand-success;
-  border-color: $opendata-brand-success;
+  background-color: tokens.$fi-color-success-base;
+  border-color: tokens.$fi-color-success-base;
 
   &.disabled,
   &.disabled:focus,
   &.disabled:hover {
-    background-color: tint($opendata-brand-success, 50%);
-    border-color: tint($opendata-brand-success, 50%);
+    background-color: tint(tokens.$fi-color-success-base, 50%);
+    border-color: tint(tokens.$fi-color-success-base, 50%);
   }
 
   &:hover,
   &:focus,
   &:active {
-    background-color: $opendata-brand-success;
-    border-color: $opendata-brand-success;
+    background-color: tokens.$fi-color-success-base;
+    border-color: tokens.$fi-color-success-base;
   }
 
   &:focus:hover,
   &:active:hover,
   &:active:focus {
-    background-color: darken($opendata-brand-success, 10%);
-    border-color: darken($opendata-brand-success, 10%);
+    background-color: darken(tokens.$fi-color-success-base, 10%);
+    border-color: darken(tokens.$fi-color-success-base, 10%);
   }
 }
 

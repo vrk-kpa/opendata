@@ -1,3 +1,4 @@
+@use "../variables/suomifidesign" as tokens;
 @import "../variables";
 @import "../variables/fonts";
 
@@ -10,7 +11,7 @@ body {
   @include flex-direction(column);
 
   min-height: 100vh;
-  background: $background-color__body;
+  background: tokens.$fi-color-depth-light3;
 
   a {
     word-break: break-word;
@@ -103,7 +104,7 @@ body {
 
 .page-container {
   background-color: #fff;
-  border: 1px solid $suomi-depthLight1;
+  border: 1px solid tokens.$fi-color-depth-light1;
   padding: 20px 20px 60px;
   margin-top: 15px;
   margin-bottom: 15px;
@@ -122,7 +123,7 @@ body {
   input,
   select {
     border-radius: 0;
-    border-color: $suomi-depthLight1;
+    border-color: tokens.$fi-color-depth-light1;
     padding: 6px 10px;
     height: 40px;
     font-size: 16px;
@@ -137,7 +138,7 @@ body {
 
   .input-prepend input,
   .controls input {
-    border: 1px solid $suomi-depthLight1;
+    border: 1px solid tokens.$fi-color-depth-light1;
   }
 }
 
@@ -160,7 +161,7 @@ body {
       rgb(35 90 154) 0%,
       rgb(42 110 187) 100%
     );
-  border: 1px solid $suomi-highlightBase;
+  border: 1px solid tokens.$fi-color-highlight-base;
   border-radius: 2px;
   display: inline-flex;
   color: white;
@@ -178,9 +179,9 @@ body {
 
   height: 40px;
   display: inline-flex;
-  color: $suomi-highlightBase;
+  color: tokens.$fi-color-highlight-base;
   appearance: none;
-  border: 1px solid $suomi-highlightBase;
+  border: 1px solid tokens.$fi-color-highlight-base;
   padding: 10px 20px;
 
   @media (min-width: $screen-md-min) {
@@ -229,7 +230,7 @@ body {
 
 .table-bordered > tbody > tr > td {
   padding: 10px;
-  border-color: $suomi-depthLight1;
+  border-color: tokens.$fi-color-depth-light1;
 }
 
 .flex-form {
@@ -240,7 +241,7 @@ body {
 .sidebar {
   padding: 15px 20px;
   background-color: white;
-  border: 1px solid $suomi-depthLight1;
+  border: 1px solid tokens.$fi-color-depth-light1;
   z-index: 2;
 
   h4 {
@@ -257,19 +258,19 @@ body {
     li {
       float: none;
       background-color: transparent;
-      color: $new-layout-primary-text-color;
+      color: tokens.$fi-color-black-base;
       font-size: 16px;
       line-height: 24px;
       width: 100%;
       padding: 10px 0;
 
       .highlight {
-        color: $new-layout-primary-text-color;
+        color: tokens.$fi-color-black-base;
         font-weight: normal;
       }
 
       a.highlight {
-        color: $suomi-highlightBase;
+        color: tokens.$fi-color-highlight-base;
 
         &:hover {
           text-decoration: underline;
@@ -278,8 +279,8 @@ body {
 
       &::before {
         background-color: transparent;
-        color: $new-layout-primary-text-color;
-        border: 1px solid $new-layout-primary-text-color;
+        color: tokens.$fi-color-black-base;
+        border: 1px solid tokens.$fi-color-black-base;
       }
 
       &:not(:first-of-type)::after {
@@ -291,7 +292,7 @@ body {
         position: absolute;
         border: none;
         margin: 0;
-        border-left: 1px solid $suomi-depthLight1;
+        border-left: 1px solid tokens.$fi-color-depth-light1;
         pointer-events: none;
       }
 
@@ -304,8 +305,8 @@ body {
 
         &::before {
           color: white;
-          background: $suomi-successBase;
-          border-color: $suomi-successBase;
+          background: tokens.$fi-color-success-base;
+          border-color: tokens.$fi-color-success-base;
         }
       }
 
@@ -316,8 +317,8 @@ body {
 
         &::before {
           color: white;
-          background: $suomi-successBase;
-          border-color: $suomi-successBase;
+          background: tokens.$fi-color-success-base;
+          border-color: tokens.$fi-color-success-base;
         }
       }
     }

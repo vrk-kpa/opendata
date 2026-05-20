@@ -1,4 +1,4 @@
-@use "suomifi-design-tokens/dist/tokens" as sd;
+@use "../variables/suomifidesign" as tokens;
 @import "../variables";
 @import "bootstrap/scss/mixins";
 
@@ -20,8 +20,8 @@
 }
 
 .statistics-loading {
-  background-color: $suomi-brandBase;
-  color: $suomi-whiteBase;
+  background-color: tokens.$fi-color-brand-base;
+  color: tokens.$fi-color-white-base;
   height: 100vh;
   width: 100%;
   left: 0;
@@ -41,17 +41,17 @@
 }
 
 @keyframes statistics-loading-bg {
-  0% { background-color: $suomi-highlightBase; }
-  50% { background-color: $suomi-highlightDark1; }
-  100% { background-color: $suomi-highlightBase; }
+  0% { background-color: tokens.$fi-color-highlight-base; }
+  50% { background-color: tokens.$fi-color-highlight-dark1; }
+  100% { background-color: tokens.$fi-color-highlight-base; }
 }
 
 .statistics-loading-steps {
-  background-color: $suomi-highlightBase;
+  background-color: tokens.$fi-color-highlight-base;
   animation-name: statistics-loading-bg;
   animation-duration: 1s;
   animation-iteration-count: infinite;
-  border: solid $suomi-whiteBase 1px;
+  border: solid tokens.$fi-color-white-base 1px;
   height: 20px;
   line-height: 1;
   overflow: hidden;
@@ -81,7 +81,7 @@
 .statistics-loading-loaded {
   animation-name: statistics-loading-webpage;
   animation-duration: 10s;
-  background-color: $suomi-whiteBase;
+  background-color: tokens.$fi-color-white-base;
   height: 100%;
   display: block;
   width: 60%;
@@ -90,7 +90,7 @@
 .statistics-loading-text {
   margin-top: 10px;
 
-  @include sd.fi-text-body-text
+  @include tokens.fi-text-body-text
 }
 
 .statistics-nav {
@@ -120,14 +120,14 @@
   }
 
   &.statistics-nav-fixed {
-    background: $suomi-whiteBase;
+    background: tokens.$fi-color-white-base;
   }
 }
 
 .nav-wrapper {
   .statistics-nav-content {
     padding: 5px 0;
-    background: $suomi-whiteBase;
+    background: tokens.$fi-color-white-base;
     margin: 0;
     width: 100%;
 
@@ -158,11 +158,11 @@
     display: inline-block;
     margin: 0 6px;
     border-bottom: solid transparent 5px;
-    color: $suomi-whiteBase;
+    color: tokens.$fi-color-white-base;
 
     &:hover,
     &.statistics-active {
-      border-color: $opendata-brand-decorative;
+      border-color: lighten(tokens.$fi-color-highlight-base, 30%);
     }
   }
 }
@@ -227,7 +227,7 @@
 // Summary section
 .summary-section {
   background-color: $opendata-brand-dark;
-  color: $suomi-whiteBase;
+  color: tokens.$fi-color-white-base;
   min-height: 200px;
   padding-top: 100px;
   padding-bottom: 100px;
@@ -240,19 +240,19 @@
 // Other sections
 .statistics-dataset-section,
 .statistics-app-section {
-  color: $suomi-whiteBase;
+  color: tokens.$fi-color-white-base;
 
   h1,
   h2,
   .statistics-vis-title {
     padding-top: 25px;
     margin-bottom: 25px;
-    color: $suomi-whiteBase;
+    color: tokens.$fi-color-white-base;
   }
 }
 
 .statistics-dataset-section {
-  background-color: $suomi-brandBase;
+  background-color: tokens.$fi-color-brand-base;
 }
 
 .statistics-app-section {
@@ -270,8 +270,8 @@
 }
 
 .statistics-legend-coloring {
-  fill: $suomi-whiteBase;
-  stroke: $suomi-whiteBase;
+  fill: tokens.$fi-color-white-base;
+  stroke: tokens.$fi-color-white-base;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1px;
@@ -284,13 +284,13 @@
 }
 
 .statistics-legend-text {
-  fill: $suomi-whiteBase;
+  fill: tokens.$fi-color-white-base;
   font-family: $font-family-sans-serif;
 }
 
 .statistics-line {
   fill: none;
-  stroke: $suomi-whiteBase;
+  stroke: tokens.$fi-color-white-base;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 3px;
@@ -302,18 +302,18 @@
 }
 
 .statistics-focus-point {
-  fill: $suomi-whiteBase;
+  fill: tokens.$fi-color-white-base;
   opacity: 0.9;
-  stroke: $suomi-whiteBase;
+  stroke: tokens.$fi-color-white-base;
 
   circle {
-    fill: $suomi-whiteBase;
-    stroke: $suomi-whiteBase;
+    fill: tokens.$fi-color-white-base;
+    stroke: tokens.$fi-color-white-base;
   }
 
   line {
     fill: none;
-    stroke: $suomi-whiteBase;
+    stroke: tokens.$fi-color-white-base;
     stroke-width: 1.5px;
     stroke-dasharray: 3 3;
   }
@@ -329,15 +329,15 @@
 
 .statistics-axis {
   line {
-    stroke: $suomi-whiteBase;
+    stroke: tokens.$fi-color-white-base;
   }
 
   path {
-    stroke: $suomi-whiteBase;
+    stroke: tokens.$fi-color-white-base;
   }
 
   text {
-    fill: $suomi-whiteBase;
+    fill: tokens.$fi-color-white-base;
   }
 
   .tick:not(:first-of-type) line {
@@ -347,17 +347,17 @@
 
 .statistics-bar {
   .statistics-bar-main {
-    fill: $opendata-brand-primary;
-    stroke: $suomi-whiteBase;
+    fill: tokens.$fi-color-highlight-base;
+    stroke: tokens.$fi-color-white-base;
     stroke-width: 2px;
   }
 
   .statistics-bar-portion {
-    fill: $suomi-whiteBase;
+    fill: tokens.$fi-color-white-base;
   }
 
   text {
-    fill: $suomi-whiteBase;
+    fill: tokens.$fi-color-white-base;
     font: 10px sans-serif;
   }
 }
@@ -416,8 +416,8 @@
 }
 
 .statistics-page select {
-  background: $suomi-whiteBase;
-  color: $opendata-brand-primary;
+  background: tokens.$fi-color-white-base;
+  color: tokens.$fi-color-highlight-base;
   outline: 0;
 }
 
@@ -435,7 +435,7 @@
 }
 
 .statistics-tooltip {
-  background: $suomi-whiteBase;
+  background: tokens.$fi-color-white-base;
   color: $text-color;
   padding: 1px 10px;
   position: absolute;
