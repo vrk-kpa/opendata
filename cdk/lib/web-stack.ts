@@ -60,11 +60,10 @@ export class WebStack extends Stack {
       'https://www.google.com/recaptcha/',
       'https://www.gstatic.com/',
       'https://www.google.com',
-      'cdn.matomo.cloud',
-      'suomi.matomo.cloud',
       'https://js-de.sentry-cdn.com',
       'https://browser.sentry-cdn.com',
-      'cdn.jsdelivr.net'
+      'cdn.jsdelivr.net',
+      'https://matomo.cloud.dvv.fi'
     ];
     const nginxCspStyleSrc: string[] = [
       'https://fonts.googleapis.com',
@@ -79,9 +78,9 @@ export class WebStack extends Stack {
     ];
 
     const nginxCspConnectSrc: string[] = [
-      "suomi.matomo.cloud",
       "*.sentry.io",
-      "browser.sentry-cdn.com"
+      "browser.sentry-cdn.com",
+      "matomo.cloud.dvv.fi"
     ]
 
     const nginxCspFontSrc: string[] = [

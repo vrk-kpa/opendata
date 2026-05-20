@@ -11,7 +11,8 @@
 #
 # NOTE: Please make sure this file is using LF line-endings, windows CRLF breaks it!
 #
-0   1   *       *   *   cd /srv/app && ./cron/scripts/matomo-fetch.sh
+# Fetching matomo data disabled, due to api not available
+# 0   1   *       *   *   cd /srv/app && ./cron/scripts/matomo-fetch.sh
 0   3   */3     *   *   cd /srv/app && ./cron/scripts/archiver-update.sh
 */5 *   *       *   *   cd /srv/app && ./cron/scripts/harvester-run.sh
 # tracking updates disabled, due to performance reasons
