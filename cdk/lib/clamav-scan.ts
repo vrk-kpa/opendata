@@ -17,7 +17,7 @@ export class ClamavScan extends Construct {
         SUBNET_IDS: props.subnetIds.join(","),
         SECURITY_GROUP_ID: props.securityGroup.securityGroupId,
       },
-      runtime: lambda.Runtime.NODEJS_20_X,
+      runtime: lambda.Runtime.NODEJS_24_X,
     });
   }
 }
