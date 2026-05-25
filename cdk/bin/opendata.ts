@@ -211,8 +211,8 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
   captchaEnabled: true,
   analyticsEnabled: true,
   ckanTaskDef: {
-    taskCpu: 512,
-    taskMem: 1024,
+    taskCpu: 1024,
+    taskMem: 2048,
     taskMinCapacity: 1,
     taskMaxCapacity: 3,
   },
