@@ -24,30 +24,4 @@
       font-weight: $font-weight-normal;
     }
   }
-
-  // Plus icon (fa-plus)
-  .nav-item:hover {
-    > a {
-      &:hover::after,
-      &::after {
-        background-image: none;
-        font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
-        font-weight: $font-weight-light;
-        content: "\f067";
-        color: tokens.$fi-color-highlight-base;
-        font-size: $font-size__facet-icon;
-      }
-    }
-  }
-
-  // Minus icon (fa-minus)
-  .nav-item.active > a::after,
-  .nav-item.active:hover > a::after {
-    background-image: none;
-    font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
-    font-weight: $font-weight-light;
-    content: "\f068";
-    color: tokens.$fi-color-highlight-base;
-    font-size: $font-size__facet-icon;
-  }
 }

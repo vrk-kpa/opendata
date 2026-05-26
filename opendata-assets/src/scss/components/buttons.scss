@@ -1,4 +1,5 @@
 @use "../variables/suomifidesign" as tokens;
+@use "../mixins/suomifidesign" as suomifi-mixins;
 @import '../variables';
 
 .btn {
@@ -130,10 +131,18 @@
 }
 
 // Disable box shadow when the button is activated
-.btn-avoindata-header,
-.btn-avoindata-header:active,
-.btn-avoindata-header:hover,
-.btn-avoindata-header:focus {
+.btn-avoindata-header {
+  @include suomifi-mixins.button-primary;
+  /* color: $opendata-ckan-list-item-header; */
+  /* background-image: none; */
+  /* outline: 0; */
+  /* box-shadow: none; */
+}
+
+.btn-avoindata-link,
+.btn-avoindata-link:active,
+.btn-avoindata-link:hover,
+.btn-avoindata-link:focus {
   color: $opendata-ckan-list-item-header;
   background-image: none;
   outline: 0;

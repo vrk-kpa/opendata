@@ -173,18 +173,21 @@ label.group-label {
   .search-input {
     &.search-giant {
       button {
-        margin-top: -14px;
+        top: 25%;
+        margin-top: 0;
+        i {
+          font-size: 18px;
+          height: 18px;
+          width: 18px;
+      
+          color: tokens.$fi-color-black-base;
+        }
       }
-    }
-
-    button i {
-      color: tokens.$fi-color-black-base;
     }
   }
 
   .filter-list {
     margin: 0;
-    margin-left: $padding-x--common;
   }
 
   .search-form__result-summary {
