@@ -211,8 +211,8 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
   captchaEnabled: true,
   analyticsEnabled: true,
   ckanTaskDef: {
-    taskCpu: 512,
-    taskMem: 1024,
+    taskCpu: 1024,
+    taskMem: 2048,
     taskMinCapacity: 1,
     taskMaxCapacity: 3,
   },
@@ -241,7 +241,7 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     taskMaxCapacity: 1,
   },
   ckanUwsgiProps: {
-    processes: 2,
+    processes: 4,
     threads: 2
   },
   ckanCronEnabled: true,
