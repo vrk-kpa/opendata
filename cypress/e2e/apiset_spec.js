@@ -8,6 +8,19 @@ describe('Apiset tests',
 
   const test_organization = 'apiset_test_organization';
 
+  function sidebarFacetSelector(facet) {
+    let facets = [
+      "keywords",
+      "publisher",
+      "file formats",
+      "licenses",
+      "category",
+      "regional coverage",
+    ];
+    let facetIndex = facets.indexOf(facet) * 2 + 3;
+    return `.secondary > :nth-child(${facetIndex})`
+  }
+
   before(function () {
     cy.reset_db();
     cy.create_organization_for_user(test_organization, 'test-user', true);
@@ -91,17 +104,18 @@ describe('Apiset tests',
 
     it('Filter by keyword', function () {
       //keywords and results exist
-      cy.get('.secondary > :nth-child(2)').should('contain.text', 'keyword one');
-      cy.get('.secondary > :nth-child(2)').should('contain.text', 'keyword two');
+      let keywordsSelector = sidebarFacetSelector('keywords');
+      cy.get(keywordsSelector).should('contain.text', 'keyword one');
+      cy.get(keywordsSelector).should('contain.text', 'keyword two');
       cy.get('.container-search-result').should('contain.text', apiset1_name)
       cy.get('.container-search-result').should('contain.text', apiset2_name)
 
       //click keyword one filter
-      cy.get(':nth-child(2) > nav > .list-unstyled > :nth-child(1) > a > span').click();
+      cy.get(`${keywordsSelector} > nav > .list-unstyled > :nth-child(1) > a > span`).click();
 
       //filter list and results should now only contain the chosen keyword
-      cy.get('.secondary > :nth-child(2)').should('contain.text', 'keyword one');
-      cy.get('.secondary > :nth-child(2)').should('not.contain.text', 'keyword two');
+      cy.get(keywordsSelector).should('contain.text', 'keyword one');
+      cy.get(keywordsSelector).should('not.contain.text', 'keyword two');
       cy.get('.container-search-result').should('contain.text', apiset1_name)
       cy.get('.container-search-result').should('not.contain.text', apiset2_name)
 
@@ -109,17 +123,17 @@ describe('Apiset tests',
       cy.get('.remove > .fal').click();
 
       //both keywords and results exist
-      cy.get('.secondary > :nth-child(2)').should('contain.text', 'keyword one');
-      cy.get('.secondary > :nth-child(2)').should('contain.text', 'keyword two');
+      cy.get(keywordsSelector).should('contain.text', 'keyword one');
+      cy.get(keywordsSelector).should('contain.text', 'keyword two');
       cy.get('.container-search-result').should('contain.text', apiset1_name)
       cy.get('.container-search-result').should('contain.text', apiset2_name)
 
       //click keyword two filter
-      cy.get(':nth-child(2) > nav > .list-unstyled > :nth-child(2) > a > span').click();
+      cy.get(`${keywordsSelector} > nav > .list-unstyled > :nth-child(2) > a > span`).click();
 
       //filter list and results should now only contain the chosen keyword
-      cy.get('.secondary > :nth-child(2)').should('not.contain.text', 'keyword one');
-      cy.get('.secondary > :nth-child(2)').should('contain.text', 'keyword two');
+      cy.get(keywordsSelector).should('not.contain.text', 'keyword one');
+      cy.get(keywordsSelector).should('contain.text', 'keyword two');
       cy.get('.container-search-result').should('not.contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
 
@@ -127,22 +141,24 @@ describe('Apiset tests',
       cy.get('.remove > .fal').click();
 
       //both keywords and results exist
-      cy.get('.secondary > :nth-child(2)').should('contain.text', 'keyword one');
-      cy.get('.secondary > :nth-child(2)').should('contain.text', 'keyword two');
+      cy.get(keywordsSelector).should('contain.text', 'keyword one');
+      cy.get(keywordsSelector).should('contain.text', 'keyword two');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
     })
 
     it('Filter by organization', function () {
+      let publisherSelector = sidebarFacetSelector('publisher');
+
       //both apisets belong to the same organization, so filter should not affect their visibility
-      cy.get('.secondary > :nth-child(3)').should('contain.text', 'apiset_test_organization');
+      cy.get(publisherSelector).should('contain.text', 'apiset_test_organization');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
 
-      cy.get(':nth-child(3) > nav > .list-unstyled > .nav-item > a > span').click();
+      cy.get(`${publisherSelector} > nav > .list-unstyled > .nav-item > a > span`).click();
 
       //the results should still be the same
-      cy.get('.secondary > :nth-child(3)').should('contain.text', 'apiset_test_organization');
+      cy.get(publisherSelector).should('contain.text', 'apiset_test_organization');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
 
@@ -150,88 +166,90 @@ describe('Apiset tests',
       cy.get('.remove > .fal').click();
 
       //the results should still be the same
-      cy.get('.secondary > :nth-child(3)').should('contain.text', 'apiset_test_organization');
+      cy.get(publisherSelector).should('contain.text', 'apiset_test_organization');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
 
     });
 
     it('Filter by file format', function () {
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'json');
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
+      let fileFormatsSelector = sidebarFacetSelector('file formats');
+      cy.get(fileFormatsSelector).should('contain.text', 'json');
+      cy.get(fileFormatsSelector).should('contain.text', 'csv');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
 
       //filter to csv
-      cy.get(':nth-child(4) > nav > .list-unstyled > :nth-child(2) > a > span').click();
+      cy.get(`${fileFormatsSelector} > nav > .list-unstyled > :nth-child(2) > a > span`).click();
 
       //should not contain apiset1 (txt)
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'json');
-      cy.get('.secondary > :nth-child(4)').should('not.contain.text', 'csv');
+      cy.get(fileFormatsSelector).should('contain.text', 'json');
+      cy.get(fileFormatsSelector).should('not.contain.text', 'csv');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('not.contain.text', apiset2_name);
 
       //release the filter
       cy.get('.remove > .fal').click();
 
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'json');
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
+      cy.get(fileFormatsSelector).should('contain.text', 'json');
+      cy.get(fileFormatsSelector).should('contain.text', 'csv');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
 
       //filter to txt
-      cy.get(':nth-child(4) > nav > .list-unstyled > :nth-child(1) > a > span').click();
+      cy.get(`${fileFormatsSelector} > nav > .list-unstyled > :nth-child(1) > a > span`).click();
 
       //should not contain apiset2 (csv)
-      cy.get('.secondary > :nth-child(4)').should('not.contain.text', 'json');
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
+      cy.get(fileFormatsSelector).should('not.contain.text', 'json');
+      cy.get(fileFormatsSelector).should('contain.text', 'csv');
       cy.get('.container-search-result').should('not.contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
 
       //release the filter
       cy.get('.remove > .fal').click();
 
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'json');
-      cy.get('.secondary > :nth-child(4)').should('contain.text', 'csv');
+      cy.get(fileFormatsSelector).should('contain.text', 'json');
+      cy.get(fileFormatsSelector).should('contain.text', 'csv');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
     });
 
     it('Filter by licence', function () {
-      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Nimeä 4.0');
-      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Non-Commercial');
+      let licensesSelector = sidebarFacetSelector('licenses');
+      cy.get(licensesSelector).should('contain.text', 'Creative Commons Nimeä 4.0');
+      cy.get(licensesSelector).should('contain.text', 'Creative Commons Non-Commercial');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
 
       //filter by Creative Commons Nimeä 4.0
-      cy.get(':nth-child(5) > nav > .list-unstyled > :nth-child(1) > a > span').click();
+      cy.get(`${licensesSelector} > nav > .list-unstyled > :nth-child(1) > a > span`).click();
 
-      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Nimeä 4.0');
-      cy.get('.secondary > :nth-child(5)').should('not.contain.text', 'Creative Commons Non-Commercial');
+      cy.get(licensesSelector).should('contain.text', 'Creative Commons Nimeä 4.0');
+      cy.get(licensesSelector).should('not.contain.text', 'Creative Commons Non-Commercial');
       cy.get('.container-search-result').should('not.contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
 
       //release the filter
       cy.get('.remove > .fal').click();
 
-      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Nimeä 4.0');
-      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Non-Commercial');
+      cy.get(licensesSelector).should('contain.text', 'Creative Commons Nimeä 4.0');
+      cy.get(licensesSelector).should('contain.text', 'Creative Commons Non-Commercial');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
 
       //filter by Creative Commons Non-Commercial
-      cy.get(':nth-child(5) > nav > .list-unstyled > :nth-child(2) > a > span').click();
+      cy.get(`${licensesSelector} > nav > .list-unstyled > :nth-child(2) > a > span`).click();
 
-      cy.get('.secondary > :nth-child(5)').should('not.contain.text', 'Creative Commons Nimeä 4.0');
-      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Non-Commercial');
+      cy.get(licensesSelector).should('not.contain.text', 'Creative Commons Nimeä 4.0');
+      cy.get(licensesSelector).should('contain.text', 'Creative Commons Non-Commercial');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('not.contain.text', apiset2_name);
 
       //release the filter
       cy.get('.remove > .fal').click();
 
-      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Nimeä 4.0');
-      cy.get('.secondary > :nth-child(5)').should('contain.text', 'Creative Commons Non-Commercial');
+      cy.get(licensesSelector).should('contain.text', 'Creative Commons Nimeä 4.0');
+      cy.get(licensesSelector).should('contain.text', 'Creative Commons Non-Commercial');
       cy.get('.container-search-result').should('contain.text', apiset1_name);
       cy.get('.container-search-result').should('contain.text', apiset2_name);
     })
@@ -333,8 +351,9 @@ describe('Apiset tests',
       };
       cy.create_new_apiset(apiset_name, apiset_form_data, api_form_data);
       cy.visit('/data/fi/apiset');
-      cy.get('.secondary > :nth-child(4) .nav-facet > .nav-item:nth-child(1) > a').contains('csv');
-      cy.get('.secondary > :nth-child(4) .nav-facet > .nav-item:nth-child(2) > a').contains('json');
+      let fileFormatsSelector = sidebarFacetSelector('file formats');
+      cy.get(`${fileFormatsSelector} .nav-facet > .nav-item:nth-child(1) > a`).contains('csv');
+      cy.get(`${fileFormatsSelector} .nav-facet > .nav-item:nth-child(2) > a`).contains('json');
 
     });
 

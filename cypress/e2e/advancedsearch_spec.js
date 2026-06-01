@@ -103,7 +103,7 @@ describe('Advanced search tests', () => {
             });
             cy.location('pathname').should('contain', `data/fi/dataset`)
             //open advanced search page manually and wait for load
-            cy.get('.mb-2 > .btn-avoindata-header').click();
+            cy.get('.mb-2 > .btn-avoindata-link').click();
             cy.location('pathname').should('contain', `data/fi/advanced_search`)
         })
 
