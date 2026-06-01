@@ -26,7 +26,7 @@
             {% if dataset_type=='apiset' %}
               {% link_for _('Add Apiset'), named_route='apiset.new', class_='btn btn-avoindata-header pr-0', icon='plus-square' %}
             {% else %}
-              {% link_for _('My Datasets'), named_route='dashboard.datasets', class_='btn btn-avoindata-header', icon='light fa-star' %}
+              {% link_for _('My Datasets'), named_route='dashboard.datasets', class_='btn btn-avoindata-header', icon='star' %}
               {% link_for _('Add Dataset'), named_route='dataset.new', class_='btn btn-avoindata-header pr-0', icon='plus-square' %}
             {% endif %}
           </div>
