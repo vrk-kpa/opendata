@@ -55,7 +55,7 @@
           color: tokens.$fi-color-highlight-base;
 
           &::after {
-            font-family: "Font Awesome 5 Pro";
+            font-family: "Font Awesome 5 Pro", sans-serif;
             font-weight: 300;
             content: "\f00d";
           }
