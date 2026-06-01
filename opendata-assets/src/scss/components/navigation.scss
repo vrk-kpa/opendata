@@ -16,6 +16,7 @@
   .nav-aside > li,
   .nav-simple > li {
     @include tokens.fi-text-body-semi-bold-small;
+
     border: none;
     width: 100%;
     margin-top: 0;
@@ -46,11 +47,13 @@
     &.active {
       > a {
         @include tokens.fi-text-body-semi-bold-small;
+
         background-color: tokens.$fi-color-depth-light3;
         padding-left: $padding-x__navigation;
 
         &, &:hover {
           color: tokens.$fi-color-highlight-base;
+
           &::after {
             font-family: "Font Awesome 5 Pro";
             font-weight: 300;

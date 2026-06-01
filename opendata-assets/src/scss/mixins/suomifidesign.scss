@@ -26,9 +26,10 @@
   font-weight: 600;
   line-height: 20px;
   border-radius: 2px;
-  letter-spacing: 0px;
+  letter-spacing: 0;
   display: flex;
   align-items: center;
+
   &:focus {
     color: tokens.$fi-color-white-base;
     outline: transparent solid 3px;
@@ -37,6 +38,7 @@
 
 @mixin button-primary() {
   @extend %button;
+
   background: linear-gradient(tokens.$fi-color-highlight-base, tokens.$fi-color-highlight-dark1);
   border: none;
   color: tokens.$fi-color-white-base;
@@ -58,6 +60,7 @@
 
 @mixin button-secondary() {
   @extend %button;
+
   background: tokens.$fi-color-white-base;
   border: 1px solid tokens.$fi-color-highlight-base;
   color: tokens.$fi-color-highlight-base;

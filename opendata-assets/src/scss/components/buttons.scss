@@ -133,10 +133,6 @@
 // Disable box shadow when the button is activated
 .btn-avoindata-header {
   @include suomifi-mixins.button-primary;
-  /* color: $opendata-ckan-list-item-header; */
-  /* background-image: none; */
-  /* outline: 0; */
-  /* box-shadow: none; */
 }
 
 .btn-avoindata-link,
