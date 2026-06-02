@@ -387,22 +387,39 @@ def package_generator(query, page_size, context={'ignore_auth': True}, dataset_t
 @click.argument('search_string')
 @click.option('--dryrun', is_flag=True)
 @click.option('--group', help="Make datasets members of a group")
+@click.option('--purge-extra', help="Remove an extras-field from datasets")
 @click.pass_context
-def batch_edit(ctx, search_string, dryrun, group):
+def batch_edit(ctx, search_string, dryrun, group, purge_extra):
     group_assigns = {}
 
     if group:
         group_assigns[group] = []
 
+    updated_packages = []
+
     for package_dict in package_generator(search_string, 10):
         if group:
             group_assigns[group].append(package_dict['name'])
+        extras = package_dict.get('extras', [])
+        if purge_extra and any(e['key'] == purge_extra for e in extras):
+            package_dict['extras'] = [e for e in extras if e['key'] != purge_extra]
+            updated_packages.append(package_dict)
 
     if dryrun:
-        click.echo('\n'.join('Add %s to group %s' % (p, g) for (g, ps) in list(group_assigns.items()) for p in ps))
+        if group:
+            click.echo('\n'.join('Add %s to group %s' % (p, g) for (g, ps) in list(group_assigns.items()) for p in ps))
+        if purge_extra:
+            click.echo(f'Removing field {purge_extra} from {len(updated_packages)} packages:')
+            click.echo('\n'.join(p['name'] for p in updated_packages))
     else:
         if group:
             apply_group_assigns(group_assigns)
+        if updated_packages:
+            package_update = get_action('package_update')
+            user = get_action('get_site_user')({'model': model, 'ignore_auth': True}, {})
+            context = {'model': model, 'session': model.Session, 'user': user['name'], 'ignore_auth': True}
+            for package_dict in updated_packages:
+                package_update(context, package_dict)
 
 
 @opendata_dataset.command(
