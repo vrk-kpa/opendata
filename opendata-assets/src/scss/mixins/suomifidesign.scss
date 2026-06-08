@@ -22,9 +22,9 @@
 %button {
   /* Not an exact match for typography, but semantically sensible and functionally close */
   @include tokens.fi-text-action-element-inner-text-bold;
+
   font-size: 14px;
   line-height: 20px;
-  
   min-height: 40px;
   padding: 9px 20px;
   border-radius: 2px;
