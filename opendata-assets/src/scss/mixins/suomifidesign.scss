@@ -20,12 +20,13 @@
 }
 
 %button {
-  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+  /* Not an exact match for typography, but semantically sensible and functionally close */
+  @include tokens.fi-text-action-element-inner-text-bold;
+  font-size: 14px;
+  line-height: 20px;
+  
   min-height: 40px;
   padding: 9px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
   border-radius: 2px;
   letter-spacing: 0;
   display: flex;
