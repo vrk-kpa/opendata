@@ -66,7 +66,6 @@ describe('Dataset resource tests', function(){
     
         cy.get('.toolbar-resource-secondary').find('a').click();
         cy.location('pathname').should('contain', `/data/fi/dataset/${dataset_name}`);
-        cy.go('back');
     });
 
     describe('Test Translations', function(){
