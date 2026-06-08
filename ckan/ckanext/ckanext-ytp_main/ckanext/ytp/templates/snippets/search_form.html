@@ -15,29 +15,6 @@
 
 <form {% if form_id %}id="{{ form_id }}" {% endif %}class="search-form{% if no_bottom_border %} no-bottom-border{% endif %}" method="get" data-module="select-switch">
 
-    {% block search_facets %}
-        {% if facets %}
-            <div class="d-flex align-items-center mb-3">
-                <h5>{{ _('Filters') }}</h5>
-                <div class="filter-list">
-                    {% for field in facets.fields %}
-                        {% set search_facets_items = facets.search.get(field)['items'] if facets.search and field in facets.search else [] %}
-                        {% for value in facets.fields[field] %}
-                            <span class="filtered pill">
-                                {%- if facets.translated_fields and facets.translated_fields.has_key((field,value)) -%}
-                                    {{ facets.translated_fields[(field,value)] }}
-                                {%- else -%}
-                                    {{ _( h.list_dict_filter(search_facets_items, 'name', 'display_name', value) ) }}
-                                {%- endif %}
-                                <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fal fa-times pill__icon"></i></a>
-                            </span>
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-            </div>
-        {% endif %}
-    {% endblock %}
-
     {% block search_input %}        
         <div class="search-input control-group {{ search_class }}">
             <input type="text" class="search search-dataset form-control" name="q" value="{{ query }}" autocomplete="off" placeholder="{{ placeholder }}">
@@ -70,11 +47,12 @@
 
     {% if show_advanced_search  %}
       <div class="mb-2 d-flex justify-content-end">
-          <a href="{{ h.url_for('advanced_search_blueprint.search') }}" class="btn-avoindata-header">
+          <a href="{{ h.url_for('advanced_search_blueprint.search') }}" class="btn-avoindata-link">
             {{ _(' Use advanced search ') }}
           </a>
       </div>
     {% endif %}
+
     <div class="d-flex flex-wrap justify-content-between align-items-center search-form__result-summary">
         {% block search_title %}
             {% if not no_title %}
@@ -98,6 +76,29 @@
                         </select>
                     </div>
                     <button class="btn js-hide" type="submit">{{ _('Go') }}</button>
+                </div>
+            {% endif %}
+        {% endblock %}
+
+        {% block search_facets %}
+            {% if facets and facets.fields|count > 0 %}
+                <div class="d-flex align-items-center my-2 w-100">
+                    <div class="filter-list">
+                        <span>{{ _('Filters') }}: </span>
+                        {% for field in facets.fields %}
+                            {% set search_facets_items = facets.search.get(field)['items'] if facets.search and field in facets.search else [] %}
+                            {% for value in facets.fields[field] %}
+                                <span class="filtered">
+                                    {%- if facets.translated_fields and facets.translated_fields.has_key((field,value)) -%}
+                                        {{ facets.translated_fields[(field,value)] }}
+                                    {%- else -%}
+                                        {{ _( h.list_dict_filter(search_facets_items, 'name', 'display_name', value) ) }}
+                                    {%- endif %}
+                                    <a href="{{ facets.remove_field(field, value) }}" class="remove" title="{{ _('Remove') }}"><i class="fal fa-times pill__icon"></i></a>
+                                </span>
+                            {% endfor -%}
+                        {% endfor %}
+                    </div>
                 </div>
             {% endif %}
         {% endblock %}

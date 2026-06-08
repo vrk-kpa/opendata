@@ -1,4 +1,5 @@
 @use "../variables/suomifidesign" as tokens;
+@use "../mixins/suomifidesign" as suomifi-mixins;
 @import "../variables";
 
 .dataset-container {
@@ -151,18 +152,15 @@
 }
 
 #content .container-apiset {
-  .filter-list .pill {
+  .filter-list {
+    display: flex;
+    align-items: center;
+    gap: 4px 8px;
     font-size: 16px;
-    font-weight: 600;
-    height: 24px;
-    line-height: 21px;
-    color: rgb(255 255 255);
-    background: tokens.$fi-color-highlight-base;
-    border-radius: 14px;
-    padding: 0 13px;
+    font-weight: 400;
 
-    i {
-      margin-left: 5px;
+    .filtered {
+      @include suomifi-mixins.chip;
     }
   }
 

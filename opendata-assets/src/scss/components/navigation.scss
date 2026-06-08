@@ -15,13 +15,17 @@
 .module-narrow {
   .nav-aside > li,
   .nav-simple > li {
+    @include tokens.fi-text-body-semi-bold-small;
+
     border: none;
-    border-bottom: 1px solid tokens.$fi-color-depth-secondary;
     width: 100%;
     margin-top: 0;
     margin-bottom: 0;
     padding: 0;
-    font-size: $font-size-slightly-smaller-base;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid tokens.$fi-color-depth-light3;
+    }
 
     > a,
     .module-narrow & > a {
@@ -37,23 +41,30 @@
     }
 
     &:hover {
-      background-color: $background-color--highlight;
+      background-color: tokens.$fi-color-depth-light2;
     }
 
     &.active {
       > a {
-        background-color: transparent;
-        color: tokens.$fi-color-highlight-base;
-        border-left: $border-width__navigation solid $sidebar-block-color-header;
-        padding-left: $padding-x__navigation - $border-width__navigation;
+        @include tokens.fi-text-body-semi-bold-small;
+
+        background-color: tokens.$fi-color-depth-light3;
+        padding-left: $padding-x__navigation;
+
+        &, &:hover {
+          color: tokens.$fi-color-highlight-base;
+
+          &::after {
+            font-family: "Font Awesome 5 Pro", sans-serif;
+            font-weight: 300;
+            content: "\f00d";
+          }
+        }
 
         &:hover {
-          background-color: transparent;
-          color: tokens.$fi-color-highlight-base;
+          background-color: tokens.$fi-color-highlight-light3;
         }
       }
-
-      background-color: $background-color--highlight;
     }
   }
 }

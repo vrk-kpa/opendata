@@ -22,12 +22,12 @@
       <h1 class="mb-0">{{ _("Datasets") if dataset_type!='apiset' else _("Apisets") }}</h1>
       {% if h.check_access('package_create') %}
         <div>
-          <div class="btn-group d-flex align-items-center flex-wrap">
+          <div class="d-flex align-items-center flex-wrap gap-3">
             {% if dataset_type=='apiset' %}
-              {% link_for _('Add Apiset'), named_route='apiset.new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
+              {% link_for _('Add Apiset'), named_route='apiset.new', class_='btn btn-avoindata-header pr-0', icon='plus-square' %}
             {% else %}
-              {% link_for _('My Datasets'), named_route='dashboard.datasets', class_='btn btn-avoindata-header', icon='star-empty' %}
-              {% link_for _('Add Dataset'), named_route='dataset.new', class_='btn btn-avoindata-header pr-0', icon='plus-sign' %}
+              {% link_for _('My Datasets'), named_route='dashboard.datasets', class_='btn btn-avoindata-header', icon='star' %}
+              {% link_for _('Add Dataset'), named_route='dataset.new', class_='btn btn-avoindata-header pr-0', icon='plus-square' %}
             {% endif %}
           </div>
         </div>
@@ -42,7 +42,7 @@
 {% endblock %}
 
 {% block primary_content %}
-  <div class="container-apiset mt-1">
+  <div class="container-apiset">
     <section class="module">
       <div class="module-content">
         {% block form %}
@@ -105,6 +105,8 @@
     <h3 class="secondary__title">{{ _('Filter list') }}</h3>
   </div>
 
+  <hr>
+
   {% if dataset_type != 'apiset'%}
     {% snippet "spatial/snippets/spatial_query.html", default_extent="[[59.85, 20.65], [70.16, 31.52]]" %}
   {% endif %}
@@ -123,5 +125,6 @@
     {% else %}
       {{ h.snippet('snippets/facet_list.html', title=title, name=facet, search_facets=search_facets) }}    
     {% endif %}
+    {% if loop.index < loop.length - 1 %}<hr>{% endif %}
   {% endfor %}
 {% endblock %}
