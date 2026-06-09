@@ -388,8 +388,9 @@ def package_generator(query, page_size, context={'ignore_auth': True}, dataset_t
 @click.option('--dryrun', is_flag=True)
 @click.option('--group', help="Make datasets members of a group")
 @click.option('--purge-extra', help="Remove an extras-field from datasets")
+@click.option('--dataset-type', help="Dataset type to process", default="dataset")
 @click.pass_context
-def batch_edit(ctx, search_string, dryrun, group, purge_extra):
+def batch_edit(ctx, search_string, dryrun, group, purge_extra, dataset_type):
     group_assigns = {}
 
     if group:
@@ -397,7 +398,7 @@ def batch_edit(ctx, search_string, dryrun, group, purge_extra):
 
     updated_packages = []
 
-    for package_dict in package_generator(search_string, 10):
+    for package_dict in package_generator(search_string, 10, dataset_type=dataset_type):
         if group:
             group_assigns[group].append(package_dict['name'])
         extras = package_dict.get('extras', [])
