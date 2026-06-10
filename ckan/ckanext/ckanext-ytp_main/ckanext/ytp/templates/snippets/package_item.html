@@ -50,18 +50,6 @@ Example:
                 </p>
             {% endif %}
 
-            <div>
-                {% if package.get('state', '').startswith('draft') %}
-                    <span class="collection-type draft label label-info">
-                        {{_('Draft')}}
-                    </span>
-                {% elif package.get('state', '').startswith('deleted') %}
-                    <span class="collection-type deleted label label-important">
-                        {{_('Deleted')}}
-                    </span>
-                {% endif %}
-            </div>
-
             <div class="d-flex justify-content-between flex-wrap mt-2">
                 {% if package.organization.producer_type | length != 0 and h.get_label_for_producer(package.organization.producer_type) | length != 0%}
                     <div class="search-item-tag search-item-tag-organization">
