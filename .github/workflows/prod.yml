@@ -96,7 +96,7 @@ jobs:
           add_tag clamav $CLAMAV_IMAGE_TAG
 
       - name: Notify Zulip
-        uses: zulip/github-actions-zulip/send-message@v1
+        uses: zulip/github-actions-zulip/send-message@v2
         with:
           api-key: ${{ secrets.ZULIP_API_KEY }}
           email: 'avoindata-bot@turina.dvv.fi'
@@ -108,7 +108,7 @@ jobs:
 
       - name: Notify Zulip on error
         if: failure()
-        uses: zulip/github-actions-zulip/send-message@v1
+        uses: zulip/github-actions-zulip/send-message@v2
         with:
           api-key: ${{ secrets.ZULIP_API_KEY }}
           email: 'avoindata-bot@turina.dvv.fi'
