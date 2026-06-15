@@ -83,8 +83,8 @@ def tag_string_or_tags_required(key, data, errors, context):
 
 
 def set_private_if_not_admin_or_showcase_admin(private):
-    userobj = model.User.get(c.user)
-    if userobj and not (authz.is_sysadmin(c.user) or ShowcaseAdmin.is_user_showcase_admin(userobj)):
+    userobj = toolkit.current_user
+    if userobj and not (authz.is_sysadmin(userobj.name) or ShowcaseAdmin.is_user_showcase_admin(userobj)):
         return True
     else:
         return private
