@@ -20,7 +20,7 @@ Differences in the smaller screen size are together with other @media definition
 
 .region-service-message,
 .navbar {
-  font-family: $font-family-sans-serif;
+  @include tokens.fi-text-body-text;
 }
 
 .dropdown-submenu {
@@ -475,10 +475,9 @@ End of dropdown CSS
 
     &.external {
       &::before {
-        font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free", sans-serif;
+        @include font-awesome-icon("\f35d");
         font-size: 16px;
         align-self: center;
-        content: "\f35d"
       }
     }
 

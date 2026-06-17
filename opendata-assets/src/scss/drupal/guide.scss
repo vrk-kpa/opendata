@@ -120,12 +120,9 @@
 }
 
 #guide-header {
+  @include tokens.fi-text-heading1;
   margin: 0 0 20px 20px;
   color: tokens.$fi-color-black-base;
-  font-family: $font-family-sans-serif-light;
-  font-size: $font-size__module-large-h1;
-  font-weight: $font-weight-light;
-  line-height: $line-height__module-title;
   padding: 0 15px;
   
   @include media-breakpoint-up(md) {
@@ -134,10 +131,8 @@
 }
 
 .guide-content {
+  @include tokens.fi-text-body-text;
   color: tokens.$fi-color-black-base;
-  font-family: $font-family-sans-serif;
-  font-size: 18px;
-  font-weight: normal;
   line-height: 27px;
 }
 

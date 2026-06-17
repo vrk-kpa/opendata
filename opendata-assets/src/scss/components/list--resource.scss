@@ -49,21 +49,15 @@
     }
 
     .resource-item__info__title {
+      @include tokens.fi-text-body-text-small;
       color: tokens.$fi-color-highlight-base;
       transition: color $transition-duration--short $transition-timing-function--default;
-      font-size: $font-size__module-title;
-      font-weight: $font-weight-normal;
-      line-height: 24px;
-      font-family: $font-family-sans-serif;
     }
 
     a {
+      @include tokens.fi-text-body-semi-bold-small;
       color: tokens.$fi-color-highlight-base;
       transition: color $transition-duration--short $transition-timing-function--default;
-      font-size: $font-size__module-title;
-      font-weight: $font-weight-heavier;
-      line-height: 24px;
-      font-family: $font-family-sans-serif;
 
       &:hover {
         color: tokens.$fi-color-highlight-dark1;

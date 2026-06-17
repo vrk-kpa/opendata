@@ -1,109 +1,64 @@
-/* source-sans-pro-300 - latin */
-@font-face {
-  font-family: 'Source Sans Pro Light';
-  font-style: normal;
-  font-weight: 300;
-  src: url('../fonts/source-sans-pro-v21-latin-300.eot'); /* IE9 Compat Modes */
-  src:
-    local(''),
-    url('../fonts/source-sans-pro-v21-latin-300.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../fonts/source-sans-pro-v21-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
-    url('../fonts/source-sans-pro-v21-latin-300.woff') format('woff'), /* Modern Browsers */
-    url('../fonts/source-sans-pro-v21-latin-300.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../fonts/source-sans-pro-v21-latin-300.svg#SourceSansPro') format('svg'); /* Legacy iOS */
-}
-
-/* source-sans-pro-regular - latin */
-@font-face {
-  font-family: 'Source Sans Pro Regular';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../fonts/source-sans-pro-v21-latin-regular.eot'); /* IE9 Compat Modes */
-  src:
-    local(''),
-    url('../fonts/source-sans-pro-v21-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../fonts/source-sans-pro-v21-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-    url('../fonts/source-sans-pro-v21-latin-regular.woff') format('woff'), /* Modern Browsers */
-    url('../fonts/source-sans-pro-v21-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../fonts/source-sans-pro-v21-latin-regular.svg#SourceSansPro') format('svg'); /* Legacy iOS */
-}
-
-/* source-sans-pro-600 - latin */
-@font-face {
-  font-family: 'Source Sans Pro SemiBold';
-  font-style: normal;
-  font-weight: 600;
-  src: url('../fonts/source-sans-pro-v21-latin-600.eot'); /* IE9 Compat Modes */
-  src:
-    local(''),
-    url('../fonts/source-sans-pro-v21-latin-600.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../fonts/source-sans-pro-v21-latin-600.woff2') format('woff2'), /* Super Modern Browsers */
-    url('../fonts/source-sans-pro-v21-latin-600.woff') format('woff'), /* Modern Browsers */
-    url('../fonts/source-sans-pro-v21-latin-600.ttf') format('truetype'), /* Safari, Android, iOS */
-    url('../fonts/source-sans-pro-v21-latin-600.svg#SourceSansPro') format('svg'); /* Legacy iOS */
-}
-
-/* source-sans-pro fonts from suomifi for using with tokens */
+/* source-sans-3 fonts from suomifi for using with tokens */
 @font-face{
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans 3';
   font-weight: 200;
   font-style: normal;
   font-stretch: normal;
-  src: url('../fonts/SourceSansPro-ExtraLight.ttf.woff2') format('woff2')
+  src: url('../fonts/SourceSans3-ExtraLight.ttf') format('truetype')
 }
 
 @font-face{
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans 3';
   font-weight: 200;
   font-style: italic;
   font-stretch: normal;
-  src: url('../fonts/SourceSansPro-ExtraLightIt.ttf.woff2') format('woff2')
+  src: url('../fonts/SourceSans3-ExtraLightItalic.ttf') format('truetype')
 }
 
 @font-face{
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans 3';
   font-weight: 300;
   font-style: normal;
   font-stretch: normal;
-  src: url('../fonts/SourceSansPro-Light.ttf.woff2') format('woff2')
+  src: url('../fonts/SourceSans3-Light.ttf') format('truetype')
 }
 
 @font-face{
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans 3';
   font-weight: 300;
   font-style: italic;
   font-stretch: normal;
-  src: url('../fonts/SourceSansPro-LightIt.ttf.woff2') format('woff2')
+  src: url('../fonts/SourceSans3-LightItalic.ttf') format('truetype')
 }
 
 @font-face{
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans 3';
   font-weight: 400;
   font-style: normal;
   font-stretch: normal;
-  src: url('../fonts/SourceSansPro-Regular.ttf.woff2') format('woff2')
+  src: url('../fonts/SourceSans3-Regular.ttf') format('truetype')
 }
 
 @font-face{
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans 3';
   font-weight: 400;
   font-style: italic;
   font-stretch: normal;
-  src: url('../fonts/SourceSansPro-It.ttf.woff2') format('woff2')
+  src: url('../fonts/SourceSans3-Italic.ttf') format('truetype')
 }
 
 @font-face{
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans 3';
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  src: url('../fonts/SourceSansPro-Semibold.ttf.woff2') format('woff2')
+  src: url('../fonts/SourceSans3-SemiBold.ttf') format('truetype')
 }
 
 @font-face{
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans 3';
   font-weight: 600;
   font-style: italic;
   font-stretch: normal;
-  src: url('../fonts/SourceSansPro-SemiboldIt.ttf.woff2') format('woff2')
+  src: url('../fonts/SourceSans3-SemiBoldItalic.ttf') format('truetype')
 }
