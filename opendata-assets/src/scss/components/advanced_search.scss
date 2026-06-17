@@ -38,6 +38,7 @@
 
 .more-options-link {
   @include tokens.fi-text-body-semi-bold-small;
+
   font-size: $font-size-smaller-base;
   line-height: 20px;
   letter-spacing: 0.4px;
@@ -62,6 +63,7 @@
 
 #search-results-header {
   @include tokens.fi-text-heading3-small-screen;
+
   font-weight: 400;
   color: tokens.$fi-color-black-base;
   background-color: $background-color__content;
@@ -82,12 +84,14 @@
 
 .ytp-input-label {
   @include tokens.fi-text-body-semi-bold-small;
+
   line-height: 20px;
   margin-bottom: 10px;
 }
 
 .ytp-input-label-light {
   @include tokens.fi-text-body-text-small;
+
   color: tokens.$fi-color-black-base;
 }
 
@@ -116,6 +120,7 @@
 
 .filter-bar {
   @include tokens.fi-text-body-semi-bold-small;
+
   margin: 0 15px 8px;
   vertical-align: top;
   line-height: 28px;
@@ -141,6 +146,7 @@
 
 .avoindata-filter-group-and {
   @include tokens.fi-text-body-text-small;
+
   color: tokens.$fi-color-black-base;
   display: inline-block;
   margin-right: 10px;
@@ -150,6 +156,7 @@
 
 .avoindata-filter-group-or {
   @include tokens.fi-text-body-text-small;
+
   color: tokens.$fi-color-black-base;
   display: inline-block;
   margin: auto 4px;
@@ -158,6 +165,7 @@
 
 .avoindata-pill {
   @include tokens.fi-text-body-semi-bold-small;
+
   line-height: 28px;
   background-color: tokens.$fi-color-highlight-base;
   margin-bottom: 15px;
@@ -232,6 +240,7 @@ select.avoindata-order-by {
 
   &::after {
     @include font-awesome-icon("\f0d7");
+
     position: absolute;
     font-size: 16px;
     top: 50%;

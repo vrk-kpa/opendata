@@ -18,6 +18,7 @@
 
       &__title {
         @include tokens.fi-text-body-text-small;
+
         margin-left: $padding-x--common;
       }
 
@@ -64,6 +65,7 @@
 
   a {
     @include tokens.fi-text-action-element-inner-text-bold;
+
     color: tokens.$fi-color-highlight-base;
     text-decoration: none;
   }

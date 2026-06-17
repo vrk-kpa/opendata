@@ -272,6 +272,7 @@ fieldset.checkboxes {
 
     &:checked + .custom-checkbox::before {
       @include font-awesome-icon("\f00c");
+
       font-weight: 500;
       vertical-align: middle;
       display: inline-block;
@@ -444,6 +445,7 @@ fieldset.checkboxes {
 .ytp-search-bar {
   &::before {
     @include font-awesome-icon("\f002");
+
     font-weight: 300;
   }
 }
@@ -548,6 +550,7 @@ fieldset.checkboxes {
 
 .ytp-group-description {
   @include tokens.fi-text-body-text-small;
+
   margin-top: -10px;
   margin-bottom: 20px;
   display: block;
@@ -555,6 +558,7 @@ fieldset.checkboxes {
 
 .ytp-combi-label {
   @include tokens.fi-text-body-semi-bold-small;
+
   margin-top: 0;
   margin-bottom: 10px;
 }
@@ -693,6 +697,7 @@ label.control-label {
 
 .disclaimer {
   @include tokens.fi-text-body-text;
+
   font-size: 14px;
   line-height: 18px;
   margin-left: 45%;
@@ -717,6 +722,7 @@ label.control-label {
 
     .form-actions__delete {
       @include tokens.fi-text-body-semi-bold-small;
+
       padding: $padding-y__button $padding-x__button;
     }
 
@@ -772,6 +778,7 @@ label.control-label {
 
       a {
         @include tokens.fi-text-body-text;
+
         padding: 10px 5px;
         color: tokens.$fi-color-black-base;
         line-height: 27px;
@@ -785,6 +792,7 @@ label.control-label {
 
       &.active a {
         @include tokens.fi-text-body-semi-bold-small;
+
         border-bottom: 4px solid tokens.$fi-color-highlight-base;
       }
     }
@@ -835,6 +843,7 @@ td.selectable-row {
 
   input[type="checkbox"].row-checkbox:checked ~ .check::before {
     @include font-awesome-icon("\f00c");
+
     color: tokens.$fi-color-highlight-base;
     font-weight: 600;
     font-size: 12px;
@@ -868,6 +877,7 @@ td.selectable-row {
 
 .custom-table-header-title {
   @include tokens.fi-text-body-text;
+
   font-size: 20px;
   line-height: 28px;
   align-self: center;
@@ -901,6 +911,7 @@ td.selectable-row {
 
   &::before {
     @include font-awesome-icon("\f073");
+
     font-size: 25px;
     position: absolute;
     top: 3px;
@@ -957,6 +968,7 @@ td.selectable-row {
 // TODO Use recources
 .dataset-heading.dataset-type {
   @include tokens.fi-text-body-text;
+
   color: rgb(41 41 41);
 }
 
@@ -966,6 +978,7 @@ td.selectable-row {
 
 .general-search-item-notes {
   @include tokens.fi-text-body-text;
+
   color: #292929;
   margin-bottom: 10px;
 }

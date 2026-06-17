@@ -25,6 +25,7 @@
 
   .dataset-heading {
     @include tokens.fi-text-heading3;
+
     color: tokens.$fi-color-highlight-base;
     margin-top: 0;
     margin-bottom: $margin-bottom-h3;
@@ -42,6 +43,7 @@
 
   .dataset-item-notes {
     @include tokens.fi-text-body-text;
+
     line-height: 27px;
     color: tokens.$fi-color-black-base;
     margin-bottom: $padding-y--common;
@@ -49,6 +51,7 @@
 
   .dataset-item-organization {
     @include tokens.fi-text-body-text-small;
+
     margin-bottom: 12px;
     color: tokens.$fi-color-depth-dark1;
 
@@ -66,6 +69,7 @@
 
 .collection-type {
   @include tokens.fi-text-body-semi-bold;
+
   font-size: $font-size-smaller-base;
   margin-left: auto;
   margin-right: 0;

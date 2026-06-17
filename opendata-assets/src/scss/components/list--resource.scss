@@ -50,12 +50,14 @@
 
     .resource-item__info__title {
       @include tokens.fi-text-body-text-small;
+
       color: tokens.$fi-color-highlight-base;
       transition: color $transition-duration--short $transition-timing-function--default;
     }
 
     a {
       @include tokens.fi-text-body-semi-bold-small;
+
       color: tokens.$fi-color-highlight-base;
       transition: color $transition-duration--short $transition-timing-function--default;
 

@@ -121,6 +121,7 @@
 
 #guide-header {
   @include tokens.fi-text-heading1;
+
   margin: 0 0 20px 20px;
   color: tokens.$fi-color-black-base;
   padding: 0 15px;
@@ -132,6 +133,7 @@
 
 .guide-content {
   @include tokens.fi-text-body-text;
+
   color: tokens.$fi-color-black-base;
   line-height: 27px;
 }

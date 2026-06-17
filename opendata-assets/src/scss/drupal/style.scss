@@ -47,6 +47,7 @@
 body,
 html {
   @include tokens.fi-text-body-text;
+
   width: 100%;
   height: 100%;
   margin: 0;
@@ -453,6 +454,7 @@ p:last-child,
 
   h3 {
     @include tokens.fi-text-heading3;
+
     margin-top: $padding-y__text;
   }
 
@@ -717,6 +719,7 @@ p:last-child,
 
       .register-link {
         @include tokens.fi-text-body-text-small;
+
         line-height: 20px;
         margin-right: 50px;
         margin-left: auto;
@@ -724,6 +727,7 @@ p:last-child,
 
       p {
         @include tokens.fi-text-body-text;
+
         color: tokens.$fi-color-black-base;
       }
     }
@@ -842,6 +846,7 @@ p:last-child,
 
 .avoindata-newsfeed-item {
   @include tokens.fi-text-body-text-small;
+
   width: 223px;
   position: relative;
 
@@ -867,6 +872,7 @@ p:last-child,
 
 .avoindata-newsfeed-tag {
   @include tokens.fi-text-body-text-small;
+
   background-color: tokens.$fi-color-highlight-light3;
   color: tokens.$fi-color-depth-dark1;
   padding: 5px 10px;
@@ -1433,6 +1439,7 @@ p:last-child,
 
   h1 {
     @include tokens.fi-text-heading1-hero;
+
     font-weight: 600;
     margin: 0;
     position: relative;
@@ -1729,6 +1736,7 @@ p:last-child,
   .alert {
     &.alert-info.alert-dismissible p::before {
       @include font-awesome-icon("\f05a");
+
       display: inline-block;
       padding-right: 22px;
       vertical-align: middle;
@@ -1738,6 +1746,7 @@ p:last-child,
 
     &.alert-warning.alert-dismissible p::before {
       @include font-awesome-icon("\f071");
+
       display: inline-block;
       padding-right: 22px;
       vertical-align: middle;
@@ -1747,6 +1756,7 @@ p:last-child,
 
     &.alert-danger.alert-dismissible p::before {
       @include font-awesome-icon("\f06a");
+
       display: inline-block;
       padding-right: 22px;
       vertical-align: middle;

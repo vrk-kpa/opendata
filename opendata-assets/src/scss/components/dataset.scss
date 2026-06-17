@@ -73,6 +73,7 @@
 
   a {
     @include tokens.fi-text-body-semi-bold;
+
     font-size: $font-size-smaller-base;
     line-height: 20px;
     display: block;
@@ -102,6 +103,7 @@
 
   span {
     @include tokens.fi-text-body-text-small;
+
     color: tokens.$fi-color-white-base;
     display: inline-block;
     vertical-align: middle;
@@ -133,6 +135,7 @@
 
   span {
     @include tokens.fi-text-body-text-small;
+
     color: tokens.$fi-color-black-base;
     display: inline-block;
     vertical-align: middle;
@@ -159,6 +162,7 @@
 
   .search-results {
     @include tokens.fi-text-lead-text-small-screen;
+
     color: $navbarInverseBackgroundHighlight;
     height: 28px;
     line-height: 28px;
@@ -166,6 +170,7 @@
 
   .label-field-order {
     @include tokens.fi-text-action-element-inner-text-bold;
+
     color: $navbarInverseBackgroundHighlight;
     height: 20px;
     line-height: 20px;
@@ -174,6 +179,7 @@
 
   .facet {
     @include tokens.fi-text-action-element-inner-text-bold;
+
     color: $navbarInverseBackgroundHighlight;
     height: 20px;
     line-height: 20px;
@@ -197,12 +203,14 @@
 .dataset-list {
   .dataset-heading a {
     @include tokens.fi-text-heading3;
+
     color: tokens.$fi-color-highlight-base;
     height: 28px;
   }
 
   .dataset-item-notes {
     @include tokens.fi-text-body-semi-bold;
+
     line-height: 27px;
     color: tokens.$fi-color-black-base;
     height: 81px;
@@ -230,6 +238,7 @@
 
   .search-item-tag span {
     @include tokens.fi-text-body-semi-bold;
+
     font-size: 14px;
     line-height: 18px;
     color: tokens.$fi-color-depth-dark1;

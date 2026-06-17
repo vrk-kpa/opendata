@@ -18,6 +18,7 @@
 
   a {
     @include tokens.fi-text-body-text-small;
+
     color: tokens.$fi-color-highlight-base;
     font-size: $font-size-smaller-base;
     letter-spacing: 0.4px;
@@ -52,6 +53,7 @@
 
   .module-small-title {
     @include tokens.fi-text-body-text-small;
+
     color: tokens.$fi-color-depth-dark1;
     padding-top: $padding-y__resource_toolbar;
   }
@@ -123,6 +125,7 @@
   .module {
     h1 {
       @include tokens.fi-text-heading1;
+
       margin-bottom: $padding-bottom__module--resource !important;
       color: $navbarInverseBackgroundHighlight !important;
     }

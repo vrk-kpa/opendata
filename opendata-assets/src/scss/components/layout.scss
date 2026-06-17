@@ -144,6 +144,7 @@ body {
 
 %suomifi-button-text {
   @include tokens.fi-text-body-semi-bold-small;
+
   font-size: 14px;
   letter-spacing: 0.4px;
   line-height: 20px;
@@ -201,8 +202,8 @@ body {
 
 .suomifi-button-secondary-black-text {
   @extend %suomifi-button-secondary;
-
   @include tokens.fi-text-body-text;
+
   color: rgb(41 41 41);
   border: solid 1px #c8cdd0;
   padding-left: 10px;
@@ -296,6 +297,7 @@ body {
       &.active {
         .highlight {
           @include tokens.fi-text-body-semi-bold-small;
+
           color: inherit;
           background: unset;
         }
@@ -343,6 +345,7 @@ body {
     li {
       a {
         @include tokens.fi-text-body-text;
+
         padding: 10px 15px;
         display: block;
       }

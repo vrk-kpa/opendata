@@ -285,6 +285,7 @@
 
 .statistics-legend-text {
   fill: tokens.$fi-color-white-base;
+
   @include tokens.fi-text-body-text-small;
 }
 
@@ -383,6 +384,7 @@
 
 .attention-number-value {
   @include tokens.fi-text-heading2;
+
   font-weight: 400;
 }
 
