@@ -10,7 +10,7 @@
 {% block wrapper_class %} search-organization-wrapper{% endblock %}
 
 {% block prelude %}
-  <div class="d-flex justify-content-between align-items-end flex-wrap mb-3">
+  <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
       <h1 class="mb-0 mt-0">{% block page_heading %}{{ _('Organizations') }}{% endblock %}</h1>
       {% snippet 'organization/snippets/organization_primary_actions.html' %}
   </div>
@@ -21,10 +21,10 @@
     {% block organizations_search_form %}
         <form class="search-form list-head-search-form" method="get" data-module="select-switch">
           <input type="hidden" name="only_with_datasets" value="{{ only_with_datasets }}" >
-          <div class="search-input control-group">
+          <div class="search-input search-giant control-group">
             <input data-organization-filter type="text" class="search form-control" name="q" value="{{ q }}" autocomplete="off" placeholder="{{ _('Search organizations...') }}">
             <button type="submit">
-              <i class="fa fa-search"></i>
+              <i class="fal fa-search"></i>
               <span>{{ _('Submit') }}</span>
             </button>
           </div>
@@ -44,6 +44,18 @@
                 <button class="btn btn-default js-hide" type="submit">{{ _('Go') }}</button>
                 {% endblock %}
               </div>
+              {% if only_with_datasets %}
+              {% set url = h.url_for('organization.index', q=q, sort=sort_by_selected, only_with_datasets=False) %}
+              <div class="d-flex align-items-center my-2 w-100">
+                  <div class="filter-list">
+                      <span>{{ _('Filters') }}: </span>
+                      <span class="filtered">
+                          {{ _('Show only organizations with datasets') }}
+                          <a href="{{ url }}" class="remove" title="{{ _('Remove') }}"><i class="fal fa-times pill__icon"></i></a>
+                      </span>
+                  </div>
+              </div>
+              {% endif %}
             </div>
             {% endblock %}
         </form>
@@ -77,19 +89,28 @@
   <div class="secondary__header">
     <h3 class="secondary__title">{{ _('Filter list') }}</h3>
   </div>
+
+  <hr>
+
   <section class="module module-narrow module-shallow">
       <h2 class="module-heading">
         {{ _('Filter by data') }}
       </h2>
-      <div class="module-content">
-        <div class="organization-filters">
-          <a class="{% if not only_with_datasets %} organization-filter-active{% endif %} d-block" href="{{ h.url_for('organization.index', q=q, sort=sort_by_selected, only_with_datasets=False) }}">
-            {{ _('Show all organizations') }} ({{ organization_filters_count['all_count'] }})
-          </a>
-          <a class="{% if only_with_datasets %} organization-filter-active{% endif %} d-block" href="{{ h.url_for('organization.index', q=q, sort=sort_by_selected, only_with_datasets=True) }}">
-            {{ _('Show only organizations with datasets') }} ({{ organization_filters_count['with_dataset_count'] }})
-          </a>
-        </div>
-      </div>
+      <nav>
+        <ul class="list-unstyled nav nav-simple nav-facet">
+          {% if only_with_datasets %}
+            {% set url = h.url_for('organization.index', q=q, sort=sort_by_selected, only_with_datasets=False) %}
+            {% set active_class = "active" %}
+          {% else %}
+            {% set url = h.url_for('organization.index', q=q, sort=sort_by_selected, only_with_datasets=True) %}
+            {% set active_class = "" %}
+          {% endif %}
+          <li class="nav-item {{ active_class }}">
+            <a href="{{ url }}" title rel="nofollow">
+              {{ _('Show only organizations with datasets') }} ({{ organization_filters_count['with_dataset_count'] }})
+            </a>
+          </li>
+        </ul>
+      </nav>
   </section>
 {% endblock %}
