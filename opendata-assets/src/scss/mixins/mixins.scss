@@ -66,3 +66,8 @@
 @mixin align-self($align: auto) {
   align-self: $align;
 }
+
+@mixin font-awesome-icon($content) {
+    content: $content;
+    font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+}

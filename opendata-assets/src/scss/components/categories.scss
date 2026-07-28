@@ -17,9 +17,9 @@
       }
 
       &__title {
+        @include tokens.fi-text-body-text-small;
+
         margin-left: $padding-x--common;
-        font-weight: $font-weight-normal;
-        font-family: $font-family-sans-serif;
       }
 
       &--hidden {
@@ -64,11 +64,9 @@
   }
 
   a {
+    @include tokens.fi-text-action-element-inner-text-bold;
+
     color: tokens.$fi-color-highlight-base;
-    font-size: 16px;
-    font-family: $font-family-sans-serif-semibold;
-    font-weight: $font-weight-heavier;
-    line-height: 24px;
     text-decoration: none;
   }
 }

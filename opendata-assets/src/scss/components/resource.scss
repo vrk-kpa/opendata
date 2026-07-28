@@ -17,10 +17,10 @@
   }
 
   a {
+    @include tokens.fi-text-body-text-small;
+
     color: tokens.$fi-color-highlight-base;
-    font-family: $font-family-sans-serif;
     font-size: $font-size-smaller-base;
-    font-weight: $font-weight-normal;
     letter-spacing: 0.4px;
     line-height: $line-height-larger-base;
     text-transform: uppercase;
@@ -52,11 +52,9 @@
   }
 
   .module-small-title {
+    @include tokens.fi-text-body-text-small;
+
     color: tokens.$fi-color-depth-dark1;
-    font-size: $font-size-slightly-smaller-base;
-    font-family: $font-family-sans-serif;
-    font-weight: $font-weight-normal;
-    line-height: $line-height-base;
     padding-top: $padding-y__resource_toolbar;
   }
 
@@ -126,11 +124,10 @@
 
   .module {
     h1 {
+      @include tokens.fi-text-heading1;
+
       margin-bottom: $padding-bottom__module--resource !important;
       color: $navbarInverseBackgroundHighlight !important;
-      font-family: $font-family-sans-serif-light !important;
-      font-size: $font-size__module-large-h1;
-      font-weight: $font-weight-light;
     }
   }
 }

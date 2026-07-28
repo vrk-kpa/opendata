@@ -271,8 +271,8 @@ fieldset.checkboxes {
     }
 
     &:checked + .custom-checkbox::before {
-      content: "\f00c";
-      font-family: "Font Awesome 5 Pro", sans-serif;
+      @include font-awesome-icon("\f00c");
+
       font-weight: 500;
       vertical-align: middle;
       display: inline-block;
@@ -444,8 +444,8 @@ fieldset.checkboxes {
 
 .ytp-search-bar {
   &::before {
-    content: "\f002";
-    font-family: "Font Awesome Pro", sans-serif;
+    @include font-awesome-icon("\f002");
+
     font-weight: 300;
   }
 }
@@ -549,18 +549,16 @@ fieldset.checkboxes {
 }
 
 .ytp-group-description {
-  font-family: $font-family-sans-serif;
-  font-weight: normal;
+  @include tokens.fi-text-body-text-small;
+
   margin-top: -10px;
   margin-bottom: 20px;
   display: block;
 }
 
 .ytp-combi-label {
-  font-size: 16px;
-  font-family: $font-family-sans-serif-semibold;
-  font-weight: 600;
-  line-height: 24px;
+  @include tokens.fi-text-body-semi-bold-small;
+
   margin-top: 0;
   margin-bottom: 10px;
 }
@@ -606,10 +604,7 @@ fieldset.checkboxes {
 }
 
 label.control-label {
-  font-size: 16px;
-  font-family: $font-family-sans-serif-semibold;
-  font-weight: 600;
-  line-height: 24px;
+  @include tokens.fi-text-body-semi-bold-small;
 }
 
 .ytp-select2 {
@@ -701,14 +696,14 @@ label.control-label {
 }
 
 .disclaimer {
+  @include tokens.fi-text-body-text;
+
+  font-size: 14px;
+  line-height: 18px;
   margin-left: 45%;
   width: 55%;
   padding-top: 40px;
   color: rgb(95 104 109);
-  font-size: 14px;
-  font-family: $font-family-sans-serif;
-  font-weight: normal;
-  line-height: 18px;
 }
 
 .page-container {
@@ -726,8 +721,8 @@ label.control-label {
     }
 
     .form-actions__delete {
-      font-family: $font-family-sans-serif-semibold;
-      font-weight: $font-weight-heavier;
+      @include tokens.fi-text-body-semi-bold-small;
+
       padding: $padding-y__button $padding-x__button;
     }
 
@@ -782,11 +777,10 @@ label.control-label {
       margin-right: 60px;
 
       a {
+        @include tokens.fi-text-body-text;
+
         padding: 10px 5px;
         color: tokens.$fi-color-black-base;
-        font-family: $font-family-sans-serif;
-        font-size: 18px;
-        font-weight: normal;
         line-height: 27px;
       }
 
@@ -797,9 +791,9 @@ label.control-label {
       }
 
       &.active a {
-        font-family: $font-family-sans-serif-semibold;
+        @include tokens.fi-text-body-semi-bold-small;
+
         border-bottom: 4px solid tokens.$fi-color-highlight-base;
-        font-weight: 600;
       }
     }
   }
@@ -848,9 +842,9 @@ td.selectable-row {
   }
 
   input[type="checkbox"].row-checkbox:checked ~ .check::before {
+    @include font-awesome-icon("\f00c");
+
     color: tokens.$fi-color-highlight-base;
-    content: "\f00c";
-    font-family: "Font Awesome 5 Pro", sans-serif;
     font-weight: 600;
     font-size: 12px;
     margin: 0;
@@ -882,9 +876,9 @@ td.selectable-row {
 }
 
 .custom-table-header-title {
-  font-family: $font-family-sans-serif;
+  @include tokens.fi-text-body-text;
+
   font-size: 20px;
-  font-weight: normal;
   line-height: 28px;
   align-self: center;
 }
@@ -916,8 +910,8 @@ td.selectable-row {
   position: relative;
 
   &::before {
-    content: "\f073";
-    font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+    @include font-awesome-icon("\f073");
+
     font-size: 25px;
     position: absolute;
     top: 3px;
@@ -956,21 +950,15 @@ td.selectable-row {
 }
 
 .general-search-options-content p {
-  font-family: $font-family-sans-serif-semibold;
-  font-size: $font-size-slightly-smaller-base;
-  font-weight: $font-weight-heavier;
+  @include tokens.fi-text-body-semi-bold-small;
 }
 
 .general-search-label {
-  font-family: $font-family-sans-serif-semibold;
-  font-size: $font-size-slightly-smaller-base;
-  font-weight: $font-weight-heavier;
+  @include tokens.fi-text-body-semi-bold-small;
 }
 
 .general-search-radio {
-  font-family: $font-family-sans-serif;
-  font-size: $font-size-slightly-smaller-base;
-  font-weight: $font-weight-normal;
+  @include tokens.fi-text-body-text-small;
 }
 
 .general-search-input {
@@ -979,22 +967,18 @@ td.selectable-row {
 
 // TODO Use recources
 .dataset-heading.dataset-type {
+  @include tokens.fi-text-body-text;
+
   color: rgb(41 41 41);
-  font-family: $font-family-sans-serif;
-  font-size: $font-size-base;
-  font-weight: $font-weight-normal;
 }
 
 #dataset-info small {
-  font-family: $font-family-sans-serif;
-  font-size: $font-size-slightly-smaller-base;
-  font-weight: $font-weight-normal;
+  @include tokens.fi-text-body-text-small;
 }
 
 .general-search-item-notes {
-  font-family: $font-family-sans-serif;
-  font-size: $font-size-base;
-  font-weight: $font-weight-normal;
+  @include tokens.fi-text-body-text;
+
   color: #292929;
   margin-bottom: 10px;
 }

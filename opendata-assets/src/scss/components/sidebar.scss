@@ -161,11 +161,10 @@ aside.tertiary {
   background: tokens.$fi-color-highlight-base;
 
   p {
+    @include tokens.fi-text-body-semi-bold;
+
     padding: 26px 20px 13px;
-    font-family: $font-family-sans-serif;
     color: #fff;
-    font-size: 18px;
-    font-weight: 600;
     line-height: 27px;
   }
 }

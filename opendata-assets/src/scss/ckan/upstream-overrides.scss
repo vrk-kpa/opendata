@@ -4,7 +4,7 @@
 // Used for overriding default upstream ckan styles
 
 body {
-  font-family: $font-family-sans-serif;
+  @include tokens.fi-text-body-text-small;
 }
 
 .label-default {
@@ -48,7 +48,7 @@ body {
 }
 
 .dataset-title {
-  font-family: $font-family-sans-serif-light;
+  @include tokens.fi-text-heading1;
 }
 
 .license-smallprint {

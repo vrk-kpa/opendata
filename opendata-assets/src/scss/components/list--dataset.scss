@@ -24,10 +24,8 @@
   }
 
   .dataset-heading {
-    font-family: $font-family-sans-serif-semibold;
-    font-size: 22px;
-    font-weight: 600;
-    line-height: 28px;
+    @include tokens.fi-text-heading3;
+
     color: tokens.$fi-color-highlight-base;
     margin-top: 0;
     margin-bottom: $margin-bottom-h3;
@@ -44,21 +42,18 @@
   }
 
   .dataset-item-notes {
-    font-family: $font-family-sans-serif;
-    font-size: 18px;
-    font-weight: normal;
+    @include tokens.fi-text-body-text;
+
     line-height: 27px;
     color: tokens.$fi-color-black-base;
     margin-bottom: $padding-y--common;
   }
 
   .dataset-item-organization {
+    @include tokens.fi-text-body-text-small;
+
     margin-bottom: 12px;
     color: tokens.$fi-color-depth-dark1;
-    font-family: $font-family-sans-serif;
-    font-size: 16px;
-    font-weight: normal;
-    line-height: 24px;
 
     a,
     a:hover,
@@ -73,13 +68,13 @@
 }
 
 .collection-type {
+  @include tokens.fi-text-body-semi-bold;
+
+  font-size: $font-size-smaller-base;
   margin-left: auto;
   margin-right: 0;
   color: tokens.$fi-color-white-base;
   text-transform: uppercase;
-  font-size: $font-size-smaller-base;
-  font-family: $font-family-sans-serif-semibold;
-  font-weight: $font-weight-heavier;
   text-align: center;
   background: tokens.$fi-color-brand-base;
   border: 1px solid tokens.$fi-color-brand-base;
