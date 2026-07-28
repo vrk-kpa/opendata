@@ -215,9 +215,6 @@ RUN curl -fsSLO "$QSV_URL" \
  && chmod +x "/tmp/qsv/$QSV" \
  && mv "/tmp/qsv/$QSV" "/usr/local/bin/$QSV"
 
-# Temporarely add sqlalchemy2 to fail builds until extensions are compliant
-RUN pip install sqlalchemy==2.0.34
-
 
 #
 # Development image (for local development)
