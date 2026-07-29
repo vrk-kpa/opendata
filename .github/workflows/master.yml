@@ -15,10 +15,12 @@ jobs:
   build-and-push:
     name: Build and push containers
     runs-on: ubuntu-latest
-    needs: build-and-test-containers
+    needs:
+      - build-and-test-containers
     permissions:
       id-token: write
       contents: read
+
 
     strategy:
       fail-fast: false
@@ -29,37 +31,48 @@ jobs:
             submodules: ""
             build-frontend: false
             name: solr
-            dynatrace: false
+            build-container: ${{ needs.build-and-test-containers.outputs.solr == 'true' }}
+          - dockerfile: ./docker/datapusher-plus/Dockerfile
+            context: ./docker/datapusher-plus
+            submodules: ""
+            build-frontend: false
+            name: datapusher
+            build-container: ${{ needs.build-and-test-containers.outputs.datapusher == 'true' }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
             build-frontend: false
             name: nginx
-            dynatrace: false
+            build-container: ${{ needs.build-and-test-containers.outputs.nginx == 'true' }}
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
             submodules: ""
             build-frontend: true
             name: drupal
-            dynatrace: true
+            build-container: ${{ (needs.build-and-test-containers.outputs.drupal == 'true') || (needs.build-and-test-containers.outputs.assets == 'true') }}
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
             build-frontend: true
             name: ckan
-            dynatrace: true
+            build-container: ${{ (needs.build-and-test-containers.outputs.ckan == 'true') || (needs.build-and-test-containers.outputs.assets == 'true') }}
+          - dockerfile: ./clamav/clamav-docker/Dockerfile
+            context: ./clamav/clamav-docker
+            submodules: ""
+            name: clamav
+            build-container: ${{ needs.build-and-test-containers.outputs.clamav == 'true' }}
 
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
         with:
           submodules: ${{ matrix.submodules }}
 
       - name: setup docker buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v4
 
       - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.AWS_BUILD_ROLE }}
           role-session-name: github-actions
@@ -67,19 +80,10 @@ jobs:
 
       - name: login to AWS ECR
         id: login
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: login to DynaTrace Registry
-        id: login-dtr
-        if: ${{ matrix.dynatrace == true }}
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ secrets.DYNATRACE_USERNAME }}.live.dynatrace.com
-          username: ${{ secrets.DYNATRACE_USERNAME }}
-          password: ${{ secrets.DYNATRACE_TOKEN }}
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: configure NPM credentials
-        if: ${{ matrix.build-frontend == true}}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: |
           cat <<EOT >> ./opendata-assets/.npmrc
           @fortawesome:registry=https://npm.fontawesome.com/
@@ -88,46 +92,103 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: install nodejs v16
-        if: ${{ matrix.build-frontend == true }}
-        uses: actions/setup-node@v2
+      - name: install nodejs v22
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
+        uses: actions/setup-node@v6
         with:
-          node-version: 16
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: opendata-assets/package-lock.json
 
       - name: install npm packages
-        if: ${{ matrix.build-frontend == true }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npm ci
         working-directory: ./opendata-assets
 
       - name: build frontend with gulp
-        if: ${{ matrix.build-frontend == true }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npx gulp
         working-directory: ./opendata-assets
 
       - name: build images
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v7
+        if: ${{ matrix.build-container == true }}
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
           push: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
+          provenance: false
+          tags: |
+            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}
+            ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:latest
 
-      - name: build images with dynatrace
-        if: ${{ matrix.dynatrace == true }}
-        uses: docker/build-push-action@v3
+
+  commit-new-images:
+    name: Commit new image tags
+    runs-on: ubuntu-latest
+    needs:
+      - build-and-test-containers
+      - build-and-push
+    permissions:
+      id-token: write
+      contents: write
+    outputs:
+      sha: ${{ steps.envtemplate.outputs.commit_sha || github.sha }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
         with:
-          context: ${{ matrix.context }}
-          file: ${{ matrix.dockerfile }}
-          build-args: |
-            DYNATRACE_ENABLED=1
-          push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          tags: ${{ steps.login.outputs.registry }}/opendata/${{ matrix.name }}:${{ github.sha }}-dynatrace
+          submodules: ${{ matrix.submodules }}
+          token: ${{ secrets.BOT_TOKEN }}
+
+      - name: Update .env.template to reference new ckan image
+        if: ${{ (needs.build-and-test-containers.outputs.ckan == 'true') || (needs.build-and-test-containers.outputs.assets == 'true')}}
+        run: |
+          sed -i.bak -E 's/^(CKAN_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
+      - name: Update .env.template to reference new drupal image
+        if: ${{ (needs.build-and-test-containers.outputs.drupal == 'true') || (needs.build-and-test-containers.outputs.assets == 'true')}}
+        run: |
+          sed -i.bak -E 's/^(DRUPAL_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
+      - name: Update .env.template to reference new solr image
+        if: ${{ (needs.build-and-test-containers.outputs.solr == 'true') }}
+        run: |
+          sed -i.bak -E 's/^(SOLR_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
+      - name: Update .env.template to reference new datapusher image
+        if: ${{ (needs.build-and-test-containers.outputs.datapusher == 'true') }}
+        run: |
+          sed -i.bak -E 's/^(DATAPUSHER_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
+      - name: Update .env.template to reference new nginx image
+        if: ${{ (needs.build-and-test-containers.outputs.nginx == 'true') }}
+        run: |
+          sed -i.bak -E 's/^(NGINX_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
+      - name: Update .env.template to reference new clamav image
+        if: ${{ (needs.build-and-test-containers.outputs.clamav == 'true') }}
+        run: |
+          sed -i.bak -E 's/^(CLAMAV_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env.template
+
+      - name: Commit updated .env.template
+        id: envtemplate
+        if: ${{ (needs.build-and-test-containers.outputs.ckan == 'true') || 
+                (needs.build-and-test-containers.outputs.assets == 'true') || 
+                (needs.build-and-test-containers.outputs.drupal == 'true' ) || 
+                (needs.build-and-test-containers.outputs.solr == 'true') || 
+                (needs.build-and-test-containers.outputs.nginx == 'true') ||
+                (needs.build-and-test-containers.outputs.datapusher == 'true') ||
+                (needs.build-and-test-containers.outputs.clamav == 'true') }}
+        run: |
+          git config user.name "YTP Bot"
+          git config user.email "yhteentoimivuus.kehittajat@gofore.com"
+          git add docker/.env.template
+          git commit -m "[skip ci] .env.template updated by new image tags"
+          git push
+          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
 
   deploy-beta:
@@ -137,6 +198,7 @@ jobs:
     needs:
       - build-and-test-containers
       - build-and-push
+      - commit-new-images
     concurrency:
       group: ${{ github.ref }}/deploy-beta
     permissions:
@@ -144,26 +206,22 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v2
-
-      - name: install nodejs v16
-        uses: actions/setup-node@v2
+        uses: actions/checkout@v6
         with:
-          node-version: 16
+          ref: ${{ needs.commit-new-images.outputs.sha }}
 
-      - name: cache node_modules
-        uses: actions/cache@v2
+      - name: install nodejs v22
+        uses: actions/setup-node@v6
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_cdk_v16-
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: 'cdk/package-lock.json'
 
       - name: install cdk npm packages and verify installation
         working-directory: cdk
         run: |
-          npm install
-          $(npm bin)/cdk doctor
+          npm ci
+          npx cdk doctor
 
       - name: configure environment
         shell: bash
@@ -172,18 +230,14 @@ jobs:
           cp -f docker/.env.template docker/.env
           sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
           sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
-          sed -i.bak -E 's/^(CKAN_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
-          sed -i.bak -E 's/^(DRUPAL_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
-          sed -i.bak -E 's/^(NGINX_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
-          sed -i.bak -E 's/^(SOLR_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
 
       - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v6
         with:
-          role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
+          role-to-assume: ${{ secrets.AWS_BETA_DEPLOY_ROLE }}
           role-session-name: github-actions
           aws-region: eu-west-1
 
@@ -195,15 +249,22 @@ jobs:
       - name: synthesize cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk synth WebStack-beta --quiet >/dev/null 2>&1
+          npx cdk synth *-beta --quiet >/dev/null 2>&1
 
       - name: deploy cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk deploy WebStack-beta --require-approval=never >/dev/null 2>&1
+           npx cdk deploy *-beta --require-approval=never > /tmp/deploy.log 2>&1
+
+      - name: upload log artifacts
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: deploy-logs
+          path: /tmp/deploy.log
 
       - name: Notify Zulip
-        uses: zulip/github-actions-zulip/send-message@v1
+        uses: zulip/github-actions-zulip/send-message@v2
         with:
           api-key: ${{ secrets.ZULIP_API_KEY }}
           email: 'avoindata-bot@turina.dvv.fi'
@@ -212,3 +273,40 @@ jobs:
           type: 'stream'
           topic: 'Beta Deployments'
           content: 'Beta deployment succeeded! (${{ github.event.head_commit.message }})'
+
+      - name: Notify Zulip on error
+        if: failure()
+        uses: zulip/github-actions-zulip/send-message@v2
+        with:
+          api-key: ${{ secrets.ZULIP_API_KEY }}
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Beta Deployments'
+          content: 'Beta deployment failed! (${{ github.event.head_commit.message }})'
+
+  detect-build-failure:
+    name: Detect build failure
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs:
+      - build-and-test-containers
+    steps:
+      - run: exit 1
+        if: >-
+          ${{
+              contains(needs.*.result, 'failure')
+              || contains(needs.*.result, 'skipped')
+          }}
+      - name: Notify Zulip on  build error
+        if: failure()
+        uses: zulip/github-actions-zulip/send-message@v2
+        with:
+          api-key: ${{ secrets.ZULIP_API_KEY }}
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Beta Deployments'
+          content: 'Build failed! (${{ github.event.head_commit.message }})'

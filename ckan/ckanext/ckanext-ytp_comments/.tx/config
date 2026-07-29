@@ -2,8 +2,8 @@
 host = https://www.transifex.com
 
 [o:avoindata:p:ytp:r:ckanext-ytp-comments]
-file_filter = i18n/<lang>/LC_MESSAGES/ckanext-ytp-comments.po
-source_file = i18n/ckanext-ytp-comments.pot
+file_filter = ckanext/ytp_comments/i18n/<lang>/LC_MESSAGES/ckanext-ytp-comments.po
+source_file = ckanext/ytp_comments/i18n/ckanext-ytp_comments.pot
 source_lang = en
 type        = PO
 

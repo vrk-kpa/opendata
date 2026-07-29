@@ -6,7 +6,6 @@ dependencies:
     - field.field.node.avoindata_guide_page.field_page_image
     - node.type.avoindata_guide_page
   module:
-    - disqus
     - image
     - text
     - user

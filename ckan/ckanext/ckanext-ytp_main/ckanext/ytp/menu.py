@@ -1,7 +1,5 @@
 from ckan.common import _, c, request
 from ckan.lib import helpers
-from ckan.logic import NotFound
-from ckan.plugins.core import get_plugin
 from ckanext.ytp.helpers import service_database_enabled
 from collections import OrderedDict
 
@@ -54,16 +52,6 @@ class RootMenuItem(MenuItem):
         return data['children']
 
 
-class MyDashboardMenu(MenuItem):
-    def __init__(self):
-        super(MyDashboardMenu, self).__init__()
-        self.title = _("News feed")
-        self.requires_login = True
-
-    def link(self):
-        return helpers.url_for('dashboard.index')
-
-
 class MyDatasetsMenu(MenuItem):
     def __init__(self):
         super(MyDatasetsMenu, self).__init__()
@@ -99,7 +87,7 @@ class MyInformationMenu(MenuItem):
         super(MyInformationMenu, self).__init__()
         self.title = _("My Profile")
         if children:
-            self.children = [MyPersonalDataMenu(), MyDashboardMenu(), MyOrganizationMenu(), MyDatasetsMenu()]
+            self.children = [MyPersonalDataMenu(), MyOrganizationMenu(), MyDatasetsMenu()]
         self.requires_login = True
 
     def link(self):
@@ -114,13 +102,7 @@ class MyPasswordMenu(MenuItem):
         self.requires_login = True
 
     def link(self):
-        try:
-            ytp_drupal = get_plugin('ytp_drupal')
-            if not ytp_drupal or not c.user:
-                raise NotFound
-            return "/%s/user/%s/edit" % (helpers.lang(), str(ytp_drupal.get_drupal_user_id(c.user)))
-        except NotFound:
-            return "/"
+        return "/%s/user/edit" % helpers.lang()
 
 
 class MyCancelMenu(MenuItem):

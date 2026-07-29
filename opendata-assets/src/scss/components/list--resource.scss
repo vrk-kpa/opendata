@@ -1,0 +1,83 @@
+@use "../variables/suomifidesign" as tokens;
+
+// Additional info resource list
+.resource-list {
+  margin: 0;
+
+  .resource-item:last-child {
+    border-bottom: 1px solid rgb(200 205 208);
+  }
+
+  .resource-item {
+    border-top: 1px solid tokens.$fi-color-depth-light1;
+    border-radius: 0;
+    padding: $padding__resource-list-item;
+    display: flex;
+    align-items: center;
+
+    &:first-child {
+      border-top: 1px solid tokens.$fi-color-depth-light1;
+    }
+
+    &:hover {
+      background: transparent;
+    }
+
+    .resource-item__icon {
+      position: static;
+      margin-right: $padding-x--common;
+      align-self: center;
+    }
+
+    .resource-item__info__description {
+      margin-bottom: 0;
+    }
+
+    .resource-item__actions {
+      text-transform: uppercase;
+      line-height: 35px;
+      font-weight: 600;
+      margin-left: auto;
+
+      a {
+        margin: $margin__action-buttons;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .resource-item__info__title {
+      @include tokens.fi-text-body-text-small;
+
+      color: tokens.$fi-color-highlight-base;
+      transition: color $transition-duration--short $transition-timing-function--default;
+    }
+
+    a {
+      @include tokens.fi-text-body-semi-bold-small;
+
+      color: tokens.$fi-color-highlight-base;
+      transition: color $transition-duration--short $transition-timing-function--default;
+
+      &:hover {
+        color: tokens.$fi-color-highlight-dark1;
+      }
+    }
+  }
+}
+
+.resource-list-apiset {
+  .resource-item {
+    padding: $padding__resource-list-item !important;
+  }
+
+  .resource-item__info {
+    margin-top: 4px;
+  }
+
+  .resource-item__actions {
+    margin-top: 4px;
+  }
+}

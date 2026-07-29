@@ -2,22 +2,27 @@ global-styling:
   css:
     theme:
       css/style.css: {}
-      'vendor/@fortawesome/fontawesome/css/v4-shims.css': {preprocess: false}
-bootstrap-scripts:
+      css/fonts.css: {}
+      'vendor/@fortawesome/fontawesome/css/all.css': {preprocess: false}
+bootstrap:
+  css:
+    theme:
+      'vendor/bootstrap/dist/css/bootstrap.min.css': { preprocess: false }
   js:
-    'vendor/bootstrap/dist/js/bootstrap.js': {preprocess: false}
+    'vendor/bootstrap/dist/js/bootstrap.bundle.js': {}
+
 avoindata-custom-elements:
   js:
     'js/avoindata_custom_elements.js': {}
   dependencies:
-    - core/jquery
-    - core/jquery.once
     - core/drupal
-webfonts:
-  css:
-    base:
-      'css/fonts.css': {preprocess: false}
+    - core/jquery
+    - core/once
 
 cycle-guide-menu-items:
   js:
     'js/cycle_guide_menu_items.js': {}
+
+inject-responsive-tables:
+  js:
+    'scripts/inject_responsive_tables.js': {}

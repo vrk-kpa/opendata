@@ -1,12 +1,2 @@
-{% set current_url = h.full_current_url() %}
-{% import 'macros/ytp_layout.html' as layout %}
 {% block social %}
-    {{ layout.moduleBoxHead(_('Social')) }}
-      {% block social_nav %}
-        <ul class="list-inline">
-          <li><a href="https://twitter.com/share?url={{ current_url }}" target="_blank">Twitter</a></li>
-          <li><a href="https://www.facebook.com/sharer.php?u={{ current_url }}" target="_blank">Facebook</a></li>
-        </ul>
-      {% endblock %}
-    {{ layout.moduleBoxFoot() }}
 {% endblock %}

@@ -13,8 +13,9 @@ jQuery(document).ready(function($) {
     }
   };
 
-  $(".image-modal-open").click(function () {
-    var clickedImageElement = $(this)[0];
+  $(".image-modal-open").click(function (event) {
+    event.preventDefault();
+    var clickedImageElement = $(this).find('img')[0];
     var clickedImageIndex = 0;
 
     var imageElements = $('.image-slider').find('img');

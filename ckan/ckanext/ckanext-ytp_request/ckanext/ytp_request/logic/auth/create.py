@@ -1,13 +1,13 @@
 from ckanext.ytp_request.helper import get_user_member
-from ckan import authz
 import logging
 from ckan.common import _
+from flask_login import current_user
 log = logging.getLogger(__name__)
 
 
 def member_request_create(context, data_dict):
     """ Only allow to logged in users """
-    if not authz.auth_is_loggedin_user():
+    if current_user.is_anonymous:
         return {'success': False, 'msg': _('User is not logged in')}
 
     organization_id = None if not data_dict else data_dict.get(

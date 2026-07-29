@@ -1,265 +1,507 @@
 # -*- coding: utf-8 -*-
-import paste.fixture
-import pylons.test
-import simplejson
+import pytest
 
-from ckan import model, plugins, tests
-from ckan.lib.munge import munge_title_to_name
-from ckan.lib.navl.dictization_functions import Invalid
-from ckan.logic import NotFound
-from ckan.model.package import Package
+from ckan.tests.factories import Dataset, Group, Sysadmin, User, APIToken
+from ckan.tests.helpers import call_action
 from ckan.plugins import toolkit
-from ckan.tests import TestCase
-from paste.deploy.converters import asbool
-from pylons import config
+from ckan import model
+from ckan.lib.helpers import url_for
 
-from . import tools
-from ckanext.ytp.converters import is_url, to_list_json, from_json_list
-from ckanext.ytp.tasks import organization_import
+from .utils import minimal_dataset_with_one_resource_fields
+from .factories import OpendataOrganization
 
+def create_minimal_dataset():
+    return {'name': 'test_dataset_1', 'title': 'test_title', 'title_translated': {'fi': "otsikko"},
+            'license_id': "licence_id", 'notes_translated': {'fi': "Test notes"},
+            'keywords': {'fi': ["tag1", "tag2"]},
+            'collection_type': 'Open Data', 'copyright_notice_translated': {'fi': 'test_notice'},
+            'maintainer': 'test_maintainer', 'maintainer_email': 'test@maintainer.org'}
 
-class TestYtpDatasetPlugin(TestCase):
+@pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
+class TestYtpDatasetPlugin():
     """ Test YtpDatsetPlugin class """
 
-    @classmethod
-    def setup_class(cls):
-        cls.app = paste.fixture.TestApp(pylons.test.pylonsapp)
-
-    def setup(self):
-        self.sysadmin = model.User(name='test_sysadmin', sysadmin=True)
-        model.Session.add(self.sysadmin)
-        model.Session.commit()
-        model.Session.remove()
-
-    def teardown(self):
-        model.repo.rebuild_db()
-
-    @classmethod
-    def teardown_class(cls):
-        pass
-
-    def _create_context(self):
-        context = {'model': model, 'session': model.Session, 'ignore_auth': True}
-        admin_user = plugins.toolkit.get_action('get_site_user')(context, None)
-        context['user'] = admin_user['name']
-        context['auth_user_obj'] = model.User.get(admin_user['name'])
-        return context
 
     def test_create_dataset(self):
-        context = self._create_context()
-        data_dict = {'name': 'test_dataset_1', 'title': 'test_title', 'notes': "test_notes", 'license_id': "licence_id",
-                     'content_type': "content_type_test", 'tag_string': "tag1,tag2", 'collection_type': 'Open Data',
-                     'copyright_notice': 'test_notice'}
+        data_dict = create_minimal_dataset()
+        Dataset(**data_dict)
 
-        result = toolkit.get_action('package_create')(context, data_dict)
+        test_dataset = call_action('package_show', id='test_dataset_1')
+        assert test_dataset.get('title_translated').get('fi') == 'otsikko'
+        assert test_dataset.get('copyright_notice_translated').get('fi') == 'test_notice'
 
-        self.assert_equal(result['name'], 'test_dataset_1')
-        test_dataset = Package.get('test_dataset_1')
-
-        self.assert_equal(test_dataset.extras['copyright_notice'], 'test_notice')
-
-    def test_is_url(self):
-        """ test is_url validator """
-        context = {}
-        is_url("http://www.example.com", context)
-        is_url("http://www.example.com/path", context)
-        self.assert_raises(Invalid, is_url, "test_fail", context)
-        self.assert_raises(Invalid, is_url, "/test/test", context)
-        self.assert_raises(Invalid, is_url, "//test/test", context)
-
-    def test_to_list_json(self):
-        """ test to_list_json converter """
-        context = {}
-        self.assert_equal(to_list_json("test_value", context).replace(' ', ''), '["test_value"]')
-        self.assert_equal(to_list_json(["test_value1", "test_value2"], context).replace(
-            ' ', ''), '["test_value1","test_value2"]')
-
-    def test_from_json_list(self):
-        """ test from_json_list converter """
-        context = {}
-        self.assert_equal(from_json_list("test_value", context), ["test_value"])
-        self.assert_equal(from_json_list('["test_value1","test_value2"]', context), ["test_value1", "test_value2"])
-
-    def test_api_create_dataset(self):
-        tests.call_action_api(self.app, 'package_create',
-                              status=409,
-                              name='test-name-1',
-                              title="test-title-1",
-                              content_type="test1,test2",
-                              license_id="other",
-                              notes="test notes",
-                              tag_string="tag1,tag2",
-                              apikey=self.sysadmin.apikey)
-
-        tests.call_action_api(self.app, 'package_create', status=200, name='test-name-2',
-                              title="test-title-2", content_type="test1,test2",
-                              license_id="other", notes="test notes", tag_string="tag1,tag2",
-                              collection_type="Open Data", apikey=self.sysadmin.apikey)
-
-        test_dataset = Package.get('test-name-2')
-        self.assert_equal(test_dataset.maintainer, "")
-        self.assert_equal(test_dataset.maintainer_email, "")
-
-        if not asbool(config.get('ckanext.ytp.auto_author', False)):
-            self.assert_equal(test_dataset.author, "")
-            self.assert_equal(test_dataset.author_email, "")
+        test_search_result = call_action('package_search', q='test')
+        assert test_search_result['results'][0]['title_translated']['fi'] == 'otsikko'
 
 
-class TestYtpOrganizationPlugin(TestCase):
-    """ Test YtpOrganizationPlugin class """
+    def test_external_urls_input(self):
 
-    @classmethod
-    def setup_class(cls):
-        cls.app = paste.fixture.TestApp(pylons.test.pylonsapp)
+        data_dict = create_minimal_dataset()
+        data_dict['external_urls'] = ["http://foo.com", "http://bar.com"]
 
-    def setup(self):
-        self.sysadmin = model.User(name='test_sysadmin', sysadmin=True)
-        model.Session.add(self.sysadmin)
+        dataset = Dataset(**data_dict)
+        assert dataset['external_urls'] == ["http://foo.com", "http://bar.com"]
+
+
+    def test_external_urls_invalid_input(self):
+        data_dict = create_minimal_dataset()
+        data_dict['external_urls'] = ["first", "second"]
+
+        with pytest.raises(toolkit.ValidationError):
+            Dataset(**data_dict)
+
+
+    def test_external_urls_removed(self):
+        data_dict = create_minimal_dataset()
+        data_dict['external_urls'] = ["http://foo.com", "http://bar.com"]
+
+        dataset = Dataset(**data_dict)
+
+
+        result = call_action('package_patch', id=dataset['id'], external_urls="")
+        assert result['external_urls'] == []
+        result = call_action('package_patch', id=dataset['id'], external_urls=[''])
+        assert result['external_urls'] == []
+
+
+    def test_categories_with_translations(self):
+        translated_title = {'fi': 'finnish title', 'sv': 'swedish title', 'en': 'english title'}
+        translated_description = {'fi': 'finnish description', 'sv': 'swedish description', 'en': 'english description'}
+        category = Group(title_translated=translated_title,
+                         description_translated=translated_description)
+
+        data_dict = create_minimal_dataset()
+        data_dict['groups'] = [{'name': category['name']}]
+        dataset = Dataset(**data_dict)
+
+        result = call_action('package_show', id=dataset['id'])
+        assert result['groups'][0]['title_translated'] == translated_title
+        assert result['groups'][0]['description_translated'] == translated_description
+
+
+    def test_dataset_with_highvalue_category(self):
+        dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
+        dataset_fields['highvalue'] = True
+        dataset_fields['highvalue_category'] = "geospatial"
+        d = Dataset(**dataset_fields)
+        dataset = call_action('package_show', id=d['name'])
+        assert dataset['highvalue'] == 'true'
+        assert dataset['highvalue_category'] == ["geospatial"]
+
+
+    def test_dataset_with_multiple_highvalue_categories(self):
+        dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
+        dataset_fields['highvalue'] = True
+        dataset_fields['highvalue_category'] = ["geospatial", "mobility", "earth-observation-and-environment"]
+        d = Dataset(**dataset_fields)
+        dataset = call_action('package_show', id=d['name'])
+        assert dataset['highvalue'] == 'true'
+        assert dataset['highvalue_category'] == ["geospatial", "mobility", "earth-observation-and-environment"]
+
+
+    def test_highvalue_category_is_required_when_highvalue_is_true(self):
+        dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
+        dataset_fields['highvalue'] = True
+
+        with pytest.raises(toolkit.ValidationError):
+            Dataset(**dataset_fields)
+
+
+    def test_dataset_with_invalid_highvalue_category(self):
+        dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
+        dataset_fields['highvalue'] = True
+        dataset_fields['highvalue_category'] = "spatial"
+        with pytest.raises(toolkit.ValidationError):
+            Dataset(**dataset_fields)
+
+
+    def test_dataset_with_highvalue_category_as_normal_user(self):
+        user = User()
+        organization = OpendataOrganization(user=user)
+        dataset_fields = minimal_dataset_with_one_resource_fields(user)
+        dataset_fields['owner_org'] = organization['id']
+        d = Dataset(**dataset_fields)
+
+        dataset_fields['highvalue'] = True
+        dataset_fields['highvalue_category'] = "geospatial"
+
+        context = {"user": user["name"], "ignore_auth": False}
+
+        d = call_action('package_update', context=context, name=d['name'], **dataset_fields)
+
+        dataset = call_action('package_show', id=d['name'])
+        assert dataset['highvalue'] == 'true'
+        assert dataset['highvalue_category'] == ["geospatial"]
+
+
+    def test_search_facets_with_highvalue_category(self):
+        dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
+        dataset_fields['highvalue'] = True
+        dataset_fields['highvalue_category'] = ["earth-observation-and-environment"]
+        Dataset(**dataset_fields)
+        data_dict = {
+            "facet.field": ['vocab_highvalue_category']
+        }
+        results = call_action('package_search', **data_dict )
+        assert results['search_facets'] == {
+            "vocab_highvalue_category": {
+                "items": [
+                    {
+                        "count": 1,
+                        "display_name": "Earth observation and environment",
+                        "name": "earth-observation-and-environment"
+                    }
+                ],
+                "title": "vocab_highvalue_category"
+            }
+        }
+
+
+    def test_groups_are_added(self):
+        g = Group(title_translated={
+            "fi": "some title in finnish",
+            "sv": "some title in swedish",
+            "en": "some title in english"
+        })
+        dataset_fields = minimal_dataset_with_one_resource_fields(Sysadmin())
+        dataset_fields['groups'] = [{'name': g['name']}]
+        d = Dataset(**dataset_fields)
+
+        assert d['groups'][0]['id'] == g['id']
+
+
+    def test_groups_are_updated(self):
+
+        user = Sysadmin()
+
+        g1 = Group(title_translated={
+            "fi": "some title in finnish",
+            "sv": "some title in swedish",
+            "en": "some title in english"
+        })
+
+        g2 = Group(title_translated={
+            "fi": "some other title in finnish",
+            "sv": "some other title in swedish",
+            "en": "some other title in english"
+        })
+
+        dataset_fields = minimal_dataset_with_one_resource_fields(user)
+
+        dataset_fields['groups'] =[{'name': g1['name']}]
+        d = Dataset(**dataset_fields)
+
+        assert len(d['groups']) == 1
+        assert d['groups'][0]['id'] == g1['id']
+
+        dataset_fields['groups'] = [{'name': g2['name']}]
+        dataset = call_action('package_update', context={'user': user['name']}, name=d['id'], **dataset_fields)
+
+        assert len(dataset['groups']) == 1
+        assert dataset['groups'][0]['name'] == g2['name']
+
+
+    def test_groups_are_removed(self, app):
+        g = Group(title_translated={
+            "fi": "some title in finnish",
+            "sv": "some title in swedish",
+            "en": "some title in english"
+        })
+
+        user = Sysadmin()
+
+        dataset_fields = minimal_dataset_with_one_resource_fields(user)
+
+        dataset_fields['groups'] = [{'name': g['name']}]
+        d = Dataset(**dataset_fields)
+
+        assert len(d['groups']) == 1
+        assert d['groups'][0]['id'] == g['id']
+        assert d['groups'][0]['name'] == g['name']
+
+        dataset_fields['groups'] = []
+        dataset = call_action('package_update', context={'user': user['name']}, name=d['id'], **dataset_fields)
+        assert len(dataset['groups']) == 0
+
+
+    def test_user_can_add_datasets_to_newly_created_groups(self, app):
+        user = User()
+        organization = OpendataOrganization(user=user)
+        dataset_fields = minimal_dataset_with_one_resource_fields(user)
+        dataset = Dataset(owner_org=organization['id'], **dataset_fields)
+
+        group = Group(title_translated={
+            "fi": "some title in finnish",
+            "sv": "some title in swedish",
+            "en": "some title in english"
+        })
+
+        updated_dataset = call_action('package_update',
+                                      context={'user': user['name'], 'ignore_auth': False},
+                                      name=dataset['id'],
+                                      groups=[{'name': group['name']}],
+                                      **dataset_fields)
+        assert len(updated_dataset['groups']) == 1
+
+    def test_statistics_returning_correct_amounts(self):
+        empty_statistics = call_action('statistics')
+        assert empty_statistics == {
+            'datasets': 0,
+            'apisets': 0,
+            'organizations': 0,
+            'showcases': 0
+        }
+
+        user = User()
+        OpendataOrganization(user=user)
+
+        one_organization = call_action('statistics')
+        assert one_organization == {
+            'datasets': 0,
+            'apisets': 0,
+            'organizations': 1,
+            'showcases': 0
+        }
+
+        OpendataOrganization(user=user)
+
+        two_organizations = call_action('statistics')
+        assert two_organizations == {
+            'datasets': 0,
+            'apisets': 0,
+            'organizations': 2,
+            'showcases': 0
+        }
+
+        data_dict = create_minimal_dataset()
+        Dataset(**data_dict)
+
+        added_dataset = call_action('statistics')
+        assert added_dataset == {
+            'datasets': 1,
+            'apisets': 0,
+            'organizations': 2,
+            'showcases': 0
+        }
+
+
+@pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
+class TestResourceStatusPlugin:
+    def test_clear_sha256_and_malware_on_update(self) -> None:
+        user = User()
+        dataset_dict = minimal_dataset_with_one_resource_fields(user)
+
+        dataset_dict['resources'][0]['malware'] = 'malware dummy content'
+        dataset_dict['resources'][0]['sha256'] = 'sha256 dummy content'
+        dataset = Dataset(**dataset_dict)
+        resource = dataset['resources'][0]
+        assert resource['malware'] == 'malware dummy content'
+        assert resource['sha256'] == 'sha256 dummy content'
+
+        call_action('resource_patch', id=resource['id'], position_info='modified')
+        modified_resource = call_action('resource_show', id=resource['id'])
+
+        assert modified_resource.get('malware') is None
+        assert modified_resource.get('sha256') is None
+
+    def test_keep_sha256_and_malware_when_uploading_or_setting_them(self) -> None:
+        user = User()
+        dataset_dict = minimal_dataset_with_one_resource_fields(user)
+
+        dataset_dict['resources'][0]['malware'] = 'malware dummy content'
+        dataset_dict['resources'][0]['sha256'] = 'sha256 dummy content'
+        dataset = Dataset(**dataset_dict)
+        resource = dataset['resources'][0]
+        assert resource['malware'] == 'malware dummy content'
+        assert resource['sha256'] == 'sha256 dummy content'
+
+        context = {'upload_in_progress': True}
+        call_action('resource_patch', id=resource['id'], position_info='modified', context=context)
+        modified_resource = call_action('resource_show', id=resource['id'])
+
+        assert modified_resource.get('malware') == 'malware dummy content'
+        assert modified_resource.get('sha256') == 'sha256 dummy content'
+
+        context = {'set_resource_status': True}
+        call_action('resource_patch', id=resource['id'], position_info='modified', context=context)
+        modified_resource = call_action('resource_show', id=resource['id'])
+
+        assert modified_resource.get('malware') == 'malware dummy content'
+        assert modified_resource.get('sha256') == 'sha256 dummy content'
+
+        call_action('resource_patch', id=resource['id'], position_info='modified')
+        modified_resource = call_action('resource_show', id=resource['id'])
+
+        assert modified_resource.get('malware') is None
+        assert modified_resource.get('sha256') is None
+
+
+@pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
+class TestOrganizationHierarchy:
+    def test_suborganization_is_under_parent(self):
+        parent = OpendataOrganization()
+        child = OpendataOrganization()
+
+        member = model.Member(
+            group=model.Group.get(child['id']),
+            table_id=parent['id'], table_name='group', capacity='parent')
+
+        model.Session.add(member)
         model.Session.commit()
-        model.Session.remove()
 
-    def teardown(self):
-        model.repo.rebuild_db()
+        result = call_action('group_tree_section', id=parent['id'], type='organization')
+        assert result['children'][0]['id'] == child['id']
 
-    @classmethod
-    def teardown_class(cls):
-        pass
+    def test_tree_section_has_only_approved_organizations(self):
 
-    def test_create_unique_organizations(self):
-        """ Test duplicate title name """
-        tests.call_action_api(self.app, 'organization_create', name='test-name-1',
-                              title="test-title", apikey=self.sysadmin.apikey)
-        tests.call_action_api(self.app, 'organization_create', status=409, name='test-name-2',
-                              title="test-title", apikey=self.sysadmin.apikey)
+        parent = OpendataOrganization()
+        first_child = OpendataOrganization(approval_status="approved")
+        second_child = OpendataOrganization(approval_status="pending")
 
-    def _create_context(self):
-        context = {'model': model, 'session': model.Session, 'ignore_auth': True}
-        admin_user = plugins.toolkit.get_action('get_site_user')(context, None)
-        context['user'] = admin_user['name']
-        return context
+        member = model.Member(
+            group=model.Group.get(first_child['id']),
+            table_id=parent['id'], table_name='group', capacity='parent')
 
-    def test_user_create_hook(self):
-        self.assert_raises(NotFound, plugins.toolkit.get_action('organization_show'),
-                           self._create_context(), {"id": "yksityishenkilo"})
-
-        plugins.toolkit.get_action('user_create')(self._create_context(), {"name": "test_create_1",
-                                                                           "id": "test_create_1",
-                                                                           "email": "example1@localhost",
-                                                                           "password": "test_password",
-                                                                           "fullname": "test_fullname_1"})
-        plugins.toolkit.get_action('user_create')(self._create_context(), {"name": "test_create_2",
-                                                                           "id": "test_create_2",
-                                                                           "email": "example2@localhost",
-                                                                           "password": "test_password",
-                                                                           "fullname": "test_fullname_2"})
-        plugins.toolkit.get_action('user_update')(self._create_context(), {"id": "test_create_2",
-                                                                           "id": "test_create_2",
-                                                                           "email": "example3@localhost",
-                                                                           "password": "test_password",
-                                                                           "fullname": "test_fullname_3"})
-
-    def test_organization_import(self):
-        """ Test organization import """
-        organization_url = tools.get_organization_test_source()
-        data = simplejson.dumps({'url': organization_url, 'public_organization': True})
-        for _ in range(2):
-            result = organization_import.apply((data,))
-            self.assert_true(result.successful())
-            for title in "Kainuun ty\u00f6- ja elinkeinotoimisto", "Lapin ty\u00f6- ja elinkeinotoimisto",\
-                         "Suomen ymp\u00e4rist\u00f6keskus":
-                organization = tests.call_action_api(self.app, 'organization_show', id=munge_title_to_name(title).lower())
-                self.assert_equal(organization['title'], title)
-                public_org = 'false'
-                for extra in organization['extras']:
-                    if extra['key'] == 'public_adminstration_organization':
-                        public_org = 'true'
-                self.assert_equal(public_org, 'true')
-
-    def test_organization_import_update(self):
-        """ Test updating organization import from file """
-        organization_url = tools.get_organization_test_source()
-
-        for extras in False, True:
-            data = {'url': organization_url}
-            if extras:
-                data['public_organization'] = True
-            result = organization_import.apply((simplejson.dumps(data),))
-            self.assert_true(result.successful())
-            for title in "Kainuun ty\u00f6- ja elinkeinotoimisto", "Lapin ty\u00f6- ja elinkeinotoimisto",\
-                         "Suomen ymp\u00e4rist\u00f6keskus":
-                organization = tests.call_action_api(self.app, 'organization_show', id=munge_title_to_name(title).lower())
-                self.assert_equal(organization['title'], title)
-                self.assert_true('public_adminstration_organization' not in organization)  # We do not want this to be updated
-
-    def test_organization_import_with_name(self):
-        """ Test organization import """
-        expected = ("hri", "Ulkoinen lähde: Hri.fi",
-                    "Tähän organisaatioon harvestoidaan tietoaineistoja Helsinki Region Infosharesta."), \
-            ("datagovuk", "Data.Gov.UK", "")
-        organization_url = tools.get_organization_harvest_test_source()
-        data = simplejson.dumps({'url': organization_url})
-        for _ in range(2):
-            result = organization_import.apply((data,))
-            self.assert_true(result.successful())
-            for name, title, description in expected:
-                organization = tests.call_action_api(self.app, 'organization_show', id=name)
-                self.assert_equal(organization['title'], title)
-                self.assert_equal(organization['description'], description)
-                self.assert_true('public_adminstration_organization' not in organization)
-
-
-class TestYtpUserPlugin(TestCase):
-    """ Test YtpUserPlugin class """
-
-    @classmethod
-    def setup_class(cls):
-        cls.app = paste.fixture.TestApp(pylons.test.pylonsapp)
-
-    def setup(self):
-        self.sysadmin = model.User(name='test_sysadmin', sysadmin=True)
-        model.Session.add(self.sysadmin)
+        model.Session.add(member)
+        member = model.Member(
+            group=model.Group.get(second_child['id']),
+            table_id=parent['id'], table_name='group', capacity='parent')
+        model.Session.add(member)
         model.Session.commit()
-        model.Session.remove()
 
-    def teardown(self):
-        model.repo.rebuild_db()
+        result = call_action('group_tree_section', id=parent['id'], type='organization', only_approved=True)
 
-    @classmethod
-    def teardown_class(cls):
-        pass
+        assert result['children'][0]['id'] == first_child['id']
+        assert len(result['children']) == 1
 
-    def _create_context(self, user_object):
-        return {'model': model, 'session': model.Session, 'user': user_object.name, 'user_obj': user_object}
+        helper_result = toolkit.h.group_tree_section(id_=parent['id'], type_='organization', only_approved=True)
 
-    def _create_user(self, name, fullname):
-        user = model.User(name=name, email="test@example.com", fullname=fullname)
-        model.Session.add(user)
-        model.Session.commit()
-        return user
+        assert helper_result['children'][0]['id'] == first_child['id']
+        assert len(helper_result['children']) == 1
 
-    def test_user_update(self):
-        user_object = self._create_user('tester', 'test tester')
-        context = self._create_context(user_object)
+@pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
+class TestOrganizationView:
+    def test_organization_index_view_renders(self, app):
+        _org_without_datasets = OpendataOrganization()
+        org_with_datasets = OpendataOrganization()
+        dataset_fields = create_minimal_dataset()
+        _dataset = Dataset(owner_org=org_with_datasets["name"], **dataset_fields)
 
-        data_dict = {'id': user_object.name, 'email': user_object.email, 'fullname': user_object.fullname}
-        toolkit.get_action('user_update')(context, data_dict)
+        # Get both organizations
+        orgs_url = url_for("organization.index", locale='en')
+        result = app.get(orgs_url)
+        assert b"2 organizations found" in result.data
 
-        data_dict = {'id': user_object.name, 'email': user_object.email, 'fullname': user_object.fullname}
-        data_dict_extras = {'facebook': 'http://example.com/facebook',
-                            'job_title': 'tester',
-                            'telephone_number': '+358 123 1234',
-                            'image_url': 'http://example.com/me.png',
-                            'linkedin': 'http://example.com/linkedin',
-                            'twitter': 'http://example.com/twitter'}
-        data_dict.update(data_dict_extras)
+        # Get only the organization with the dataset
+        orgs_url = url_for("organization.index", locale='en', only_with_datasets=True)
+        result = app.get(orgs_url)
+        assert b"1 organization found" in result.data
 
-        from pprint import pprint
-        pprint(data_dict)
-        user_data = toolkit.get_action('user_update')(context, data_dict)
-        user_show_data = toolkit.get_action('user_show')(context, {'id': user_object.name})
-        updated_user = model.User.get('tester')
+    def test_organization_create_view_renders(self, app):
+        user = User()
+        org_url = url_for("organization.new", locale='en')
 
-        for key, value in data_dict_extras.items():
-            self.assert_equal(user_data[key], value)
-            self.assert_equal(user_show_data[key], value)
-            self.assert_equal(updated_user.extras[key], value)
+        # Unauthenticated user cannot view organization create form
+        result = app.get(org_url)
+        assert result.status_code == 403
+
+        headers = {"Authorization": APIToken(user=user['name'])["token"]}
+        result = app.get(org_url, headers=headers)
+        assert b"Create an Organization" in result.data
+
+    def test_organization_edit_view_renders(self, app):
+        user = User()
+        org = OpendataOrganization(user=user)
+        org_url = url_for("organization.edit", id=org['id'], locale='en')
+
+        # Unauthenticated user cannot view organization edit form
+        result = app.get(org_url)
+        assert result.status_code == 403
+
+        headers = {"Authorization": APIToken(user=user['name'])["token"]}
+        result = app.get(org_url, headers=headers)
+        assert b"Edit information" in result.data
+
+    def test_organization_members_view_renders(self, app):
+        user = User()
+        org = OpendataOrganization()
+        org_url = url_for("organization.members", id=org['id'], locale='en')
+
+        # Unauthenticated user cannot view organization create form
+        result = app.get(org_url)
+        assert result.status_code == 403
+
+        headers = {"Authorization": APIToken(user=user['name'])["token"]}
+        result = app.get(org_url, headers=headers)
+        assert user['name'].encode() in result.data
+
+    def test_deleted_organization_showing_error_message(self, app):
+        org = OpendataOrganization()
+
+        org_url = url_for("organization.read", id=org['id'], locale='en')
+
+        call_action('organization_delete', id=org['id'])
+
+        result = app.get(org_url)
+
+        assert result.status_code == 404
+
+
+class TestSchema:
+    @pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
+    def test_collection_type_filtering(self):
+        opendata_dataset = create_minimal_dataset()
+        Dataset(**opendata_dataset)
+
+        interoperability_dataset = create_minimal_dataset()
+        interoperability_dataset['name'] = 'test_dataset_2'
+        interoperability_dataset['collection_type'] = 'Interoperability Tools'
+        Dataset(**interoperability_dataset)
+
+        test_search_result = call_action('package_search')
+        assert test_search_result['count'] == 2
+
+        filter_opendata_results = call_action('package_search', fq='collection_type:"Open Data"')
+        assert filter_opendata_results['count'] == 1
+
+        filter_interoperability_results = call_action('package_search', fq='collection_type:"Interoperability Tools"')
+        assert filter_interoperability_results['count'] == 1
+
+    @pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index', 'with_request_context')
+    def test_dcat_catalog_filtering_with_collection_type(self):
+        opendata_dict = create_minimal_dataset()
+        opendata_dataset = Dataset(**opendata_dict)
+
+        interoperability_dict = create_minimal_dataset()
+        interoperability_dict['name'] = 'test_dataset_2'
+        interoperability_dict['title'] = 'test_title_2'
+        interoperability_dict['collection_type'] = 'Interoperability Tools'
+        interoperability_dataset = Dataset(**interoperability_dict)
+
+        content = call_action('dcat_catalog_show', _format='xml')
+
+        # Parse the contents to check it's an actual serialization
+        from ckanext.dcat.processors import RDFParser
+        p = RDFParser()
+        p.parse(content, _format='xml')
+        dcat_datasets = [d for d in p.datasets()]
+        assert len(dcat_datasets) == 2
+
+        opendata_content = call_action('dcat_catalog_show', _format='xml', fq='collection_type:"Open Data"')
+        opendata_parser= RDFParser()
+        opendata_parser.parse(opendata_content, _format='xml')
+        opendata_datasets = [d for d in opendata_parser.datasets()]
+        assert len(opendata_datasets) == 1
+
+        opendata_result = opendata_datasets[0]
+        assert opendata_result['title'] == opendata_dataset['title']
+
+        interoperability_content = call_action('dcat_catalog_show', _format='xml',
+        fq='collection_type:"Interoperability Tools"')
+        interoperability_parser= RDFParser()
+        interoperability_parser.parse(interoperability_content, _format='xml')
+        interoperability_datasets = [d for d in interoperability_parser.datasets()]
+        assert len(interoperability_datasets) == 1
+
+        interoperability_result = interoperability_datasets[0]
+        assert interoperability_result['title'] == interoperability_dataset['title']

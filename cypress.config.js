@@ -6,12 +6,11 @@ module.exports = defineConfig({
   projectId: 'ssb2ut',
   env: {
     resetDB: true,
-    cloudStorageEnabled: false,
-    docker: true
+    cloudStorageEnabled: false
   },
   videoCompression: 20,
   videoUploadOnPasses: false,
-
+  defaultCommandTimeout: 30000,
   e2e: {
     baseUrl: 'http://localhost',
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',

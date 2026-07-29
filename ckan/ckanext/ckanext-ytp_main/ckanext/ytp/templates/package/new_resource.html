@@ -2,6 +2,8 @@
 
 {% block maintag %}<div role="main" class="container-page-wrapper">{% endblock %}
 
+    {% block subtitle %}{{ _('Add data to the dataset') if dataset_type!='apiset' else _("Add data to the apiset") }}{% endblock %}
+
 {% block prelude %}
 <div class="d-flex justify-content-between align-items-end flex-wrap">
     <h1 class="page-heading">

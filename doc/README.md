@@ -1,7 +1,7 @@
 
 # Documentation
 
-Welcome to the documentation of Avoindata.fi. This documentation is mainly aimed at developers.
+Welcome to the documentation of Suomi.fi Open Data. This documentation is mainly aimed at developers.
 
 ## Table of contents
 

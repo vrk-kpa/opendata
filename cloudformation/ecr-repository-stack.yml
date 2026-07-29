@@ -1,0 +1,80 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Creates ECR repository.
+
+Parameters:
+  RepositoryName:
+    Description: Name for the ECR repository.
+    Type: String
+  DevAccountId:
+    Description: ID for the development AWS account, for ECR pull permissions.
+    Type: String
+
+Resources:
+  Repository:
+    Type: AWS::ECR::Repository
+    Properties:
+      EncryptionConfiguration:
+        EncryptionType: AES256
+      ImageScanningConfiguration:
+        ScanOnPush: true
+      ImageTagMutability: MUTABLE
+      RepositoryName: !Ref RepositoryName
+      RepositoryPolicyText:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: allow-pull
+            Effect: Allow
+            Principal:
+              AWS:
+                - !Sub "arn:aws:iam::${DevAccountId}:root"
+            Action:
+              - "ecr:GetDownloadUrlForLayer"
+              - "ecr:BatchGetImage"
+              - "ecr:BatchCheckLayerAvailability"
+      LifecyclePolicy:
+        LifecyclePolicyText: |
+          {
+            "rules": [
+              {
+                "rulePriority": 1,
+                "description": "Keep image tagged as latest",
+                "selection": {
+                    "tagStatus": "tagged",
+                    "tagPatternList": ["latest"],
+                    "countType": "imageCountMoreThan",
+                    "countNumber": 1
+                },
+                "action": {
+                  "type": "expire"
+                }
+              },
+              {
+                "rulePriority": 2,
+                "description": "Keep 3 latest prod images",
+                "selection": {
+                    "tagStatus": "tagged",
+                    "tagPatternList": ["prod-*"],
+                    "countType": "imageCountMoreThan",
+                    "countNumber": 3
+                },
+                "action": {
+                  "type": "expire"
+                }
+              },
+              {
+                "rulePriority": 3,
+                "description": "Keep images newer than a week",
+                "selection": {
+                    "tagStatus": "any",
+                    "countType": "sinceImagePushed",
+                    "countUnit": "days",
+                    "countNumber": 7
+                },
+                "action": {
+                  "type": "expire"
+                }
+              }
+            ]
+          }
+

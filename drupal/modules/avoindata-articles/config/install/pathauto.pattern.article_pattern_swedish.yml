@@ -10,7 +10,7 @@ type: 'canonical_entities:node'
 pattern: 'artikel/[node:title]'
 selection_criteria:
   32f5bd53-fc19-47a2-a05b-bf01e60bbcd2:
-    id: node_type
+    id: 'entity_bundle:node'
     bundles:
       avoindata_article: avoindata_article
     negate: false

@@ -1,0 +1,11 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group">
+<path id="Tausta" d="M31 0H1C0.447715 0 0 0.447715 0 1V31C0 31.5523 0.447715 32 1 32H31C31.5523 32 32 31.5523 32 31V1C32 0.447715 31.5523 0 31 0Z" fill="#00347A"/>
+<g id="Merkki">
+<path id="Vector" d="M8 12V9.14C8 8.51 8.51 8 9.14 8H12V12" fill="white"/>
+<path id="Vector_2" d="M8 16H12V23.47C12 23.76 11.74 24 11.43 24H8.57C8.26 24 8 23.76 8 23.47" fill="white"/>
+<path id="Vector_3" d="M16 8H23.43C23.74 8 24 8.26 24 8.57V12H16" fill="white"/>
+<path id="Vector_4" d="M23.43 20H16V16H24V19.43C24 19.75 23.74 20 23.43 20Z" fill="white"/>
+</g>
+</g>
+</svg>

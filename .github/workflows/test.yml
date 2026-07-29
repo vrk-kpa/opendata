@@ -1,9 +1,37 @@
 name: CI/CD
 
 on:
+  schedule:
+    - cron: "0 6 * * *"
   pull_request:
   workflow_dispatch:
   workflow_call:
+    outputs:
+      ckan:
+        description: "Change in ckan container"
+        value: ${{ jobs.detect-changes.outputs.ckan }}
+      drupal:
+        description: "Change in drupal container"
+        value: ${{ jobs.detect-changes.outputs.drupal }}
+      nginx:
+        description: "Change in nginx container"
+        value: ${{ jobs.detect-changes.outputs.nginx }}
+      solr:
+        description: "Change in solr container"
+        value: ${{ jobs.detect-changes.outputs.solr }}
+      datapusher:
+        description: "Change in datapusher container"
+        value: ${{ jobs.detect-changes.outputs.datapusher }}
+      clamav:
+        description: "Change in clamav container"
+        value: ${{ jobs.detect-changes.outputs.clamav }}
+      assets:
+        description: "Change in assets"
+        value: ${{ jobs.detect-changes.outputs.assets }}
+      environment:
+        description: "Changes in docker environment"
+        value: ${{ jobs.detect-changes.outputs.environment }}
+
 
 env:
   DOCKER_BUILDKIT: 1
@@ -14,7 +42,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  detect-changes:
+    uses: ./.github/workflows/changes.yml
+
   build-containers:
+    needs:
+      - detect-changes
     name: Build Containers
     runs-on: ubuntu-latest
     permissions:
@@ -29,33 +62,51 @@ jobs:
             submodules: ""
             build-frontend: false
             name: solr
+            build-container: ${{ needs.detect-changes.outputs.solr == 'true' }}
+          - dockerfile: ./docker/datapusher-plus/Dockerfile
+            context: ./docker/datapusher-plus
+            submodules: ""
+            build-frontend: false
+            name: datapusher
+            build-container: ${{ needs.detect-changes.outputs.datapusher == 'true' }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
             build-frontend: false
             name: nginx
+            build-container: ${{ needs.detect-changes.outputs.nginx == 'true' }}
           - dockerfile: ./drupal/Dockerfile
             context: ./drupal
             submodules: ""
             build-frontend: true
             name: drupal
+            build-container: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
           - dockerfile: ./ckan/Dockerfile
             context: ./ckan
             submodules: recursive
             build-frontend: true
             name: ckan
+            build-container: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
+          - dockerfile: ./clamav/clamav-docker/Dockerfile
+            context: ./clamav/clamav-docker
+            submodules: ""
+            build-frontend: false
+            name: clamav
+            build-container: ${{ needs.detect-changes.outputs.clamav == 'true' }}
 
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        if: ${{ matrix.build-container == true }}
+        uses: actions/checkout@v6
         with:
           submodules: ${{ matrix.submodules }}
 
       - name: setup docker buildx
-        uses: docker/setup-buildx-action@v2
+        if: ${{ matrix.build-container == true }}
+        uses: docker/setup-buildx-action@v4
 
       - name: configure NPM credentials
-        if: ${{ matrix.build-frontend == true}}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: |
           cat <<EOT >> ./opendata-assets/.npmrc
           @fortawesome:registry=https://npm.fontawesome.com/
@@ -64,26 +115,27 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: install nodejs v16
-        if: ${{ matrix.build-frontend == true }}
-        uses: actions/setup-node@v2
+      - name: install nodejs v22
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
+        uses: actions/setup-node@v6
         with:
-          node-version: 16
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: opendata-assets/package-lock.json
 
       - name: install npm packages
-        if: ${{ matrix.build-frontend == true }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npm ci
         working-directory: ./opendata-assets
 
       - name: build frontend with gulp
-        if: ${{ matrix.build-frontend == true }}
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npx gulp
         working-directory: ./opendata-assets
 
       - name: build images
-        uses: docker/build-push-action@v3
+        if: ${{ matrix.build-container == true }}
+        uses: docker/build-push-action@v7
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.dockerfile }}
@@ -91,10 +143,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           outputs: type=docker,dest=/tmp/${{ matrix.name }}.tar
-          tags: opendata/${{ matrix.name }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ matrix.name }}:latest
+        env:
+          REGISTRY: ${{ secrets.REGISTRY }}
+          REPOSITORY: ${{ secrets.REPOSITORY }}
+          DOCKER_BUILD_RECORD_UPLOAD: false
 
       - name: upload images
-        uses: actions/upload-artifact@v3
+        if: ${{ matrix.build-container == true }}
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.name }}
           path: /tmp/${{ matrix.name }}.tar
@@ -102,7 +159,17 @@ jobs:
   test-e2e:
     name: test-e2e
     needs:
+      - detect-changes
       - build-containers
+    if: ${{ (needs.detect-changes.outputs.nginx == 'true') ||
+            (needs.detect-changes.outputs.ckan == 'true') ||
+            (needs.detect-changes.outputs.drupal == 'true') ||
+            (needs.detect-changes.outputs.solr == 'true') ||
+            (needs.detect-changes.outputs.datapusher == 'true') ||
+            (needs.detect-changes.outputs.assets == 'true') ||
+            (needs.detect-changes.outputs.postgres == 'true') ||
+            (needs.detect-changes.outputs.environment == 'true')
+      }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     permissions:
@@ -111,23 +178,40 @@ jobs:
     env:
       CI: 1
       TERM: xterm
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2, 3, 4, 5]
     steps:
       - name: checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: recursive
+        uses: actions/checkout@v6
 
       - name: setup docker buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v4
 
-      - name: install nodejs v16
-        uses: actions/setup-node@v2
+      - name: install nodejs v22
+        uses: actions/setup-node@v6
         with:
-          node-version: 16
+          node-version: 22
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
-      - name: configure environment
+      - run: npm ci
+
+      - name: configure AWS credentials for running tests
+        uses: aws-actions/configure-aws-credentials@v6
+        id: aws-credentials
+        with:
+          role-to-assume: ${{ secrets.AWS_TEST_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+          output-credentials: true
+
+      - name: get caller identity
+        run: |
+          aws sts get-caller-identity
+
+      - name: configure Cypress
         shell: bash
         run: |
           # configure cypress
@@ -139,8 +223,7 @@ jobs:
             projectId: 'ssb2ut',
             env: {
               resetDB: true,
-              cloudStorageEnabled: true,
-              docker: true
+              cloudStorageEnabled: true
             },
               videoCompression: 20,
               videoUploadOnPasses: false,
@@ -157,46 +240,40 @@ jobs:
             },
           })
           EOT
-          # configure docker
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: configure .env
+        shell: bash
+        run: |
           cp -f docker/.env.template docker/.env
-          sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
-          sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
-          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_ENABLED[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_ENABLED}"'\"/' docker/.env.ckan.local
-          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_DRIVER_OPTIONS[[:blank:]]*=[[:blank:]]*).*/\1\"'"{'key': '${AWS_ACCESS_KEY_ID}', 'secret': '${AWS_SECRET_ACCESS_KEY}', 'token': ''}"'\"/' docker/.env.ckan.local
-          sed -i.bak -E 's/^(CKAN_CLOUDSTORAGE_CONTAINER_NAME[[:blank:]]*=[[:blank:]]*).*/\1\"'"${CKAN_CLOUDSTORAGE_CONTAINER_NAME}"'\"/' docker/.env.ckan.local
-          sed -i.bak -E 's/^(AWS_ACCESS_KEY_ID[[:blank:]]*=[[:blank:]]*).*/\1\"'"${AWS_ACCESS_KEY_ID}"'\"/' docker/.env.ckan.local
-          sed -i.bak -E 's/^(AWS_SECRET_ACCESS_KEY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${AWS_SECRET_ACCESS_KEY}"'\"/' docker/.env.ckan.local
+          pip install "python-dotenv[cli]"
+          dotenv -f docker/.env set REGISTRY ${REGISTRY}
+          dotenv -f docker/.env set REPOSITORY ${REPOSITORY}
+          dotenv -f docker/.env set MATOMO_ENABLED false
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          CKAN_CLOUDSTORAGE_ENABLED: ${{ secrets.CKAN_CLOUDSTORAGE_ENABLED }}
-          CKAN_CLOUDSTORAGE_CONTAINER_NAME: ${{ secrets.CKAN_CLOUDSTORAGE_CONTAINER_NAME }}
 
-
-      - name: install npm packages
+      - name: configure .env.ckan.local
+        shell: bash
         run: |
-          npm ci
+          dotenv -f docker/.env.ckan.local set CKAN_CLOUDSTORAGE_ENABLED ${CKAN_CLOUDSTORAGE_ENABLED}
+          dotenv -f docker/.env.ckan.local set CKAN_CLOUDSTORAGE_DRIVER_OPTIONS "{'key': '${AWS_ACCESS_KEY_ID}', 'secret': '${AWS_SECRET_ACCESS_KEY}', 'token': '${AWS_SESSION_TOKEN}' }"
+          dotenv -f docker/.env.ckan.local set CKAN_CLOUDSTORAGE_CONTAINER_NAME ${CKAN_CLOUDSTORAGE_CONTAINER_NAME}
+          dotenv -f docker/.env.ckan.local set AWS_ACCESS_KEY_ID ${AWS_ACCESS_KEY_ID}
+          dotenv -f docker/.env.ckan.local set AWS_SECRET_ACCESS_KEY ${AWS_SECRET_ACCESS_KEY}
         env:
-          CYPRESS_INSTALL_BINARY: 0
-
-      - name: verify cypress binaries not installed
-        run: |
-          npx cypress cache path
-          npx cypress cache list
-
-
-      - name: install cypress binaries and verify installation
-        run: |
-          npx cypress install
-          npx cypress cache list
-          npx cypress verify
-          npx cypress info
-          npx cypress version
+          CKAN_CLOUDSTORAGE_ENABLED: true
+          CKAN_CLOUDSTORAGE_CONTAINER_NAME: ${{ secrets.CKAN_CLOUDSTORAGE_CONTAINER_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ steps.aws-credentials.outputs.aws-access-key-id }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.aws-credentials.outputs.aws-secret-access-key }}
+          AWS_SESSION_TOKEN: ${{ steps.aws-credentials.outputs.aws-session-token }}
 
       - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.AWS_DEV_ROLE }}
           role-session-name: github-actions
@@ -204,26 +281,47 @@ jobs:
 
       - name: login to AWS ECR
         id: login
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
         with:
           registries: ${{ secrets.AWS_PROD_ACCOUNT_ID }}
 
+
+
       - name: download built images
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v8
         with:
           path: /tmp
+          merge-multiple: true
 
-      - name: load built images
+      - name: load built ckan image
+        if: ${{ (needs.detect-changes.outputs.ckan == 'true') || (needs.detect-changes.outputs.assets == 'true')}}
         run: |
-          docker load --input /tmp/ckan/ckan.tar
-          docker load --input /tmp/drupal/drupal.tar
-          docker load --input /tmp/solr/solr.tar
-          docker load --input /tmp/nginx/nginx.tar
+          docker load --input /tmp/ckan.tar
+
+      - name: load built drupal image
+        if: ${{ (needs.detect-changes.outputs.drupal == 'true') || (needs.detect-changes.outputs.assets == 'true') }}
+        run: |
+          docker load --input /tmp/drupal.tar
+
+      - name: load built datapusher image
+        if: ${{ needs.detect-changes.outputs.datapusher == 'true' }}
+        run: |
+          docker load --input /tmp/datapusher.tar
+
+      - name: load built solr image
+        if: ${{ needs.detect-changes.outputs.solr == 'true' }}
+        run: |
+          docker load --input /tmp/solr.tar
+
+      - name: load built nginx image
+        if: ${{ needs.detect-changes.outputs.nginx == 'true' }}
+        run: |
+          docker load --input /tmp/nginx.tar
 
       - name: bring services up
         working-directory: docker
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose.build.yml -p opendata up -d
+          docker compose -f docker-compose.yml -f docker-compose.build.yml -p opendata up -d
 
       - name: wait until services have started
         shell: bash
@@ -237,28 +335,95 @@ jobs:
           # print the list of containers
           docker ps -a
           # print logs to debug errors
-          docker logs opendata_ckan_1
-          docker logs opendata_drupal_1
-          docker logs opendata_solr_1
-          docker logs opendata_nginx_1
+          docker logs opendata-ckan-1
+          docker logs opendata-drupal-1
+          docker logs opendata-solr-1
+          docker logs opendata-datapusher-1
+          docker logs opendata-nginx-1
+          docker logs opendata-fuseki-1
+
+      - name: Build cypress container
+        uses: docker/build-push-action@v7
+        with:
+          context: ./cypress
+          file: ./cypress/Dockerfile
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: cypress/test:latest
+          load: true
+        env:
+          DOCKER_BUILD_RECORD_UPLOAD: false
+
 
       - name: run cypress e2e tests
+        timeout-minutes: 20
+        run: >
+          docker run 
+          --network host 
+          -v $PWD:/e2e
+          -w /e2e 
+          -e COMMIT_INFO_BRANCH
+          -e CYPRESS_PULL_REQUEST_ID
+          -e CYPRESS_PULL_REQUEST_URL
+          -e CYPRESS_CI_BUILD_URL
+          --entrypoint cypress 
+          cypress/test run 
+          --browser chrome:stable 
+          --record --key ${{ secrets.CYPRESS_RECORD_KEY }} 
+          --parallel 
+          --ci-build-id ${{ github.repository }}-${{ github.run_id }}-${{ github.run_attempt}}
+        env:
+          COMMIT_INFO_BRANCH: ${{ github.head_ref || github.ref_name }}
+          CYPRESS_PULL_REQUEST_ID: ${{ github.event.number }}
+          CYPRESS_PULL_REQUEST_URL: ${{ github.event.pull_request.url }}
+          CYPRESS_CI_BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      - name: export e2e test logs 
+        if: failure()
+        shell: bash
         run: |
-          npx cypress run --browser chrome:stable --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+          docker logs opendata-ckan-1 > /tmp/opendata-ckan-1.log 2>&1
+          docker logs opendata-ckan_cron-1 > /tmp/opendata-ckan_cron-1.log 2>&1
+          docker logs opendata-drupal-1 > /tmp/opendata-drupal-1.log 2>&1
+          docker logs opendata-solr-1 > /tmp/opendata-solr-1.log 2>&1
+          docker logs opendata-datapusher-1 > /tmp/opendata-datapusher-1.log 2>&1
+          docker logs opendata-nginx-1 > /tmp/opendata-nginx-1.log 2>&1
+          docker logs opendata-fuseki-1 > /tmp/opendata-fuseki-1.log 2>&1
+
+      - name: upload log artifacts
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: docker-logs
+          path: /tmp/opendata-*.log
 
       - name: upload cypress screenshot artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: screenshots
           path: cypress/screenshots
 
       - name: upload cypress video artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: videos
           path: cypress/videos
+
+  test-e2e-results:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: Final E2E Results
+    needs: [test-e2e]
+    steps:
+      - run: exit 1
+        if: >-
+          ${{
+              contains(needs.*.result, 'failure')
+              || contains(needs.*.result, 'cancelled')
+          }}
 
   test-cdk:
     name: test-cdk
@@ -272,26 +437,20 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
 
-      - name: install nodejs v16
-        uses: actions/setup-node@v2
+      - name: install nodejs v22
+        uses: actions/setup-node@v6
         with:
-          node-version: 16
-
-      - name: cache node_modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_cdk_v16-
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: 'cdk/package-lock.json'
 
       - name: install cdk npm packages and verify installation
         working-directory: cdk
         run: |
-          npm install
-          $(npm bin)/cdk doctor
+          npm ci
+          npx cdk doctor
 
       - name: build cdk project
         working-directory: cdk
@@ -302,3 +461,123 @@ jobs:
         working-directory: cdk
         run: |
           npm run test
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          flags: cdk
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  test:
+    name: Test opendata extensions
+    runs-on: ubuntu-latest
+    needs:
+      - detect-changes
+    if: ${{ needs.detect-changes.outputs.ckan == 'true' }}
+    container:
+      image: ckan/ckan-dev:2.11-py3.10
+      options: --user root
+    services:
+      solr:
+        image: ckan/ckan-solr:2.11-solr9
+      postgres:
+        image: ckan/ckan-postgres-dev:2.11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      redis:
+        image: redis:3
+    env:
+      CKAN_SQLALCHEMY_URL: postgresql://ckan_default:pass@postgres/ckan_test
+      CKAN_DATASTORE_WRITE_URL: postgresql://datastore_write:pass@postgres/datastore_test
+      CKAN_DATASTORE_READ_URL: postgresql://datastore_read:pass@postgres/datastore_test
+      CKAN_SOLR_URL: http://solr:8983/solr/ckan
+      CKAN_REDIS_URL: redis://redis:6379/1
+
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        submodules: true
+    - name: Install required patches
+      run: |
+        cd ${SRC_DIR}/ckan
+    - name: Install requirements
+      run: |
+        cd ckan/ckanext/ckanext-ytp_main
+        pip install -r dev-requirements.txt
+        pip install -r requirements.txt
+        pip install -e .
+        # Replace default path to CKAN core config file with the one on the container
+        sed -i -e 's/use = config:.*/use = config:\/srv\/app\/src\/ckan\/test-core.ini/' test.ini
+        
+        # create placeholder files for webassets
+        mkfile() { 
+          mkdir -p -- "$1" && touch -- "$1"/"$2" 
+        }
+        
+        mkfile ckanext/ytp/resources/vendor/bootstrap/dist/css bootstrap.css
+        mkfile ckanext/ytp/resources/vendor/eonasdan-bootstrap-datetimepicker/build/css bootstrap-datetimepicker.css
+        mkfile ckanext/ytp/resources/vendor/select2-bootstrap-css select2-bootstrap.css
+        mkfile ckanext/ytp/resources/vendor/@fortawesome/fontawesome/css all.css
+        mkfile ckanext/ytp/resources/styles ckan.css
+        mkfile ckanext/ytp/resources/styles fonts.css
+        mkfile ckanext/ytp/resources/templates head-styles-ckan.html
+        mkfile ckanext/ytp/resources/scripts offcanvas.js
+        mkfile ckanext/ytp/resources/scripts avoindata_header.js
+        mkfile ckanext/ytp/resources/scripts inject_responsive_tables.js
+        
+        cd ../ckanext-scheming
+        pip install -e .
+        cd ../ckanext-fluent
+        pip install -r requirements.txt
+        pip install -e .
+        cd ../ckanext-dcat
+        pip install -r requirements.txt
+        pip install -e .
+        cd ../ckanext-report
+        pip install -r requirements.txt
+        pip install -e .
+        # Spatial is not currently used in tests
+        # cd ../ckanext-spatial
+        # pip install -r requirements.txt
+        # pip install -e .
+        cd ../ckanext-organizationapproval
+        pip install -r requirements.txt
+        pip install -e .
+        cd ../ckanext-hierarchy
+        pip install -r requirements.txt
+        pip install -e .
+        cd ../ckanext-harvest
+        pip install -r requirements.txt
+        pip install -e .
+        cd ../ckanext-showcase
+        pip install -r requirements.txt
+        pip install -e .
+        cd ../ckanext-sixodp_showcase
+        pip install -r requirements.txt
+        pip install -e .
+        cd ../ckanext-sixodp_showcasesubmit
+        pip install -r requirements.txt
+        pip install -e .
+        cd ../ckanext-sitesearch
+        pip install -e .
+    - name: Setup extension
+      run: |
+        ckan -c ckan/ckanext/ckanext-ytp_main/test.ini db init
+        ckan -c ckan/ckanext/ckanext-ytp_main/test.ini db upgrade -p harvest
+    - name: Run tests
+      run: |
+        pytest --ckan-ini=ckan/ckanext/ckanext-ytp_main/test.ini --cov=ckanext.ytp --disable-warnings ckan/ckanext/ckanext-ytp_main/ckanext/ytp/tests
+
+    - name: install codecov requirements
+      run: |
+        apt-get update
+        apt-get install -y curl gpg
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v7
+      with:
+        flags: ckan
+        token: ${{ secrets.CODECOV_TOKEN }}

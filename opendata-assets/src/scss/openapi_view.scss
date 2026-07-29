@@ -1,0 +1,46 @@
+@use "./variables/suomifidesign" as tokens;
+@import "variables";
+
+.topbar {
+  display: none;
+}
+
+@mixin opblock-colors($background, $foreground, $shadow: undefined) {
+  border-color: $foreground;
+  background: $background;
+
+  .opblock-summary {
+    border-color: $foreground;
+  }
+
+  .opblock-summary-method {
+    background: $foreground;
+
+    @if $shadow {
+      text-shadow: 0 2px darken($foreground, 5%);
+    }
+  }
+}
+
+.swagger-container .swagger-ui {
+  .btn.authorize {
+    color: tokens.$fi-color-success-base;
+    border-color: tokens.$fi-color-success-base;
+  }
+
+  .opblock.opblock-get {
+    @include opblock-colors(rgba(tokens.$fi-color-highlight-base, 10% / 100%), tokens.$fi-color-highlight-base);
+  }
+
+  .opblock.opblock-post {
+    @include opblock-colors(rgba(tokens.$fi-color-success-base, 10% / 100%), tokens.$fi-color-success-base, true);
+  }
+
+  .opblock.opblock-put {
+    @include opblock-colors(rgba(tokens.$fi-color-warning-base, 10% / 100%), tokens.$fi-color-warning-base, true);
+  }
+
+  .opblock.opblock-delete {
+    @include opblock-colors(rgba(tokens.$fi-color-alert-base, 10% / 100%), tokens.$fi-color-alert-base);
+  }
+}

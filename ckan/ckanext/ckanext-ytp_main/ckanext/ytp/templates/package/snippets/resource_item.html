@@ -1,5 +1,11 @@
 {% set can_edit = h.check_access('package_update', {'id':pkg.id }) %}
-{% set url_action = 'dataset_resource.edit' if (url_is_edit or draft) and can_edit else 'dataset_resource.read' %}
+
+<!-- Set the url_action depending if the resource is a dataset or an apiset -->
+{% if pkg.type == 'apiset'%}
+  {% set url_action = 'apiset_resource.edit' if (url_is_edit or draft) and can_edit else 'apiset_resource.read' %}
+{% else %}
+  {% set url_action = 'dataset_resource.edit' if (url_is_edit or draft) and can_edit else 'dataset_resource.read' %}
+{% endif %}
 {% set url = h.url_for(url_action, id=pkg.name, resource_id=res.id) %}
 
 <li class="resource-item" data-id="{{ res.id }}">

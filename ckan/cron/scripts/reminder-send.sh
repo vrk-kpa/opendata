@@ -7,4 +7,4 @@ set -e
 echo "job started: reminder-send"
 
 # run commands
-[[ "${CKAN_PLUGINS}" == *" reminder "* ]] && ckan -c ${APP_DIR}/production.ini reminder send
+[[ "${CKAN_PLUGINS}" == *" reminder "* ]] && ckan -c ${APP_DIR}/ckan.ini reminder send

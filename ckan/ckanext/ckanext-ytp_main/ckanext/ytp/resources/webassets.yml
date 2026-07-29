@@ -1,11 +1,25 @@
 main_css:
   output: ytp_resources/%(version)s_main.css
+  extra:
+    preload:
+      - ytp_resources/fontawesome
+      - ytp_resources/fonts
   contents:
     - vendor/bootstrap/dist/css/bootstrap.css
-    - vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css
-    - vendor/jstree/dist/themes/default/style.css
     - vendor/select2-bootstrap-css/select2-bootstrap.css
     - styles/ckan.css
+
+fontawesome:
+  output: ytp_resources/%(version)s_fontawesome.css
+  filters: cssrewrite
+  contents:
+    - vendor/@fortawesome/fontawesome/css/all.css
+
+fonts:
+  output: ytp_resources/%(version)s_fonts.css
+  filters: cssrewrite
+  contents:
+    - styles/fonts.css
 
 main_js:
   output: ytp_resources/%(version)s_main.js
@@ -17,15 +31,13 @@ main_js:
     - scripts/offcanvas.js
     - scripts/avoindata_header.js
     - scripts/inject_responsive_tables.js
-    - vendor/moment/dist/min/moment-with-locales.js
-    - vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.js
-    - vendor/jstree/dist/jstree.js
     - opendata/scripts/drag-n-drop-uploader.js
 
 openapi_view_css:
   output: ytp_resources/%(version)s_openapi_view.css
   contents:
     - styles/openapi_view.css
+
 
 bootstrap_table_css:
   output: ytp_resources/%(version)s_bootstrap_table.css
@@ -40,7 +52,6 @@ bootstrap_table_js:
       - ytp_resources/main_js
   contents:
     - vendor/bootstrap-table/dist/bootstrap-table.js
-
 
 ytp_select2_js:
   output: ytp_resources/%(version)s_bootstrap-table.js
@@ -190,3 +201,30 @@ slug_preview_ex:
       - ytp_resources/main_js
   contents:
     - opendata/scripts/slug-preview-ex.js
+
+post_pagination_js:
+  output: ytp_resources/%(version)s_post-pagination.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - opendata/scripts/post_pagination.js
+
+avoindata_utils_js:
+  output: ytp_resources/%(version)s_avoindata-utils.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - opendata/scripts/avoindata-utils.js
+
+opendata_hierarchy_js:
+  output: ytp_resources/%(version)s_opendata-hierarchy.js
+  filters: rjsmin
+  extra:
+    preload:
+      - base/main
+  contents:
+    - opendata/scripts/opendata-hierarchy.js

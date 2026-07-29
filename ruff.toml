@@ -1,0 +1,17 @@
+extend-exclude = [
+  "ckanext-spatial",
+  "ckanext-dcat",
+  "ckanext-fluent",
+  "ckanext-sitesearch",
+  "ckanext-scheming",
+  "ckanext-ytp_comments",
+  "ckanext-showcase"
+]
+
+line-length = 127
+
+[lint]
+select = ["E", "F"]
+
+[lint.per-file-ignores]
+"**/tests/*.py" = ["S101"]

@@ -1,8 +1,8 @@
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 
-import { CommonStackProps } from './common-stack-props';
+import {EnvStackProps} from "./env-stack-props";
 
-export interface EcStackProps extends CommonStackProps {
+export interface EcStackProps extends EnvStackProps {
   vpc: ec2.IVpc;
   cacheNodeType: string;
   cacheEngineVersion: string;

@@ -1,0 +1,27 @@
+@use "../variables/suomifidesign" as tokens;
+@import '../variables';
+
+.nav-facet {
+  .nav-item.active > a::after,
+  .nav-item:hover > a:hover::after,
+  .nav-item:hover > a::after {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1;
+    width: auto;
+    height: auto;
+    right: $padding-x--common;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-top: 0;
+  }
+
+  .nav-item,
+  .nav-item.active {
+    a {
+      font-size: $font-size-slightly-smaller-base;
+      font-weight: $font-weight-normal;
+    }
+  }
+}

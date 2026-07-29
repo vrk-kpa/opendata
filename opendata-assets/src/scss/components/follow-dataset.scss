@@ -1,0 +1,30 @@
+@use "../variables/suomifidesign" as tokens;
+
+.follow-dataset {
+  .btn.btn-primary {
+    background: transparent;
+    border-radius: $border-radius__button;
+    color: tokens.$fi-color-highlight-base;
+    border-color: tokens.$fi-color-highlight-base;
+    font-weight: $font-weight-heavier;
+    transition: all $transition-duration--short $transition-timing-function--default;
+
+    &:hover {
+      color: tokens.$fi-color-highlight-dark1;
+      border-color: tokens.$fi-color-highlight-dark1;
+    }
+  }
+
+  .input-group-btn {
+    display: block;
+  }
+
+  .form-control {
+    border-radius: $border-radius__input;
+    margin-right: $padding-x--common;
+  }
+
+  .nums {
+    margin-top: $padding-x--common;
+  }
+}

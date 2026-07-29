@@ -27,18 +27,15 @@ class HeroForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
-
     $form['searchfilter'] = [
       '#type' => 'textfield',
       '#default_value' => '1',
-      '#attributes' => ['class' => ['input-hero-search-filter', 'hidden']],
+      '#attributes' => ['class' => ['input-hero-search-filter', 'd-none']],
     ];
 
     $form['#theme'] = ['avoindata_hero'];
 
     $form['#language'] = \Drupal::languageManager()->getCurrentLanguage()->getId();
-
     $form['search'] = [
       '#type' => 'textfield',
       '#default_value' => '',
@@ -57,8 +54,8 @@ class HeroForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    if (strlen($form_state->getValue('search')) <= 2) {
-      $form_state->setErrorByName('search', $this->t('Query must be at least three characters long'));
+    if (strlen($form_state->getValue('search')) < 2) {
+      $form_state->setErrorByName('search', $this->t('Query must be at least two characters long'));
     }
   }
 
@@ -77,16 +74,7 @@ class HeroForm extends FormBase {
       $base_path = sprintf($base_path, $language);
     }
 
-    if ($filter == '2') {
-      $base_path = $base_path . '/showcase';
-    }
-    elseif ($filter == '3') {
-      $base_path = $base_path . '/organization';
-    }
-    else {
-      $base_path = $base_path . '/dataset';
-    }
-
+    $base_path = $base_path . '/search';
     $base_path = $base_path . '?q=%s';
     $redirect_path = sprintf($base_path, $form_state->getValue('search'));
     $url = url::fromUserInput($redirect_path);

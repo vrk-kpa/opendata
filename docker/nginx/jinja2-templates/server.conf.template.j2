@@ -1,0 +1,115 @@
+root ${NGINX_ROOT};
+client_max_body_size ${NGINX_MAX_BODY_SIZE};
+gzip_static on;
+
+# error pages (served from drupal)
+error_page 404 @not_found;
+location @not_found {
+  set $not_found /themes/avoindata/static/404.fi.html;
+  if ( $request_uri ~* "/(fi|en|sv)/" ){
+      set $not_found /themes/avoindata/static/404.$1.html;
+  }
+
+  rewrite ^(.*)$ $not_found;
+}
+
+{% if ENV.DEV_MODE != 'true' %}
+  error_page 500 @internal_error;
+  location @internal_error {
+  set $internal_error /themes/avoindata/static/500.fi.html;
+  if ( $request_uri ~* "/(fi|en|sv)/" ){
+  set $internal_error /themes/avoindata/static/500.$1.html;
+  }
+
+  rewrite ^(.*)$ $internal_error;
+  }
+{% endif %}
+
+
+
+# disable ckan index, redirect to drupal
+rewrite ^/data/?$ $scheme://$http_host/fi permanent;
+rewrite ^/data/(fi|en|en_GB|sv)/?$ $scheme://$http_host/$1 permanent;
+
+# disable ckan login/register/logout, redirect to drupal
+location ^~ /data/user/login {
+  rewrite ^/.* $scheme://$http_host/user/login permanent;
+}
+location ^~ /data/user/register {
+  rewrite ^/.* $scheme://$http_host/user/register permanent;
+}
+location ^~ /data/user/_logout {
+  rewrite ^/.* $scheme://$http_host/user/logout permanent;
+}
+
+location = /favicon.ico {
+  log_not_found off;
+  access_log off;
+}
+
+location = /robots.txt {
+  root /var/www/static;
+  allow all;
+  log_not_found off;
+  access_log off;
+}
+
+location ^~ /ns {
+  alias /var/www/ns;
+}
+
+# ckan upstream target, re-evaluates DNS properly
+set $ckan_target "${CKAN_HOST}:${CKAN_PORT}";
+
+# ckan at /data/
+location ~ ^/data/(.*)$ {
+  proxy_pass http://$ckan_target/data/$1$is_args$args;
+
+  proxy_set_header Host $host;
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header X-Url-Scheme $scheme;
+  proxy_intercept_errors on;
+
+  location ~ ^/data/en($|/.*) {
+    return 301 /data/en_GB$1;
+  }
+
+  location ~ /data(/fi|/en_GB|/sv)?/group/talous-ja-rahoitus(.*) {
+    return 301 /data$1/group/talous-ja-raha-asiat$2$is_args$args;
+  }
+  location ~ /data(/fi|/en_GB|/sv)?/group/ymparisto-ja-luonto(.*) {
+    return 301 /data$1/group/ymparisto$2$is_args$args;
+  }
+  location ~ /data(/fi|/en_GB|/sv)?/group/hallinto-ja-julkinen-sektori(.*) {
+    return 301 /data$1/group/valtioneuvosto-ja-julkinen-sektori$2$is_args$args;
+  }
+  location ~ /data(/fi|/en_GB|/sv)?/group/kansainvaliset-asiat(.*) {
+    return 301 /data$1/group/kansainvaliset-kysymykset$2$is_args$args;
+  }
+  location ~ /data(/fi|/en_GB|/sv)?/group/(koulutus-ja-urheilu|kulttuuri-taide-ja-vapaa-aika)(.*) {
+    return 301 /data$1/group/koulutus-kulttuuri-ja-urheilu$3$is_args$args;
+  }
+
+  # CKAN api errors should not be caught by nginx
+  location ~ /data/(fi/|en_GB/|sv/)?(api/)(.*) {
+    proxy_pass http://$ckan_target/data/$1$2$3$is_args$args;
+    proxy_intercept_errors off;
+  }
+}
+
+# drupal upstream target, re-evaluates DNS properly
+set $drupal_target "${DRUPAL_HOST}:${DRUPAL_PORT}";
+
+# Block update.php, we won't be doing updates through the web UI
+location ~ ^/update.php {
+  return 404;
+}
+
+# drupal at /
+location ~ ^/(.*)$ {
+  proxy_pass http://$drupal_target/$1$is_args$args;
+  proxy_set_header Host            $host;
+  proxy_intercept_errors on;
+}
+

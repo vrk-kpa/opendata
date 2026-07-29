@@ -1,45 +1,155 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
+import {
+  aws_certificatemanager,
+  aws_ec2, aws_elasticloadbalancingv2,
+  aws_route53 as route53,
+  aws_route53,
+  aws_route53_targets,
+  aws_s3,
+  Duration,
+  Fn,
+  Stack
+} from 'aws-cdk-lib';
 import * as elb from 'aws-cdk-lib/aws-elasticloadbalancingv2';
-import * as ssm from 'aws-cdk-lib/aws-ssm';
-import * as acm from 'aws-cdk-lib/aws-certificatemanager';
-import { Construct } from 'constructs';
+import {ApplicationProtocol, IpAddressType} from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import {Construct} from 'constructs';
 
-import { ElbStackProps } from './elb-stack-props';
+import {ElbStackProps} from './elb-stack-props';
+import {Subnet} from "aws-cdk-lib/aws-ec2";
+import {BucketEncryption} from "aws-cdk-lib/aws-s3";
+
+
 
 export class LoadBalancerStack extends Stack {
-  readonly loadBalancerCert: acm.ICertificate;
-  readonly loadBalancer: elb.IApplicationLoadBalancer;
+  readonly loadBalancer: elb.ApplicationLoadBalancer;
+  readonly zone: route53.IHostedZone;
+  readonly listener: elb.ApplicationListener;
 
   constructor(scope: Construct, id: string, props: ElbStackProps) {
     super(scope, id, props);
 
-    // get params
-    const pLbCertArn = ssm.StringParameter.fromStringParameterAttributes(this, 'pLbCertArn', {
-      parameterName: `/${props.environment}/opendata/cdk/lb_cert_arn`,
-    });
-    const pLbArn = ssm.StringParameter.fromStringParameterAttributes(this, 'pLbArn', {
-      parameterName: `/${props.environment}/opendata/cdk/lb_arn`,
-    });
-    const pLbSgId = ssm.StringParameter.fromStringParameterAttributes(this, 'pLbSgId', {
-      parameterName: `/${props.environment}/opendata/cdk/lb_sg_id`,
-    });
-    const pLbCanonicalHostedZoneId = ssm.StringParameter.fromStringParameterAttributes(this, 'pLbCanonicalHostedZoneId', {
-      parameterName: `/${props.environment}/opendata/cdk/lb_canonical_hosted_zone_id`,
-    });
-    const pLbDnsName = ssm.StringParameter.fromStringParameterAttributes(this, 'pLbDnsName', {
-      parameterName: `/${props.environment}/opendata/cdk/lb_dns_name`,
-    });
-
-    this.loadBalancerCert = acm.Certificate.fromCertificateArn(this, 'loadBalancerCert', pLbCertArn.stringValue);
-
-    this.loadBalancer = elb.ApplicationLoadBalancer.fromApplicationLoadBalancerAttributes(this, 'loadBalancer', {
-      loadBalancerArn: pLbArn.stringValue,
-      securityGroupId: pLbSgId.stringValue,
-      loadBalancerCanonicalHostedZoneId: pLbCanonicalHostedZoneId.stringValue,
-      loadBalancerDnsName: pLbDnsName.stringValue,
-      securityGroupAllowsAllOutbound: true,
+    const secGroup = new aws_ec2.SecurityGroup(this, 'loadBalancerSecurityGroup', {
       vpc: props.vpc,
-    });
+    })
+
+    secGroup.addIngressRule(aws_ec2.Peer.anyIpv4(), aws_ec2.Port.tcp(443), "HTTPS from anywhere")
+
+    const publicSubnetA = Fn.importValue('vpc-SubnetPublicA')
+    const publicSubnetB = Fn.importValue('vpc-SubnetPublicB')
+
+    this.loadBalancer = new elb.ApplicationLoadBalancer(this, 'loadBalancer', {
+      vpc: props.vpc,
+      internetFacing: true,
+      ipAddressType: IpAddressType.IPV4,
+      vpcSubnets: {
+        subnets: [Subnet.fromSubnetId(this, 'subnetA', publicSubnetA), Subnet.fromSubnetId(this, 'subnetB', publicSubnetB)]
+      },
+      securityGroup: secGroup
+    })
+
+    this.loadBalancer.addRedirect({
+      sourceProtocol: ApplicationProtocol.HTTP,
+      targetProtocol: ApplicationProtocol.HTTPS
+    })
+
+    const logBucket = new aws_s3.Bucket(this, 'logBucket', {
+      bucketName: `avoindata-${props.environment}-loadbalancer-logs`,
+      blockPublicAccess: aws_s3.BlockPublicAccess.BLOCK_ALL,
+      encryption: BucketEncryption.S3_MANAGED,
+      versioned: true,
+      lifecycleRules: [
+        {
+          enabled: true,
+          expiration: Duration.days(30),
+          noncurrentVersionExpiration: Duration.days(30),
+          abortIncompleteMultipartUploadAfter: Duration.days(30)
+        },
+        {
+          enabled: true,
+          expiredObjectDeleteMarker: true
+        }
+      ]
+    })
+
+    this.loadBalancer.logAccessLogs(logBucket, this.stackName)
+
+    this.zone = route53.HostedZone.fromLookup(this, 'OpendataZone', {
+      domainName: props.rootFqdn,
+    })
+
+    const validationZones: {[key: string]:  route53.IHostedZone } = {}
+
+    validationZones[this.zone.zoneName] = this.zone
+
+    const subjectAlternativeNames: string[] = []
+    const oldFqdns: string[] = [];
+
+    props.oldDomains.forEach((domain, index) => {
+
+      let zone = aws_route53.HostedZone.fromLookup(this, `OpendataZone-${index}`, {
+        domainName: domain.rootFqdn
+      })
+
+      // For certificate
+      if (domain.webFqdn) {
+        subjectAlternativeNames.push(domain.webFqdn)
+      }
+      subjectAlternativeNames.push(domain.rootFqdn)
+      if (domain.webFqdn) {
+        validationZones[domain.webFqdn] = zone
+      }
+      validationZones[domain.rootFqdn] = zone
+
+      // For redirects
+      if (domain.webFqdn) {
+        oldFqdns.push(domain.webFqdn)
+      }
+      oldFqdns.push(domain.rootFqdn)
+
+      // For A Records
+      if (domain.webFqdn) {
+        new route53.ARecord(this, `OldWWWRecords-${index}`, {
+          zone: zone,
+          recordName: domain.webFqdn,
+          target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
+        })
+      }
+      new route53.ARecord(this, `OldRootRecords-${index}`, {
+        zone: zone,
+        target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
+      })
+
+    })
+
+    const certificate = new aws_certificatemanager.Certificate(this, 'Certificate', {
+      domainName: this.zone.zoneName,
+      subjectAlternativeNames: subjectAlternativeNames,
+      validation: aws_certificatemanager.CertificateValidation.fromDnsMultiZone(validationZones)
+    })
+
+    this.listener = this.loadBalancer.addListener('Listener', {
+      port: 443,
+      open: true,
+      certificates: [certificate],
+    })
+
+
+    this.listener.addAction("Redirect", {
+      action: aws_elasticloadbalancingv2.ListenerAction.redirect({
+        host: props.webFqdn,
+        permanent: true
+      }),
+      conditions: [
+        aws_elasticloadbalancingv2.ListenerCondition.hostHeaders(oldFqdns)
+      ],
+      priority: 10
+    })
+
+
+    new route53.ARecord(this, 'wwwRecord', {
+      zone: this.zone,
+      recordName: props.webFqdn,
+      target: route53.RecordTarget.fromAlias(new aws_route53_targets.LoadBalancerTarget(this.loadBalancer))
+    })
 
   }
 }

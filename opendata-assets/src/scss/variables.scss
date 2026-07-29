@@ -1,0 +1,200 @@
+@use "./variables/suomifidesign" as tokens;
+@import "./variables/fonts";
+@import "./variables/palette";
+@import "./variables/spacing";
+@import "./variables/transition";
+@import "./variables/components/form";
+@import "./variables/components/menu";
+@import "./variables/components/showcase";
+
+
+// Bootstrap: Grid
+$grid-breakpoints: (
+  xs: 0,
+  sm: tokens.$fi-breakpoint-s,
+  md: tokens.$fi-breakpoint-m,
+  lg: tokens.$fi-breakpoint-l,
+  xl: tokens.$fi-breakpoint-xl,
+
+);
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+);
+
+
+// Bootstrap: Border mixins
+$enable-rounded: true;
+$brand-primary: tokens.$fi-color-highlight-base;
+$brand-info: lighten(tokens.$fi-color-highlight-base, 30%);
+$opendata-container-max-width: 1110px;
+$opendata-categories-container-max-width: 1500px;
+$background-hero-image: url("/themes/avoindata/images/developer_frontpage_hero.webp");
+
+// Bootstrap: Alerts
+$alert-padding: 8px;
+$alert-info-bg: lighten(tokens.$fi-color-highlight-base, 30%);
+$alert-info-border: lighten(tokens.$fi-color-highlight-base, 30%);
+$alert-info-text: lighten(tokens.$fi-color-highlight-base, 100%);
+$alert-link-font-weight: 500;
+
+// Color and background for FAVORITE datasets
+$popularTextColor: #fff;
+$popularBackgroundColor: #ffbb44;
+
+// Light border lines that separate UI areas
+$section-border-color: lighten($opendata-brand-gray, 60%);
+
+// Borders for content: input fields, comments etc. on areas with gray background
+$content-border: lighten($opendata-brand-gray, 25%);
+
+// Search box, carousel etc.
+$block-color-background: tokens.$fi-color-highlight-base;
+$block-color: $button-inverse-text-color;
+$block-color-hilight: lighten(tokens.$fi-color-highlight-base, 0%);
+$block-color-light: #fff;
+$sidebar-block-color-header: tokens.$fi-color-highlight-dark1;
+$sidebar-block-color-background: #eee;
+$sidebar-block-color-text: #000;
+
+// Tweak Bootstrap brand colors (label, button etc.)
+$label-default-bg: $opendata-brand-gray;
+$label-primary-bg: lighten(tokens.$fi-color-highlight-base, 0%);
+$link-color: tokens.$fi-color-highlight-base;
+$link-color-focus: tokens.$fi-color-accent-base;
+$link-hilight: tokens.$fi-color-highlight-dark1;
+
+// Name label for input fields and for showing the key/value-pairs
+$field-label-color: darken($opendata-brand-gray, 30%);
+
+// Help text inside input fields
+$input-color-placeholder: lighten($opendata-brand-gray, 35%);
+$input-color: #222;
+$input-readonly: #555;
+
+// Vertical side menu and horizontal main menu
+$menu-active-color: #fff;
+$menu-link-active-color: tokens.$fi-color-accent-base;
+$menu-link-color: #eee;
+$menu-link-background: tokens.$fi-color-highlight-base;
+$menu-link-hover-color: #fff;
+$menu-hover-color: lighten(tokens.$fi-color-highlight-base, 30%);
+$body-color-background: #fff;
+
+// Footer colors
+$footer-background: $opendata-brand-dark;
+$footer-text-color: #fff;
+
+// Drupal article tags
+// TODO where is this used
+$node-meta-submitted: #cccccc;
+$select-border-color: #cccccc;
+$select-background: #fff;
+
+// Rest of the variables
+$navbar-background: #fff;
+$navbar-default-bg: #fff;
+$navbar-border: 1px solid #c8cdd0;
+$navbar-color: #123f52;
+$navbar-inverse-link-color: lighten(tokens.$fi-color-highlight-base, 30%);
+$navbar-color-background: tokens.$fi-color-highlight-base;
+$navbar-color-links: tokens.$fi-color-black-base;
+$navbar-height: 67px;
+$navbar-responsive-toggle-background: #000;
+$infowell-color-dark: #175971;
+$infowell-color-medium: #258bb1;
+$infowell-color-light: #27b0dc;
+$main-hilight-color: #1f7994;
+$max-category-items-per-row: 7;
+
+// TODO remove if there is no footer
+$footer-color: $nonimportant-text-color;
+$footer-border: $section-border-color;
+
+// Responsive layout widths
+$secondary-width: 280px;
+$container-horizontal-padding: 40px;
+$border-radius-large: 0;
+
+// Media grid
+$mediagrid-header-text-color: $opendata-brand-dark;
+$mediagrid-text-color: $opendata-brand-gray;
+$mediagrid-category-icon-color: rgb(24 43 117);
+$bottom-highlight-color: #00b8ff;
+
+// Header variables
+$header-width: $opendata-container-max-width;
+
+// Resource list
+$resource-list-background: #f7f7f7;
+$tag-color: #69b1fe;
+
+// Tabs
+$active-tab-color: #055bb9;
+$inactive-tab-color: #b3bacf;
+
+// Dropdown menu hover color that comes to the left border
+// used at least on Frontpage dropdown and guide page dropdown menu
+$menu-hover-border-color: tokens.$fi-color-highlight-base;
+$dataset-count-text-color: #c6c6c6;
+$organization-count-header-color: #c6c6c6;
+$facet-link-text-color: #020202;
+
+// Search view
+$search-view-bg-hero-bg-color: #004f74;
+$search-view-link-color: #000;
+$nav-link-selected-color: #eeeeee;
+
+
+// TODO: BS3 variables to allow building, variables are wrong on purpose
+
+$label-color: #fff;
+$label-link-hover-color: #fff;
+$label-success-bg: #fff;
+$label-info-bg: #fff;
+$label-warning-bg: #fff;
+$label-danger-bg: #fff;
+$alert-warning-text: #fff;
+$alert-danger-text: #fff;
+$alert-success-text: #fff;
+$gray-light: #fff;
+$input-border: #fff;
+$alert-warning-border: #fff;
+$alert-warning-bg: #fff;
+$panel-bg: #fff;
+$panel-default-border: #fff;
+$panel-border-radius: 1px;
+$border-radius-base: 1px;
+$state-danger-text: #fff;
+$state-success-text: #fff;
+$state-warning-text: #fff;
+$screen-xs-max: 100px;
+$screen-sm-min: 100px;
+$screen-md-min: 100px;
+$screen-lg-min: 100px;
+$grid-float-breakpoint: 100px;
+$container-sm: 100px;
+$container-md: 100px;
+$container-lg: 100px;
+$form-group-margin-bottom: 100px;
+$nav-disabled-link-color: #fff;
+$nav-tabs-border-color: #fff;
+$nav-tabs-link-hover-border-color: #fff;
+$zindex-navbar-fixed: 1;
+$dropdown-bg: #fff;
+$dropdown-fallback-border: #fff;
+$dropdown-border: #fff;
+$font-family-base: arial, helvetica, sans-serif;
+$zindex-dropdown: 1;
+$dropdown-link-color: #fff;
+$dropdown-link-hover-bg: #fff;
+$dropdown-link-hover-color: #fff;
+$dropdown-link-active-bg: #fff;
+$dropdown-link-active-color: #fff;
+$breakpoints: 1, 2, 3;
+
+
+// NEW 2025 colors
+$color-primary: tokens.$fi-color-brand-base;

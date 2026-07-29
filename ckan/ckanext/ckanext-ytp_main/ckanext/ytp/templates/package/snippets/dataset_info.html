@@ -23,7 +23,11 @@
     {% endblock %}
 
     {% block license_info %}
-        {{ layout.moduleBoxHead(_('License')) }}
+        {% if pkg.get('type') == 'apiset' %}
+            {{ layout.moduleBoxHead(_('License offered by the api')) }}
+        {% else %}
+            {{ layout.moduleBoxHead(_('License')) }}
+        {% endif %}
             {% if  pkg.license_id == 'cc-zero-1.0' or pkg.license_id == 'cc-by-4.0' or pkg.license_id == 'cc-by-4-fi' %}
                 {% set creator_user=h.get_user(pkg.get('creator_user_id')) %}
                 {% if pkg.organization and pkg.organization.get('name') == "yksityishenkilo"  and creator_user.display_name %}
@@ -32,14 +36,16 @@
                     content_title=pkg.title,
                     creator=creator_user.display_name,
                     creator_url=creator_user.url,
-                    attribution_url='/data/' + h.lang() + '/dataset/'+pkg.get('name') %}
+                    attribution_url='/data/' + h.lang() + '/' + pkg.get('type') + '/' + pkg.get('name') ,
+                    resource_type = pkg.get('type') %}
                 {% elif pkg.organization %}
                     {% snippet 'package/snippets/license_rdf.html',
                     license_id=pkg.license_id,
                     content_title=pkg.title,
                     creator=h.extra_translation(pkg.organization, 'title'),
                     creator_url='/data/' +  h.lang() + '/organization/' + pkg.organization.get('name'),
-                    attribution_url='/data/' +  h.lang() + '/dataset/' + pkg.get('name') %}
+                    attribution_url='/data/' +  h.lang() + '/' + pkg.get('type') + '/' + pkg.get('name'),
+                    resource_type = pkg.get('type') %}
                 {% endif %}
             {% else %}
                 {% if 'license_url' in pkg %}
@@ -87,14 +93,6 @@
         {% endblock %}
     #}
 
-    {% block recommendations %}
-        {{ layout.moduleBoxHead(_('Recommend dataset')) }}
-            <div class="recommendations-dataset">
-                {% snippet 'recommendations/snippets/recommendations.html', package=pkg %}
-            </div>
-        {{ layout.moduleBoxFoot() }}
-    {% endblock %}
-
     {% block follow %}
         {# FIXME: Pending ckanext-reminder CKAN 2.9 migration
         {{ layout.moduleBoxHead(_('Follow dataset')) }}
@@ -109,14 +107,24 @@
     {% block stats %}
         {% if 'get_visits_for_dataset' in h %}
         {{ layout.moduleBoxHead(_('Stats')) }}
-            <span>{{ _('Last 30 days, updated daily') }}</span>
+            <span>{{ _('Weekly visits for last 12 months') }}</span>
             <div id="chart_div"></div>
             {% set visits = h.get_visits_for_dataset(pkg.id) %}
-            {% set download_count_last_12_month = h.get_download_count_for_dataset_during_last_12_months(pkg.id) %}
+            {% set visits_in_last_12_months = h.get_visit_count_for_dataset(pkg.id, 'year') %}
+            {% set visits_in_last_30_days = h.get_visit_count_for_dataset(pkg.id, 'month') %}
+            {% set downloads_in_last_12_months = h.get_download_count_for_dataset(pkg.id, 'year') %}
+            {% set download_in_last_30_days = h.get_download_count_for_dataset(pkg.id, 'month') %}
             {% set last_year = h.get_current_date().year - 1 %}
-            <span>{{ _('Downloads during last 12 months') }}: {{ download_count_last_12_month }}</span><br/>
-            <span>{{ _('All time visits:') }} {{ visits.count }}</span><br/>
-            <span>{{ _('All time downloads:') }} {{ visits.download_count }}</span>
+            <dl class="list-unstyled">
+                <dt>{{ _('Visits') }}:</dt>
+                <dd>{{ _('During last 30 days') }}: {{ visits_in_last_30_days }}</dd>
+                <dd>{{ _('During last 12 months') }}: {{ visits_in_last_12_months }}</dd>
+                <dd>{{ _('All time:') }} {{ visits.total_visits }}</dd>
+                <dt>{{ _('Download counts') }}:</dt>
+                <dd>{{ _('During last 30 days') }}: {{ download_in_last_30_days }}</dd>
+                <dd>{{ _('During last 12 months') }}: {{ downloads_in_last_12_months }}</dd>
+                <dd>{{ _('All time:') }} {{ visits.total_downloads }}</dd>
+            </dl>
             <script src="https://www.gstatic.com/charts/loader.js"></script>
             <script type="text/javascript">
               google.charts.load('current', {packages: ['corechart']});
@@ -126,14 +134,13 @@
                     var data = google.visualization.arrayToDataTable([
                     ["{{ _('Year') }}", "{{ _('Visits') }}", "{{ _('Downloads') }}"],
                     {% for v in visits.visits %}
-                        [new Date({{ v.year }}, {{ v.month - 1 }}, {{ v.day }}), {{ v.visits }}, {{ v.downloads }}],
+                        ["{{ _('Week') }}" + ' ' + {{ v.week }} + ', ' + {{ v.year }}, {{ v.visits }}, {{ v.downloads }}],
                     {% endfor %}
                     ]);
 
                     var options = {
                     hAxis: {
                         textPosition: 'none',
-                        format: 'dd.MM.yyyy',
                         gridlines: {
                             count : 0
                         }
@@ -152,7 +159,8 @@
                         1: {
                             lineDashStyle: [5, 3]
                         },
-                    }
+                    },
+                    focusTarget: 'category'
                     };
 
                     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));

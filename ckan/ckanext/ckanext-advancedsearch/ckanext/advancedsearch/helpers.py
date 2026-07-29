@@ -98,11 +98,13 @@ def advanced_publisher_options(field=None):
         .filter(model.Group.is_organization.is_(True)) \
         .filter(model.GroupExtra.state == 'active')\
         .filter(model.GroupExtra.key == 'title_translated')\
+        .filter(model.Group.approval_status =='approved')\
         .all()
 
     publishers = [
             {'id': gid, 'title': title, 'title_translated': json.loads(title_translated)}
             for gid, title, title_translated in data]
+
     return make_options(publishers, has_translated=True)
 
 
@@ -115,7 +117,9 @@ def advanced_license_options(field=None):
 
 
 def advanced_dataset_types_options(field=None):
-    dataset_types = [{"value": "dataset", "label": _("Datasets")}, {"value": "showcase", "label": _("Showcases")}]
+    dataset_types = [{"value": "dataset", "label": _("Datasets")}, 
+    {"value": "showcase", "label": _("Showcases")},
+    {"value": "apiset", "label": _("Apisets")}]
 
     return make_options(dataset_types, value="value", label="label")
 

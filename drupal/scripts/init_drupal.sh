@@ -5,10 +5,10 @@ echo "init_drupal ..."
 
 # init database if not exists (return value is 0 and result is 0 rows)
 DB_CHECK_SQL="SELECT 1 FROM pg_tables WHERE schemaname='public' AND tablename='node'"
-DB_CHECK_RES=$(PGPASSWORD="${DB_DRUPAL_PASS}" psql -tA -h "${DB_HOST}" -U "${DB_DRUPAL_USER}" -d "${DB_DRUPAL}" -c "${DB_CHECK_SQL}")
+DB_CHECK_RES=$(PGPASSWORD="${DB_DRUPAL_PASS}" psql -tA -h "${DB_DRUPAL_HOST}" -U "${DB_DRUPAL_USER}" -d "${DB_DRUPAL}" -c "${DB_CHECK_SQL}")
 if [ $? -eq 0 ] && [[ -z "${DB_CHECK_RES}" ]]; then
   drush site:install -y standard \
-    --db-url="pgsql://${DB_DRUPAL_USER}:${DB_DRUPAL_PASS}@${DB_HOST}:5432/${DB_DRUPAL}" \
+    --db-url="pgsql://${DB_DRUPAL_USER}:${DB_DRUPAL_PASS}@${DB_DRUPAL_HOST}:5432/${DB_DRUPAL}" \
     --account-name="${SYSADMIN_USER}" \
     --account-pass="${SYSADMIN_PASS}" \
     --account-mail="${SYSADMIN_EMAIL}" \
@@ -20,6 +20,7 @@ jinja2 ${TEMPLATE_DIR}/settings.php.j2 -o ${SITE_DIR}/default/settings.php
 jinja2 ${TEMPLATE_DIR}/services.yml.j2 -o ${SITE_DIR}/default/services.yml
 
 # run database upgrades & rebuild cache
+echo "upgrade database.."
 drush updatedb -y --no-cache-clear
 drush cache:rebuild
 
@@ -31,12 +32,17 @@ if [[ "${DEV_MODE}" == "true" ]]; then
 
   # enable devel module
   drush pm:enable -y devel
+
+  # enable dev mode
+  drush en dev_mode
+
 fi
 
 # get current modules
 MODULE_INFO=$(drush pm:list --status enabled --field=name)
 
 # enable language modules
+echo "enable language modules.."
 [[ "$MODULE_INFO" != *"config_translation"* ]]  && drush pm:enable -y config_translation
 [[ "$MODULE_INFO" != *"content_translation"* ]] && drush pm:enable -y content_translation
 [[ "$MODULE_INFO" != *"language"* ]]            && drush pm:enable -y language
@@ -52,22 +58,80 @@ LANG_INFO=$(drush language-info --field=language)
 drush language:default -y "fi"
 
 # enable base theme
+
+# Remove jquery_ui (can be removed after all environments are bootstrap 5)
+drush pm:uninstall -y jquery_ui_resizable || true
+drush config:delete core.extension module.jquery_ui_resizable || true
+drush pm:uninstall -y jquery_ui_draggable || true
+drush config:delete core.extension module.jquery_ui_draggable || true
+drush pm:uninstall -y jquery_ui || true
+drush config:delete core.extension module.jquery_ui || true
+
 drush theme:enable -y bootstrap
 
+# remove some configurations
+# NOTE: ansible role skips errors with this condition:
+#       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
+echo "delete configurations.."
+drush config:delete easy_breadcrumb.settings                                       || true
+drush config:delete pathauto.settings                                              || true
+drush config:delete captcha.captcha_point.contact_message_feedback_form            || true
+drush config:delete core.base_field_override.node.article.promote                  || true
+drush config:delete editor.editor.full_html                                        || true
+drush config:delete block.block.avoindata_collapsiblesearch                        || true
+drush config:delete block.block.avoindata_infobox                                  || true
+drush config:delete disqus.settings                                                || true
+drush config:delete field.field.node.avoindata_guide_page.field_guide_comments     || true
+drush config:delete field.field.node.avoindata_article.field_article_comments      || true
+drush config:delete field.field.node.avoindata_event.field_event_comments          || true
+drush config:delete field.storage.node.field_article_comments                      || true
+drush config:delete field.storage.node.field_basic_page_comments                   || true
+drush config:delete field.storage.node.field_event_comments                        || true
+drush config:delete field.storage.node.field_guide_comments                        || true
+drush config:delete field.field.node.page.field_basic_page_comments                || true
+drush config:delete field.storage.node.field_basic_page_comments                   || true
+drush config:delete user.role.editor                                               || true
+drush config:delete system.action.user_add_role_action.editor                      || true
+drush config:delete system.action.user_remove_role_action.editor                   || true
+drush config:delete node.type.article                                              || true
+drush config:delete core.entity_form_display.node.article.default                  || true
+drush config:delete core.entity_view_display.node.article.default                  || true
+drush config:delete core.entity_view_display.node.article.rss                      || true
+drush config:delete core.entity_view_display.node.article.search_index             || true
+drush config:delete core.entity_view_display.node.article.search_result            || true
+drush config:delete core.entity_view_display.node.article.teaser                   || true
+drush config:delete field.field.node.article.body                                  || true
+drush config:delete field.field.node.article.comment                               || true
+drush config:delete field.field.node.article.field_image                           || true
+drush config:delete field.field.node.article.field_tags                            || true
+drush config:delete user.role.content_editor                                       || true
+drush config:delete system.action.user_add_role_action.content_editor              || true
+drush config:delete system.action.user_remove_role_action.content_editor           || true
+drush config:delete contact.form.feedback                                          || true
+
+
 # uninstall modules
-[[ "$MODULE_INFO" == *"search"* ]]      && drush pm:uninstall -y search
+echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"contextual"* ]]  && drush pm:uninstall -y contextual
-[[ "$MODULE_INFO" == *"page_cache"* ]]  && drush pm:uninstall -y page_cache
 [[ "$MODULE_INFO" == *"protected_submissions"* ]]  && drush pm:uninstall -y protected_submissions
+[[ "$MODULE_INFO" == *"avoindata_infobox"* ]]  && drush pm:uninstall -y avoindata_infobox
+[[ "$MODULE_INFO" == *"avoindata_ckeditor_plugins"* ]]  && drush pm:uninstall -y avoindata_ckeditor_plugins
+[[ "$MODULE_INFO" == *"color"* ]]  && drush pm:uninstall -y color
+[[ "$MODULE_INFO" == *"rdf"* ]]  && drush pm:uninstall -y rdf
+[[ "$MODULE_INFO" == *"bartik"* ]]  && drush theme:uninstall -y bartik
+[[ "$MODULE_INFO" == *"seven"* ]]  && drush theme:uninstall -y seven
+[[ "$MODULE_INFO" == *"fontawesome_menu_icons"* ]] && drush pm:uninstall -y fontawesome_menu_icons
+[[ "$MODULE_INFO" == *"tour"* ]] && drush pm:uninstall -y tour
+[[ "$MODULE_INFO" == *"transliterate_filenames"* ]] && drush pm:uninstall -y transliterate_filenames
+[[ "$MODULE_INFO" == *"menu_item_role_access"* ]] && drush pm:uninstall -y menu_item_role_access
 
 # enable modules
+echo "enable modules.."
 [[ "$MODULE_INFO" != *"twig_tweak"* ]]                    && drush pm:enable -y twig_tweak
-[[ "$MODULE_INFO" != *"fontawesome_menu_icons"* ]]        && drush pm:enable -y fontawesome_menu_icons
 [[ "$MODULE_INFO" != *"smtp"* ]]                          && drush pm:enable -y smtp
 [[ "$MODULE_INFO" != *"pathauto"* ]]                      && drush pm:enable -y pathauto
 [[ "$MODULE_INFO" != *"easy_breadcrumb"* ]]               && drush pm:enable -y easy_breadcrumb
 [[ "$MODULE_INFO" != *"twig_field_value"* ]]              && drush pm:enable -y twig_field_value
-[[ "$MODULE_INFO" != *"disqus"* ]]                        && drush pm:enable -y disqus
 [[ "$MODULE_INFO" != *"redirect"* ]]                      && drush pm:enable -y redirect
 [[ "$MODULE_INFO" != *"search_api"* ]]                    && drush pm:enable -y search_api
 [[ "$MODULE_INFO" != *"search_api_db"* ]]                 && drush pm:enable -y search_api_db
@@ -78,49 +142,46 @@ drush theme:enable -y bootstrap
 [[ "$MODULE_INFO" != *"ape"* ]]                           && drush pm:enable -y ape
 [[ "$MODULE_INFO" != *"honeypot"* ]]                      && drush pm:enable -y honeypot
 [[ "$MODULE_INFO" != *"domain_registration"* ]]           && drush pm:enable -y domain_registration
-[[ "$MODULE_INFO" != *"protected_forms"* ]]         && drush pm:enable -y protected_forms
+[[ "$MODULE_INFO" != *"protected_forms"* ]]               && drush pm:enable -y protected_forms
 [[ "$MODULE_INFO" != *"recaptcha"* ]]                     && drush pm:enable -y recaptcha
 [[ "$MODULE_INFO" != *"unpublished_node_permissions"* ]]  && drush pm:enable -y unpublished_node_permissions
-[[ "$MODULE_INFO" != *"menu_item_role_access"* ]]         && drush pm:enable -y menu_item_role_access
 [[ "$MODULE_INFO" != *"matomo"* ]]                        && drush pm:enable -y matomo
 [[ "$MODULE_INFO" != *"upgrade_status"* ]]                && drush pm:enable -y upgrade_status
 [[ "$MODULE_INFO" != *"imce"* ]]                          && drush pm:enable -y imce
-[[ "$MODULE_INFO" != *"transliterate_filenames"* ]]       && drush pm:enable -y transliterate_filenames
 [[ "$MODULE_INFO" != *"password_policy"* ]]               && drush pm:enable -y password_policy
 [[ "$MODULE_INFO" != *"password_policy_character_types"* ]] && drush pm:enable -y password_policy_character_types
 [[ "$MODULE_INFO" != *"password_policy_length"* ]]        && drush pm:enable -y password_policy_length
+[[ "$MODULE_INFO" != *"raven"* ]]                         && drush pm:enable -y raven
+[[ "$MODULE_INFO" != *"menu_link_attributes"* ]]          && drush pm:enable -y menu_link_attributes
+[[ "$MODULE_INFO" != *"fontawesome"* ]]                   && drush pm:enable -y fontawesome
+
+# remove some configurations
+# NOTE: ansible role skips errors with this condition:
+#       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
+echo "delete configurations.."
+drush config:delete easy_breadcrumb.settings                                       || true
+drush config:delete pathauto.settings                                              || true
+drush config:delete captcha.captcha_point.contact_message_feedback_form            || true
+drush config:delete core.base_field_override.node.article.promote                  || true
+drush config:delete editor.editor.full_html                                        || true
 
 # enable custom modules
+echo "enable custom modules.."
 [[ "$MODULE_INFO" != *"avoindata_header"* ]]            && drush pm:enable -y avoindata_header
 [[ "$MODULE_INFO" != *"avoindata_servicemessage"* ]]    && drush pm:enable -y avoindata_servicemessage
 [[ "$MODULE_INFO" != *"avoindata_hero"* ]]              && drush pm:enable -y avoindata_hero
 [[ "$MODULE_INFO" != *"avoindata_categories"* ]]        && drush pm:enable -y avoindata_categories
-[[ "$MODULE_INFO" != *"avoindata_infobox"* ]]           && drush pm:enable -y avoindata_infobox
-[[ "$MODULE_INFO" != *"avoindata_datasetlist"* ]]       && drush pm:enable -y avoindata_datasetlist
+[[ "$MODULE_INFO" != *"avoindata_explore"* ]]           && drush pm:enable -y avoindata_explore
 [[ "$MODULE_INFO" != *"avoindata_newsfeed"* ]]          && drush pm:enable -y avoindata_newsfeed
-[[ "$MODULE_INFO" != *"avoindata_appfeed"* ]]           && drush pm:enable -y avoindata_appfeed
 [[ "$MODULE_INFO" != *"avoindata_footer"* ]]            && drush pm:enable -y avoindata_footer
 [[ "$MODULE_INFO" != *"avoindata_articles"* ]]          && drush pm:enable -y avoindata_articles
 [[ "$MODULE_INFO" != *"avoindata_events"* ]]            && drush pm:enable -y avoindata_events
 [[ "$MODULE_INFO" != *"avoindata_guide"* ]]             && drush pm:enable -y avoindata_guide
 [[ "$MODULE_INFO" != *"avoindata_user"* ]]              && drush pm:enable -y avoindata_user
-[[ "$MODULE_INFO" != *"avoindata_ckeditor_plugins"* ]]  && drush pm:enable -y avoindata_ckeditor_plugins
-
-# remove some configurations
-# NOTE: ansible role skips errors with this condition:
-#       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
-drush config:delete easy_breadcrumb.settings                            || true
-drush config:delete node.type.page                                      || true
-drush config:delete core.entity_form_display.node.page.default          || true
-drush config:delete core.entity_view_display.node.page.default          || true
-drush config:delete pathauto.settings                                   || true
-drush config:delete captcha.captcha_point.contact_message_feedback_form || true
-drush config:delete core.base_field_override.node.article.promote       || true
-drush config:delete editor.editor.full_html                             || true
-drush config:delete block.block.avoindata_collapsiblesearch             || true
-drush config:delete block.block.avoindata_infobox                       || true
+[[ "$MODULE_INFO" != *"avoindata_ckeditor5_plugins"* ]]  && drush pm:enable -y avoindata_ckeditor5_plugins
 
 # enable custom theme + reload themes
+echo "enable theme and install theme configurations.."
 drush theme:enable -y avoindata
 drush config:set -y system.theme default avoindata
 drush config:import -y --partial --source ${THEME_DIR}/avoindata/config/install
@@ -128,27 +189,20 @@ drush config:import -y --partial --source ${THEME_DIR}/avoindata/config/install
 # reload custom modules
 # NOTE: ansible role skips errors with this condition:
 #       result.rc == 1 and 'The source directory does not exist. The source is not a directory.' not in result.stderr and 'already exists' not in result.stderr
+echo "import module configurations.."
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-header/config/install           || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-servicemessage/config/install   || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-hero/config/install             || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-categories/config/install       || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-infobox/config/install          || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-datasetlist/config/install      || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-newsfeed/config/install         || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-appfeed/config/install          || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-footer/config/install           || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-articles/config/install         || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-events/config/install           || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-guide/config/install            || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-user/config/install             || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-ckeditor-plugins/config/install || true
 
 # apply jinja2 templates
-jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/disqus.settings.yml.j2    -o ${APP_DIR}/site_config/disqus.settings.yml
+jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/avoindata.settings.yml.j2    -o ${APP_DIR}/site_config/avoindata.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/matomo.settings.yml.j2    -o ${APP_DIR}/site_config/matomo.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/recaptcha.settings.yml.j2 -o ${APP_DIR}/site_config/recaptcha.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/smtp.settings.yml.j2      -o ${APP_DIR}/site_config/smtp.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/update.settings.yml.j2    -o ${APP_DIR}/site_config/update.settings.yml
+jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/raven.settings.yml.j2    -o ${APP_DIR}/site_config/raven.settings.yml
 
 # disable captcha conditionally
 if [ "${CAPTCHA_ENABLED}" != "true" ]; then
@@ -159,6 +213,7 @@ if [ "${CAPTCHA_ENABLED}" != "true" ]; then
 fi
 
 # import settings
+echo "import site config.."
 drush config:import -y --partial --source ${APP_DIR}/site_config
 
 # rebuild cache

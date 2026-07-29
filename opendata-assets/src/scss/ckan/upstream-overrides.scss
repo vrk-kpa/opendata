@@ -1,0 +1,81 @@
+@use "../variables/suomifidesign" as tokens;
+@import "../../scss/variables";
+
+// Used for overriding default upstream ckan styles
+
+body {
+  @include tokens.fi-text-body-text-small;
+}
+
+.label-default {
+  a {
+    color: tokens.$fi-color-white-base;
+  }
+}
+
+.dataset-primary-content section {
+  margin-top: 50px;
+}
+
+.additional-info {
+  table.table {
+    table-layout: fixed;
+
+    .dataset-label {
+      width: 30%;
+      vertical-align: middle;
+    }
+
+    .dataset-details {
+      word-break: break-all;
+    }
+
+    th,
+    td {
+      padding-top: 6px;
+      padding-left: 15px;
+      padding-bottom: 8px;
+    }
+
+    td {
+      padding-right: 25px;
+    }
+  }
+}
+
+.apiset-description {
+  margin-top: 20px;
+}
+
+.dataset-title {
+  @include tokens.fi-text-heading1;
+}
+
+.license-smallprint {
+  color: tokens.$fi-color-depth-dark1;
+  margin-bottom: $padding-y--small;
+}
+
+.search-form {
+  margin-bottom: 0;
+  border-bottom: none;
+
+  .search-input {
+    position: relative;
+    margin-bottom: 10px;
+  }
+
+  &.no-bottom-border {
+    .search-form__result-summary {
+      border-bottom: none;
+    }
+  }
+}
+
+.filter-list {
+  margin: 0;
+}
+
+.primary .module-content {
+  padding: 0;
+}

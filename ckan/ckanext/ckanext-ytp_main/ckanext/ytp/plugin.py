@@ -7,12 +7,12 @@ import re
 import urllib
 import sqlalchemy
 import ckan.lib.base as base
-from . import logic as plugin_logic
+from . import logic as plugin_logic, hierarchy as plugin_hierarchy
 import ckan.plugins as p
 from ckan import authz as authz
 
 from ckan import plugins, model, logic
-from ckan.common import _, c, request, is_flask_request
+from ckan.common import _, c, request
 
 from ckan.lib import helpers
 from ckan.lib.munge import munge_title_to_name
@@ -20,19 +20,18 @@ from ckan.lib.navl.dictization_functions import Missing, Invalid
 from ckan.lib.plugins import DefaultOrganizationForm, DefaultTranslation, DefaultPermissionLabels
 from ckan.logic import NotFound, get_action, check_access
 from ckan.model import Session
-from ckan.plugins import toolkit
+from ckan.plugins import toolkit, plugin_loaded
 from ckan.plugins.toolkit import config, chained_action
 from ckanext.report.interfaces import IReport
-from ckanext.spatial.interfaces import ISpatialHarvester
+
+from ckanext.sitesearch.interfaces import ISiteSearch
 from ckanext.showcase.model import ShowcaseAdmin
 from sqlalchemy import and_, or_
 from sqlalchemy.sql.expression import false
 
-from ckanext.ytp.logic import package_autocomplete, store_municipality_bbox_data
+from ckanext.ytp.logic import package_autocomplete, store_municipality_bbox_data, dcat_catalog_show
 import ckanext.ytp.views as views
 from ckanext.ytp import auth, menu, cli, validators, views_organization
-
-from .converters import save_to_groups
 
 from .helpers import extra_translation, render_date, service_database_enabled, get_json_value, \
     sort_datasets_by_state_priority, get_facet_item_count, get_remaining_facet_item_count, sort_facet_items_by_name, \
@@ -40,13 +39,13 @@ from .helpers import extra_translation, render_date, service_database_enabled, g
     get_geonetwork_link, calculate_metadata_stars, get_tooltip_content_types, unquote_url, \
     sort_facet_items_by_count, scheming_field_only_default_required, add_locale_to_source, \
     scheming_language_text_or_empty, get_lang_prefix, call_toolkit_function, get_translation, get_translated, \
-    dataset_display_name, resource_display_name, get_current_date, get_label_for_producer, scheming_category_list, \
-    check_group_selected, group_title_by_id, group_list_with_selected, \
-    get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_groups_where_user_is_admin, \
-    get_value_from_extras_by_key, get_field_from_dataset_schema, get_field_from_resource_schema, is_boolean_selected, \
-    site_url_with_root_path, get_organization_filters_count
-
-from .tools import create_system_context
+    dataset_display_name, resource_display_name, get_current_date, parse_datetime, get_label_for_producer, \
+    scheming_category_list, check_group_selected, group_title_by_id, group_list_with_selected, \
+    get_last_harvested_date, get_resource_sha256, get_package_showcase_list, get_apiset_package_list, \
+    get_groups_where_user_is_admin, get_value_from_extras_by_key, get_field_from_dataset_schema, \
+    get_field_from_resource_schema, is_boolean_selected, site_url_with_root_path, \
+    get_organization_filters_count, package_count_for_source_customized, group_tree_section, \
+    get_highvalue_category_label, scheming_highvalue_category_list
 
 from ckan.logic.validators import tag_length_validator, tag_name_validator
 
@@ -56,6 +55,7 @@ except ImportError:
     from sqlalchemy.util import OrderedDict
 
 from ckan.plugins.toolkit import ValidationError
+
 
 # This plugin is designed to work only these versions of CKAN
 plugins.toolkit.check_ckan_version(min_version='2.0')
@@ -69,6 +69,28 @@ INTEROPERABILITY_TOOLS = 'Interoperability Tools'
 PUBLIC_SERVICES = 'Public Services'
 
 ISO_DATETIME_FORMAT = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}$')
+
+_category_mapping = {
+    'alueet-ja-kaupungit': ['imagery base maps earth cover', 'planning cadastre', 'structure', 'imageryBaseMapsEarthCover',
+                            'planningCadastre'],
+    'energia': [],
+    'valtioneuvosto-ja-julkinen-sektori': [],
+    'kansainvaliset-kysymykset': [],
+    'koulutus-kulttuuri-ja-urheilu': [],
+    'liikenne': ['transportation'],
+    'maatalous-kalastus-metsatalous-ja-elintarvikkeet': ['farming'],
+    'oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus': ['intelligence military', 'intelligenceMilitary'],
+    'rakennettu-ymparisto-ja-infrastruktuuri': ['boundaries', 'elevation', 'imagery base maps earth cover', 'location',
+                                                'planning cadastre', 'structure', 'utilities communication',
+                                                'imageryBaseMapsEarthCover', 'planningCadastre', 'utilitiesCommunication'],
+    'talous-ja-raha-asiat': ['economy'],
+    'terveys': ['health'],
+    'tiede-ja-teknologia': ['geoscientific information', 'geoscientificInformation'],
+    'vaesto-ja-yhteiskunta': ['society'],
+    'ymparisto': ['biota', 'elevation', 'environment', 'geoscientific information', 'imagery base maps earth cover',
+                  'inland waters', 'oceans', 'climatology, meteorology, atmosphere', 'geoscientificInformation',
+                  'imageryBaseMapsEarthCover', 'inlandWaters', 'climatologyMeteorologyAtmosphere']
+}
 
 
 class YtpMainTranslation(DefaultTranslation):
@@ -152,22 +174,33 @@ def action_package_show(original_action, context, data_dict):
 @chained_action
 @logic.side_effect_free
 def action_package_search(original_action, context, data_dict):
-    sort_auto = data_dict.get('sort') in (None, '', 'auto')
-    if sort_auto:
-        data_dict['sort'] = 'score desc, metadata_modified desc' if data_dict.get('q') else 'metadata_created desc'
+    # sort by the given sorting option or by relevancy
+    data_dict['sort'] = data_dict.get('sort') or 'score desc, metadata_created desc'
+    return original_action(context, data_dict)
 
-    result = original_action(context, data_dict)
 
-    if sort_auto:
-        result['sort'] = 'auto'
-    return result
+@logic.side_effect_free
+def statistics(context, data_dict):
+
+    datasets = toolkit.get_action('package_search')({}, {'rows': 0})
+
+    apisets = len(toolkit.get_action('apiset_list')({}, {'all_fields': False})) if plugin_loaded('apis') else 0
+    organizations = toolkit.get_action('organization_list')({}, {})
+    showcases = len(toolkit.get_action('ckanext_showcase_list')({}, {'all_fields': False})) \
+        if plugin_loaded('sixodp_showcase') else 0
+
+    return {
+        'datasets': datasets['count'],
+        'apisets': apisets,
+        'organizations': len(organizations),
+        'showcases': showcases
+    }
 
 
 class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMainTranslation):
     plugins.implements(plugins.interfaces.IFacets, inherit=True)
     plugins.implements(plugins.IDatasetForm, inherit=True)
     plugins.implements(plugins.IConfigurer, inherit=True)
-    plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IPackageController, inherit=True)
     plugins.implements(plugins.IActions)
@@ -200,40 +233,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     def i18n_domain(self):
         return "ckanext-ytp_main"
-
-    # IRoutes #
-
-    def before_map(self, m):
-        health_controller = 'ckanext.ytp.health:HealthController'
-        m.connect('/health', action='check', controller=health_controller)
-        """ Override ckan api for autocomplete """
-        controller = 'ckanext.ytp.controller:YtpDatasetController'
-        m.connect('/api/2/util/tag/autocomplete', action='ytp_tag_autocomplete',
-                  controller=controller,
-                  conditions=dict(method=['GET']))
-        m.connect('/api/util/dataset/autocomplete', action='dataset_autocomplete',
-                  controller=controller,
-                  conditions=dict(method=['GET']))
-        m.connect('/dataset/new_metadata/{id}', action='new_metadata',
-                  controller=controller)  # override metadata step at new package
-        # m.connect('dataset_edit', '/dataset/edit/{id}',
-        # action='edit', controller=controller, ckan_icon='edit')
-        # m.connect('new_resource', '/dataset/new_resource/{id}',
-        # action='new_resource', controller=controller, ckan_icon='new')
-        m.connect('resource_edit', '/dataset/{id}/resource_edit/{resource_id}', action='resource_edit',
-                  controller=controller, ckan_icon='edit')
-
-        # Mapping of new dataset is needed since, remapping on read overwrites it
-        m.connect('add dataset', '/dataset/new', controller='package', action='new')
-        m.connect('/dataset/{id}.{format}', action='read', controller=controller)
-        m.connect('related_new', '/dataset/{id}/related/new', action='new_related', controller=controller)
-        m.connect('related_edit', '/dataset/{id}/related/edit/{related_id}',
-                  action='edit_related', controller=controller)
-        # m.connect('dataset_read', '/dataset/{id}', action='read', controller=controller, ckan_icon='sitemap')
-        m.connect('dataset_groups', '/dataset/groups/{id}', action="groups", controller=controller)
-        m.connect('/api/util/dataset/autocomplete_by_collection_type', action='autocomplete_packages_by_collection_type',
-                  controller=controller)
-        return m
 
     # IConfigurer #
 
@@ -274,7 +273,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             facets_dict['vocab_keywords_' + lang] = _('Tags')
             facets_dict['organization'] = _('Organization')
             facets_dict['res_format'] = _('Formats')
-            facets_dict['vocab_update_frequency_' + lang] = _('Update frequency')
             facets_dict['license_id'] = _('Licenses')
             facets_dict['groups'] = _('Category')
             facets_dict['producer_type'] = _('Producer type')
@@ -288,6 +286,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             facets_dict['license_id'] = _('Licenses')
             facets_dict['groups'] = _('Category')
             facets_dict['producer_type'] = _('Producer type')
+            facets_dict['vocab_highvalue_category'] = _('High-value dataset category')
             # add more dataset facets here
 
         return facets_dict
@@ -304,10 +303,14 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
     # ITemplateHelpers #
 
-    def _unique_formats(self, resources):
+    def _unique_formats(self, resources, package_type='dataset'):
         formats = set()
         for resource in resources:
-            formats.add(resource.get('format'))
+            if package_type == 'apiset':
+                for format in resource.get('formats', '').split(','):
+                    formats.add(format)
+            else:
+                formats.add(resource.get('format'))
         formats.discard('')
         return formats
 
@@ -347,7 +350,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
         return False
 
     def _is_loggedinuser(self):
-        return authz.auth_is_loggedin_user()
+        return toolkit.g.userobj and not toolkit.g.userobj.is_anonymous
 
     def get_helpers(self):
         return {'current_user': self._current_user,
@@ -372,6 +375,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'render_date': render_date,
                 'get_license': get_license,
                 'get_current_date': get_current_date,
+                'parse_datetime': parse_datetime,
                 'get_geonetwork_link': get_geonetwork_link,
                 'get_tooltip_content_types': get_tooltip_content_types,
                 'unquote_url': unquote_url,
@@ -390,6 +394,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 'group_list_with_selected': group_list_with_selected,
                 'get_resource_sha256': get_resource_sha256,
                 'get_package_showcase_list': get_package_showcase_list,
+                'get_apiset_package_list': get_apiset_package_list,
                 'get_groups_where_user_is_admin': get_groups_where_user_is_admin,
                 'get_value_from_extras_by_key': get_value_from_extras_by_key,
                 'get_field_from_dataset_schema': get_field_from_dataset_schema,
@@ -397,7 +402,10 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
                 "is_boolean_selected": is_boolean_selected,
                 'site_url_with_root_path': site_url_with_root_path,
                 'get_organization_filters_count': get_organization_filters_count,
-                'asbool': toolkit.asbool
+                'asbool': toolkit.asbool,
+                'package_count_for_source_customized': package_count_for_source_customized,
+                'scheming_highvalue_category_list': scheming_highvalue_category_list,
+                'get_highvalue_category_label': get_highvalue_category_label
                 }
 
     def get_auth_functions(self):
@@ -408,21 +416,30 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
         # IPackageController #
 
-    def after_show(self, context, pkg_dict):
+    def after_dataset_show(self, context, pkg_dict):
         if 'resources' in pkg_dict and pkg_dict['resources']:
             for resource in pkg_dict['resources']:
                 if 'url_type' in resource and isinstance(resource['url_type'], Missing):
                     resource['url_type'] = None
 
-        if (pkg_dict.get('categories', None) and pkg_dict.get('groups', None)):
+        if (pkg_dict.get('groups', None)):
             translation_dict = {
                 'all_fields': True,
                 'include_extras': True,
-                'groups': pkg_dict.get('categories')
+                'groups': [ group.get('name') for group in pkg_dict.get('groups') ]
             }
-            pkg_dict['groups'] = get_action('group_list')(context, translation_dict)
 
-    def before_index(self, pkg_dict):
+            group_context = context.copy()
+
+            # Schema should be none for group_list -> group_show calls,
+            # otherwise it will produce an error as dataset schema is wrong for this
+            group_context.pop('schema', None)
+
+            pkg_dict['groups'] = get_action('group_list')(group_context, translation_dict)
+
+    def before_dataset_index(self, pkg_dict):
+        pkg_dict = pkg_dict.copy()
+        log.info("ytp.before_dataset_index")
         if 'tags' in pkg_dict:
             tags = pkg_dict['tags']
             if tags:
@@ -454,15 +471,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             if pkg_dict.get(field):
                 pkg_dict['vocab_%s' % field] = [tag for tag in json.loads(pkg_dict[field])]
 
-        # Populate update frequencies for apisets from validated data_dict
-        validated_data_dict = pkg_dict.get('validated_data_dict')
-        converted_validated_data_dict = json.loads(validated_data_dict)
-        resources = converted_validated_data_dict.get('resources')
-        if resources:
-            update_frequency = resources[0].get('update_frequency')
-            if update_frequency:
-                pkg_dict['update_frequency'] = json.dumps(update_frequency)
-
         # Map keywords to vocab_keywords_{lang}
         translated_vocabs = ['keywords', 'content_type', 'update_frequency']
         languages = ['fi', 'sv', 'en']
@@ -475,7 +483,7 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             prop_value = json.loads(prop_json)
             # Add for each language
             for lang in languages:
-                if type(prop_value) is dict and prop_value.get(lang):
+                if isinstance(prop_value, dict) and prop_value.get(lang):
                     prop_value[lang] = [tag for tag in {tag.lower() for tag in prop_value[lang]} if tag not in ignored_tags]
                     pkg_dict['vocab_%s_%s' % (prop_key, lang)] = [tag for tag in prop_value[lang]]
             pkg_dict[prop_key] = json.dumps(prop_value)
@@ -487,6 +495,9 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             org = toolkit.get_action('organization_show')({}, {'id': pkg_dict.get('organization')})
             if 'producer_type' in org:
                 pkg_dict['producer_type'] = org['producer_type']
+
+        if pkg_dict.get('highvalue_category'):
+            pkg_dict['vocab_highvalue_category'] = json.loads(pkg_dict.get('highvalue_category'))
 
         return pkg_dict
 
@@ -501,10 +512,23 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
 
         return pkg_dict
 
+    def after_dataset_search(self, search_results, search_params):
+        # Modify facet display name to be human-readable
+        # TODO: handle translations for groups and highvalue categories
+        if search_results.get('search_facets'):
+            highvalue_facet = search_results['search_facets'].get('vocab_highvalue_category')
+            if highvalue_facet:
+                for facet_item in highvalue_facet['items']:
+                    facet_item['display_name'] = get_highvalue_category_label(facet_item['name'])
+
+        return search_results
+
     # IActions #
     def get_actions(self):
         return {'package_show': action_package_show, 'package_search': action_package_search,
-                'package_autocomplete': package_autocomplete, 'store_municipality_bbox_data': store_municipality_bbox_data}
+                'package_autocomplete': package_autocomplete, 'store_municipality_bbox_data': store_municipality_bbox_data,
+                'dcat_catalog_show': dcat_catalog_show,
+                'statistics': statistics}
 
     # IValidators
     def get_validators(self):
@@ -512,8 +536,6 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'check_deprecation': validators.check_deprecation,
             'convert_to_list': validators.convert_to_list,
             'lowercase': validators.lowercase,
-            # NOTE: this is a converter. (https://github.com/vrk-kpa/ckanext-scheming/#validators)
-            'save_to_groups': save_to_groups,
             'create_fluent_tags': validators.create_fluent_tags,
             'create_tags': validators.create_tags,
             'from_date_is_before_until_date': validators.from_date_is_before_until_date,
@@ -537,15 +559,21 @@ class YTPDatasetForm(plugins.SingletonPlugin, toolkit.DefaultDatasetForm, YtpMai
             'use_url_for_name_if_left_empty': validators.use_url_for_name_if_left_empty,
             'convert_to_json_compatible_str_if_str': validators.convert_to_json_compatible_str_if_str,
             'empty_string_if_value_missing': validators.empty_string_if_value_missing,
-            'resource_url_validator': validators.resource_url_validator
+            'resource_url_validator': validators.resource_url_validator,
+            'highvalue_category': validators.highvalue_category
         }
 
     def get_blueprint(self):
         return views.get_blueprint()
 
 
+
 class YTPSpatialHarvester(plugins.SingletonPlugin):
-    plugins.implements(ISpatialHarvester, inherit=True)
+    try:
+        from ckanext.spatial.interfaces import ISpatialHarvester
+        plugins.implements(ISpatialHarvester, inherit=True)
+    except ImportError:
+        pass
 
     # ISpatialHarvester
 
@@ -600,23 +628,35 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                         except NotFound:
                             pass
 
-        config_obj = json.loads(data_dict['harvest_object'].source.config)
+        # If maintainer was not mapped from responsible organization, lets use individual name instead
+        if not package_dict.get('maintainer') and data_dict.get('iso_values', {}).get('metadata-point-of-contact'):
+            point_of_contacts = data_dict['iso_values']['metadata-point-of-contact']
+            for contact in point_of_contacts:
+                if contact.get('individual-name'):
+                    package_dict['maintainer'] = contact.get('individual-name')
+                    break
+
+        config_obj = json.loads(data_dict['harvest_object'].source.config or "{}")
         license_from_source = config_obj.get("license", None)
         if license_from_source is not None:
             package_dict['license_id'] = license_from_source
 
-        for extra in package_dict['extras']:
-            if extra['key'] == 'licence' and license_from_source is None:
-                value = json.loads(extra['value'])
+        licenses = get_action('license_list')(context, {})
+        extras = {extra['key']: extra['value'] for extra in package_dict['extras']}
 
-                license_id = 'other'
-                license_obj = value
+        # If license wasn't found from source, try to figure it out from url:s
+        if license_from_source is None:
+            license_id = 'notspecified'
+            license_value = json.loads(extras.get('licence', '[]'))
+            access_constraints_value = json.loads(extras.get('access_constraints', '[]'))
 
+            if len(license_value) > 0:
+                license_obj = license_value
                 url_pattern = re.compile(r'(https?://\S+[^.,) ])')
-                urls = [url for v in value for url in url_pattern.findall(v)]
+                urls = [url for v in license_value for url in url_pattern.findall(v)]
 
                 if urls:
-                    licenses = get_action('license_list')(context, {})
+                    license_id = 'other'
                     http_urls = {re.sub('^https', 'http', url) for url in urls}
                     matching_license = next((li for li in licenses if li.get('url') in http_urls), None)
                     if matching_license is not None:
@@ -631,40 +671,112 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
                 package_dict['license_id'] = license_id
                 package_dict['license'] = license_obj
 
-            elif extra['key'] == 'temporal-extent-begin':
-                try:
-                    value = iso8601.parse_date(extra['value'])
-                    package_dict['valid_from'] = value
-                except iso8601.ParseError:
-                    log.info("Could not convert %s to datetime" % extra['value'])
+            if len(access_constraints_value) > 0 and license_id in ['other', 'notspecified']:
+                license_obj = access_constraints_value
+                url_pattern = re.compile(r'(https?://\S+[^.,) ])')
+                urls = [url for v in access_constraints_value for url in url_pattern.findall(v)]
 
-            elif extra['key'] == 'temporal-extent-end':
-                try:
-                    value = iso8601.parse_date(extra['value'])
-                    package_dict['valid_till'] = value
-                except iso8601.ParseError:
-                    log.info("Could not convert %s to datetime" % extra['value'])
+                if urls:
+                    license_id = 'other'
+                    http_urls = {re.sub('^https', 'http', url) for url in urls}
+                    matching_license = next((li for li in licenses if li.get('url') in http_urls), None)
+                    if matching_license is not None:
+                        license_id = matching_license['id']
+                        license_obj = matching_license
+                    else:
+                        package_dict['extras'].append({
+                            "key": 'license_url',
+                            'value': urls[0]
+                        })
 
-            elif extra['key'] == 'dataset-reference-date':
-                try:
-                    value_list = json.loads(extra['value'])
-                    for value in value_list:
-                        if value.get('type') == "creation":
-                            if not package_dict.get('date_released'):
-                                package_dict['date_released'] = iso8601.parse_date(value.get('value'))\
+                package_dict['license_id'] = license_id
+                package_dict['license'] = license_obj
+
+            if package_dict.get('license_id', None) is None:
+                package_dict['license_id'] = license_id
+
+
+        # Get the license url links
+        iso_values = data_dict.get('iso_values')
+        license_links = iso_values.get('other-constraints', None)
+
+        # if any licence links were found, map them to one of the existing licences
+        # licences that don't fall under cc-by-4.0 or cc-zero-1.0 will not be harvested
+        if license_links:
+
+            # Mappings for the license urls
+            valid_licenses = {
+                "https://creativecommons.org/licenses/by/4.0/": "cc-by-4.0",
+                "https://creativecommons.org/publicdomain/zero/1.0/deed.fi": "cc-zero-1.0"
+            }
+
+            for license_link in license_links:
+                if license_link in valid_licenses.keys():
+                    # if the licence was found, assign the value to the licence_id field
+                    package_dict['license_id'] = valid_licenses[license_link]
+                    package_dict['license_url'] = license_link
+
+        # if the license is not open enough, do not harvest the resource
+        harvested_licences = ['cc-by-4.0', 'cc-zero-1.0']
+        if package_dict.get('license_id', "") not in harvested_licences:
+            logging.info(f"Skipping harvesting {package_dict.get('title', '')} as its license "
+                         f"[{package_dict.get('license_id', '')}] was not in the list of accepted licenses")
+            return
+
+
+        if extras.get('temporal-extent-begin', None) is not None:
+            try:
+                value = iso8601.parse_date(extras['temporal-extent-begin'])
+                package_dict['valid_from'] = value
+            except iso8601.ParseError:
+                log.info("Could not convert %s to datetime" % extras['temporal-extent-begin'])
+
+        if extras.get('temporal-extent-end', None) is not None:
+            try:
+                value = iso8601.parse_date(extras['temporal-extent-end'])
+                package_dict['valid_till'] = value
+            except iso8601.ParseError:
+                log.info("Could not convert %s to datetime" % extras['temporal-extent-end'])
+
+        if extras.get('dataset-reference-date', None) is not None:
+            creation_date = None
+            publication_date = None
+            try:
+                value_list = json.loads(extras['dataset-reference-date'])
+                for value in value_list:
+                    if value.get('type') == "creation":
+                        creation_date = iso8601.parse_date(value.get('value'))\
                                     .replace(tzinfo=None).isoformat()
-                except json.JSONDecodeError:
-                    pass
+                    elif value.get('type') == 'publication':
+                        publication_date = iso8601.parse_date(value.get('value'))\
+                                    .replace(tzinfo=None).isoformat()
 
-            # TODO: Move to dataset level
-            elif extra['key'] == "spatial-reference-system":
-                for resource in package_dict.get('resources', []):
-                    resource['position_info'] = extra['value']
+                if creation_date:
+                    package_dict['date_released'] = creation_date
+                elif publication_date:
+                    package_dict['date_released'] = publication_date
+            except json.JSONDecodeError:
+                pass
+
+        # TODO: Move to dataset level
+        if extras.get('spatial-reference-system', None) is not None:
+            for resource in package_dict.get('resources', []):
+                resource['position_info'] = extras['spatial-reference-system']
+
+        # Map topic-categories to categories
+        iso_values = data_dict.get('iso_values')
+        if iso_values.get('topic-category', None) is not None:
+            topic_categories = iso_values.get('topic-category')
+            categories = [category for topic_category in topic_categories
+                          for category, iso_topic_categories in six.iteritems(_category_mapping)
+                          if topic_category in iso_topic_categories]
+            package_dict['categories'] = categories
+            package_dict['extras'].append({'key': 'topic-category', 'value': topic_categories})
 
         package_dict['keywords'] = {'fi': []}
 
-        # Map tags to keywords
 
+        # Map tags to keywords
         tags = package_dict.get('tags')
 
         for tag in tags:
@@ -683,6 +795,32 @@ class YTPSpatialHarvester(plugins.SingletonPlugin):
         package_dict['title_translated'] = {"fi": package_dict['title']}
         package_dict['collection_type'] = 'Open Data'
 
+
+        # Apiset mapping (resource-type 'services' are mapped to apisets)
+        res_type = iso_values.get('resource-type', None)
+
+        # res_type is in the form ['dataset', ...], usually containing one or more resource types
+        if 'service' in res_type:
+            package_dict['type'] = 'apiset'
+            package_dict['api_provider'] = package_dict.get('maintainer', None)
+            # maintainer email is provided as an array
+            if package_dict.get('maintainer_email', None):
+                package_dict['api_provider_email'] = package_dict['maintainer_email'][0]
+
+            # remove maintainer and maintainer_email or they will cause validation error for apisets
+            package_dict.pop('maintainer', None)
+            package_dict.pop('maintainer_email', None)
+
+
+            # get all resources from the apiset
+            apiset_resources = package_dict.get('resources', [])
+            for apiset_resource in apiset_resources:
+                # get the format and map it into formats field
+                apiset_resource['formats'] = apiset_resource.get('format', None)
+
+            # update the resources for the apiset
+            package_dict['resources'] = apiset_resources
+
         return package_dict
 
 
@@ -692,20 +830,36 @@ def action_user_create(original_action, context, data_dict):
     result = original_action(context, data_dict)
 
     if result:
-        context = create_system_context()
+        admin_context = {'ignore_auth': True}
 
-        groups = plugins.toolkit.get_action('group_list')(context, {})
+        groups = plugins.toolkit.get_action('group_list')(admin_context, {})
 
         for group in groups:
             member_data = {'id': group, 'username': result['name'], 'role': 'editor'}
-            plugins.toolkit.get_action('group_member_create')(context, member_data)
+            plugins.toolkit.get_action('group_member_create')(admin_context, member_data)
+
+    return result
+
+
+# Adds all users to newly created groups
+@chained_action
+def action_group_create(original_action, context, data_dict):
+    result = original_action(context, data_dict)
+
+    if result and data_dict.get('type', 'group') == 'group':
+        admin_context = {'ignore_auth': True}
+
+        users = plugins.toolkit.get_action('user_list')(admin_context, {})
+
+        for user in users:
+            member_data = {'id': result['id'], 'username': user['name'], 'role': 'editor'}
+            plugins.toolkit.get_action('group_member_create')(admin_context, member_data)
 
     return result
 
 
 @logic.side_effect_free
 def action_organization_tree_list(context, data_dict):
-    check_access('site_read', context)
     check_access('group_list', context)
 
     q = data_dict.get('q', '')
@@ -755,11 +909,14 @@ def action_organization_tree_list(context, data_dict):
                       .order_by(model.Group.title))
 
     # Optionally handle getting only organizations with datasets
+    # Note! Check if state is deleted for the results or else it will return all
+    # dataset collections that have had a dataset at some point
     if with_datasets:
         ids_and_titles = (
                 ids_and_titles
                 .outerjoin(model.Package, and_(model.Package.type == 'dataset',
                                                model.Package.private == false(),
+                                               model.Package.state == 'active',
                                                or_(model.Package.owner_org == model.Group.name,
                                                    model.Package.owner_org == model.Group.id)))
                 .group_by(model.Group.id, model.Group.title, model.GroupExtra.value)
@@ -853,6 +1010,7 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
     plugins.implements(plugins.IConfigurer, inherit=True)
     plugins.implements(plugins.IValidators)
     plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(ISiteSearch, inherit=True)
 
     # IConfigurer
     def update_config(self, config):
@@ -869,7 +1027,11 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
 
     def get_actions(self):
         return {'user_create': action_user_create,
-                'organization_tree_list': action_organization_tree_list}
+                'group_create': action_group_create,
+                'organization_tree_list': action_organization_tree_list,
+                'group_tree': plugin_hierarchy.group_tree,
+                'group_tree_section': plugin_hierarchy.group_tree_section,
+                }
 
     def get_blueprint(self):
         '''Return a Flask Blueprint object to be registered by the app.'''
@@ -880,6 +1042,9 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
     def get_validators(self):
         return {
             "is_admin_in_parent_if_changed": validators.is_admin_in_parent_if_changed,
+            "is_allowed_parent": validators.is_allowed_parent,
+            'keep_old_organization_value_if_missing': validators.keep_old_organization_value_if_missing,
+            'get_removed_checkbox_extra': validators.get_removed_checkbox_extra,
             "extra_validators_multiple_choice": validators.extra_validators_multiple_choice,
             'admin_only_feature': validators.admin_only_feature
         }
@@ -887,8 +1052,17 @@ class YtpOrganizationsPlugin(plugins.SingletonPlugin, DefaultOrganizationForm, Y
     # ITemplateHelpers
     def get_helpers(self):
         return {
-            "get_last_harvested_date": get_last_harvested_date
+            "get_last_harvested_date": get_last_harvested_date,
+            "group_tree_section": group_tree_section
         }
+
+    # ISiteSearch
+    def after_organization_search(self, results, data_dict):
+        without_unapproved = [r for r in results.get('results', [])
+                              if r.get('approval_status') == 'approved']
+        results['results'] = without_unapproved
+        results['count'] = len(without_unapproved)
+        return results
 
 
 class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
@@ -906,12 +1080,10 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
         ]
 
     def update_config(self, config):
-        from ckan.plugins import toolkit
         toolkit.add_template_directory(config, 'templates')
 
 
 class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
-    plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurer)
@@ -929,16 +1101,6 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                         ],
                         menu.UserMenu,
                         menu.MyInformationMenu
-                    ),
-                    (
-                        [
-                            '/dashboard',
-                            '/dashboard/',
-                            '/%(language)s/dashboard',
-                            '/%(language)s/dashboard/'
-                        ],
-                        menu.UserMenu,
-                        menu.MyDashboardMenu
                     ),
                     (
                         [
@@ -1040,24 +1202,13 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                     )
                 ]
 
-    # IRoutes #
-
-    def before_map(self, m):
-        """ Redirect data-path in stand-alone environment directly to CKAN. """
-        m.redirect('/data/*(url)', '/{url}', _redirect_code='301 Moved Permanently')
-
-        controller = 'ckanext.ytp.controller:YtpThemeController'
-        m.connect('/postit/new', controller=controller, action='new_template')
-        m.connect('/postit/return', controller=controller, action='return_template')
-
-        return m
-
     # IConfigurer #
 
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
         toolkit.add_template_directory(config, 'resources/templates')
         toolkit.add_resource('resources', 'ytp_resources')
+        toolkit.add_public_directory(config, 'resources')
         toolkit.add_public_directory(config, 'public')
         toolkit.add_template_directory(config, 'postit')
 
@@ -1122,7 +1273,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
         try:
             # Call our custom Drupal API to get drupal block content
-            hostname = config.get('ckanext.drupal8.site_url') or config.get('ckan.site_url', '')
+            hostname = config.get('ckanext.drupal8.site_url')
             domains = config.get('ckanext.drupal8.domain').split(",")
             verify_cert = config.get('ckanext.drupal8.development_cert', '') or True
             cookies = {}
@@ -1136,7 +1287,11 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
                     if cookie is not None:
                         cookies.update({cookiename: cookie})
 
+            # If user hasn't signed in, no need to fetch non-cached content
+            if cookies == {}:
+                hostname = config.get('ckanext.drupal8.site_url_internal')
             snippet_url = '%s/%s/%s' % (hostname, lang, path)
+
             host = config.get('ckanext.drupal8.domain', '').split(',', 1)[0]
             headers = {'Host': host}
             response = requests.get(snippet_url, cookies=cookies, verify=verify_cert, headers=headers)
@@ -1155,7 +1310,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
     def _drupal_header(self):
         # Path variable depends on request type
-        path = request.full_path if is_flask_request() else request.path_qs
+        path = request.full_path
         result = self._drupal_snippet('api/header?activePath=%s' % path)
         if result:
             # Language switcher links will point to /api/header, fix them based on currently requested page
@@ -1200,7 +1355,6 @@ class YtpUserPlugin(plugins.SingletonPlugin, YtpMainTranslation):
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IAuthFunctions)
-    plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.ITranslation)
 
     default_domain = None
@@ -1259,7 +1413,7 @@ class YtpIPermissionLabelsPlugin(
         # Default labels
         labels = super(YtpIPermissionLabelsPlugin, self).get_user_dataset_labels(user_obj)
 
-        if user_obj and ShowcaseAdmin.is_user_showcase_admin(user_obj):
+        if user_obj and not user_obj.is_anonymous and ShowcaseAdmin.is_user_showcase_admin(user_obj):
             labels.append('showcase-admin')
 
         return labels
@@ -1284,3 +1438,71 @@ class OpenDataGroupPlugin(plugins.SingletonPlugin):
 
         data_dict['users'] = data_dicts
         return original_action(context, data_dict)
+
+
+# NOTE: DO NOT ENABLE THIS PLUGIN IN NON-LOCAL ENVIRONMENTS
+class OpenDataResetPlugin(plugins.SingletonPlugin):
+    plugins.implements(plugins.interfaces.IActions)
+
+    def get_actions(self):
+        return {
+            "reset": _reset
+        }
+@toolkit.side_effect_free
+def _reset(context, data_dict):
+
+    context = {'ignore_auth': True}
+
+    # clean database
+    from ckan import model
+    model.repo.delete_all()
+
+    log.debug("Table data deleted")
+    # clear search index
+    from ckan.lib.search import clear_all
+    clear_all()
+
+    log.debug("Solr index cleared")
+
+    # jobs clear
+    get_action('job_clear')(context, {})
+
+    log.debug("job queues cleared")
+
+    # sparql clear
+    get_action('sparql_clear')(context, {})
+
+    log.debug("Sparql index cleared")
+
+    # Create platform vocabulary
+
+    vocab_id = 'platform'
+    tags = (u"Android", u"iOS Apple", u"Windows", u"Mac OS X", u"Website", u"Other")
+    tags_to_delete = []
+    tags_to_create = []
+    try:
+        data = {'id': vocab_id}
+        old_tags = toolkit.get_action('vocabulary_show')(context, data)
+        for old_tag in old_tags.get('tags'):
+            if old_tag['id'] in tags:
+                continue
+            else:
+                tags_to_delete.append({'name': old_tag['name']})
+                toolkit.get_action('tag_delete')(context, {'id': old_tag['id']})
+
+        for tag in tags:
+            try:
+                toolkit.get_action('tag_show')(context, {'id': tag, 'vocabulary_id': vocab_id})
+            except toolkit.ObjectNotFound:
+                tags_to_create.append({'name': tag})
+                toolkit.get_action('tag_create')(context, {'name': tag, 'vocabulary_id': old_tags.get('id')})
+    except NotFound:
+        data = {'name': vocab_id}
+        vocab = toolkit.get_action('vocabulary_create')(context, data)
+        for tag in tags:
+            data = {'name': tag, 'vocabulary_id': vocab['id']}
+            tags_to_create.append({'name': tag})
+            toolkit.get_action('tag_create')(context, data)
+
+    log.debug("Initial vocabularies and tags created")
+    return "Cleared"

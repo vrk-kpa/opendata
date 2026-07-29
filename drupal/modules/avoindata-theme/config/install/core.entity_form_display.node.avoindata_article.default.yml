@@ -3,13 +3,11 @@ status: true
 dependencies:
   config:
     - field.field.node.avoindata_article.body
-    - field.field.node.avoindata_article.field_article_comments
     - field.field.node.avoindata_article.field_image
     - field.field.node.avoindata_article.field_tags
     - image.style.thumbnail
     - node.type.avoindata_article
   module:
-    - disqus
     - image
     - path
     - text
@@ -33,12 +31,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_article_comments:
-    weight: 28
-    settings: {  }
-    third_party_settings: {  }
-    type: disqus_comment
-    region: content
   field_image:
     weight: 26
     settings:

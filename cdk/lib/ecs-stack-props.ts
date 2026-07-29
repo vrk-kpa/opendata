@@ -22,7 +22,6 @@ export interface EcsStackProps extends CommonStackProps {
   ckanService?: ecs.FargateService;
   captchaEnabled?: boolean;
   analyticsEnabled?: boolean;
-  dynatraceEnabled?: boolean;
 }
 
 export interface MigrationFsProps {

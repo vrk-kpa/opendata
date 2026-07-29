@@ -1,16 +1,29 @@
-{% set value = data[field.field_name] %}
-<section class="tags">
-    {% block tag_list %}
-    <ul class="tag-list">
-        {% for tag in value %}
-        {% set tag_dict = dict({'vocab_' + field.field_name: tag}) %}
+{%- set values = data[field.field_name] -%}
+{%- set tags = [] -%}
 
-        <li>
-            <a class="{% block tag_list_item_class %}tag{% endblock %}"
-               href="{{ h.call_toolkit_function('url_for',['dataset.search'], tag_dict) }}"
-               rel="nofollow">{{ h.truncate(tag, 22) }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% endblock %}
-    <section class="tags">
+{% if h.scheming_field_choices(field) %}
+  {%- for choice in h.scheming_field_choices(field) -%}
+    {%- if choice.value in values -%}
+      {%- do tags.append((choice.value, h.scheming_language_text(choice.label))) -%}
+    {%- endif -%}
+  {%- endfor -%}
+{% else %}
+  {% for tag in values %}
+    {%- do tags.append((tag, tag)) -%}
+  {% endfor %}
+{% endif %}
+<section class="tags">
+<ul class="tag-list">
+  {%- for value, label in tags -%}
+    {% set tag_dict = dict({
+        'controller': 'dataset',
+        'action': 'search',
+        'vocab_' + field.field_name : value }) %}
+    <li>
+      <a class="{% block tag_list_item_class %}tag{% endblock %}" href="{{ h.call_toolkit_function('url_for',[], tag_dict) }}">
+        {{ h.truncate(label, 22) }}
+      </a>
+    </li>
+  {%- endfor -%}
+</ul>
+</section>

@@ -1,0 +1,95 @@
+@use "./suomifidesign" as tokens;
+
+/**
+ * Brand colors (these should be used around the styles)
+ */
+$opendata-brand-gray: #ebe7e7; // #88827A; // Neutral grayish elements
+$opendata-brand-dark: #302f2f; // Secondary background color
+$opendata-brand-info: #5bc0de; // Notification color, important but not critical
+$opendata-brand-priority: #ec2727; // Priority content, like front page search button
+$opendata-ckan-list-item-header: #3a6eb5; // Used for ckan listitem headers and other similar bold texts.
+$opendata-ckan-unhighlight: #777777; // Additional non critical content display color.
+
+/*
+ * Text colors
+ */
+$color__breadcrumb-link: tokens.$fi-color-highlight-base;
+$color__breadcrumb-current: tokens.$fi-color-depth-dark1;
+
+/**
+ * Common
+ */
+$text-color: tokens.$fi-color-black-base;
+$background-color: tokens.$fi-color-white-base;
+$background-color__content: tokens.$fi-color-white-base;
+$background-color__toolbar: transparent;
+$border-color__content: tokens.$fi-color-depth-light1;
+$background-color--highlight: tokens.$fi-color-highlight-light3;
+
+// For very 'extra' information, meant for small text on white/light backgrounds
+$nonimportant-text-color: lighten($opendata-brand-gray, 0%);
+
+// Light background to emphasize a subarea in main content, gives a "post-it note" feeling
+$background-hilight-primary: lighten(#d3cdc5, 16%);
+$background-hilight: lighten(#d3cdc5, 16%);
+$background-hilight: tokens.$fi-color-depth-light3;
+
+/**
+ * Buttons
+ */
+$btn-default-color: #333;
+$btn-default-bg: tokens.$fi-color-white-base;
+$btn-default-border: #e8e7e6;
+$btn-dark-bg: tokens.$fi-color-highlight-base;
+$btn-dark-text-color: tokens.$fi-color-white-base;
+$btn-black-color: #000;
+
+// Text color that is on a colored background (labels, buttons, carousel)
+$button-inverse-text-color: tokens.$fi-color-white-base;
+
+// TODO workaround for having buttons with both 'a' and 'button' tags
+$button-background: #999999;
+$button-hilight: #747474;
+$button-primary-background: tokens.$fi-color-highlight-base;
+$button-primary-hilight: #0f54a2;
+$button-primary-border: #7ca9cc;
+$button-border: #9a9d9e;
+
+/**
+ * Links
+ */
+$link-default-color: tokens.$fi-color-highlight-base;
+$link-dark-color: #000000;
+
+/**
+ * Tables
+ */
+$table-bg-accent: tokens.$fi-color-depth-light3;
+$table-border-color: tokens.$fi-color-depth-light1;
+$table-head-border-color: tokens.$fi-color-black-light1;
+
+/**
+ * Navbars
+ */
+$border-bottom-color__main-nav--active: tokens.$fi-color-highlight-base;
+$navbarInverseBackgroundHighlight: tokens.$fi-color-black-base;
+
+/**
+ * Guide menu
+ */
+$background-color__submenu: rgb(234 242 250 / 50%);
+
+/*
+* Custom elements
+*/
+$background-color__expander: #f6f9fc;
+$background-color__expander--open: tokens.$fi-color-white-base;
+$border-color__expander: #ecedee;
+$box-shadow-color__expander: rgb(41 41 41 / 10%);
+$background-color__dropzone: #f6f9fc;
+$background-color__dropzone--hover: #e2ebf6;
+
+/*
+*  Icons
+*/
+$icon-color-orange: tokens.$fi-color-accent-base;

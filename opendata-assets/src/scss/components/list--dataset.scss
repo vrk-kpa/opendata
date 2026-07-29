@@ -1,0 +1,88 @@
+@use "../variables/suomifidesign" as tokens;
+@import "../variables";
+
+.dataset-list {
+  padding: 0;
+  background-color: $background-color__content;
+
+  // $NOTE: To make top border of first item in search list overlapping with result text border
+  margin-top: -1px;
+}
+
+.dataset-item {
+  position: relative;
+  border: 1px solid tokens.$fi-color-depth-light1;
+  border-bottom: none;
+  margin-bottom: 0;
+  padding: $padding__content;
+
+  &:last-of-type {
+    border-bottom: 1px solid tokens.$fi-color-depth-light1;
+
+    // $NOTE: This is needed as otherwise ckan styles overwrites it with zero bottom padding
+    padding-bottom: $padding-y--common;
+  }
+
+  .dataset-heading {
+    @include tokens.fi-text-heading3;
+
+    color: tokens.$fi-color-highlight-base;
+    margin-top: 0;
+    margin-bottom: $margin-bottom-h3;
+    word-break: break-word;
+
+    a {
+      color: tokens.$fi-color-highlight-base;
+
+      &:hover,
+      &:active {
+        color: tokens.$fi-color-highlight-base;
+      }
+    }
+  }
+
+  .dataset-item-notes {
+    @include tokens.fi-text-body-text;
+
+    line-height: 27px;
+    color: tokens.$fi-color-black-base;
+    margin-bottom: $padding-y--common;
+  }
+
+  .dataset-item-organization {
+    @include tokens.fi-text-body-text-small;
+
+    margin-bottom: 12px;
+    color: tokens.$fi-color-depth-dark1;
+
+    a,
+    a:hover,
+    a:active {
+      color: tokens.$fi-color-depth-dark1;
+    }
+  }
+}
+
+.dataset-title {
+  float: left;
+}
+
+.collection-type {
+  @include tokens.fi-text-body-semi-bold;
+
+  font-size: $font-size-smaller-base;
+  margin-left: auto;
+  margin-right: 0;
+  color: tokens.$fi-color-white-base;
+  text-transform: uppercase;
+  text-align: center;
+  background: tokens.$fi-color-brand-base;
+  border: 1px solid tokens.$fi-color-brand-base;
+  border-radius: $border-radius__button;
+  padding: $padding__tag;
+}
+
+.deleted {
+  background: tokens.$fi-color-alert-base;
+  border: 1px solid tokens.$fi-color-alert-base;
+}

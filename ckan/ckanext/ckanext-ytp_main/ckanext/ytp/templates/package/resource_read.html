@@ -1,7 +1,7 @@
 {% extends "package/base.html" %}
 
 {% set res = c.resource %}
-{% set visits =  h.get_visits_for_resource(res.id) if 'get_visits_for_resource' in h else None %}
+{% set visits =  h.get_downloads_in_date_range_for_resource(res.id) if 'get_downloads_in_date_range_for_resource' in h else None %}
 {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
 {% block head_extras -%}
   {{ super() }}
@@ -42,9 +42,9 @@
         <i class="fas fa-long-arrow-left"></i>
         {% trans  url=h.url_for(pkg.type ~ '.read', id=c.package['name']) %}<a href="{{ url }}">{% endtrans %}{{_('dataset')}}</a>
       </div>
-     
+
     </div>
-      
+
   </div>
   {% endblock %}
 
@@ -88,7 +88,7 @@
                 <p class="module-small-title">{% trans dataset=c.package.title %}{{ dataset }}{% endtrans %}</p>
               </div>
             </div>
-            
+
             <div class="row justify-content-center pb-3">
               {% block resource_content %}
               <div class="col-md-12">
@@ -126,36 +126,28 @@
             {% block data_preview %}
               {% block resource_view %}
                 {% block resource_view_nav %}
-                  {% set resource_preview = h.resource_preview(c.resource, c.package) %}
-                  {% snippet "package/snippets/resource_views_list.html",
-                    views=resource_views,
-                    pkg=pkg,
-                    is_edit=false,
-                    view_id=current_resource_view['id'],
-                    resource_preview=resource_preview,
-                    resource=c.resource,
-                    extra_class="nav-tabs-plain"
-                  %}
+                {% snippet "package/snippets/resource_views_list.html",
+                   views=resource_views,
+                   pkg=pkg,
+                   is_edit=false,
+                   view_id=current_resource_view['id'],
+                   resource=resource,
+                   extra_class="nav-tabs"
+                %}
                 {% endblock %}
                   {% block resource_view_content %}
                     <div class="resource-view col-md-12">
                       <h3 class="mt-0">{{ _('Preview') }}</h3>
-                      {% set resource_preview = h.resource_preview(c.resource, c.package) %}
-                      {% set views_created = res.has_views or resource_preview %}
-                      {% if views_created %}
-                        {% if resource_preview and not current_resource_view %}
-                          {{ h.resource_preview(c.resource, c.package) }}
-                        {% else %}
-                          {% for resource_view in resource_views %}
-                            {% if resource_view == current_resource_view %}
-                              {% snippet 'package/snippets/resource_view.html',
-                                resource_view=resource_view,
-                                resource=c.resource,
-                                package=c.package
-                              %}
-                            {% endif %}
-                          {% endfor %}
-                        {% endif %}
+                      {% if resource_views %}
+                        {% for resource_view in resource_views %}
+                          {% if resource_view == current_resource_view %}
+                            {% snippet 'package/snippets/resource_view.html',
+                               resource_view=resource_view,
+                               resource=resource,
+                               package=package
+                             %}
+                          {% endif %}
+                        {% endfor %}
                       {% else %}
                         {# Views not created #}
                         <div class="data-viewer-info">
@@ -213,9 +205,9 @@
                             ] -%}
                             {%- for field in schema.resource_fields -%}
                               {%- if field.field_name not in exclude_fields and field.display_snippet is not none
-                              and field.field_name in res and field[field.field_name] != "" -%}
+                              and field.field_name in res and field[field.field_name] != "" and res.get(field.field_name, '') != '' -%}
                                 <tr>
-                                  <th>{{- h.scheming_language_text(field.label) -}} </th>
+                                  <th>{{- h.scheming_language_text(field.label) -}}   </th>
                                   <th>{%- snippet 'scheming/snippets/display_field.html',
                                     field=field, data=res, entity_type='dataset',
                                     object_type=dataset_type -%}</th>
@@ -230,8 +222,13 @@
                             </th>
                           </tr>
                           <tr>
-                            <th>{{ _('Last updated') }}</th>
-                            <th>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.revision_timestamp) or h.render_datetime(res.created) or _('unknown') }}</th>
+                            <th>{{ _('Data last updated') }}</th>
+                            <th>{{ h.render_datetime(res.last_modified) or h.render_datetime(res.created) or _('unknown') }}</th>
+                          </tr>
+
+                          <tr>
+                            <th>{{ _('Metadata last updated') }}</th>
+                            <th>{{ h.render_datetime(res.metadata_modified) or h.render_datetime(res.created) or _('unknown') }}</th>
                           </tr>
                           <tr>
                             <th>{{ _('Created') }}</th>
@@ -269,10 +266,23 @@
 
   {% if visits %}
   <h3>{{ _('Stats') }}</h3>
-  <span>{{ _('Last 30 days, updated daily') }}</span>
+  <span>{{ _('Weekly visits for last 12 months') }}</span>
   <div id="chart_div"></div>
 
-  <span>{{ _('All time downloads:' ) }} {{ visits.count }}</span>
+  {% set visit_count_last_12_month = h.get_visit_count_for_resource(res.id, 'year') %}
+  {% set visit_count_last_30_days = h.get_visit_count_for_resource(res.id, 'month') %}
+  {% set download_count_last_12_month = h.get_download_count_for_resource(res.id, 'year') %}
+  {% set download_count_last_30_days = h.get_download_count_for_resource(res.id, 'month') %}
+  <dl class="list-unstyled">
+      <dt>{{ _('Download counts') }}:</dt>
+      <dd>{{ _('During last 30 days') }}: {{ download_count_last_30_days }}</dd>
+      <dd>{{ _('During last 12 months') }}: {{ download_count_last_12_month }}</dd>
+      <dd>{{ _('All time:') }} {{ visits.total_downloads }}</dd>
+      <dt>{{ _('Visits') }}:</dt>
+      <dd>{{ _('During last 30 days') }}: {{ visit_count_last_30_days }}</dd>
+      <dd>{{ _('During last 12 months') }}: {{ visit_count_last_12_month }}</dd>
+      <dd>{{ _('All time:') }} {{ visits.total_visits }}</dd>
+  </dl>
 
   <script src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -283,15 +293,14 @@
         function drawChart() {
           var data = google.visualization.arrayToDataTable([
             ["{{ _('Year') }}", "{{ _('Downloads') }}"],
-            {% for v in visits.downloads %}
-              [new Date({{ v.year }}, {{ v.month - 1 }}, {{ v.day }}), {{ v.visits }}],
+            {% for v in visits.visits %}
+              ["{{ _('Week') }}" + ' ' + {{ v.week }} + ', ' + {{ v.year }}, {{ v.downloads }}],
             {% endfor %}
           ]);
 
           var options = {
             hAxis: {
               textPosition: 'none',
-              format: 'dd.MM.yyyy',
               gridlines: {
                 count : 4
               }
@@ -299,7 +308,8 @@
             vAxis: {
               minValue: 4
             },
-            legend: { position: 'bottom' }
+            legend: { position: 'bottom' },
+            focusTarget: 'category'
           };
 
           var chart = new google.visualization.LineChart(document.getElementById('chart_div'));

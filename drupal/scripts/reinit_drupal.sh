@@ -18,14 +18,18 @@ if [[ "${DEV_MODE}" == "true" ]]; then
 
   # enable devel module
   drush pm:enable -y devel
+
+  # enable dev mode
+  drush en dev_mode
 fi
 
 # apply jinja2 templates
-jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/disqus.settings.yml.j2    -o ${APP_DIR}/site_config/disqus.settings.yml
+jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/avoindata.settings.yml.j2    -o ${APP_DIR}/site_config/avoindata.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/matomo.settings.yml.j2    -o ${APP_DIR}/site_config/matomo.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/recaptcha.settings.yml.j2 -o ${APP_DIR}/site_config/recaptcha.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/smtp.settings.yml.j2      -o ${APP_DIR}/site_config/smtp.settings.yml
 jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/update.settings.yml.j2    -o ${APP_DIR}/site_config/update.settings.yml
+jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/raven.settings.yml.j2    -o ${APP_DIR}/site_config/raven.settings.yml
 
 # disable captcha conditionally
 if [ "${CAPTCHA_ENABLED}" != "true" ]; then

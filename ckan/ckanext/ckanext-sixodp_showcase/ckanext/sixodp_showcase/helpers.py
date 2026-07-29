@@ -74,3 +74,14 @@ def get_showcase_pkgs(showcase_id):
         context, {'showcase_id': showcase_id})
 
     return showcase_pkgs
+
+
+def get_showcase_apisets(showcase_id):
+
+    context = {'model': model, 'session': model.Session,
+               'user': c.user or c.author, 'auth_user_obj': c.userobj}
+
+    showcase_apisets = get_action('ckanext_sixodp_showcase_apiset_list')(
+        context, {'showcase_id': showcase_id})
+
+    return showcase_apisets

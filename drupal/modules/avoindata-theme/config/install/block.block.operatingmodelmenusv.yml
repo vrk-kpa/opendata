@@ -17,7 +17,7 @@ provider: null
 plugin: 'system_menu_block:operating-model-menu-sv'
 settings:
   id: 'system_menu_block:operating-model-menu-sv'
-  label: 'Handlingsmodell för datadelning'
+  label: 'Verksamhetsmodellen för datadelning'
   label_display: visible
   provider: system
   level: 1

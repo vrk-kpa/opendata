@@ -164,6 +164,7 @@
           el.addClass("external");
           el.append(svg);
           el.setAttribute('aria-label', textAriaLabelExternalSite);
+          el.setAttribute('target', '_blank');
         }
 
       });

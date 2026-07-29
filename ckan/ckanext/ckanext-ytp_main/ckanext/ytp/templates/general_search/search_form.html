@@ -1,0 +1,54 @@
+{% asset 'ytp_resources/avoindata_utils_js' %}
+
+
+<aside id="general-search-options" class="secondary sidebar-offcanvas col-sm-4">
+    <div id="search-options-header" class="d-flex flex-wrap justify-content-between align-items-center mt-3 search-form__result-summary">
+      <h3 class="general-search__title">{{_("Filter search")}}</h3>
+    </div>
+
+    <div id="general-search-options-content">
+        <!-- TODO Style the select -->
+        <div class="form-select  m-0">
+          <div id="field-order-by-container" class="field-order-by-container">
+              <label class="general-search-label" for="field-order-by">{{ _('Order') }}</label>
+              <select id="field-order-by" class="form-control" name="sort">
+                  {% for label, value in sorting %}
+                      {% if label and value %}
+                      <option value="{{ value }}"{% if sorting_selected == value  %} selected="selected"{% endif %}>{{ label }}</option>
+                      {% endif %}
+                  {% endfor %}
+              </select>
+          </div>
+          <button class="btn js-hide" type="submit" >{{ _('Go') }}</button>
+        </div>
+    
+        <hr class="avoindata-divider">
+
+        <label class="general-search-label" for="general-search-radio-group">{{ _('What you are searching') }}</label>
+        <div class="general-search-radio-group" id="general-search-radio-group">
+          <label class="radio general-search-radio">
+            <input class="general-search-input" type="radio" name="filter" value="all" {%if filter == 'all' %} checked="true" {% endif %} >
+            {{ _('All') }} ({{number_of_results['all']}} {{_('results found')}}) 
+          </label>
+          <label class="radio general-search-radio">
+            <input class="general-search-input" type="radio" name="filter" value="dataset" {%if filter == 'dataset' %} checked="true" {% endif %} >
+            {{ _('Datasets') }} ({{number_of_results['dataset']}} {{_('results found')}}) 
+          </label>
+          <label class="radio general-search-radio">
+            <input class="general-search-input" type="radio" name="filter" value="apiset" {%if filter == 'apiset' %} checked="true" {% endif %}>
+            {{ _('Apisets') }} ({{number_of_results['apiset']}} {{_('results found')}}) 
+          </label>
+          <label class="radio general-search-radio">
+            <input class="general-search-input" type="radio" name="filter" value="showcase" {%if filter == 'showcase' %} checked="true" {% endif %}>
+            {{ _('Showcases') }} ({{number_of_results['showcase']}} {{_('results found')}}) 
+          </label>
+          <label class="radio general-search-radio">
+            <input class="general-search-input" type="radio" name="filter" value="organization" {%if filter == 'organization' %} checked="true" {% endif %}>
+            {{ _('Organizations') }} ({{number_of_results['organization']}} {{_('results found')}}) 
+          </label>
+
+        </div>
+
+    </div>
+
+</aside>

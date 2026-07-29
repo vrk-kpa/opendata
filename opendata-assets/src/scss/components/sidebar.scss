@@ -1,0 +1,170 @@
+@use "../variables/suomifidesign" as tokens;
+@import '../variables';
+
+.tertiary .control-order-by label {
+  font-weight: 700;
+}
+
+.sidebar-container {
+  padding-left: 0;
+}
+
+.secondary-container {
+  padding-left: 0;
+
+  > .secondary {
+    border: 1px solid $border-color__content;
+  }
+}
+
+.secondary,
+[role="main"] .secondary,
+aside.tertiary {
+  background-color: $background-color__content;
+  padding: $padding__content;
+  padding: 20px ($grid-gutter-width / 2) 40px;
+  margin-top: 0;
+
+  .secondary__header {
+    @include tokens.fi-text-heading3;
+  }
+
+  &.sidebar-offcanvas .module ~ .module {
+    // Section divider in list
+    &::before {
+      content: ' ';
+      display: block;
+      height: 1px;
+      position: absolute;
+      left: $grid-gutter-width / 2;
+      right: $grid-gutter-width / 2;
+      top: 0;
+      background-color: $table-border-color;
+    }
+  }
+
+  .dataset-map {
+    margin-bottom: $padding-y--common;
+  }
+
+  hr {
+    color: tokens.$fi-color-depth-dark1;
+    margin: $padding-y--common 0;
+  }
+
+  .module,
+  .opendata-card {
+    padding: 0;
+    color: tokens.$fi-color-black-base;
+    margin: 0 (-$grid-gutter-width / 2);
+
+    // $NOTE: 1 pixel difference for top- & bottom-padding to make divider between modules middle-aligned
+    overflow: hidden;
+    position: relative;
+
+    .module-content {
+      padding: $padding-y__navigation $padding-x__navigation;
+
+      .nav > li > a {
+        margin: 0 (-$padding-x__navigation);
+        padding: $padding-y--common $padding-x__navigation;
+        color: $sidebar-block-color-text;
+        border-left: $border-width__navigation solid transparent;
+
+        &:hover,
+        &.nav-link-selected {
+          border-left: $border-width__navigation solid $sidebar-block-color-header;
+        }
+      }
+    }
+
+    .module-heading,
+    .module-subheading {
+      @include flex-display(flex);
+      @include align-items(center);
+      @include tokens.fi-text-heading5;
+
+      margin: 0;
+      padding: $padding-y__navigation $padding-x__navigation;
+      background-color: transparent;
+      border: none;
+    }
+
+    .module-footer {
+      padding: 0;
+      border: none;
+
+      &,
+      a {
+        display: block;
+        font-size: $font-size-slightly-smaller-base;
+        color: tokens.$fi-color-highlight-base;
+      }
+
+      a {
+        padding: $padding-y__navigation $padding-x__navigation;
+        margin: 0;
+      }
+    }
+
+    nav > ul > li.nav-item.active {
+      font-weight: 700;
+    }
+  }
+
+  .secondary-heading-container {
+    padding: $padding-y__navigation $padding-x__navigation;
+  }
+
+  &.secondary--resource {
+    .module:first-child {
+      padding-top: 0;
+    }
+  }
+}
+
+.module.suomifi-filters {
+  border: none;
+
+  .module-content .module-subheading {
+    padding: $padding-y__navigation 0;
+  }
+}
+
+.module-narrow > .btn,
+.module-narrow > a {
+  background-color: transparent;
+
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+.module-narrow {
+  .list-unstyled {
+    padding-left: 0;
+  }
+}
+
+#content .search-dataset-wrapper {
+  aside {
+    border: 1px solid $table-border-color;
+    background: #fff;
+  }
+
+  aside .module {
+    margin-bottom: 0;
+  }
+}
+
+#content .sidebar-header-section {
+  background: tokens.$fi-color-highlight-base;
+
+  p {
+    @include tokens.fi-text-body-semi-bold;
+
+    padding: 26px 20px 13px;
+    color: #fff;
+    line-height: 27px;
+  }
+}

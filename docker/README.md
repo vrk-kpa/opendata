@@ -23,7 +23,7 @@ This folder contains dockerized versions of the opendata services.
   * ../ckan/
     * ckan docker image
   * ../drupal
-    * drupal docker image 
+    * drupal docker image
 
 ## Build requirements
 
@@ -111,7 +111,6 @@ This file is automatically detected by docker-compose so you don't need to pass 
 # NOTE: This example assumes you have cloned opendata-ckan and opendata-drupal repos to ../../ path.
 # NOTE: We don't want node_modules in our bind-mount, thus we mask it with empty volume!
 # NOTE: Remember to build the `opendata-assets` frontend project on the host machine!
-version: "3.8"
 services:
   ckan:
     image: opendata/ckan:latest
@@ -121,9 +120,9 @@ services:
     ports:
       - "5000:5000"
     environment:
-      AWS_ACCESS_KEY_ID: "temp-access-key-if-using-ckanext-cloudstorage"
-      AWS_SECRET_ACCESS_KEY: "temp-secret-key-if-using-ckanext-cloudstorage"
-      AWS_DEFAULT_REGION: "eu-west-1"
+      CKAN_CLOUDSTORAGE_ENABLED: false
+      CKAN_CLOUDSTORAGE_DRIVER_OPTIONS: "{'key': 'temp-access-key-if-using-ckanext-cloudstorage', 'secret': 'temp-secret-key-if-using-ckanext-cloudstorage', 'token': ''}"
+      CKAN_CLOUDSTORAGE_CONTAINER_NAME: "some-test-bucket-name"
     volumes:
       - ../ckan/ckanext:/srv/app/ckanext
       - /srv/app/opendata-assets/node_modules/
@@ -148,16 +147,15 @@ services:
       - ../drupal/modules/avoindata-servicemessage/:/opt/drupal/web/modules/avoindata-servicemessage
       - ../drupal/modules/avoindata-hero/:/opt/drupal/web/modules/avoindata-hero
       - ../drupal/modules/avoindata-categories/:/opt/drupal/web/modules/avoindata-categories
-      - ../drupal/modules/avoindata-infobox/:/opt/drupal/web/modules/avoindata-infobox
-      - ../drupal/modules/avoindata-datasetlist/:/opt/drupal/web/modules/avoindata-datasetlist
       - ../drupal/modules/avoindata-newsfeed/:/opt/drupal/web/modules/avoindata-newsfeed
-      - ../drupal/modules/avoindata-appfeed/:/opt/drupal/web/modules/avoindata-appfeed
+      - ../drupal/modules/avoindata-explore/:/opt/drupal/web/modules/avoindata-explore
       - ../drupal/modules/avoindata-footer/:/opt/drupal/web/modules/avoindata-footer
       - ../drupal/modules/avoindata-articles/:/opt/drupal/web/modules/avoindata-articles
       - ../drupal/modules/avoindata-events/:/opt/drupal/web/modules/avoindata-events
       - ../drupal/modules/avoindata-guide/:/opt/drupal/web/modules/avoindata-guide
       - ../drupal/modules/avoindata-user/:/opt/drupal/web/modules/avoindata-user
       - ../drupal/modules/avoindata-ckeditor-plugins/:/opt/drupal/web/modules/avoindata-ckeditor-plugins
+      - ../drupal/modules/avoindata-ckeditor5-plugins/:/opt/drupal/web/modules/avoindata-ckeditor5-plugins
       - ../drupal/modules/avoindata-theme:/opt/drupal/web/themes/avoindata
       - ../opendata-assets:/opt/drupal/web/modules/opendata-assets
       - /opt/drupal/web/modules/opendata-assets/node_modules/
@@ -174,6 +172,11 @@ services:
     ports:
       - "8983:8983"
     restart: unless-stopped
+  datapusher:
+    image: opendata/datapusher:latest
+    build:
+      context: ./datapusher-plus
+    restart: unless-stopped
   postgres:
     restart: unless-stopped
 
@@ -187,27 +190,27 @@ services:
 
 ### Build/rebuild & create/recreate
 ```bash
-docker-compose -p opendata up --build -d
+docker compose -p opendata up --build -d
 ```
 
 ### Bring services down
 ```bash
-docker-compose -p opendata down
+docker compose -p opendata down
 ```
 
 ### Destroy services
 ```bash
-docker-compose -p opendata down --volumes
+docker compose -p opendata down --volumes
 ```
 
 ### Example: Scale service X to N containers
 ```bash
-docker-compose -p opendata up --scale X=N -d
+docker compose -p opendata up --scale X=N -d
 ```
 
 ### Example: scaling drupal to 5 instances
 ```bash
-docker-compose -p opendata up --scale drupal=5 -d
+docker compose -p opendata up --scale drupal=5 -d
 ```
 
 ## Services that currently support scaling in local environment
@@ -242,14 +245,23 @@ processors=2
 #### Running
 
 Install packages `npm install` in root of `opendata`
-Run `npm run cypress:open` and it will open a window where you can run specific tests.
 
-#### Test environment
-
-When you want to separate tests from development environment, you can give docker-compose different project name:
+To run cypress tests, execute following command in root directory
 
 ```bash
-docker-compose -p opendata-test up
+docker run --network host -v $PWD:/e2e -w /e2e --entrypoint cypress cypress/included:12.17.2 run
+```
+or if you want to use cypress UI, run the following, you might need to install additional [dependencies](https://docs.cypress.io/guides/getting-started/installing-cypress#Linux-Prerequisites) :
+
+```bash
+npx cypress open
+```
+#### Test environment
+
+When you want to separate tests from development environment, you can give docker compose different project name:
+
+```bash
+docker compose -p opendata-test up
 ```
 
 To get rid of flask debug toolbar (cypress tests will fail when toolbar is visible), you can add environment-variable `TEST: 'true'` for ckan-service in `docker-compose.override.yml`
@@ -263,15 +275,44 @@ services:
       TEST: "true"
 ```
 
-When your environment is up and ready, it might give you a different name for ckan container. You can check this with `docker container ls` and find your ckan-containers name. Then you can create file `cypress.env.json` in root directory of `opendata` and replace the default name used in test preparation commands:
+### Unit tests
 
-```json
-{
-    "resetDB": true,
-    "cloudStorageEnabled": false,
-    "docker": true,
-    "test_container_name": "opendata-test_ckan_1"
-}
+Running unit tests locally require separate solr container not interfere with the regular one, you can add it by adding following to `docker-compose.override.yml`:
+
+```yml
+services:
+  ...
+  solr-test:
+      image: opendata/solr:latest
+      build:
+        context: ./solr
+      expose:
+        - 8983
+      networks:
+        - backend
+      volumes:
+        - solr_test_data:/opt/solr/server/solr/ckan/data
+    restart: unless-stopped
 ```
 
-Note that you can override also other env-variables in that file.
+and adding volume for it by adding the following to the end of file:
+```yml
+volumes:
+  solr_test_data:
+```
+
+The developer needs to create symlink once to allow ckan test files to be located, run within container:
+```bash
+ln -s /srv/app/src/ckan /srv/app/ckanext/ckan
+```
+
+Running the tests within the container can be done by running following commands:
+
+```bash
+cd ckanext/ckanext-ytp_main/
+pytest --ckan-ini test.ini --disable-warning ckanext/ytp/tests/
+```
+
+## DCAT-AP
+
+There is custom profile for DCAT-AP. You can generate `doc/dcat-ap/readme.md` and `nginx/www/ns/index.html` from jinja templates under `doc/dcat-ap` with [j2cli](https://pypi.org/project/j2cli/) by running a command `j2 --undefined template.*.j2 model.yml > destination/file.example` inside `doc/dcat-ap/`

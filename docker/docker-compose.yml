@@ -1,11 +1,10 @@
-version: "3.8"
-
 x-env-ckan: &env-ckan
   CKAN_IMAGE_TAG: ${CKAN_IMAGE_TAG}
   CKAN_HOST: ${CKAN_HOST}
   CKAN_PORT: ${CKAN_PORT}
   DATAPUSHER_HOST: ${DATAPUSHER_HOST}
   DATAPUSHER_PORT: ${DATAPUSHER_PORT}
+  DATAPUSHER_API_TOKEN: ${DATAPUSHER_API_TOKEN}
   REDIS_HOST: ${REDIS_HOST}
   REDIS_PORT: ${REDIS_PORT}
   REDIS_DB: ${REDIS_DB}
@@ -13,18 +12,24 @@ x-env-ckan: &env-ckan
   SOLR_PORT: ${SOLR_PORT}
   SOLR_PATH: ${SOLR_PATH}
   NGINX_HOST: ${NGINX_HOST}
-  DB_HOST: ${DB_HOST}
+  DB_CKAN_HOST: ${DB_CKAN_HOST}
   DB_CKAN: ${DB_CKAN}
   DB_CKAN_USER: ${DB_CKAN_USER}
   DB_CKAN_PASS: ${DB_CKAN_PASS}
-  DB_DATASTORE_READONLY: ${DB_DATASTORE_READONLY}
+  DB_DATASTORE_HOST: ${DB_DATASTORE_HOST}
+  DB_DATASTORE: ${DB_DATASTORE}
+  DB_DATASTORE_ADMIN: ${DB_DATASTORE_ADMIN}
+  DB_DATASTORE_ADMIN_PASS: ${DB_DATASTORE_ADMIN_PASS}
+  DB_DATASTORE_USER: ${DB_DATASTORE_USER}
+  DB_DATASTORE_PASS: ${DB_DATASTORE_PASS}
   DB_DATASTORE_READONLY_USER: ${DB_DATASTORE_READONLY_USER}
   DB_DATASTORE_READONLY_PASS: ${DB_DATASTORE_READONLY_PASS}
+  DB_DRUPAL_HOST: ${DB_DRUPAL_HOST}
   DB_DRUPAL: ${DB_DRUPAL}
   DB_DRUPAL_USER: ${DB_DRUPAL_USER}
   DB_DRUPAL_PASS: ${DB_DRUPAL_PASS}
+  SITE_ENV: ${SITE_ENV}
   DOMAIN_NAME: ${DOMAIN_NAME}
-  SECONDARY_DOMAIN_NAME: ${SECONDARY_DOMAIN_NAME}
   SITE_PROTOCOL: ${SITE_PROTOCOL}
   ROLES_CKAN_ADMIN: ${ROLES_CKAN_ADMIN}
   SYSADMIN_USER: ${SYSADMIN_USER}
@@ -47,9 +52,10 @@ x-env-ckan: &env-ckan
   CAPTCHA_ENABLED: ${CAPTCHA_ENABLED}
   RECAPTCHA_PUBLIC_KEY: ${RECAPTCHA_PUBLIC_KEY}
   RECAPTCHA_PRIVATE_KEY: ${RECAPTCHA_PRIVATE_KEY}
-  DISQUS_DOMAIN: ${DISQUS_DOMAIN}
   SENTRY_DSN: ${SENTRY_DSN}
-  SENTRY_ENV: ${SENTRY_ENV}
+  SENTRY_TRACES_SAMPLE_RATE: ${SENTRY_TRACES_SAMPLE_RATE}
+  SENTRY_PROFILES_SAMPLE_RATE: ${SENTRY_PROFILES_SAMPLE_RATE}
+  SENTRY_LOADER_SCRIPT: ${SENTRY_LOADER_SCRIPT}
   CKAN_SYSADMIN_NAME: ${SYSADMIN_USER}
   CKAN_SYSADMIN_PASSWORD: ${SYSADMIN_PASS}
   CKAN_SYSADMIN_EMAIL: ${SYSADMIN_EMAIL}
@@ -64,23 +70,33 @@ services:
     build:
       context: ./postgres
     restart: on-failure
+    read_only: true
     ports:
       - "5432:5432"
     networks:
       - backend
     environment:
-      - PGDATA=/var/lib/postgresql/data/db
       - POSTGRES_DB=${DB_CKAN}
       - POSTGRES_USER=${DB_CKAN_USER}
       - POSTGRES_PASSWORD=${DB_CKAN_PASS}
-      - DB_DATASTORE_READONLY=${DB_DATASTORE_READONLY}
+      - DB_DATASTORE=${DB_DATASTORE}
+      - DB_DATASTORE_USER=${DB_DATASTORE_USER}
+      - DB_DATASTORE_PASS=${DB_DATASTORE_PASS}
       - DB_DATASTORE_READONLY_USER=${DB_DATASTORE_READONLY_USER}
       - DB_DATASTORE_READONLY_PASS=${DB_DATASTORE_READONLY_PASS}
       - DB_DRUPAL=${DB_DRUPAL}
       - DB_DRUPAL_USER=${DB_DRUPAL_USER}
       - DB_DRUPAL_PASS=${DB_DRUPAL_PASS}
+      - DB_DATAPUSHER_JOBS=${DB_DATAPUSHER_JOBS}
+      - DB_DATAPUSHER_JOBS_USER=${DB_DATAPUSHER_JOBS_USER}
+      - DB_DATAPUSHER_JOBS_PASS=${DB_DATAPUSHER_JOBS_PASS}
+      - DB_CKAN_TEST=${DB_CKAN_TEST}
+      - DB_CKAN_TEST_USER=${DB_CKAN_TEST_USER}
+      - DB_CKAN_TEST_PASS=${DB_CKAN_TEST_PASS}
+    tmpfs:
+        - /var/run/postgresql:uid=999,gid=999
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${DB_CKAN_USER}"]
       interval: 15s
@@ -91,6 +107,7 @@ services:
   redis:
     image: redis:${REDIS_IMAGE_TAG}
     restart: on-failure
+    read_only: true
     expose:
       - 6379
     networks:
@@ -105,18 +122,15 @@ services:
   solr:
     image: ${REGISTRY}/${REPOSITORY}/solr:${SOLR_IMAGE_TAG}
     restart: always
+    read_only: true
     expose:
       - 8983
     networks:
       - backend
+    tmpfs:
+        - /tmp:mode=1777
     volumes:
-      - solr_data:/opt/solr/server/solr/ckan/data
-    healthcheck:
-      test: ["CMD-SHELL", "curl --fail -s http://localhost:8983/solr/ckan/admin/ping?wt=json | grep -o 'OK'"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
-      start_period: 15s
+      - solr_data:/var/solr/data/ckan/data
 
   ckan:
     image: ${REGISTRY}/${REPOSITORY}/ckan:${CKAN_IMAGE_TAG}
@@ -137,7 +151,7 @@ services:
     volumes:
       - ckan_data:/srv/app/data
     healthcheck:
-      test: ["CMD-SHELL", "curl --fail http://localhost:5000/api/3/action/status_show || exit 1"]
+      test: ["CMD-SHELL", "curl --fail http://localhost:5000/api/3/action/status_show --user-agent 'docker-healthcheck' || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -159,30 +173,42 @@ services:
     volumes:
       - ckan_data:/srv/app/data
     healthcheck:
-      test: ["CMD-SHELL", "ps -aux | grep -o '[c]ron -f' && ps -aux | grep -o '[s]upervisord --configuration'"]
+      test: ["CMD-SHELL", "ps | grep -o '[s]upercronic' && ps | grep -o '[s]upervisord --configuration'"]
       interval: 15s
       timeout: 5s
       retries: 5
       start_period: 60s
 
   datapusher:
-    image: keitaro/ckan-datapusher:${DATAPUSHER_IMAGE_TAG}
+    image: ${REGISTRY}/${REPOSITORY}/datapusher:${DATAPUSHER_IMAGE_TAG}
     restart: always
     networks:
       - frontend
       - backend
-    expose:
-      - 8000
-    env_file:
-      - ./.env.datapusher.local
-    environment:
-      - DATAPUSHER_REWRITE_URL=http://${CKAN_HOST}:${CKAN_PORT}/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ckan:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl --fail http://localhost:8000/status || exit 1"]
+      test: ["CMD-SHELL", "curl --fail http://localhost:${DATAPUSHER_PORT}/status || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 5
       start_period: 15s
+    environment:
+      - DB_DATASTORE_HOST=${DB_DATASTORE_HOST}
+      - DB_DATAPUSHER_JOBS_HOST=${DB_DATAPUSHER_JOBS_HOST}
+      - DB_DATAPUSHER_JOBS=${DB_DATAPUSHER_JOBS}
+      - DB_DATAPUSHER_JOBS_USER=${DB_DATAPUSHER_JOBS_USER}
+      - DB_DATAPUSHER_JOBS_PASS=${DB_DATAPUSHER_JOBS_PASS}
+      - DB_DATASTORE=${DB_DATASTORE}
+      - DB_DATASTORE_USER=${DB_DATASTORE_USER}
+      - DB_DATASTORE_PASS=${DB_DATASTORE_PASS}
+      - DOWNLOAD_PROXY=http://${CKAN_HOST}:${CKAN_PORT}
+      - PORT=${DATAPUSHER_PORT}
+    env_file:
+      - ./.env.datapusher.local
 
   drupal:
     image: ${REGISTRY}/${REPOSITORY}/drupal:${DRUPAL_IMAGE_TAG}
@@ -191,22 +217,21 @@ services:
       - frontend
       - backend
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     expose:
-      - 80
+      - 9000
     env_file:
       - ./.env.drupal.local
     environment:
       - DRUPAL_IMAGE_TAG=${DRUPAL_IMAGE_TAG}
-      - DB_HOST=${DB_HOST}
+      - DB_DRUPAL_HOST=${DB_DRUPAL_HOST}
       - DB_DRUPAL=${DB_DRUPAL}
       - DB_DRUPAL_USER=${DB_DRUPAL_USER}
       - DB_DRUPAL_PASS=${DB_DRUPAL_PASS}
       - DOMAIN_NAME=${DOMAIN_NAME}
-      - SECONDARY_DOMAIN_NAME=${SECONDARY_DOMAIN_NAME}
       - SITE_NAME=${SITE_NAME}
       - ROLES_CKAN_ADMIN=${ROLES_CKAN_ADMIN}
-      - ROLES_EDITOR=${ROLES_EDITOR}
       - ROLES_PUBLISHER=${ROLES_PUBLISHER}
       - SYSADMIN_USER=${SYSADMIN_USER}
       - SYSADMIN_PASS=${SYSADMIN_PASS}
@@ -225,24 +250,14 @@ services:
       - MATOMO_SCRIPT_DOMAIN=${MATOMO_SCRIPT_DOMAIN}
       - MATOMO_TOKEN=${MATOMO_TOKEN}
       - CAPTCHA_ENABLED=${CAPTCHA_ENABLED}
-      - DISQUS_DOMAIN=${DISQUS_DOMAIN}
       - RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY}
       - RECAPTCHA_PRIVATE_KEY=${RECAPTCHA_PRIVATE_KEY}
-      - USERS_0_USER=${USERS_0_USER}
-      - USERS_0_PASS=${USERS_0_PASS}
-      - USERS_0_EMAIL=${USERS_0_EMAIL}
-      - USERS_0_ROLES=${USERS_0_ROLES}
-      - USERS_1_USER=${USERS_1_USER}
-      - USERS_1_PASS=${USERS_1_PASS}
-      - USERS_1_EMAIL=${USERS_1_EMAIL}
-      - USERS_1_ROLES=${USERS_1_ROLES}
-      - USERS_2_USER=${USERS_2_USER}
-      - USERS_2_PASS=${USERS_2_PASS}
-      - USERS_2_EMAIL=${USERS_2_EMAIL}
+      - SENTRY_DSN=${SENTRY_DSN}
+      - SITE_ENV=${SITE_ENV}
     volumes:
       - drupal_data:/opt/drupal/web/sites/default/files
     healthcheck:
-      test: ["CMD-SHELL", "ps -aux | grep -o '[a]pache2 -DFOREGROUND'"]
+      test: ["CMD-SHELL", "ps | pgrep -l 'php-fpm' && ps | pgrep -l 'nginx'"]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -251,6 +266,7 @@ services:
   nginx:
     image: ${REGISTRY}/${REPOSITORY}/nginx:${NGINX_IMAGE_TAG}
     restart: always
+    read_only: true
     networks:
       - frontend
     depends_on:
@@ -260,10 +276,15 @@ services:
       - "80:80"
     env_file:
       - ./.env.nginx.local
+    tmpfs:
+        - /tmp:mode=1777
+        - /var/cache/nginx:uid=101,gid=101
+        - /var/run:uid=101,gid=101
+        - /etc/nginx/conf.d
+        - /var/www/static
     environment:
       - NGINX_PORT=${NGINX_PORT}
       - DOMAIN_NAME=${DOMAIN_NAME}
-      - SECONDARY_DOMAIN_NAME=${SECONDARY_DOMAIN_NAME}
       - NAMESERVER=${NAMESERVER}
       - CKAN_HOST=${CKAN_HOST}
       - CKAN_PORT=${CKAN_PORT}
@@ -271,8 +292,9 @@ services:
       - DRUPAL_PORT=${DRUPAL_PORT}
 
   fuseki:
-    image: stain/jena-fuseki:latest
+    image: stain/jena-fuseki:${FUSEKI_IMAGE_TAG}
     restart: on-failure
+    read_only: true
     networks:
       - frontend
       - backend
@@ -281,14 +303,23 @@ services:
     environment:
       ADMIN_PASSWORD: "${FUSEKI_ADMIN_PASS}"
       FUSEKI_DATASET_1: "${FUSEKI_OPENDATA_DATASET}"
+    tmpfs:
+        - /tmp:mode=1777
     volumes:
       - fuseki_data:/fuseki
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail -s http://localhost:3030/$/ping || exit 1" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
     # Clear leftover database locks before starting server
-    command: ["sh", "-c", "rm /fuseki/system/tdb.lock /fuseki/databases/opendata/tdb.lock || /jena-fuseki/fuseki-server"]
+    # command: ["sh", "-c", "rm /fuseki/system/tdb.lock /fuseki/databases/opendata/tdb.lock || /jena-fuseki/fuseki-server"]
 
   mailhog:
     image: mailhog/mailhog:latest
     restart: on-failure
+    read_only: true
     networks:
       - frontend
       - backend
@@ -300,6 +331,8 @@ services:
       - MH_HOSTNAME=${SMTP_HOST}
       - MH_STORAGE=memory
       - MH_AUTH_FILE=/mailhog/auth
+    tmpfs:
+        - /tmp:mode=1777
     volumes:
       - ./.mh-auth:/mailhog/auth
 

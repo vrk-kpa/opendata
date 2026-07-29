@@ -1,6 +1,7 @@
 from flask_babel import force_locale
-from ckan.lib.mailer import mail_user
+from ckan.lib.mailer import mail_user, mail_recipient
 from ckan.common import _
+from ckan.plugins import toolkit
 import logging
 
 log = logging.getLogger(__name__)
@@ -19,7 +20,7 @@ User %(user)s (%(email)s) has requested membership to organization %(organizatio
 
 Best regards
 
-Avoindata.fi support
+Suomi.fi Open Data support
 avoindata@dvv.fi
 """)
 
@@ -35,7 +36,7 @@ Your membership request to organization %(organization)s with %(role)s access ha
 
 Best regards
 
-Avoindata.fi support
+Suomi.fi Open Data support
 avoindata@dvv.fi
 """)
 
@@ -51,7 +52,7 @@ Your membership request to organization %(organization)s with %(role)s access ha
 
 Best regards
 
-Avoindata.fi support
+Suomi.fi Open Data support
 avoindata@dvv.fi
 """)
 
@@ -99,3 +100,11 @@ def mail_process_status(locale, member_user, approve, group_name, capacity):
     except Exception:
         log.exception("Mail could not be sent")
         # raise MailerException("Mail could not be sent")
+
+    admin_email = toolkit.config.get('ckanext.ytp_request.admin_email')
+    if admin_email:
+        try:
+            mail_recipient('Admin notifications', admin_email,
+                           f'(sent to {member_user.name}) {subject}', message)
+        except Exception:
+            log.exception("Mail could not be sent")

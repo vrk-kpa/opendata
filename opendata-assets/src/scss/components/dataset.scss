@@ -1,0 +1,247 @@
+@use "../variables/suomifidesign" as tokens;
+@use "../mixins/suomifidesign" as suomifi-mixins;
+@import "../variables";
+
+.dataset-container {
+  background-color: $background-color__content;
+  border: 1px solid $border-color__content;
+  padding: $padding__content;
+
+  > .row {
+    margin-left: -$padding-x--common;
+    margin-right: -$padding-x--common;
+  }
+
+  .dataset-primary-content,
+  .dataset-sidebar {
+    padding: 0 $padding-x--common;
+
+    .embedded-content {
+      font-size: $font-size-base;
+    }
+
+    .embedded-content,
+    .resources,
+    .additional-info {
+      margin-bottom: $margin__module--large;
+
+      h3 {
+        margin-bottom: $padding-y--common;
+      }
+    }
+  }
+}
+
+.dataset-header-row {
+  margin-bottom: $padding-y--common;
+
+  .content_action {
+    font-weight: 600;
+    font-size: 16px;
+
+    .opendata-content-action {
+      color: $active-tab-color;
+
+      a {
+        color: $active-tab-color;
+      }
+    }
+  }
+}
+
+.high-value-dataset {
+  .fa-stack {
+    // Bigger (2x) icon in stack should be sized as given font size, so divide size-variable by 2
+    font-size: ($font-size__high-value-dataset-icon / 2);
+    width: $font-size__high-value-dataset-icon;
+    height: $font-size__high-value-dataset-icon;
+    line-height: $font-size__high-value-dataset-icon;
+    color: tokens.$fi-color-accent-base;
+    margin-right: $padding-x--small;
+  }
+}
+
+.icon-private {
+  color: tokens.$fi-color-alert-base;
+  vertical-align: middle;
+  height: 1.3em;
+}
+
+.admin-banner {
+  display: flex;
+  margin-bottom: 20px;
+
+  a {
+    @include tokens.fi-text-body-semi-bold;
+
+    font-size: $font-size-smaller-base;
+    line-height: 20px;
+    display: block;
+    margin-left: auto;
+    color: tokens.$fi-color-highlight-base;
+    letter-spacing: 0.4px;
+    border: 1px solid tokens.$fi-color-highlight-base;
+    border-radius: 2px;
+    padding: $padding-y--small $padding-x--common;
+    text-decoration: none;
+  }
+}
+
+.private-or-draft-dataset {
+  background: tokens.$fi-color-brand-base;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+  }
+
+  span {
+    @include tokens.fi-text-body-text-small;
+
+    color: tokens.$fi-color-white-base;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  a {
+    color: tokens.$fi-color-white-base;
+    border: 1px solid tokens.$fi-color-white-base;
+  }
+}
+
+.deleted-dataset {
+  background: tokens.$fi-color-alert-base;
+}
+
+.maintainer-note {
+  background: $opendata-brand-gray;
+
+  div {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+  }
+
+  span {
+    @include tokens.fi-text-body-text-small;
+
+    color: tokens.$fi-color-black-base;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  a {
+    color: tokens.$fi-color-black-base;
+    border: 1px solid tokens.$fi-color-black-base;
+  }
+}
+
+#content .container-apiset {
+  .filter-list {
+    display: flex;
+    align-items: center;
+    gap: 4px 8px;
+    font-size: 16px;
+    font-weight: 400;
+
+    .filtered {
+      @include suomifi-mixins.chip;
+    }
+  }
+
+  .search-results {
+    @include tokens.fi-text-lead-text-small-screen;
+
+    color: $navbarInverseBackgroundHighlight;
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .label-field-order {
+    @include tokens.fi-text-action-element-inner-text-bold;
+
+    color: $navbarInverseBackgroundHighlight;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 21px;
+  }
+
+  .facet {
+    @include tokens.fi-text-action-element-inner-text-bold;
+
+    color: $navbarInverseBackgroundHighlight;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 15px;
+  }
+
+  .row {
+    padding: 21px 20px;
+    border: 1px solid $table-border-color;
+    background: #fff;
+    margin-bottom: -1px;
+  }
+
+  .search-form .search-dataset {
+    border-radius: 0;
+    height: 40px;
+  }
+}
+
+.container-search-result,
+.dataset-list {
+  .dataset-heading a {
+    @include tokens.fi-text-heading3;
+
+    color: tokens.$fi-color-highlight-base;
+    height: 28px;
+  }
+
+  .dataset-item-notes {
+    @include tokens.fi-text-body-semi-bold;
+
+    line-height: 27px;
+    color: tokens.$fi-color-black-base;
+    height: 81px;
+  }
+
+  .search-item-tag {
+    background: tokens.$fi-color-white-base;
+    border: 1px solid tokens.$fi-color-depth-light1;
+    margin: 0;
+    margin-right: $margin__tag;
+    border-radius: 2px;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  .search-item-tag-organization {
+    padding: $padding__tag;
+  }
+
+  .search-item-tag-type {
+    padding: $padding__tag;
+  }
+
+  .search-item-tag span {
+    @include tokens.fi-text-body-semi-bold;
+
+    font-size: 14px;
+    line-height: 18px;
+    color: tokens.$fi-color-depth-dark1;
+    text-align: center;
+  }
+}

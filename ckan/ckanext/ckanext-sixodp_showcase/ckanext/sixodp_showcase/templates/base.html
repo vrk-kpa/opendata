@@ -11,4 +11,6 @@
   {% asset 'sixodp_showcase/sixodp_showcase_js' %}
   <script src="{{ h.url_for('/', locale='default', qualified=true) }}vendor/photoswipe.min.js"></script>
   <script src="{{ h.url_for('/', locale='default', qualified=true) }}vendor/photoswipe-ui-default.min.js"></script>
+
+  {% snippet 'sixodp_showcase/snippets/photoswipe.html' %}
 {% endblock %}

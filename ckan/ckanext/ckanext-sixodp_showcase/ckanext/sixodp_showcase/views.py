@@ -11,6 +11,7 @@ from ckan.views.home import CACHE_PARAMETERS
 import ckan.lib.navl.dictization_functions as dict_fns
 from ckanext.showcase import views, utils as showcase_utils
 
+
 from . import utils
 
 _setup_template_variables = dataset._setup_template_variables
@@ -29,6 +30,13 @@ def read(id):
     return utils.read(id)
 
 
+def read_showcase_dcat(_id, _format=None):
+    if not _format:
+        return utils.read(_id)
+    else:
+        return utils.read_showcase_page_dcat(_id, _format)
+
+
 def search():
     return utils.index(showcase_utils.DATASET_TYPE_NAME)
 
@@ -38,7 +46,7 @@ class CreateView(views.CreateView):
     def get(self, data=None, errors=None, error_summary=None):
         package_type = showcase_utils.DATASET_TYPE_NAME
         showcase_utils.check_new_view_auth()
-        context = self._prepare(data)
+        context = self._prepare()
 
         data = data or clean_dict(
             dict_fns.unflatten(
@@ -130,7 +138,7 @@ class EditView(views.EditView):
     def get(self, id, data=None, errors=None, error_summary=None):
         showcase_utils.check_new_view_auth()
 
-        context = self._prepare(id, data)
+        context = self._prepare()
         package_type = showcase_utils.DATASET_TYPE_NAME
 
         try:
@@ -164,7 +172,7 @@ class EditView(views.EditView):
         resources_json = h.json.dumps(data.get(u'resources', []))
 
         try:
-            check_access(u'package_update', context)
+            check_access(u'package_update', context, {'id': id})
         except NotAuthorized:
             return base.abort(
                 403,
@@ -215,7 +223,7 @@ class EditView(views.EditView):
         )
 
     def post(self, id):
-        context = self._prepare(id)
+        context = self._prepare()
         showcase_utils.check_edit_view_auth(id)
 
         data_dict = dataset.clean_dict(
@@ -272,6 +280,7 @@ def upload():
 
 showcase = Blueprint(u'sixodp_showcase', __name__)
 showcase.add_url_rule('/showcase', view_func=search, strict_slashes=False)
+showcase.add_url_rule('/showcase/', view_func=search)
 showcase.add_url_rule('/showcase/new', view_func=CreateView.as_view('new'))
 showcase.add_url_rule('/showcase/edit/<id>',
                       view_func=EditView.as_view('edit'),
@@ -300,6 +309,7 @@ showcase.add_url_rule('/ckan-admin/showcase_admin_remove',
 showcase.add_url_rule('/showcase_upload',
                       view_func=upload,
                       methods=[u'POST'])
+showcase.add_url_rule('/showcase/<_id>.<_format>', view_func=read_showcase_dcat)
 showcase.add_url_rule('/showcase/<id>', view_func=read)
 
 

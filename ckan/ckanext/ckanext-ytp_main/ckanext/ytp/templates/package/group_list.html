@@ -1,9 +1,13 @@
 {% ckan_extends %}
 
 {% block content_primary_nav %}
-  {{ h.build_nav_icon(dataset_type ~ '.read', _('Dataset'), id=pkg.id if is_activity_archive else pkg.name, icon='sitemap') }}
-  {{ h.build_nav_icon(dataset_type ~ '.groups', _('Groups'), id=pkg.id if is_activity_archive else pkg.name, controller='ytp_main_dataset', icon='users') }}
-  {{ h.build_nav_icon(dataset_type ~ '.activity', _('Activity Stream'), id=pkg.id if is_activity_archive else pkg.name, icon='clock-o') }}
+  {% if dataset_type == 'apiset' %}
+    {{ h.build_nav_icon(dataset_type ~ '.read', _('Apiset'), id=pkg.id if is_activity_archive else pkg.name, icon='sitemap') }}
+    {{ h.build_nav_icon(dataset_type ~ '.groups', _('Groups'), id=pkg.id if is_activity_archive else pkg.name, icon='users') }}
+  {% else %}
+    {{ h.build_nav_icon(dataset_type ~ '.read', _('Dataset'), id=pkg.id if is_activity_archive else pkg.name, icon='sitemap') }}
+    {{ h.build_nav_icon(dataset_type ~ '.groups', _('Groups'), id=pkg.id if is_activity_archive else pkg.name, icon='users') }}
+  {% endif %}
 {% endblock %}
 
 {% block primary_content_inner %}
@@ -12,28 +16,54 @@
   {% if c.pkg_dict.groups %}
     {% snippet 'group/snippets/group_list.html', groups=c.pkg_dict.groups %}
   {% else %}
-    <p class="empty">{{ _('There are no groups associated with this dataset') }}</p>
+    {% if dataset_type == 'apiset' %}
+      <p class="empty">{{ _('There are no groups associated with this apiset') }}</p>
+    {% else %}
+      <p class="empty">{{ _('There are no groups associated with this dataset') }}</p>
+    {% endif %}
   {% endif %}
 
   {% if h.check_access('package_update', {'id': c.pkg_dict.id}) %}
+
+  {%- set schema = h.scheming_get_dataset_schema('dataset') -%}
+
+  {%- set category_field = h.scheming_field_by_name(schema.dataset_fields, 'groups') -%}
+  {%- set choices = [] -%}
+
+  {%- for c in h.scheming_field_choices(category_field) -%}
+    {%- do choices.append(
+      (c.value, h.scheming_language_text_or_empty(c.label))) -%}
+  {%- endfor -%}
+
     <form method="post">
       <hr>
       <label for="field-add_group">{{_('Dataset categories')}}</label>
       <fieldset class="checkboxes" id="field-add_group">
-        {% for group in h.group_list_with_selected(c.pkg_dict.groups) %}
-          <label class="ytp-checkbox mb-3 mr-4" for="field-{{ group.name }}">
-            <input id="field-{{ group.name }}" type="checkbox" name="categories" value="{{group.name}}" {% if group.selected %} checked {% endif %}>
+        {% set selected_groups =  c.pkg_dict.groups | map(attribute='name') |join(', ') %}
+        {% for val, label in choices %}
+          <label class="ytp-checkbox mb-3 mr-4" for="field-{{ val }}">
+            <input id="field-{{ val }}" type="checkbox" name="groups" value="{{ val }}" {% if val in selected_groups %} checked {% endif %}>
             <span class="custom-checkbox"></span>
-            {{ h.get_translated(group, 'title') }}
+            {{ label }}
           </label>
         {% endfor %}
       </fieldset>
 
       <p class="italic">
-        {{ _('Categories to which the dataset is mainly related to. Choose one category or multiple accurate categories.') }}
+        {% if dataset_type == 'apiset' %}
+          {{ _('Categories to which the apiset is mainly related to. Choose one category or multiple accurate categories.') }}
+        {% else %}
+          {{ _('Categories to which the dataset is mainly related to. Choose one category or multiple accurate categories.') }}
+        {% endif %}
       </p>
       <hr>
-      <button type="submit" class="btn btn-primary px-3 pull-right" title="{{ _('Associate this group with this dataset') }}">{{ _('Save') }}</button>
+
+      {% if dataset_type == 'apiset' %}
+        {% set submit_button_title = _('Associate this group with this apiset') %}
+      {% else %}
+        {% set submit_button_title = _('Associate this group with this dataset') %}
+      {% endif %}
+      <button type="submit" class="btn btn-primary px-3 pull-right" title="{{ submit_button_title }}">{{ _('Save') }}</button>
     </form>
   {% endif %}
 {% endblock %}

@@ -18,7 +18,7 @@ function avoindata_events_install() {
 
   $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
       'path' => "/events",
-      'alias' => "/evenemanger",
+      'alias' => "/evenemang",
       'langcode' => "sv"
   ]);
   $path_alias->save();

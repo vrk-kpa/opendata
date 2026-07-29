@@ -54,7 +54,7 @@ def upper_if_exists(s):
 
 
 def list_to_string(list):
-    if isinstance(list, collections.Sequence) and not isinstance(list, str):
+    if isinstance(list, collections.abc.Sequence) and not isinstance(list, str):
         return ','.join(list)
     return list
 
@@ -83,8 +83,8 @@ def tag_string_or_tags_required(key, data, errors, context):
 
 
 def set_private_if_not_admin_or_showcase_admin(private):
-    userobj = model.User.get(c.user)
-    if userobj and not (authz.is_sysadmin(c.user) or ShowcaseAdmin.is_user_showcase_admin(userobj)):
+    userobj = toolkit.current_user
+    if userobj and not (authz.is_sysadmin(userobj.name) or ShowcaseAdmin.is_user_showcase_admin(userobj)):
         return True
     else:
         return private
@@ -199,6 +199,9 @@ def repeating_text(key, data, errors, context):
 
         out = []
         for element in value:
+            if not element:
+                continue
+
             if isinstance(element, bytes):
                 try:
                     element = element.decode('utf-8')
@@ -427,6 +430,46 @@ def from_date_is_before_until_date(field, schema):
 
 
 @scheming_validator
+def keep_old_organization_value_if_missing(field, schema):
+    from ckan.lib.navl.dictization_functions import missing, flatten_dict
+    from ckan.logic import get_action
+
+    def validator(key, data, errors, context):
+
+        if 'group' not in context:
+            return True
+
+        data_dict = flatten_dict(get_action('organization_show')(context, {'id': context['group'].id}))
+
+        if key not in data or data[key] is missing:
+            if key in data_dict:
+                data[key] = data_dict[key]
+
+    return validator
+
+
+def get_removed_checkbox_extra(key_and_checkbox_value):
+    [checkbox_key, checkbox_value] = key_and_checkbox_value.split('.')
+
+    @scheming_validator
+    def implementation(field, schema):
+
+        def validator(key, data, errors, context):
+            if 'group' not in context:
+                return True
+
+            data_dict = get_action('organization_show')(context, {'id': context['group'].id})
+
+            for extra in data_dict.get('extras', []):
+                if extra.get('key') == checkbox_key and checkbox_value in extra.get('value'):
+                    data[key] = 'true'
+
+        return validator
+
+    return implementation
+
+
+@scheming_validator
 def is_admin_in_parent_if_changed(field, schema):
 
     def validator(key, data, errors, context):
@@ -472,6 +515,27 @@ def is_admin_in_parent_if_changed(field, schema):
 
         # Stop validation if error has happened
         raise StopOnError
+
+    return validator
+
+
+@scheming_validator
+def is_allowed_parent(field, schema):
+    def validator(key, data, errors, context):
+        # Uses CKAN core function to specify parent, in html groups__0__name
+        actual_key = ("groups", 0, "name")
+
+        # Check that parent is selected and user is editing organization
+        if data.get(actual_key) and data.get(('id',), None) is not None:
+            parent_organization_name = data[actual_key]
+            current_organization = model.Group.get(data.get(('id',)))
+            allowed_parents = [allowed_parent.__dict__.get('name') for allowed_parent in
+                               current_organization.groups_allowed_to_be_its_parent(type='organization')]
+
+            if parent_organization_name not in allowed_parents:
+                errors[key].append(_('Can not save organization parent as it would create loop in hierarchy'))
+
+        return len(errors[key]) == 0
 
     return validator
 
@@ -603,3 +667,13 @@ def resource_url_validator(key, data, errors, context):
     if url_type != 'upload':
         url_validator = toolkit.get_validator('url_validator')
         url_validator(key, data, errors, context)
+
+
+def highvalue_category(key, data, errors, context):
+    highvalue = data.get(("highvalue",), False)
+    if highvalue is True:
+        value = data.get(key)
+        if not value:
+            errors[key].append(_('You must select at least 1 high value category'))
+
+        return data[key]

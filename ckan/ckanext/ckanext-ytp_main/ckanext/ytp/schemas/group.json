@@ -18,7 +18,7 @@
     {
       "field_name": "name",
       "label": "URL",
-      "validators": "not_empty unicode name_validator group_name_validator",
+      "validators": "not_empty unicode_safe name_validator group_name_validator",
       "form_snippet": "slug.html",
       "form_placeholder": "my-group",
       "required": true

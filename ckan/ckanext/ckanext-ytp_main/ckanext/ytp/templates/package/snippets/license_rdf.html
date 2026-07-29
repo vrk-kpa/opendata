@@ -4,7 +4,8 @@
                   content_title=pkg.title,
                   creator=creator_user.display_name,
                   creator_url=creator_user.url,
-                  attribution_url=h.url_for('', qualified=True) %}
+                  attribution_url=h.url_for('', qualified=True),
+                  resource_type='dataset'%}
 #}
 
 {% if license_id=='cc-zero-1.0' %}
@@ -27,21 +28,37 @@ To the extent possible under law
 
 {% if license_id=='cc-by-4.0' or license_id=='cc-by-4-fi' %}
 
-<div class="small license-smallprint">
-{% trans %}
-<span xmlns:dct="https://purl.org/dc/terms/"
-  href="https://purl.org/dc/dcmitype/Dataset"
-  property="dct:title" rel="dct:type">
-  <a xmlns:cc="https://creativecommons.org/ns#" href="{{attribution_url}}" property="cc:attributionName"
-  rel="cc:attributionURL">{{content_title}}</a></span>
-  by <a  href="{{creator_url}}" >{{creator}}</a>
-  is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
-    Creative Commons Attribution 4.0 International License</a>.
-{% endtrans %}
-</div>
-<div class="license-icon">
-<a rel="license" href="{{ _('https://creativecommons.org/licenses/by/4.0/') }}">
-    <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
-</a>
-</div>
+  <div class="small license-smallprint">
+
+  {% if resource_type == 'apiset' %}
+    {% trans %}
+    <span xmlns:dct="https://purl.org/dc/terms/"
+      href="https://purl.org/dc/dcmitype/Dataset"
+      property="dct:title" rel="dct:type">
+      <a xmlns:cc="https://creativecommons.org/ns#" href="{{attribution_url}}" property="cc:attributionName"
+      rel="cc:attributionURL">{{content_title}}</a></span>
+      by <a  href="{{creator_url}}" >{{creator}}</a>
+      apiset is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+        Creative Commons Attribution 4.0 International License</a>.
+    {% endtrans %}
+  {% else %}
+    {% trans %}
+    <span xmlns:dct="https://purl.org/dc/terms/"
+      href="https://purl.org/dc/dcmitype/Dataset"
+      property="dct:title" rel="dct:type">
+      <a xmlns:cc="https://creativecommons.org/ns#" href="{{attribution_url}}" property="cc:attributionName"
+      rel="cc:attributionURL">{{content_title}}</a></span>
+      by <a  href="{{creator_url}}" >{{creator}}</a>
+      is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">
+        Creative Commons Attribution 4.0 International License</a>.
+    {% endtrans %}
+  {% endif %}
+
+  </div>
+
+  <div class="license-icon">
+  <a rel="license" href="{{ _('https://creativecommons.org/licenses/by/4.0/') }}">
+      <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+  </a>
+  </div>
 {% endif %}

@@ -1,0 +1,71 @@
+/**
+ * Navbar styling.
+ */
+body {
+  // Fix horizontal scrolling on iOS devices.
+  // https://www.drupal.org/node/1870076
+  position: relative;
+
+  &.navbar-is-static-top {
+    margin-top: 0;
+  }
+
+  &.navbar-is-fixed-top {
+    margin-top: calc($navbar-height + ($grid-gutter-width / 2));
+  }
+
+  &.navbar-is-fixed-bottom {
+    padding-bottom: calc($navbar-height + ($grid-gutter-width / 2));
+  }
+
+  @include media-breakpoint-up(sm) {
+    margin-top: calc($grid-gutter-width / 2);
+  }
+
+  @include media-breakpoint-down(xs) {
+    &.toolbar-vertical {
+      &.navbar-is-fixed-top,
+      &.navbar-is-fixed-bottom {
+        .toolbar-bar {
+          position: fixed;
+        }
+
+        header {
+          z-index: 500;
+        }
+      }
+
+      // Default toolbar fixed height value.
+      // $see core/modules/toolbar/css/toolbar.icons.theme.css$261
+      &.navbar-is-fixed-top header {
+        top: 39px;
+      }
+    }
+  }
+}
+
+.navbar.container {
+  @include media-breakpoint-up(sm) {
+    max-width: calc(($container-sm - $grid-gutter-width));
+  }
+
+  @include media-breakpoint-up(md) {
+    max-width: calc(($container-md - $grid-gutter-width));
+  }
+
+  @include media-breakpoint-up(lg) {
+    max-width: calc(($container-lg - $grid-gutter-width));
+  }
+}
+
+// Branding.
+.navbar .logo {
+  margin-right: calc($grid-gutter-width / -2);
+  padding-left: calc($grid-gutter-width / 2);
+  padding-right: calc($grid-gutter-width / 2);
+
+  @include media-breakpoint-up(md) {
+    margin-right: 0;
+    padding-left: 0;
+  }
+}

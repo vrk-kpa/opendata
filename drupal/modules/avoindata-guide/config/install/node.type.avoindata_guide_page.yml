@@ -18,6 +18,9 @@ third_party_settings:
       - operating-model-menu-en
       - operating-model-menu-fi
       - operating-model-menu-sv
+      - faq-menu-en
+      - faq-menu-fi
+      - faq-menu-sv
     parent: 'guide-menu-fi:'
 _core:
   default_config_hash: TJ9-xPK8xacrOKUra0l2-DrLJz6nZO7nnq68pl_lT5E

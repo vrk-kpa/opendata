@@ -22,9 +22,6 @@ ckan.module("ytp-multiselect", function($) {
         // Otherwise
         // collapse all expanded multiselect dropdowns
         $(".ytp-multiselect.expanded").removeClass("expanded");
-        if (changes) {
-          $(".advanced-search-form").submit();
-        }
       });
 
       // Add dropdown toggle event to main button
@@ -36,9 +33,6 @@ ckan.module("ytp-multiselect", function($) {
             this.el.addClass("expanded");
           } else {
             $(".ytp-multiselect.expanded").removeClass("expanded");
-          }
-          if (changes) {
-            $(".advanced-search-form").submit();
           }
           this._onToggleMultiSelect(this.el);
         });

@@ -1,6 +1,6 @@
-import {CommonStackProps} from "./common-stack-props";
+import {EnvStackProps} from "./env-stack-props";
 
-export interface BackupStackProps extends CommonStackProps {
+export interface BackupStackProps extends EnvStackProps {
     importVault: boolean;
     backups: boolean;
 

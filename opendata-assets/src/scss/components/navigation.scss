@@ -1,0 +1,80 @@
+@use "../variables/suomifidesign" as tokens;
+
+.navbar-header .navbar-toggler {
+  margin-right: 25px;
+}
+
+// Override "sidebar" arrow
+@media (min-width: $screen-sm-min) {
+  .nav-item.active > a::before,
+  .nav-aside li.active a::before {
+    content: none;
+  }
+}
+
+.module-narrow {
+  .nav-aside > li,
+  .nav-simple > li {
+    @include tokens.fi-text-body-semi-bold-small;
+
+    border: none;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid tokens.$fi-color-depth-light3;
+    }
+
+    > a,
+    .module-narrow & > a {
+      color: tokens.$fi-color-highlight-base;
+      text-decoration: none;
+      margin: 0;
+      padding: $padding-y__navigation $padding-x__navigation $padding-y__navigation $padding-x__navigation;
+
+      &:hover {
+        text-decoration: none;
+        background-color: transparent;
+      }
+    }
+
+    &:hover {
+      background-color: tokens.$fi-color-depth-light2;
+    }
+
+    &.active {
+      > a {
+        @include tokens.fi-text-body-semi-bold-small;
+
+        background-color: tokens.$fi-color-depth-light3;
+        padding-left: $padding-x__navigation;
+
+        &, &:hover {
+          color: tokens.$fi-color-highlight-base;
+
+          &::after {
+            @include font-awesome-icon("\f00d");
+
+            font-weight: 300;
+          }
+        }
+
+        &:hover {
+          background-color: tokens.$fi-color-highlight-light3;
+        }
+      }
+    }
+  }
+}
+
+// In the resources view, the current resource is active and
+// it shouldn't be blue
+.resources .nav-simple > li.active {
+  color: $facet-link-text-color;
+}
+
+.navbar-default {
+  background-color: $navbar-background;
+}

@@ -1,4 +1,4 @@
-FROM solr:9.0.0
+FROM solr:9.10.1
 
 # switch from solr to root user
 USER root
@@ -7,8 +7,8 @@ USER root
 RUN apt-get update -yq && apt-get upgrade -yq
 
 # setup env vars
-ENV SOLR_CORE ckan
-ENV SOLR_CORE_PATH /var/solr/data
+ENV SOLR_CORE=ckan
+ENV SOLR_CORE_PATH=/var/solr/data
 
 # create folders
 RUN mkdir -p $SOLR_CORE_PATH/$SOLR_CORE/conf
@@ -32,3 +32,9 @@ RUN chown -R "$SOLR_USER:$SOLR_USER" $SOLR_CORE_PATH/$SOLR_CORE
 
 # switch from root to solr user
 USER $SOLR_USER:$SOLR_USER
+
+# allow solr user to write to tmp in ecs fargate
+VOLUME /tmp
+
+HEALTHCHECK --interval=15s --timeout=5s \
+  CMD curl --fail -s http://localhost:8983/solr/ckan/admin/ping?wt=json | grep -o 'OK'

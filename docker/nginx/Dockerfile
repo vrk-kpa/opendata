@@ -1,11 +1,9 @@
 # build args
-ARG DYNATRACE_ENABLED=0
 
-FROM nginx:1.23.1-alpine AS nginx_build
+FROM nginx:1.31.1-alpine AS nginx_build
 
 # install pkgs
-RUN apk add --update-cache python3 py3-pip && \
-    pip install jinja2-cli
+RUN apk add --update-cache minijinja-cli
 
 # copy config, nginx templated configs & jinja2 templates
 COPY nginx.conf /etc/nginx/nginx.conf
@@ -19,24 +17,18 @@ RUN chmod +x /docker-entrypoint.d/*.sh
 # install www directory
 COPY www /var/www/
 
-#
-# Production stage, dynatrace enabled
-#
-FROM nginx_build AS production-dynatrace-1
 
-# install dynatrace oneagent
-# https://www.dynatrace.com/support/help/setup-and-configuration/setup-on-cloud-platforms/amazon-web-services/deploy-oneagent-on-aws-fargate
-COPY --from=ayv41550.live.dynatrace.com/linux/oneagent-codemodules-musl:nginx / /
-ENV LD_PRELOAD /opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so
+HEALTHCHECK --interval=15s --timeout=5s \
+  CMD curl -f http://localhost/health || exit 1
 
-#
-# Production stage, dynatrace disabled
-#
-FROM nginx_build AS production-dynatrace-0
+# Development image
+FROM nginx_build AS nginx_development
 
-# do nothing :^)
+ENV DEV_MODE=true
+RUN minijinja-cli /etc/nginx/jinja2-templates/server.conf.template.j2 -o /etc/nginx/templates/server.conf.template --env
 
 #
 # Production image
 #
-FROM production-dynatrace-${DYNATRACE_ENABLED} AS production
+FROM nginx_build AS production
+RUN minijinja-cli /etc/nginx/jinja2-templates/server.conf.template.j2 -o /etc/nginx/templates/server.conf.template --env

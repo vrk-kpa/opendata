@@ -6,9 +6,11 @@ export interface EnvProps {
   CKAN_IMAGE_TAG: string,
   DRUPAL_IMAGE_TAG: string,
   SOLR_IMAGE_TAG: string,
-  NGINX_IMAGE_TAG: string,
-  // 3rd party images
   DATAPUSHER_IMAGE_TAG: string,
+  NGINX_IMAGE_TAG: string,
+  CLAMAV_IMAGE_TAG: string,
+  // 3rd party images
+  FUSEKI_IMAGE_TAG: string,
 }
 
 export function parseEnv(key: string): string {
@@ -17,4 +19,9 @@ export function parseEnv(key: string): string {
     throw new Error(`parseEnv error: ${key} is undefined or null!`);
   }
   return val;
+}
+
+export interface OldDomain {
+  rootFqdn: string,
+  webFqdn?: string
 }

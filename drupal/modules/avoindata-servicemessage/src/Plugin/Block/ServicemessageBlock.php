@@ -23,9 +23,11 @@ class ServicemessageBlock extends BlockBase {
 
     $messageNodeIdsQuery = \Drupal::entityQuery('node')
       ->condition('type', 'avoindata_servicemessage')
+      ->condition('status', 1)
       ->condition('langcode', $lang);
 
     $messageNodeIds = $messageNodeIdsQuery
+      ->accessCheck(TRUE)
       ->execute();
 
     $messageNodes = \Drupal::entityTypeManager()

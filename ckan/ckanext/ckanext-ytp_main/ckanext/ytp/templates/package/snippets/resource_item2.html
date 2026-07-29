@@ -6,7 +6,11 @@
   {% if not url_is_edit %}
     <div class="pull-right resource-item-actions">
         {% if can_edit and res.id != false and res.id != resource_under_edit %}
-            <a href="{{ h.url_for('dataset_resource.edit', id=pkg.name, resource_id=res.id) }}" class="resource-action">{{ _('Manage') }}</a>
+            {% if pkg.type == 'apiset'%}
+              <a href="{{ h.url_for('apiset_resource.edit', id=pkg.name, resource_id=res.id) }}" class="resource-action">{{ _('Manage') }}</a>
+            {% else %}
+              <a href="{{ h.url_for('dataset_resource.edit', id=pkg.name, resource_id=res.id) }}" class="resource-action">{{ _('Manage') }}</a>
+            {% endif%}
         {% endif %}
       <a href="{{ res.url }}" target="_blank" class="resource-url-analytics resource-type-{{ res.resource_type }} resource-action">
         {% if (res.resource_type in ('listing', 'service') or res.resource_type == 'api' or not res.can_be_previewed) and res.url_type != 'upload' %}

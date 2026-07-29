@@ -1,0 +1,1001 @@
+@use "../variables/suomifidesign" as tokens;
+
+// Form specific overrides
+@import "../variables";
+@import "../mixins/mixins";
+
+$input-border-radius: 2px;
+$input-border-color: tokens.$fi-color-depth-light1;
+$input-border-width: 1px;
+
+// ------------------------
+// OVERRIDES AND OLD STYLES
+// ------------------------
+.form-control {
+  border: 1px solid $opendata-ckan-unhighlight;
+  border-radius: $border-radius__input;
+  border-color: $border-color__input;
+  padding: $padding-y__input $padding-x__input;
+
+  &[type="file"] {
+    height: auto;
+  }
+}
+
+.form-horizontal .form-group {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.form-horizontal .control-label {
+  width: auto;
+  text-align: left;
+  padding: inherit;
+  margin-bottom: 5px;
+}
+
+.form-select {
+  align-items: baseline;
+}
+
+.control-label .group-label {
+  margin-bottom: 10px;
+}
+
+.form-horizontal .controls {
+  margin-left: 0;
+  padding: inherit;
+}
+
+.form-actions {
+  overflow: inherit;
+  display: flex;
+  flex-direction: column-reverse;
+
+  .btn {
+    align-self: flex-end;
+
+    &.btn-danger {
+      align-self: flex-start;
+    }
+  }
+}
+
+.control-required-message {
+  align-self: flex-start;
+  font-size: $font-size-slightly-smaller-base;
+  color: tokens.$fi-color-depth-dark1;
+
+  span.control-required,
+  .control-required {
+    &,
+    .page-container & {
+      float: none;
+      color: inherit;
+    }
+  }
+}
+
+label.control-label,
+label.group-label {
+  // Remove ":" from group label and control label
+  &::after {
+    content: none;
+  }
+}
+
+// Form remove button overrides. No more rounded edges.
+.btn-remove-url {
+  top: 0 !important;
+  right: 0 !important;
+  padding: 5px 15px !important;
+  border-radius: 0 4px 4px 0 !important;
+  height: 100% !important;
+}
+
+// Translation and other "group" fields
+.form-group-fluent .form-group {
+  @include flex-display(flex);
+
+  .control-label {
+    min-width: 40px;
+  }
+
+  .controls {
+    @include flex-grow(2);
+  }
+}
+
+.opendata-search-form {
+  margin-top: 12px;
+  margin-bottom: 20px;
+
+  .search-wrapper {
+    @include flex-display(flex);
+    @include flex-direction(row);
+    @include flex-flow(nowrap);
+
+    max-width: 100%;
+    min-height: 62px;
+    height: 0;
+
+    input {
+      height: 62px;
+      padding: 8px 12px;
+      margin-top: 0;
+      font-size: 14px;
+      line-height: 1.4286;
+      color: #333;
+      border-radius: 4px;
+      vertical-align: middle;
+      background-color: #fff;
+      border: 1px solid $opendata-ckan-unhighlight;
+
+      &:focus {
+        border-color: #3898ec;
+        outline: 0;
+      }
+    }
+
+    button {
+      margin-top: 0;
+      height: 62px;
+
+      @media (width <= 450px) {
+        span {
+          display: none;
+        }
+      }
+    }
+
+    .search-input {
+      margin-top: 10px;
+      margin-right: 10px;
+
+      @include flex-order(0);
+      @include flex(1 0 auto);
+    }
+
+    .search-submit {
+      margin-top: 10px;
+
+      @include flex-order(1);
+      @include flex(0 0 auto);
+    }
+  }
+}
+
+.search-form {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
+
+  .search-input {
+    &.search-giant {
+      button {
+        top: 25%;
+        margin-top: 0;
+
+        i {
+          font-size: 18px;
+          height: 18px;
+          width: 18px;
+          color: tokens.$fi-color-black-base;
+        }
+      }
+    }
+  }
+
+  .filter-list {
+    margin: 0;
+  }
+
+  .search-form__result-summary {
+    margin-top: $padding-y--common;
+    padding: $padding-y--common $padding-x--common;
+    background-color: $background-color__content;
+    border: 1px solid tokens.$fi-color-depth-light1;
+  }
+
+  .search-form__result-text {
+    font-size: $font-size-h3-alt;
+    line-height: $line-height-h3-alt;
+    font-weight: $font-weight-normal;
+  }
+}
+
+.search-form.list-head-search-form {
+  margin-bottom: 0;
+  border-bottom: 0;
+
+  .search-header {
+    border: 1px solid tokens.$fi-color-depth-light1;
+    border-bottom: 0;
+    padding: $padding-y--common;
+    display: flex;
+    background-color: $background-color__content;
+    margin-top: $padding-y--common;
+  }
+
+  .search-result-count {
+    font-size: 20px;
+    color: tokens.$fi-color-black-base;
+    flex: auto;
+  }
+
+  input.search.form-control {
+    border: 1px solid tokens.$fi-color-depth-base;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 2px 0 rgb(41 41 41 / 10%);
+    font-size: 16px;
+    height: 40px;
+  }
+
+  .control-order-by {
+    margin-bottom: 0;
+  }
+}
+
+.field-assistive-text {
+  font-style: italic;
+  margin-bottom: 2em;
+}
+
+fieldset.checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+// --------------
+// SUOMI.FI FORMS
+// --------------
+
+.ytp-checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  max-width: max-content;
+  font-weight: normal;
+
+  [type="checkbox"] {
+    display: none;
+
+    & + .custom-checkbox {
+      border: $input-border-width solid $input-border-color;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 25px;
+      height: 25px;
+      margin-right: 15px;
+    }
+
+    &:checked + .custom-checkbox::before {
+      @include font-awesome-icon("\f00c");
+
+      font-weight: 500;
+      vertical-align: middle;
+      display: inline-block;
+      font-size: 30px;
+      margin: 0;
+      padding: 0;
+      pointer-events: none;
+    }
+  }
+}
+
+.ytp-multiselect {
+  width: 100%;
+  position: relative;
+
+  &:not(:last-of-type) {
+    margin-right: 20px;
+  }
+
+  &.expanded {
+    .choicelist {
+      border: solid $input-border-width $input-border-color;
+      position: absolute;
+      width: 100%;
+      background: white;
+      border-top: none;
+      border-radius: 0 0 $input-border-radius $input-border-radius;
+      max-height: 300px;
+      overflow-y: scroll;
+      z-index: 3;
+    }
+
+    button {
+      border-radius: $input-border-radius $input-border-radius 0 0;
+
+      .fa-caret-down {
+        display: none;
+      }
+    }
+  }
+
+  &:not(.expanded) {
+    .choicelist {
+      display: none;
+    }
+
+    button .fa-caret-up {
+      display: none;
+    }
+  }
+
+  .ytp-multiselect-toggle {
+    background: white;
+
+    &:focus {
+      background: tokens.$fi-color-highlight-light4;
+    }
+  }
+
+  fieldset {
+    background: white;
+  }
+
+  button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border: solid $input-border-width $input-border-color;
+    background: none;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: $input-border-radius;
+  }
+
+  .ytp-checkbox {
+    font-size: 14px;
+    width: 100%;
+    max-width: unset;
+    padding: 8px 10px;
+
+    &:hover {
+      background-color: tokens.$fi-color-highlight-light4;
+    }
+
+    &::after {
+      content: none;
+    }
+
+    [type="checkbox"] {
+      & + .custom-checkbox {
+        border: 1px solid $input-border-color;
+        border-radius: 2px;
+        width: 16px;
+        height: 16px;
+        margin-right: 0;
+        font-size: 15px;
+        color: tokens.$fi-color-highlight-base;
+        min-width: 16px;
+        overflow-x: hidden;
+      }
+
+      &:checked + .custom-checkbox {
+        border: 1px solid tokens.$fi-color-highlight-base;
+
+        &::before {
+          font-size: 8px;
+        }
+      }
+
+      &:focus ~ .custom-checkbox {
+        box-shadow: 0 0 2px 1px tokens.$fi-color-highlight-base;
+      }
+    }
+  }
+}
+
+.search-container {
+  background: $background-hilight;
+}
+
+.ytp-input-label {
+  margin-bottom: 0.8em;
+  font-weight: 500;
+
+  &::after {
+    content: none;
+  }
+}
+
+.ytp-input-element {
+  width: 100%;
+  border: solid $input-border-width $input-border-color;
+  padding: 8px 10px;
+  border-radius: $input-border-radius;
+  box-shadow: inset 0 2px 4px -1px rgb(0 0 0 / 10%);
+
+  &::placeholder {
+    color: tokens.$fi-color-depth-dark1;
+    font-style: italic;
+    opacity: 1;
+  }
+
+  &:focus {
+    border-color: tokens.$fi-color-highlight-base;
+    box-shadow: 0 0 3px 0 tokens.$fi-color-highlight-base;
+    outline: 0;
+  }
+}
+
+// Frontpage search bar container
+.ytp-bg-highlight-base {
+  background-color: rgb(255 255 255 / 30%);
+}
+
+// Frontpage search bar input.
+.ytp-input-element-frontpage {
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+  @extend .ytp-input-element;
+
+  &::placeholder {
+    color: rgb(109 120 126);
+    font-style: italic;
+    opacity: 1;
+  }
+
+  height: 40px;
+  border-radius: 1px;
+}
+
+.ytp-search-bar {
+  &::before {
+    @include font-awesome-icon("\f002");
+
+    font-weight: 300;
+  }
+}
+
+.ytp-radio-label {
+  font-weight: 400;
+
+  &:not(:last-of-type) {
+    margin-right: 20px;
+  }
+
+  // Default button style
+  .custom-radio {
+    display: inline-flex;
+    height: 18px;
+    width: 18px;
+    background: white;
+    border: 1px solid $input-border-color;
+    border-radius: 100%;
+    vertical-align: top;
+    justify-content: center;
+    align-items: center;
+  }
+
+  // Checked button style
+  input[type="radio"]:checked ~ .custom-radio {
+    border: 1px solid tokens.$fi-color-highlight-base;
+
+    &::after {
+      content: "";
+      display: block;
+      background-color: tokens.$fi-color-highlight-base;
+      height: 8px;
+      width: 8px;
+      border-radius: 100%;
+    }
+  }
+
+  // Focused button style
+  input[type="radio"]:focus ~ .custom-radio {
+    box-shadow: 0 0 2px 1px tokens.$fi-color-highlight-base;
+  }
+
+  &::after {
+    content: none;
+  }
+}
+
+.ytp-datepicker {
+  input {
+    width: max-content;
+  }
+
+  &:not(:last-of-type) {
+    margin-right: 1em;
+  }
+}
+
+.ytp-input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  i {
+    right: 10px;
+    font-size: 18px;
+    pointer-events: none;
+  }
+
+  button {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    right: 10px;
+    height: 100%;
+    padding: 0;
+    border: none;
+    background: 0 0;
+
+    span {
+      display: none;
+    }
+  }
+}
+
+// Frontpage search bar.
+.ytp-input-with-icon-frontpage {
+  /* stylelint-disable-next-line scss/at-extend-no-missing-placeholder */
+  @extend .ytp-input-with-icon;
+
+  height: 40px;
+}
+
+.ytp-group-title {
+  margin-top: 40px;
+  margin-bottom: 20px;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+}
+
+.ytp-group-description {
+  @include tokens.fi-text-body-text-small;
+
+  margin-top: -10px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.ytp-combi-label {
+  @include tokens.fi-text-body-semi-bold-small;
+
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.ytp-group-divider {
+  display: flex;
+  width: 100%;
+  height: 1px;
+  background: rgb(200 205 208);
+  border-radius: 0;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.page-description {
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 27px;
+}
+
+.no-editor-info {
+  .editor-info-block {
+    display: none;
+  }
+
+  .editor textarea {
+    border-radius: 0;
+    border-color: tokens.$fi-color-depth-light1;
+    border-bottom: 1px solid tokens.$fi-color-depth-light1;
+    padding: 6px 10px;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 24px;
+  }
+
+  span.error-block {
+    margin-top: -6px;
+  }
+}
+
+.label-on-top.form-group {
+  display: block;
+}
+
+label.control-label {
+  @include tokens.fi-text-body-semi-bold-small;
+}
+
+.ytp-select2 {
+  .select2-search-choice {
+    display: none;
+  }
+
+  .ytp-select2-tags-container .avoindata-pill {
+    margin-right: 8px;
+    margin-bottom: 0;
+  }
+
+  &.select2-container .select2-choices,
+  & .select2-container .select2-choices {
+    padding: 0;
+  }
+}
+
+.radios {
+  display: block;
+  position: relative;
+
+  input[type="radio"] {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .check {
+    border: 1px solid #a5adb1;
+    border-radius: 100%;
+    margin-right: 8px;
+    height: 18px;
+    width: 18px;
+    z-index: 5;
+    transition: border 0.25s linear;
+    display: inline-flex;
+    place-content: center;
+    align-self: center;
+  }
+
+  .check::before {
+    display: flex;
+    align-self: center;
+    content: "";
+    border-radius: 100%;
+    height: 8px;
+    width: 8px;
+    transition: background 0.25s linear;
+  }
+
+  input[type="radio"]:checked ~ .check {
+    border: 1px solid #2a6ebb;
+  }
+
+  input[type="radio"]:checked ~ .check::before {
+    background: #2a6ebb;
+  }
+
+  label {
+    font-size: 16px;
+    font-weight: normal;
+    margin-right: 20px;
+    z-index: 9;
+    cursor: pointer;
+    transition: all 0.25s linear;
+    display: inline-flex;
+  }
+
+  label::after {
+    content: "";
+  }
+}
+
+.add-input-button {
+  margin-top: 20px;
+}
+
+.removable-input-container {
+  margin-top: 20px;
+
+  input {
+    width: 90%;
+    display: inline-block;
+  }
+
+  button {
+    float: right;
+  }
+}
+
+.disclaimer {
+  @include tokens.fi-text-body-text;
+
+  font-size: 14px;
+  line-height: 18px;
+  margin-left: 45%;
+  width: 55%;
+  padding-top: 40px;
+  color: rgb(95 104 109);
+}
+
+.page-container {
+  .form-actions {
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+
+    .suomifi-button-primary {
+      margin-left: auto;
+    }
+
+    .suomifi-button-secondary {
+      margin-right: 20px;
+    }
+
+    .form-actions__delete {
+      @include tokens.fi-text-body-semi-bold-small;
+
+      padding: $padding-y__button $padding-x__button;
+    }
+
+    .form-actions__delete,
+    .form-actions__save,
+    .form-actions__close {
+      margin-left: ($grid-gutter-width--bootstrap / 4);
+      margin-right: ($grid-gutter-width--bootstrap / 4);
+    }
+  }
+
+  .page-heading {
+    margin-top: 0;
+  }
+
+  .field-assistive-text {
+    font-style: normal;
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 15px;
+  }
+}
+
+#content > .wrapper.ckanext-showcase-edit-wrapper {
+  padding: 0 15px;
+
+  > .primary {
+    float: none;
+  }
+}
+
+.suomifi-page-header {
+  border: 1px solid #c9cdcf;
+  border-radius: 3px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 0;
+  background-color: #fff;
+  padding: 35px 25px 20px;
+
+  h1 {
+    margin-top: 0;
+  }
+
+  .content_action a {
+    float: right;
+  }
+
+  .nav {
+    li {
+      display: inline-block;
+      margin-right: 60px;
+
+      a {
+        @include tokens.fi-text-body-text;
+
+        padding: 10px 5px;
+        color: tokens.$fi-color-black-base;
+        line-height: 27px;
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: none;
+        background-color: transparent;
+      }
+
+      &.active a {
+        @include tokens.fi-text-body-semi-bold-small;
+
+        border-bottom: 4px solid tokens.$fi-color-highlight-base;
+      }
+    }
+  }
+}
+
+.suomifi-page-header ~ .page-container {
+  margin-top: 0;
+}
+
+td.selectable-row {
+  label {
+    display: flex;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 0;
+    line-height: 20px;
+  }
+
+  input[type="checkbox"].row-checkbox {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .check {
+    border: 1px solid #a5adb1;
+    margin-right: 8px;
+    height: 18px;
+    width: 18px;
+    z-index: 5;
+    transition: border 0.25s linear;
+    display: inline-flex;
+    place-content: center;
+    align-self: center;
+  }
+
+  .check::before {
+    display: flex;
+    align-self: center;
+    transition: background 0.25s linear;
+  }
+
+  input[type="checkbox"].row-checkbox:checked ~ .check {
+    border-color: tokens.$fi-color-highlight-base;
+  }
+
+  input[type="checkbox"].row-checkbox:checked ~ .check::before {
+    @include font-awesome-icon("\f00c");
+
+    color: tokens.$fi-color-highlight-base;
+    font-weight: 600;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  label::after {
+    content: "";
+  }
+}
+
+.row-title {
+  display: inline-block;
+}
+
+.custom-table-header {
+  padding: 25px 20px 10px;
+  border: 1px solid tokens.$fi-color-depth-light1;
+  border-bottom: none;
+
+  & ~ p.filter-list {
+    margin: 0;
+  }
+
+  #field-order-by-container label::after {
+    content: "";
+  }
+}
+
+.custom-table-header-title {
+  @include tokens.fi-text-body-text;
+
+  font-size: 20px;
+  line-height: 28px;
+  align-self: center;
+}
+
+.action-button-group {
+  border-left: 1px solid tokens.$fi-color-depth-light1;
+  border-right: 1px solid tokens.$fi-color-depth-light1;
+
+  & button {
+    margin-left: 20px;
+    margin-bottom: 10px;
+  }
+}
+
+.field-description-text {
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 24px;
+  margin-bottom: 10px;
+}
+
+.datepicker-inline {
+  display: inline-block;
+  width: 160px;
+  margin-right: 30px;
+}
+
+.datepicker-icon div.controls {
+  position: relative;
+
+  &::before {
+    @include font-awesome-icon("\f073");
+
+    font-size: 25px;
+    position: absolute;
+    top: 3px;
+    left: 127px;
+    color: tokens.$fi-color-highlight-base;
+    pointer-events: none;
+  }
+}
+
+.form-group {
+  .input-group-addon {
+    border-radius: 0;
+  }
+}
+
+.dataset-form,
+.group-form {
+  .page-container {
+    margin-top: 0;
+  }
+}
+
+.slug-preview--custom {
+  margin-top: 0;
+  margin-left: 0;
+  margin-bottom: $grid-gutter-width--bootstrap / 2;
+
+  .slug-preview-value {
+    background-color: tokens.$fi-color-accent-secondary-light1;
+  }
+}
+
+#general-search-options {
+  border: 1px solid tokens.$fi-color-depth-light1;
+  padding-bottom: $padding-bottom__module--resource;
+}
+
+.general-search-options-content p {
+  @include tokens.fi-text-body-semi-bold-small;
+}
+
+.general-search-label {
+  @include tokens.fi-text-body-semi-bold-small;
+}
+
+.general-search-radio {
+  @include tokens.fi-text-body-text-small;
+}
+
+.general-search-input {
+  height: 18px;
+}
+
+// TODO Use recources
+.dataset-heading.dataset-type {
+  @include tokens.fi-text-body-text;
+
+  color: rgb(41 41 41);
+}
+
+#dataset-info small {
+  @include tokens.fi-text-body-text-small;
+}
+
+.general-search-item-notes {
+  @include tokens.fi-text-body-text;
+
+  color: #292929;
+  margin-bottom: 10px;
+}
+
+.general-search-item {
+  position: relative;
+  border: 1px solid #c9cdcf;
+  border-bottom: none;
+  margin-bottom: 0;
+  padding: 20px 20px 15px;
+}
+
+.general-search-item:last-of-type {
+  border-bottom: 1px solid #c9cdcf;
+  padding-bottom: 20px;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  appearance: searchfield-cancel-button;
+}

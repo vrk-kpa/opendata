@@ -7,4 +7,4 @@ set -e
 echo "job started: ckan-notifications"
 
 # run commands
-ckan -c ${APP_DIR}/production.ini post /api/action/send_email_notifications > /dev/null
+ckan -c ${APP_DIR}/ckan.ini post /api/action/send_email_notifications > /dev/null

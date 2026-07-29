@@ -57,7 +57,8 @@ def fetch_datasets(query=''):
     position = 0
 
     while position < count:
-        datasets = json_get("%s?rows=%i&start=%i&q=%s" % (action_url('package_search'), page_size, position, query))['result']['results']
+        datasets = json_get("%s?rows=%i&start=%i&q=%s" % (action_url('package_search'), page_size,
+                                                          position, query))['result']['results']
         position += len(datasets)
         for dataset in datasets:
             yield dataset

@@ -1,0 +1,7 @@
+name: Avoindata Drupal CKEditor5 plugins
+type: module
+description: Adds Expander, Note, Hint, Example and Section custom elements to CKEditor5.
+core_version_requirement: ^9 || ^10
+package: Custom
+dependencies:
+  - drupal:ckeditor5

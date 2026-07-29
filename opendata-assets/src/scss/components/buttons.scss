@@ -1,0 +1,219 @@
+@use "../variables/suomifidesign" as tokens;
+@use "../mixins/suomifidesign" as suomifi-mixins;
+@import '../variables';
+
+.btn {
+  height: auto;
+  border-radius: $border-radius__button;
+  padding: $padding-y__button $padding-x__button;
+
+  &.btn-outline-primary {
+    background: transparent;
+    border-width: 1px;
+    border-color: tokens.$fi-color-highlight-base;
+    color: tokens.$fi-color-highlight-base;
+
+    &:hover {
+      border-color: tokens.$fi-color-highlight-dark1;
+      color: tokens.$fi-color-highlight-dark1;
+    }
+  }
+}
+
+.btn-light {
+  background-color: tokens.$fi-color-white-base;
+  border: 1px solid tokens.$fi-color-highlight-base;
+  color: tokens.$fi-color-highlight-base;
+}
+
+%suomi-button {
+  height: 38px;
+  padding: 0 20px;
+  font-size: 12px;
+  border-radius: 2px;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+
+  &:focus {
+    box-shadow: 0 0 10px tokens.$fi-color-accent-base;
+    outline: none;
+  }
+
+  &.suomi-button-primary {
+    background: linear-gradient(tokens.$fi-color-highlight-base, tokens.$fi-color-highlight-dark1);
+    border: none;
+    color: tokens.$fi-color-white-base;
+    text-shadow: 0 1px 1px rgba(tokens.$fi-color-brand-base, 0.5);
+
+    &:hover {
+      background: linear-gradient(tokens.$fi-color-highlight-light1, tokens.$fi-color-highlight-base);
+    }
+
+    &:active {
+      background: tokens.$fi-color-highlight-dark1;
+    }
+
+    &:disabled {
+      background: linear-gradient(tokens.$fi-color-depth-light1, tokens.$fi-color-depth-base);
+    }
+  }
+
+  &.suomi-button-secondary {
+    background: tokens.$fi-color-white-base;
+    border: 1px solid tokens.$fi-color-highlight-base;
+    color: tokens.$fi-color-highlight-base;
+
+    &:hover {
+      background: linear-gradient(tokens.$fi-color-depth-light2, tokens.$fi-color-white-base);
+    }
+
+    &:active {
+      background: tokens.$fi-color-depth-light2;
+    }
+
+    &:disabled {
+      background: tokens.$fi-color-depth-light3;
+      border: 1px solid tokens.$fi-color-depth-light1;
+      color: tokens.$fi-color-depth-base;
+    }
+  }
+
+  // Used on frontpage search
+  // Used on top of blue background
+  // NOTE: this is not an actual suomi.fi button
+  &.suomi-button-custom {
+    background: tokens.$fi-color-accent-secondary;
+    border: none;
+    color: tokens.$fi-color-white-base;
+
+    &:hover {
+      background: tokens.$fi-color-highlight-light1;
+    }
+
+    &:active {
+      background: tokens.$fi-color-highlight-dark1;
+    }
+
+    // NOTE: atm no disabled class, due to it never being disabled where it is used
+  }
+}
+
+// OLD STYLES
+.btn-primary {
+  background-color: $btn-dark-bg;
+  border-color: $btn-dark-bg;
+
+  &:hover {
+    background-color: darken($btn-dark-bg, 10%);
+    border-color: darken($btn-dark-bg, 10%);
+  }
+}
+
+.btn-info {
+  background-color: $opendata-brand-info;
+  border-color: $opendata-brand-info;
+
+  &:hover {
+    background-color: darken($opendata-brand-info, 10%);
+    border-color: darken($opendata-brand-info, 10%);
+  }
+}
+
+.btn-warning {
+  background-color: tokens.$fi-color-warning-base;
+  border-color: tokens.$fi-color-warning-base;
+
+  &:hover {
+    background-color: darken(tokens.$fi-color-warning-base, 10%);
+    border-color: darken(tokens.$fi-color-warning-base, 10%);
+  }
+}
+
+// Disable box shadow when the button is activated
+.btn-avoindata-header {
+  @include suomifi-mixins.button-primary;
+}
+
+.btn-avoindata-link,
+.btn-avoindata-link:active,
+.btn-avoindata-link:hover,
+.btn-avoindata-link:focus {
+  color: $opendata-ckan-list-item-header;
+  background-image: none;
+  outline: 0;
+  box-shadow: none;
+}
+
+.btn-success {
+  background-color: tokens.$fi-color-success-base;
+  border-color: tokens.$fi-color-success-base;
+
+  &.disabled,
+  &.disabled:focus,
+  &.disabled:hover {
+    background-color: tint(tokens.$fi-color-success-base, 50%);
+    border-color: tint(tokens.$fi-color-success-base, 50%);
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: tokens.$fi-color-success-base;
+    border-color: tokens.$fi-color-success-base;
+  }
+
+  &:focus:hover,
+  &:active:hover,
+  &:active:focus {
+    background-color: darken(tokens.$fi-color-success-base, 10%);
+    border-color: darken(tokens.$fi-color-success-base, 10%);
+  }
+}
+
+.btn-opendata {
+  height: 40px;
+  padding-right: 19px;
+  padding-left: 19px;
+  border-radius: 3px;
+  background-color: $btn-dark-bg;
+  color: $btn-dark-text-color;
+}
+
+.form-actions .btn-danger {
+  margin-right: 5px;
+  margin-top: -34px;
+}
+
+.page_primary_action .btn-primary {
+  background-color: white;
+  color: $btn-dark-bg;
+  border-color: transparent;
+  font-size: 17px;
+
+  &:hover {
+    background-color: white;
+    color: $btn-dark-bg;
+    border-color: transparent;
+    font-size: 17px;
+  }
+}
+
+.admin-banner {
+  // Use suomi designs without changing classes in templates
+  .btn {
+    @extend %suomi-button;
+
+    i {
+      margin-right: 3px;
+
+      &::before {
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .btn-primary {
+    @extend %suomi-button, .suomi-button-primary;
+  }
+}

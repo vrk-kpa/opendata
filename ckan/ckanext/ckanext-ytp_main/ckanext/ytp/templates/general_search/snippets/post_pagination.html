@@ -1,0 +1,106 @@
+{% asset 'ytp_resources/post_pagination_js' %}
+
+
+{%- set current_page = 1 if not page else page -%}
+<!-- Used to check how to display pagination buttons -->
+{%- set page_boundary = 2 -%}
+
+<div id="general-search-pagination" class="pagination-wrapper">
+  <ul
+    class="pagination" data-module="post-pagination" data-module-prev-query="{{ h.dump_json(prev_query) }}">
+    <!-- "On page back" -button -->
+    {%- if current_page == 1 -%}
+      <li>
+        <button disabled aria-label="{{_('Previous page')}}" value="{{current_page - 1}}">
+          <i class="disabled far fa-angle-left"></i>
+        </button>
+      </li>
+    {%- else -%}
+      <li>
+        <button aria-label="{{_('Previous page')}}" value="{{current_page - 1}}">
+          <i class="far fa-angle-left"></i>
+        </button>
+      </li>
+    {%- endif -%}
+    <!-- First page button -->
+    {%- if current_page - page_boundary > 1 -%}
+      <li>
+        <button value="1">
+          <span class="sr-only">{{_('Page number:')}}</span>1
+        </button>
+      </li>
+    {%- endif -%}
+    <!-- Rest button or if only one in between render the button -->
+    {%- if current_page - (page_boundary + 1) > 1 -%}
+      {%- if current_page - (page_boundary + 1) == 2 -%}
+        <li>
+          <button value="2">
+            <span class="sr-only">{{_('Page number:')}}</span>2
+          </button>
+        </li>
+      {%- else -%}
+        <li>
+          <button disabled>...</button>
+        </li>
+      {%- endif -%}
+    {%- endif -%}
+    <!-- Show middle section -->
+    {%- for page in range(current_page - page_boundary, current_page + page_boundary + 1) -%}
+      {%- if page > 0 and page < total_pages + 1 -%}
+        {%- if page == current_page -%}
+          <li class="active">
+            <button value="{{page}}">
+              <span class="sr-only">{{_('Current page number:')}}</span>
+              {{ page }}
+            </button>
+          </li>
+        {%- else -%}
+          <li>
+            <button value="{{page}}">
+              <span class="sr-only">{{_('Page number:')}}</span>
+              {{ page }}
+            </button>
+          </li>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+    <!-- Rest button or if only one in between render the button -->
+    {%- if current_page + page_boundary + 1 < total_pages -%}
+      {%- if current_page + page_boundary + 1 == total_pages - 1 -%}
+        <li>
+          <button value="{{total_pages - 1}}">
+            <span class="sr-only">{{_('Page number:')}}</span>
+            {{ total_pages - 1 }}
+          </button>
+        </li>
+      {%- else -%}
+        <li>
+          <button disabled>...</button>
+        </li>
+      {%- endif -%}
+    {%- endif -%}
+    <!-- Last page button -->
+    {%- if current_page + page_boundary < total_pages -%}
+      <li>
+        <button aria-label="{{_('Last page')}}" value="{{total_pages}}">
+          <span class="sr-only">{{_('Page number:')}}</span>
+          {{ total_pages }}
+        </button>
+      </li>
+    {%- endif -%}
+    <!-- "On page forward" -button -->
+    {%- if current_page == total_pages -%}
+      <li>
+        <button disabled value="{{current_page + 1}}" aria-label="{{_('Next page')}}">
+          <i class="disabled far fa-angle-right"></i>
+        </button>
+      </li>
+    {%- else -%}
+      <li>
+        <button value="{{current_page + 1}}" aria-label="{{_('Next page')}}">
+          <i class="far fa-angle-right"></i>
+        </button>
+      </li>
+    {%- endif -%}
+  </ul>
+</div>

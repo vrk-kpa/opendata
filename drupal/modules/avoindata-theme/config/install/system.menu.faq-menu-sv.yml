@@ -1,0 +1,7 @@
+langcode: sv
+status: true
+dependencies: {  }
+id: faq-menu-sv
+label: 'Faq menu (sv)'
+description: 'Menu for faq page (sv)'
+locked: false

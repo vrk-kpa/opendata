@@ -9,7 +9,7 @@
 {% block primary_content_inner %}
   <div class="dataset">
     <div class="row equal">
-      {% for report in reports %}
+      {%- for report in reports -%}
         <div class="col-lg-3 col-md-4 col-sm-6 report-column">
           {% set report_url=h.url_for('report.view', report_name=report.name, **h.report__explicit_default_options(report.name)) %}
           <div class="report-summary">
@@ -25,7 +25,7 @@
             </div>
           </div>
         </div>
-      {% endfor %}
+      {%- endfor -%}
     </div>
   </div>
   <div>

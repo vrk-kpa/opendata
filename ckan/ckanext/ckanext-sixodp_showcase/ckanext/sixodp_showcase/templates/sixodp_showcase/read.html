@@ -7,7 +7,9 @@
 
 {% block links -%}
   {{ super() }}
-  <link rel="alternate" type="application/rdf+xml" href="{{ h.url_for('sixodp_showcase.read', id=pkg.id, format='rdf', qualified=True) }}"/>
+  <link rel="alternate" type="text/ttl" href="{{ h.url_for('sixodp_showcase.read_showcase_dcat', _id=pkg.id, _format='ttl', qualified=True) }}"/>
+  <link rel="alternate" type="application/ld+json" href="{{ h.url_for('sixodp_showcase.read_showcase_dcat', _id=pkg.id, _format='jsonld', qualified=True) }}"/>
+  <link rel="alternate" type="application/rdf+xml" href="{{ h.url_for('sixodp_showcase.read_showcase_dcat', _id=pkg.id, _format='xml', qualified=True) }}"/>
 {% endblock -%}
 
 {% block head_extras -%}
@@ -80,22 +82,29 @@
             {% if pkg.featured_image_display_url or pkg.image_1_display_url or pkg.image_2_display_url or pkg.image_3_display_url %}
               <div class="image-slider-wrapper">
                 <ol class="image-slider">
-                  {% if pkg.featured_image_display_url %}<li><a href="{{ pkg.featured_image_display_url }}"><img class="image-modal-open" alt="{{ pkg.featured_image }}" src="{{ pkg.featured_image_display_url }}"></a></li>{% endif %}
-                  {% if pkg.image_1_display_url %}<li><a href="{{ pkg.image_1_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_1 }}" src="{{ pkg.image_1_display_url }}"></a></li>{% endif %}
-                  {% if pkg.image_2_display_url %}<li><a href="{{ pkg.image_2_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_2 }}" src="{{ pkg.image_2_display_url }}"></a></li>{% endif %}
-                  {% if pkg.image_3_display_url %}<li><a href="{{ pkg.image_3_display_url }}"><img class="image-modal-open" alt="{{ pkg.image_3 }}" src="{{ pkg.image_3_display_url }}"></a></li>{% endif %}
+                  {% if pkg.featured_image_display_url %}<li><a class="image-modal-open" href="{{ pkg.featured_image_display_url }}"><img alt="{{ pkg.featured_image }}" src="{{ pkg.featured_image_display_url }}"></a></li>{% endif %}
+                  {% if pkg.image_1_display_url %}<li><a class="image-modal-open" href="{{ pkg.image_1_display_url }}"><img alt="{{ pkg.image_1 }}" src="{{ pkg.image_1_display_url }}"></a></li>{% endif %}
+                  {% if pkg.image_2_display_url %}<li><a class="image-modal-open" href="{{ pkg.image_2_display_url }}"><img alt="{{ pkg.image_2 }}" src="{{ pkg.image_2_display_url }}"></a></li>{% endif %}
+                  {% if pkg.image_3_display_url %}<li><a class="image-modal-open" href="{{ pkg.image_3_display_url }}"><img alt="{{ pkg.image_3 }}" src="{{ pkg.image_3_display_url }}"></a></li>{% endif %}
                 </ol>
               </div>
             {% endif %}
 
 
-            <h3 class="showcase-packages-title">{{ _('Used datasets') }}</h3>
+            
             {% set showcase_pkgs = h.get_showcase_pkgs(pkg.id) %}
             {% if showcase_pkgs %}
+              <h3 class="showcase-packages-title">{{ _('Used datasets') }}</h3>
               {{ h.snippet('sixodp_showcase/snippets/showcase_package_list.html', packages=showcase_pkgs, list_class='showcase-packages') }}
-            {% else %}
-              <p class="module-content empty">{{_('There are no Datasets in this Showcase')}}</p>
             {% endif %}
+
+            {% set showcase_apisets = h.get_showcase_apisets(pkg.id) %}
+            {% if showcase_apisets %}
+              <h3 class="showcase-packages-title">{{ _('Used apisets') }}</h3>
+              {{ h.snippet('sixodp_showcase/snippets/showcase_package_list.html', packages=showcase_apisets, list_class='showcase-packages') }}
+            {% endif %}
+
+
 
             {% snippet "sixodp_showcase/snippets/showcase_additional_info.html", pkg_dict=pkg %}
           {% endblock %}

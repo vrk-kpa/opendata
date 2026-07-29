@@ -1,8 +1,9 @@
-import {Stack} from "aws-cdk-lib";
+import {aws_s3, Stack} from "aws-cdk-lib";
 import {Construct} from "constructs";
 
 import * as bak from "aws-cdk-lib/aws-backup";
 import {BackupStackProps} from "./backup-stack-props";
+import {ManagedPolicy, Role, ServicePrincipal} from "aws-cdk-lib/aws-iam";
 
 export class BackupStack extends Stack {
   readonly backupPlan: bak.BackupPlan
@@ -33,6 +34,24 @@ export class BackupStack extends Stack {
           bak.BackupPlanRule.monthly1Year()
         ],
       });
+
+      const datasetBucket = aws_s3.Bucket.fromBucketName(this, 'DatasetBucket', `avoindata-${props.environment}-datasets`);
+
+      const backupRole = new Role(this, 'BackupRole', {
+        assumedBy: new ServicePrincipal('backup.amazonaws.com')
+      })
+
+      backupRole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName("AWSBackupServiceRolePolicyForS3Backup"))
+      backupRole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName("AWSBackupServiceRolePolicyForS3Restore"))
+
+
+      this.backupPlan.addSelection('backupPlanDatasetBucketSelection', {
+        resources: [
+          bak.BackupResource.fromArn(datasetBucket.bucketArn)
+        ],
+        role: backupRole
+      })
+
     }
   }
 }

@@ -1,0 +1,71 @@
+name: Changes
+
+on:
+  workflow_call:
+    outputs:
+      ckan:
+        description: "Change in ckan container"
+        value: ${{ jobs.changes_in_containers.outputs.ckan }}
+      drupal:
+        description: "Change in drupal container"
+        value: ${{ jobs.changes_in_containers.outputs.drupal }}
+      nginx:
+        description: "Change in nginx container"
+        value: ${{ jobs.changes_in_containers.outputs.nginx }}
+      solr:
+        description: "Change in solr container"
+        value: ${{ jobs.changes_in_containers.outputs.solr }}
+      datapusher:
+        description: "Change in datapusher container"
+        value: ${{ jobs.changes_in_containers.outputs.datapusher }}
+      clamav:
+        description: "Change in clamav container"
+        value: ${{ jobs.changes_in_containers.outputs.clamav }}
+      assets:
+        description: "Change in assets"
+        value: ${{ jobs.changes_in_containers.outputs.assets }}
+      postgres:
+        description: "Change in postgres container"
+        value: ${{ jobs.changes_in_containers.outputs.postgres }}
+      environment:
+        description: "Changes in docker environment"
+        value: ${{ jobs.changes_in_containers.outputs.environment }}
+
+jobs:
+  changes_in_containers:
+    runs-on: ubuntu-latest
+    outputs:
+      ckan: ${{ steps.filter.outputs.ckan }}
+      drupal: ${{ steps.filter.outputs.drupal }}
+      nginx: ${{ steps.filter.outputs.nginx }}
+      solr: ${{ steps.filter.outputs.solr }}
+      datapusher: ${{ steps.filter.outputs.datapusher }}
+      clamav: ${{ steps.filter.outputs.clamav }}
+      assets: ${{ steps.filter.outputs.assets }}
+      postgres: ${{ steps.filter.outputs.postgres }}
+      environment: ${{ steps.filter.outputs.environment }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v5
+        id: last_successful_commit
+        with:
+          main-branch-name: 'master'
+          workflow-id: 'master.yml'
+      - uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          initial-fetch-depth: '10'
+          base: ${{ steps.last_successful_commit.outputs.base }}
+          filters: |
+            ckan: ckan/**
+            drupal: drupal/**
+            solr: docker/solr/**
+            datapusher: docker/datapusher-plus/**
+            postgres: docker/postgres/**
+            clamav: clamav/clamav-docker/**
+            nginx: docker/nginx/**
+            assets: opendata-assets/**
+            environment: docker/*

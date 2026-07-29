@@ -1,7 +1,10 @@
+{% set maintainer_note = h.get_translated(pkg, 'maintainer_note') %}
+{% set today = h.get_current_date() %}
+{% set visible_until = h.parse_datetime(pkg.get('maintainer_note_visible_until')) %}
 {% if pkg.get('state', '').startswith('deleted') %}
   <div class="well admin-banner private-or-draft-dataset deleted-dataset">
     <div>
-      <img src="/resources/images/avoindata-closed-eye.svg">
+      <img src="/themes/avoindata/images/avoindata-closed-eye.svg">
       <span>{{ _('Deleted. The ' + dataset_type + ' is only visible to logged in users of the producer organization.') }}</span>
     </div>
     {% if h.check_access('package_update', {'id':pkg.id }) %}
@@ -11,7 +14,7 @@
 {% elif pkg.state.startswith('draft') %}
   <div class="well admin-banner private-or-draft-dataset">
     <div>
-      <img src="/resources/images/avoindata-closed-eye.svg">
+      <img src="/themes/avoindata/images/avoindata-closed-eye.svg">
       <span>{{ _('In draft state. The ' + dataset_type + ' is only visible to logged in users of the producer organization.') }}</span>
     </div>
     {% if h.check_access('package_update', {'id':pkg.id }) %}
@@ -21,13 +24,23 @@
 {% elif pkg.private %}
   <div class="well admin-banner private-or-draft-dataset">
     <div>
-      <img src="/resources/images/avoindata-closed-eye.svg">
+      <img src="/themes/avoindata/images/avoindata-closed-eye.svg">
       <span>{{ _('Private mode. The ' + dataset_type + ' is only visible to logged in users of the producer organization.') }}</span>
     </div>
     {% if h.check_access('package_update', {'id':pkg.id }) %}
       {% link_for _('Edit ' + dataset_type), named_route=dataset_type + '.edit', id=pkg.name %}"
     {% endif %}
   </div>
+{% elif maintainer_note and not visible_until or maintainer_note and (visible_until > today)  %}
+<div class="well admin-banner maintainer-note">
+  <div>
+    <img src="/themes/avoindata/images/avoindata-note-icon.svg">
+    <span>{{ _('Dataset maintainer informs:') }}&nbsp;{{ maintainer_note }}</span>
+  </div>
+  {% if h.check_access('package_update', {'id':pkg.id }) %}
+    {% link_for _('Edit ' + dataset_type), named_route=dataset_type + '.edit', id=pkg.name %}
+  {% endif %}
+</div>
 {% else %}
   {% if h.check_access('package_update', {'id':pkg.id }) %}
     <div class="admin-banner">

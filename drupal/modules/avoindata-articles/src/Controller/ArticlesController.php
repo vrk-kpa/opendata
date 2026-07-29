@@ -3,8 +3,8 @@
 namespace Drupal\avoindata_articles\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Symfony\Component\HttpFoundation\Request;
 use Drupal\taxonomy\Entity\Term;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Implements articles controller.
@@ -24,7 +24,7 @@ class ArticlesController extends ControllerBase {
     $lang = \Drupal::languageManager()->getCurrentLanguage()->getId();
 
     $searchterm = $request->query->get('search');
-    $categoryfilter = $request->query->get('category');
+    $categoryfilter = $request->query->all('category');
 
     $articleNodeIdsTitleQuery = \Drupal::entityQuery('node')
       ->condition('type', 'avoindata_article')
@@ -41,8 +41,10 @@ class ArticlesController extends ControllerBase {
     }
 
     $articleNodeIdsTitle = $articleNodeIdsTitleQuery
+      ->accessCheck(TRUE)
       ->execute();
     $articleNodeIdsBody = $articleNodeIdsBodyQuery
+      ->accessCheck(TRUE)
       ->execute();
 
     $articleNodeIdsCombined = array_unique(array_merge($articleNodeIdsTitle, $articleNodeIdsBody), SORT_REGULAR);
@@ -52,6 +54,7 @@ class ArticlesController extends ControllerBase {
       $articleNodeIdsQuery = \Drupal::entityQuery('node')
         ->condition('type', 'avoindata_article')
         ->condition('langcode', $lang)
+        ->condition('status', 1)
         ->condition('nid', $articleNodeIdsCombined, 'IN')
         ->sort('created', 'DESC');
 
@@ -63,7 +66,9 @@ class ArticlesController extends ControllerBase {
         }
       }
 
-      $articleNodeIds = $articleNodeIdsQuery->execute();
+      $articleNodeIds = $articleNodeIdsQuery
+        ->accessCheck(TRUE)
+        ->execute();
     }
 
     $articleNodes = \Drupal::entityTypeManager()
@@ -106,6 +111,7 @@ class ArticlesController extends ControllerBase {
       '#language' => $lang,
       '#theme' => 'avoindata_articles',
       '#cache' => [
+        'max-age' => 0,
         'tags' => ['node_list'],
       ],
     ];

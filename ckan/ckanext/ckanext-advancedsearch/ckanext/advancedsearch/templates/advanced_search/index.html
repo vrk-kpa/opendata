@@ -20,14 +20,13 @@
   <div id="content" class="container advanced-search-container">
     {% block main_content %}
       {% block flash %}
+        {% set flash_messages = h.get_flashed_messages(with_categories=true) %}
         <div class="flash-messages">
-          {% block flash_inner %}
-            {% for message in h.flash.pop_messages() | list %}
-              <div class="alert alert-warning fade in {{ message.category }}">
-                {{ h.literal(message) }}
-              </div>
-            {% endfor %}
-          {% endblock %}
+          {% for category, message in flash_messages %}
+            <div class="m-0 alert alert-warning fade in {{ message.category }}">
+              {{ h.literal(message) }}
+            </div>
+          {% endfor %}
         </div>
       {% endblock %}
 
@@ -58,7 +57,7 @@
             {% endblock %}
           </h1>
         {% endblock %}
-        <form class="advanced-search-form" method="post">
+        <form class="advanced-search-form row" method="post">
           {% block secondary %}
             {% block secondary_content %}
               {% snippet 'advanced_search/search_form.html', input_fields=schema.input_fields %}
@@ -94,8 +93,7 @@
                       {% snippet 'advanced_search/display_field.html', field=schema.input_fields.search_query, prev_query=c.advanced_search.last_query %}
                     </div>
                     {% set sorting = [
-                      ('', 'auto'),
-                      (_('Relevance'), 'score desc, metadata_modified desc'),
+                      (_('Relevance'), 'score desc, metadata_created desc'),
                       (_('Name Ascending'), 'title_string asc'),
                       (_('Name Descending'), 'title_string desc'),
                       (_('Last Modified'), 'metadata_modified desc'),
@@ -106,14 +104,13 @@
                     {% set sorting_selected = c.advanced_search.sort_string %}
                     {% set sorting_selection = c.advanced_search["sorting_selection"] %}
                     <div id="search-results">
-                      <div id="search-results-header" class="d-flex flex-wrap justify-content-between align-items-center mt-3">{{_('Found {count} datasets').format(count=c.advanced_search.item_count)}}
+                      <div id="search-results-header" class="d-flex flex-wrap justify-content-between align-items-center mt-3">{{_('Found {count} results').format(count=c.advanced_search.item_count)}}
                         <div class="form-inline">
-                          <div class="form-select form-group control-order-by">
+                          <div class="form-group control-order-by">
                             <label for="field-order-by">{{ _('Sorting') }}</label>
                             <span class="select-wrapper">
-                              <select id="field-order-by" name="sort" class="form-control ytp-input-element avoindata-order-by" data-module="avoindata-utils">
+                              <select id="field-order-by" name="sort" class="form-control form-select ytp-input-element avoindata-order-by" data-module="avoindata-utils">
                                 <!-- Default empty option -->
-                                <option disable selected value="auto" {% if not sorting_selection or sorting_selection == "auto" %} selected="selected"{% endif %} style="display:none;"></option>
                                 {% for label, value in sorting %}
                                   {% if label and value %}
                                     <option value="{{ value }}" {% if sorting_selection == value  %} selected="selected" {% endif %}>{{ label }}</option>

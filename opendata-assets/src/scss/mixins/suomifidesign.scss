@@ -1,0 +1,85 @@
+@use "../variables/suomifidesign" as tokens;
+
+@mixin chip() {
+  background: tokens.$fi-color-highlight-base;
+  color: tokens.$fi-color-white-base;
+  border-radius: 14px;
+  padding: 2px 10px;
+  line-height: 1.5;
+  max-height: 28px;
+  font-size: 16px;
+  font-weight: 600;
+  
+  i {
+    color: tokens.$fi-color-white-base;
+    margin-left: 5px;
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+  }
+}
+
+%button {
+  /* Not an exact match for typography, but semantically sensible and functionally close */
+  @include tokens.fi-text-action-element-inner-text-bold;
+
+  font-size: 14px;
+  line-height: 20px;
+  min-height: 40px;
+  padding: 9px 20px;
+  border-radius: 2px;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+
+  &:focus {
+    color: tokens.$fi-color-white-base;
+    outline: transparent solid 3px;
+  }
+}
+
+@mixin button-primary() {
+  @extend %button;
+
+  background: linear-gradient(tokens.$fi-color-highlight-base, tokens.$fi-color-highlight-dark1);
+  border: none;
+  color: tokens.$fi-color-white-base;
+  text-shadow: 0 1px 1px rgba(tokens.$fi-color-brand-base, 0.5);
+
+  &:hover {
+    color: tokens.$fi-color-white-base;
+    background: linear-gradient(0deg, tokens.$fi-color-highlight-base 0%, tokens.$fi-color-highlight-light1 100%);
+  }
+
+  &:active {
+    background: tokens.$fi-color-highlight-dark1;
+  }
+
+  &:disabled {
+    background: linear-gradient(tokens.$fi-color-depth-light1, tokens.$fi-color-depth-base);
+  }
+}
+
+@mixin button-secondary() {
+  @extend %button;
+
+  background: tokens.$fi-color-white-base;
+  border: 1px solid tokens.$fi-color-highlight-base;
+  color: tokens.$fi-color-highlight-base;
+
+  &:hover {
+    color: tokens.$fi-color-white-base;
+    background: linear-gradient(tokens.$fi-color-depth-light2, tokens.$fi-color-white-base);
+  }
+
+  &:active {
+    color: tokens.$fi-color-white-base;
+    background: tokens.$fi-color-depth-light2;
+  }
+
+  &:disabled {
+    background: tokens.$fi-color-depth-light3;
+    border: 1px solid tokens.$fi-color-depth-light1;
+    color: tokens.$fi-color-depth-base;
+  }
+}

@@ -1,12 +1,14 @@
 import os
 import logging
 import json
+from typing import Optional
 import urllib.request
 import urllib.error
 import urllib.parse
 import datetime
 import itertools
 import flask
+import iso8601
 from ckan.common import _, c, request
 from ckan.lib import helpers, i18n
 from ckan.logic import get_action
@@ -213,7 +215,7 @@ def get_sorted_facet_items_dict(facet, limit=50, exclude_active=False):
     for facet_item in c.search_facets.get(facet)['items']:
         if not len(facet_item['name'].strip()):
             continue
-        if not (facet, facet_item['name']) in list(request.params.items()):
+        if (facet, facet_item['name']) not in list(request.params.items()):
             facets.append(dict(active=False, **facet_item))
         elif not exclude_active:
             facets.append(dict(active=True, **facet_item))
@@ -332,10 +334,18 @@ def get_license(license_id):
     return None
 
 
-def get_current_date():
-
+def get_current_date() -> datetime.datetime:
     return datetime.datetime.now()
 
+
+def parse_datetime(date_str) -> Optional[datetime.datetime]:
+    if date_str:
+        try:
+            return iso8601.parse_date(date_str, None)
+        except iso8601.ParseError:
+            log.debug('Given date string cannot be parsed into a datetime object. [%s]' % date_str)
+            return None
+    return None
 
 lang_map = {
     "fi": "fin",
@@ -427,8 +437,6 @@ def scheming_language_text_or_empty(text, prefer_lang=None):
                 return ''
 
     t = _(text)
-    if isinstance(t, str):
-        return t.decode('utf-8')
     return t
 
 
@@ -587,10 +595,26 @@ def get_package_showcase_list(package_id):
     context = {'model': model, 'session': model.Session, 'user': c.user}
     return get_action('ckanext_package_showcase_list')(context, {'package_id': package_id})
 
-
-def get_groups_where_user_is_admin():
+def get_apiset_package_list(package_id):
     context = {'model': model, 'session': model.Session, 'user': c.user}
-    return get_action('organization_list_for_user')(context, {'permission': 'admin'})
+    return get_action('apiset_package_list')(context, {'apiset_id': package_id})
+
+
+def get_groups_where_user_is_admin(current_id=None, only_approved=False):
+    context = {'model': model, 'session': model.Session, 'user': c.user}
+    organizations = get_action('organization_list_for_user')(context, {'permission': 'admin'})
+
+    if only_approved:
+        organizations = [o for o in organizations if o.get('approval_status') == 'approved']
+
+    # If list is fetched for existing company, return only allowed parents
+    if current_id is not None:
+        current_organization = model.Group.get(current_id)
+        allowed_parent_ids = [allowed_parent.__dict__.get('id') for allowed_parent in
+                              current_organization.groups_allowed_to_be_its_parent(type='organization')]
+        return filter(lambda organization: organization.get('id') in allowed_parent_ids, organizations)
+
+    return organizations
 
 
 def get_value_from_extras_by_key(object_with_extras, key):
@@ -634,3 +658,38 @@ def get_organization_filters_count():
     all_count = len(organizations)
 
     return {'with_dataset_count': with_dataset_count, 'all_count': all_count}
+
+
+def package_count_for_source_customized(source_id, dataset_type='dataset'):
+    '''
+    Returns the current package count for datasets associated with the given
+    source id
+    '''
+    fq = 'dataset_type:{0} AND harvest_source_id:"{1}"'.format(dataset_type, source_id)
+    search_dict = {'fq': fq}
+    context = {'model': model, 'session': model.Session}
+    result = get_action('package_search')(context, search_dict)
+    return result.get('count', 0)
+
+def group_tree_section(id_, type_='organization', include_parents=True,
+                       include_siblings=True, only_approved=False):
+    return toolkit.get_action('group_tree_section')(
+        {'include_parents': include_parents,
+         'include_siblings': include_siblings},
+        {'id': id_, 'type': type_, 'only_approved': only_approved})
+
+
+highvalue_categories = {
+    "meteorological": "Meteorological",
+    "companies-and-company-ownership": "Companies and company ownership",
+    "geospatial": "Geospatial",
+    "mobility": "Mobility",
+    "earth-observation-and-environment": "Earth observation and environment",
+    "statistics": "Statistics"
+}
+
+def scheming_highvalue_category_list(field):
+    return [{"value": category, "label": label } for category, label in highvalue_categories.items()]
+
+def get_highvalue_category_label(value):
+    return highvalue_categories.get(value, "")

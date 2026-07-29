@@ -16,16 +16,15 @@ import { parseEcrAccountId, parseEcrRegion } from './common-stack-funcs';
 
 export class DrupalStack extends Stack {
   readonly drupalFsDataAccessPoint: efs.IAccessPoint;
-  readonly migrationFsAccessPoint?: efs.IAccessPoint;
   readonly drupalService: ecs.FargateService;
 
   constructor(scope: Construct, id: string, props: DrupalStackProps) {
     super(scope, id, props);
 
     // get params
-    const pDbHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbHost', {
-      parameterName: `/${props.environment}/opendata/common/db_host`,
-    });
+
+    const host = props.databaseInstance.instanceEndpoint
+
     const pDbDrupal = ssm.StringParameter.fromStringParameterAttributes(this, 'pDbDrupal', {
       parameterName: `/${props.environment}/opendata/common/db_drupal`,
     });
@@ -56,9 +55,6 @@ export class DrupalStack extends Stack {
     const pSmtpHost = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpHost', {
       parameterName: `/${props.environment}/opendata/common/smtp_host`,
     });
-    const pSmtpUsername = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpUsername', {
-      parameterName: `/${props.environment}/opendata/common/smtp_username`,
-    });
     const pSmtpFrom = ssm.StringParameter.fromStringParameterAttributes(this, 'pSmtpFrom', {
       parameterName: `/${props.environment}/opendata/common/smtp_from`,
     });
@@ -69,23 +65,14 @@ export class DrupalStack extends Stack {
       parameterName: `/${props.environment}/opendata/common/smtp_port`,
     });
 
-    const pDisqusDomain = ssm.StringParameter.fromStringParameterAttributes(this, 'pDisqusDomain', {
-      parameterName: `/${props.environment}/opendata/common/disqus_domain`,
-    });
-
     let pUsers: DrupalUser[];
     switch (props.environment) {
       case 'prod': {
         pUsers = [
-          new DrupalUser(this, props.environment, 0),
-          new DrupalUser(this, props.environment, 1),
         ];
       } break;
       default: {
         pUsers = [
-          new DrupalUser(this, props.environment, 0),
-          new DrupalUser(this, props.environment, 1),
-          new DrupalUser(this, props.environment, 2),
         ];
       } break;
     }
@@ -133,12 +120,12 @@ export class DrupalStack extends Stack {
       // .env.drupal
       DRUPAL_IMAGE_TAG: props.envProps.DRUPAL_IMAGE_TAG,
       DRUPAL_CONFIG_SYNC_DIRECTORY: '/opt/drupal/web/sites/default/sync',
+      DRUPAL_CKAN_HOST: `http://ckan.${props.namespace.namespaceName}:5000`,
       // .env
-      DB_HOST: pDbHost.stringValue,
+      DB_DRUPAL_HOST: host.hostname,
       DB_DRUPAL: pDbDrupal.stringValue,
       DB_DRUPAL_USER: pDbDrupalUser.stringValue,
-      DOMAIN_NAME: props.domainName,
-      SECONDARY_DOMAIN_NAME: props.secondaryDomainName,
+      DOMAIN_NAME: props.webFqdn,
       SITE_NAME: pSiteName.stringValue,
       ROLES_CKAN_ADMIN: pRolesCkanAdmin.stringValue,
       ROLES_EDITOR: pRolesEditor.stringValue,
@@ -148,13 +135,11 @@ export class DrupalStack extends Stack {
       SYSADMIN_ROLES: pSysadminRoles.stringValue,
       NGINX_HOST: `nginx.${props.namespace.namespaceName}`,
       SMTP_HOST: pSmtpHost.stringValue,
-      SMTP_USERNAME: pSmtpUsername.stringValue,
       SMTP_FROM: pSmtpFrom.stringValue,
       SMTP_PROTOCOL: pSmtpProtocol.stringValue,
       SMTP_PORT: pSmtpPort.stringValue,
-      DISQUS_DOMAIN: pDisqusDomain.stringValue,
-      // dynatrace oneagent
-      DT_CUSTOM_PROP: `Environment=${props.environment}`,
+      SITE_ENV: props.environment,
+      SENTRY_TRACES_SAMPLE_RATE: props.sentryTracesSampleRate,
     };
 
     let drupalContainerSecrets: { [key: string]: ecs.Secret; } = {
@@ -163,7 +148,9 @@ export class DrupalStack extends Stack {
       // .env
       DB_DRUPAL_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'db_drupal_pass'),
       SYSADMIN_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sysadmin_pass'),
+      SMTP_USERNAME: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_username'),
       SMTP_PASS: ecs.Secret.fromSecretsManager(sCommonSecrets, 'smtp_pass'),
+      SENTRY_DSN: ecs.Secret.fromSecretsManager(sCommonSecrets, 'sentry_dsn'),
     };
 
     for (let i = 0; i < pUsers.length; i++) {
@@ -218,7 +205,7 @@ export class DrupalStack extends Stack {
     });
 
     const drupalContainer = drupalTaskDef.addContainer('drupal', {
-      image: ecs.ContainerImage.fromEcrRepository(drupalRepo, props.envProps.DRUPAL_IMAGE_TAG + ((props.dynatraceEnabled) ? '-dynatrace' : '')),
+      image: ecs.ContainerImage.fromEcrRepository(drupalRepo, props.envProps.DRUPAL_IMAGE_TAG),
       environment: drupalContainerEnv,
       secrets: drupalContainerSecrets,
       logging: ecs.LogDrivers.awsLogs({
@@ -226,7 +213,7 @@ export class DrupalStack extends Stack {
         streamPrefix: 'drupal-service',
       }),
       healthCheck: {
-        command: ['CMD-SHELL', 'ps -aux | grep -o "[a]pache2 -DFOREGROUND"'],
+        command: ['CMD-SHELL', "ps | pgrep -l 'php-fpm' && ps | pgrep -l 'nginx'"],
         interval: Duration.seconds(15),
         timeout: Duration.seconds(5),
         retries: 5,
@@ -264,6 +251,7 @@ export class DrupalStack extends Stack {
     this.drupalService = new ecs.FargateService(this, 'drupalService', {
       platformVersion: ecs.FargatePlatformVersion.VERSION1_4,
       cluster: props.cluster,
+      serviceName: "drupal",
       taskDefinition: drupalTaskDef,
       minHealthyPercent: 50,
       maxHealthyPercent: 200,
@@ -288,7 +276,7 @@ export class DrupalStack extends Stack {
     });
 
     drupalServiceAsg.scaleOnCpuUtilization('drupalServiceAsgPolicy', {
-      targetUtilizationPercent: 50,
+      targetUtilizationPercent: 40,
       scaleInCooldown: Duration.seconds(60),
       scaleOutCooldown: Duration.seconds(60),
     });
@@ -299,39 +287,5 @@ export class DrupalStack extends Stack {
       scaleOutCooldown: Duration.seconds(60),
     });
 
-    // mount migration filesystem if given
-    if (props.migrationFileSystemProps != null) {
-      this.migrationFsAccessPoint = new efs.AccessPoint(this, 'migrationFsAccessPoint', {
-        fileSystem: props.migrationFileSystemProps.fileSystem,
-        path: '/ytp_files',
-        posixUser: {
-          gid: '0',
-          uid: '0',
-        },
-      });
-      
-      props.migrationFileSystemProps.fileSystem.grant(drupalTaskDef.taskRole, 'elasticfilesystem:ClientRootAccess');
-
-      drupalTaskDef.addVolume({
-        name: 'ytp_files',
-        efsVolumeConfiguration: {
-          fileSystemId: props.migrationFileSystemProps.fileSystem.fileSystemId,
-          authorizationConfig: {
-            accessPointId: this.migrationFsAccessPoint.accessPointId,
-          },
-          transitEncryption: 'ENABLED',
-        },
-      });
-
-      // NOTE: drupal storage path will be in: /mnt/ytp_files/drupal
-      drupalContainer.addMountPoints({
-        containerPath: '/mnt/ytp_files',
-        readOnly: true,
-        sourceVolume: 'ytp_files',
-      });
-
-      this.drupalService.connections.allowFrom(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (drupal migrate)');
-      this.drupalService.connections.allowTo(props.migrationFileSystemProps.securityGroup, ec2.Port.tcp(2049), 'EFS connection (drupal migrate)');
-    }
   }
 }

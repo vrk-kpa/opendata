@@ -12,7 +12,7 @@
       'remove_field': remove_field }
   %}
   {% set sorting = [
-      (_('Relevance'), 'score desc, metadata_modified desc'),
+      (_('Relevance'), 'score desc, metadata_created desc'),
       (_('Name Ascending'), 'title_string asc'),
       (_('Name Descending'), 'title_string desc'),
       (_('Last Modified'), 'metadata_modified desc'),

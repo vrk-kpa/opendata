@@ -40,7 +40,8 @@ datasets = list(fetch_datasets(SOLR_Q))
 for dataset in datasets:
     dataset['views'] = json_get("%s?id=%s" % (GA_VIEWS_URL, dataset['name']))['result']['count']
 
-fields = ['title', 'url', 'maintainer', 'maintainer_email', 'organization', 'content_type', 'author', 'author_email', 'created', 'modified', 'views']
+fields = ['title', 'url', 'maintainer', 'maintainer_email', 'organization', 'content_type', 'author',
+          'author_email', 'created', 'modified', 'views']
 
 writer = csv.DictWriter(sys.stdout, fields, quoting=csv.QUOTE_ALL)
 

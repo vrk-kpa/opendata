@@ -1,0 +1,37 @@
+{#
+Displays a tree of organzations
+
+NB This template can be slow because it is recursive and uses link_for. At
+DGU we speeded up display of the tree 10 times (necessary as we have 1000
+organizations) by replacing this template with a recursive code routine:
+https://github.com/datagovuk/ckanext-dgu/blob/5fb78b354517c2198245bdc9c98fb5d6c82c6bcc/ckanext/dgu/lib/helpers.py#L140
+
+orgs    - List of organizations
+
+Example:
+
+{% snippet 'organization/snippets/organization_tree.html', top_nodes=h.group_tree(type_='organization'), use_longnames=False %}
+
+#}
+
+{% asset 'ytp_resources/opendata_hierarchy_js' %}
+
+<ul class="hierarchy-tree-top" data-organization-tree >
+  {% for node in top_nodes recursive %}
+      {% set display_text = node.title %}
+      {% if node.highlighted %}
+          <li class="highlighted" id="node_{{ node.name }}">
+      {% else %}
+          <li id="node_{{ node.name }}">
+      {% endif %}
+
+      {% if node.children %}
+        <button class="js-expand btn btn-primary btn-xs" aria-label="{{ _('Expand') }}"><i class="fa fa-plus"></i></button>
+        <button class="js-collapse btn btn-gray btn-xs" aria-label="{{ _('Collapse') }}"><i class="fa fa-minus"></i></button>
+      {% endif %}
+      {% link_for display_text, controller='organization', action='read', id=node.name %}
+        <ul class="hierarchy-tree js-collapsed"> {{ loop(node.children) }} </ul>
+
+    </li>
+  {% endfor %}
+</ul>

@@ -64,10 +64,6 @@ Parameters:
     Type: String
     Default: false
     AllowedValues: [true, false]
-  ClamAvLambdaArn:
-    Type: 'AWS::SSM::Parameter::Value<String>'
-  ClamAvRoleArn:
-    Type: 'AWS::SSM::Parameter::Value<String>'
   Vpc:
     Description: Select an existing Vpc
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::VPC::Id>'
@@ -75,6 +71,10 @@ Parameters:
     Description: "The size of the database (GiB)"
     Type: Number
     Default: '50'
+  MaxAllocatedStorage:
+    Description: "The max size of the database (GiB)"
+    Type: Number
+    Default: '200'
 
 Conditions:
   UseDBSnapshot: !Not [!Equals [!Ref SnapshotIdentifier,  ""]]
@@ -84,6 +84,7 @@ Resources:
     Type: AWS::RDS::DBInstance
     Properties:
       AllocatedStorage: !Ref DBAllocatedStorage
+      MaxAllocatedStorage: !Ref MaxAllocatedStorage
       Engine: postgres
       BackupRetentionPeriod: !Ref BackupRetention
       DBInstanceClass: !Ref DbInstance
@@ -104,6 +105,8 @@ Resources:
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
       VPCSecurityGroups:
         - !GetAtt DatabaseSecurityGroup.GroupId
+      DeletionProtection: true
+      CopyTagsToSnapshot: true
 
   Role:
     Type: 'AWS::IAM::Role'
@@ -138,11 +141,12 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub avoindata-${EnvironmentName}-datasets
-      AccessControl: PublicRead
-      NotificationConfiguration:
-        LambdaConfigurations:
-          - Event: s3:ObjectCreated:*
-            Function: !Ref ClamAvLambdaArn
+      AccessControl: Private
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
       VersioningConfiguration:
         Status: Enabled
       CorsConfiguration:
@@ -152,51 +156,6 @@ Resources:
             AllowedOrigins:
               - "*"
 
-  DatasetBucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref DatasetBucket
-      PolicyDocument:
-        Statement:
-          - Action:
-              - s3:GetObject
-            Effect: Allow
-            Resource: !Sub "arn:aws:s3:::${DatasetBucket}/*"
-            Principal: "*"
-          - Effect: Allow
-            Principal:
-              AWS: !Ref ClamAvRoleArn
-            Action:
-            - s3:DeleteObject
-            - s3:DeleteObjectTagging
-            - s3:GetObjectTagging
-            - s3:PutObjectTagging
-            Resource: !Sub "arn:aws:s3:::${DatasetBucket}/*"
-
-  EFSFileSystem:
-    Type: AWS::EFS::FileSystem
-
-  EFSMountTarget1:
-    Type: AWS::EFS::MountTarget
-    Properties:
-      FileSystemId: !Ref EFSFileSystem
-      SecurityGroups:
-        - !GetAtt EFSSecurityGroup.GroupId
-      SubnetId: !Select [0, !Ref DatabaseSubnets]
-
-  EFSMountTarget2:
-    Type: AWS::EFS::MountTarget
-    Properties:
-      FileSystemId: !Ref EFSFileSystem
-      SecurityGroups:
-        - !GetAtt EFSSecurityGroup.GroupId
-      SubnetId: !Select [1, !Ref DatabaseSubnets]
-
-  EFSSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Enable EFS access
-      VpcId: !Ref Vpc
 
 Outputs:
   DatabaseSecurityGroup:

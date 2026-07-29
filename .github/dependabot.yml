@@ -3,49 +3,65 @@ registries:
   npm-registry-npm-fontawesome-com:
     type: npm-registry
     url: https://npm.fontawesome.com
-    token: "${{secrets.NPM_REGISTRY_NPM_FONTAWESOME_COM_TOKEN}}"
+    token: "${{secrets.NPM_TOKEN}}"
 
 updates:
 - package-ecosystem: pip
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: flake8
-    versions:
-    - 3.8.4
-    - 3.9.0
+  directory: "/ckan/"
+  patterns: ['*']
+  multi-ecosystem-group: "ckan"
+
 - package-ecosystem: "docker"
   directory: "/ckan/"
-  schedule:
-    interval: daily
-    time: "03:00"
+  patterns: ['*']
+  multi-ecosystem-group: "ckan"
+
+
 - package-ecosystem: "docker"
   directory: "/drupal/"
   schedule:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
+
 - package-ecosystem: "docker"
   directory: "/docker/solr/"
   schedule:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
+
 - package-ecosystem: "docker"
   directory: "/docker/nginx/"
   schedule:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
-- package-ecosystem: npm
-  directory: "/"
+
+- package-ecosystem: "docker"
+  directory: "/docker/postgres/"
   schedule:
     interval: daily
     time: "03:00"
   open-pull-requests-limit: 10
+
+- package-ecosystem: "docker"
+  directory: "/docker/datapusher-plus/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+
+- package-ecosystem: "docker"
+  directory: "/cypress/"
+  patterns: ['*']
+  multi-ecosystem-group: "cypress"
+
+- package-ecosystem: npm
+  directory: "/"
+  patterns: ['cypress']
+  multi-ecosystem-group: "cypress"
+
 - package-ecosystem: npm
   directory: "/opendata-assets/"
   schedule:
@@ -55,23 +71,40 @@ updates:
   registries:
   - npm-registry-npm-fontawesome-com
 
-- package-ecosystem: npm
-  directory: "/drupal/modules/avoindata-header/"
-  schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
-
-- package-ecosystem: npm
-  directory: "/drupal/modules/avoindata-articles/"
-  schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
-
 - package-ecosystem: "composer"
   directory: "/drupal/"
   schedule:
     interval: daily
     time: "03:00"
+  groups:
+    drupal:
+      applies-to: security-updates
+      patterns: ['*']
+
   open-pull-requests-limit: 10
+
+- package-ecosystem: npm
+  directory: "/cdk/"
+  schedule:
+    interval: daily
+    time: "03:00"
+  open-pull-requests-limit: 10
+
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    # Check for updates to GitHub Actions every week
+    interval: "weekly"
+  groups:
+    actions:
+      patterns:
+        - '*'
+
+
+multi-ecosystem-groups:
+  cypress:
+    schedule:
+      interval: "weekly"
+  ckan:
+    schedule:
+      interval: "daily"

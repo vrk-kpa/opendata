@@ -6,7 +6,6 @@ declare namespace Cypress {
     login_post_request(username: string, password: string): Chainable<any>
     login(username: string, password: string): Chainable<any>
     logout(): Chainable<any>
-    logout_request(): Chainable<any>
     fill_form_fields(form_data: object): Chainable<any>
     create_new_organization(organization_name: string, organization_form_data: object): Chainable<any>
     create_new_dataset(dataset_name: string, dataset_form_data?: object, resource_form_data?: object, parent_organization?: string): Chainable<any>

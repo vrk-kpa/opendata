@@ -7,7 +7,6 @@ import itertools
 
 import click
 
-
 def get_commands():
     return [sixodp_showcase]
 
@@ -118,15 +117,38 @@ def create_platform_vocabulary(dryrun):
 def migrate_website_showcase_type_to_platform(ctx, dryrun):
     showcase_patches = []
     for old_showcase_dict in package_generator('*:*', 1000, dataset_type='showcase'):
-        if 'showcase_type' not in old_showcase_dict:
-            continue
+        apply_patch = None
+        apply_website = None
+        showcase_extras = []
+        # Look for website in the extras field and append the rest to the showcase extras
+        for item in old_showcase_dict.get('extras', []):
+            if 'showcase_type' in item.get('key'):
+                # Look for website in the showcase_type
+                if 'website' in item.get('value').lower():
+                    apply_website = True
+                # As there was a showcase_type, this will ensure it gets removed from the extras
+                apply_patch = True
+            else:
+                showcase_extras.append(item)
+
+        # There might be a showcase_type field in the resource
+        if 'showcase_type' in old_showcase_dict:
+            if 'website' in old_showcase_dict.get('showcase_type').lower():
+                apply_patch = True
+                apply_website = True
 
         showcase_platforms = old_showcase_dict.get('platform', [])
-        if 'Website' in old_showcase_dict.get('showcase_type', []) and 'Website' not in showcase_platforms:
+        # add website to platforms if it isn't there
+        if 'Website' not in showcase_platforms and apply_website:
             showcase_platforms.append('Website')
+
+        # Patch showcase if something was changed
+        # Usually means the showcase_type is removed from extras and website added to platform if present in showcase_type
+        if apply_patch:
             showcase_patches.append({
                 'id': old_showcase_dict['id'],
                 'platform': showcase_platforms,
+                'extras': showcase_extras,
             })
 
     if dryrun:

@@ -1,0 +1,48 @@
+@use "../variables/suomifidesign" as tokens;
+@import '../variables';
+
+.toolbar {
+  background-color: $background-color__toolbar;
+  padding: 0;
+  margin: 0;
+
+  .breadcrumb {
+    max-width: $opendata-container-max-width;
+    margin: 0 auto;
+    float: none;
+    padding: 0 $padding-x--common;
+
+    li {
+      @include tokens.fi-text-body-text-small;
+
+      font-size: 14px;
+      line-height: 20px;
+      padding: $padding__breadcrumb-item;
+
+      a {
+        color: $color__breadcrumb-link;
+        text-decoration: none;
+      }
+
+      &:last-of-type,
+      &.active a {
+        font-weight: $font-weight-normal;
+        color: $color__breadcrumb-current;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      & + li::before {
+        padding: 0 5px;
+        color: $color__breadcrumb-current;
+        content: '>\00a0';
+      }
+    }
+
+    li::after {
+      content: "";
+    }
+  }
+}

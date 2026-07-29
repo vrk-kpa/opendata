@@ -7,6 +7,10 @@ import ckan.authz as authz
 import ckan.lib.plugins as lib_plugins
 import ckan.lib.search as search
 import ckan.model as model
+from ckan.plugins import toolkit
+from ckanext.dcat.logic import _pagination_info, DATASETS_PER_PAGE, wrong_page_exception
+from dateutil.parser import parse as dateutil_parse
+from ckanext.ytp.dcat import AvoindataSerializer
 
 import logging
 import sqlalchemy
@@ -201,3 +205,73 @@ def store_municipality_bbox_data(context, data_dict):
         )
 
     MunicipalityBoundingBox.bulk_save(objects)
+
+
+# Copied from https://github.com/ckan/ckanext-dcat/blob/v1.3.0/ckanext/dcat/logic.py#L35 with minor modifications
+@toolkit.chained_action
+@toolkit.side_effect_free
+def dcat_catalog_show(original_action, context, data_dict):
+    toolkit.check_access('dcat_catalog_show', context, data_dict)
+
+    fq = data_dict.get('fq', '')
+
+    if fq:
+        fq += ' AND (dataset_type:dataset OR dataset_type:apiset OR dataset_type:showcase)'
+    else:
+        fq = '(dataset_type:dataset OR dataset_type:apiset OR dataset_type:showcase)'
+    
+    data_dict['fq'] = fq
+    
+    query = _search_ckan_datasets(context, data_dict)
+    dataset_dicts = query['results']
+    pagination_info = _pagination_info(query, data_dict)
+
+    serializer = AvoindataSerializer(profiles=data_dict.get('profiles'))
+
+    output = serializer.serialize_catalog({}, dataset_dicts,
+                                          _format=data_dict.get('format'),
+                                          pagination_info=pagination_info)
+
+    return output
+
+
+def _search_ckan_datasets(context, data_dict):
+
+    n = int(toolkit.config.get('ckanext.dcat.datasets_per_page', DATASETS_PER_PAGE))
+    page = data_dict.get('page', 1) or 1
+
+    try:
+        page = int(page)
+        if page < 1:
+            raise wrong_page_exception
+    except ValueError:
+        raise wrong_page_exception
+
+    modified_since = data_dict.get('modified_since')
+    if modified_since:
+        try:
+            modified_since = dateutil_parse(modified_since).isoformat() + 'Z'
+        except (ValueError, AttributeError):
+            raise toolkit.ValidationError(
+                'Wrong modified date format. Use ISO-8601 format')
+
+    search_data_dict = {
+        'rows': n,
+        'start': n * (page - 1),
+        'sort': 'metadata_modified desc',
+    }
+
+    search_data_dict['q'] = data_dict.get('q', '*:*')
+    search_data_dict['fq'] = data_dict.get('fq')
+    search_data_dict['fq_list'] = []
+
+    # Exclude certain dataset types
+    search_data_dict['fq_list'].append('-dataset_type:harvest')
+
+    if modified_since:
+        search_data_dict['fq_list'].append(
+            'metadata_modified:[{0} TO NOW]'.format(modified_since))
+
+    query = toolkit.get_action('package_search')(context, search_data_dict)
+
+    return query

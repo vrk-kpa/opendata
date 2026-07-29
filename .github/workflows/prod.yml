@@ -1,9 +1,9 @@
 name: Deploy Production
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  release:
+    types:
+      - published
   workflow_dispatch:
 
 env:
@@ -22,26 +22,20 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
 
-      - name: install nodejs v16
-        uses: actions/setup-node@v2
+      - name: install nodejs v22
+        uses: actions/setup-node@v6
         with:
-          node-version: 16
-
-      - name: cache node_modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node_cdk_v16-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_cdk_v16-
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: 'cdk/package-lock.json'
 
       - name: install cdk npm packages and verify installation
         working-directory: cdk
         run: |
-          npm install
-          $(npm bin)/cdk doctor
+          npm ci
+          npx cdk doctor
 
       - name: configure environment
         shell: bash
@@ -50,16 +44,12 @@ jobs:
           cp -f docker/.env.template docker/.env
           sed -i.bak -E 's/^(REGISTRY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REGISTRY}"'\"/' docker/.env
           sed -i.bak -E 's/^(REPOSITORY[[:blank:]]*=[[:blank:]]*).*/\1\"'"${REPOSITORY}"'\"/' docker/.env
-          sed -i.bak -E 's/^(CKAN_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
-          sed -i.bak -E 's/^(DRUPAL_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
-          sed -i.bak -E 's/^(NGINX_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
-          sed -i.bak -E 's/^(SOLR_IMAGE_TAG[[:blank:]]*=[[:blank:]]*).*/\1\"'"${{ github.sha }}"'\"/' docker/.env
         env:
           REGISTRY: ${{ secrets.REGISTRY }}
           REPOSITORY: ${{ secrets.REPOSITORY }}
 
       - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           role-session-name: github-actions
@@ -73,9 +63,57 @@ jobs:
       - name: synthesize cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk synth WebStack-prod --quiet >/dev/null 2>&1
+          npx cdk synth *-prod --quiet >/dev/null 2>&1
 
       - name: deploy cdk stacks
         working-directory: cdk
         run: |
-          $(npm bin)/cdk deploy WebStack-prod --require-approval=never >/dev/null 2>&1
+          npx cdk deploy *-prod --require-approval=never >/dev/null 2>&1
+
+      - name: Configure AWS credentials for re-tagging prod images
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ secrets.AWS_BUILD_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+
+      - name: Add prod-tag to used images
+        run: |
+          add_tag() {
+            aws ecr describe-images --filter tagStatus=TAGGED --repository-name ${{ secrets.REPOSITORY }}/$1 | jq -c ".imageDetails[] | select( .imageTags[] | contains(\"prod-$2\"))" -e || \
+            aws ecr put-image \
+              --repository-name ${{ secrets.REPOSITORY }}/$1 \
+              --image-tag prod-$2 \
+              --image-manifest "$(aws ecr batch-get-image --repository-name ${{ secrets.REPOSITORY }}/$1 --image-ids imageTag=$2 --output text --query 'images[].imageManifest')"
+          }
+          
+          source docker/.env
+          add_tag ckan $CKAN_IMAGE_TAG
+          add_tag drupal $DRUPAL_IMAGE_TAG
+          add_tag solr $SOLR_IMAGE_TAG
+          add_tag datapusher $DATAPUSHER_IMAGE_TAG
+          add_tag nginx $NGINX_IMAGE_TAG
+          add_tag clamav $CLAMAV_IMAGE_TAG
+
+      - name: Notify Zulip
+        uses: zulip/github-actions-zulip/send-message@v2
+        with:
+          api-key: ${{ secrets.ZULIP_API_KEY }}
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Production Deployments'
+          content: 'Production deployment succeeded! (${{ github.event.head_commit.message }})'
+
+      - name: Notify Zulip on error
+        if: failure()
+        uses: zulip/github-actions-zulip/send-message@v2
+        with:
+          api-key: ${{ secrets.ZULIP_API_KEY }}
+          email: 'avoindata-bot@turina.dvv.fi'
+          organization-url: 'https://turina.dvv.fi'
+          to: 'avoindata.fi'
+          type: 'stream'
+          topic: 'Production Deployments'
+          content: 'Production deployment failed! (${{ github.event.head_commit.message }})'

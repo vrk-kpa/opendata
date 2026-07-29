@@ -1,0 +1,84 @@
+@use "./variables/suomifidesign" as tokens;
+@import 'variables';
+
+:root {
+  --bs-body-color: #{tokens.$fi-color-black-base};
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-rendering: optimizelegibility;
+}
+
+h1 {
+  @include tokens.fi-text-heading1;
+}
+
+h2 {
+  @include tokens.fi-text-heading2;
+}
+
+h3 {
+  @include tokens.fi-text-heading3;
+}
+
+h4 {
+  @include tokens.fi-text-heading4;
+}
+
+h5 {
+  @include tokens.fi-text-heading5;
+}
+
+a {
+  color: tokens.$fi-color-highlight-base;
+  text-decoration: none;
+
+  @media print {
+    color: tokens.$fi-color-highlight-base !important;
+  }
+
+  &:hover,
+  &:focus {
+    color: tokens.$fi-color-highlight-base;
+  }
+}
+
+.form-control,
+textarea {
+  color: $input-color;
+}
+
+.form-control[readonly] {
+  color: $input-readonly;
+}
+
+@-webkit-viewport {
+  width: device-width;
+}
+
+@-moz-viewport {
+  width: device-width;
+}
+
+@viewport {
+  width: device-width;
+}
+
+@viewport {
+  width: device-width;
+}
+
+@viewport {
+  width: device-width;
+}
+
+::selection {
+  background: tokens.$fi-color-brand-base;
+  color: tokens.$fi-color-white-base;
+  text-shadow: none;
+}

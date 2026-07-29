@@ -1,0 +1,376 @@
+@use "./variables/suomifidesign" as tokens;
+@use "sass:color";
+@import 'variables';
+@import 'mixins/mixins';
+
+// -------
+// FLEXBOX
+// -------
+
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.justify-content {
+  &-start {
+    justify-content: flex-start;
+  }
+
+  &-end {
+    justify-content: flex-end;
+  }
+
+  &-around {
+    justify-content: space-around;
+  }
+
+  &-center {
+    justify-content: center;
+  }
+
+  &-between {
+    justify-content: space-between;
+  }
+
+  &-evenly {
+    justify-content: space-evenly;
+
+    .text-center {
+      flex: 1;
+    }
+  }
+}
+
+.align-items {
+  &-start {
+    align-items: flex-start;
+  }
+
+  &-end {
+    align-items: flex-end;
+  }
+
+  &-center {
+    align-items: center;
+  }
+
+  &-baseline {
+    align-items: baseline;
+  }
+
+  &-stretch {
+    align-items: stretch;
+  }
+}
+
+.align-content {
+  &-start {
+    align-self: flex-start;
+  }
+
+  &-end {
+    align-self: flex-end;
+  }
+
+  &-center {
+    align-self: center;
+  }
+
+  &-stretch {
+    align-self: stretch;
+  }
+}
+
+.align-self {
+  &-start {
+    align-self: flex-start;
+  }
+
+  &-end {
+    align-self: flex-end;
+  }
+
+  &-center {
+    align-self: center;
+  }
+
+  &-baseline {
+    align-self: baseline;
+  }
+
+  &-stretch {
+    align-self: stretch;
+  }
+}
+
+.flex-1 {
+  @include flex(1 1 0);
+}
+
+.flex-2 {
+  @include flex(2 2 0);
+}
+
+// ------
+// COLORS
+// ------
+// NOTE: These do not support element states such as focus, hover or active
+.color {
+  &-black-base {
+    color: tokens.$fi-color-black-base;
+  }
+
+  &-black-light1 {
+    color: tokens.$fi-color-black-light1;
+  }
+
+  &-brand-base {
+    color: tokens.$fi-color-brand-base;
+  }
+
+  &-highlight {
+    &-base {
+      color: tokens.$fi-color-highlight-base;
+    }
+
+    &-light {
+      &4 {
+        color: tokens.$fi-color-highlight-light4;
+      }
+
+      &3 {
+        color: tokens.$fi-color-highlight-light3;
+      }
+
+      &2 {
+        color: tokens.$fi-color-highlight-light2;
+      }
+
+      &1 {
+        color: tokens.$fi-color-highlight-light1;
+      }
+    }
+
+    &-dark1 {
+      color: tokens.$fi-color-highlight-dark1;
+    }
+  }
+
+  &-accent {
+    &-base {
+      color: tokens.$fi-color-accent-base;
+    }
+
+    &-secondary {
+      color: tokens.$fi-color-accent-secondary;
+
+      &-light1 {
+        color: tokens.$fi-color-accent-secondary-light1;
+      }
+    }
+
+    &-tertiery {
+      color: tokens.$fi-color-accent-tertiary;
+
+      &-dark1 {
+        color: tokens.$fi-color-accent-tertiary-dark1;
+      }
+    }
+  }
+
+  &-depth {
+    &-base {
+      color: tokens.$fi-color-depth-base;
+    }
+
+    &-light {
+      &3 {
+        color: tokens.$fi-color-depth-light3;
+      }
+
+      &2 {
+        color: tokens.$fi-color-depth-light2;
+      }
+
+      &1 {
+        color: tokens.$fi-color-depth-light1;
+      }
+    }
+
+    &-dark1 {
+      color: tokens.$fi-color-depth-dark1;
+    }
+
+    &-secondary {
+      color: tokens.$fi-color-depth-secondary;
+
+      &-dark1 {
+        color: tokens.$fi-color-depth-secondary-dark1;
+      }
+    }
+  }
+
+  &-success {
+    &-base {
+      color: tokens.$fi-color-success-base;
+    }
+
+    &-light-transparent50 {
+      color: color.adjust(tokens.$fi-color-success-base, $alpha: 0.5);
+    }
+  }
+
+  &-warning {
+    &-base {
+      color: tokens.$fi-color-warning-base;
+    }
+  }
+
+  &-alert-base {
+    color: tokens.$fi-color-alert-base;
+  }
+
+  &-white-base {
+    color: tokens.$fi-color-white-base;
+  }
+}
+
+.bg {
+  &-black-base {
+    background-color: tokens.$fi-color-black-base;
+  }
+
+  &-black-light1 {
+    background-color: tokens.$fi-color-black-light1;
+  }
+
+  &-brand-base {
+    background-color: tokens.$fi-color-brand-base;
+  }
+
+  &-highlight {
+    &-base {
+      background-color: tokens.$fi-color-highlight-base;
+    }
+
+    &-light {
+      &4 {
+        background-color: tokens.$fi-color-highlight-light4;
+      }
+
+      &3 {
+        background-color: tokens.$fi-color-highlight-light3;
+      }
+
+      &2 {
+        background-color: tokens.$fi-color-highlight-light2;
+      }
+
+      &1 {
+        background-color: tokens.$fi-color-highlight-light1;
+      }
+    }
+
+    &-dark1 {
+      background-color: tokens.$fi-color-highlight-dark1;
+    }
+  }
+
+  &-accent {
+    &-base {
+      background-color: tokens.$fi-color-accent-base;
+    }
+
+    &-secondary {
+      background-color: tokens.$fi-color-accent-secondary;
+
+      &-light1 {
+        background-color: tokens.$fi-color-accent-secondary-light1;
+      }
+    }
+
+    &-tertiery {
+      background-color: tokens.$fi-color-accent-tertiary;
+
+      &-dark1 {
+        background-color: tokens.$fi-color-accent-tertiary-dark1;
+      }
+    }
+  }
+
+  &-depth {
+    &-base {
+      background-color: tokens.$fi-color-depth-base;
+    }
+
+    &-light {
+      &3 {
+        background-color: tokens.$fi-color-depth-light3;
+      }
+
+      &2 {
+        background-color: tokens.$fi-color-depth-light2;
+      }
+
+      &1 {
+        background-color: tokens.$fi-color-depth-light1;
+      }
+    }
+
+    &-dark1 {
+      background-color: tokens.$fi-color-depth-dark1;
+    }
+
+    &-secondary {
+      background-color: tokens.$fi-color-depth-secondary;
+
+      &-dark1 {
+        background-color: tokens.$fi-color-depth-secondary-dark1;
+      }
+    }
+  }
+
+  &-success {
+    &-base {
+      background-color: tokens.$fi-color-success-base;
+    }
+
+    &-light-transparent50 {
+      background-color: color.adjust(tokens.$fi-color-success-base, $alpha: 0.5);
+    }
+  }
+
+  &-warning {
+    &-base {
+      background-color: tokens.$fi-color-warning-base;
+    }
+  }
+
+  &-alert-base {
+    background-color: tokens.$fi-color-alert-base;
+  }
+
+  &-white-base {
+    background-color: tokens.$fi-color-white-base;
+  }
+}
+
+// -----
+// OTHER
+// -----
+.avoid-page-break {
+  page-break-inside: avoid;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.position-relative {
+  position: relative;
+}

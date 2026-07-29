@@ -16,8 +16,6 @@ import json
 import ckan.lib.helpers as h
 
 from ckanext.sixodp_showcase.logic import auth
-from ckanext.showcase.model import setup as model_setup
-from ckanext.sixodp_showcase.model import setup as sixodp_model_setup
 
 try:
     from collections import OrderedDict  # 2.7
@@ -29,7 +27,6 @@ log = logging.getLogger(__name__)
 
 
 class Sixodp_ShowcasePlugin(ShowcasePlugin):
-    plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IDatasetForm)
     plugins.implements(plugins.IActions)
@@ -45,11 +42,6 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
         toolkit.add_resource('fanstatic', 'sixodp_showcase')
-
-    # IConfigurable
-    def configure(self, config):
-        model_setup()
-        sixodp_model_setup()
 
     # IDatasetForm
 
@@ -139,7 +131,8 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
             'get_showcases_by_author': helpers.get_showcases_by_author,
             'get_vocabulary': helpers.get_vocabulary,
             'translate_list_items': helpers.translate_list_items,
-            'get_showcase_pkgs': helpers.get_showcase_pkgs
+            'get_showcase_pkgs': helpers.get_showcase_pkgs,
+            'get_showcase_apisets': helpers.get_showcase_apisets
         }
 
     def _add_image_urls(self, pkg_dict):
@@ -179,7 +172,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
         return pkg_dict
 
     # IPackageController
-    def after_show(self, context, data_dict):
+    def after_dataset_show(self, context, data_dict):
         if context.get('for_edit') is not True:
             if data_dict.get('notifier', None) is not None:
                 data_dict.pop('notifier')
@@ -188,7 +181,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
 
         return self._add_to_pkg_dict(context, data_dict)
 
-    def before_index(self, data_dict):
+    def before_dataset_index(self, data_dict):
         if data_dict.get('platform'):
             data_dict['vocab_platform'] = [tag for tag in data_dict['platform'].split(',')]
 
@@ -207,7 +200,7 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
 
         return data_dict
 
-    def after_search(self, search_results, search_params):
+    def after_dataset_search(self, search_results, search_params):
         if(search_results['search_facets'].get('groups')):
             context = {'for_view': True, 'with_private': False}
             data_dict = {

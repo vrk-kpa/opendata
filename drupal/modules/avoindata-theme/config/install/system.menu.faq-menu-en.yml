@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: faq-menu-en
+label: 'Faq menu (en)'
+description: 'Menu for faq page (en)'
+locked: false

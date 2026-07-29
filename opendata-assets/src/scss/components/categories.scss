@@ -1,0 +1,72 @@
+@use "../variables/suomifidesign" as tokens;
+
+.categories {
+  $icon-size: 40px;
+
+  &__list {
+    list-style: none;
+    padding: 0;
+
+    &__item {
+      display: flex;
+      align-items: center;
+
+      &__icon {
+        width: $icon-size;
+        height: auto;
+      }
+
+      &__title {
+        @include tokens.fi-text-body-text-small;
+
+        margin-left: $padding-x--common;
+      }
+
+      &--hidden {
+        display: none;
+      }
+    }
+
+    &__show-more {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+
+      button {
+        display: flex;
+        align-items: center;
+        background: transparent;
+        border: none;
+        color: tokens.$fi-color-highlight-base;
+        transition: color $transition-duration--short $transition-timing-function--default;
+
+        i {
+          border: 1px solid tokens.$fi-color-highlight-base;
+          height: 16px;
+          width: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 10px;
+          margin-right: 10px;
+          transition: border-color $transition-duration--short $transition-timing-function--default;
+        }
+
+        &:hover {
+          color: tokens.$fi-color-highlight-dark1;
+
+          i {
+            border-color: tokens.$fi-color-highlight-dark1;
+          }
+        }
+      }
+    }
+  }
+
+  a {
+    @include tokens.fi-text-action-element-inner-text-bold;
+
+    color: tokens.$fi-color-highlight-base;
+    text-decoration: none;
+  }
+}

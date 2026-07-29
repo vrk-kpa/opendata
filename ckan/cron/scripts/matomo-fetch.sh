@@ -7,4 +7,4 @@ set -e
 echo "job started: matomo-fetch"
 
 # run commands
-[[ "${MATOMO_ENABLED}" == "true" ]] && ckan -c ${APP_DIR}/production.ini matomo fetch
+[[ "${MATOMO_ENABLED}" == "true" ]] && ckan -c ${APP_DIR}/ckan.ini matomo fetch

@@ -1,7 +1,7 @@
 ckanext-ytp-main
 ================
 
-Main CKAN extension for avoindata.fi
+Main CKAN extension for Suomi.fi Open Data
 
 Installation
 ------------

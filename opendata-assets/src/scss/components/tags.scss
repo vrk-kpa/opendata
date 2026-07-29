@@ -1,0 +1,34 @@
+@use "../variables/suomifidesign" as tokens;
+
+.tags {
+  .tag-list {
+    // Fallback for older browsers
+    display: block;
+    display: flex;
+    flex-wrap: wrap;
+    margin: - calc($margin__tag / 2);
+    padding: 0;
+    border: none;
+    background-color: inherit;
+    
+    li {
+      margin: 0;
+      padding: 0;
+    }
+
+    .tag {
+      margin: calc($margin__tag / 2);
+      background: tokens.$fi-color-highlight-base;
+      border: none;
+      box-shadow: none;
+      font-size: $font-size__tag;
+      line-height: $line-height__tag;
+      color: tokens.$fi-color-white-base;
+      transition: background $transition-duration--short $transition-timing-function--default;
+
+      &:hover {
+        background: tokens.$fi-color-highlight-dark1;
+      }
+    }
+  }
+}

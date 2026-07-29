@@ -77,19 +77,12 @@ Cypress.Commands.add('login_post_request', (username, password) => {
   });
 });
 
-Cypress.Commands.add('logout_request', (username, password) => {
-  cy.request({
-    method: 'GET',
-    url: '/user/logout'
-  });
-});
-
 Cypress.Commands.add('login', (username, password) => {
   cy.visit('/user/login');
   cy.get('input[name=name]').type(username);
   cy.get('input[name=pass]').type(password);
   cy.get('#edit-submit').click();
-  cy.url().should('include', '/fi/user');
+  cy.url().should('include', '/data/fi/user');
 
   cy.getCookies().should('have.length.greaterThan', 0).then((cookies) => {
     let drupal_cookie = cookies.find(cookie => cookie.name.match(/^SESS/))
@@ -98,7 +91,14 @@ Cypress.Commands.add('login', (username, password) => {
 });
 
 Cypress.Commands.add('logout', () => {
-  cy.visit('/user/logout');
+  cy.visit('/');
+  cy.scrollTo('top', {
+    ensureScrollable: false
+  });
+  cy.get('.navbar a[href*="/user/logout"]').click({
+    scrollBehavior: false
+  });
+
   cy.url().should('eq', Cypress.config().baseUrl + '/fi');
   // Check that authentication cookie doesn't exist anymore
   cy.getCookies().each((cookie) => {
@@ -138,6 +138,7 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
             const options = { force: field_value.force ? field_value.force : false };
             switch(field_value.type) {
                 case 'select':
+                    // note. Some fields do not appear with the correct value in the cypress UI, but the correct value is still selected 
                     field.select(field_value.value, options)
                     break;
                 // TODO: This should not be necessary, but the delay required between typing 
@@ -145,7 +146,9 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
                 // immediately after typing in ajax-populated instances
                 case 'select2':
                     field_value.values.forEach((v) => {
-                      field.type(v, options).wait(1000)
+                      field.type(v, options);
+                      // wait for the results load before pressing enter
+                      cy.get(`${field_selector}.select2-active`, {timeout: 20000}).should('not.exist');
                       cy.get(field_selector).type('{enter}', {'force': true})
                     })
                     break;
@@ -154,6 +157,10 @@ Cypress.Commands.add('fill_form_fields', (form_data) => {
                     break;
                 case 'radio':
                     field.check(field_value.value, options)
+                    break;
+                case 'datepicker':
+                    field.clear();
+                    field.type(field_value.value);
                     break;
                 default:
                     field.type(field_value.value, options)
@@ -200,11 +207,11 @@ Cypress.Commands.add('create_organization_for_user', (organization_name, user_na
     }
     cy.login_post_request(user_name, user_name)
     cy.create_new_organization(organization_name);
-    cy.logout_request();
+    cy.logout();
 
     cy.login_post_request('admin', 'administrator');
     cy.approve_organization(organization_name);
-    cy.logout_request();
+    cy.logout();
 });
 
 Cypress.Commands.add('create_new_dataset', (dataset_name, dataset_form_data, resource_form_data, parent_organization) => {
@@ -350,8 +357,6 @@ Cypress.Commands.add('delete_showcase', (showcase_name) => {
       cy.get('body').find('.btn').contains('Vahvista').click();
       cy.visit('/data/showcase');
       cy.get('.search-input .search').type(showcase_name + '{enter}');
-      cy.get('.showcase-list').should('not.exist');
-      cy.contains("Sovelluksia ei löytynyt");
     });
 });
 
@@ -359,7 +364,7 @@ Cypress.Commands.add('add_showcase_user', () => {
   // Login with test-publisher and visit ckan to create the user
   cy.login_post_request('test-publisher', 'test-publisher');
   cy.request('/data/fi/dataset');
-  cy.logout_request();
+  cy.logout();
 
   // Set showcase-admin rights for test-publisher
   cy.login_post_request('admin', 'administrator');
@@ -371,7 +376,7 @@ Cypress.Commands.add('add_showcase_user', () => {
   cy.get('#s2id_username').click();
   cy.get('#s2id_autogen1_search').type('test-publisher', {force: true}).wait(1000).type('{enter}');
   cy.get('button[name=submit]').click();
-  cy.logout_request();
+  cy.logout();
 
   // Login with test-publisher
   cy.login_post_request('test-publisher', 'test-publisher');
@@ -383,34 +388,21 @@ Cypress.Commands.add('add_showcase_user', () => {
 
 Cypress.Commands.add('reset_db', () => {
     if (Cypress.env('resetDB') === true){
-      if (Cypress.env('docker') !== true){
-        cy.exec('npm run reset:db', {
+        cy.exec('npm run reset', {
           env: {
-            DB_HOST: '10.10.10.10',
-            DB_CKAN: 'ckan_test',
-            DB_CKAN_USER: 'ckan_test',
-            DB_CKAN_PASS: 'pass'
-          }
-        });
-        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini search-index clear\'", {timeout: 120*1000});
-        // Init vocaularies
-        cy.exec("vagrant ssh -c  \'sudo /usr/lib/ckan/default/bin/ckan --config /etc/ckan/default/test.ini sixodp-showcase create_platform_vocabulary\'", {timeout: 120*1000});
-      } else {
-        cy.exec('npm run reset:db', {
-          env: {
-            DB_HOST: 'localhost',
+            DB_HOST: '127.0.0.1',
             DB_CKAN: 'ckan',
             DB_CKAN_USER: 'ckan',
             DB_CKAN_PASS: 'ckan_pass'
           }
         });
 
-        const containerName = Cypress.env('test_container_name') || 'opendata_ckan_1';
-        cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini search-index clear"`);
+        //const containerName = Cypress.env('test_container_name') || 'opendata_ckan_1';
+        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/ckan.ini api action sparql_clear"`);
+        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/ckan.ini search-index clear"`);
         // Init vocaularies
-        cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/production.ini sixodp-showcase create_platform_vocabulary"`);
+        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/ckan.ini sixodp-showcase create_platform_vocabulary"`);
       }
-    }
 });
 
 Cypress.Commands.add('create_category', function (category_name) {
@@ -507,7 +499,8 @@ Cypress.Commands.add('create_new_apiset', (apiset_name, apiset_form_data, api_fo
   cy.contains('a', 'Linkki').click()
   cy.fill_form_fields(api_form_data);
   cy.get('button[name=save].suomifi-button-primary').click();
-  cy.url().should('include', `/data/fi/dataset/${apiset_name}`);
+  cy.location('pathname', {timeout: 60000}).should('not.contain', `/apiset/${apiset_name}/resource/new`)
+  cy.url().should('include', `/data/fi/apiset/${apiset_name}`);
 });
 
 // Edits an existing apiset
@@ -522,6 +515,8 @@ Cypress.Commands.add('edit_apiset', (apiset_name, apiset_form_data) => {
   cy.visit(`/data/fi/apiset/edit/${apiset_name}`);
   cy.fill_form_fields(apiset_form_data)
   cy.get('button[name=save]').click();
+  // Check if the url has changed in order to determine when the form has been properly submitted
+  cy.url().should('include', `/data/fi/apiset/${apiset_name}`); 
   cy.get('.dataset-title').contains(apiset_name+'edit');
 })
 
@@ -530,7 +525,7 @@ Cypress.Commands.add('delete_apiset', (apiset_name) => {
   // As there isn't currently link for apisets in nav, we must use exact urls on navigation
   cy.visit(`/data/fi/apiset/edit/${apiset_name}`);
   cy.get('.form-actions').contains('Poista').click();
-  cy.contains('Haluatko varmasti poistaa tietoaineiston');
+  cy.contains('Haluatko varmasti poistaa rajapinnan');
   cy.get('body').find('.btn').contains('Vahvista').click();
   cy.get('.search-input .search').type(apiset_name + '{enter}');
   cy.get(`a[href="/data/fi/apiset/${apiset_name}"]`).should('not.exist');

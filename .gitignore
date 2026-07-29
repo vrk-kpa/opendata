@@ -78,3 +78,6 @@ docker/docker-compose.override.yml
 
 # Ignore cypress local env-overrides
 cypress.env.json
+
+# Symlink allowing local tests
+ckan/ckanext/ckan
