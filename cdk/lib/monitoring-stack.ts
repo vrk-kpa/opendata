@@ -25,6 +25,7 @@ export class MonitoringStack extends Stack {
         source: ['aws.ecs'],
         detail: {
           desiredStatus: ['STOPPED'],
+          lastStatus: ['STOPPED'],
           stoppedReason: [{wildcard: '*health*'}]
         }
       },
