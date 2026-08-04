@@ -206,16 +206,19 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
 
 # Install qsv for ckanext-qa
 
-ENV QSV_URL=https://github.com/dathere/qsv/releases/download/3.3.0/qsv-3.3.0-x86_64-unknown-linux-musl.zip \
-    QSV_SHA1SUM=57f42781d57213416165bd6fcd366d0a20d4ec53 \
-    QSV_ZIP=qsv-3.3.0-x86_64-unknown-linux-musl.zip \
-    QSV=qsv
+ENV QSV_URL=https://github.com/dathere/qsv/releases/download/21.1.0/qsv-21.1.0-x86_64-unknown-linux-musl.zip \
+    QSV_SHA256SUM=6e1e322c2ac0d2e862e961f0bb5b30c8ceccb12ace37067bc8d911c77cf101f3 \
+    QSV_ZIP=qsv-21.1.0-x86_64-unknown-linux-musl.zip \
+    QSV=qsv \
+    QSVDP=qsvdp
 
 RUN curl -fsSLO "$QSV_URL" \
- && echo "${QSV_SHA1SUM}  ${QSV_ZIP}" | sha1sum -c - \
+ && echo "${QSV_SHA256SUM}  ${QSV_ZIP}" | sha256sum -c - \
  && unzip "$QSV_ZIP" -d /tmp/qsv \
  && chmod +x "/tmp/qsv/$QSV" \
- && mv "/tmp/qsv/$QSV" "/usr/local/bin/$QSV"
+ && mv "/tmp/qsv/$QSV" "/usr/local/bin/$QSV" \
+ && chmod +x "/tmp/qsv/$QSVDP" \
+ && mv "/tmp/qsv/$QSVDP" "/usr/local/bin/$QSVDP"
 
 
 #
