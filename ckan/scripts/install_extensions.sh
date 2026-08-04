@@ -32,7 +32,8 @@ pip install -e ${EXT_DIR}/ckanext-drupal8 \
     -e ${EXT_DIR}/ckanext-sentry \
     -e ${EXT_DIR}/ckanext-sitesearch \
     -e ${EXT_DIR}/ckanext-archiver \
-    -e ${EXT_DIR}/ckanext-qa
+    -e ${EXT_DIR}/ckanext-qa \
+    -e ${EXT_DIR}/datapusher-plus
 
 
 # compile translations
