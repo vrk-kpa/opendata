@@ -17,7 +17,7 @@
 #search-options-header {
   color: tokens.$fi-color-white-base;
   background-color: tokens.$fi-color-highlight-base;
-  margin: 0 -(tokens.$fi-spacing-m);
+  margin: 0 (-(tokens.$fi-spacing-m));
   margin-bottom: tokens.$fi-spacing-xs;
   padding: tokens.$fi-spacing-m tokens.$fi-spacing-m;
 
