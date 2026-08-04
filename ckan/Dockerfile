@@ -146,7 +146,9 @@ RUN \
       geos-dev \
       libpq-dev \
       util-linux \
-      nfs-utils && \
+      nfs-utils  \
+      gdal-dev \
+      uchardet && \
   pip install \
     jinja2-cli \
     supervisor \
