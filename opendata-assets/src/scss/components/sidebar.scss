@@ -21,7 +21,7 @@
 [role="main"] .secondary,
 aside.tertiary {
   background-color: $background-color__content;
-  padding: $padding__content;
+  padding: tokens.$fi-spacing-m;
   padding: 20px ($grid-gutter-width / 2) 40px;
   margin-top: 0;
 
@@ -44,12 +44,12 @@ aside.tertiary {
   }
 
   .dataset-map {
-    margin-bottom: $padding-y--common;
+    margin-bottom: tokens.$fi-spacing-m;
   }
 
   hr {
     color: tokens.$fi-color-depth-dark1;
-    margin: $padding-y--common 0;
+    margin: tokens.$fi-spacing-m 0;
   }
 
   .module,
@@ -63,11 +63,11 @@ aside.tertiary {
     position: relative;
 
     .module-content {
-      padding: $padding-y__navigation $padding-x__navigation;
+      padding: tokens.$fi-spacing-xs tokens.$fi-spacing-m;
 
       .nav > li > a {
-        margin: 0 (-$padding-x__navigation);
-        padding: $padding-y--common $padding-x__navigation;
+        margin: 0 -(tokens.$fi-spacing-m);
+        padding: tokens.$fi-spacing-m tokens.$fi-spacing-m;
         color: $sidebar-block-color-text;
         border-left: $border-width__navigation solid transparent;
 
@@ -85,7 +85,7 @@ aside.tertiary {
       @include tokens.fi-text-heading5;
 
       margin: 0;
-      padding: $padding-y__navigation $padding-x__navigation;
+      padding: tokens.$fi-spacing-xs tokens.$fi-spacing-m;
       background-color: transparent;
       border: none;
     }
@@ -102,7 +102,7 @@ aside.tertiary {
       }
 
       a {
-        padding: $padding-y__navigation $padding-x__navigation;
+        padding: tokens.$fi-spacing-xs tokens.$fi-spacing-m;
         margin: 0;
       }
     }
@@ -113,7 +113,7 @@ aside.tertiary {
   }
 
   .secondary-heading-container {
-    padding: $padding-y__navigation $padding-x__navigation;
+    padding: tokens.$fi-spacing-xs tokens.$fi-spacing-m;
   }
 
   &.secondary--resource {
@@ -127,7 +127,7 @@ aside.tertiary {
   border: none;
 
   .module-content .module-subheading {
-    padding: $padding-y__navigation 0;
+    padding: tokens.$fi-spacing-xs 0;
   }
 }
 

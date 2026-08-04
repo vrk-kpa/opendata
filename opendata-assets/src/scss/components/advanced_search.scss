@@ -17,9 +17,9 @@
 #search-options-header {
   color: tokens.$fi-color-white-base;
   background-color: tokens.$fi-color-highlight-base;
-  margin: 0 (-$padding-x__navigation);
-  margin-bottom: $padding-y__navigation;
-  padding: $padding-y--common $padding-x--common;
+  margin: 0 -(tokens.$fi-spacing-m);
+  margin-bottom: tokens.$fi-spacing-xs;
+  padding: tokens.$fi-spacing-m tokens.$fi-spacing-m;
 
   h3 {
     margin: 0;
@@ -31,7 +31,7 @@
   border-radius: 0;
 
   hr {
-    margin: $padding-y__navigation 0;
+    margin: tokens.$fi-spacing-xs 0;
     border-top: 1px solid tokens.$fi-color-depth-light1;
   }
 }
@@ -67,7 +67,7 @@
   font-weight: 400;
   color: tokens.$fi-color-black-base;
   background-color: $background-color__content;
-  padding: $padding-y--common $padding-x--common;
+  padding: tokens.$fi-spacing-m tokens.$fi-spacing-m;
   margin: 0;
   border: 1px solid tokens.$fi-color-depth-light1;
   border-bottom: none;

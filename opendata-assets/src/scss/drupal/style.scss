@@ -455,7 +455,7 @@ p:last-child,
   h3 {
     @include tokens.fi-text-heading3;
 
-    margin-top: $padding-y__text;
+    margin-top: tokens.$fi-spacing-s;
   }
 
   .avoindata-block-header-row {
@@ -1004,7 +1004,7 @@ p:last-child,
 .avoindata-card-container {
   background-color: $background-color__content;
   border: 1px solid $border-color__content;
-  padding: $padding-y--common $padding-x--common;
+  padding: tokens.$fi-spacing-m tokens.$fi-spacing-m;
 
   .opendata-card {
     padding-top: 15px;

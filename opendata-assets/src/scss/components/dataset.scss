@@ -5,16 +5,16 @@
 .dataset-container {
   background-color: $background-color__content;
   border: 1px solid $border-color__content;
-  padding: $padding__content;
+  padding: tokens.$fi-spacing-m;
 
   > .row {
-    margin-left: -$padding-x--common;
-    margin-right: -$padding-x--common;
+    margin-left: -(tokens.$fi-spacing-m);
+    margin-right: -(tokens.$fi-spacing-m);
   }
 
   .dataset-primary-content,
   .dataset-sidebar {
-    padding: 0 $padding-x--common;
+    padding: 0 tokens.$fi-spacing-m;
 
     .embedded-content {
       font-size: $font-size-base;
@@ -23,17 +23,17 @@
     .embedded-content,
     .resources,
     .additional-info {
-      margin-bottom: $margin__module--large;
+      margin-bottom: tokens.$fi-spacing-xxxxl;
 
       h3 {
-        margin-bottom: $padding-y--common;
+        margin-bottom: tokens.$fi-spacing-m;
       }
     }
   }
 }
 
 .dataset-header-row {
-  margin-bottom: $padding-y--common;
+  margin-bottom: tokens.$fi-spacing-m;
 
   .content_action {
     font-weight: 600;
@@ -57,7 +57,7 @@
     height: $font-size__high-value-dataset-icon;
     line-height: $font-size__high-value-dataset-icon;
     color: tokens.$fi-color-accent-base;
-    margin-right: $padding-x--small;
+    margin-right: tokens.$fi-spacing-s;
   }
 }
 
@@ -82,7 +82,7 @@
     letter-spacing: 0.4px;
     border: 1px solid tokens.$fi-color-highlight-base;
     border-radius: 2px;
-    padding: $padding-y--small $padding-x--common;
+    padding: tokens.$fi-spacing-s tokens.$fi-spacing-m;
     text-decoration: none;
   }
 }
@@ -220,7 +220,7 @@
     background: tokens.$fi-color-white-base;
     border: 1px solid tokens.$fi-color-depth-light1;
     margin: 0;
-    margin-right: $margin__tag;
+    margin-right: tokens.$fi-spacing-xs;
     border-radius: 2px;
 
     &:last-of-type {
@@ -229,11 +229,11 @@
   }
 
   .search-item-tag-organization {
-    padding: $padding__tag;
+    padding: tokens.$fi-spacing-xxs tokens.$fi-spacing-xs;
   }
 
   .search-item-tag-type {
-    padding: $padding__tag;
+    padding: tokens.$fi-spacing-xxs tokens.$fi-spacing-xs;
   }
 
   .search-item-tag span {
