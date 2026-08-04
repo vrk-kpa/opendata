@@ -71,3 +71,6 @@
 [submodule "ckan/ckanext/ckanext-sitesearch"]
 	path = ckan/ckanext/ckanext-sitesearch
 	url = https://github.com/vrk-kpa/ckanext-sitesearch.git
+[submodule "ckan/ckanext/datapusher-plus"]
+	path = ckan/ckanext/datapusher-plus
+	url = https://github.com/dathere/datapusher-plus.git
