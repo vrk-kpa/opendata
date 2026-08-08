@@ -148,18 +148,6 @@
 }
 
 #content .container-apiset {
-  .filter-list {
-    display: flex;
-    align-items: center;
-    gap: 4px 8px;
-    font-size: 16px;
-    font-weight: 400;
-
-    .filtered {
-      @include suomifi-mixins.chip;
-    }
-  }
-
   .search-results {
     @include tokens.fi-text-lead-text-small-screen;
 
