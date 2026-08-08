@@ -202,6 +202,12 @@ label.group-label {
     line-height: $line-height-h3-alt;
     font-weight: $font-weight-normal;
   }
+
+  &.search-form-showcase.no-bottom-border {
+    /* showcase search form removes bottom border, but that doesn't work with
+       our theme. Add the bottom border back */
+    border-bottom: 1px solid tokens.$fi-color-depth-light1;
+  }
 }
 
 .search-form.list-head-search-form {
