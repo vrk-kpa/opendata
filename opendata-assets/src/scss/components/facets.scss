@@ -10,7 +10,7 @@
     line-height: 1;
     width: auto;
     height: auto;
-    right: $padding-x--common;
+    right: tokens.$fi-spacing-m;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

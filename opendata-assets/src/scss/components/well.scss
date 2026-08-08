@@ -1,3 +1,5 @@
+@use "../variables/suomifidesign" as tokens;
+
 .well {
-  padding: $padding-y--small $padding-x--common;
+  padding: tokens.$fi-spacing-s tokens.$fi-spacing-m;
 }

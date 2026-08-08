@@ -6,7 +6,7 @@
     display: block;
     display: flex;
     flex-wrap: wrap;
-    margin: - calc($margin__tag / 2);
+    margin: - calc(tokens.$fi-spacing-xs / 2);
     padding: 0;
     border: none;
     background-color: inherit;
@@ -17,7 +17,7 @@
     }
 
     .tag {
-      margin: calc($margin__tag / 2);
+      margin: calc(tokens.$fi-spacing-xs / 2);
       background: tokens.$fi-color-highlight-base;
       border: none;
       box-shadow: none;

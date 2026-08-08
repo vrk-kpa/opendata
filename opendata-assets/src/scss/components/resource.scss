@@ -1,13 +1,13 @@
 @use "../variables/suomifidesign" as tokens;
 
 .toolbar-secondary-wrapper {
-  padding-bottom: $padding-y__resource_toolbar;
+  padding-bottom: tokens.$fi-spacing-xs;
 }
 
 .toolbar-resource-secondary {
   max-width: 1110px;
   margin: 0 auto;
-  padding: 0 $padding-right__module--resource;
+  padding: 0 tokens.$fi-spacing-m;
 
   i {
     border-radius: 0;
@@ -30,17 +30,17 @@
 .module-resource {
   border: none;
 
-  // margin-bottom: $margin__module;
-  // padding-bottom: $margin__module;
+  // margin-bottom: tokens.$fi-spacing-xxxl;
+  // padding-bottom: tokens.$fi-spacing-xxxl;
 
   // Additional padding for desktop only
   @media (min-width: $screen-sm-min) {
-    padding-left: $padding-left__module--resource;
-    padding-right: $padding-right__module--resource;
+    padding-left: tokens.$fi-spacing-m;
+    padding-right: tokens.$fi-spacing-m;
   }
 
-  padding-left: $padding-left__module--resource;
-  padding-right: $padding-right__module--resource;
+  padding-left: tokens.$fi-spacing-m;
+  padding-right: tokens.$fi-spacing-m;
 
   .actions {
     top: 0;
@@ -55,7 +55,7 @@
     @include tokens.fi-text-body-text-small;
 
     color: tokens.$fi-color-depth-dark1;
-    padding-top: $padding-y__resource_toolbar;
+    padding-top: tokens.$fi-spacing-xs;
   }
 
   .resource-module-table {
@@ -88,16 +88,16 @@
 .resource-container {
   background-color: $background-color__content;
   border: 1px solid $border-color__content;
-  padding: $padding__content;
+  padding: tokens.$fi-spacing-m;
 
   > .row {
-    margin-left: -$padding-x--common;
-    margin-right: -$padding-x--common;
+    margin-left: -(tokens.$fi-spacing-m);
+    margin-right: -(tokens.$fi-spacing-m);
   }
 
   .resource-primary-content,
   .resource-sidebar {
-    padding: 0 $padding-x--common;
+    padding: 0 tokens.$fi-spacing-m;
 
     .embedded-content {
       font-size: $font-size-base;
@@ -106,10 +106,10 @@
     .embedded-content,
     .resources,
     .additional-info {
-      margin-bottom: $margin__module--large;
+      margin-bottom: tokens.$fi-spacing-xxxxl;
 
       h3 {
-        margin-bottom: $padding-y--common;
+        margin-bottom: tokens.$fi-spacing-m;
       }
     }
   }
@@ -119,14 +119,14 @@
   border: 1px solid tokens.$fi-color-depth-light1;
 
   .resource-block {
-    padding-bottom: $padding-bottom__module--resource;
+    padding-bottom: tokens.$fi-spacing-m;
   }
 
   .module {
     h1 {
       @include tokens.fi-text-heading1;
 
-      margin-bottom: $padding-bottom__module--resource !important;
+      margin-bottom: tokens.$fi-spacing-m !important;
       color: $navbarInverseBackgroundHighlight !important;
     }
   }

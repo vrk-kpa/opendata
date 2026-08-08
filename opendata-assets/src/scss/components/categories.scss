@@ -19,7 +19,7 @@
       &__title {
         @include tokens.fi-text-body-text-small;
 
-        margin-left: $padding-x--common;
+        margin-left: tokens.$fi-spacing-m;
       }
 
       &--hidden {
