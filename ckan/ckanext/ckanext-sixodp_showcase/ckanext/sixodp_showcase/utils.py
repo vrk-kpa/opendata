@@ -9,7 +9,6 @@ from ckan import model
 
 import ckan.plugins as plugins
 import ckan.logic as logic
-from ckan import model
 from ckan.plugins.toolkit import g, config, request, _, asbool
 import ckan.lib.helpers as h
 from ckan.lib.search import SearchError, SearchQueryError
