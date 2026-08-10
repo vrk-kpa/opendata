@@ -698,7 +698,7 @@ End of dropdown CSS
 .footer {
   margin: 0;
   margin-top: auto;
-  padding: 0 $padding-x--common;
+  padding: 0 tokens.$fi-spacing-m;
   width: 100%;
   font-size: $font-size-base;
   font-weight: $font-weight-normal;
@@ -738,7 +738,7 @@ End of dropdown CSS
       &::before {
         content: ' ';
         border-right: 1px solid tokens.$fi-color-depth-base;
-        margin: -5px $padding-x--common;
+        margin: -5px tokens.$fi-spacing-m;
       }
     }
   }
@@ -746,7 +746,7 @@ End of dropdown CSS
   .footer__bottom {
     .footer-socicons {
       font-size: $font-size-slightly-smaller-base;
-      margin: 0 $padding-x--common;
+      margin: 0 tokens.$fi-spacing-m;
       padding: 0;
       font-weight: $font-weight-normal;
       display: flex;
@@ -762,7 +762,7 @@ End of dropdown CSS
 
       .fab {
         font-size: 26px;
-        margin-right: $padding-x--small;
+        margin-right: tokens.$fi-spacing-s;
       }
     }
   }
@@ -772,7 +772,7 @@ End of dropdown CSS
     width: 100%;
     max-width: $opendata-container-max-width;
     margin: 0 auto;
-    padding: $padding-y__section 0;
+    padding: tokens.$fi-spacing-xl 0;
     justify-content: center;
 
     &:not(:first-child) {
@@ -932,7 +932,7 @@ End of dropdown CSS
 }
 
 .footer-nav {
-  padding: $padding-y--common 0;
+  padding: tokens.$fi-spacing-m 0;
 
   .navbar {
     min-height: auto;
@@ -940,12 +940,12 @@ End of dropdown CSS
 
   .nav {
     display: flex;
-    margin-left: -$padding-x__footer-nav-link;
-    margin-right: -$padding-x__footer-nav-link;
+    margin-left: -(tokens.$fi-spacing-s);
+    margin-right: -(tokens.$fi-spacing-s);
 
     .nav__item {
       .nav__item__link {
-        padding: $padding-y__footer-nav-link $padding-x__footer-nav-link;
+        padding: tokens.$fi-spacing-xs tokens.$fi-spacing-s;
 
         &:hover {
           background-color: transparent;

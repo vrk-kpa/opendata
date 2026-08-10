@@ -15,7 +15,7 @@ $input-border-width: 1px;
   border: 1px solid $opendata-ckan-unhighlight;
   border-radius: $border-radius__input;
   border-color: $border-color__input;
-  padding: $padding-y__input $padding-x__input;
+  padding: tokens.$fi-spacing-xxs tokens.$fi-spacing-xs;
 
   &[type="file"] {
     height: auto;
@@ -191,8 +191,8 @@ label.group-label {
   }
 
   .search-form__result-summary {
-    margin-top: $padding-y--common;
-    padding: $padding-y--common $padding-x--common;
+    margin-top: tokens.$fi-spacing-m;
+    padding: tokens.$fi-spacing-m tokens.$fi-spacing-m;
     background-color: $background-color__content;
     border: 1px solid tokens.$fi-color-depth-light1;
   }
@@ -201,6 +201,12 @@ label.group-label {
     font-size: $font-size-h3-alt;
     line-height: $line-height-h3-alt;
     font-weight: $font-weight-normal;
+  }
+
+  &.search-form-showcase.no-bottom-border {
+    /* showcase search form removes bottom border, but that doesn't work with
+       our theme. Add the bottom border back */
+    border-bottom: 1px solid tokens.$fi-color-depth-light1;
   }
 }
 
@@ -211,10 +217,10 @@ label.group-label {
   .search-header {
     border: 1px solid tokens.$fi-color-depth-light1;
     border-bottom: 0;
-    padding: $padding-y--common;
+    padding: tokens.$fi-spacing-m;
     display: flex;
     background-color: $background-color__content;
-    margin-top: $padding-y--common;
+    margin-top: tokens.$fi-spacing-m;
   }
 
   .search-result-count {
@@ -946,7 +952,7 @@ td.selectable-row {
 
 #general-search-options {
   border: 1px solid tokens.$fi-color-depth-light1;
-  padding-bottom: $padding-bottom__module--resource;
+  padding-bottom: tokens.$fi-spacing-m;
 }
 
 .general-search-options-content p {
