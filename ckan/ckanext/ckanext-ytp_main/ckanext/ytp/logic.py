@@ -1,8 +1,10 @@
+from collections.abc import Sequence
 from ckan import logic
 from ckan.common import _, c
 from ckan.logic import auth, check_access
 from ckan.model import Package
 from ckan.lib.mailer import mail_recipient, MailerException
+from ckan.types import Context, DataDict
 import ckan.authz as authz
 import ckan.lib.plugins as lib_plugins
 import ckan.lib.search as search
@@ -12,6 +14,7 @@ from ckanext.dcat.logic import _pagination_info, DATASETS_PER_PAGE, wrong_page_e
 from dateutil.parser import parse as dateutil_parse
 from ckanext.ytp.dcat import AvoindataSerializer
 
+import json
 import logging
 import sqlalchemy
 import sqlalchemy.sql
@@ -275,3 +278,44 @@ def _search_ckan_datasets(context, data_dict):
     query = toolkit.get_action('package_search')(context, search_data_dict)
 
     return query
+
+
+@toolkit.side_effect_free
+def group_title_translations(context: Context, data_dict: DataDict) -> dict[str, dict[str, str]]:
+    """Return a dictionary of group title translation dictionaries indexed by name
+
+    :param group_names: if given, limit the result to these group names
+    :type group_names: list[str]
+    :rtype: a dictionary of dictionaries
+    """
+    toolkit.check_access('group_list', context, data_dict)
+    group_names = data_dict.get('group_names')
+    if group_names is None:
+        group_names = toolkit.get_action('group_list')(context, {})
+
+    translation_strings = fetch_group_title_translations(group_names)
+    result = {}
+    for group, translation_string in translation_strings.items():
+        if translation_string:
+            try:
+                translation_object = json.loads(translation_string)
+                if isinstance(translation_object, dict):
+                    result[group] = translation_object
+                else:
+                    log.warning(f"Invalid translation object: {translation_object}")
+            except json.JSONDecodeError:
+                log.warning(f"Non-JSON translation object: {translation_object}")
+                pass
+
+    return result
+
+
+def fetch_group_title_translations(group_names: Sequence[str]) -> dict[str, str]:
+    return dict(model.Session.query(model.Group.name, model.GroupExtra.value)
+        .join(model.Group, model.GroupExtra.group_id == model.Group.id)
+        .filter(model.Group.name.in_(group_names))
+        .filter(model.GroupExtra.key == 'title_translated')
+        .filter(model.Group.state == 'active')
+        .filter(model.GroupExtra.state == 'active')
+        .all()
+    )

@@ -1424,7 +1424,8 @@ class OpenDataGroupPlugin(plugins.SingletonPlugin):
 
     def get_actions(self):
         return {
-            "group_create": self._group_create
+            "group_create": self._group_create,
+            "group_title_translations": plugin_logic.group_title_translations
         }
 
     @chained_action
