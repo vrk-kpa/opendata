@@ -510,20 +510,19 @@ class TestSchema:
 class TestActions:
     @pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
     def test_group_title_translations(self):
+        def title_translations(i: int) -> dict[str, str]:
+            return {language: f"group-{i}-title-{language}"
+                    for language in ["fi", "sv", "en"]}
         # Create three groups
         n = 3
         for i in range(n):
-            title_translated = {language: f"group-{i}-title-{language}"
-                                for language in ["fi", "sv", "en"]}
-            Group(name=f"group-{i}", title_translated=title_translated)
+            Group(name=f"group-{i}", title_translated=title_translations(i))
 
         # Fetch translations, check each is there
         result = call_action('group_title_translations')
         for i in range(n):
-            assert result[f"group-{i}"] == f"group-{i}-title"
+            assert result[f"group-{i}"] == title_translations(i)
 
         # Fetch a single translation, check it is the only one returned
-        single_result = call_action('group_title_translations', ["group-0"])
-        assert single_result == {"group-0": dict(fi="group-0-title-fi",
-                                                 sv="group-0-title-sv",
-                                                 en="group-0-title-en")}
+        single_result = call_action('group_title_translations', group_names=["group-0"])
+        assert single_result == {"group-0": title_translations(0)}
