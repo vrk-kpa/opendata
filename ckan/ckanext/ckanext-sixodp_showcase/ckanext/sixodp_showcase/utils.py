@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 import logging
 from collections import OrderedDict
 import ckantoolkit as toolkit
@@ -8,6 +9,7 @@ from ckan import model
 
 import ckan.plugins as plugins
 import ckan.logic as logic
+from ckan import model
 from ckan.plugins.toolkit import g, config, request, _, asbool
 import ckan.lib.helpers as h
 from ckan.lib.search import SearchError, SearchQueryError
@@ -583,3 +585,14 @@ def manage_apisets_view(id):
     extra_vars['view_type'] = 'manage_apisets'
 
     return toolkit.render('showcase/manage_apisets.html', extra_vars=extra_vars)
+
+
+def fetch_group_title_translations(group_names: Sequence[str]) -> dict[str, str]:
+    return dict(model.Session.query(model.Group.name, model.GroupExtra.value)
+        .join(model.Group, model.GroupExtra.group_id == model.Group.id)
+        .filter(model.Group.name.in_(group_names))
+        .filter(model.GroupExtra.key == 'title_translated')
+        .filter(model.Group.state == 'active')
+        .filter(model.GroupExtra.state == 'active')
+        .all()
+    )

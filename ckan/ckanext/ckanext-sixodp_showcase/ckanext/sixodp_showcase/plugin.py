@@ -16,6 +16,7 @@ import json
 import ckan.lib.helpers as h
 
 from ckanext.sixodp_showcase.logic import auth
+from ckanext.sixodp_showcase.utils import fetch_group_title_translations
 
 try:
     from collections import OrderedDict  # 2.7
@@ -201,20 +202,11 @@ class Sixodp_ShowcasePlugin(ShowcasePlugin):
         return data_dict
 
     def after_dataset_search(self, search_results, search_params):
-        if(search_results['search_facets'].get('groups')):
-            context = {'for_view': True, 'with_private': False}
-            data_dict = {
-                'all_fields': True,
-                'include_extras': True,
-                'type': 'group',
-            }
-            groups_with_extras = toolkit.get_action('group_list')(context, data_dict)
-
+        if search_results['search_facets'].get('groups'):
+            group_names = [item['name'] for item in search_results['search_facets']['groups'].get('items', [])]
+            titles = fetch_group_title_translations(group_names)
             for i, facet in enumerate(search_results['search_facets']['groups'].get('items', [])):
-                for group in groups_with_extras:
-                    if facet['name'] == group['name']:
-                        search_results['search_facets']['groups']['items'][i]['title_translated'] = \
-                            group.get('title_translated')
+                search_results['search_facets']['groups']['items'][i]['title_translated'] = titles.get(facet['name'])
 
         for result in search_results['results']:
             self._add_image_urls(result)
