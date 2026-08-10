@@ -147,7 +147,7 @@
   }
 }
 
-#content .container-apiset {
+#content .container-apiset, #content .container-dataset, .search-form-showcase {
   .filter-list {
     display: flex;
     align-items: center;
@@ -193,7 +193,7 @@
     margin-bottom: -1px;
   }
 
-  .search-form .search-dataset {
+  input.form-control.search-dataset {
     border-radius: 0;
     height: 40px;
   }
