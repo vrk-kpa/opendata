@@ -513,7 +513,9 @@ class TestActions:
         # Create three groups
         n = 3
         for i in range(n):
-            Group(name=f"group-{i}", title_translated=dict(fi=f"group-{i}-title"))
+            title_translated = {language: f"group-{i}-title-{language}"
+                                for language in ["fi", "sv", "en"]}
+            Group(name=f"group-{i}", title_translated=title_translated)
 
         # Fetch translations, check each is there
         result = call_action('group_title_translations')
@@ -522,4 +524,6 @@ class TestActions:
 
         # Fetch a single translation, check it is the only one returned
         single_result = call_action('group_title_translations', ["group-0"])
-        assert single_result == {"group-0": dict(fi="group-0-title")}
+        assert single_result == {"group-0": dict(fi="group-0-title-fi",
+                                                 sv="group-0-title-sv",
+                                                 en="group-0-title-en")}
