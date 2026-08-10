@@ -505,3 +505,21 @@ class TestSchema:
 
         interoperability_result = interoperability_datasets[0]
         assert interoperability_result['title'] == interoperability_dataset['title']
+
+
+class TestActions:
+    @pytest.mark.usefixtures('with_plugins', 'clean_db', 'clean_index')
+    def test_group_title_translations(self):
+        # Create three groups
+        n = 3
+        for i in range(n):
+            Group(name=f"group-{i}", title_translated=dict(fi=f"group-{i}-title"))
+
+        # Fetch translations, check each is there
+        result = call_action('group_title_translations')
+        for i in range(n):
+            assert result[f"group-{i}"] == f"group-{i}-title"
+
+        # Fetch a single translation, check it is the only one returned
+        single_result = call_action('group_title_translations', ["group-0"])
+        assert single_result == {"group-0": dict(fi="group-0-title")}
