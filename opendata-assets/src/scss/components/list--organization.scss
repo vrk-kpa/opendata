@@ -1,8 +1,9 @@
+@use "../variables/suomifidesign" as tokens;
 @import "../variables";
 
 .organization-list {
   li {
-    padding: $padding-y__text $padding-x--common;
+    padding: tokens.$fi-spacing-s tokens.$fi-spacing-m;
   }
 }
 
@@ -10,7 +11,7 @@
   font-size: $font-size-slightly-smaller-base;
 
   a {
-    margin-bottom: $padding-y--common;
+    margin-bottom: tokens.$fi-spacing-m;
 
     &:last-of-type {
       margin-bottom: 0;

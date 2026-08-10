@@ -21,10 +21,10 @@
 
   .form-control {
     border-radius: $border-radius__input;
-    margin-right: $padding-x--common;
+    margin-right: tokens.$fi-spacing-m;
   }
 
   .nums {
-    margin-top: $padding-x--common;
+    margin-top: tokens.$fi-spacing-m;
   }
 }

@@ -32,15 +32,15 @@
 
 .showcase__info-box {
   background-color: tokens.$fi-color-highlight-light2;
-  padding: $padding-y__showcase-info-box $padding-x__showcase-info-box;
+  padding: tokens.$fi-spacing-s tokens.$fi-spacing-m;
   margin: 0;
-  margin-bottom: $padding-y--common;
+  margin-bottom: tokens.$fi-spacing-m;
 
   @media (max-width: $screen-sm-min) {
     flex-wrap: wrap;
 
     .btn {
-      margin-top: $padding-y__text;
+      margin-top: tokens.$fi-spacing-s;
     }
   }
 
@@ -63,7 +63,7 @@
   list-style: none;
 
   // $NOTE: Reduce showcase-items margin from both sides of padding
-  margin-top: $padding-y--common;
+  margin-top: tokens.$fi-spacing-m;
   margin-left: -($margin-x__showcase-item / 2);
   margin-right: -($margin-x__showcase-item / 2);
   display: flex;
@@ -129,7 +129,7 @@
 .showcase-content {
   background-color: $background-color__content;
   border: 1px solid $border-color__content;
-  padding: $padding__content;
+  padding: tokens.$fi-spacing-m;
   position: relative;
   overflow-wrap: break-word;
   hyphens: auto;
@@ -171,7 +171,7 @@
 }
 
 .showcase-packages-title {
-  margin-bottom: $padding-y--common;
+  margin-bottom: tokens.$fi-spacing-m;
 }
 
 .showcase-packages {

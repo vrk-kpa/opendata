@@ -53,7 +53,7 @@ body {
 
 .license-smallprint {
   color: tokens.$fi-color-depth-dark1;
-  margin-bottom: $padding-y--small;
+  margin-bottom: tokens.$fi-spacing-s;
 }
 
 .search-form {
