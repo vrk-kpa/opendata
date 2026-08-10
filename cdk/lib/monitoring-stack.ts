@@ -24,7 +24,7 @@ export class MonitoringStack extends Stack {
       eventPattern: {
         source: ['aws.ecs'],
         detail: {
-          desiredStatus: ['STOPPED'],
+          lastStatus: ['STOPPED'],
           stoppedReason: [{wildcard: '*health*'}]
         }
       },

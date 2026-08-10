@@ -32,7 +32,7 @@
   z-index: 2;
 
   h1 {
-    font-family: $font-family-sans-serif;
+    @include tokens.fi-text-heading1;
   }
 
   @include media-breakpoint-up(md) {
@@ -285,7 +285,8 @@
 
 .statistics-legend-text {
   fill: tokens.$fi-color-white-base;
-  font-family: $font-family-sans-serif;
+
+  @include tokens.fi-text-body-text-small;
 }
 
 .statistics-line {
@@ -382,8 +383,9 @@
 }
 
 .attention-number-value {
-  font-family: $font-family-sans-serif;
-  font-size: 28px;
+  @include tokens.fi-text-heading2;
+
+  font-weight: 400;
 }
 
 .attention-number-detail {

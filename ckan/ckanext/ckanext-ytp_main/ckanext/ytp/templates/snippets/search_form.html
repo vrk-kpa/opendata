@@ -14,7 +14,7 @@
 {% set no_bottom_border = no_bottom_border if no_bottom_border else false %}
 {% set form_id = form_id if form_id else false %}
 
-<form {% if form_id %}id="{{ form_id }}" {% endif %}class="search-form{% if no_bottom_border %} no-bottom-border{% endif %} {{ form_class }}" method="get" data-module="select-switch">
+<form {% if form_id %}id="{{ form_id }}" {% endif %}class="search-form{% if no_bottom_border %} no-bottom-border{% endif %} {{ form_class }} search-form-{{ type }}" method="get" data-module="select-switch">
 
     {% block search_input %}        
         <div class="search-input control-group {{ search_class }}">
