@@ -65,6 +65,8 @@ x-env-ckan: &env-ckan
   FUSEKI_ADMIN_PASS: ${FUSEKI_ADMIN_PASS}
   FUSEKI_OPENDATA_DATASET: ${FUSEKI_OPENDATA_DATASET}
 
+name: opendata
+
 services:
   postgres:
     build:
