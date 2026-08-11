@@ -77,6 +77,27 @@ Cypress.Commands.add('login_post_request', (username, password) => {
   });
 });
 
+Cypress.Commands.add('perform_ckan_actions', (fn) => {
+  cy.login('admin', 'administrator')
+  cy.visit('/data/fi/user/admin/api-tokens')
+  cy.get('#name').type('cypress_apikey')
+  cy.get('button[value=create]').click()
+  cy.get('.alert-success code').then(apikeyEl => {
+    cy.clearCookies()
+    let apikey = apikeyEl.text()
+    function ckanAction(action, body, options={}) {
+      cy.request({
+          method: 'POST',
+          url: `/data/api/action/${action}`,
+          headers: {"Authorization": apikey},
+          ...options,
+          body
+      });
+    }
+    fn(ckanAction)
+  })
+})
+
 Cypress.Commands.add('login', (username, password) => {
   cy.visit('/user/login');
   cy.get('input[name=name]').type(username);
