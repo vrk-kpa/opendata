@@ -1421,11 +1421,17 @@ class YtpIPermissionLabelsPlugin(
 
 class OpenDataGroupPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.interfaces.IActions)
+    plugins.implements(plugins.interfaces.IAuthFunctions)
 
     def get_actions(self):
         return {
             "group_create": self._group_create,
             "group_title_translations": plugin_logic.group_title_translations
+        }
+
+    def get_auth_functions(self):
+        return {
+            "group_title_translations": auth.group_title_translations
         }
 
     @chained_action

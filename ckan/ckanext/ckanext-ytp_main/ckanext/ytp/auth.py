@@ -143,3 +143,7 @@ def user_list(context, data_dict):
     if not context.userobj or not context.userobj.sysadmin:
         return {'success': False, 'msg': _('Only system administrators are allowed to view user list.')}
     return {'success': True}
+
+
+def group_title_translations(context, data_dict):
+    return {'success': True}

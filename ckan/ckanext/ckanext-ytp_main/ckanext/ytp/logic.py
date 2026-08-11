@@ -288,7 +288,7 @@ def group_title_translations(context: Context, data_dict: DataDict) -> dict[str,
     :type group_names: list[str]
     :rtype: a dictionary of dictionaries
     """
-    toolkit.check_access('group_list', context, data_dict)
+    toolkit.check_access('group_title_translations', context, data_dict)
     group_names = data_dict.get('group_names')
     if group_names is None:
         group_names = toolkit.get_action('group_list')(context, {})
