@@ -1,9 +1,8 @@
 describe('Advanced search tests', () => {
     before(() => {
         cy.reset_db();
-        cy.perform_ckan_actions(ckanAction => {
-          ckanAction('group_create', {
-            "name": "siisti_kategoria",
+        cy.perform_ckan_actions(ckan => {
+          ckan.group("siisti_kategoria", {
             "title_translated-fi": "siisti kategoria",
             "title_translated-en": "siisti kategoria",
             "title_translated-sv": "siisti kategoria",
@@ -14,8 +13,7 @@ describe('Advanced search tests', () => {
                "capacity": "admin"}
             ]
           }, {failOnStatusCode: false}) // Admin making groups creates an unnecessary error
-          ckanAction('group_create', {
-            "name": "toinen_kategoria",
+          ckan.group("toinen_kategoria", {
             "title_translated-fi": "toinen kategoria",
             "title_translated-en": "toinen kategoria",
             "title_translated-sv": "toinen kategoria",
@@ -26,14 +24,10 @@ describe('Advanced search tests', () => {
                "capacity": "admin"}
             ]
           }, {failOnStatusCode: false}) // Admin making groups creates an unnecessary error
-          ckanAction('organization_create', {
-            "name": "testi_organisaatio",
-            "title_translated-fi": "testi_organisaatio",
-          })
-          ckanAction('package_create', {
-            "type": "dataset",
-            "owner_org": "testi_organisaatio",
-            "name": "first_dataset",
+
+          ckan.organization("testi_organisaatio")
+
+          ckan.dataset("testi_organisaatio", "first_dataset", {
             "title_translated-fi": "first dataset",
             "notes_translated-fi": "First dataset description",
             "maintainer": "test maintainer",
@@ -44,24 +38,20 @@ describe('Advanced search tests', () => {
             "keywords-fi": "test_keyword",
             "license_id": "cc-by-4.0",
           })
-          ckanAction('resource_create', {
-            "package_id": "first_dataset",
+          ckan.resource("first_dataset", {
             "name_translated-fi": "test data",
             "description_translated-fi": "test kuvaus",
             "url": "http://example.com",
             "format": "CSV"
           })
-          ckanAction('member_create', {
+          ckan.action('member_create', {
             "id": "siisti_kategoria",
             "object": "first_dataset",
             "object_type": "package",
             "capacity": "member"
           })
 
-          ckanAction('package_create', {
-            "type": "dataset",
-            "owner_org": "testi_organisaatio",
-            "name": "second_dataset",
+          ckan.dataset("testi_organisaatio", "second_dataset", {
             "title_translated-fi": "second dataset",
             "notes_translated-fi": "second dataset description with unicorns",
             "maintainer": "test maintainer",
@@ -72,8 +62,7 @@ describe('Advanced search tests', () => {
             "keywords-fi": "another_keyword test_keyword",
             "license_id": "notspecified"
           })
-          ckanAction('resource_create', {
-            "package_id": "second_dataset",
+          ckan.resource("second_dataset", {
             "name_translated-fi": "some test data",
             "description_translated-fi": "description for data",
             "url": "http://example.com",

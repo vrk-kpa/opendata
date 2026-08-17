@@ -23,7 +23,17 @@ describe('Apiset tests',
 
   before(function () {
     cy.reset_db();
-    cy.create_organization_for_user(test_organization, 'test-user', true);
+    // Creates test-user to CKAN
+    cy.login_post_request("test-user", "test-user")
+    cy.logout();
+    cy.perform_ckan_actions(ckan => {
+      ckan.organization(test_organization, {
+        users: [{
+          name: "test-user",
+          capacity: "admin"
+        }]
+      })
+    })
   });
 
   describe('Apiset filtering', function () {
