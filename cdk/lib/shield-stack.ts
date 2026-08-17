@@ -216,6 +216,73 @@ export class ShieldStack extends Stack {
       },
     ]
 
+    const rateLimitedPathsParameter = aws_ssm.StringParameter.valueFromLookup(this, props.rateLimitedPathsParameterName, '[]')
+    const rateLimitedPathsJson = JSON.parse(rateLimitedPathsParameter)
+    const rateLimitedPathsSchema = z.array(
+      z.object({
+          limit: z.number(),
+          evaluationWindowSec: z.number(),
+          regexPath: z.string(),
+          name: z.string()
+        }
+      ))
+
+    let rateLimitedPathsRules: any[] = []
+    const validatedPaths = rateLimitedPathsSchema.parse(rateLimitedPathsJson)
+
+    validatedPaths.forEach((rule, index: number) => {
+      let rateLimitedPathRule: aws_wafv2.CfnWebACL.RuleProperty = {
+        statement: {
+          rateBasedStatement: {
+            limit: rule.limit,
+            evaluationWindowSec: rule.evaluationWindowSec,
+            aggregateKeyType: "IP",
+            scopeDownStatement: {
+              andStatement: {
+                statements: [
+                  {
+                    regexMatchStatement: {
+                      fieldToMatch: {
+                        uriPath: {}
+                      },
+                      regexString: rule.regexPath,
+                      textTransformations: [{
+                        type: "NONE",
+                        priority: 0
+                      }]
+                    }
+                  },
+                  {
+                    notStatement: {
+                      statement: {
+                        geoMatchStatement: {
+                          countryCodes: highPriorityCountryCodesParameter.valueAsList
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        action: {
+          count: {}
+        },
+        name: `rate-limited-paths-${rule.name}`,
+        priority: rules.length + index,
+        visibilityConfig: {
+          cloudWatchMetricsEnabled: true,
+          metricName: `rate-limited-paths-${rule.name}`,
+          sampledRequestsEnabled: true
+        }
+      }
+
+      rateLimitedPathsRules.push(rateLimitedPathRule)
+    })
+
+    rules = rules.concat(rateLimitedPathsRules)
+
     const RuleGroupSchema = z.array(
       z.object(
         {
@@ -301,7 +368,7 @@ export class ShieldStack extends Stack {
 
         let managedRuleGroup: aws_wafv2.CfnWebACL.RuleProperty = {
           name: "managed-rule-group-" + rule.groupName,
-          priority: 5 + index,
+          priority: rules.length + index,
           overrideAction: {
             none: {}
           },
@@ -371,72 +438,7 @@ export class ShieldStack extends Stack {
 
     rules = rules.concat(blockedUserAgentRules)
 
-    const rateLimitedPathsParameter = aws_ssm.StringParameter.valueFromLookup(this, props.rateLimitedPathsParameterName, '[]')
-    const rateLimitedPathsJson = JSON.parse(rateLimitedPathsParameter)
-    const rateLimitedPathsSchema = z.array(
-      z.object({
-          limit: z.number(),
-          evaluationWindowSec: z.number(),
-          regexPath: z.string(),
-          name: z.string()
-        }
-      ))
 
-    let rateLimitedPathsRules: any[] = []
-    const validatedPaths = rateLimitedPathsSchema.parse(rateLimitedPathsJson)
-
-    validatedPaths.forEach((rule, index: number) => {
-      let rateLimitedPathRule: aws_wafv2.CfnWebACL.RuleProperty = {
-        statement: {
-          rateBasedStatement: {
-            limit: rule.limit,
-            evaluationWindowSec: rule.evaluationWindowSec,
-            aggregateKeyType: "IP",
-            scopeDownStatement: {
-              andStatement: {
-                statements: [
-                  {
-                    regexMatchStatement: {
-                      fieldToMatch: {
-                        uriPath: {}
-                      },
-                      regexString: rule.regexPath,
-                      textTransformations: [{
-                        type: "NONE",
-                        priority: 0
-                      }]
-                    }
-                  },
-                  {
-                    notStatement: {
-                      statement: {
-                        geoMatchStatement: {
-                          countryCodes: highPriorityCountryCodesParameter.valueAsList
-                        }
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        },
-        action: {
-          count: {}
-        },
-        name: `rate-limited-paths-${rule.name}`,
-        priority: rules.length + 1 + index,
-        visibilityConfig: {
-          cloudWatchMetricsEnabled: true,
-          metricName: `rate-limited-paths-${rule.name}`,
-          sampledRequestsEnabled: true
-        }
-      }
-
-      rateLimitedPathsRules.push(rateLimitedPathRule)
-    })
-
-    rules = rules.concat(rateLimitedPathsRules)
 
     const cfnWebAcl = new aws_wafv2.CfnWebACL(this, 'WAFWebACL', {
       scope: "REGIONAL",
