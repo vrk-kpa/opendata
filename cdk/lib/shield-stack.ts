@@ -385,8 +385,6 @@ export class ShieldStack extends Stack {
     let rateLimitedPathsRules: any[] = []
     const validatedPaths = rateLimitedPathsSchema.parse(rateLimitedPathsJson)
 
-    // ^(\/data\/[^\/]*\/?dataset)\/?$|\?.*
-
     validatedPaths.forEach((rule, index: number) => {
       let rateLimitedPathRule: aws_wafv2.CfnWebACL.RuleProperty = {
         statement: {
@@ -395,17 +393,31 @@ export class ShieldStack extends Stack {
             evaluationWindowSec: rule.evaluationWindowSec,
             aggregateKeyType: "IP",
             scopeDownStatement: {
-              regexMatchStatement: {
-                fieldToMatch: {
-                  uriPath: {}
-                },
-                regexString: rule.regexPath,
-                textTransformations: [{
-                  type: "NONE",
-                  priority: 0
-                }]
+              andStatement: {
+                statements: [
+                  {
+                    regexMatchStatement: {
+                      fieldToMatch: {
+                        uriPath: {}
+                      },
+                      regexString: rule.regexPath,
+                      textTransformations: [{
+                        type: "NONE",
+                        priority: 0
+                      }]
+                    }
+                  },
+                  {
+                    notStatement: {
+                      statement: {
+                        geoMatchStatement: {
+                          countryCodes: highPriorityCountryCodesParameter.valueAsList
+                        }
+                      }
+                    }
+                  }
+                ]
               }
-
             }
           }
         },
