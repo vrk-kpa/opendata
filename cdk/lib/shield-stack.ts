@@ -253,6 +253,19 @@ export class ShieldStack extends Stack {
                     }
                   },
                   {
+                    sizeConstraintStatement: {
+                      fieldToMatch: {
+                        queryString: {}
+                      },
+                      comparisonOperator: "GE",
+                      size: 1,
+                      textTransformations: [{
+                        type: "NONE",
+                        priority: 0
+                      }]
+                    }
+                  },
+                  {
                     notStatement: {
                       statement: {
                         geoMatchStatement: {
