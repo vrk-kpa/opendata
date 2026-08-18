@@ -2,72 +2,56 @@ describe('SPARQL tests', () => {
     before(() => {
         cy.reset_db();
 
-        // Admin things
-        cy.login_post_request('admin', 'administrator');
-
-        cy.logout();
-
         // User things
-        cy.create_organization_for_user('testi_organisaatio', 'test-user');
-        cy.login_post_request('test-user', 'test-user');
+        cy.ensure_user_is_in_ckan("admin", "administrator")
+        cy.ensure_user_is_in_ckan("test-user", "test-user")
+        cy.perform_ckan_actions(ckan => {
+          const test_organization = 'testi_organisaatio'
+          ckan.organization(test_organization, {
+            users: [{
+              name: 'test-user',
+              capacity: "admin"
+            }]
+          })
+          ckan.dataset(test_organization, "first_dataset", {
+            "title_translated-fi": "first dataset",
+            "notes_translated-fi": "First dataset description",
+            "maintainer": "test maintainer",
+            "maintainer_email": "test.maintainer@example.com",
+            'valid_from': '2019-02-04',
+            'valid_till': '2020-02-04',
+            "collection_type": "Open Data",
+            "keywords-fi": "test_keyword",
+            "license_id": "cc-by-4.0",
+          })
+          ckan.resource("first_dataset", {
+            "name_translated-fi": "test data",
+            "description_translated-fi": "test kuvaus",
+            "url": "http://example.com",
+            "format": "CSV"
+          })
 
-        // Create datasets
-        const datasets = [
-            {
-                name: 'first dataset',
-                data: {
-                    "#field-title_translated-fi": 'first dataset',
-                    '#field-notes_translated-fi': 'First dataset description',
-                    // FIXME: This should just be 'test_keyword{enter}', see fill_form_fields in support/commands.js
-                    '#s2id_autogen1': {type: 'select2', values: ['test_keyword']},
-                    '#field-maintainer': 'test maintainer',
-                    '#field-maintainer_email': 'test.maintainer@example.com',
-                    '#field-valid_from': '2019-02-04',
-                    '#field-valid_till': '2020-02-04',
-                    '#field-license_id': {
-                        type: 'select',
-                        value: 'cc-by-4.0'
-                    }
-                },
-                resource_data: {
-                    '#field-name_translated-fi': 'test data',
-                    '#field-description_translated-fi': 'test kuvaus',
-                    '#field-image-url': 'http://example.com',
-                    '#field-format': {
-                        value: 'CSV',
-                        force: true
-                    },
-                }
-            },
-            {
-                name: 'second dataset',
-                data: {
-                    "#field-title_translated-fi": 'second dataset',
-                    '#field-notes_translated-fi': 'second dataset description with unicorns',
-                    // FIXME: This should just be 'another_keyword {enter} test_keyword {enter}',
-                    // see fill_form_fields in support/commands.js
-                    '#s2id_autogen1': {type: 'select2', values: ['another_keyword', 'test_keyword'] },
-                    '#field-maintainer': 'test maintainer',
-                    '#field-maintainer_email': 'test.maintainer@example.com',
-                    '#field-valid_from': '2019-02-04',
-                    '#field-valid_till': '2020-02-04'
-                },
-                resource_data: {
-                    '#field-name_translated-fi': 'some test data',
-                    '#field-description_translated-fi': 'description for data',
-                    '#field-image-url': 'http://example.com',
-                    '#field-format': {
-                        value: 'XML',
-                        force: true
-                    },
-                }
-            },
-        ];
-        for (let dataset of datasets) {
-            cy.create_new_dataset(dataset.name, dataset.data, dataset.resource_data);
-        }
+          ckan.dataset(test_organization, "second_dataset", {
+            "title_translated-fi": "second dataset",
+            "notes_translated-fi": "second dataset description with unicorns",
+            "maintainer": "test maintainer",
+            "maintainer_email": "test.maintainer@example.com",
+            'valid_from': '2019-02-04',
+            'valid_till': '2020-02-04',
+            "collection_type": "Open Data",
+            "keywords-fi": "another_keyword test_keyword",
+            "license_id": "notspecified"
+          })
+          ckan.resource("second_dataset", {
+            "name_translated-fi": "some test data",
+            "description_translated-fi": "description for data",
+            "url": "http://example.com",
+            "format": "XML"
+          })
+        })
 
-
+        // Wait for fuseki to index the datasets
+        cy.wait(5000)
     });
 
     // The change sometimes takes a while to propagate to fuseki, so try three times 

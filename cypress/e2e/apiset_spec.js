@@ -23,9 +23,7 @@ describe('Apiset tests',
 
   before(function () {
     cy.reset_db();
-    // Creates test-user to CKAN
-    cy.login_post_request("test-user", "test-user")
-    cy.logout();
+    cy.ensure_user_is_in_ckan("test-user", "test-user")
     cy.perform_ckan_actions(ckan => {
       ckan.organization(test_organization, {
         users: [{
@@ -268,7 +266,15 @@ describe('Apiset tests',
   describe('Apiset creation', function () {
     beforeEach(function () {
       cy.reset_db();
-      cy.create_organization_for_user(test_organization, 'test-user', true);
+      cy.ensure_user_is_in_ckan("test-user", "test-user")
+      cy.perform_ckan_actions(ckan => {
+        ckan.organization(test_organization, {
+          users: [{
+            name: "test-user",
+            capacity: "admin"
+          }]
+        })
+      })
       cy.login_post_request('test-user', 'test-user')
       cy.visit('/');
     });
@@ -397,8 +403,10 @@ describe('Apiset tests',
       cy.login_post_request('test-user', 'test-user')
       cy.visit('/');
       // Create 2 datasets that will be used to test the addition of datasets to an apiset
-      cy.create_new_dataset(dataset_name_1);
-      cy.create_new_dataset(dataset_name_2);
+      cy.perform_ckan_actions(ckan => {
+        ckan.dataset(test_organization, dataset_name_1)
+        ckan.dataset(test_organization, dataset_name_2)
+      })
       // Create an apiset that will be used for all the tests
       cy.create_new_apiset(apiset_name);
     })
