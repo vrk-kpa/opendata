@@ -216,6 +216,11 @@ export class ShieldStack extends Stack {
       },
     ]
 
+    const europeCountryCodesParameter = new CfnParameter(this,  'europeCountryCodesParameter', {
+      type: 'AWS::SSM::Parameter::Value<List<String>>',
+      default: props.europeCountryCodeListParameterName
+    });
+
     const rateLimitedPathsParameter = aws_ssm.StringParameter.valueFromLookup(this, props.rateLimitedPathsParameterName, '[]')
     const rateLimitedPathsJson = JSON.parse(rateLimitedPathsParameter)
     const rateLimitedPathsSchema = z.array(
@@ -236,7 +241,12 @@ export class ShieldStack extends Stack {
           rateBasedStatement: {
             limit: rule.limit,
             evaluationWindowSec: rule.evaluationWindowSec,
-            aggregateKeyType: "IP",
+            aggregateKeyType: "CUSTOM_KEYS",
+            customKeys: [
+              {
+                asn: {}
+              }
+            ],
             scopeDownStatement: {
               andStatement: {
                 statements: [
@@ -269,7 +279,7 @@ export class ShieldStack extends Stack {
                     notStatement: {
                       statement: {
                         geoMatchStatement: {
-                          countryCodes: highPriorityCountryCodesParameter.valueAsList
+                          countryCodes: europeCountryCodesParameter.valueAsList
                         }
                       }
                     }

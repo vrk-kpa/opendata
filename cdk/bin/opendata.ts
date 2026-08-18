@@ -167,7 +167,8 @@ const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
   evaluationPeriodParameterName: shieldParameterStackBeta.evaluationPeriodParameterName,
   loadBalancer: loadBalancerStackBeta.loadBalancer,
   blockedUserAgentsParameterName: shieldParameterStackBeta.blockedUserAgentsParameterName,
-  rateLimitedPathsParameterName: shieldParameterStackBeta.rateLimitedPathsParameterName
+  rateLimitedPathsParameterName: shieldParameterStackBeta.rateLimitedPathsParameterName,
+  europeCountryCodeListParameterName: shieldParameterStackBeta.europeCountryCodeListParameterName
 })
 
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
@@ -462,7 +463,8 @@ const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
   evaluationPeriodParameterName: shieldParameterStackProd.evaluationPeriodParameterName,
   loadBalancer: loadBalancerStackProd.loadBalancer,
   blockedUserAgentsParameterName: shieldParameterStackProd.blockedUserAgentsParameterName,
-  rateLimitedPathsParameterName: shieldParameterStackProd.rateLimitedPathsParameterName
+  rateLimitedPathsParameterName: shieldParameterStackProd.rateLimitedPathsParameterName,
+  europeCountryCodeListParameterName: shieldParameterStackProd.europeCountryCodeListParameterName
 })
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {

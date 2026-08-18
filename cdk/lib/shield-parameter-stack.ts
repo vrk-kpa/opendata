@@ -15,6 +15,7 @@ export class ShieldParameterStack extends Stack {
   readonly evaluationPeriodParameterName: string;
   readonly blockedUserAgentsParameterName: string;
   readonly rateLimitedPathsParameterName: string;
+  readonly europeCountryCodeListParameterName: string;
 
   constructor(scope: Construct, id: string, props: EnvStackProps ) {
     super(scope, id, props);
@@ -94,6 +95,13 @@ export class ShieldParameterStack extends Stack {
       stringValue: "Some bogus path",
       description: 'Rate limited paths in JSON',
       parameterName: this.rateLimitedPathsParameterName
+    })
+
+    this.europeCountryCodeListParameterName = `/${props.environment}/waf/europe_country_codes`
+    new aws_ssm.StringListParameter(this, 'europeCountryCodeList', {
+      stringListValue: ["Some bogus country code"],
+      description: 'Country codes located in europe',
+      parameterName: this.europeCountryCodeListParameterName
     })
   }
 }
