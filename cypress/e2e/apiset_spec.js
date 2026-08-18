@@ -400,13 +400,13 @@ describe('Apiset tests',
     });
 
     before(function () {
-      cy.login_post_request('test-user', 'test-user')
-      cy.visit('/');
       // Create 2 datasets that will be used to test the addition of datasets to an apiset
       cy.perform_ckan_actions(ckan => {
         ckan.dataset(test_organization, dataset_name_1)
         ckan.dataset(test_organization, dataset_name_2)
       })
+      cy.login_post_request('test-user', 'test-user')
+      cy.visit('/');
       // Create an apiset that will be used for all the tests
       cy.create_new_apiset(apiset_name);
     })
