@@ -1505,4 +1505,18 @@ def _reset(context, data_dict):
             toolkit.get_action('tag_create')(context, data)
 
     log.debug("Initial vocabularies and tags created")
-    return "Cleared"
+
+    log.debug("Creating admin token")
+    test_admin = get_action("user_create")(context, {"name": "test-admin",
+                                                     "email": "admin@test.internal",
+                                                     "password": "test-administrator",
+                                                     "with_apitoken": True})
+    test_admin_token = test_admin["token"]
+    test_admin_user = model.User.by_name("test-admin")
+    test_admin_user.sysadmin = True
+    model.Session.add(test_admin_user)
+    model.repo.commit()
+
+    return {
+        "token": test_admin_token
+    }
