@@ -264,7 +264,7 @@ describe('Apiset tests',
   })
 
   describe('Apiset creation', function () {
-    beforeEach(function () {
+    before(function () {
       cy.reset_db();
       cy.ensure_user_is_in_ckan("test-user", "test-user")
       cy.perform_ckan_actions(ckan => {
@@ -275,6 +275,8 @@ describe('Apiset tests',
           }]
         })
       })
+    });
+    beforeEach(function () {
       cy.login_post_request('test-user', 'test-user')
       cy.visit('/');
     });
