@@ -399,26 +399,22 @@ Cypress.Commands.add('add_showcase_user', () => {
    perform_ckan_actions expects the CKAN_ADMIN_TOKEN to be set and
    provides access to CKAN action API with some helpers
 */
-let CKAN_ADMIN_TOKEN = null
+let USER_TOKENS = {}
 Cypress.Commands.add('reset_db', () => {
     if (Cypress.env('resetDB') === true) {
       cy.request({
           method: 'POST',
           url: '/data/api/action/reset',
       }).then((result) => {
-        CKAN_ADMIN_TOKEN = result.body.result.token
+        USER_TOKENS = {"admin": result.body.result.token}
       })
     }
 });
 
-Cypress.Commands.add('perform_ckan_actions', (fn) => {
-  if(CKAN_ADMIN_TOKEN === null) {
-    throw new Exception("CKAN_ADMIN_TOKEN not set, running perform_ckan_actions before reset")
-  }
-  let apikey = CKAN_ADMIN_TOKEN
-  let ckan = {
+function ckanClient(apikey) {
+  return {
     action(action, body, options={}) {
-      cy.request({
+      return cy.request({
           method: 'POST',
           url: `/data/api/action/${action}`,
           headers: {"Authorization": apikey},
@@ -466,10 +462,26 @@ Cypress.Commands.add('perform_ckan_actions', (fn) => {
         "title_translated-en": `${name} title en`,
         ...fields
       }, options)
+    },
+    asUser(user, fn) {
+      if (USER_TOKENS[user]) {
+        fn(ckanClient(USER_TOKENS[user]))
+      } else {
+        this.action('api_token_create', {
+          user, "name": "cypress-token"
+        }).then(response => {
+          USER_TOKENS[user] = response.body.result.token
+          fn(ckanClient(USER_TOKENS[user]))
+        })
+      }
     }
   }
-
-  fn(ckan)
+}
+Cypress.Commands.add('perform_ckan_actions', fn => {
+  if(USER_TOKENS["admin"] === null) {
+    throw new Exception("Admin token not set, running perform_ckan_actions before reset")
+  }
+  fn(ckanClient(USER_TOKENS["admin"]))
 })
 
 Cypress.Commands.add('create_category', function (category_name) {
