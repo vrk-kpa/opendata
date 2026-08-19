@@ -118,6 +118,7 @@ Cypress.Commands.add('ensure_user_is_in_ckan', (username, password) => {
   cy.login_post_request(username, password)
   cy.logout_post_request()
   cy.clearAllCookies()
+  cy.visit("/")
 })
 /**
  * @description
