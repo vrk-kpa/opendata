@@ -108,7 +108,10 @@ Cypress.Commands.add('logout', () => {
   })
 })
 
-
+Cypress.Commands.add('ensure_user_is_in_ckan', (username, password) => {
+  cy.login_post_request(username, password)
+  cy.logout()
+})
 /**
  * @description
  * This function only fills the fields according to given parameters.
@@ -386,24 +389,88 @@ Cypress.Commands.add('add_showcase_user', () => {
   cy.get('nav a[href="/data/fi/showcase"]').click({force: true});
 });
 
-Cypress.Commands.add('reset_db', () => {
-    if (Cypress.env('resetDB') === true){
-        cy.exec('npm run reset', {
-          env: {
-            DB_HOST: '127.0.0.1',
-            DB_CKAN: 'ckan',
-            DB_CKAN_USER: 'ckan',
-            DB_CKAN_PASS: 'ckan_pass'
-          }
-        });
+/* reset_db / perform_ckan_actions
 
-        //const containerName = Cypress.env('test_container_name') || 'opendata_ckan_1';
-        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/ckan.ini api action sparql_clear"`);
-        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/ckan.ini search-index clear"`);
-        // Init vocaularies
-        //cy.exec(`docker exec -i ${containerName} sh -c "ckan --config /srv/app/ckan.ini sixodp-showcase create_platform_vocabulary"`);
-      }
+   reset_db receives a sysadmin api token from CKAN reset action.
+   The token has to be distributed through a global variable,
+   because cypress clears any aliases or other methods between
+   tests, but database may not be reset at the start of every test.
+
+   perform_ckan_actions expects the CKAN_ADMIN_TOKEN to be set and
+   provides access to CKAN action API with some helpers
+*/
+let CKAN_ADMIN_TOKEN = null
+Cypress.Commands.add('reset_db', () => {
+    if (Cypress.env('resetDB') === true) {
+      cy.request({
+          method: 'POST',
+          url: '/data/api/action/reset',
+      }).then((result) => {
+        CKAN_ADMIN_TOKEN = result.body.result.token
+      })
+    }
 });
+
+Cypress.Commands.add('perform_ckan_actions', (fn) => {
+  if(CKAN_ADMIN_TOKEN === null) {
+    throw new Exception("CKAN_ADMIN_TOKEN not set, running perform_ckan_actions before reset")
+  }
+  let apikey = CKAN_ADMIN_TOKEN
+  let ckan = {
+    action(action, body, options={}) {
+      cy.request({
+          method: 'POST',
+          url: `/data/api/action/${action}`,
+          headers: {"Authorization": apikey},
+          ...options,
+          body
+      });
+    },
+    organization(name, fields={}, options={}) {
+      this.action('organization_create', {
+        name, 
+        "title_translated-fi": `${name} title`,
+        ...fields
+      }, options)
+    },
+    dataset(owner_org, name, fields={}, options={}) {
+      this.action('package_create', {
+        owner_org,
+        name,
+        "type": "dataset",
+        "title_translated-fi": name,
+        "notes_translated-fi": `${name} description`,
+        "maintainer": "test maintainer",
+        "maintainer_email": "test.maintainer@example.com",
+        "collection_type": "Open Data",
+        "keywords-fi": "test_keyword",
+        "license_id": "notspecified",
+        ...fields
+      }, options)
+    },
+    resource(package_id, fields={}, options={}) {
+      this.action('resource_create', {
+        package_id, 
+        "name_translated-fi": "test data",
+        "description_translated-fi": "test data description",
+        "url": "http://example.com",
+        "format": "HTML",
+        ...fields
+      }, options)
+    },
+    group(name, fields={}, options={}) {
+      this.action('group_create', {
+        name, 
+        "title_translated-fi": `${name} title fi`,
+        "title_translated-sv": `${name} title sv`,
+        "title_translated-en": `${name} title en`,
+        ...fields
+      }, options)
+    }
+  }
+
+  fn(ckan)
+})
 
 Cypress.Commands.add('create_category', function (category_name) {
   cy.visit('/data/group');
