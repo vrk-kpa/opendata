@@ -76,6 +76,12 @@ Cypress.Commands.add('login_post_request', (username, password) => {
       }
   });
 });
+Cypress.Commands.add('logout_post_request', () => {
+  cy.request({
+      method: 'POST',
+      url: '/user/logout'
+  });
+});
 
 Cypress.Commands.add('login', (username, password) => {
   cy.visit('/user/login');
@@ -110,7 +116,8 @@ Cypress.Commands.add('logout', () => {
 
 Cypress.Commands.add('ensure_user_is_in_ckan', (username, password) => {
   cy.login_post_request(username, password)
-  cy.logout()
+  cy.logout_post_request()
+  cy.clearAllCookies()
 })
 /**
  * @description
