@@ -145,5 +145,6 @@ def user_list(context, data_dict):
     return {'success': True}
 
 
+@p.toolkit.auth_allow_anonymous_access
 def group_title_translations(context, data_dict):
     return {'success': True}
