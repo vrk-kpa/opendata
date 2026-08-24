@@ -168,7 +168,7 @@ const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
   loadBalancer: loadBalancerStackBeta.loadBalancer,
   blockedUserAgentsParameterName: shieldParameterStackBeta.blockedUserAgentsParameterName,
   rateLimitedPathsParameterName: shieldParameterStackBeta.rateLimitedPathsParameterName,
-  europeCountryCodeListParameterName: shieldParameterStackBeta.europeCountryCodeListParameterName
+  mediumPriorityCountryCodeListParameterName: shieldParameterStackBeta.mediumPriorityCountryCodeListParameterName
 })
 
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
@@ -464,7 +464,7 @@ const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
   loadBalancer: loadBalancerStackProd.loadBalancer,
   blockedUserAgentsParameterName: shieldParameterStackProd.blockedUserAgentsParameterName,
   rateLimitedPathsParameterName: shieldParameterStackProd.rateLimitedPathsParameterName,
-  europeCountryCodeListParameterName: shieldParameterStackProd.europeCountryCodeListParameterName
+  mediumPriorityCountryCodeListParameterName: shieldParameterStackProd.mediumPriorityCountryCodeListParameterName
 })
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {

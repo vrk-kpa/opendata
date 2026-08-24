@@ -216,9 +216,9 @@ export class ShieldStack extends Stack {
       },
     ]
 
-    const europeCountryCodesParameter = new CfnParameter(this,  'europeCountryCodesParameter', {
+    const mediumPriorityCountryCodesParameter = new CfnParameter(this,  'mediumPriorityCountryCodesParameter', {
       type: 'AWS::SSM::Parameter::Value<List<String>>',
-      default: props.europeCountryCodeListParameterName
+      default: props.mediumPriorityCountryCodeListParameterName
     });
 
     const rateLimitedPathsParameter = aws_ssm.StringParameter.valueFromLookup(this, props.rateLimitedPathsParameterName, '[]')
@@ -279,7 +279,7 @@ export class ShieldStack extends Stack {
                     notStatement: {
                       statement: {
                         geoMatchStatement: {
-                          countryCodes: europeCountryCodesParameter.valueAsList
+                          countryCodes: mediumPriorityCountryCodesParameter.valueAsList
                         }
                       }
                     }
@@ -417,6 +417,82 @@ export class ShieldStack extends Stack {
       rules = rules.concat(ruleList)
     }
 
+
+    const rateLimitNonBotTrafficRule: aws_wafv2.CfnWebACL.RuleProperty = {
+      name: 'ratelimit-nonbot-traffic',
+      priority: rules.length,
+      action: {
+        count: {}
+      },
+      statement: {
+        rateBasedStatement: {
+          limit: 10,
+          evaluationWindowSec: 60,
+          aggregateKeyType: "CUSTOM_KEYS",
+          customKeys: [{
+            asn: {}
+          }],
+          scopeDownStatement: {
+            andStatement: {
+              statements: [
+                {
+                  notStatement: {
+                    statement: {
+                      orStatement: {
+                        statements: [
+                          {
+                            labelMatchStatement: {
+                              scope: "LABEL",
+                              key: "awswaf:managed:aws:bot-control:bot:verified"
+                            }
+                          },
+                          {
+                            labelMatchStatement: {
+                              scope: "LABEL",
+                              key: "awswaf:managed:aws:bot-control:bot:unverified"
+                            }
+                          },
+                          {
+                            labelMatchStatement: {
+                              scope: "LABEL",
+                              key: "awswaf:managed:aws:bot-control:bot:developer_platform:verified"
+                            }
+                          },
+                          {
+                            labelMatchStatement: {
+                              scope: "LABEL",
+                              key: "awswaf:managed:aws:bot-control:bot:user_triggered:verified"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  notStatement: {
+                    statement: {
+                      geoMatchStatement: {
+                        countryCodes: mediumPriorityCountryCodesParameter.valueAsList
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+          },
+        }
+      },
+      visibilityConfig: {
+        cloudWatchMetricsEnabled: true,
+        metricName: 'ratelimit-nonbot-traffic',
+        sampledRequestsEnabled: true
+      }
+    }
+
+    const nonBotRules: any[] = [rateLimitNonBotTrafficRule]
+
+    rules = rules.concat(nonBotRules)
 
     const blockedUserAgentsParameter = aws_ssm.StringParameter.valueFromLookup(this, props.blockedUserAgentsParameterName, '[]')
     const blockedUserAgentsJson = JSON.parse(blockedUserAgentsParameter)

@@ -18,5 +18,5 @@ export interface ShieldStackProps extends EnvStackProps{
   loadBalancer: aws_elasticloadbalancingv2.ApplicationLoadBalancer,
   blockedUserAgentsParameterName: string,
   rateLimitedPathsParameterName: string,
-  europeCountryCodeListParameterName: string
+  mediumPriorityCountryCodeListParameterName: string
 }
