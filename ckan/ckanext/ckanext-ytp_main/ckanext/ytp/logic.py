@@ -282,18 +282,20 @@ def _search_ckan_datasets(context, data_dict):
 
 @toolkit.side_effect_free
 def group_title_translations(context: Context, data_dict: DataDict) -> dict[str, dict[str, str]]:
-    """Return a dictionary of group title translation dictionaries indexed by name
+    """Return a dictionary of group title translation dictionaries indexed by name.
 
     :param group_names: if given, limit the result to these group names
     :type group_names: list[str]
     :rtype: a dictionary of dictionaries
     """
     toolkit.check_access('group_title_translations', context, data_dict)
+
     group_names = data_dict.get('group_names')
     if group_names is None:
         group_names = toolkit.get_action('group_list')(context, {})
 
     translation_strings = fetch_group_title_translations(group_names)
+
     result = {}
     for group, translation_string in translation_strings.items():
         if translation_string:
