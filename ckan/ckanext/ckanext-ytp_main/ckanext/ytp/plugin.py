@@ -1506,6 +1506,8 @@ def _reset(context, data_dict):
 
     log.debug("Initial vocabularies and tags created")
 
+    # Create a test admin account for initialisation purposes
+
     log.debug("Creating admin token")
     test_admin = get_action("user_create")(context, {"name": "test-admin",
                                                      "email": "admin@test.internal",
