@@ -1,4 +1,5 @@
 @use "../variables/suomifidesign" as tokens;
+@use "../mixins/suomifidesign" as suomifi-mixins;
 
 // Form specific overrides
 @import "../variables";
@@ -35,6 +36,8 @@ $input-border-width: 1px;
 }
 
 .form-select {
+  /* Ensure space for caret from caret size and position */
+  padding-right: calc(10px + 1.5rem);
   align-items: baseline;
 }
 
@@ -187,8 +190,18 @@ label.group-label {
   }
 
   .filter-list {
+    display: flex;
     margin: 0;
+    align-items: center;
+    gap: 4px 8px;
+    font-size: 16px;
+    font-weight: 400;
+
+    .filtered {
+      @include suomifi-mixins.chip;
+    }
   }
+
 
   .search-form__result-summary {
     margin-top: tokens.$fi-spacing-m;
@@ -219,6 +232,7 @@ label.group-label {
     border-bottom: 0;
     padding: tokens.$fi-spacing-m;
     display: flex;
+    flex-wrap: wrap;
     background-color: $background-color__content;
     margin-top: tokens.$fi-spacing-m;
   }
