@@ -311,6 +311,7 @@ export class ShieldStack extends Stack {
         {
           groupName: z.string(),
           vendorName: z.string(),
+          version: z.string().default(""),
           ruleActionOverrideCounts: z.array(z.string()).default([]),
           ruleActionOverrideAllows: z.array(z.string()).default([]),
           ruleActionOverrideBlocks: z.array(z.string()).default([]),
@@ -387,7 +388,10 @@ export class ShieldStack extends Stack {
           ruleActionOverrides.push(overrideChallengeRuleObj)
         }
 
-
+        let ruleVersion = undefined;
+        if ( rule.version !== "" ) {
+          ruleVersion = rule.version;
+        }
 
         let managedRuleGroup: aws_wafv2.CfnWebACL.RuleProperty = {
           name: "managed-rule-group-" + rule.groupName,
@@ -399,7 +403,8 @@ export class ShieldStack extends Stack {
             managedRuleGroupStatement: {
               name: rule.groupName,
               vendorName: rule.vendorName,
-              ruleActionOverrides: ruleActionOverrides
+              ruleActionOverrides: ruleActionOverrides,
+              version: ruleVersion
             }
           },
           visibilityConfig: {
