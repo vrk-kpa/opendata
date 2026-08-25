@@ -1421,10 +1421,17 @@ class YtpIPermissionLabelsPlugin(
 
 class OpenDataGroupPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.interfaces.IActions)
+    plugins.implements(plugins.interfaces.IAuthFunctions)
 
     def get_actions(self):
         return {
-            "group_create": self._group_create
+            "group_create": self._group_create,
+            "group_title_translations": plugin_logic.group_title_translations
+        }
+
+    def get_auth_functions(self):
+        return {
+            "group_title_translations": auth.group_title_translations
         }
 
     @chained_action
@@ -1505,4 +1512,20 @@ def _reset(context, data_dict):
             toolkit.get_action('tag_create')(context, data)
 
     log.debug("Initial vocabularies and tags created")
-    return "Cleared"
+
+    # Create a test admin account for initialisation purposes
+
+    log.debug("Creating admin token")
+    test_admin = get_action("user_create")(context, {"name": "test-admin",
+                                                     "email": "admin@test.internal",
+                                                     "password": "test-administrator",
+                                                     "with_apitoken": True})
+    test_admin_token = test_admin["token"]
+    test_admin_user = model.User.by_name("test-admin")
+    test_admin_user.sysadmin = True
+    model.Session.add(test_admin_user)
+    model.repo.commit()
+
+    return {
+        "token": test_admin_token
+    }

@@ -26,7 +26,15 @@ describe('Dataset tests',
 
   before(function(){
     cy.reset_db();
-    cy.create_organization_for_user(test_organization, 'test-user', true);
+    cy.ensure_user_is_in_ckan("test-user", "test-user")
+    cy.perform_ckan_actions(ckan => {
+      ckan.organization(test_organization, {
+        users: [{
+          name: "test-user",
+          capacity: "admin"
+        }]
+      })
+    })
   });
 
   describe('Navigation', function(){
@@ -43,12 +51,12 @@ describe('Dataset tests',
     const dataset_name_2 = "second_dataset";
 
     before(function(){
-      // cy.reset_db();
-      // cy.create_organization_for_user(test_organization, 'test-user', true);
-      cy.login_post_request('test-user', 'test-user')
       cy.visit('/data/dataset');
-      cy.create_new_dataset(dataset_name_1);
-      cy.create_new_dataset(dataset_name_2);
+      cy.perform_ckan_actions(ckan => {
+        ckan.dataset(test_organization, dataset_name_1)
+        ckan.dataset(test_organization, dataset_name_2)
+      })
+      cy.login_post_request('test-user', 'test-user')
     });
 
     beforeEach(function(){
@@ -139,7 +147,16 @@ describe('Dataset tests',
   describe('Dataset creation and deletion tests', function() {
     beforeEach(function () {
       cy.reset_db();
-      cy.create_organization_for_user(test_organization, 'test-user', true);
+      cy.ensure_user_is_in_ckan("test-user", "test-user")
+      cy.perform_ckan_actions(ckan => {
+        ckan.organization(test_organization, {
+          users: [{
+            name: "test-user",
+            capacity: "admin"
+          }]
+        })
+      })
+      // cy.create_organization_for_user(test_organization, 'test-user', true);
       cy.login_post_request('test-user', 'test-user')
       cy.visit('/data/fi/dataset');
     })
