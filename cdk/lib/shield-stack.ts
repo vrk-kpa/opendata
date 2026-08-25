@@ -290,7 +290,7 @@ export class ShieldStack extends Stack {
           }
         },
         action: {
-          count: {}
+          block: {}
         },
         name: `rate-limited-paths-${rule.name}`,
         priority: rules.length + index,
@@ -422,16 +422,13 @@ export class ShieldStack extends Stack {
       name: 'ratelimit-nonbot-traffic',
       priority: rules.length,
       action: {
-        count: {}
+        block: {}
       },
       statement: {
         rateBasedStatement: {
           limit: 10,
           evaluationWindowSec: 60,
-          aggregateKeyType: "CUSTOM_KEYS",
-          customKeys: [{
-            asn: {}
-          }],
+          aggregateKeyType: "CONSTANT",
           scopeDownStatement: {
             andStatement: {
               statements: [
