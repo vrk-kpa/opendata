@@ -514,7 +514,7 @@ export class ShieldStack extends Stack {
           byteMatchStatement: {
             fieldToMatch: {
               singleHeader: {
-                name: "User-Agent"
+                Name: "User-Agent"
               }
             },
             positionalConstraint: "CONTAINS",
