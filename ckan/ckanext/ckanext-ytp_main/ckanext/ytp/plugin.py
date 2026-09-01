@@ -975,13 +975,15 @@ def action_organization_tree_list(context, data_dict):
             .outerjoin(parent_member, and_(parent_member.group_id == model.Group.id,
                                            parent_member.state == 'active',
                                            parent_member.table_name == 'group'))
-            .outerjoin(parent_group, parent_group.id == parent_member.table_id)
+            .outerjoin(parent_group, and_(parent_group.id == parent_member.table_id,
+                                          parent_group.approval_status == 'approved'))
             .outerjoin(parent_extra, and_(parent_extra.group_id == parent_group.id,
                                           parent_extra.key == 'title_translated'))
             .outerjoin(child_member, and_(child_member.table_id == model.Group.id,
                                           child_member.state == 'active',
                                           child_member.table_name == 'group'))
-            .outerjoin(child_group, child_group.id == child_member.group_id)
+            .outerjoin(child_group, and_(child_group.id == child_member.group_id,
+                                         child_group.approval_status == 'approved'))
             .filter(model.Group.id.in_(page_ids))
             .group_by(model.Group.id, model.Group.name,
                       model.Group.title, model.GroupExtra.value,
