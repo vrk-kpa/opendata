@@ -9,7 +9,7 @@
 {% block subtitle %}{{ _("Showcases") }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{{ h.nav_link(_('Showcases'), named_route='sixodp_showcase.search', highlight_actions = 'new index') }}</li>
+  <li class="active">{{ h.nav_link(_('Showcases'), named_route='sixodp_showcase.search') }}</li>
 {% endblock %}
 
 
@@ -63,6 +63,6 @@
     <h3 class="secondary__title">{{ _('Filter list') }}</h3>
   </div>
   {% for facet in facet_titles %}
-    {{ h.snippet('snippets/facet_list.html', title=facet_titles[facet], name=facet) }}
+    {{ h.snippet('snippets/facet_list.html', title=facet_titles[facet], name=facet, search_facets=search_facets) }}
   {% endfor %}
 {% endblock %}
