@@ -261,6 +261,30 @@
         "display_snippet": "date.html",
         "validators": "scheming_required isodate from_date_is_before_until_date convert_to_json_if_date"
       }
+    },
+    {
+      "preset_name": "eu_theme",
+      "values": {
+        "form_snippet": "select.html",
+        "display_snippet": "select.html",
+        "validators": "scheming_required scheming_choices",
+        "choices": [
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/ECON", "label": "Economy and finance"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/AGRI", "label": "Agriculture, fisheries, forestry and food"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/GOVE", "label": "Government and public sector"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/ENER", "label": "Energy"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/ENVI", "label": "Environment"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/EDUC", "label": "Education, culture and sport"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/JUST", "label": "Justice, legal system and public safety"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/REGI", "label": "Regions and cities"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/INTR", "label": "International issues"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/HEAL", "label": "Health"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/SOCI", "label": "Population and society"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/OP_DATPRO", "label": "Provisional data"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/TECH", "label": "Science and technology"},
+          {"value": "http://publications.europa.eu/resource/authority/data-theme/TRAN", "label": "Transport"}
+        ]
+      }
     }
   ]
 }

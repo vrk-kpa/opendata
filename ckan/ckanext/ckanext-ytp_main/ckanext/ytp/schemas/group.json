@@ -37,6 +37,12 @@
       "display_snippet": null
     },
     {
+      "field_name": "eu_theme",
+      "label": "EU data theme",
+      "preset": "eu_theme",
+      "required": false
+    },
+    {
       "field_name": "image_url",
       "label": "Image URL",
       "preset": "group_url_upload"
