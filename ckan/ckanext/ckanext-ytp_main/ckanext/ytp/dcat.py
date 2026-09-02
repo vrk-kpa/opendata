@@ -467,6 +467,13 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((theme, RDF.type, SKOS.Concept))
             g.add((dataset_ref, DCAT.theme, theme))
 
+            # Optional EU data theme
+            eu_theme_url = group_dict.get('eu_theme')
+            if eu_theme_url:
+                eu_theme = URIRef(eu_theme_url)
+                g.add((eu_theme, RDF.type, SKOS.Concept))
+                g.add((dataset_ref, DCAT.theme, eu_theme))
+
             group_titles = (t for t in list(get_dict(group_dict, 'title_translated').values()) if t)
             for title in group_titles:
                 g.add((theme, SKOS.prefLabel, Literal(title)))
