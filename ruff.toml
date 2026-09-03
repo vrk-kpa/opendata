@@ -5,7 +5,8 @@ extend-exclude = [
   "ckanext-sitesearch",
   "ckanext-scheming",
   "ckanext-ytp_comments",
-  "ckanext-showcase"
+  "ckanext-showcase",
+  "datapusher-plus"
 ]
 
 line-length = 127
