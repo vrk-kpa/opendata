@@ -468,7 +468,24 @@ class AvoindataDCATAPProfile(RDFProfile):
             g.add((dataset_ref, DCAT.theme, theme))
 
             # Optional EU data theme
-            eu_theme_url = group_dict.get('eu_theme')
+            eu_theme_urls = {
+                "talous-ja-raha-asiat": "http://publications.europa.eu/resource/authority/data-theme/ECON",
+                "maatalous-kalastus-metsatalous-ja-elintarvikkeet": "http://publications.europa.eu/resource/authority/data-theme/AGRI",
+                "valtioneuvosto-ja-julkinen-sektori": "http://publications.europa.eu/resource/authority/data-theme/GOVE",
+                "energia": "http://publications.europa.eu/resource/authority/data-theme/ENER",
+                "ymparisto": "http://publications.europa.eu/resource/authority/data-theme/ENVI",
+                "koulutus-kulttuuri-ja-urheilu": "http://publications.europa.eu/resource/authority/data-theme/EDUC",
+                "oikeus-oikeusjarjestelma-ja-yleinen-turvallisuus": "http://publications.europa.eu/resource/authority/data-theme/JUST",
+                "alueet-ja-kaupungit": "http://publications.europa.eu/resource/authority/data-theme/REGI",
+                "kansainvaliset-kysymykset": "http://publications.europa.eu/resource/authority/data-theme/INTR",
+                "terveys": "http://publications.europa.eu/resource/authority/data-theme/HEAL",
+                "vaesto-ja-yhteiskunta": "http://publications.europa.eu/resource/authority/data-theme/SOCI",
+                # Provisional data, no suitable mapping: "": "http://publications.europa.eu/resource/authority/data-theme/OP_DATPRO",
+                "tiede-ja-teknologia": "http://publications.europa.eu/resource/authority/data-theme/TECH",
+                "liikenne": "http://publications.europa.eu/resource/authority/data-theme/TRAN",
+                # No suitable mapping: "rakennettu-ymparisto-ja-infrastruktuuri": "",
+            }
+            eu_theme_url = eu_theme_urls.get(group_dict['name'])
             if eu_theme_url:
                 eu_theme = URIRef(eu_theme_url)
                 g.add((eu_theme, RDF.type, SKOS.Concept))
