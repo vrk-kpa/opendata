@@ -283,7 +283,7 @@ def only_default_lang_required(field, schema):
 
         value = data[key]
 
-        if value is not missing:
+        if value is not missing and value is not None:
             if isinstance(value, str):
                 try:
                     value = json.loads(value)
@@ -304,7 +304,8 @@ def only_default_lang_required(field, schema):
         prefix = key[-1] + '-'
         extras = data.get(key[:-1] + ('__extras',), {})
 
-        if extras.get(prefix + default_lang, '') == '':
+        # default_lang is empty string if no default value is required
+        if default_lang != '' and extras.get(prefix + default_lang, '') == '':
             errors[key].append(_('Required language "%s" missing') % default_lang)
 
     return validator
@@ -339,7 +340,7 @@ def override_field_with_default_translation(overridden_field_name):
             value = data[key]
             override_value = missing
 
-            if value is not missing:
+            if value is not missing and value is not None:
                 if isinstance(value, str):
                     try:
                         value = json.loads(value)
