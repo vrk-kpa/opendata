@@ -6,6 +6,6 @@
   </div>
   {% for facet in facet_titles %}
     <hr>
-    {{ h.snippet('snippets/facet_list.html', title=facet_titles[facet], name=facet) }}
+    {{ h.snippet('snippets/facet_list.html', title=facet_titles[facet], name=facet, search_facets=search_facets) }}
   {% endfor %}
 {% endblock %}
