@@ -283,7 +283,7 @@ def only_default_lang_required(field, schema):
 
         value = data[key]
 
-        if value is not missing:
+        if value is not missing and value is not None:
             if isinstance(value, str):
                 try:
                     value = json.loads(value)
@@ -304,7 +304,8 @@ def only_default_lang_required(field, schema):
         prefix = key[-1] + '-'
         extras = data.get(key[:-1] + ('__extras',), {})
 
-        if extras.get(prefix + default_lang, '') == '':
+        # default_lang is empty string if no default value is required
+        if default_lang != '' and extras.get(prefix + default_lang, '') == '':
             errors[key].append(_('Required language "%s" missing') % default_lang)
 
     return validator
@@ -339,7 +340,7 @@ def override_field_with_default_translation(overridden_field_name):
             value = data[key]
             override_value = missing
 
-            if value is not missing:
+            if value is not missing and value is not None:
                 if isinstance(value, str):
                     try:
                         value = json.loads(value)
@@ -617,12 +618,14 @@ def admin_only_field(field, schema):
 @scheming_validator
 def use_url_for_name_if_left_empty(field, schema):
     def validator(key, data, errors, context):
-        resource_names_translated = json.loads(data.get(key, ''))
-        resource_url = data.get(key[:-1] + ('url',), '')
+        value = data[key]
+        if value is not None:
+            resource_names_translated = json.loads(value)
+            resource_url = data.get(key[:-1] + ('url',), '')
 
-        if resource_names_translated.get('fi', '') == '' and resource_url != '':
-            resource_names_translated['fi'] = resource_url
-            data[key] = json.dumps(resource_names_translated)
+            if resource_names_translated.get('fi', '') == '' and resource_url != '':
+                resource_names_translated['fi'] = resource_url
+                data[key] = json.dumps(resource_names_translated)
     return validator
 
 

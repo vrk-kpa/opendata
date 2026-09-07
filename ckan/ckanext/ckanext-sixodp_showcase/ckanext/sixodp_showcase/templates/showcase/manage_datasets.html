@@ -32,7 +32,7 @@
                     <label for="{{ package.type }}_{{ package.id }}">
                       <input id="{{ package.type }}_{{ package.id }}" class="row-checkbox" type="checkbox" name="{{ package.type }}_{{ package.id }}">
                       <span class="check"></span>
-                        {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type ~ '.read', id=package.name)) }}
+                        {{ h.link_to(title | truncate(truncate_title), h.url_for(package.type ~ '.read', id=package.name)) }}
                     </label>
                   </td>
                 </tr>
@@ -99,7 +99,7 @@
                     <label for="{{ package.type }}_{{ package.id }}">
                       <input id="{{ package.type }}_{{ package.id }}" class="row-checkbox" type="checkbox" name="{{ package.type }}_{{ package.id }}">
                       <span class="check"></span>
-                        {{ h.link_to(h.truncate(title, truncate_title), h.url_for(package.type ~'.read', id=package.name)) }}
+                        {{ h.link_to(title | truncate(truncate_title), h.url_for(package.type ~'.read', id=package.name)) }}
                     </label>
                   </td>
                 </tr>
