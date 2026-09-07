@@ -973,11 +973,13 @@ def action_organization_tree_list(context, data_dict):
                                            or_(model.Package.owner_org == model.Group.name,
                                                model.Package.owner_org == model.Group.id)))
             .outerjoin(parent_member, and_(parent_member.group_id == model.Group.id,
+                                           parent_member.state == 'active',
                                            parent_member.table_name == 'group'))
             .outerjoin(parent_group, parent_group.id == parent_member.table_id)
             .outerjoin(parent_extra, and_(parent_extra.group_id == parent_group.id,
                                           parent_extra.key == 'title_translated'))
             .outerjoin(child_member, and_(child_member.table_id == model.Group.id,
+                                          child_member.state == 'active',
                                           child_member.table_name == 'group'))
             .outerjoin(child_group, child_group.id == child_member.group_id)
             .filter(model.Group.id.in_(page_ids))
