@@ -19,9 +19,6 @@ on:
       solr:
         description: "Change in solr container"
         value: ${{ jobs.detect-changes.outputs.solr }}
-      datapusher:
-        description: "Change in datapusher container"
-        value: ${{ jobs.detect-changes.outputs.datapusher }}
       clamav:
         description: "Change in clamav container"
         value: ${{ jobs.detect-changes.outputs.clamav }}
@@ -63,12 +60,6 @@ jobs:
             build-frontend: false
             name: solr
             build-container: ${{ needs.detect-changes.outputs.solr == 'true' }}
-          - dockerfile: ./docker/datapusher-plus/Dockerfile
-            context: ./docker/datapusher-plus
-            submodules: ""
-            build-frontend: false
-            name: datapusher
-            build-container: ${{ needs.detect-changes.outputs.datapusher == 'true' }}
           - dockerfile: ./docker/nginx/Dockerfile
             context: ./docker/nginx
             submodules: ""
@@ -165,7 +156,6 @@ jobs:
             (needs.detect-changes.outputs.ckan == 'true') ||
             (needs.detect-changes.outputs.drupal == 'true') ||
             (needs.detect-changes.outputs.solr == 'true') ||
-            (needs.detect-changes.outputs.datapusher == 'true') ||
             (needs.detect-changes.outputs.assets == 'true') ||
             (needs.detect-changes.outputs.postgres == 'true') ||
             (needs.detect-changes.outputs.environment == 'true')
@@ -303,11 +293,6 @@ jobs:
         run: |
           docker load --input /tmp/drupal.tar
 
-      - name: load built datapusher image
-        if: ${{ needs.detect-changes.outputs.datapusher == 'true' }}
-        run: |
-          docker load --input /tmp/datapusher.tar
-
       - name: load built solr image
         if: ${{ needs.detect-changes.outputs.solr == 'true' }}
         run: |
@@ -338,7 +323,7 @@ jobs:
           docker logs opendata-ckan-1
           docker logs opendata-drupal-1
           docker logs opendata-solr-1
-          docker logs opendata-datapusher-1
+          docker logs opendata-prefect-worker-1
           docker logs opendata-nginx-1
           docker logs opendata-fuseki-1
 
@@ -387,7 +372,7 @@ jobs:
           docker logs opendata-ckan_cron-1 > /tmp/opendata-ckan_cron-1.log 2>&1
           docker logs opendata-drupal-1 > /tmp/opendata-drupal-1.log 2>&1
           docker logs opendata-solr-1 > /tmp/opendata-solr-1.log 2>&1
-          docker logs opendata-datapusher-1 > /tmp/opendata-datapusher-1.log 2>&1
+          docker logs opendata-prefect-worker-1 > /tmp/opendata-prefect-worker-1.log 2>&1
           docker logs opendata-nginx-1 > /tmp/opendata-nginx-1.log 2>&1
           docker logs opendata-fuseki-1 > /tmp/opendata-fuseki-1.log 2>&1
 

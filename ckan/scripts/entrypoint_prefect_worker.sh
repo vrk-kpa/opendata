@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+echo "entrypoint_prefect ..."
+
+# wait for ckan to initialize properly
+while [[ -f ${DATA_DIR}/.init-done && "$(cat ${DATA_DIR}/.init-done)" != "$CKAN_IMAGE_TAG" ]]; do
+  echo "entrypoint_prefect - waiting for .init-done flag to be set ..."
+  sleep 1s
+done
+
+# install extensions (DEV_MODE)
+if [[ "${DEV_MODE}" == "true" ]]; then
+  echo "entrypoint_prefect - installing extensions because DEV_MODE = 'true' ..."
+  sudo -E ${SCRIPT_DIR}/install_extensions.sh
+  sudo -E ${SCRIPT_DIR}/install_extension_requirements.sh
+fi
+
+# apply templates
+jinja2 ${TEMPLATE_DIR}/ckan.ini.j2 -o ${APP_DIR}/ckan.ini
+jinja2 ${TEMPLATE_DIR}/who.ini.j2 -o ${APP_DIR}/who.ini
+jinja2 ${TEMPLATE_DIR}/datastore_permissions.sql.j2 -o ${SCRIPT_DIR}/datastore_permissions.sql
+
+prefect worker start --pool datapusher-plus

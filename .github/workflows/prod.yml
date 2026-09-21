@@ -91,7 +91,6 @@ jobs:
           add_tag ckan $CKAN_IMAGE_TAG
           add_tag drupal $DRUPAL_IMAGE_TAG
           add_tag solr $SOLR_IMAGE_TAG
-          add_tag datapusher $DATAPUSHER_IMAGE_TAG
           add_tag nginx $NGINX_IMAGE_TAG
           add_tag clamav $CLAMAV_IMAGE_TAG
 

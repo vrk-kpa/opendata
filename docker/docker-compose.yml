@@ -95,6 +95,9 @@ services:
       - DB_CKAN_TEST=${DB_CKAN_TEST}
       - DB_CKAN_TEST_USER=${DB_CKAN_TEST_USER}
       - DB_CKAN_TEST_PASS=${DB_CKAN_TEST_PASS}
+      - DB_PREFECT=${DB_PREFECT}
+      - DB_PREFECT_USER=${DB_PREFECT_USER}
+      - DB_PREFECT_PASS=${DB_PREFECT_PASS}
     tmpfs:
         - /var/run/postgresql:uid=999,gid=999
     volumes:
@@ -181,36 +184,6 @@ services:
       retries: 5
       start_period: 60s
 
-  datapusher:
-    image: ${REGISTRY}/${REPOSITORY}/datapusher:${DATAPUSHER_IMAGE_TAG}
-    restart: always
-    networks:
-      - frontend
-      - backend
-    depends_on:
-      postgres:
-        condition: service_healthy
-      ckan:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "curl --fail http://localhost:${DATAPUSHER_PORT}/status || exit 1"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
-      start_period: 15s
-    environment:
-      - DB_DATASTORE_HOST=${DB_DATASTORE_HOST}
-      - DB_DATAPUSHER_JOBS_HOST=${DB_DATAPUSHER_JOBS_HOST}
-      - DB_DATAPUSHER_JOBS=${DB_DATAPUSHER_JOBS}
-      - DB_DATAPUSHER_JOBS_USER=${DB_DATAPUSHER_JOBS_USER}
-      - DB_DATAPUSHER_JOBS_PASS=${DB_DATAPUSHER_JOBS_PASS}
-      - DB_DATASTORE=${DB_DATASTORE}
-      - DB_DATASTORE_USER=${DB_DATASTORE_USER}
-      - DB_DATASTORE_PASS=${DB_DATASTORE_PASS}
-      - DOWNLOAD_PROXY=http://${CKAN_HOST}:${CKAN_PORT}
-      - PORT=${DATAPUSHER_PORT}
-    env_file:
-      - ./.env.datapusher.local
 
   drupal:
     image: ${REGISTRY}/${REPOSITORY}/drupal:${DRUPAL_IMAGE_TAG}
@@ -337,6 +310,45 @@ services:
         - /tmp:mode=1777
     volumes:
       - ./.mh-auth:/mailhog/auth
+
+  prefect-server:
+    image: prefecthq/prefect:3-latest
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - backend
+    environment:
+      PREFECT_API_DATABASE_CONNECTION_URL: postgresql+asyncpg://${DB_PREFECT_USER}:${DB_PREFECT_PASS}@${DB_PREFECT_HOST}:5432/${DB_PREFECT}
+      PREFECT_SERVER_API_HOST: 0.0.0.0
+      PREFECT_SERVER_UI_API_URL: http://localhost:4200/api
+    command: prefect server start
+    ports:
+      - "4200:4200"
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:4200/api/health', timeout=1)" ]
+      interval: 10s
+      retries: 10
+      start_period: 60s
+
+  prefect-worker:
+    image: ${REGISTRY}/${REPOSITORY}/ckan:${CKAN_IMAGE_TAG}
+    depends_on:
+      prefect-server:
+        condition: service_healthy
+      ckan:
+        condition: service_started
+    restart: always
+    entrypoint: /srv/app/scripts/entrypoint_prefect_worker.sh
+    networks:
+      - backend
+    env_file:
+      - ./.env.ckan.local
+    environment:
+      <<: *env-ckan
+    volumes:
+      - ckan_data:/srv/app/data
+
 
 volumes:
   postgres_data:

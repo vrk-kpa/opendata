@@ -261,6 +261,8 @@ ckan.datapusher.url = http://{{ environ('DATAPUSHER_HOST') }}:{{ environ('DATAPU
 ckan.datapusher.callback_url_base = http://{{ environ('CKAN_HOST') }}:{{ environ('CKAN_PORT') }}/
 ckan.datapusher.api_token = {{ environ('DATAPUSHER_API_TOKEN') }}
 
+ckanext.datapusher_plus.max_content_length = {{ environ('CKAN_DATAPUSHER_MAX_CONTENT_LENGTH') }}
+
 {% if environ('CKAN_PROFILING_ENABLED') == 'true' %}
 filter-with = linesman
 {% endif %}
