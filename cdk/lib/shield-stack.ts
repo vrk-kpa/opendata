@@ -216,6 +216,42 @@ export class ShieldStack extends Stack {
       },
     ]
 
+    const rateLimitDownloadsRule: aws_wafv2.CfnWebACL.RuleProperty = {
+      name: "rate-limit-downloads",
+      priority: rules.length,
+      statement: {
+        rateBasedStatement: {
+          limit: 10,
+          evaluationWindowSec: 120,
+          aggregateKeyType: "IP",
+          scopeDownStatement: {
+            regexMatchStatement: {
+                fieldToMatch: {
+                  uriPath: {}
+                },
+                regexString: "\/data\/dataset\/[^/]+\/resource\/[0-9a-f\-]+\/download\/.+",
+                textTransformations: [{
+                  type: "NONE",
+                  priority: 0
+                }]
+            }
+          }
+        }
+      },
+      visibilityConfig: {
+        cloudWatchMetricsEnabled: true,
+        metricName: `rate-limit-downloads`,
+        sampledRequestsEnabled: true
+      },
+      action: {
+        block: {}
+      }
+    }
+
+    const rateLimitDownloadRules: any[] = [rateLimitDownloadsRule]
+
+    rules = rules.concat(rateLimitDownloadRules)
+
     const mediumPriorityCountryCodesParameter = new CfnParameter(this,  'mediumPriorityCountryCodesParameter', {
       type: 'AWS::SSM::Parameter::Value<List<String>>',
       default: props.mediumPriorityCountryCodeListParameterName
