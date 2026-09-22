@@ -229,7 +229,7 @@ export class ShieldStack extends Stack {
                 fieldToMatch: {
                   uriPath: {}
                 },
-                regexString: "\/data\/dataset\/[^/]+\/resource\/[0-9a-f\-]+\/download\/.+",
+                regexString: "\/data\/([^\/]+\/)?dataset\/[^/]+\/resource\/[0-9a-f\-]+\/download\/.+",
                 textTransformations: [{
                   type: "NONE",
                   priority: 0
