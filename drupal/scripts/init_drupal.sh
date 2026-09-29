@@ -47,14 +47,6 @@ echo "enable language modules.."
 [[ "$MODULE_INFO" != *"content_translation"* ]] && drush pm:enable -y content_translation
 [[ "$MODULE_INFO" != *"language"* ]]            && drush pm:enable -y language
 [[ "$MODULE_INFO" != *"locale"* ]]              && drush pm:enable -y locale
-# [[ "$MODULE_INFO" != *"drush_language"* ]]      && drush pm:enable -y drush_language
-
-echo "Skipping language setup because drush_language has not been replaced"
-# get current languages
-# LANG_INFO=$(drush language-info --field=language)
-
-# Set 'fi' language as default
-# drush language:default -y "fi"
 
 # enable base theme
 drush theme:enable -y bootstrap
@@ -229,11 +221,17 @@ fi
 
 SHA1_I18N_EN=$(sha1sum ${I18N_DIR}/en_GB/drupal.po)
 if [[ "$SHA1_I18N_EN" != "$(cat ${DATA_DIR}/.sha1_18n_en)" ]]; then
-  drush locale-import en ${I18N_DIR}/en_GB/drupal.po --override=all --autocreate-language
+  drush locale-import en ${I18N_DIR}/en_GB/drupal.po --override=all
   echo "$SHA1_I18N_EN" > ${DATA_DIR}/.sha1_18n_en
 else
   echo "skipping import of 'en' i18n because file hasn't changed ..."
 fi
+
+# Set default language
+drush config:set -y system.site default_langcode fi
+
+# Rebuild permission cache
+drush php-eval "node_access_rebuild();"
 
 # init users and roles
 python3 ${SCRIPT_DIR}/init_users.py
