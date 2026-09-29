@@ -7,7 +7,15 @@ echo "reinit_drupal ..."
 jinja2 ${TEMPLATE_DIR}/settings.php.j2 -o ${SITE_DIR}/default/settings.php
 jinja2 ${TEMPLATE_DIR}/services.yml.j2 -o ${SITE_DIR}/default/services.yml
 
+# remove deprecated modules, remove after update to Drupal 11
+echo "Removing deprecated modules"
+drush pm:uninstall -y transliterate_filenames || true
+drush config:delete core.extension module.transliterate_filenames || true
+drush pm:uninstall -y drush_language || true
+drush config:delete core.extension module.drush_language || true
+
 # rebuild cache
+echo "Rebuilding cache"
 drush cache:rebuild
 
 # init local development related stuff
