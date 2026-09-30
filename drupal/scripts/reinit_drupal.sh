@@ -7,7 +7,15 @@ echo "reinit_drupal ..."
 jinja2 ${TEMPLATE_DIR}/settings.php.j2 -o ${SITE_DIR}/default/settings.php
 jinja2 ${TEMPLATE_DIR}/services.yml.j2 -o ${SITE_DIR}/default/services.yml
 
+# remove deprecated modules, remove after update to Drupal 11
+echo "Removing deprecated modules"
+drush pm:uninstall -y transliterate_filenames || true
+drush config:delete core.extension module.transliterate_filenames || true
+drush pm:uninstall -y drush_language || true
+drush config:delete core.extension module.drush_language || true
+
 # rebuild cache
+echo "Rebuilding cache"
 drush cache:rebuild
 
 # init local development related stuff
@@ -48,7 +56,7 @@ drush cache:rebuild
 # update translations (if file has changed, otherwise skip)
 SHA1_I18N_FI=$(sha1sum ${I18N_DIR}/fi/drupal.po)
 if [[ "$SHA1_I18N_FI" != "$(cat ${DATA_DIR}/.sha1_18n_fi)" ]]; then
-  drush language:import:translations ${I18N_DIR}/fi/drupal.po --langcode "fi"
+  drush locale-import fi ${I18N_DIR}/fi/drupal.po --override=all
   echo "$SHA1_I18N_FI" > ${DATA_DIR}/.sha1_18n_fi
 else
   echo "skipping import of 'fi' i18n because file hasn't changed ..."
@@ -56,7 +64,7 @@ fi
 
 SHA1_I18N_SV=$(sha1sum ${I18N_DIR}/sv/drupal.po)
 if [[ "$SHA1_I18N_SV" != "$(cat ${DATA_DIR}/.sha1_18n_sv)" ]]; then
-  drush language:import:translations ${I18N_DIR}/sv/drupal.po --langcode "sv"
+  drush locale-import sv ${I18N_DIR}/sv/drupal.po --override=all
   echo "$SHA1_I18N_SV" > ${DATA_DIR}/.sha1_18n_sv
 else
   echo "skipping import of 'sv' i18n because file hasn't changed ..."
@@ -64,7 +72,7 @@ fi
 
 SHA1_I18N_EN=$(sha1sum ${I18N_DIR}/en_GB/drupal.po)
 if [[ "$SHA1_I18N_EN" != "$(cat ${DATA_DIR}/.sha1_18n_en)" ]]; then
-  drush language:import:translations ${I18N_DIR}/en_GB/drupal.po --langcode "en"
+  drush locale-import en ${I18N_DIR}/en_GB/drupal.po --override=all
   echo "$SHA1_I18N_EN" > ${DATA_DIR}/.sha1_18n_en
 else
   echo "skipping import of 'en' i18n because file hasn't changed ..."

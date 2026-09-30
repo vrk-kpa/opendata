@@ -47,27 +47,21 @@ echo "enable language modules.."
 [[ "$MODULE_INFO" != *"content_translation"* ]] && drush pm:enable -y content_translation
 [[ "$MODULE_INFO" != *"language"* ]]            && drush pm:enable -y language
 [[ "$MODULE_INFO" != *"locale"* ]]              && drush pm:enable -y locale
-[[ "$MODULE_INFO" != *"drush_language"* ]]      && drush pm:enable -y drush_language
-
-# get current languages
-LANG_INFO=$(drush language-info --field=language)
-
-# add languages and set 'fi' as default
-[[ "$LANG_INFO" != *"Finnish"* ]] && drush language:add -y "fi"
-[[ "$LANG_INFO" != *"Swedish"* ]] && drush language:add -y "sv"
-drush language:default -y "fi"
 
 # enable base theme
-
-# Remove jquery_ui (can be removed after all environments are bootstrap 5)
-drush pm:uninstall -y jquery_ui_resizable || true
-drush config:delete core.extension module.jquery_ui_resizable || true
-drush pm:uninstall -y jquery_ui_draggable || true
-drush config:delete core.extension module.jquery_ui_draggable || true
-drush pm:uninstall -y jquery_ui || true
-drush config:delete core.extension module.jquery_ui || true
-
 drush theme:enable -y bootstrap
+
+# Initial import of non-english translations to create the languages.
+# The languages must be created before setting site language and installing content modules.
+# When language commands are added to drush these can be replaced with language add commands
+drush locale-import fi ${I18N_DIR}/fi/drupal.po --autocreate-language
+drush locale-import sv ${I18N_DIR}/sv/drupal.po --autocreate-language
+
+# Set default language
+drush config:set -y system.site default_langcode fi
+
+# Rebuild permission cache
+drush php-eval "node_access_rebuild();"
 
 # remove some configurations
 # NOTE: ansible role skips errors with this condition:
@@ -123,6 +117,7 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"fontawesome_menu_icons"* ]] && drush pm:uninstall -y fontawesome_menu_icons
 [[ "$MODULE_INFO" == *"tour"* ]] && drush pm:uninstall -y tour
 [[ "$MODULE_INFO" == *"transliterate_filenames"* ]] && drush pm:uninstall -y transliterate_filenames
+[[ "$MODULE_INFO" == *"drush_language"* ]] && drush pm:uninstall -y drush_language
 [[ "$MODULE_INFO" == *"menu_item_role_access"* ]] && drush pm:uninstall -y menu_item_role_access
 
 # enable modules
@@ -219,10 +214,10 @@ drush config:import -y --partial --source ${APP_DIR}/site_config
 # rebuild cache
 drush cache:rebuild
 
-# update translations (if file has changed, otherwise skip)
+# Import translations
 SHA1_I18N_FI=$(sha1sum ${I18N_DIR}/fi/drupal.po)
 if [[ "$SHA1_I18N_FI" != "$(cat ${DATA_DIR}/.sha1_18n_fi)" ]]; then
-  drush language:import:translations ${I18N_DIR}/fi/drupal.po --langcode "fi"
+  drush locale-import fi ${I18N_DIR}/fi/drupal.po --override=all --autocreate-language
   echo "$SHA1_I18N_FI" > ${DATA_DIR}/.sha1_18n_fi
 else
   echo "skipping import of 'fi' i18n because file hasn't changed ..."
@@ -230,15 +225,14 @@ fi
 
 SHA1_I18N_SV=$(sha1sum ${I18N_DIR}/sv/drupal.po)
 if [[ "$SHA1_I18N_SV" != "$(cat ${DATA_DIR}/.sha1_18n_sv)" ]]; then
-  drush language:import:translations ${I18N_DIR}/sv/drupal.po --langcode "sv"
+  drush locale-import sv ${I18N_DIR}/sv/drupal.po --override=all --autocreate-language
   echo "$SHA1_I18N_SV" > ${DATA_DIR}/.sha1_18n_sv
 else
   echo "skipping import of 'sv' i18n because file hasn't changed ..."
 fi
-
 SHA1_I18N_EN=$(sha1sum ${I18N_DIR}/en_GB/drupal.po)
 if [[ "$SHA1_I18N_EN" != "$(cat ${DATA_DIR}/.sha1_18n_en)" ]]; then
-  drush language:import:translations ${I18N_DIR}/en_GB/drupal.po --langcode "en"
+  drush locale-import en ${I18N_DIR}/en_GB/drupal.po --override=all
   echo "$SHA1_I18N_EN" > ${DATA_DIR}/.sha1_18n_en
 else
   echo "skipping import of 'en' i18n because file hasn't changed ..."
