@@ -51,6 +51,31 @@ echo "enable language modules.."
 # enable base theme
 drush theme:enable -y bootstrap
 
+# Import non-english translations. The languages must be created before setting site language and installing content modules.
+# When language commands are added to drush these can be moved back down with the english translations by adding
+# language add commands here
+SHA1_I18N_FI=$(sha1sum ${I18N_DIR}/fi/drupal.po)
+if [[ "$SHA1_I18N_FI" != "$(cat ${DATA_DIR}/.sha1_18n_fi)" ]]; then
+  drush locale-import fi ${I18N_DIR}/fi/drupal.po --override=all --autocreate-language
+  echo "$SHA1_I18N_FI" > ${DATA_DIR}/.sha1_18n_fi
+else
+  echo "skipping import of 'fi' i18n because file hasn't changed ..."
+fi
+
+SHA1_I18N_SV=$(sha1sum ${I18N_DIR}/sv/drupal.po)
+if [[ "$SHA1_I18N_SV" != "$(cat ${DATA_DIR}/.sha1_18n_sv)" ]]; then
+  drush locale-import sv ${I18N_DIR}/sv/drupal.po --override=all --autocreate-language
+  echo "$SHA1_I18N_SV" > ${DATA_DIR}/.sha1_18n_sv
+else
+  echo "skipping import of 'sv' i18n because file hasn't changed ..."
+fi
+
+# Set default language
+drush config:set -y system.site default_langcode fi
+
+# Rebuild permission cache
+drush php-eval "node_access_rebuild();"
+
 # remove some configurations
 # NOTE: ansible role skips errors with this condition:
 #       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
@@ -202,23 +227,7 @@ drush config:import -y --partial --source ${APP_DIR}/site_config
 # rebuild cache
 drush cache:rebuild
 
-# update translations (if file has changed, otherwise skip)
-SHA1_I18N_FI=$(sha1sum ${I18N_DIR}/fi/drupal.po)
-if [[ "$SHA1_I18N_FI" != "$(cat ${DATA_DIR}/.sha1_18n_fi)" ]]; then
-  drush locale-import fi ${I18N_DIR}/fi/drupal.po --override=all --autocreate-language
-  echo "$SHA1_I18N_FI" > ${DATA_DIR}/.sha1_18n_fi
-else
-  echo "skipping import of 'fi' i18n because file hasn't changed ..."
-fi
-
-SHA1_I18N_SV=$(sha1sum ${I18N_DIR}/sv/drupal.po)
-if [[ "$SHA1_I18N_SV" != "$(cat ${DATA_DIR}/.sha1_18n_sv)" ]]; then
-  drush locale-import sv ${I18N_DIR}/sv/drupal.po --override=all --autocreate-language
-  echo "$SHA1_I18N_SV" > ${DATA_DIR}/.sha1_18n_sv
-else
-  echo "skipping import of 'sv' i18n because file hasn't changed ..."
-fi
-
+# Update english translation (cannot be updated earlier)
 SHA1_I18N_EN=$(sha1sum ${I18N_DIR}/en_GB/drupal.po)
 if [[ "$SHA1_I18N_EN" != "$(cat ${DATA_DIR}/.sha1_18n_en)" ]]; then
   drush locale-import en ${I18N_DIR}/en_GB/drupal.po --override=all
@@ -226,12 +235,6 @@ if [[ "$SHA1_I18N_EN" != "$(cat ${DATA_DIR}/.sha1_18n_en)" ]]; then
 else
   echo "skipping import of 'en' i18n because file hasn't changed ..."
 fi
-
-# Set default language
-drush config:set -y system.site default_langcode fi
-
-# Rebuild permission cache
-drush php-eval "node_access_rebuild();"
 
 # init users and roles
 python3 ${SCRIPT_DIR}/init_users.py
