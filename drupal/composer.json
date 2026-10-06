@@ -20,13 +20,13 @@
         "drupal/ape": "^1.4",
         "drupal/bootstrap": "^5.0",
         "drupal/captcha": "^2.0",
+        "drupal/ckeditor5_dev": "^2",
         "drupal/coder": "^8.2",
         "drupal/core-composer-scaffold": "^10",
         "drupal/core-project-message": "^10",
         "drupal/core-recommended": "^10",
         "drupal/ctools": "^4.1",
         "drupal/domain_registration": "^1.8",
-        "drupal/drush_language": "1.x-dev",
         "drupal/easy_breadcrumb": "^2.0",
         "drupal/fontawesome": "^3.0",
         "drupal/fontawesome_menu_icons": "^3.0",
@@ -51,10 +51,8 @@
         "drupal/unpublished_node_permissions": "^1.0",
         "drupal/upgrade_status": "^4.0",
         "drush/drush": "^13",
-        "league/commonmark": "^2.6",
         "vlucas/phpdotenv": "^5.6",
-        "webflo/drupal-finder": "^1.0.0",
-        "webmozart/path-util": "^2.3"
+        "webflo/drupal-finder": "^1.0.0"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -137,7 +135,6 @@
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-        "drupal/ckeditor5_dev": "^1.0",
         "drupal/core-dev": "^10",
         "drupal/dev_mode": "^2.6",
         "drupal/devel": "^5.1",

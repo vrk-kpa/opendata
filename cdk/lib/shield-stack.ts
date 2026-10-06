@@ -32,7 +32,7 @@ export class ShieldStack extends Stack {
         name: targetResponseTimeAlarm.alarmName,
         region: "eu-west-1"
       },
-      
+
     })
 
     const cfnProtection = new aws_shield.CfnProtection(this, 'ShieldProtection', {
@@ -42,7 +42,7 @@ export class ShieldStack extends Stack {
         `arn:aws:route53:::healthcheck/${healthCheck.healthCheckId}`
       ]
     })
-    
+
 
     const banned_ips = new CfnParameter(this, 'bannedIpsList', {
       type: 'AWS::SSM::Parameter::Value<List<String>>',
@@ -69,7 +69,7 @@ export class ShieldStack extends Stack {
     })
 
 
-    const highPriorityCountryCodesParameter = new CfnParameter(this,  'highPriorityCountryCodesParameter', {
+    const highPriorityCountryCodesParameter = new CfnParameter(this, 'highPriorityCountryCodesParameter', {
       type: 'AWS::SSM::Parameter::Value<List<String>>',
       default: props.highPriorityCountryCodeListParameterName
     });
@@ -79,35 +79,34 @@ export class ShieldStack extends Stack {
       parameterName: props.highPriorityRateLimitParameterName,
       simpleName: false
     });
-  
+
     const rateLimitParameter = aws_ssm.StringParameter.fromStringParameterAttributes(this, 'rateLimitParameter', {
       parameterName: props.rateLimitParameterName,
       simpleName: false
     });
-  
+
     const wafAutomationArnParameter = aws_ssm.StringParameter.fromStringParameterAttributes(this, 'wafAutomationArnParameter', {
       parameterName: props.wafAutomationArnParameterName,
       simpleName: false
     });
-  
+
     const snsTopicArnParameter = aws_ssm.StringParameter.fromStringParameterAttributes(this, 'snsTopicArnParameter', {
       parameterName: props.snsTopicArnParameterName,
       simpleName: false
     });
-  
+
     const evaluationPeriodParameter = aws_ssm.StringParameter.fromStringParameterAttributes(this, 'evaluationPeriodParameter', {
       parameterName: props.evaluationPeriodParameterName,
       simpleName: false
     });
-  
+
 
     let rules = [
       {
         name: "block-banned_ips",
         priority: 0,
         action: {
-          block: {
-          }
+          block: {}
         },
         statement: {
           ipSetReferenceStatement: {
@@ -124,8 +123,7 @@ export class ShieldStack extends Stack {
         name: "allow-whitelisted_ips",
         priority: 1,
         action: {
-          allow: {
-          }
+          allow: {}
         },
         statement: {
           ipSetReferenceStatement: {
@@ -142,8 +140,7 @@ export class ShieldStack extends Stack {
         name: "WAFAutomationProtectionRule",
         priority: 2,
         action: {
-          count: {
-          }
+          count: {}
         },
         statement: {
           notStatement: {
@@ -164,8 +161,7 @@ export class ShieldStack extends Stack {
         name: "rate-limit-finland",
         priority: 3,
         action: {
-          block: {
-          }
+          block: {}
         },
         statement: {
           rateBasedStatement: {
@@ -189,8 +185,7 @@ export class ShieldStack extends Stack {
         name: "rate-limit-world",
         priority: 4,
         action: {
-          block: {
-          }
+          block: {}
         },
         statement: {
           rateBasedStatement: {
@@ -216,7 +211,43 @@ export class ShieldStack extends Stack {
       },
     ]
 
-    const mediumPriorityCountryCodesParameter = new CfnParameter(this,  'mediumPriorityCountryCodesParameter', {
+    const analyzeDownloadsRule: aws_wafv2.CfnWebACL.RuleProperty = {
+      name: "analyze-downloads",
+      priority: rules.length,
+      statement: {
+        rateBasedStatement: {
+          limit: 10,
+          evaluationWindowSec: 120,
+          aggregateKeyType: "IP",
+          scopeDownStatement: {
+            regexMatchStatement: {
+              fieldToMatch: {
+                uriPath: {}
+              },
+              regexString: "\/data\/([^\/]+\/)?dataset\/[^/]+\/resource\/[0-9a-f\-]+\/download\/.+",
+              textTransformations: [{
+                type: "NONE",
+                priority: 0
+              }]
+            }
+          }
+        }
+      },
+      visibilityConfig: {
+        cloudWatchMetricsEnabled: true,
+        metricName: `analyze-downloads`,
+        sampledRequestsEnabled: true
+      },
+      action: {
+        count: {}
+      }
+    }
+
+    const analyzeDownloadRules: any[] = [analyzeDownloadsRule]
+
+    rules = rules.concat(analyzeDownloadRules)
+
+    const mediumPriorityCountryCodesParameter = new CfnParameter(this, 'mediumPriorityCountryCodesParameter', {
       type: 'AWS::SSM::Parameter::Value<List<String>>',
       default: props.mediumPriorityCountryCodeListParameterName
     });
@@ -328,7 +359,7 @@ export class ShieldStack extends Stack {
     const managedRules = managedRulesParameter.startsWith("dummy-value") ? "dummy" : JSON.parse(managedRulesParameter)
 
 
-    if ( managedRules !== "dummy"){
+    if (managedRules !== "dummy") {
       let ruleList: any[] = []
       const validatedRules = RuleGroupSchema.parse(managedRules)
       validatedRules.forEach((rule, index: number) => {
@@ -346,7 +377,7 @@ export class ShieldStack extends Stack {
           ruleActionOverrides.push(overrideCountRuleObj)
         }
 
-        for ( let overrideAllowRule of rule.ruleActionOverrideAllows) {
+        for (let overrideAllowRule of rule.ruleActionOverrideAllows) {
           let overrideAllowRuleObj = {
             actionToUse: {
               allow: {}
@@ -357,7 +388,7 @@ export class ShieldStack extends Stack {
           ruleActionOverrides.push(overrideAllowRuleObj)
         }
 
-        for ( let overrideBlockRule of rule.ruleActionOverrideBlocks) {
+        for (let overrideBlockRule of rule.ruleActionOverrideBlocks) {
           let overrideBlockRuleObj = {
             actionToUse: {
               block: {}
@@ -367,7 +398,7 @@ export class ShieldStack extends Stack {
 
           ruleActionOverrides.push(overrideBlockRuleObj)
         }
-        for ( let overrideCaptchaRule of rule.ruleActionOverrideCaptchas) {
+        for (let overrideCaptchaRule of rule.ruleActionOverrideCaptchas) {
           let overrideCaptchaRuleObj = {
             actionToUse: {
               captcha: {}
@@ -377,7 +408,7 @@ export class ShieldStack extends Stack {
 
           ruleActionOverrides.push(overrideCaptchaRuleObj)
         }
-        for ( let overrideChallengeRule of rule.ruleActionOverrideChallenges) {
+        for (let overrideChallengeRule of rule.ruleActionOverrideChallenges) {
           let overrideChallengeRuleObj = {
             actionToUse: {
               challenge: {}
@@ -389,7 +420,7 @@ export class ShieldStack extends Stack {
         }
 
         let ruleVersion = undefined;
-        if ( rule.version !== "" ) {
+        if (rule.version !== "") {
           ruleVersion = rule.version;
         }
 
@@ -501,44 +532,55 @@ export class ShieldStack extends Stack {
 
     const BlockedUserAgentsSchema = z.array(z.string())
 
-    let blockedUserAgentRules: any[] = []
+
+    const userAgentList: string[] = []
+
     const validatedUserAgents = BlockedUserAgentsSchema.parse(blockedUserAgentsJson)
     validatedUserAgents.forEach((useragent, index: number) => {
-      let blockedUserAgentRule: aws_wafv2.CfnWebACL.RuleProperty = {
-        name: "blocked-useragent-" + useragent,
-        priority: rules.length + index,
-        action: {
-          block: {}
-        },
-        statement: {
-          byteMatchStatement: {
-            fieldToMatch: {
-              singleHeader: {
-                Name: "User-Agent"
-              }
-            },
-            positionalConstraint: "CONTAINS",
-            searchString: useragent,
-            textTransformations: [
-              {
-                type: "NONE",
-                priority: 0
-              }
-            ]
-          }
-        },
-        visibilityConfig: {
-          cloudWatchMetricsEnabled: true,
-          metricName: "blocked-useragent-" + useragent,
-          sampledRequestsEnabled: false
-        }
-      }
-
-      blockedUserAgentRules.push(blockedUserAgentRule)
+      userAgentList.push(useragent)
     })
 
-    rules = rules.concat(blockedUserAgentRules)
+    const userAgentRegexPattern = new aws_wafv2.CfnRegexPatternSet(this, 'userAgentRegexPatternSet', {
+      description: 'Blocked user agents',
+      name: 'BlockedUserAgents',
+      scope: 'REGIONAL',
+      regularExpressionList: userAgentList
+    })
 
+
+    const blockedUserAgentRules: any[] = []
+    const blockedUserAgentRule: aws_wafv2.CfnWebACL.RuleProperty = {
+      name: "blocked-useragents",
+      priority: rules.length,
+      action: {
+        block: {}
+      },
+      statement: {
+        regexPatternSetReferenceStatement: {
+          fieldToMatch: {
+            singleHeader: {
+              Name: "User-Agent"
+            }
+          },
+          arn: userAgentRegexPattern.attrArn,
+          textTransformations: [
+            {
+              type: "NONE",
+              priority: 0
+            }
+          ]
+        }
+      },
+      visibilityConfig: {
+        cloudWatchMetricsEnabled: true,
+        metricName: "blocked-useragents",
+        sampledRequestsEnabled: true
+      }
+    }
+
+    blockedUserAgentRules.push(blockedUserAgentRule)
+
+    rules = rules.concat(blockedUserAgentRules)
 
 
     const cfnWebAcl = new aws_wafv2.CfnWebACL(this, 'WAFWebACL', {

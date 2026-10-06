@@ -29,7 +29,6 @@ const paths = {
     scss: "src/scss",
     ckan: "src/scss/ckan",
     drupal: "src/scss/drupal/style.scss",
-    drupal_ckeditor_plugins: "src/scss/drupal/custom-elements.scss",
     drupal_ckeditor5_plugins: ["src/scss/drupal/custom-elements.scss", "src/scss/drupal/editor.scss"],
     fonts: "src/fonts/**/*",
     fontsCss: "src/scss/fonts.scss",
@@ -142,20 +141,6 @@ const drupal =  (done) => {
     concat("style.css"),
     sourcemaps.write("./maps"),
     gulp.dest(paths.drupalTheme + "/css"),
-  ], done)
-}
-
-const drupal_copy_custom_element_styles_to_plugin = (done) => {
-  pump([
-    gulp.src(paths.src.drupal_ckeditor_plugins),
-    sourcemaps.init(),
-    sass({ paths: [paths.src.drupal_ckeditor_plugins], includePaths: ["node_modules", paths.src.bootstrap_styles] }),
-    prefixer(),
-    template({ timestamp: timestamp }),
-    cleancss({ keepBreaks: false }),
-    concat("style.css"),
-    sourcemaps.write("./maps"),
-    gulp.dest("../drupal/modules/avoindata-ckeditor-plugins/css"),
   ], done)
 }
 
@@ -294,7 +279,6 @@ const build = gulp.series(clean, copyFontawesomeScss, gulp.parallel(
   ckan,
   openapiView,
   drupal,
-  drupal_copy_custom_element_styles_to_plugin,
   gulp.parallel(gulp.series(toolbarIcons, toolbarIconStyles), drupal_copy_custom_ckeditor_styles_to_plugin),
   fonts,
   fontsCss,
