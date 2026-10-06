@@ -100,7 +100,6 @@ COPY modules/avoindata-articles             ${MOD_DIR}/avoindata-articles/
 COPY modules/avoindata-events               ${MOD_DIR}/avoindata-events/
 COPY modules/avoindata-guide                ${MOD_DIR}/avoindata-guide/
 COPY modules/avoindata-user                 ${MOD_DIR}/avoindata-user/
-COPY modules/avoindata-ckeditor-plugins     ${MOD_DIR}/avoindata-ckeditor-plugins/
 COPY modules/avoindata-theme                ${MOD_DIR}/avoindata-theme/
 COPY modules/avoindata-ckeditor5-plugins    ${MOD_DIR}/avoindata-ckeditor5-plugins/
 
