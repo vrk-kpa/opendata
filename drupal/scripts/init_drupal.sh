@@ -48,9 +48,6 @@ echo "enable language modules.."
 [[ "$MODULE_INFO" != *"language"* ]]            && drush pm:enable -y language
 [[ "$MODULE_INFO" != *"locale"* ]]              && drush pm:enable -y locale
 
-# enable base theme
-drush theme:enable -y bootstrap
-
 # Initial import of non-english translations to create the languages.
 # The languages must be created before setting site language and installing content modules.
 # When language commands are added to drush these can be replaced with language add commands
@@ -59,6 +56,9 @@ drush locale-import sv ${I18N_DIR}/sv/drupal.po --autocreate-language
 
 # Set default language
 drush config:set -y system.site default_langcode fi
+
+# enable base theme
+drush theme:enable -y bootstrap
 
 # Rebuild permission cache
 drush php-eval "node_access_rebuild();"
@@ -148,6 +148,8 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"raven"* ]]                         && drush pm:enable -y raven
 [[ "$MODULE_INFO" != *"menu_link_attributes"* ]]          && drush pm:enable -y menu_link_attributes
 [[ "$MODULE_INFO" != *"fontawesome"* ]]                   && drush pm:enable -y fontawesome
+[[ "$MODULE_INFO" != *"contact"* ]]                       && drush pm:enable -y contact
+
 
 # remove some configurations
 # NOTE: ansible role skips errors with this condition:
@@ -209,6 +211,9 @@ fi
 # import settings
 echo "import site config.."
 drush config:import -y --partial --source ${APP_DIR}/site_config
+
+# enable admin toolbar
+drush pm:enable toolbar
 
 # rebuild cache
 drush cache:rebuild
