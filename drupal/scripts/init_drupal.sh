@@ -102,6 +102,33 @@ drush config:delete user.role.content_editor                                    
 drush config:delete system.action.user_add_role_action.content_editor              || true
 drush config:delete system.action.user_remove_role_action.content_editor           || true
 drush config:delete contact.form.feedback                                          || true
+drush config:delete field.field.node.avoindata_event.body                          || true
+drush config:delete field.field.node.avoindata_event.field_end_date                || true
+drush config:delete field.field.node.avoindata_event.field_image                   || true
+drush config:delete field.field.node.avoindata_event.field_location                || true
+drush config:delete field.field.node.avoindata_event.field_start_date              || true
+drush config:delete core.entity_form_display.node.avoindata_event.default          || true
+drush config:delete core.entity_view_display.node.avoindata_event.default          || true
+drush config:delete core.entity_view_display.node.avoindata_event.teaser           || true
+drush config:delete language.content_settings.node.avoindata_event                 || true
+drush config:delete node.type.avoindata_event                                      || true
+drush config:delete core.base_field_override.node.avoindata_event.promote          || true
+drush config:delete metatag.metatag_defaults.node__avoindata_event                 || true
+drush config:delete contact.form.event                                             || true
+drush config:delete field.field.contact_message.event.field_event_submit_address   || true
+drush config:delete field.field.contact_message.event.field_event_submit_end_time  || true
+drush config:delete field.field.contact_message.event.field_event_submit_link      || true
+drush config:delete field.field.contact_message.event.field_event_submit_picture   || true
+drush config:delete field.field.contact_message.event.field_event_submit_start_time || true
+drush config:delete field.storage.contact_message.field_event_submit_address       || true
+drush config:delete field.storage.contact_message.field_event_submit_end_time      || true
+drush config:delete field.storage.contact_message.field_event_submit_link          || true
+drush config:delete field.storage.contact_message.field_event_submit_picture       || true
+drush config:delete field.storage.contact_message.field_event_submit_start_time    || true
+drush config:delete core.entity_view_display.contact_message.event.default         || true
+drush config:delete core.entity_form_display.contact_message.event.default         || true
+
+
 
 
 # uninstall modules
@@ -118,6 +145,7 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"transliterate_filenames"* ]] && drush pm:uninstall -y transliterate_filenames
 [[ "$MODULE_INFO" == *"drush_language"* ]] && drush pm:uninstall -y drush_language
 [[ "$MODULE_INFO" == *"menu_item_role_access"* ]] && drush pm:uninstall -y menu_item_role_access
+[[ "$MODULE_INFO" == *"avoindata_events"* ]]            && drush pm:uninstall -y avoindata_events
 
 # enable modules
 echo "enable modules.."
@@ -171,7 +199,6 @@ echo "enable custom modules.."
 [[ "$MODULE_INFO" != *"avoindata_newsfeed"* ]]          && drush pm:enable -y avoindata_newsfeed
 [[ "$MODULE_INFO" != *"avoindata_footer"* ]]            && drush pm:enable -y avoindata_footer
 [[ "$MODULE_INFO" != *"avoindata_articles"* ]]          && drush pm:enable -y avoindata_articles
-[[ "$MODULE_INFO" != *"avoindata_events"* ]]            && drush pm:enable -y avoindata_events
 [[ "$MODULE_INFO" != *"avoindata_guide"* ]]             && drush pm:enable -y avoindata_guide
 [[ "$MODULE_INFO" != *"avoindata_user"* ]]              && drush pm:enable -y avoindata_user
 [[ "$MODULE_INFO" != *"avoindata_ckeditor5_plugins"* ]]  && drush pm:enable -y avoindata_ckeditor5_plugins
@@ -189,7 +216,6 @@ echo "import module configurations.."
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-header/config/install           || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-footer/config/install           || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-articles/config/install         || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-events/config/install           || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-guide/config/install            || true
 
 # apply jinja2 templates
@@ -204,7 +230,6 @@ jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/raven.settings.yml.j2    -o ${A
 if [ "${CAPTCHA_ENABLED}" != "true" ]; then
   rm -f ${APP_DIR}/site_config/captcha.settings.yml
   rm -f ${APP_DIR}/site_config/captcha.captcha_point.user_register_form.yml
-  rm -f ${APP_DIR}/site_config/captcha.captcha_point.contact_message_event_form.yml
   rm -f ${APP_DIR}/site_config/captcha.captcha_point.contact_message_feedback_form.yml
 fi
 
