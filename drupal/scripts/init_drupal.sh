@@ -114,6 +114,20 @@ drush config:delete language.content_settings.node.avoindata_event              
 drush config:delete node.type.avoindata_event                                      || true
 drush config:delete core.base_field_override.node.avoindata_event.promote          || true
 drush config:delete metatag.metatag_defaults.node__avoindata_event                 || true
+drush config:delete contact.form.event                                             || true
+drush config:delete field.field.contact_message.event.field_event_submit_address   || true
+drush config:delete field.field.contact_message.event.field_event_submit_end_time  || true
+drush config:delete field.field.contact_message.event.field_event_submit_link      || true
+drush config:delete field.field.contact_message.event.field_event_submit_picture   || true
+drush config:delete field.field.contact_message.event.field_event_submit_start_time || true
+drush config:delete field.storage.contact_message.field_event_submit_address       || true
+drush config:delete field.storage.contact_message.field_event_submit_end_time      || true
+drush config:delete field.storage.contact_message.field_event_submit_link          || true
+drush config:delete field.storage.contact_message.field_event_submit_picture       || true
+drush config:delete field.storage.contact_message.field_event_submit_start_time    || true
+drush config:delete core.entity_view_display.contact_message.event.default         || true
+drush config:delete core.entity_form_display.contact_message.event.default         || true
+
 
 
 
