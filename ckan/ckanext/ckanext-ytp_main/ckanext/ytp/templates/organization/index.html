@@ -2,7 +2,7 @@
 
 
 {% set sorting = sorting if sorting else [(_('Name Ascending'), 'name asc'), (_('Name Descending'), 'name desc')] %}
-{% set organization_filters_count = h.get_organization_filters_count() %}
+{% set organization_filters_count = h.get_organization_filters_count(q) %}
 
 {% block page_primary_action %}
 {% endblock %}
