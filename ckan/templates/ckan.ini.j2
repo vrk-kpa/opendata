@@ -153,7 +153,7 @@ ckanext.drupal8.site_url_internal = {{ environ('CKAN_DRUPAL_SITE_URL_INTERNAL') 
 ckanext.drupal8.domain = {{ environ('DOMAIN_NAME') }}
 ckanext.drupal8.sysadmin_role = {{ environ('ROLES_CKAN_ADMIN') }}
 ckanext.drupal8.connection = postgresql://{{ environ('DB_DRUPAL_USER') }}:{{ environ('DB_DRUPAL_PASS') }}@{{ environ('DB_DRUPAL_HOST') }}/{{ environ('DB_DRUPAL') }}
-ckanext.drupal8.allow_edit = true
+ckanext.drupal8.allow_edit = True
 
 licenses_group_url = file://{{ environ('CKAN_STORAGE_PATH') }}/license.json
 service_classes_options_url = file://{{ environ('CKAN_STORAGE_PATH') }}/service_classes.json

@@ -1088,13 +1088,9 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
 
 class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
-    plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITranslation)
-
-    default_domain = None
-    logos = {}
 
     # TODO: We should use named routes instead
     _menu_map = [
@@ -1216,20 +1212,8 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         toolkit.add_public_directory(config, 'public')
         toolkit.add_template_directory(config, 'postit')
 
-    # IConfigurable #
-
-    def configure(self, config):
-        self.default_domain = config.get("ckanext.ytp.default_domain")
-        logos = config.get("ckanext.ytp.theme.logos")
-        if logos:
-            self.logos = dict(item.split(":") for item in re.split("\\s+", logos.strip()))
-
     # ITemplateHelpers #
 
-    def _short_domain(self, hostname, default=None):
-        if not hostname or hostname[0].isdigit():
-            return default or self.default_domain or ""
-        return '.'.join(hostname.split('.')[-2:])
 
     def _get_menu_tree(self, current_url, language):
         parsed_url = urllib.parse.urlparse(current_url)
@@ -1323,7 +1307,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         return result
 
     def get_helpers(self):
-        return {'short_domain': self._short_domain, 'get_menu_for_page': self._get_menu_for_page,
+        return {'get_menu_for_page': self._get_menu_for_page,
                 'drupal_footer': self._drupal_footer, 'drupal_header': self._drupal_header}
 
 
