@@ -82,16 +82,6 @@ jobs:
         id: login
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: configure NPM credentials
-        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        run: |
-          cat <<EOT >> ./opendata-assets/.npmrc
-          @fortawesome:registry=https://npm.fontawesome.com/
-          //npm.fontawesome.com/:_authToken=$NPM_TOKEN
-          EOT
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: install nodejs v22
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         uses: actions/setup-node@v7
@@ -103,6 +93,8 @@ jobs:
       - name: install npm packages
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npm ci
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: ./opendata-assets
 
       - name: build frontend with gulp
