@@ -1963,29 +1963,31 @@
         },
         {
             "name": "drupal/easy_breadcrumb",
-            "version": "2.0.10",
+            "version": "2.0.11",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/easy_breadcrumb.git",
-                "reference": "2.0.10"
+                "reference": "2.0.11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/easy_breadcrumb-2.0.10.zip",
-                "reference": "2.0.10",
-                "shasum": "a55c793c1f59be1a4866972998b50ced21bfbcb0"
+                "url": "https://ftp.drupal.org/files/projects/easy_breadcrumb-2.0.11.zip",
+                "reference": "2.0.11",
+                "shasum": "02ff0687f1d6d94238d3e47fdb6cb240fecf2626"
             },
             "require": {
                 "drupal/core": "^9.2 || ^10 || ^11"
             },
             "require-dev": {
+                "drupal/cva": "^1",
+                "drupal/mercury": "^1.0.5",
                 "drush/drush": "^13"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.10",
-                    "datestamp": "1787942208",
+                    "version": "2.0.11",
+                    "datestamp": "1791390966",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
