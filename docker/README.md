@@ -85,7 +85,7 @@ If you're not on MacOS, make sure you have enabled Buildkit for docker and docke
 
 2. Run `git submodule update --init --recursive`
 
-3. Create a `.npmrc` (content below) file to `../opendata-assets`. Link to .npmrc content: `https://wiki.dvv.fi/display/AV/Font+Awesome+Pro`
+3. Add `NPM_TOKEN` to environment variables, either manually or with help of `direnv` and `.envrc`
 
 4. (Only on MacOS and Windows) Make sure buildkit is enabled in Docker Desktop. Go to Preferences -> Docker Engine, it should contain this:
 ```
