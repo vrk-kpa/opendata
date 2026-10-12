@@ -127,6 +127,11 @@ drush config:delete field.storage.contact_message.field_event_submit_picture    
 drush config:delete field.storage.contact_message.field_event_submit_start_time    || true
 drush config:delete core.entity_view_display.contact_message.event.default         || true
 drush config:delete core.entity_form_display.contact_message.event.default         || true
+drush config:delete contact_message.field_event_submit_address                     || true
+drush config:delete contact_message.field_event_submit_end_time                    || true
+drush config:delete contact_message.field_event_submit_start_time                  || true
+drush config:delete contact_message.field_event_submit_picture                     || true
+drush config:delete contact_message.field_event_submit_link                        || true
 
 
 
@@ -146,6 +151,7 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"drush_language"* ]] && drush pm:uninstall -y drush_language
 [[ "$MODULE_INFO" == *"menu_item_role_access"* ]] && drush pm:uninstall -y menu_item_role_access
 [[ "$MODULE_INFO" == *"avoindata_events"* ]]            && drush pm:uninstall -y avoindata_events
+[[ "$MODULE_INFO" == *"contact"* ]]                       && drush pm:uninstall -y contact
 
 # enable modules
 echo "enable modules.."
@@ -176,7 +182,6 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"raven"* ]]                         && drush pm:enable -y raven
 [[ "$MODULE_INFO" != *"menu_link_attributes"* ]]          && drush pm:enable -y menu_link_attributes
 [[ "$MODULE_INFO" != *"fontawesome"* ]]                   && drush pm:enable -y fontawesome
-[[ "$MODULE_INFO" != *"contact"* ]]                       && drush pm:enable -y contact
 
 
 # remove some configurations
