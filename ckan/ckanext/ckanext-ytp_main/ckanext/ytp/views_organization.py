@@ -398,7 +398,6 @@ def index(group_type: str, is_organization: bool) -> str:
                     'page': page, 'items_per_page': items_per_page}
     page_results = toolkit.get_action('organization_tree_list')(context, tree_list_params)
 
-    log.warning(f"page_results: {page_results}")
     extra_vars["page"] = Page(
         collection=page_results['global_results'],
         page=page,

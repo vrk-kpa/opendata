@@ -649,9 +649,9 @@ def site_url_with_root_path():
         return site_url.rstrip('/')
 
 
-def get_organization_filters_count():
+def get_organization_filters_count(query):
     organizations = get_action('organization_list')({}, {'all_fields': False})
-    organizations_with_datasets = (get_action('organization_tree_list')({}, {'with_datasets': True})
+    organizations_with_datasets = (get_action('organization_tree_list')({}, {'with_datasets': True, 'q': query})
                                    .get('global_results', []))
 
     with_dataset_count = len(organizations_with_datasets)
