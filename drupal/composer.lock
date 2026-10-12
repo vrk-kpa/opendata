@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "074f4c32c8f99943bd49fb1272a2c1d0",
+    "content-hash": "bd118438c30f97c79f7fcbea698133ce",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2736,33 +2736,33 @@
         },
         {
             "name": "drupal/raven",
-            "version": "6.0.17",
+            "version": "7.7.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/raven.git",
-                "reference": "6.0.17"
+                "reference": "7.7.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/raven-6.0.17.zip",
-                "reference": "6.0.17",
-                "shasum": "07a673654018a58754d4ab720feead28333e2ea1"
+                "url": "https://ftp.drupal.org/files/projects/raven-7.7.0.zip",
+                "reference": "7.7.0",
+                "shasum": "8c12e14a4af703f37d3a79858d2c95988aba9fbb"
             },
             "require": {
-                "drupal/core": "^10.2 || ^11",
-                "sentry/sentry": "^4.9"
+                "drupal/core": "^11.1",
+                "sentry/sentry": "^4.33"
             },
             "require-dev": {
                 "drupal/csp": "^1.17 || ^2.0",
                 "drupal/monitoring": "^1.13",
                 "drupal/seckit": "^2.0",
-                "drush/drush": "^11.0 || ^12.0 || ^13.0"
+                "drush/drush": "^13.0"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "6.0.17",
-                    "datestamp": "1786049671",
+                    "version": "7.7.0",
+                    "datestamp": "1791744700",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2790,6 +2790,10 @@
                 {
                     "type": "github",
                     "url": "https://github.com/sponsors/mfb"
+                },
+                {
+                    "type": "ko-fi",
+                    "url": "https://ko-fi.com/mfb"
                 },
                 {
                     "type": "patreon",
@@ -6170,16 +6174,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "4.33.0",
+            "version": "4.34.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "0214dc2bc43321c896e69892930d368cfa69fdc9"
+                "reference": "3d8f4e56becb10ede64e2ac6f8077f6434715461"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/0214dc2bc43321c896e69892930d368cfa69fdc9",
-                "reference": "0214dc2bc43321c896e69892930d368cfa69fdc9",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/3d8f4e56becb10ede64e2ac6f8077f6434715461",
+                "reference": "3d8f4e56becb10ede64e2ac6f8077f6434715461",
                 "shasum": ""
             },
             "require": {
@@ -6208,7 +6212,7 @@
                 "open-telemetry/gen-otlp-protobuf": "^1.2.1",
                 "open-telemetry/sdk": "^1.1",
                 "open-telemetry/sem-conv": "^1.27",
-                "phpstan/phpstan": "^1.3",
+                "phpstan/phpstan": "^2.2",
                 "phpunit/phpunit": "^8.5.52|^9.6.34",
                 "spiral/roadrunner-http": "^3.6",
                 "spiral/roadrunner-worker": "^3.6"
@@ -6251,7 +6255,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/4.33.0"
+                "source": "https://github.com/getsentry/sentry-php/tree/4.34.0"
             },
             "funding": [
                 {
@@ -6263,7 +6267,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2026-10-05T12:35:25+00:00"
+            "time": "2026-10-08T11:25:58+00:00"
         },
         {
             "name": "sirbrillig/phpcs-variable-analysis",
