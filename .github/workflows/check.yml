@@ -72,19 +72,10 @@ jobs:
           cache: 'npm'
           cache-dependency-path: opendata-assets/package-lock.json
 
-      - name: Authenticate npm registry
-        if: ${{ steps.cache-node_modules.outputs.cache-hit != 'true' }}
-        run: |
-          cat <<EOT >> .npmrc
-          @fortawesome:registry=https://npm.fontawesome.com/
-          //npm.fontawesome.com/:_authToken=$NPM_TOKEN
-          EOT
-        working-directory: ./opendata-assets
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: install npm packages
         run: npm ci
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: ./opendata-assets
 
       - name: run stylelint
