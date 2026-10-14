@@ -113,7 +113,7 @@ def showcase_apiset_list(context, data_dict):
         for pkg_id in pkg_id_list:
             id_list.append(pkg_id[0])
         fq = 'dataset_type:apiset'
-        q = ' OR '.join(['id:{0}'.format(x) for x in id_list])
+        q = ' OR '.join(['id:"{0}"'.format(x) for x in id_list])
         _pkg_list = toolkit.get_action('package_search')(
             context,
             {'q': q, 'fq': fq, 'rows': 100})
