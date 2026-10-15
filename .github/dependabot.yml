@@ -73,13 +73,17 @@ updates:
 
 - package-ecosystem: "composer"
   directory: "/drupal/"
-  schedule:
-    interval: daily
-    time: "03:00"
+  multi-ecosystem-group: "drupal"
   groups:
     drupal:
       applies-to: security-updates
       patterns: ['*']
+
+- package-ecosystem: "docker"
+  directory: "/drupal/"
+  patterns: ['*']
+  multi-ecosystem-group: "drupal"
+
 
   open-pull-requests-limit: 10
 
@@ -106,5 +110,8 @@ multi-ecosystem-groups:
     schedule:
       interval: "weekly"
   ckan:
+    schedule:
+      interval: "daily"
+  drupal:
     schedule:
       interval: "daily"
