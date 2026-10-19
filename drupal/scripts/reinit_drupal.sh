@@ -15,8 +15,8 @@ drush pm:uninstall -y drush_language || true
 drush config:delete core.extension module.drush_language || true
 
 # rebuild cache
-echo "Rebuilding cache"
-drush cache:rebuild
+#echo "Rebuilding cache"
+#drush cache:rebuild
 
 # init local development related stuff
 if [[ "${DEV_MODE}" == "true" ]]; then
@@ -51,7 +51,7 @@ fi
 drush config:import -y --partial --source ${APP_DIR}/site_config
 
 # rebuild cache
-drush cache:rebuild
+#drush cache:rebuild
 
 # update translations (if file has changed, otherwise skip)
 SHA1_I18N_FI=$(sha1sum ${I18N_DIR}/fi/drupal.po)
