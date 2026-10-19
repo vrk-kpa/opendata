@@ -20,9 +20,9 @@ jinja2 ${TEMPLATE_DIR}/settings.php.j2 -o ${SITE_DIR}/default/settings.php
 jinja2 ${TEMPLATE_DIR}/services.yml.j2 -o ${SITE_DIR}/default/services.yml
 
 # run database upgrades & rebuild cache
-echo "upgrade database.."
-drush updatedb -y --no-cache-clear
-drush cache:rebuild
+#echo "upgrade database.."
+#drush updatedb -y --no-cache-clear
+#drush cache:rebuild
 
 # init local development related stuff
 if [[ "${DEV_MODE}" == "true" ]]; then
@@ -246,7 +246,7 @@ drush config:import -y --partial --source ${APP_DIR}/site_config
 drush pm:enable toolbar
 
 # rebuild cache
-drush cache:rebuild
+#drush cache:rebuild
 
 # Import translations
 SHA1_I18N_FI=$(sha1sum ${I18N_DIR}/fi/drupal.po)
