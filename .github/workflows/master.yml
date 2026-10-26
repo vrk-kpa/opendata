@@ -82,6 +82,12 @@ jobs:
         id: login
         uses: aws-actions/amazon-ecr-login@v2
 
+      - name: login to public AWS ECR
+        id: public-login
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: 'public'
+
       - name: install nodejs v22
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         uses: actions/setup-node@v7
