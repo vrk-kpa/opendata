@@ -143,9 +143,9 @@ body {
 }
 
 %suomifi-button-text {
-  font-family: $font-family-sans-serif-semibold;
+  @include tokens.fi-text-body-semi-bold-small;
+
   font-size: 14px;
-  font-weight: 600;
   letter-spacing: 0.4px;
   line-height: 20px;
 }
@@ -202,12 +202,10 @@ body {
 
 .suomifi-button-secondary-black-text {
   @extend %suomifi-button-secondary;
+  @include tokens.fi-text-body-text;
 
-  font-family: $font-family-sans-serif;
   color: rgb(41 41 41);
   border: solid 1px #c8cdd0;
-  font-weight: 400;
-  font-size: 18px;
   padding-left: 10px;
   padding-right: 10px;
 
@@ -298,9 +296,10 @@ body {
 
       &.active {
         .highlight {
+          @include tokens.fi-text-body-semi-bold-small;
+
           color: inherit;
           background: unset;
-          font-family: $font-family-sans-serif-semibold;
         }
 
         &::before {
@@ -345,9 +344,8 @@ body {
   .nav.nav-tabs {
     li {
       a {
-        font-family: $font-family-sans-serif;
-        font-weight: normal;
-        font-size: 18px;
+        @include tokens.fi-text-body-text;
+
         padding: 10px 15px;
         display: block;
       }

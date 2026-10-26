@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     container: python:3.11
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
       - name: Install requirements
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     container: php:8.4
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install Composer
         run: |
           EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
@@ -65,26 +65,17 @@ jobs:
     name: stylelint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: 'npm'
           cache-dependency-path: opendata-assets/package-lock.json
 
-      - name: Authenticate npm registry
-        if: ${{ steps.cache-node_modules.outputs.cache-hit != 'true' }}
-        run: |
-          cat <<EOT >> .npmrc
-          @fortawesome:registry=https://npm.fontawesome.com/
-          //npm.fontawesome.com/:_authToken=$NPM_TOKEN
-          EOT
-        working-directory: ./opendata-assets
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: install npm packages
         run: npm ci
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: ./opendata-assets
 
       - name: run stylelint

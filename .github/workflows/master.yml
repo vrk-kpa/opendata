@@ -64,7 +64,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: ${{ matrix.submodules }}
 
@@ -82,19 +82,15 @@ jobs:
         id: login
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: configure NPM credentials
-        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        run: |
-          cat <<EOT >> ./opendata-assets/.npmrc
-          @fortawesome:registry=https://npm.fontawesome.com/
-          //npm.fontawesome.com/:_authToken=$NPM_TOKEN
-          EOT
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: login to public AWS ECR
+        id: public-login
+        uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd # v2.1.7
+        with:
+          registry-type: 'public'
 
       - name: install nodejs v22
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: 'npm'
@@ -103,6 +99,8 @@ jobs:
       - name: install npm packages
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npm ci
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: ./opendata-assets
 
       - name: build frontend with gulp
@@ -138,7 +136,7 @@ jobs:
       sha: ${{ steps.envtemplate.outputs.commit_sha || github.sha }}
     steps:
       - name: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: ${{ matrix.submodules }}
           token: ${{ secrets.BOT_TOKEN }}
@@ -206,12 +204,12 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.commit-new-images.outputs.sha }}
 
       - name: install nodejs v22
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: 'npm'

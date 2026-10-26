@@ -3,11 +3,23 @@ describe('Dataset resource tests', function(){
 
     before(function(){
         cy.reset_db();
-        cy.create_organization_for_user('dataset_test_organization', 'test-user', true);
+        cy.ensure_user_is_in_ckan("test-user", "test-user")
+        cy.perform_ckan_actions(ckan => {
+          ckan.organization("dataset_test_organization", {
+            users: [{
+              name: "test-user",
+              capacity: "admin"
+            }]
+          })
+          ckan.dataset("dataset_test_organization", "test_dataset", {
+            "notes_translated-fi": "Dataset test description"
+          })
+          ckan.resource("test_dataset", {
+            "name_translated-fi": "test data",
+            "description_translated-fi": "",
+          })
+        })
         cy.login_post_request('test-user', 'test-user')
-        cy.visit('/data/fi/dataset');
-        const dataset_name = 'test_dataset';
-        cy.create_new_dataset(dataset_name); 
     })
 
     beforeEach(function () {

@@ -4,7 +4,7 @@ ARG SECRET_NPMRC
 #
 # Drupal build, minor tagged as composers handles specific version
 #
-FROM drupal:10.6.10-php8.4-fpm-alpine3.23 AS drupal_build
+FROM drupal:11.4.10-php8.4-fpm-alpine3.23@sha256:46f7f3b6a037971363620d665b79dcebce87fbc3494cf80c8299daf9de86ca80 AS drupal_build
 
 # install required packages
 RUN apk add --no-cache \
@@ -100,7 +100,6 @@ COPY modules/avoindata-articles             ${MOD_DIR}/avoindata-articles/
 COPY modules/avoindata-events               ${MOD_DIR}/avoindata-events/
 COPY modules/avoindata-guide                ${MOD_DIR}/avoindata-guide/
 COPY modules/avoindata-user                 ${MOD_DIR}/avoindata-user/
-COPY modules/avoindata-ckeditor-plugins     ${MOD_DIR}/avoindata-ckeditor-plugins/
 COPY modules/avoindata-theme                ${MOD_DIR}/avoindata-theme/
 COPY modules/avoindata-ckeditor5-plugins    ${MOD_DIR}/avoindata-ckeditor5-plugins/
 

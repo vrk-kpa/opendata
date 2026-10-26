@@ -1,84 +1,76 @@
 describe('Advanced search tests', () => {
     before(() => {
         cy.reset_db();
+        cy.perform_ckan_actions(ckan => {
+          ckan.group("siisti_kategoria", {
+            "title_translated-fi": "siisti kategoria",
+            "title_translated-en": "siisti kategoria",
+            "title_translated-sv": "siisti kategoria",
+            "users": [
+              {"name": "admin",
+               "capacity": "admin"},
+              {"name": "test-user",
+               "capacity": "admin"}
+            ]
+          }, {failOnStatusCode: false}) // Admin making groups creates an unnecessary error
+          ckan.group("toinen_kategoria", {
+            "title_translated-fi": "toinen kategoria",
+            "title_translated-en": "toinen kategoria",
+            "title_translated-sv": "toinen kategoria",
+            "users": [
+              {"name": "admin",
+               "capacity": "admin"},
+              {"name": "test-user",
+               "capacity": "admin"}
+            ]
+          }, {failOnStatusCode: false}) // Admin making groups creates an unnecessary error
 
-        // Admin things
-        cy.login_post_request('admin', 'administrator');
+          ckan.organization("testi_organisaatio")
 
-        const category_name_1 = 'siisti kategoria';
-        const category_name_2 = 'toinen kategoria';
+          ckan.dataset("testi_organisaatio", "first_dataset", {
+            "title_translated-fi": "first dataset",
+            "notes_translated-fi": "First dataset description",
+            "maintainer": "test maintainer",
+            "maintainer_email": "test.maintainer@example.com",
+            'valid_from': '2019-02-04',
+            'valid_till': '2020-02-04',
+            "collection_type": "Open Data",
+            "keywords-fi": "test_keyword",
+            "license_id": "cc-by-4.0",
+          })
+          ckan.resource("first_dataset", {
+            "name_translated-fi": "test data",
+            "description_translated-fi": "test kuvaus",
+            "url": "http://example.com",
+            "format": "CSV"
+          })
+          ckan.action('member_create', {
+            "id": "siisti_kategoria",
+            "object": "first_dataset",
+            "object_type": "package",
+            "capacity": "member"
+          })
 
-        cy.create_category(category_name_1);
-        cy.create_category(category_name_2);
+          ckan.dataset("testi_organisaatio", "second_dataset", {
+            "title_translated-fi": "second dataset",
+            "notes_translated-fi": "second dataset description with unicorns",
+            "maintainer": "test maintainer",
+            "maintainer_email": "test.maintainer@example.com",
+            'valid_from': '2019-02-04',
+            'valid_till': '2020-02-04',
+            "collection_type": "Open Data",
+            "keywords-fi": "another_keyword test_keyword",
+            "license_id": "notspecified"
+          })
+          ckan.resource("second_dataset", {
+            "name_translated-fi": "some test data",
+            "description_translated-fi": "description for data",
+            "url": "http://example.com",
+            "format": "XML"
+          })
+        })
 
-        cy.logout();
-
-        // User things
-        cy.create_organization_for_user('testi_organisaatio', 'test-user');
         cy.login_post_request('test-user', 'test-user');
-
-        // Create datasets
-        const datasets = [
-            {
-                name: 'first dataset',
-                data: {
-                    "#field-title_translated-fi": 'first dataset',
-                    '#field-notes_translated-fi': 'First dataset description',
-                    // FIXME: This should just be 'test_keyword{enter}', see fill_form_fields in support/commands.js
-                    '#s2id_autogen1': {type: 'select2', values: ['test_keyword']},
-                    '#field-maintainer': 'test maintainer',
-                    '#field-maintainer_email': 'test.maintainer@example.com',
-                    '#field-valid_from': '2019-02-04',
-                    '#field-valid_till': '2020-02-04',
-                    '#field-license_id': {
-                        type: 'select',
-                        value: 'cc-by-4.0'
-                    }
-                },
-                resource_data: {
-                    '#field-name_translated-fi': 'test data',
-                    '#field-description_translated-fi': 'test kuvaus',
-                    '#field-image-url': 'http://example.com',
-                    '#field-format': {
-                        value: 'CSV',
-                        force: true
-                    },
-                }
-            },
-            {
-                name: 'second dataset',
-                data: {
-                    "#field-title_translated-fi": 'second dataset',
-                    '#field-notes_translated-fi': 'second dataset description with unicorns',
-                    // FIXME: This should just be 'another_keyword {enter} test_keyword {enter}',
-                    // see fill_form_fields in support/commands.js
-                    '#s2id_autogen1': {type: 'select2', values: ['another_keyword', 'test_keyword'] },
-                    '#field-maintainer': 'test maintainer',
-                    '#field-maintainer_email': 'test.maintainer@example.com',
-                    '#field-valid_from': '2019-02-04',
-                    '#field-valid_till': '2020-02-04'
-                },
-                resource_data: {
-                    '#field-name_translated-fi': 'some test data',
-                    '#field-description_translated-fi': 'description for data',
-                    '#field-image-url': 'http://example.com',
-                    '#field-format': {
-                        value: 'XML',
-                        force: true
-                    },
-                }
-            },
-        ];
-        for (let dataset of datasets) {
-            cy.create_new_dataset(dataset.name, dataset.data, dataset.resource_data);
-        }
-
-        // Add first dataset to group 'siisti kategoria'
-        cy.visit(`/data/fi/dataset/groups/${datasets[0].name.replace(' ', '-')}`)
-        cy.get('#field-siisti-kategoria').check({force: true})
-        cy.get('form > .btn').click();
-
-        // Navigate to advanced search
         cy.visit('/data/fi/advanced_search')
     });
 

@@ -188,7 +188,7 @@ p {
   text-decoration: none;
   color: tokens.$fi-color-highlight-base;
   cursor: pointer;
-  margin-bottom: $padding-y--small;
+  margin-bottom: tokens.$fi-spacing-s;
 
   @media print {
     display: none;
@@ -207,7 +207,7 @@ table {
     color: tokens.$fi-color-black-base;
     font-weight: $font-weight-heavier;
     text-align: left;
-    padding: $padding-y__table-caption $padding-x__table-caption;
+    padding: tokens.$fi-spacing-m 0;
   }
 
   tr:nth-child(even) {
@@ -217,7 +217,7 @@ table {
   th,
   td {
     height: 60px;
-    padding: $padding-y__table-cell $padding-x__table-cell;
+    padding: tokens.$fi-spacing-xs tokens.$fi-spacing-m;
     border: 1px solid $table-border-color;
   }
 

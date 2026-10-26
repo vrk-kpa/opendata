@@ -17,9 +17,9 @@
 #search-options-header {
   color: tokens.$fi-color-white-base;
   background-color: tokens.$fi-color-highlight-base;
-  margin: 0 (-$padding-x__navigation);
-  margin-bottom: $padding-y__navigation;
-  padding: $padding-y--common $padding-x--common;
+  margin: 0 (-(tokens.$fi-spacing-m));
+  margin-bottom: tokens.$fi-spacing-xs;
+  padding: tokens.$fi-spacing-m tokens.$fi-spacing-m;
 
   h3 {
     margin: 0;
@@ -31,15 +31,15 @@
   border-radius: 0;
 
   hr {
-    margin: $padding-y__navigation 0;
+    margin: tokens.$fi-spacing-xs 0;
     border-top: 1px solid tokens.$fi-color-depth-light1;
   }
 }
 
 .more-options-link {
-  font-family: $font-family-sans-serif-semibold;
-  font-size: 14px;
-  font-weight: 600;
+  @include tokens.fi-text-body-semi-bold-small;
+
+  font-size: $font-size-smaller-base;
   line-height: 20px;
   letter-spacing: 0.4px;
   color: tokens.$fi-color-highlight-base;
@@ -62,12 +62,12 @@
 }
 
 #search-results-header {
+  @include tokens.fi-text-heading3-small-screen;
+
+  font-weight: 400;
   color: tokens.$fi-color-black-base;
-  font-family: $font-family-sans-serif;
-  font-size: $font-size-h3-alt;
-  line-height: $line-height-h3-alt;
   background-color: $background-color__content;
-  padding: $padding-y--common $padding-x--common;
+  padding: tokens.$fi-spacing-m tokens.$fi-spacing-m;
   margin: 0;
   border: 1px solid tokens.$fi-color-depth-light1;
   border-bottom: none;
@@ -83,18 +83,16 @@
 }
 
 .ytp-input-label {
-  font-family: $font-family-sans-serif-semibold;
-  font-size: $font-size-slightly-smaller-base;
+  @include tokens.fi-text-body-semi-bold-small;
+
   line-height: 20px;
-  font-weight: 600;
   margin-bottom: 10px;
 }
 
 .ytp-input-label-light {
+  @include tokens.fi-text-body-text-small;
+
   color: tokens.$fi-color-black-base;
-  font-family: $font-family-sans-serif;
-  font-size: $font-size-slightly-smaller-base;
-  font-weight: $font-weight-normal;
 }
 
 .ytp-input-label-light::after {
@@ -121,11 +119,10 @@
 }
 
 .filter-bar {
+  @include tokens.fi-text-body-semi-bold-small;
+
   margin: 0 15px 8px;
   vertical-align: top;
-  font-family: $font-family-sans-serif-semibold;
-  font-size: 16px;
-  font-weight: 600;
   line-height: 28px;
   color: tokens.$fi-color-black-base;
 
@@ -148,9 +145,9 @@
 }
 
 .avoindata-filter-group-and {
+  @include tokens.fi-text-body-text-small;
+
   color: tokens.$fi-color-black-base;
-  font-family: $font-family-sans-serif;
-  font-weight: normal;
   display: inline-block;
   margin-right: 10px;
   margin-left: -10px;
@@ -158,18 +155,17 @@
 }
 
 .avoindata-filter-group-or {
+  @include tokens.fi-text-body-text-small;
+
   color: tokens.$fi-color-black-base;
-  font-family: $font-family-sans-serif;
-  font-weight: normal;
   display: inline-block;
   margin: auto 4px;
   vertical-align: super;
 }
 
 .avoindata-pill {
-  font-family: $font-family-sans-serif-semibold;
-  font-size: $font-size-slightly-smaller-base;
-  font-weight: $font-weight-heavier;
+  @include tokens.fi-text-body-semi-bold-small;
+
   line-height: 28px;
   background-color: tokens.$fi-color-highlight-base;
   margin-bottom: 15px;
@@ -243,14 +239,14 @@ select.avoindata-order-by {
   position: relative;
 
   &::after {
+    @include font-awesome-icon("\f0d7");
+
     position: absolute;
     font-size: 16px;
-    font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
     top: 50%;
     right: 0;
     margin-top: -0.5em;
     padding-right: 0.5em;
-    content: "\f0d7";
     font-weight: 900;
     display: inline-block;
     font-style: normal;

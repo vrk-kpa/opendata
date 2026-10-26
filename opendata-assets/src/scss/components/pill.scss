@@ -12,6 +12,6 @@
     font-size: $font-size-smaller-base;
     line-height: $font-size-smaller-base;
     color: tokens.$fi-color-white-base;
-    margin-left: $padding-x--small;
+    margin-left: tokens.$fi-spacing-s;
   }
 }

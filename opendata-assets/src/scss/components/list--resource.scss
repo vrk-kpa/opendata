@@ -11,7 +11,7 @@
   .resource-item {
     border-top: 1px solid tokens.$fi-color-depth-light1;
     border-radius: 0;
-    padding: $padding__resource-list-item;
+    padding: tokens.$fi-spacing-s tokens.$fi-spacing-m;
     display: flex;
     align-items: center;
 
@@ -25,7 +25,7 @@
 
     .resource-item__icon {
       position: static;
-      margin-right: $padding-x--common;
+      margin-right: tokens.$fi-spacing-m;
       align-self: center;
     }
 
@@ -40,7 +40,7 @@
       margin-left: auto;
 
       a {
-        margin: $margin__action-buttons;
+        margin: 0 tokens.$fi-spacing-xxs;
 
         &:last-child {
           margin-right: 0;
@@ -49,21 +49,17 @@
     }
 
     .resource-item__info__title {
+      @include tokens.fi-text-body-text-small;
+
       color: tokens.$fi-color-highlight-base;
       transition: color $transition-duration--short $transition-timing-function--default;
-      font-size: $font-size__module-title;
-      font-weight: $font-weight-normal;
-      line-height: 24px;
-      font-family: $font-family-sans-serif;
     }
 
     a {
+      @include tokens.fi-text-body-semi-bold-small;
+
       color: tokens.$fi-color-highlight-base;
       transition: color $transition-duration--short $transition-timing-function--default;
-      font-size: $font-size__module-title;
-      font-weight: $font-weight-heavier;
-      line-height: 24px;
-      font-family: $font-family-sans-serif;
 
       &:hover {
         color: tokens.$fi-color-highlight-dark1;
@@ -74,7 +70,7 @@
 
 .resource-list-apiset {
   .resource-item {
-    padding: $padding__resource-list-item !important;
+    padding: tokens.$fi-spacing-s tokens.$fi-spacing-m !important;
   }
 
   .resource-item__info {

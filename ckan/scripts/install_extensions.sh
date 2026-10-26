@@ -4,7 +4,6 @@ set -e
 echo "install_extensions ..."
 
 pip install -e ${EXT_DIR}/ckanext-drupal8 \
-    -e ${EXT_DIR}/ckanext-ytp_drupal \
     -e ${EXT_DIR}/ckanext-ytp_tasks \
     -e ${EXT_DIR}/ckanext-ytp_request \
     -e ${EXT_DIR}/ckanext-ytp_main \
@@ -37,7 +36,6 @@ pip install -e ${EXT_DIR}/ckanext-drupal8 \
 
 # compile translations
 (cd ${EXT_DIR}/ckanext-ytp_request; python setup.py compile_catalog -f) &
-(cd ${EXT_DIR}/ckanext-ytp_drupal; python setup.py compile_catalog -f) &
 (cd ${EXT_DIR}/ckanext-ytp_main; python setup.py compile_catalog -f) &
 (cd ${EXT_DIR}/ckanext-sixodp_showcase; python setup.py compile_catalog -f) &
 (cd ${EXT_DIR}/ckanext-report; python setup.py compile_catalog -f) &

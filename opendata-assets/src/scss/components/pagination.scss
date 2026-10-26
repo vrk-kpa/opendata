@@ -25,7 +25,7 @@
       float: none;
       margin: 0;
       border: none;
-      padding: $padding-y__pagination__item $padding-x__pagination__item;
+      padding: tokens.$fi-spacing-xxs tokens.$fi-spacing-xs;
     }
 
     &:hover {

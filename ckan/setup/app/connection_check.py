@@ -13,8 +13,10 @@ limitations under the License.
 
 import base64
 import json
+import logging
 import os
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -27,15 +29,17 @@ ckan_ini = os.environ.get('CKAN_INI', '/srv/app/ckan.ini')
 
 RETRY = 5
 
+log = logging.getLogger("connection_check")
+
 
 def check_db_connection(retry: Optional[int] = None) -> None:
 
-    print('[connection_check] Start check_db_connection...')
+    log.info(' Start check_db_connection...')
 
     if retry is None:
         retry = RETRY
     elif retry == 0:
-        print('[connection_check] Giving up after 5 tries...')
+        log.info('Giving up after 5 tries...')
         sys.exit(1)
 
     conn_str = os.environ.get('CKAN_SQLALCHEMY_URL', '')
@@ -50,23 +54,23 @@ def check_db_connection(retry: Optional[int] = None) -> None:
                                database=db_name)
 
     except psycopg2.Error as e:
-        print(str(e))
-        print('[connection_check] Unable to connect to the database...try again in a while.')
-        import time
+        log.warning(str(e))
+        log.warning('Unable to connect to the database...try again in a while.')
         time.sleep(10)
         check_db_connection(retry=retry - 1)
     else:
+        log.info('Successfully connected to database')
         connection.close()
 
 
 def check_solr_connection(retry: Optional[int] = None) -> None:
 
-    print('[connection_check] Start check_solr_connection...')
+    log.info('Start check_solr_connection...')
 
     if retry is None:
         retry = RETRY
     elif retry == 0:
-        print('[connection_check] Giving up after 5 tries...')
+        log.error('Giving up after 5 tries...')
         sys.exit(1)
 
     url = os.environ.get('CKAN_SOLR_URL', '')
@@ -83,26 +87,26 @@ def check_solr_connection(retry: Optional[int] = None) -> None:
             request.add_header("Authorization", f"Basic {base64string.decode('utf-8')}")
             connection = urllib.request.urlopen(request)
     except urllib.error.URLError:
-        print('[connection_check] Unable to connect to solr...try again in a while.')
-        import time
+        log.warning('Unable to connect to solr...try again in a while.')
         time.sleep(10)
         check_solr_connection(retry=retry - 1)
     else:
         conn_info = connection.read()
         schema_name = json.loads(conn_info)
         if 'ckan' in schema_name['name']:
-            print('[connection_check] Succesfully connected to solr and CKAN schema loaded')
+            log.info('Succesfully connected to solr and CKAN schema loaded')
         else:
-            print('[connection_check] Succesfully connected to solr, but CKAN schema not found')
+            log.warning('Succesfully connected to solr, but CKAN schema not found')
             sys.exit(1)
 
 
 if __name__ == '__main__':
 
+    logging.basicConfig(level=logging.INFO)
     maintenance = os.environ.get('MAINTENANCE_MODE', '').lower() == 'true'
 
     if maintenance:
-        print('[connection_check] Maintenance mode, skipping setup...')
+        log.info('Maintenance mode, skipping setup...')
     else:
         check_db_connection()
         check_solr_connection()

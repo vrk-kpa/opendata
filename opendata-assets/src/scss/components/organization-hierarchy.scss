@@ -25,10 +25,10 @@
       }
 
       a {
+        @include tokens.fi-text-body-text;
+
         height: 40px;
         line-height: 40px;
-        font-size: 18px;
-        font-family: $font-family-sans-serif;
       }
     }
   }

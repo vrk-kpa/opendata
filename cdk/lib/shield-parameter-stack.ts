@@ -14,6 +14,8 @@ export class ShieldParameterStack extends Stack {
   readonly snsTopicArnParameterName: string;
   readonly evaluationPeriodParameterName: string;
   readonly blockedUserAgentsParameterName: string;
+  readonly rateLimitedPathsParameterName: string;
+  readonly mediumPriorityCountryCodeListParameterName: string;
 
   constructor(scope: Construct, id: string, props: EnvStackProps ) {
     super(scope, id, props);
@@ -86,6 +88,20 @@ export class ShieldParameterStack extends Stack {
       stringValue: "Some bogus user agent",
       description: 'User Agents to be blocked in JSON',
       parameterName: this.blockedUserAgentsParameterName
+    })
+
+    this.rateLimitedPathsParameterName = `/${props.environment}/waf/rate_limited_paths`
+    new aws_ssm.StringParameter(this, 'rateLimitedPaths', {
+      stringValue: "Some bogus path",
+      description: 'Rate limited paths in JSON',
+      parameterName: this.rateLimitedPathsParameterName
+    })
+    
+    this.mediumPriorityCountryCodeListParameterName = `/${props.environment}/waf/medium_priority_country_codes`
+    new aws_ssm.StringListParameter(this, 'mediumPriorityCountryCodeList', {
+      stringListValue: ["Some bogus country code"],
+      description: 'Medium priority country codes',
+      parameterName: this.mediumPriorityCountryCodeListParameterName
     })
   }
 }

@@ -38,6 +38,6 @@
     line-height: $font-size-slightly-smaller-base;
     border: 1px solid tokens.$fi-color-highlight-base;
     color: tokens.$fi-color-highlight-base;
-    margin-right: $padding-x--small;
+    margin-right: tokens.$fi-spacing-s;
   }
 }

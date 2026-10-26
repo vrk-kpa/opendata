@@ -32,15 +32,15 @@
 
 .showcase__info-box {
   background-color: tokens.$fi-color-highlight-light2;
-  padding: $padding-y__showcase-info-box $padding-x__showcase-info-box;
+  padding: tokens.$fi-spacing-s tokens.$fi-spacing-m;
   margin: 0;
-  margin-bottom: $padding-y--common;
+  margin-bottom: tokens.$fi-spacing-m;
 
   @media (max-width: $screen-sm-min) {
     flex-wrap: wrap;
 
     .btn {
-      margin-top: $padding-y__text;
+      margin-top: tokens.$fi-spacing-s;
     }
   }
 
@@ -63,7 +63,7 @@
   list-style: none;
 
   // $NOTE: Reduce showcase-items margin from both sides of padding
-  margin-top: $padding-y--common;
+  margin-top: tokens.$fi-spacing-m;
   margin-left: -($margin-x__showcase-item / 2);
   margin-right: -($margin-x__showcase-item / 2);
   display: flex;
@@ -80,6 +80,7 @@
     flex: 0 0 calc(100% / 3 - $margin-x__showcase-item);
     box-shadow: $box-shadow__showcase-item;
     border-radius: $border-radius__showcase-item;
+    overflow: hidden; /* Keep rounded corners for tall images */
 
     &:hover {
       box-shadow: $box-shadow__showcase-item--hover;
@@ -106,6 +107,8 @@
   }
 
   .showcase-item__image {
+    display: flex;
+    justify-content: center;
     position: relative;
     max-width: 100%;
     height: 0;
@@ -115,7 +118,7 @@
     img {
       position: absolute;
       top: 50%;
-      transform: translateY(-50%);
+      transform: translateY(-56.6%);
       object-fit: cover;
       max-width: 100%;
       height: auto;
@@ -126,7 +129,7 @@
 .showcase-content {
   background-color: $background-color__content;
   border: 1px solid $border-color__content;
-  padding: $padding__content;
+  padding: tokens.$fi-spacing-m;
   position: relative;
   overflow-wrap: break-word;
   hyphens: auto;
@@ -167,14 +170,8 @@
   font-size: 14px;
 }
 
-.page-subheading {
-  font-size: 1em;
-  font-family: $font-family-sans-serif;
-  color: #333;
-}
-
 .showcase-packages-title {
-  margin-bottom: $padding-y--common;
+  margin-bottom: tokens.$fi-spacing-m;
 }
 
 .showcase-packages {

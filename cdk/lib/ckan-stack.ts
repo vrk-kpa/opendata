@@ -164,7 +164,6 @@ export class CkanStack extends Stack {
       'report',
       'qa',
       'ytp_report',
-      'ytp_drupal',
       'ytp_tasks',
       'ytp_dataset',
       'ytp_spatial',

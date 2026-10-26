@@ -20,9 +20,9 @@ jinja2 ${TEMPLATE_DIR}/settings.php.j2 -o ${SITE_DIR}/default/settings.php
 jinja2 ${TEMPLATE_DIR}/services.yml.j2 -o ${SITE_DIR}/default/services.yml
 
 # run database upgrades & rebuild cache
-echo "upgrade database.."
-drush updatedb -y --no-cache-clear
-drush cache:rebuild
+#echo "upgrade database.."
+#drush updatedb -y --no-cache-clear
+#drush cache:rebuild
 
 # init local development related stuff
 if [[ "${DEV_MODE}" == "true" ]]; then
@@ -47,27 +47,21 @@ echo "enable language modules.."
 [[ "$MODULE_INFO" != *"content_translation"* ]] && drush pm:enable -y content_translation
 [[ "$MODULE_INFO" != *"language"* ]]            && drush pm:enable -y language
 [[ "$MODULE_INFO" != *"locale"* ]]              && drush pm:enable -y locale
-[[ "$MODULE_INFO" != *"drush_language"* ]]      && drush pm:enable -y drush_language
 
-# get current languages
-LANG_INFO=$(drush language-info --field=language)
+# Initial import of non-english translations to create the languages.
+# The languages must be created before setting site language and installing content modules.
+# When language commands are added to drush these can be replaced with language add commands
+drush locale-import fi ${I18N_DIR}/fi/drupal.po --autocreate-language
+drush locale-import sv ${I18N_DIR}/sv/drupal.po --autocreate-language
 
-# add languages and set 'fi' as default
-[[ "$LANG_INFO" != *"Finnish"* ]] && drush language:add -y "fi"
-[[ "$LANG_INFO" != *"Swedish"* ]] && drush language:add -y "sv"
-drush language:default -y "fi"
+# Set default language
+drush config:set -y system.site default_langcode fi
 
 # enable base theme
-
-# Remove jquery_ui (can be removed after all environments are bootstrap 5)
-drush pm:uninstall -y jquery_ui_resizable || true
-drush config:delete core.extension module.jquery_ui_resizable || true
-drush pm:uninstall -y jquery_ui_draggable || true
-drush config:delete core.extension module.jquery_ui_draggable || true
-drush pm:uninstall -y jquery_ui || true
-drush config:delete core.extension module.jquery_ui || true
-
 drush theme:enable -y bootstrap
+
+# Rebuild permission cache
+drush php-eval "node_access_rebuild();"
 
 # remove some configurations
 # NOTE: ansible role skips errors with this condition:
@@ -108,6 +102,38 @@ drush config:delete user.role.content_editor                                    
 drush config:delete system.action.user_add_role_action.content_editor              || true
 drush config:delete system.action.user_remove_role_action.content_editor           || true
 drush config:delete contact.form.feedback                                          || true
+drush config:delete field.field.node.avoindata_event.body                          || true
+drush config:delete field.field.node.avoindata_event.field_end_date                || true
+drush config:delete field.field.node.avoindata_event.field_image                   || true
+drush config:delete field.field.node.avoindata_event.field_location                || true
+drush config:delete field.field.node.avoindata_event.field_start_date              || true
+drush config:delete core.entity_form_display.node.avoindata_event.default          || true
+drush config:delete core.entity_view_display.node.avoindata_event.default          || true
+drush config:delete core.entity_view_display.node.avoindata_event.teaser           || true
+drush config:delete language.content_settings.node.avoindata_event                 || true
+drush config:delete node.type.avoindata_event                                      || true
+drush config:delete core.base_field_override.node.avoindata_event.promote          || true
+drush config:delete metatag.metatag_defaults.node__avoindata_event                 || true
+drush config:delete contact.form.event                                             || true
+drush config:delete field.field.contact_message.event.field_event_submit_address   || true
+drush config:delete field.field.contact_message.event.field_event_submit_end_time  || true
+drush config:delete field.field.contact_message.event.field_event_submit_link      || true
+drush config:delete field.field.contact_message.event.field_event_submit_picture   || true
+drush config:delete field.field.contact_message.event.field_event_submit_start_time || true
+drush config:delete field.storage.contact_message.field_event_submit_address       || true
+drush config:delete field.storage.contact_message.field_event_submit_end_time      || true
+drush config:delete field.storage.contact_message.field_event_submit_link          || true
+drush config:delete field.storage.contact_message.field_event_submit_picture       || true
+drush config:delete field.storage.contact_message.field_event_submit_start_time    || true
+drush config:delete core.entity_view_display.contact_message.event.default         || true
+drush config:delete core.entity_form_display.contact_message.event.default         || true
+drush config:delete contact_message.field_event_submit_address                     || true
+drush config:delete contact_message.field_event_submit_end_time                    || true
+drush config:delete contact_message.field_event_submit_start_time                  || true
+drush config:delete contact_message.field_event_submit_picture                     || true
+drush config:delete contact_message.field_event_submit_link                        || true
+
+
 
 
 # uninstall modules
@@ -115,7 +141,6 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"contextual"* ]]  && drush pm:uninstall -y contextual
 [[ "$MODULE_INFO" == *"protected_submissions"* ]]  && drush pm:uninstall -y protected_submissions
 [[ "$MODULE_INFO" == *"avoindata_infobox"* ]]  && drush pm:uninstall -y avoindata_infobox
-[[ "$MODULE_INFO" == *"avoindata_ckeditor_plugins"* ]]  && drush pm:uninstall -y avoindata_ckeditor_plugins
 [[ "$MODULE_INFO" == *"color"* ]]  && drush pm:uninstall -y color
 [[ "$MODULE_INFO" == *"rdf"* ]]  && drush pm:uninstall -y rdf
 [[ "$MODULE_INFO" == *"bartik"* ]]  && drush theme:uninstall -y bartik
@@ -123,7 +148,10 @@ echo "uninstall modules.."
 [[ "$MODULE_INFO" == *"fontawesome_menu_icons"* ]] && drush pm:uninstall -y fontawesome_menu_icons
 [[ "$MODULE_INFO" == *"tour"* ]] && drush pm:uninstall -y tour
 [[ "$MODULE_INFO" == *"transliterate_filenames"* ]] && drush pm:uninstall -y transliterate_filenames
+[[ "$MODULE_INFO" == *"drush_language"* ]] && drush pm:uninstall -y drush_language
 [[ "$MODULE_INFO" == *"menu_item_role_access"* ]] && drush pm:uninstall -y menu_item_role_access
+[[ "$MODULE_INFO" == *"avoindata_events"* ]]            && drush pm:uninstall -y avoindata_events
+[[ "$MODULE_INFO" == *"contact"* ]]                       && drush pm:uninstall -y contact
 
 # enable modules
 echo "enable modules.."
@@ -155,6 +183,7 @@ echo "enable modules.."
 [[ "$MODULE_INFO" != *"menu_link_attributes"* ]]          && drush pm:enable -y menu_link_attributes
 [[ "$MODULE_INFO" != *"fontawesome"* ]]                   && drush pm:enable -y fontawesome
 
+
 # remove some configurations
 # NOTE: ansible role skips errors with this condition:
 #       result.rc == 1 and 'Config {{ item }} does not exist' not in result.stderr
@@ -175,7 +204,6 @@ echo "enable custom modules.."
 [[ "$MODULE_INFO" != *"avoindata_newsfeed"* ]]          && drush pm:enable -y avoindata_newsfeed
 [[ "$MODULE_INFO" != *"avoindata_footer"* ]]            && drush pm:enable -y avoindata_footer
 [[ "$MODULE_INFO" != *"avoindata_articles"* ]]          && drush pm:enable -y avoindata_articles
-[[ "$MODULE_INFO" != *"avoindata_events"* ]]            && drush pm:enable -y avoindata_events
 [[ "$MODULE_INFO" != *"avoindata_guide"* ]]             && drush pm:enable -y avoindata_guide
 [[ "$MODULE_INFO" != *"avoindata_user"* ]]              && drush pm:enable -y avoindata_user
 [[ "$MODULE_INFO" != *"avoindata_ckeditor5_plugins"* ]]  && drush pm:enable -y avoindata_ckeditor5_plugins
@@ -193,7 +221,6 @@ echo "import module configurations.."
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-header/config/install           || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-footer/config/install           || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-articles/config/install         || true
-drush config:import -y --partial --source ${MOD_DIR}/avoindata-events/config/install           || true
 drush config:import -y --partial --source ${MOD_DIR}/avoindata-guide/config/install            || true
 
 # apply jinja2 templates
@@ -208,7 +235,6 @@ jinja2 --format=yaml ${TEMPLATE_DIR}/site_config/raven.settings.yml.j2    -o ${A
 if [ "${CAPTCHA_ENABLED}" != "true" ]; then
   rm -f ${APP_DIR}/site_config/captcha.settings.yml
   rm -f ${APP_DIR}/site_config/captcha.captcha_point.user_register_form.yml
-  rm -f ${APP_DIR}/site_config/captcha.captcha_point.contact_message_event_form.yml
   rm -f ${APP_DIR}/site_config/captcha.captcha_point.contact_message_feedback_form.yml
 fi
 
@@ -216,13 +242,16 @@ fi
 echo "import site config.."
 drush config:import -y --partial --source ${APP_DIR}/site_config
 
-# rebuild cache
-drush cache:rebuild
+# enable admin toolbar
+drush pm:enable toolbar
 
-# update translations (if file has changed, otherwise skip)
+# rebuild cache
+#drush cache:rebuild
+
+# Import translations
 SHA1_I18N_FI=$(sha1sum ${I18N_DIR}/fi/drupal.po)
 if [[ "$SHA1_I18N_FI" != "$(cat ${DATA_DIR}/.sha1_18n_fi)" ]]; then
-  drush language:import:translations ${I18N_DIR}/fi/drupal.po --langcode "fi"
+  drush locale-import fi ${I18N_DIR}/fi/drupal.po --override=all --autocreate-language
   echo "$SHA1_I18N_FI" > ${DATA_DIR}/.sha1_18n_fi
 else
   echo "skipping import of 'fi' i18n because file hasn't changed ..."
@@ -230,15 +259,14 @@ fi
 
 SHA1_I18N_SV=$(sha1sum ${I18N_DIR}/sv/drupal.po)
 if [[ "$SHA1_I18N_SV" != "$(cat ${DATA_DIR}/.sha1_18n_sv)" ]]; then
-  drush language:import:translations ${I18N_DIR}/sv/drupal.po --langcode "sv"
+  drush locale-import sv ${I18N_DIR}/sv/drupal.po --override=all --autocreate-language
   echo "$SHA1_I18N_SV" > ${DATA_DIR}/.sha1_18n_sv
 else
   echo "skipping import of 'sv' i18n because file hasn't changed ..."
 fi
-
 SHA1_I18N_EN=$(sha1sum ${I18N_DIR}/en_GB/drupal.po)
 if [[ "$SHA1_I18N_EN" != "$(cat ${DATA_DIR}/.sha1_18n_en)" ]]; then
-  drush language:import:translations ${I18N_DIR}/en_GB/drupal.po --langcode "en"
+  drush locale-import en ${I18N_DIR}/en_GB/drupal.po --override=all
   echo "$SHA1_I18N_EN" > ${DATA_DIR}/.sha1_18n_en
 else
   echo "skipping import of 'en' i18n because file hasn't changed ..."

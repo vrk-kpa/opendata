@@ -32,7 +32,7 @@
       color: tokens.$fi-color-highlight-base;
       text-decoration: none;
       margin: 0;
-      padding: $padding-y__navigation $padding-x__navigation $padding-y__navigation $padding-x__navigation;
+      padding: tokens.$fi-spacing-xs tokens.$fi-spacing-m tokens.$fi-spacing-xs tokens.$fi-spacing-m;
 
       &:hover {
         text-decoration: none;
@@ -49,15 +49,15 @@
         @include tokens.fi-text-body-semi-bold-small;
 
         background-color: tokens.$fi-color-depth-light3;
-        padding-left: $padding-x__navigation;
+        padding-left: tokens.$fi-spacing-m;
 
         &, &:hover {
           color: tokens.$fi-color-highlight-base;
 
           &::after {
-            font-family: "Font Awesome 5 Pro", sans-serif;
+            @include font-awesome-icon("\f00d");
+
             font-weight: 300;
-            content: "\f00d";
           }
         }
 

@@ -2,13 +2,23 @@ describe('Showcase tests', function() {
 
   before(function(){
     cy.reset_db();
-    cy.create_organization_for_user('showcase_test_organization', 'test-publisher', true);
+    cy.ensure_user_is_in_ckan("test-publisher", "test-publisher")
+    cy.perform_ckan_actions(ckan => {
+      ckan.organization('showcase_test_organization', {
+        users: [{
+          name: 'test-publisher',
+          capacity: "admin"
+        }]
+      })
+    })
+    cy.add_showcase_user();
   })
 
   describe('Showcase creation tests', function(){
 
     it('Create a new minimal showcase, edit it and delete it', function() {
-      cy.add_showcase_user();
+      cy.login_post_request('test-publisher', 'test-publisher')
+      cy.visit('/data/fi/dataset');
       const showcase_name = 'test_showcase';
       cy.create_new_showcase(showcase_name);
       cy.edit_showcase(showcase_name);
@@ -19,7 +29,6 @@ describe('Showcase tests', function() {
     });
   
     it('Create a showcase with all fields', function() {
-      cy.add_showcase_user();
       const showcase_name = 'test_showcase_with_all_fields';
       const showcase_form_data = {
         '#field-title_translated-fi': showcase_name,
@@ -36,6 +45,8 @@ describe('Showcase tests', function() {
         '#field-notes_translated-sv': 'test beskrivning'
       };
   
+      cy.login_post_request('test-publisher', 'test-publisher')
+      cy.visit('/data/fi/dataset');
       cy.create_new_showcase(showcase_name, showcase_form_data);
     });
   
@@ -61,10 +72,6 @@ describe('Showcase tests', function() {
     })
   
     it('Add dataset to showcase and edit showcase with dataset', function() {
-  
-      cy.add_showcase_user();
-      cy.logout();
-  
       // Organization
       cy.login_post_request('admin', 'administrator');
       const organization_name = 'testi_organisaatio_2';
@@ -161,7 +168,6 @@ describe('Showcase tests', function() {
   });
 
   it('Showcase should not render as dataset', function () {
-    cy.add_showcase_user();
     cy.create_new_showcase("test_showcase_render");
 
     cy.visit('/data/fi/dataset/test_showcase_render')

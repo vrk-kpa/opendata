@@ -3,7 +3,15 @@ describe('Profile page tests', function(){
 
     before(function(){
         cy.reset_db();
-        cy.create_organization_for_user(test_organization, 'test-user', true);
+        cy.ensure_user_is_in_ckan("test-user", "test-user")
+        cy.perform_ckan_actions(ckan => {
+          ckan.organization(test_organization, {
+            users: [{
+              name: "test-user",
+              capacity: "admin"
+            }]
+          })
+        })
     });
 
 
@@ -11,21 +19,30 @@ describe('Profile page tests', function(){
         const profile_dataset_name = "my_profile_dataset";
 
         before(function(){
-            cy.login_post_request('test-user', 'test-user')
-            cy.create_new_dataset(profile_dataset_name);
-        });
-
-        beforeEach(function(){
-            cy.login_post_request('test-user', 'test-user')
+            cy.perform_ckan_actions(ckan => {
+              ckan.asUser("test-user", test_user_ckan => {
+                test_user_ckan.dataset(test_organization, profile_dataset_name, {
+                  "author": "test-user"
+                })
+                test_user_ckan.resource(profile_dataset_name, {
+                  "name_translated-fi": "test data",
+                  "description_translated-fi": "test kuvaus",
+                  "url": "http://example.com",
+                  "format": "CSV"
+                })
+              })
+            })
         });
 
         it('Created datasets are visible on users profile', function(){
+            cy.login_post_request('test-user', 'test-user')
             cy.visit('/data/dataset');
             cy.get('[href="/fi/profile"] > span').click();
             cy.get('.dataset-content > .align-items-center > .dataset-heading > a').should('have.text', profile_dataset_name);
           });
 
         it('Dataset can be opened from the profile page', function(){
+            cy.login_post_request('test-user', 'test-user')
             cy.visit('/');
             cy.get('[href="/fi/profile"] > span').click();
             cy.get('.dataset-content > .align-items-center > .dataset-heading > a').should('contain.text', profile_dataset_name).click();
@@ -36,8 +53,10 @@ describe('Profile page tests', function(){
         });
 
         it('Deleted datasets are not visible on users profile', function(){
-            cy.visit(`/data/fi/dataset/${profile_dataset_name}`);
-            cy.delete_dataset(profile_dataset_name);
+            cy.perform_ckan_actions(ckan => {
+                ckan.action('package_delete', {id: profile_dataset_name})
+            })
+            cy.login_post_request('test-user', 'test-user')
             cy.visit('/data/dataset');
             cy.get('[href="/fi/profile"] > span').click();
             cy.get('.primary > .module > .module-content > .empty').should('contain.text', 'Käyttäjä ei ole luonut tietoaineistoja.');

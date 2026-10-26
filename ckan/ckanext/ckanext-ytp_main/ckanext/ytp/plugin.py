@@ -973,13 +973,17 @@ def action_organization_tree_list(context, data_dict):
                                            or_(model.Package.owner_org == model.Group.name,
                                                model.Package.owner_org == model.Group.id)))
             .outerjoin(parent_member, and_(parent_member.group_id == model.Group.id,
+                                           parent_member.state == 'active',
                                            parent_member.table_name == 'group'))
-            .outerjoin(parent_group, parent_group.id == parent_member.table_id)
+            .outerjoin(parent_group, and_(parent_group.id == parent_member.table_id,
+                                          parent_group.approval_status == 'approved'))
             .outerjoin(parent_extra, and_(parent_extra.group_id == parent_group.id,
                                           parent_extra.key == 'title_translated'))
             .outerjoin(child_member, and_(child_member.table_id == model.Group.id,
+                                          child_member.state == 'active',
                                           child_member.table_name == 'group'))
-            .outerjoin(child_group, child_group.id == child_member.group_id)
+            .outerjoin(child_group, and_(child_group.id == child_member.group_id,
+                                         child_group.approval_status == 'approved'))
             .filter(model.Group.id.in_(page_ids))
             .group_by(model.Group.id, model.Group.name,
                       model.Group.title, model.GroupExtra.value,
@@ -1084,13 +1088,9 @@ class YtpReportPlugin(plugins.SingletonPlugin, YtpMainTranslation):
 
 
 class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
-    plugins.implements(plugins.IConfigurable)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITranslation)
-
-    default_domain = None
-    logos = {}
 
     # TODO: We should use named routes instead
     _menu_map = [
@@ -1212,20 +1212,8 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         toolkit.add_public_directory(config, 'public')
         toolkit.add_template_directory(config, 'postit')
 
-    # IConfigurable #
-
-    def configure(self, config):
-        self.default_domain = config.get("ckanext.ytp.default_domain")
-        logos = config.get("ckanext.ytp.theme.logos")
-        if logos:
-            self.logos = dict(item.split(":") for item in re.split("\\s+", logos.strip()))
-
     # ITemplateHelpers #
 
-    def _short_domain(self, hostname, default=None):
-        if not hostname or hostname[0].isdigit():
-            return default or self.default_domain or ""
-        return '.'.join(hostname.split('.')[-2:])
 
     def _get_menu_tree(self, current_url, language):
         parsed_url = urllib.parse.urlparse(current_url)
@@ -1319,7 +1307,7 @@ class YtpThemePlugin(plugins.SingletonPlugin, YtpMainTranslation):
         return result
 
     def get_helpers(self):
-        return {'short_domain': self._short_domain, 'get_menu_for_page': self._get_menu_for_page,
+        return {'get_menu_for_page': self._get_menu_for_page,
                 'drupal_footer': self._drupal_footer, 'drupal_header': self._drupal_header}
 
 
@@ -1421,10 +1409,17 @@ class YtpIPermissionLabelsPlugin(
 
 class OpenDataGroupPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.interfaces.IActions)
+    plugins.implements(plugins.interfaces.IAuthFunctions)
 
     def get_actions(self):
         return {
-            "group_create": self._group_create
+            "group_create": self._group_create,
+            "group_title_translations": plugin_logic.group_title_translations
+        }
+
+    def get_auth_functions(self):
+        return {
+            "group_title_translations": auth.group_title_translations
         }
 
     @chained_action
@@ -1505,4 +1500,20 @@ def _reset(context, data_dict):
             toolkit.get_action('tag_create')(context, data)
 
     log.debug("Initial vocabularies and tags created")
-    return "Cleared"
+
+    # Create a test admin account for initialisation purposes
+
+    log.debug("Creating admin token")
+    test_admin = get_action("user_create")(context, {"name": "test-admin",
+                                                     "email": "admin@test.internal",
+                                                     "password": "test-administrator",
+                                                     "with_apitoken": True})
+    test_admin_token = test_admin["token"]
+    test_admin_user = model.User.by_name("test-admin")
+    test_admin_user.sysadmin = True
+    model.Session.add(test_admin_user)
+    model.repo.commit()
+
+    return {
+        "token": test_admin_token
+    }

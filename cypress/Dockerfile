@@ -1,3 +1,3 @@
-FROM cypress/included:15.17.0
+FROM cypress/included:15.18.0@sha256:dd99f59c8ef766157ce779222708007e9e7107980552dafdc6f037dd6a382524
 
 RUN git config --global --add safe.directory /e2e
