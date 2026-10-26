@@ -125,6 +125,19 @@ jobs:
         run: npx gulp
         working-directory: ./opendata-assets
 
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ secrets.AWS_BUILD_ROLE }}
+          role-session-name: github-actions
+          aws-region: eu-west-1
+
+      - name: login to public AWS ECR
+        id: public-login
+        uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd # v2.1.7
+        with:
+          registry-type: public
+
       - name: build images
         if: ${{ matrix.build-container == true }}
         uses: docker/build-push-action@v7
