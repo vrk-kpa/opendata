@@ -1,4 +1,4 @@
-FROM solr:9.10.1
+FROM solr:9.10.1@sha256:81465ca1a7089fe2cb77f0e211f9b83c808ae283567b7543d986ce6bcaa7e282
 
 # switch from solr to root user
 USER root
