@@ -67,11 +67,22 @@ updates:
   directory: "/drupal/"
   multi-ecosystem-group: "drupal"
   patterns: ['*']
+  groups:
+    drupal:
+      applies-to: security-updates
+      dependency-type: production
+      update-types:
+        - patch
 
 - package-ecosystem: "docker"
   directory: "/drupal/"
   patterns: ['*']
   multi-ecosystem-group: "drupal"
+  groups:
+    drupal:
+      applies-to: security-updates
+      update-types:
+        - patch
 
 - package-ecosystem: npm
   directory: "/cdk/"
