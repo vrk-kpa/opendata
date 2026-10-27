@@ -72,7 +72,6 @@ updates:
   directory: "/drupal/"
   patterns: ['*']
   multi-ecosystem-group: "drupal"
-  open-pull-requests-limit: 10
 
 - package-ecosystem: npm
   directory: "/cdk/"
