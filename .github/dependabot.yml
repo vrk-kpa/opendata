@@ -16,14 +16,6 @@ updates:
   patterns: ['*']
   multi-ecosystem-group: "ckan"
 
-
-- package-ecosystem: "docker"
-  directory: "/drupal/"
-  schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
-
 - package-ecosystem: "docker"
   directory: "/docker/solr/"
   schedule:
@@ -74,17 +66,12 @@ updates:
 - package-ecosystem: "composer"
   directory: "/drupal/"
   multi-ecosystem-group: "drupal"
-  groups:
-    drupal:
-      applies-to: security-updates
-      patterns: ['*']
+  patterns: ['*']
 
 - package-ecosystem: "docker"
   directory: "/drupal/"
   patterns: ['*']
   multi-ecosystem-group: "drupal"
-
-
   open-pull-requests-limit: 10
 
 - package-ecosystem: npm
@@ -103,7 +90,6 @@ updates:
     actions:
       patterns:
         - '*'
-
 
 multi-ecosystem-groups:
   cypress:
