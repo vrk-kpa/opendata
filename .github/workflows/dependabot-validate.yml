@@ -12,10 +12,16 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v7
-      - uses: marocchino/validate-dependabot@v3
-        id: validate
-      - uses: marocchino/sticky-pull-request-comment@v3
-        if: always()
+
+      - name: setup nodejs
+        uses: actions/setup-node@v7
         with:
-          header: validate-dependabot
-          message: ${{ steps.validate.outputs.markdown }}
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: install npm packages
+        run: npm ci
+
+      - name: run dependabot validate
+        run: npx validate-dependabot-yaml
