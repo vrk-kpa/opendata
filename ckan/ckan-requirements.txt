@@ -10,12 +10,10 @@ alembic==1.13.2
     # via ckan
 async-timeout==4.0.3
     # via ckan
-babel==2.15.0
+babel==2.18.0
     # via
     #   ckan
     #   flask-babel
-bleach==6.4.0
-    # via ckan
 blinker==1.9.0
     # via
     #   ckan
@@ -24,7 +22,7 @@ cachelib==0.13.0
     # via
     #   ckan
     #   flask-session
-certifi==2026.1.4
+certifi==2026.10.23
     # via
     #   ckan
     #   requests
@@ -32,8 +30,7 @@ charset-normalizer==3.3.2
     # via
     #   ckan
     #   requests
-# Removed manually
-# ckan[requirements] @ git+https://github.com/ckan/ckan.git@ckan-2.11.6
+ckan[requirements] @ git+https://github.com/ckan/ckan.git@ckan-2.11.7
     # via -r ckan-requirements.in
 click==8.1.7
     # via
@@ -81,7 +78,7 @@ lxml==6.1.1
     # via
     #   ckan
     #   feedgen
-mako==1.3.12
+mako==1.4.2
     # via
     #   alembic
     #   ckan
@@ -107,15 +104,19 @@ mypy-extensions==1.0.0
     # via
     #   ckan
     #   mypy
+nh3==0.3.6
+    # via ckan
 packaging==24.1
     # via ckan
 passlib==1.7.4
+    # via ckan
+pglast==8.4
     # via ckan
 polib==1.2.0
     # via ckan
 psycopg2==2.9.11
     # via ckan
-pyjwt==2.13.0
+pyjwt==2.15.1
     # via ckan
 pyparsing==3.1.2
     # via ckan
@@ -157,8 +158,6 @@ sqlalchemy2-stubs==0.0.2a38
     # via
     #   ckan
     #   sqlalchemy
-sqlparse==0.5.4
-    # via ckan
 tomli==2.0.1
     # via ckan
 typing-extensions==4.12.2
@@ -169,7 +168,7 @@ typing-extensions==4.12.2
     #   sqlalchemy2-stubs
 tzlocal==5.2
     # via ckan
-urllib3==2.7.0
+urllib3==2.8.0
     # via
     #   ckan
     #   requests
@@ -181,11 +180,7 @@ watchdog==4.0.1
     #   werkzeug
 webassets==2.0
     # via ckan
-webencodings==0.5.1
-    # via
-    #   bleach
-    #   ckan
-werkzeug[watchdog]==3.1.8
+werkzeug[watchdog]==3.1.9
     # via
     #   ckan
     #   flask
