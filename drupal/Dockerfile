@@ -4,7 +4,7 @@ ARG SECRET_NPMRC
 #
 # Drupal build, minor tagged as composers handles specific version
 #
-FROM drupal:11.4.10-php8.4-fpm-alpine3.23@sha256:46f7f3b6a037971363620d665b79dcebce87fbc3494cf80c8299daf9de86ca80 AS drupal_build
+FROM drupal:11.4.11-php8.4-fpm-alpine3.23@sha256:7a939fcc59c7f10b5d6765e8279c082c3da70949f1a6166e3701e14cf9f08a59 AS drupal_build
 
 # install required packages
 RUN apk add --no-cache \
