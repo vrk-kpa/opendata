@@ -61,7 +61,12 @@ updates:
     time: "03:00"
   open-pull-requests-limit: 10
   registries:
-  - npm-registry-npm-fontawesome-com
+    - npm-registry-npm-fontawesome-com
+  ignore:
+    # fontawesome version updates are dictated by CKAN
+    - dependency-name: "@fortawesome/fontawesome-pro"
+      versions:
+      - ">=6"
 
 - package-ecosystem: "composer"
   directory: "/drupal/"
