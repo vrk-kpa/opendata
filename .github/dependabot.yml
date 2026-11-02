@@ -65,7 +65,7 @@ updates:
 
 - package-ecosystem: "composer"
   directory: "/drupal/"
-  multi-ecosystem-group: "drupal"
+  multi-ecosystem-group: "drupal-security"
   patterns: ['*']
   groups:
     drupal:
@@ -77,12 +77,39 @@ updates:
 - package-ecosystem: "docker"
   directory: "/drupal/"
   patterns: ['*']
-  multi-ecosystem-group: "drupal"
+  multi-ecosystem-group: "drupal-security"
   groups:
     drupal:
       applies-to: security-updates
       update-types:
         - patch
+
+- package-ecosystem: "composer"
+  directory: "/drupal/"
+  target-branch: "master" # bypass duplicate ecosystem check
+  multi-ecosystem-group: "drupal"
+  patterns: ['*']
+  cooldown:
+    default-days: 7
+  groups:
+    drupal:
+      applies-to: version-updates
+      update-types:
+        - patch
+
+- package-ecosystem: "docker"
+  directory: "/drupal/"
+  target-branch: "master" # bypass duplicate ecosystem check
+  multi-ecosystem-group: "drupal"
+  patterns: ['*']
+  cooldown:
+    default-days: 7
+  groups:
+    drupal:
+      applies-to: version-updates
+      update-types:
+        - patch
+
 
 - package-ecosystem: npm
   directory: "/cdk/"
@@ -108,6 +135,9 @@ multi-ecosystem-groups:
   ckan:
     schedule:
       interval: "daily"
-  drupal:
+  drupal-security:
     schedule:
       interval: "daily"
+  drupal:
+    schedule:
+      interval: "monthly"
