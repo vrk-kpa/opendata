@@ -6,58 +6,59 @@ registries:
     token: "${{secrets.NPM_TOKEN}}"
 
 updates:
-- package-ecosystem: pip
+- package-ecosystem: "pip"
   directory: "/ckan/"
   patterns: ['*']
-  multi-ecosystem-group: "ckan"
+  schedule:
+    interval: "daily"
+  open-pull-requests-limit: 10
 
 - package-ecosystem: "docker"
   directory: "/ckan/"
   patterns: ['*']
-  multi-ecosystem-group: "ckan"
+  schedule:
+    interval: "monthly"
 
 - package-ecosystem: "docker"
   directory: "/docker/solr/"
   schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
+    interval: "monthly"
 
 - package-ecosystem: "docker"
   directory: "/docker/nginx/"
   schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
+    interval: "monthly"
 
 - package-ecosystem: "docker"
   directory: "/docker/postgres/"
   schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
+    interval: "monthly"
 
 - package-ecosystem: "docker"
   directory: "/docker/datapusher-plus/"
   schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
+    interval: "monthly"
+
+- package-ecosystem: "docker"
+  directory: "/drupal/"
+  patterns: ['*']
+  schedule:
+    interval: "monthly"
 
 - package-ecosystem: "docker"
   directory: "/cypress/"
   patterns: ['*']
   multi-ecosystem-group: "cypress"
 
-- package-ecosystem: npm
+- package-ecosystem: "npm"
   directory: "/"
   patterns: ['cypress']
   multi-ecosystem-group: "cypress"
 
-- package-ecosystem: npm
+- package-ecosystem: "npm"
   directory: "/opendata-assets/"
   schedule:
-    interval: daily
+    interval: "daily"
     time: "03:00"
   open-pull-requests-limit: 10
   registries:
@@ -74,20 +75,10 @@ updates:
       update-types:
         - patch
 
-- package-ecosystem: "docker"
-  directory: "/drupal/"
-  patterns: ['*']
-  multi-ecosystem-group: "drupal"
-  groups:
-    drupal:
-      applies-to: security-updates
-      update-types:
-        - patch
-
-- package-ecosystem: npm
+- package-ecosystem: "npm"
   directory: "/cdk/"
   schedule:
-    interval: daily
+    interval: "daily"
     time: "03:00"
   open-pull-requests-limit: 10
 
@@ -105,9 +96,3 @@ multi-ecosystem-groups:
   cypress:
     schedule:
       interval: "weekly"
-  ckan:
-    schedule:
-      interval: "daily"
-  drupal:
-    schedule:
-      interval: "daily"
