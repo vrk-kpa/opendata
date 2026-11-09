@@ -82,18 +82,3 @@ jobs:
         run: npx stylelint "src/scss" -f github
         working-directory: ./opendata-assets
 
-  slack:
-    name: Slack notification
-    runs-on: ubuntu-latest
-    needs:
-      - ruff
-      - code-sniffer
-      - stylelint
-    if: failure() && github.ref == 'refs/heads/master'
-    steps:
-      - uses: 8398a7/action-slack@v3
-        with:
-          status: 'failure'
-          fields: repo,message,author,action,ref
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK }}
