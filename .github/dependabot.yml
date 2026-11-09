@@ -17,6 +17,7 @@ updates:
     interval: "daily"
   registries:
    - python-index-alpine-wheels
+  insecure-external-code-execution: allow
   open-pull-requests-limit: 10
 
 - package-ecosystem: "docker"
