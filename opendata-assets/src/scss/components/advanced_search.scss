@@ -99,19 +99,6 @@
   content: "";
 }
 
-.ytp-datepicker:not(:last-of-type) {
-  padding: 0 15px 0 0;
-  margin: 0;
-}
-
-.ytp-datepicker:last-of-type {
-  padding: 0 0 0 15px;
-}
-
-.ytp-datepicker input {
-  width: 100%;
-}
-
 .ytp-input-with-icon > i {
   font-size: $font-size-base;
   pointer-events: none;
