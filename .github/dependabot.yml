@@ -4,6 +4,9 @@ registries:
     type: npm-registry
     url: https://npm.fontawesome.com
     token: "${{secrets.NPM_TOKEN}}"
+  python-index-alpine-wheels:
+    type: python-index
+    url: https://alpine-wheels.github.io
 
 updates:
 - package-ecosystem: "pip"
@@ -12,6 +15,8 @@ updates:
     default-days: 7
   schedule:
     interval: "daily"
+  registries:
+   - python-index-alpine-wheels
   open-pull-requests-limit: 10
 
 - package-ecosystem: "docker"
