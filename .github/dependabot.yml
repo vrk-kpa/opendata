@@ -77,7 +77,9 @@ updates:
   multi-ecosystem-group: "cypress"
 
 - package-ecosystem: "npm"
-  directory: "/opendata-assets/"
+  directories:
+    - "/opendata-assets/"
+    - "/drupal/modules/avoindata-ckeditor5-plugins"
   cooldown:
     default-days: 7
   schedule:
