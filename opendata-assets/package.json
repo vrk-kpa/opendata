@@ -7,7 +7,7 @@
   "devDependencies": {
     "@ronilaukkarinen/gulp-stylelint": "^14.1.1",
     "autoprefixer": "^10.4.13",
-    "del": "^8.0.0",
+    "del": "^9.0.1",
     "extend": "^3.0.2",
     "glob-watcher": "^6.0.0",
     "gulp": "^5.0.0",
