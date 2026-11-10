@@ -4,6 +4,7 @@ registries:
     type: npm-registry
     url: https://npm.fontawesome.com
     token: "${{secrets.NPM_TOKEN}}"
+    scope: "@fortawesome"
   python-index-alpine-wheels:
     type: python-index
     url: https://alpine-wheels.github.io
