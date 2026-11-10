@@ -43,12 +43,3 @@ ytp_multiselect_js:
   contents:
     - javascript/ytp-multiselect.js
 
-ytp_datepicker_js:
-  output: ckanext-ytp_advancedsearch%(version)s_ytp-datepicker.js
-  filters: rjsmin
-  extra:
-    preload:
-      - base/main
-  contents:
-    - javascript/ytp-datepicker.js
-

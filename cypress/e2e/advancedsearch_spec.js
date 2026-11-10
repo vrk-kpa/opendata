@@ -293,7 +293,8 @@ describe('Advanced search tests', () => {
 
             // Filter a daterange that should contain all datasets
             cy.get('#date-picker-released-after').type('2000-01-01');
-            cy.get('#date-picker-released-before').type('2200-01-01').type('{enter}');
+            cy.get('#date-picker-released-before').type('2200-01-01');
+            cy.get('form.advanced-search-form').submit();
             cy.get('.dataset-list').children().should('have.length', 2)
             cy.get('.dataset-heading').contains('first dataset');
             cy.get('.dataset-heading').contains('second dataset');
@@ -304,7 +305,8 @@ describe('Advanced search tests', () => {
 
             // Filter a daterange that should not contain any datasets
             cy.get('#date-picker-released-after').type('2200-01-01');
-            cy.get('#date-picker-released-before').type('2000-01-01').type('{enter}');
+            cy.get('#date-picker-released-before').type('2000-01-01');
+            cy.get('form.advanced-search-form').submit();
             
             cy.get('.dataset-list').should('not.exist');
         })
@@ -314,7 +316,8 @@ describe('Advanced search tests', () => {
 
             // Filter a daterange that should contain all datasets
             cy.get('#date-picker-updated-after').type('2000-01-01');
-            cy.get('#date-picker-updated-before').type('2200-01-01').type('{enter}');
+            cy.get('#date-picker-updated-before').type('2200-01-01');
+            cy.get('form.advanced-search-form').submit();
             cy.get('.dataset-list').children().should('have.length', 2)
             cy.get('.dataset-heading').contains('first dataset');
             cy.get('.dataset-heading').contains('second dataset');
@@ -326,7 +329,8 @@ describe('Advanced search tests', () => {
 
             // Filter a daterange that should not contain any datasets
             cy.get('#date-picker-updated-after').type('2200-01-01');
-            cy.get('#date-picker-updated-before').type('2000-01-01').type('{enter}');
+            cy.get('#date-picker-updated-before').type('2000-01-01');
+            cy.get('form.advanced-search-form').submit();
             cy.get('.dataset-list').should('not.exist');
         })
 

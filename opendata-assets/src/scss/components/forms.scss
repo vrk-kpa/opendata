@@ -514,16 +514,6 @@ fieldset.checkboxes {
   }
 }
 
-.ytp-datepicker {
-  input {
-    width: max-content;
-  }
-
-  &:not(:last-of-type) {
-    margin-right: 1em;
-  }
-}
-
 .ytp-input-with-icon {
   position: relative;
   display: flex;
@@ -918,27 +908,6 @@ td.selectable-row {
   font-weight: normal;
   line-height: 24px;
   margin-bottom: 10px;
-}
-
-.datepicker-inline {
-  display: inline-block;
-  width: 160px;
-  margin-right: 30px;
-}
-
-.datepicker-icon div.controls {
-  position: relative;
-
-  &::before {
-    @include font-awesome-icon("\f073");
-
-    font-size: 25px;
-    position: absolute;
-    top: 3px;
-    left: 127px;
-    color: tokens.$fi-color-highlight-base;
-    pointer-events: none;
-  }
 }
 
 .form-group {
