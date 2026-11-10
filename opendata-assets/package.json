@@ -11,7 +11,7 @@
     "extend": "^3.0.2",
     "glob-watcher": "^6.0.0",
     "gulp": "^5.0.0",
-    "gulp-autoprefixer": "^8.0.0",
+    "gulp-autoprefixer": "^10.0.0",
     "gulp-base64-inline": "~1.0.6",
     "gulp-clean-css": "^4.3.0",
     "gulp-cli": "^3.1.0",
