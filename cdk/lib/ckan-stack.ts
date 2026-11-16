@@ -434,6 +434,7 @@ export class CkanStack extends Stack {
       taskDefinition: ckanTaskDef,
       minHealthyPercent: 50,
       maxHealthyPercent: 200,
+      circuitBreaker: { rollback: true },
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,
@@ -545,6 +546,7 @@ export class CkanStack extends Stack {
         desiredCount: 1,
         minHealthyPercent: 0,
         maxHealthyPercent: 100,
+        circuitBreaker: { rollback: true },
         enableExecuteCommand: true
       });
 
@@ -636,6 +638,7 @@ export class CkanStack extends Stack {
       desiredCount: 1,
       minHealthyPercent: 50,
       maxHealthyPercent: 200,
+      circuitBreaker: { rollback: true },
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,
@@ -747,6 +750,7 @@ export class CkanStack extends Stack {
       desiredCount: 1,
       minHealthyPercent: 0,
       maxHealthyPercent: 100,
+      circuitBreaker: { rollback: true },
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,
@@ -854,6 +858,7 @@ export class CkanStack extends Stack {
       desiredCount: 1,
       minHealthyPercent: 0,
       maxHealthyPercent: 100,
+      circuitBreaker: { rollback: true },
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,
