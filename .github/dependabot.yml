@@ -84,7 +84,7 @@ updates:
   cooldown:
     default-days: 7
   schedule:
-    interval: "daily"
+    interval: "monthly"
     time: "03:00"
   open-pull-requests-limit: 10
   registries:
@@ -130,7 +130,7 @@ updates:
   cooldown:
     default-days: 7
   schedule:
-    interval: "daily"
+    interval: "monthly"
     time: "03:00"
   open-pull-requests-limit: 10
 
