@@ -109,7 +109,23 @@ updates:
       update-types:
         - patch
 
-- package-ecosystem: "npm"
+- package-ecosystem: "composer"
+  directory: "/drupal/"
+  target-branch: "master" # bypass duplicate ecosystem check
+  cooldown:
+    default-days: 7
+  schedule:
+    interval: "monthly"
+    time: "03:00"
+  groups:
+    drupal:
+      applies-to: version-updates
+      update-types:
+        - minor
+        - patch
+
+
+- package-ecosystem: npm
   directory: "/cdk/"
   cooldown:
     default-days: 7
@@ -134,3 +150,6 @@ multi-ecosystem-groups:
   cypress:
     schedule:
       interval: "weekly"
+  ckan:
+    schedule:
+      interval: "daily"
