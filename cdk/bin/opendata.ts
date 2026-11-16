@@ -155,7 +155,7 @@ const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
   bannedIpsRequestSamplingEnabled: false,
   highPriorityRequestSamplingEnabled: false,
   rateLimitRequestSamplingEnabled: false,
-  requestSampleAllTrafficEnabled: false,
+  requestSampleAllTrafficEnabled: true,
   bannedIpListParameterName: shieldParameterStackBeta.bannedIpListParameterName,
   whitelistedIpListParameterName: shieldParameterStackBeta.whitelistedIpListParameterName,
   highPriorityCountryCodeListParameterName: shieldParameterStackBeta.highPriorityCountryCodeListParameterName,
@@ -166,7 +166,9 @@ const shieldStackBeta = new ShieldStack(app, 'ShieldStack-beta', {
   wafAutomationArnParameterName: shieldParameterStackBeta.wafAutomationArnParameterName,
   evaluationPeriodParameterName: shieldParameterStackBeta.evaluationPeriodParameterName,
   loadBalancer: loadBalancerStackBeta.loadBalancer,
-  blockedUserAgentsParameterName: shieldParameterStackBeta.blockedUserAgentsParameterName
+  blockedUserAgentsParameterName: shieldParameterStackBeta.blockedUserAgentsParameterName,
+  rateLimitedPathsParameterName: shieldParameterStackBeta.rateLimitedPathsParameterName,
+  mediumPriorityCountryCodeListParameterName: shieldParameterStackBeta.mediumPriorityCountryCodeListParameterName
 })
 
 const cacheStackBeta = new CacheStack(app, 'CacheStack-beta', {
@@ -211,8 +213,8 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
   captchaEnabled: true,
   analyticsEnabled: true,
   ckanTaskDef: {
-    taskCpu: 512,
-    taskMem: 1024,
+    taskCpu: 1024,
+    taskMem: 2048,
     taskMinCapacity: 1,
     taskMaxCapacity: 3,
   },
@@ -241,7 +243,7 @@ const ckanStackBeta = new CkanStack(app, 'CkanStack-beta', {
     taskMaxCapacity: 1,
   },
   ckanUwsgiProps: {
-    processes: 2,
+    processes: 4,
     threads: 2
   },
   ckanCronEnabled: true,
@@ -449,7 +451,7 @@ const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
   bannedIpsRequestSamplingEnabled: false,
   highPriorityRequestSamplingEnabled: false,
   rateLimitRequestSamplingEnabled: false,
-  requestSampleAllTrafficEnabled: false,
+  requestSampleAllTrafficEnabled: true,
   bannedIpListParameterName: shieldParameterStackProd.bannedIpListParameterName,
   whitelistedIpListParameterName: shieldParameterStackProd.whitelistedIpListParameterName,
   highPriorityCountryCodeListParameterName: shieldParameterStackProd.highPriorityCountryCodeListParameterName,
@@ -460,7 +462,9 @@ const shieldStackProd = new ShieldStack(app, 'ShieldStack-prod', {
   wafAutomationArnParameterName: shieldParameterStackProd.wafAutomationArnParameterName,
   evaluationPeriodParameterName: shieldParameterStackProd.evaluationPeriodParameterName,
   loadBalancer: loadBalancerStackProd.loadBalancer,
-  blockedUserAgentsParameterName: shieldParameterStackProd.blockedUserAgentsParameterName
+  blockedUserAgentsParameterName: shieldParameterStackProd.blockedUserAgentsParameterName,
+  rateLimitedPathsParameterName: shieldParameterStackProd.rateLimitedPathsParameterName,
+  mediumPriorityCountryCodeListParameterName: shieldParameterStackProd.mediumPriorityCountryCodeListParameterName
 })
 
 const cacheStackProd = new CacheStack(app, 'CacheStack-prod', {

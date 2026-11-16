@@ -9,13 +9,11 @@
     <col style="width: 20%" />
     <col style="width: 10%" />
     <col style="width: 20%" />
-    <col style="width: 35%" />
     <col style="width: 15%" />
     <thead>
     <tr>
       <th scope="col">{{ _('User') }}</th>
       <th scope="col">{{ _('Username') }}</th>
-      <th scope="col">{{ _('Email') }}</th>
       <th scope="col">{{ _('Role') }}</th>
       <th scope="col"></th>
     </tr>
@@ -27,7 +25,6 @@
           {{ h.linked_user(user, maxlength=20) }}
         </td>
         <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
         <td>{{ _(user.capacity.title()) }}</td>
         <td>
           {% set locale = h.dump_json({'content': _('Are you sure you want to delete this member?')}) %}
@@ -53,6 +50,7 @@
         <ul class="nav nav-tabs">
             {{ h.build_nav_icon('ytp_organization.read', _('Datasets'), id=group_dict.name) }}
             {{ h.build_nav_icon('ytp_organization.about', _('About'), id=group_dict.name) }}
+            {{ h.build_nav_icon('ytp_organization.suborganizations', _('Suborganizations'), id=group_dict.name) }}
             {% if h.check_access('organization_update', {'id': group_dict.id}) %}
                 {{ h.build_nav_icon('ytp_organization.members', _('Members'), id=group_dict.name) }}
             {% endif %}

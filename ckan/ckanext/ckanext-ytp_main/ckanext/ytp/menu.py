@@ -1,7 +1,5 @@
 from ckan.common import _, c, request
 from ckan.lib import helpers
-from ckan.logic import NotFound
-from ckan.plugins.core import get_plugin
 from ckanext.ytp.helpers import service_database_enabled
 from collections import OrderedDict
 
@@ -104,13 +102,7 @@ class MyPasswordMenu(MenuItem):
         self.requires_login = True
 
     def link(self):
-        try:
-            ytp_drupal = get_plugin('ytp_drupal')
-            if not ytp_drupal or not c.user:
-                raise NotFound
-            return "/%s/user/%s/edit" % (helpers.lang(), str(ytp_drupal.get_drupal_user_id(c.user)))
-        except NotFound:
-            return "/"
+        return "/%s/user/edit" % helpers.lang()
 
 
 class MyCancelMenu(MenuItem):

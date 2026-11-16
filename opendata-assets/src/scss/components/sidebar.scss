@@ -1,3 +1,4 @@
+@use "../variables/suomifidesign" as tokens;
 @import '../variables';
 
 .tertiary .control-order-by label {
@@ -20,27 +21,12 @@
 [role="main"] .secondary,
 aside.tertiary {
   background-color: $background-color__content;
-  padding: $padding__content;
-  padding: 0 ($grid-gutter-width / 2);
-  padding-left: ($grid-gutter-width / 2);
-  padding-right: ($grid-gutter-width / 2);
+  padding: tokens.$fi-spacing-m;
+  padding: 20px ($grid-gutter-width / 2) 40px;
   margin-top: 0;
 
   .secondary__header {
-    background-color: $opendata-brand-primary;
-    color: $color--white;
-    padding: $padding-y--common $padding-x--common;
-
-    // -1px prefix to make header overlap with container borders
-    margin: -1px  (-$grid-gutter-width / 2);
-    text-transform: uppercase;
-
-    .secondary__title {
-      margin: 0;
-      font-size: $font-size-base;
-      font-weight: $font-weight-heavier;
-      line-height: $line-height-h3-alt;
-    }
+    @include tokens.fi-text-heading3;
   }
 
   &.sidebar-offcanvas .module ~ .module {
@@ -57,24 +43,31 @@ aside.tertiary {
     }
   }
 
+  .dataset-map {
+    margin-bottom: tokens.$fi-spacing-m;
+  }
+
+  hr {
+    color: tokens.$fi-color-depth-dark1;
+    margin: tokens.$fi-spacing-m 0;
+  }
+
   .module,
   .opendata-card {
     padding: 0;
-    color: $color--black;
+    color: tokens.$fi-color-black-base;
     margin: 0 (-$grid-gutter-width / 2);
 
     // $NOTE: 1 pixel difference for top- & bottom-padding to make divider between modules middle-aligned
-    padding-top: $padding-y--common + 1;
-    padding-bottom: $padding-y--common;
     overflow: hidden;
     position: relative;
 
     .module-content {
-      padding: $padding-y__navigation $padding-x__navigation;
+      padding: tokens.$fi-spacing-xs tokens.$fi-spacing-m;
 
       .nav > li > a {
-        margin: 0 (-$padding-x__navigation);
-        padding: $padding-y--common $padding-x__navigation;
+        margin: 0 (-(tokens.$fi-spacing-m));
+        padding: tokens.$fi-spacing-m tokens.$fi-spacing-m;
         color: $sidebar-block-color-text;
         border-left: $border-width__navigation solid transparent;
 
@@ -89,14 +82,12 @@ aside.tertiary {
     .module-subheading {
       @include flex-display(flex);
       @include align-items(center);
+      @include tokens.fi-text-heading5;
 
       margin: 0;
-      padding: $padding-y__navigation $padding-x__navigation;
+      padding: tokens.$fi-spacing-xs tokens.$fi-spacing-m;
       background-color: transparent;
       border: none;
-      font-size: $font-size__module-title;
-      line-height: $line-height__module-title;
-      font-weight: bold;
     }
 
     .module-footer {
@@ -107,11 +98,11 @@ aside.tertiary {
       a {
         display: block;
         font-size: $font-size-slightly-smaller-base;
-        color: $opendata-brand-primary;
+        color: tokens.$fi-color-highlight-base;
       }
 
       a {
-        padding: $padding-y__navigation $padding-x__navigation;
+        padding: tokens.$fi-spacing-xs tokens.$fi-spacing-m;
         margin: 0;
       }
     }
@@ -122,7 +113,7 @@ aside.tertiary {
   }
 
   .secondary-heading-container {
-    padding: $padding-y__navigation $padding-x__navigation;
+    padding: tokens.$fi-spacing-xs tokens.$fi-spacing-m;
   }
 
   &.secondary--resource {
@@ -136,7 +127,7 @@ aside.tertiary {
   border: none;
 
   .module-content .module-subheading {
-    padding: $padding-y__navigation 0;
+    padding: tokens.$fi-spacing-xs 0;
   }
 }
 
@@ -167,14 +158,13 @@ aside.tertiary {
 }
 
 #content .sidebar-header-section {
-  background: $opendata-brand-primary;
+  background: tokens.$fi-color-highlight-base;
 
   p {
+    @include tokens.fi-text-body-semi-bold;
+
     padding: 26px 20px 13px;
-    font-family: $font-family-sans-serif;
     color: #fff;
-    font-size: 18px;
-    font-weight: 600;
     line-height: 27px;
   }
 }

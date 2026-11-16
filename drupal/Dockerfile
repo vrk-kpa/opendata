@@ -4,7 +4,7 @@ ARG SECRET_NPMRC
 #
 # Drupal build, minor tagged as composers handles specific version
 #
-FROM drupal:10.5-php8.4-fpm-alpine3.23 AS drupal_build
+FROM drupal:11.4-php8.4-fpm-alpine3.23@sha256:1d04d2d783cf717c2409af5224fbe5cdcfb8342f17a5386ec72f5e449d7dea54 AS drupal_build
 
 # install required packages
 RUN apk add --no-cache \
@@ -69,6 +69,9 @@ FROM nginx_build AS drupal_development
 
 ENV DEV_MODE=true
 
+# install gettext for msguniq needed to export translations
+RUN apk add --no-cache gettext
+
 # install drupal dev requirements
 RUN composer install --no-cache --dev
 
@@ -97,7 +100,6 @@ COPY modules/avoindata-articles             ${MOD_DIR}/avoindata-articles/
 COPY modules/avoindata-events               ${MOD_DIR}/avoindata-events/
 COPY modules/avoindata-guide                ${MOD_DIR}/avoindata-guide/
 COPY modules/avoindata-user                 ${MOD_DIR}/avoindata-user/
-COPY modules/avoindata-ckeditor-plugins     ${MOD_DIR}/avoindata-ckeditor-plugins/
 COPY modules/avoindata-theme                ${MOD_DIR}/avoindata-theme/
 COPY modules/avoindata-ckeditor5-plugins    ${MOD_DIR}/avoindata-ckeditor5-plugins/
 

@@ -1,3 +1,4 @@
+@use "../variables/suomifidesign" as tokens;
 @import '../variables';
 
 .nav-facet {
@@ -9,7 +10,7 @@
     line-height: 1;
     width: auto;
     height: auto;
-    right: $padding-x--common;
+    right: tokens.$fi-spacing-m;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -22,31 +23,5 @@
       font-size: $font-size-slightly-smaller-base;
       font-weight: $font-weight-normal;
     }
-  }
-
-  // Plus icon (fa-plus)
-  .nav-item:hover {
-    > a {
-      &:hover::after,
-      &::after {
-        background-image: none;
-        font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
-        font-weight: $font-weight-light;
-        content: "\f067";
-        color: $suomi-highlightBase;
-        font-size: $font-size__facet-icon;
-      }
-    }
-  }
-
-  // Minus icon (fa-minus)
-  .nav-item.active > a::after,
-  .nav-item.active:hover > a::after {
-    background-image: none;
-    font-family: "Font Awesome 5 Pro", "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
-    font-weight: $font-weight-light;
-    content: "\f068";
-    color: $suomi-highlightBase;
-    font-size: $font-size__facet-icon;
   }
 }

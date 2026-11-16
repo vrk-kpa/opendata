@@ -1,9 +1,8 @@
 @use "./variables/suomifidesign" as tokens;
 @import 'variables';
 
-
-body {
-  color: tokens.$fi-color-black-base;
+:root {
+  --bs-body-color: #{tokens.$fi-color-black-base};
 }
 
 h1,
@@ -12,43 +11,27 @@ h3,
 h4,
 h5,
 h6 {
-  color: tokens.$fi-color-black-base;
   text-rendering: optimizelegibility;
 }
 
 h1 {
-  font-family: $font-family-sans-serif-light;
-  font-size: 40px;
-  line-height: 48px;
-  font-weight: $font-weight-light;
+  @include tokens.fi-text-heading1;
 }
 
 h2 {
-  font-family: $font-family-sans-serif-semibold;
-  font-size: 28px;
-  line-height: 34px;
-  font-weight: $font-weight-heavier;
+  @include tokens.fi-text-heading2;
 }
 
 h3 {
-  font-family: $font-family-sans-serif-semibold;
-  font-size: 22px;
-  line-height: 28px;
-  font-weight: $font-weight-heavier;
+  @include tokens.fi-text-heading3;
 }
 
 h4 {
-  font-family: $font-family-sans-serif-semibold;
-  font-size: 18px;
-  line-height: 24px;
-  font-weight: $font-weight-heavier;
+  @include tokens.fi-text-heading4;
 }
 
 h5 {
-  font-family: $font-family-sans-serif-semibold;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: $font-weight-heavier;
+  @include tokens.fi-text-heading5;
 }
 
 a {
@@ -95,7 +78,7 @@ textarea {
 }
 
 ::selection {
-  background: $suomi-brandBase;
-  color: $suomi-whiteBase;
+  background: tokens.$fi-color-brand-base;
+  color: tokens.$fi-color-white-base;
   text-shadow: none;
 }

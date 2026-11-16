@@ -1,5 +1,5 @@
 # Build datapusher+
-FROM public.ecr.aws/docker/library/rust:alpine3.19 AS cargo_build
+FROM public.ecr.aws/docker/library/rust:alpine3.19@sha256:c22e43db16b649a713eb39606c5054dd072eed35a7acffe05e295749c8a7eed3 AS cargo_build
 
 RUN apk add build-base linux-headers
 RUN cargo install qsv@0.130.0 --locked --bin qsvdp -F datapusher_plus,luau
@@ -8,7 +8,7 @@ RUN cargo install qsv@0.130.0 --locked --bin qsvdp -F datapusher_plus,luau
 #############################
 ### Build DataPusher Plus ###
 #############################
-FROM public.ecr.aws/docker/library/python:3.10.13-alpine3.19
+FROM public.ecr.aws/docker/library/python:3.10.13-alpine3.19@sha256:d75c7712b6161e93efa287df5fceedeaeeb2ef773f44a6b71efc6e42fec4666d
 
 # Set timezone
 ENV TZ=UTC

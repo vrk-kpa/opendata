@@ -1,3 +1,4 @@
+@use "./variables/suomifidesign" as tokens;
 @import 'variables';
 @import 'bootstrap/scss/mixins';
 
@@ -76,7 +77,7 @@
   .navbar-top {
     margin-bottom: 0;
     padding-top: 2px;
-    background-color: $opendata-brand-primary;
+    background-color: tokens.$fi-color-highlight-base;
   }
 
   .page_wrapper {

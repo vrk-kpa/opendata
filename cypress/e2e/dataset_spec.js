@@ -8,9 +8,33 @@ describe('Dataset tests',
   }, function(){
   const test_organization = 'dataset_test_organization';
 
+  function sidebarFacetSelector(facet) {
+    let facets = [
+      "geographical coverage",
+      "dataset types",
+      "keywords",
+      "publisher",
+      "file formats",
+      "licenses",
+      "category",
+      "regional coverage",
+      "high-value dataset category"
+    ];
+    let facetIndex = facets.indexOf(facet) * 2 + 5;
+    return `.secondary > :nth-child(${facetIndex})`
+  }
+
   before(function(){
     cy.reset_db();
-    cy.create_organization_for_user(test_organization, 'test-user', true);
+    cy.ensure_user_is_in_ckan("test-user", "test-user")
+    cy.perform_ckan_actions(ckan => {
+      ckan.organization(test_organization, {
+        users: [{
+          name: "test-user",
+          capacity: "admin"
+        }]
+      })
+    })
   });
 
   describe('Navigation', function(){
@@ -27,12 +51,12 @@ describe('Dataset tests',
     const dataset_name_2 = "second_dataset";
 
     before(function(){
-      // cy.reset_db();
-      // cy.create_organization_for_user(test_organization, 'test-user', true);
-      cy.login_post_request('test-user', 'test-user')
       cy.visit('/data/dataset');
-      cy.create_new_dataset(dataset_name_1);
-      cy.create_new_dataset(dataset_name_2);
+      cy.perform_ckan_actions(ckan => {
+        ckan.dataset(test_organization, dataset_name_1)
+        ckan.dataset(test_organization, dataset_name_2)
+      })
+      cy.login_post_request('test-user', 'test-user')
     });
 
     beforeEach(function(){
@@ -112,18 +136,27 @@ describe('Dataset tests',
     it('Dataset properties are visible as filter options', function(){
       cy.visit('/data/dataset');
 
-      cy.get(':nth-child(4) > nav > .list-unstyled > .nav-item > a > span').should('have.text', "Avoin data (2)");
-      cy.get(':nth-child(5) > nav > .list-unstyled > .nav-item > a > span').should('have.text', "test_keyword (2)");
+      cy.get(`${sidebarFacetSelector('dataset types')} > nav > .list-unstyled > .nav-item > a > span`).should('have.text', "Avoin data (2)");
+      cy.get(`${sidebarFacetSelector('keywords')} > nav > .list-unstyled > .nav-item > a > span`).should('have.text', "test_keyword (2)");
       //look for partial text as the organization can have an ID suffix 
-      cy.get(':nth-child(6) > nav > .list-unstyled > .nav-item > a > span').should('include.text', "dataset_test_organization"); 
-      cy.get(':nth-child(8) > nav > .list-unstyled > .nav-item > a > span').should('have.text', "Lisenssiä ei ole määritelty (2)")
+      cy.get(`${sidebarFacetSelector('publisher')} > nav > .list-unstyled > .nav-item > a > span`).should('include.text', "dataset_test_organization"); 
+      cy.get(`${sidebarFacetSelector('licenses')} > nav > .list-unstyled > .nav-item > a > span`).should('have.text', "Lisenssiä ei ole määritelty (2)")
     });
   });
 
   describe('Dataset creation and deletion tests', function() {
     beforeEach(function () {
       cy.reset_db();
-      cy.create_organization_for_user(test_organization, 'test-user', true);
+      cy.ensure_user_is_in_ckan("test-user", "test-user")
+      cy.perform_ckan_actions(ckan => {
+        ckan.organization(test_organization, {
+          users: [{
+            name: "test-user",
+            capacity: "admin"
+          }]
+        })
+      })
+      // cy.create_organization_for_user(test_organization, 'test-user', true);
       cy.login_post_request('test-user', 'test-user')
       cy.visit('/data/fi/dataset');
     })

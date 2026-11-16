@@ -259,12 +259,6 @@ $(document).ready(function() {
 
 
 $(document).ready(function(){
-    $('[data-datepicker]').each(function() {
-        $(this).datetimepicker({
-            pickTime: false
-        });
-    });
-
 
     $('[data-organization-tree] .js-expand').bind('click', function(){
         $(this).siblings('.js-collapse, .js-collapsed').show();

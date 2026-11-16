@@ -1,84 +1,76 @@
 describe('Advanced search tests', () => {
     before(() => {
         cy.reset_db();
+        cy.perform_ckan_actions(ckan => {
+          ckan.group("siisti_kategoria", {
+            "title_translated-fi": "siisti kategoria",
+            "title_translated-en": "siisti kategoria",
+            "title_translated-sv": "siisti kategoria",
+            "users": [
+              {"name": "admin",
+               "capacity": "admin"},
+              {"name": "test-user",
+               "capacity": "admin"}
+            ]
+          }, {failOnStatusCode: false}) // Admin making groups creates an unnecessary error
+          ckan.group("toinen_kategoria", {
+            "title_translated-fi": "toinen kategoria",
+            "title_translated-en": "toinen kategoria",
+            "title_translated-sv": "toinen kategoria",
+            "users": [
+              {"name": "admin",
+               "capacity": "admin"},
+              {"name": "test-user",
+               "capacity": "admin"}
+            ]
+          }, {failOnStatusCode: false}) // Admin making groups creates an unnecessary error
 
-        // Admin things
-        cy.login_post_request('admin', 'administrator');
+          ckan.organization("testi_organisaatio")
 
-        const category_name_1 = 'siisti kategoria';
-        const category_name_2 = 'toinen kategoria';
+          ckan.dataset("testi_organisaatio", "first_dataset", {
+            "title_translated-fi": "first dataset",
+            "notes_translated-fi": "First dataset description",
+            "maintainer": "test maintainer",
+            "maintainer_email": "test.maintainer@example.com",
+            'valid_from': '2019-02-04',
+            'valid_till': '2020-02-04',
+            "collection_type": "Open Data",
+            "keywords-fi": "test_keyword",
+            "license_id": "cc-by-4.0",
+          })
+          ckan.resource("first_dataset", {
+            "name_translated-fi": "test data",
+            "description_translated-fi": "test kuvaus",
+            "url": "http://example.com",
+            "format": "CSV"
+          })
+          ckan.action('member_create', {
+            "id": "siisti_kategoria",
+            "object": "first_dataset",
+            "object_type": "package",
+            "capacity": "member"
+          })
 
-        cy.create_category(category_name_1);
-        cy.create_category(category_name_2);
+          ckan.dataset("testi_organisaatio", "second_dataset", {
+            "title_translated-fi": "second dataset",
+            "notes_translated-fi": "second dataset description with unicorns",
+            "maintainer": "test maintainer",
+            "maintainer_email": "test.maintainer@example.com",
+            'valid_from': '2019-02-04',
+            'valid_till': '2020-02-04',
+            "collection_type": "Open Data",
+            "keywords-fi": "another_keyword test_keyword",
+            "license_id": "notspecified"
+          })
+          ckan.resource("second_dataset", {
+            "name_translated-fi": "some test data",
+            "description_translated-fi": "description for data",
+            "url": "http://example.com",
+            "format": "XML"
+          })
+        })
 
-        cy.logout();
-
-        // User things
-        cy.create_organization_for_user('testi_organisaatio', 'test-user');
         cy.login_post_request('test-user', 'test-user');
-
-        // Create datasets
-        const datasets = [
-            {
-                name: 'first dataset',
-                data: {
-                    "#field-title_translated-fi": 'first dataset',
-                    '#field-notes_translated-fi': 'First dataset description',
-                    // FIXME: This should just be 'test_keyword{enter}', see fill_form_fields in support/commands.js
-                    '#s2id_autogen1': {type: 'select2', values: ['test_keyword']},
-                    '#field-maintainer': 'test maintainer',
-                    '#field-maintainer_email': 'test.maintainer@example.com',
-                    '#field-valid_from': '2019-02-04',
-                    '#field-valid_till': '2020-02-04',
-                    '#field-license_id': {
-                        type: 'select',
-                        value: 'cc-by-4.0'
-                    }
-                },
-                resource_data: {
-                    '#field-name_translated-fi': 'test data',
-                    '#field-description_translated-fi': 'test kuvaus',
-                    '#field-image-url': 'http://example.com',
-                    '#field-format': {
-                        value: 'CSV',
-                        force: true
-                    },
-                }
-            },
-            {
-                name: 'second dataset',
-                data: {
-                    "#field-title_translated-fi": 'second dataset',
-                    '#field-notes_translated-fi': 'second dataset description with unicorns',
-                    // FIXME: This should just be 'another_keyword {enter} test_keyword {enter}',
-                    // see fill_form_fields in support/commands.js
-                    '#s2id_autogen1': {type: 'select2', values: ['another_keyword', 'test_keyword'] },
-                    '#field-maintainer': 'test maintainer',
-                    '#field-maintainer_email': 'test.maintainer@example.com',
-                    '#field-valid_from': '2019-02-04',
-                    '#field-valid_till': '2020-02-04'
-                },
-                resource_data: {
-                    '#field-name_translated-fi': 'some test data',
-                    '#field-description_translated-fi': 'description for data',
-                    '#field-image-url': 'http://example.com',
-                    '#field-format': {
-                        value: 'XML',
-                        force: true
-                    },
-                }
-            },
-        ];
-        for (let dataset of datasets) {
-            cy.create_new_dataset(dataset.name, dataset.data, dataset.resource_data);
-        }
-
-        // Add first dataset to group 'siisti kategoria'
-        cy.visit(`/data/fi/dataset/groups/${datasets[0].name.replace(' ', '-')}`)
-        cy.get('#field-siisti-kategoria').check({force: true})
-        cy.get('form > .btn').click();
-
-        // Navigate to advanced search
         cy.visit('/data/fi/advanced_search')
     });
 
@@ -103,7 +95,7 @@ describe('Advanced search tests', () => {
             });
             cy.location('pathname').should('contain', `data/fi/dataset`)
             //open advanced search page manually and wait for load
-            cy.get('.mb-2 > .btn-avoindata-header').click();
+            cy.get('.mb-2 > .btn-avoindata-link').click();
             cy.location('pathname').should('contain', `data/fi/advanced_search`)
         })
 
@@ -128,8 +120,6 @@ describe('Advanced search tests', () => {
             cy.get('.released-picker-div').find('label').eq(0).contains('alkaen');
             cy.get('.released-picker-div').find('label').eq(1).contains('päättyen');
 
-            // Wait for the javascript to load the ab-datepicker
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
             cy.get('#date-picker-released-after');
             cy.get('#date-picker-released-before');
     
@@ -165,8 +155,6 @@ describe('Advanced search tests', () => {
             cy.get('.released-picker-div').find('label').eq(0).contains('after');
             cy.get('.released-picker-div').find('label').eq(1).contains('before');
 
-            // Wait for the javascript to load the ab-datepicker
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
             cy.get('#date-picker-released-after');
             cy.get('#date-picker-released-before');
     
@@ -201,8 +189,7 @@ describe('Advanced search tests', () => {
             cy.get('label#release-interval-label').contains('Publicerad mellan');
             cy.get('.released-picker-div').find('label').eq(0).contains('från');
             cy.get('.released-picker-div').find('label').eq(1).contains('till');
-            // Wait for the javascript to load the ab-datepicker
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
+
             cy.get('#date-picker-released-after');
             cy.get('#date-picker-released-before');
     
@@ -304,18 +291,13 @@ describe('Advanced search tests', () => {
         it('Filter by published', () =>{
             //currently the test dataset will be created on the day the tests are run
 
-            // Wait for the javascript to load the ab-datepicker
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
-
             // Filter a daterange that should contain all datasets
             cy.get('#date-picker-released-after').type('2000-01-01');
-            cy.get('#date-picker-released-before').type('2200-01-01').type('{enter}');
+            cy.get('#date-picker-released-before').type('2200-01-01');
+            cy.get('form.advanced-search-form').submit();
             cy.get('.dataset-list').children().should('have.length', 2)
             cy.get('.dataset-heading').contains('first dataset');
             cy.get('.dataset-heading').contains('second dataset');
-
-            // Wait for the javascript to load the ab-datepicker
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
 
             // Clear the inputs
             cy.get('#date-picker-released-after').type('2000-01-01').clear();
@@ -323,7 +305,8 @@ describe('Advanced search tests', () => {
 
             // Filter a daterange that should not contain any datasets
             cy.get('#date-picker-released-after').type('2200-01-01');
-            cy.get('#date-picker-released-before').type('2000-01-01').type('{enter}');
+            cy.get('#date-picker-released-before').type('2000-01-01');
+            cy.get('form.advanced-search-form').submit();
             
             cy.get('.dataset-list').should('not.exist');
         })
@@ -331,18 +314,13 @@ describe('Advanced search tests', () => {
         it('Filter by updated', () =>{
             //currently the test dataset will be created on the day the tests are run
 
-            // Wait for the javascript to load the ab-datepicker
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
-
             // Filter a daterange that should contain all datasets
             cy.get('#date-picker-updated-after').type('2000-01-01');
-            cy.get('#date-picker-updated-before').type('2200-01-01').type('{enter}');
+            cy.get('#date-picker-updated-before').type('2200-01-01');
+            cy.get('form.advanced-search-form').submit();
             cy.get('.dataset-list').children().should('have.length', 2)
             cy.get('.dataset-heading').contains('first dataset');
             cy.get('.dataset-heading').contains('second dataset');
-
-            // Wait for the javascript to load the ab-datepicker
-            cy.get(':nth-child(4) > .clearfix > :nth-child(1) > .form-group > :nth-child(2) > .input-group > .datepicker-button > .glyphicon');
 
             // Clear the inputs
             cy.get('#date-picker-updated-after').type('2000-01-01').clear();
@@ -351,7 +329,8 @@ describe('Advanced search tests', () => {
 
             // Filter a daterange that should not contain any datasets
             cy.get('#date-picker-updated-after').type('2200-01-01');
-            cy.get('#date-picker-updated-before').type('2000-01-01').type('{enter}');
+            cy.get('#date-picker-updated-before').type('2000-01-01');
+            cy.get('form.advanced-search-form').submit();
             cy.get('.dataset-list').should('not.exist');
         })
 

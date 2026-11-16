@@ -148,7 +148,10 @@ Resources:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: "ecr:GetAuthorizationToken"
+                Action:
+                - "ecr:GetAuthorizationToken"
+                - "ecr-public:GetAuthorizationToken"
+                - "sts:GetServiceBearerToken"
                 Resource: "*"
         - PolicyName: ecr-access
           PolicyDocument:

@@ -90,13 +90,11 @@ class AvoindataHeroHandler implements TrustedCallbackInterface
 
     foreach ($statistics as $statistic) {
     $statistics_markup .= <<<EOT
-        <div class="text-center">
-                    <h2>{$statistic['count']}</h2>
-                    <h4>
-                        <a href="/data/{$language}/{$statistic['url']}">
-                            <strong>{$statistic['text']}</strong>
-                        </a>
-                    </h4>
+        <div class="text-center hero-stats">
+                    <a href="/data/{$language}/{$statistic['url']}">
+                      <div class="hero-count">{$statistic['count']}</div>
+                      <div class="hero-text">{$statistic['text']}</div>
+                    </a>
                 </div>
 EOT;
     }

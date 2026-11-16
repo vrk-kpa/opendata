@@ -22,7 +22,7 @@ jobs:
         run: echo "${{ steps.fetch_open_prs.outputs.PRs }}"
 
       - name: Send to zulip
-        uses: zulip/github-actions-zulip/send-message@v1
+        uses: zulip/github-actions-zulip/send-message@v2
         if:  ${{ steps.fetch_open_prs.outputs.PRs }}
         with:
           api-key: ${{ secrets.ZULIP_API_KEY }}

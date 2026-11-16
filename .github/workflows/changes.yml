@@ -45,11 +45,11 @@ jobs:
       postgres: ${{ steps.filter.outputs.postgres }}
       environment: ${{ steps.filter.outputs.environment }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: true
           fetch-depth: 0
-      - uses: nrwl/nx-set-shas@v4
+      - uses: nrwl/nx-set-shas@v5
         id: last_successful_commit
         with:
           main-branch-name: 'master'

@@ -48,7 +48,7 @@ export class CreateDatabasesAndUsers extends Construct {
           READ_SECRET: this.datastoreReadSecret.secretName,
           ADMIN_SECRET: datastoreAdminSecret.secretName
         },
-        runtime: aws_lambda.Runtime.NODEJS_20_X,
+        runtime: aws_lambda.Runtime.NODEJS_24_X,
         vpc: props.vpc,
         securityGroups: [secGroup],
         bundling: {

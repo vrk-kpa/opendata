@@ -85,7 +85,7 @@ If you're not on MacOS, make sure you have enabled Buildkit for docker and docke
 
 2. Run `git submodule update --init --recursive`
 
-3. Create a `.npmrc` (content below) file to `../opendata-assets`. Link to .npmrc content: `https://wiki.dvv.fi/display/AV/Font+Awesome+Pro`
+3. Add `NPM_TOKEN` to environment variables, either manually or with help of `direnv` and `.envrc`
 
 4. (Only on MacOS and Windows) Make sure buildkit is enabled in Docker Desktop. Go to Preferences -> Docker Engine, it should contain this:
 ```
@@ -154,7 +154,6 @@ services:
       - ../drupal/modules/avoindata-events/:/opt/drupal/web/modules/avoindata-events
       - ../drupal/modules/avoindata-guide/:/opt/drupal/web/modules/avoindata-guide
       - ../drupal/modules/avoindata-user/:/opt/drupal/web/modules/avoindata-user
-      - ../drupal/modules/avoindata-ckeditor-plugins/:/opt/drupal/web/modules/avoindata-ckeditor-plugins
       - ../drupal/modules/avoindata-ckeditor5-plugins/:/opt/drupal/web/modules/avoindata-ckeditor5-plugins
       - ../drupal/modules/avoindata-theme:/opt/drupal/web/themes/avoindata
       - ../opendata-assets:/opt/drupal/web/modules/opendata-assets

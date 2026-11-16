@@ -9,7 +9,6 @@
 {% block styles %}
     {{ super() }}
     {% asset "ytp_resources/main_css" %}
-    {% include "head-styles-ckan.html" %}
 
     {# Disable ckanext-geoview resource icons as incompatible with CKAN 2.9 #}
     {% block geo_resource_styles %}{% endblock %}

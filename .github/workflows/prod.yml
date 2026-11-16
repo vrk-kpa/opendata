@@ -22,10 +22,10 @@ jobs:
       contents: read
     steps:
       - name: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: install nodejs v22
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: 'npm'
@@ -96,7 +96,7 @@ jobs:
           add_tag clamav $CLAMAV_IMAGE_TAG
 
       - name: Notify Zulip
-        uses: zulip/github-actions-zulip/send-message@v1
+        uses: zulip/github-actions-zulip/send-message@v2
         with:
           api-key: ${{ secrets.ZULIP_API_KEY }}
           email: 'avoindata-bot@turina.dvv.fi'
@@ -108,7 +108,7 @@ jobs:
 
       - name: Notify Zulip on error
         if: failure()
-        uses: zulip/github-actions-zulip/send-message@v1
+        uses: zulip/github-actions-zulip/send-message@v2
         with:
           api-key: ${{ secrets.ZULIP_API_KEY }}
           email: 'avoindata-bot@turina.dvv.fi'

@@ -1,7 +1,8 @@
+@use "../variables/suomifidesign" as tokens;
 
 .dropzone {
   background-color: $background-color__dropzone;
-  border: 1px dashed $opendata-brand-primary;
+  border: 1px dashed tokens.$fi-color-highlight-base;
   padding: 20px;
 
   &#{&}--hover {

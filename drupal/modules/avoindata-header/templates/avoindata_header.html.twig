@@ -1,8 +1,5 @@
 {{ attach_library('avoindata_header/avoindata_header') }}
-{# Service Message #}
-{% block service_message %}
-  {{ drupal_region('service_message') }}
-{% endblock %}
+
 
 {# Header #}
 <nav id="first-navbar" class="navbar first-navbar navbar-default navbar-expand-lg">
@@ -35,4 +32,9 @@
     </a>
   </div>
 </nav>
+{% endblock %}
+
+{# Service Message #}
+{% block service_message %}
+  {{ drupal_region('service_message') }}
 {% endblock %}

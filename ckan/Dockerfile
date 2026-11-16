@@ -4,7 +4,7 @@ ARG SECRET_NPMRC
 #
 # Add common configuration to base image
 #
-FROM public.ecr.aws/docker/library/python:3.10.18-alpine3.22 AS configured_base
+FROM public.ecr.aws/docker/library/python:3.12.13-alpine3.23@sha256:601d3d3797e90e2534782e69c85fafb7971b43f24c7b1b079b7e48dd435e458d AS configured_base
 
 ENV APP_DIR=/srv/app
 ENV SRC_DIR=${APP_DIR}/src
@@ -86,7 +86,7 @@ RUN \
   mkdir -p ${DATA_DIR} && \
   # Install CKAN and requirements
   pip install --find-links=/srv/app/wheels -r ${SRC_DIR}/ckan-requirements.txt && \
-  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.11.4#egg=ckan && \
+  pip install -e git+https://github.com/ckan/ckan.git@ckan-2.11.7#egg=ckan && \
   # Configure environment
   addgroup -g 92 ckan && \
   adduser -u 92 -h ${APP_DIR} -H -D -G ckan ckan && \
@@ -175,10 +175,8 @@ RUN cd ${SRC_DIR}/ckan && \
     patch --strip=1 --input=patches/remove_gravatar.patch && \
     patch --strip=1 --input=patches/implement_is_required_for_image_upload.patch && \
     patch --strip=1 --input=patches/add_drafts_to_search.patch && \
-    patch --strip=1 --input=patches/fix_truncate_helper_annotations.patch && \
     patch --strip=1 --input=patches/iauthenticator_fix.patch && \
-    patch --strip=1 --input=patches/add_check_if_old_api_keys_are_used.patch && \
-    patch --strip=1 --input=patches/fix_smtp_connection.patch
+    patch --strip=1 --input=patches/add_check_if_old_api_keys_are_used.patch
 
 RUN \
   # Make scripts executable

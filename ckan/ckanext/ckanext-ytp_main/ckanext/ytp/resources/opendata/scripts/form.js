@@ -1,16 +1,4 @@
 $(document).ready(function () {
-  $("[data-datepicker]").each(function () {
-    $(this).datetimepicker({
-      format: "YYYY-MM-DD"
-    });
-  });
-
-  $("[data-datetimepicker]").each(function () {
-    $(this).datetimepicker({
-      format: "YYYY-MM-DD HH:mm:ss"
-    });
-  });
-
   $("#submit-showcase-form").submit(function (event) {
     event.preventDefault();
     grecaptcha.reset();

@@ -2,7 +2,8 @@
 
 {% block prelude %}
   {{ super() }}
-   {% if h.check_access('member_request_create', {'organization_id': group_dict.id}) and not h.is_sysadmin() %}
+  <div class="admin-banner">
+  {% if h.check_access('member_request_create', {'organization_id': group_dict.id}) and not h.is_sysadmin() %}
       <a class="btn" href="{{ h.url_for('member_request.new', selected_organization=group_dict.name) }}">
           <i class="fa fa-arrow-circle-right"></i>
           {% trans %}Request membership{% endtrans %}
@@ -21,4 +22,5 @@
           {% trans %}Cancel request{% endtrans %}
       </a>
   {% endif %}
+  </div>
 {% endblock %}

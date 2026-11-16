@@ -21,6 +21,7 @@ export class ClusterStack extends Stack {
     this.cluster = new ecs.Cluster(this, 'cluster', {
       vpc: this.vpc,
       enableFargateCapacityProviders: true,
+      containerInsightsV2: ecs.ContainerInsights.ENHANCED
     });
 
     this.namespace = new sd.PrivateDnsNamespace(this, 'namespace', {

@@ -1,14 +1,15 @@
+@use "../variables/suomifidesign" as tokens;
 @import "../../scss/variables";
 
 // Used for overriding default upstream ckan styles
 
 body {
-  font-family: $font-family-sans-serif;
+  @include tokens.fi-text-body-text-small;
 }
 
 .label-default {
   a {
-    color: $suomi-whiteBase;
+    color: tokens.$fi-color-white-base;
   }
 }
 
@@ -47,12 +48,12 @@ body {
 }
 
 .dataset-title {
-  font-family: $font-family-sans-serif-light;
+  @include tokens.fi-text-heading1;
 }
 
 .license-smallprint {
-  color: $suomi-depthDark1;
-  margin-bottom: $padding-y--small;
+  color: tokens.$fi-color-depth-dark1;
+  margin-bottom: tokens.$fi-spacing-s;
 }
 
 .search-form {

@@ -20,7 +20,7 @@ export class SendToZulip extends Construct {
         ZULIP_STREAM: props.zulipStream,
         ZULIP_TOPIC: props.zulipTopic
       },
-      runtime: aws_lambda.Runtime.NODEJS_20_X,
+      runtime: aws_lambda.Runtime.NODEJS_24_X,
     });
     zulipSecret.grantRead(this.lambda);
   }

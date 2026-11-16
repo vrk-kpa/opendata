@@ -1,3 +1,5 @@
+@use "../variables/suomifidesign" as tokens;
+
 .navbar-header .navbar-toggler {
   margin-right: 25px;
 }
@@ -13,20 +15,24 @@
 .module-narrow {
   .nav-aside > li,
   .nav-simple > li {
+    @include tokens.fi-text-body-semi-bold-small;
+
     border: none;
-    border-bottom: 1px solid $suomi-depthSecondary;
     width: 100%;
     margin-top: 0;
     margin-bottom: 0;
     padding: 0;
-    font-size: $font-size-slightly-smaller-base;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid tokens.$fi-color-depth-light3;
+    }
 
     > a,
     .module-narrow & > a {
-      color: $opendata-brand-primary;
+      color: tokens.$fi-color-highlight-base;
       text-decoration: none;
       margin: 0;
-      padding: $padding-y__navigation $padding-x__navigation $padding-y__navigation $padding-x__navigation;
+      padding: tokens.$fi-spacing-xs tokens.$fi-spacing-m tokens.$fi-spacing-xs tokens.$fi-spacing-m;
 
       &:hover {
         text-decoration: none;
@@ -35,23 +41,30 @@
     }
 
     &:hover {
-      background-color: $background-color--highlight;
+      background-color: tokens.$fi-color-depth-light2;
     }
 
     &.active {
       > a {
-        background-color: transparent;
-        color: $opendata-brand-primary;
-        border-left: $border-width__navigation solid $sidebar-block-color-header;
-        padding-left: $padding-x__navigation - $border-width__navigation;
+        @include tokens.fi-text-body-semi-bold-small;
+
+        background-color: tokens.$fi-color-depth-light3;
+        padding-left: tokens.$fi-spacing-m;
+
+        &, &:hover {
+          color: tokens.$fi-color-highlight-base;
+
+          &::after {
+            @include font-awesome-icon("\f00d");
+
+            font-weight: 300;
+          }
+        }
 
         &:hover {
-          background-color: transparent;
-          color: $opendata-brand-primary;
+          background-color: tokens.$fi-color-highlight-light3;
         }
       }
-
-      background-color: $background-color--highlight;
     }
   }
 }

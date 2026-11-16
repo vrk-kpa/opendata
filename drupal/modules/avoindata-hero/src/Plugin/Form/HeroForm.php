@@ -54,8 +54,8 @@ class HeroForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    if (strlen($form_state->getValue('search')) <= 2) {
-      $form_state->setErrorByName('search', $this->t('Query must be at least three characters long'));
+    if (strlen($form_state->getValue('search')) < 2) {
+      $form_state->setErrorByName('search', $this->t('Query must be at least two characters long'));
     }
   }
 
