@@ -4,69 +4,104 @@ registries:
     type: npm-registry
     url: https://npm.fontawesome.com
     token: "${{secrets.NPM_TOKEN}}"
+    scope: "@fortawesome"
+  python-index-alpine-wheels:
+    type: python-index
+    url: https://alpine-wheels.github.io
 
 updates:
-- package-ecosystem: pip
+- package-ecosystem: "pip"
   directory: "/ckan/"
-  patterns: ['*']
-  multi-ecosystem-group: "ckan"
+  cooldown:
+    default-days: 7
+  schedule:
+    interval: "daily"
+  registries:
+   - python-index-alpine-wheels
+  insecure-external-code-execution: allow
+  open-pull-requests-limit: 10
 
 - package-ecosystem: "docker"
   directory: "/ckan/"
-  patterns: ['*']
-  multi-ecosystem-group: "ckan"
+  cooldown:
+    default-days: 7
+  schedule:
+    interval: "monthly"
 
 - package-ecosystem: "docker"
   directory: "/docker/solr/"
+  cooldown:
+    default-days: 7
   schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
+    interval: "monthly"
 
 - package-ecosystem: "docker"
   directory: "/docker/nginx/"
+  cooldown:
+    default-days: 7
   schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
+    interval: "monthly"
 
 - package-ecosystem: "docker"
   directory: "/docker/postgres/"
+  cooldown:
+    default-days: 7
   schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
+    interval: "monthly"
 
 - package-ecosystem: "docker"
   directory: "/docker/datapusher-plus/"
+  cooldown:
+    default-days: 7
   schedule:
-    interval: daily
-    time: "03:00"
-  open-pull-requests-limit: 10
+    interval: "monthly"
+
+- package-ecosystem: "docker"
+  directory: "/drupal/"
+  cooldown:
+    default-days: 7
+  schedule:
+    interval: "monthly"
 
 - package-ecosystem: "docker"
   directory: "/cypress/"
   patterns: ['*']
+  cooldown:
+    default-days: 7
   multi-ecosystem-group: "cypress"
 
-- package-ecosystem: npm
+- package-ecosystem: "npm"
   directory: "/"
   patterns: ['cypress']
+  cooldown:
+    default-days: 7
   multi-ecosystem-group: "cypress"
 
-- package-ecosystem: npm
-  directory: "/opendata-assets/"
+- package-ecosystem: "npm"
+  directories:
+    - "/opendata-assets/"
+    - "/drupal/modules/avoindata-ckeditor5-plugins"
+  cooldown:
+    default-days: 7
   schedule:
-    interval: daily
+    interval: "daily"
     time: "03:00"
   open-pull-requests-limit: 10
   registries:
-  - npm-registry-npm-fontawesome-com
+    - npm-registry-npm-fontawesome-com
+  ignore:
+    # fontawesome version updates are dictated by CKAN
+    - dependency-name: "@fortawesome/fontawesome-pro"
+      versions:
+      - ">=6"
 
 - package-ecosystem: "composer"
   directory: "/drupal/"
-  multi-ecosystem-group: "drupal-security"
-  patterns: ['*']
+  cooldown:
+    default-days: 7
+  schedule:
+    interval: "daily"
+    time: "03:00"
   groups:
     drupal:
       applies-to: security-updates
@@ -74,36 +109,14 @@ updates:
       update-types:
         - patch
 
-- package-ecosystem: "docker"
-  directory: "/drupal/"
-  patterns: ['*']
-  multi-ecosystem-group: "drupal-security"
-  groups:
-    drupal:
-      applies-to: security-updates
-      update-types:
-        - patch
-
 - package-ecosystem: "composer"
   directory: "/drupal/"
   target-branch: "master" # bypass duplicate ecosystem check
-  multi-ecosystem-group: "drupal"
-  patterns: ['*']
   cooldown:
     default-days: 7
-  groups:
-    drupal:
-      applies-to: version-updates
-      update-types:
-        - patch
-
-- package-ecosystem: "docker"
-  directory: "/drupal/"
-  target-branch: "master" # bypass duplicate ecosystem check
-  multi-ecosystem-group: "drupal"
-  patterns: ['*']
-  cooldown:
-    default-days: 7
+  schedule:
+    interval: "monthly"
+    time: "03:00"
   groups:
     drupal:
       applies-to: version-updates
@@ -113,13 +126,17 @@ updates:
 
 - package-ecosystem: npm
   directory: "/cdk/"
+  cooldown:
+    default-days: 7
   schedule:
-    interval: daily
+    interval: "daily"
     time: "03:00"
   open-pull-requests-limit: 10
 
 - package-ecosystem: "github-actions"
   directory: "/"
+  cooldown:
+    default-days: 7
   schedule:
     # Check for updates to GitHub Actions every week
     interval: "weekly"
@@ -135,9 +152,3 @@ multi-ecosystem-groups:
   ckan:
     schedule:
       interval: "daily"
-  drupal-security:
-    schedule:
-      interval: "daily"
-  drupal:
-    schedule:
-      interval: "monthly"

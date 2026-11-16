@@ -6,15 +6,15 @@
   "type": "module",
   "devDependencies": {
     "@ronilaukkarinen/gulp-stylelint": "^14.1.1",
-    "autoprefixer": "^10.4.13",
-    "del": "^8.0.0",
+    "autoprefixer": "^10.6.2",
+    "del": "^9.0.1",
     "extend": "^3.0.2",
     "glob-watcher": "^6.0.0",
-    "gulp": "^5.0.0",
+    "gulp": "^5.0.1",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-base64-inline": "~1.0.6",
     "gulp-clean-css": "^4.3.0",
-    "gulp-cli": "^3.0.0",
+    "gulp-cli": "^3.1.0",
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^7.1.0",
     "gulp-inline-css": "^4.0.0",
@@ -27,7 +27,7 @@
     "gulp-terser": "^2.1.0",
     "imagemin-jpegoptim": "^8.0.0",
     "pump": "^3.0.4",
-    "sass": "^1.105.1",
+    "sass": "^1.107.1",
     "stylelint": "^15.10.3",
     "stylelint-config-standard": "^34.0.0",
     "stylelint-config-standard-scss": "^11.0.0",
@@ -41,7 +41,7 @@
     "suomifi-design-tokens": "^7.0.0"
   },
   "optionalDependencies": {
-    "fsevents": "2.1.2"
+    "fsevents": "2.3.3"
   },
   "browserslist": [
     "last 2 versions"

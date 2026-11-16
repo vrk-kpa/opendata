@@ -22,7 +22,7 @@
   "dependencies": {
     "@bugron/validate-dependabot-yaml": "^0.3.3",
     "cypress": "^15.18.0",
-    "del": "^6.1.1",
+    "del": "^9.0.1",
     "uuid": "^14.0.0"
   }
 }
