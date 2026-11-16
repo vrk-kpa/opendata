@@ -255,6 +255,7 @@ export class DrupalStack extends Stack {
       taskDefinition: drupalTaskDef,
       minHealthyPercent: 50,
       maxHealthyPercent: 200,
+      circuitBreaker: { rollback: true },
       cloudMapOptions: {
         cloudMapNamespace: props.namespace,
         dnsRecordType: sd.DnsRecordType.A,

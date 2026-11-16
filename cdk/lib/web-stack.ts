@@ -171,6 +171,7 @@ export class WebStack extends Stack {
       taskDefinition: nginxTaskDef,
       minHealthyPercent: 50,
       maxHealthyPercent: 200,
+      circuitBreaker: { rollback: true },
     });
 
 
