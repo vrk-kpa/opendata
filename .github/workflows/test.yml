@@ -114,9 +114,10 @@ jobs:
           cache-dependency-path: opendata-assets/package-lock.json
 
       - name: print registry
-        run: npm config get registry
+        run: npm config get @fortawesome:registry
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        
+        working-directory: ./opendata-assets
+
       - name: install npm packages
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npm ci
