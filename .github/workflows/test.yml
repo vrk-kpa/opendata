@@ -124,9 +124,7 @@ jobs:
 
       - name: install npm packages
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        run: |
-          npm config set //npm.fontawesome.com/:_authToken=${NPM_TOKEN}
-          npm ci
+        run: npm ci
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: ./opendata-assets
