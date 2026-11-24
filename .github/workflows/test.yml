@@ -125,6 +125,14 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: ./opendata-assets
 
+      - name: upload npm debug log
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true  && failure() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: npm-logs
+          path: /home/runner/.npm/_logs/*.log
+
+
       - name: build frontend with gulp
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npx gulp
