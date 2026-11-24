@@ -113,6 +113,10 @@ jobs:
           cache: 'npm'
           cache-dependency-path: opendata-assets/package-lock.json
 
+      - name: print registry
+        run: npm config get registry
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
+        
       - name: install npm packages
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npm ci
