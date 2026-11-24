@@ -122,13 +122,6 @@ jobs:
         run: npm -v
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
 
-      - name: print npm config
-        run: npm config list -l
-        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        working-directory: ./opendata-assets
-
       - name: install npm packages
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: |
@@ -136,6 +129,13 @@ jobs:
           npm ci
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        working-directory: ./opendata-assets
+
+      - name: print npm config
+        run: npm config list
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true && failure()}}
+        env:
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: ./opendata-assets
 
       - name: upload npm debug log
