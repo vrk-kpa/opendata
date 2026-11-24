@@ -2,7 +2,7 @@
 
 Common assets (theme, fonts, JavaScript modules) for YTP Drupal and CKAN instances.
 
-## How to Develop
+## How to Develop 
 
 Install node.js (version 0.8 or higher) and other tools
 
