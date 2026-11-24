@@ -118,6 +118,10 @@ jobs:
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         working-directory: ./opendata-assets
 
+      - name: print npm version
+        run: npm -v
+        if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
+
       - name: install npm packages
         if: ${{ matrix.build-frontend == true && matrix.build-container == true }}
         run: npm ci
